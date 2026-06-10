@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     template: "%s | Consensus Salutis",
   },
   description:
-    "Base tecnologica para el sitio web corporativo de Consensus Salutis.",
+    "Plataforma de IA médica institucional para soporte a la toma de decisiones, evidencia clínica y gobierno del conocimiento sanitario.",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
@@ -19,7 +19,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="es">
-      <body className="min-h-screen bg-white font-sans text-slate-950 antialiased">
+      <body className="min-h-screen bg-[#06111f] font-sans text-slate-50 antialiased">
         <TRPCReactProvider>{children}</TRPCReactProvider>
       </body>
     </html>
