@@ -1,11 +1,11 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import {
-  CapabilityGrid,
   CTAGroup,
   DarkSection,
   EvidenceFlow,
@@ -32,18 +32,33 @@ const metrics = [
   { value: "<24h", label: "Actualización urgente de contenidos relevantes." },
 ];
 
-const capabilities = [
+const productPillars = [
   {
-    title: "Respuesta con rastro",
-    body: "Cada salida puede exponer las fuentes utilizadas y devolver al fragmento exacto que sustenta la respuesta.",
+    name: "Editorial Médica Panamericana",
+    role: "Conocimiento clínico",
+    logo: "/logos/emp.svg",
+    logoWidth: 180,
+    logoHeight: 45,
+    logoClassName: "h-10 w-auto max-w-[150px]",
+    body: "Más de 70 años de experiencia editorial sostienen una base médica estructurada y actualizada de forma continua, con mas de 3TB de conocimiento médico.",
   },
   {
-    title: "Conocimiento bajo gobierno",
-    body: "Guías, protocolos y documentación propia entran por un flujo de prueba, validación y publicación controlada.",
+    name: "AWS",
+    role: "Infraestructura resiliente",
+    logo: "/logos/Amazon_Web_Services_Logo.svg",
+    logoWidth: 84,
+    logoHeight: 50,
+    logoClassName: "h-11 w-auto",
+    body: "Arquitectura cloud native preparada para aislar cargas, escalar automáticamente y mantener continuidad, observabilidad y cumplimiento.",
   },
   {
-    title: "Operación sanitaria",
-    body: "SSO, 2FA, auditoría, dashboards y observabilidad pensados para organizaciones con información sensible.",
+    name: "BinPar",
+    role: "Producto e ingeniería",
+    logo: "/logos/BinparSquare.svg",
+    logoWidth: 112,
+    logoHeight: 54,
+    logoClassName: "h-10 w-auto",
+    body: "Más de 15 años desarrollando software sanitario convierten contenidos y protocolos en un sistema integrable, evaluable y trazable.",
   },
 ];
 
@@ -54,6 +69,10 @@ const panels = [
   "Atención Primaria",
   "Reunión",
 ];
+
+type DesktopLayout = "horizontal" | "vertical";
+type PanelHeight = "natural" | "viewport";
+type PanelRef = (node: HTMLElement | null) => void;
 
 export function HorizontalHome() {
   const railRef = useRef<HTMLDivElement>(null);
@@ -258,19 +277,137 @@ export function HorizontalHome() {
   );
 }
 
+export function VerticalHome() {
+  return (
+    <>
+      <main className="relative z-10 hidden lg:block">
+        <VerticalPanel initiallyVisible>
+          {(visible, panelRef) => (
+            <HeroPanel
+              layout="vertical"
+              panelRef={panelRef}
+              visible={visible}
+            />
+          )}
+        </VerticalPanel>
+        <VerticalPanel>
+          {(visible, panelRef) => (
+            <MetricsPanel
+              layout="vertical"
+              panelRef={panelRef}
+              visible={visible}
+            />
+          )}
+        </VerticalPanel>
+        <VerticalPanel>
+          {(visible, panelRef) => (
+            <ArchitecturePanel
+              layout="vertical"
+              panelRef={panelRef}
+              visible={visible}
+            />
+          )}
+        </VerticalPanel>
+        <VerticalPanel>
+          {(visible, panelRef) => (
+            <PrimaryCarePanel
+              layout="vertical"
+              panelRef={panelRef}
+              visible={visible}
+            />
+          )}
+        </VerticalPanel>
+        <VerticalPanel>
+          {(visible, panelRef) => (
+            <ContactPanel
+              layout="vertical"
+              panelRef={panelRef}
+              visible={visible}
+            />
+          )}
+        </VerticalPanel>
+      </main>
+
+      <MobileHome />
+    </>
+  );
+}
+
+function VerticalPanel({
+  children,
+  initiallyVisible = false,
+}: {
+  children: (visible: boolean, panelRef: PanelRef) => React.ReactNode;
+  initiallyVisible?: boolean;
+}) {
+  const panelRef = useRef<HTMLElement | null>(null);
+  const previousScrollY = useRef(0);
+  const [visible, setVisible] = useState(initiallyVisible);
+
+  useEffect(() => {
+    previousScrollY.current = window.scrollY;
+
+    const updateVisibility = () => {
+      const panel = panelRef.current;
+
+      if (!panel) return;
+
+      const currentScrollY = window.scrollY;
+      const scrollingDown = currentScrollY > previousScrollY.current;
+      const scrollingUp = currentScrollY < previousScrollY.current;
+      const rect = panel.getBoundingClientRect();
+      const activationBottom = window.innerHeight * 0.85;
+      const visibleHeight = Math.max(
+        0,
+        Math.min(rect.bottom, activationBottom) - Math.max(rect.top, 0),
+      );
+      const visibility = visibleHeight / rect.height;
+
+      if (scrollingDown && visibility >= 0.45) {
+        setVisible(true);
+      }
+
+      if (scrollingUp && rect.top >= activationBottom) {
+        setVisible(false);
+      }
+
+      previousScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", updateVisibility, { passive: true });
+
+    return () => window.removeEventListener("scroll", updateVisibility);
+  }, []);
+
+  return children(visible, (node) => {
+    panelRef.current = node;
+  });
+}
+
 function Panel({
   children,
   className = "",
   panelRef,
+  layout = "horizontal",
+  height = "natural",
 }: {
   children: React.ReactNode;
   className?: string;
-  panelRef: (node: HTMLElement | null) => void;
+  panelRef: PanelRef;
+  layout?: DesktopLayout;
+  height?: PanelHeight;
 }) {
+  const layoutClassName =
+    layout === "horizontal"
+      ? "flex h-full w-screen shrink-0 items-center px-10 py-12"
+      : height === "viewport"
+        ? "flex min-h-[calc(100svh-4rem)] items-center px-10 py-20"
+        : "px-10 py-28";
+
   return (
     <section
       ref={panelRef}
-      className={`relative flex h-full w-screen shrink-0 items-center px-10 py-12 ${className}`}
+      className={`relative ${layoutClassName} ${className}`}
     >
       <div className="mx-auto w-full max-w-7xl">{children}</div>
     </section>
@@ -280,12 +417,14 @@ function Panel({
 function HeroPanel({
   visible,
   panelRef,
+  layout = "horizontal",
 }: {
   visible: boolean;
-  panelRef: (node: HTMLElement | null) => void;
+  panelRef: PanelRef;
+  layout?: DesktopLayout;
 }) {
   return (
-    <Panel panelRef={panelRef}>
+    <Panel panelRef={panelRef} layout={layout} height="viewport">
       <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
         <div className="relative">
           <Reveal visible={visible}>
@@ -318,14 +457,17 @@ function HeroPanel({
 function MetricsPanel({
   visible,
   panelRef,
+  layout = "horizontal",
 }: {
   visible: boolean;
-  panelRef: (node: HTMLElement | null) => void;
+  panelRef: PanelRef;
+  layout?: DesktopLayout;
 }) {
   return (
     <Panel
       className="bg-linear-to-br from-[#030916]/70 to-[#030916]/30"
       panelRef={panelRef}
+      layout={layout}
     >
       <div className="max-w-5xl">
         <Reveal visible={visible}>
@@ -354,35 +496,42 @@ function MetricsPanel({
 function ArchitecturePanel({
   visible,
   panelRef,
+  layout = "horizontal",
 }: {
   visible: boolean;
-  panelRef: (node: HTMLElement | null) => void;
+  panelRef: PanelRef;
+  layout?: DesktopLayout;
 }) {
   return (
     <Panel
       className="bg-linear-to-bl from-[#030916]/70 to-[#030916]/30"
       panelRef={panelRef}
+      layout={layout}
     >
-      <div className="max-w-4xl">
+      <div className="max-w-6xl">
         <Reveal visible={visible}>
           <Eyebrow>Producto</Eyebrow>
         </Reveal>
         <Reveal visible={visible} delay={0.1}>
-          <h2 className="mt-4 text-5xl font-semibold tracking-tight text-slate-50">
+          <h2 className="mt-4 max-w-5xl text-5xl font-semibold tracking-tight text-slate-50">
             De documentos dispersos a la decisión informada.
           </h2>
         </Reveal>
         <Reveal visible={visible} delay={0.2}>
-          <p className="mt-5 text-lg leading-8 text-slate-400">
-            La plataforma articula contenido médico validado, documentación
-            propia, orquestación IA y procesos de gobierno para reducir la
-            fricción de consultar información clínica en entornos reales.
+          <p className="mt-5 mb-10 max-w-5xl text-lg leading-8 text-slate-400">
+            La robustez de Consensus Salutis se construye sobre un sistema
+            completo: contenidos médicos revisados, una infraestructura
+            preparada para operar de forma continua y una capa de software que
+            controla el ciclo de cada respuesta. Tres capacidades coordinadas
+            para responder con confianza y operar con continuidad.
           </p>
         </Reveal>
       </div>
-      <Reveal visible={visible} delay={0.3} className="mt-10">
-        <CapabilityGrid items={capabilities} />
-      </Reveal>
+      <ProductPillars
+        visible={visible}
+        compact={layout === "horizontal"}
+        className={layout === "horizontal" ? "mt-6" : "mt-9"}
+      />
     </Panel>
   );
 }
@@ -390,12 +539,14 @@ function ArchitecturePanel({
 function PrimaryCarePanel({
   visible,
   panelRef,
+  layout = "horizontal",
 }: {
   visible: boolean;
-  panelRef: (node: HTMLElement | null) => void;
+  panelRef: PanelRef;
+  layout?: DesktopLayout;
 }) {
   return (
-    <Panel panelRef={panelRef}>
+    <Panel panelRef={panelRef} layout={layout}>
       <div className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
         <div>
           <Reveal visible={visible}>
@@ -425,12 +576,19 @@ function PrimaryCarePanel({
 function ContactPanel({
   visible,
   panelRef,
+  layout = "horizontal",
 }: {
   visible: boolean;
-  panelRef: (node: HTMLElement | null) => void;
+  panelRef: PanelRef;
+  layout?: DesktopLayout;
 }) {
   return (
-    <Panel className="bg-[#030916]/82" panelRef={panelRef}>
+    <Panel
+      className="bg-[#030916]/82"
+      panelRef={panelRef}
+      layout={layout}
+      height="viewport"
+    >
       <div className="grid items-center gap-12 lg:grid-cols-[1fr_0.8fr]">
         <div>
           <Reveal visible={visible}>
@@ -503,19 +661,22 @@ function MobileHome() {
       </DarkSection>
 
       <DarkSection variant="panel">
-        <ViewportReveal className="px-5">
-          <Eyebrow>Producto</Eyebrow>
-          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-50">
-            De documentos dispersos a la decisión informada.
-          </h2>
-          <p className="mt-5 text-base leading-7 text-slate-400">
-            La plataforma articula contenido médico validado, documentación
-            propia, orquestación IA y procesos de gobierno.
-          </p>
-          <div className="mt-10">
-            <CapabilityGrid items={capabilities} />
-          </div>
-        </ViewportReveal>
+        <div className="px-5">
+          <ViewportReveal>
+            <Eyebrow>Producto</Eyebrow>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-50">
+              De documentos dispersos a la decisión informada.
+            </h2>
+            <p className="mt-5 text-base leading-7 text-slate-400">
+              La robustez de Consensus Salutis se construye sobre contenidos
+              médicos revisados, infraestructura preparada para operar de forma
+              continua y software que controla el ciclo de cada respuesta. Tres
+              capacidades coordinadas para responder con confianza y operar con
+              continuidad.
+            </p>
+          </ViewportReveal>
+          <ProductPillars className="mt-10" />
+        </div>
       </DarkSection>
 
       <DarkSection>
@@ -536,6 +697,82 @@ function MobileHome() {
         </ViewportReveal>
       </DarkSection>
     </main>
+  );
+}
+
+function ProductPillars({
+  visible,
+  className = "",
+  compact = false,
+}: {
+  visible?: boolean;
+  className?: string;
+  compact?: boolean;
+}) {
+  const reducedMotion = useReducedMotion();
+  const show = reducedMotion ? true : visible;
+  const sharedAnimation = {
+    initial: reducedMotion ? "visible" : "hidden",
+    animate: visible === undefined ? undefined : show ? "visible" : "hidden",
+    whileInView: visible === undefined ? "visible" : undefined,
+    viewport: { amount: 0.35, once: true },
+  } as const;
+
+  return (
+    <motion.div
+      {...sharedAnimation}
+      className={`relative ${className}`}
+      variants={{
+        hidden: {},
+        visible: {
+          transition: {
+            staggerChildren: reducedMotion ? 0 : 0.24,
+          },
+        },
+      }}
+    >
+      <div
+        className={`grid ${compact ? "lg:gap-10" : "lg:gap-10"} lg:grid-cols-3`}
+      >
+        {productPillars.map((pillar) => (
+          <motion.article
+            key={pillar.name}
+            className={`relative  ${
+              compact ? "py-4" : "py-6"
+            }`}
+            variants={{
+              hidden: { opacity: reducedMotion ? 1 : 0 },
+              visible: {
+                opacity: 1,
+                transition: { duration: reducedMotion ? 0 : 0.42 },
+              },
+            }}
+          >
+            <div className="flex items-start justify-between gap-5">
+              <div className={`flex items-center ${compact ? "h-10" : "h-12"}`}>
+                <Image
+                  src={pillar.logo}
+                  alt={pillar.name}
+                  width={pillar.logoWidth}
+                  height={pillar.logoHeight}
+                  className={`${pillar.logoClassName} opacity-80 brightness-0 invert`}
+                />
+              </div>
+            </div>
+            <p
+              className={`${compact ? "mt-3" : "mt-5"} text-xs pb-3 pt-4 border-b border-cyan-300/20 font-semibold tracking-[0.18em] text-cyan-300 uppercase`}
+            >
+              {pillar.role}
+            </p>
+            <p
+              className={`${compact ? "mt-2 text-[13px] leading-5" : "mt-3 text-sm leading-6"} text-slate-400`}
+            >
+              {pillar.body}
+            </p>
+          </motion.article>
+        ))}
+      </div>
+    </motion.div>
   );
 }
 

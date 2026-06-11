@@ -113,7 +113,7 @@ export function SiteFooter() {
 export function HomeFooterBand() {
   return (
     <footer className="relative z-40 shrink-0 border-t border-cyan-300/15 bg-[#030b17]/92 text-slate-400 backdrop-blur-md">
-      <div className="mx-auto flex min-h-12 w-full max-w-7xl items-center justify-between gap-3 px-5 sm:px-8 lg:h-12">
+      <div className="mx-auto flex min-h-12 w-full max-w-425 items-center justify-between gap-3 px-5 sm:px-8 lg:h-12">
         <Link
           href="/"
           className="text-[9px] font-semibold tracking-[0.16em] text-slate-100 uppercase transition hover:text-cyan-100"
@@ -142,10 +142,22 @@ export function PageShell({ children }: { children: ReactNode }) {
   );
 }
 
-export function HomeShell({ children }: { children: ReactNode }) {
+export function HomeShell({
+  children,
+  vertical = false,
+}: {
+  children: ReactNode;
+  vertical?: boolean;
+}) {
   return (
     <HomeTransitionShell>
-      <div className="relative isolate bg-[#06111f] lg:flex lg:h-screen lg:flex-col lg:overflow-hidden">
+      <div
+        className={`relative isolate bg-[#06111f] ${
+          vertical
+            ? "min-h-screen"
+            : "lg:flex lg:h-screen lg:flex-col lg:overflow-hidden"
+        }`}
+      >
         <HomeMotionBackground />
         <SiteHeader />
         {children}
