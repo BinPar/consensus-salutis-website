@@ -2,6 +2,7 @@ import "~/styles/globals.css";
 
 import { type Metadata } from "next";
 
+import { MotionProvider } from "~/app/_components/motion-system";
 import { TRPCReactProvider } from "~/trpc/react";
 
 export const metadata: Metadata = {
@@ -20,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className="min-h-screen bg-[#06111f] font-sans text-slate-50 antialiased">
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <MotionProvider>
+          <TRPCReactProvider>{children}</TRPCReactProvider>
+        </MotionProvider>
       </body>
     </html>
   );
