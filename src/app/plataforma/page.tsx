@@ -64,7 +64,7 @@ export default function PlataformaPage() {
                 El conocimiento no solo se consulta. Se gobierna.
               </h2>
             </div>
-            <div className="space-y-7 text-base leading-8 text-slate-400">
+            <div className="font-body space-y-7 text-base leading-8 text-slate-400">
               <p>
                 Las actualizaciones se incorporan en entornos controlados, pasan
                 por revisión, se validan mediante preguntas clave y pueden

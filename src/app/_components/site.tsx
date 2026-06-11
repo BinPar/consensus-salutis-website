@@ -71,7 +71,7 @@ export function SiteFooter() {
           <p className="text-sm font-semibold tracking-[0.18em] text-slate-50 uppercase">
             Consensus Salutis
           </p>
-          <p className="mt-4 max-w-xl text-sm leading-6 text-slate-400">
+          <p className="font-body mt-4 max-w-xl text-sm leading-6 text-slate-400">
             IA médica institucional para convertir conocimiento clínico en
             decisión trazable, gobernada y segura.
           </p>
@@ -207,7 +207,7 @@ export function MetricGrid({
           className="rounded-2xl border border-cyan-300/20 bg-white/3 p-6 backdrop-blur-sm"
         >
           <p className="text-3xl font-semibold text-cyan-100">{metric.value}</p>
-          <p className="mt-2 text-sm leading-6 text-slate-400">
+          <p className="font-body mt-2 text-sm leading-6 text-slate-400">
             {metric.label}
           </p>
         </MotionSurface>
@@ -244,7 +244,9 @@ export function EvidenceFlow() {
           <span className="text-sm font-semibold text-cyan-300">{step}</span>
           <div>
             <p className="font-semibold text-slate-100">{title}</p>
-            <p className="mt-1 text-sm leading-6 text-slate-400">{detail}</p>
+            <p className="font-body mt-1 text-sm leading-6 text-slate-400">
+              {detail}
+            </p>
           </div>
         </MotionSurface>
       ))}
@@ -265,7 +267,9 @@ export function CapabilityGrid({
           className="rounded-md border border-cyan-300/10 bg-[#081a2b]/82 p-6 shadow-lg shadow-[#020817]/20"
         >
           <h3 className="text-lg font-semibold text-slate-50">{item.title}</h3>
-          <p className="mt-3 text-sm leading-6 text-slate-400">{item.body}</p>
+          <p className="font-body mt-3 text-sm leading-6 text-slate-400">
+            {item.body}
+          </p>
         </MotionSurface>
       ))}
     </div>
@@ -307,7 +311,7 @@ export function PageHero({
         <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-slate-50 sm:text-5xl">
           {title}
         </h1>
-        <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-400">
+        <p className="font-body mt-6 max-w-3xl text-lg leading-8 text-slate-400">
           {body}
         </p>
       </div>

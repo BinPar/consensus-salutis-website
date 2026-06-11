@@ -8,7 +8,6 @@ import { useEffect, useRef, useState } from "react";
 import {
   CTAGroup,
   DarkSection,
-  EvidenceFlow,
   Eyebrow,
   SignalPanel,
 } from "~/app/_components/site";
@@ -59,6 +58,39 @@ const productPillars = [
     logoHeight: 54,
     logoClassName: "h-10 w-auto",
     body: "Más de 15 años desarrollando software sanitario convierten contenidos y protocolos en un sistema integrable, evaluable y trazable.",
+  },
+];
+
+const clinicalProcess = [
+  {
+    step: "01",
+    title: "Plantear la consulta",
+    body: "El profesional formula una duda clínica en lenguaje natural, aportando el contexto necesario para orientar la consulta.",
+    signal: "Lenguaje clínico natural",
+  },
+  {
+    step: "02",
+    title: "Localizar conocimiento relevante",
+    body: "El sistema recupera conocimiento relevante del corpus médico, las guías clínicas y los protocolos institucionales.",
+    signal: "Corpus + guías + protocolos",
+  },
+  {
+    step: "03",
+    title: "Contrastar y priorizar",
+    body: "El sistema contrasta las fuentes recuperadas y aplica las prioridades documentales definidas por la organización.",
+    signal: "Prioridades configurables",
+  },
+  {
+    step: "04",
+    title: "Responder con evidencia visible",
+    body: "El sistema sintetiza una respuesta operativa y enlaza el fragmento o la página original que sustenta cada conclusión.",
+    signal: "Referencia al fragmento original",
+  },
+  {
+    step: "05",
+    title: "Revisar y mejorar",
+    body: "La valoración profesional permite revisar los contenidos y reforzar las pruebas automáticas para futuras consultas.",
+    signal: "Feedback + pruebas automáticas",
   },
 ];
 
@@ -436,7 +468,7 @@ function HeroPanel({
             </h1>
           </Reveal>
           <Reveal visible={visible} delay={0.2}>
-            <p className="mt-7 max-w-2xl text-xl leading-9 text-slate-300">
+            <p className="font-body mt-7 max-w-2xl text-xl leading-9 text-slate-300">
               Consensus Salutis convierte guías, protocolos y corpus médico en
               respuestas trazables para Atención Primaria. Una capa de IA seria,
               auditable y preparada para operar dentro de un sistema sanitario.
@@ -479,7 +511,7 @@ function MetricsPanel({
           </h2>
         </Reveal>
         <Reveal visible={visible} delay={0.2}>
-          <p className="mt-6 max-w-5xl text-lg leading-8 text-slate-400">
+          <p className="font-body mt-6 max-w-5xl text-lg leading-8 text-slate-400">
             La plataforma combina una base de conocimiento médico estructurada
             con guías clínicas y protocolos propios de cada organización. Los
             contenidos pasan por procesos automatizados de ingesta, evaluación
@@ -518,7 +550,7 @@ function ArchitecturePanel({
           </h2>
         </Reveal>
         <Reveal visible={visible} delay={0.2}>
-          <p className="mt-5 mb-10 max-w-5xl text-lg leading-8 text-slate-400">
+          <p className="font-body mt-5 mb-10 max-w-5xl text-lg leading-8 text-slate-400">
             La robustez de Consensus Salutis se construye sobre un sistema
             completo: contenidos médicos revisados, una infraestructura
             preparada para operar de forma continua y una capa de software que
@@ -547,28 +579,28 @@ function PrimaryCarePanel({
 }) {
   return (
     <Panel panelRef={panelRef} layout={layout}>
-      <div className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
-        <div>
-          <Reveal visible={visible}>
-            <Eyebrow>Atención Primaria</Eyebrow>
-          </Reveal>
-          <Reveal visible={visible} delay={0.1}>
-            <h2 className="mt-4 text-5xl font-semibold tracking-tight text-slate-50">
-              Preguntar, contrastar, citar, aprender.
-            </h2>
-          </Reveal>
-          <Reveal visible={visible} delay={0.2}>
-            <p className="mt-6 text-lg leading-8 text-slate-400">
-              Para escenarios donde el profesional necesita consultar
-              información científica, protocolos locales, campañas de salud y
-              materiales de formación en poco tiempo.
-            </p>
-          </Reveal>
-        </div>
-        <Reveal visible={visible} delay={0.3}>
-          <EvidenceFlow />
+      <div className="max-w-5xl">
+        <Reveal visible={visible}>
+          <Eyebrow>Proceso de consulta</Eyebrow>
+        </Reveal>
+        <Reveal visible={visible} delay={0.1}>
+          <h2 className="mt-4 text-5xl font-semibold tracking-tight text-slate-50">
+            De la pregunta a la evidencia.
+          </h2>
+        </Reveal>
+        <Reveal visible={visible} delay={0.2}>
+          <p className="font-body mt-5 max-w-4xl text-lg leading-8 text-slate-400">
+            Consensus Salutis acompaña cada consulta desde la formulación de la
+            duda clínica hasta una respuesta contrastada, referenciada y
+            preparada para ser revisada.
+          </p>
         </Reveal>
       </div>
+      <ClinicalProcess
+        visible={visible}
+        compact={layout === "horizontal"}
+        className={layout === "horizontal" ? "mt-6" : "mt-10"}
+      />
     </Panel>
   );
 }
@@ -600,7 +632,7 @@ function ContactPanel({
             </h2>
           </Reveal>
           <Reveal visible={visible} delay={0.2}>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-400">
+            <p className="font-body mt-6 max-w-2xl text-lg leading-8 text-slate-400">
               Revisamos caso de uso, restricciones de seguridad, requisitos de
               integración y el nivel de evidencia necesario para un piloto
               institucional.
@@ -620,7 +652,7 @@ function ContactPanel({
             <p className="text-sm font-semibold text-slate-50">
               Preparar la reunión
             </p>
-            <ul className="mt-5 space-y-4 text-sm leading-6 text-slate-400">
+            <ul className="font-body mt-5 space-y-4 text-sm leading-6 text-slate-400">
               <li>Ámbito asistencial y volumen aproximado de usuarios.</li>
               <li>Fuentes documentales, guías y protocolos prioritarios.</li>
               <li>Requisitos de seguridad, SSO, auditoría y despliegue.</li>
@@ -643,7 +675,7 @@ function MobileHome() {
           <h1 className="mt-6 text-5xl font-semibold tracking-tight text-slate-50">
             Conocimiento clínico gobernado por IA.
           </h1>
-          <p className="mt-7 text-lg leading-8 text-slate-300">
+          <p className="font-body mt-7 text-lg leading-8 text-slate-300">
             Consensus Salutis convierte guías, protocolos y corpus médico en
             respuestas trazables para Atención Primaria.
           </p>
@@ -667,7 +699,7 @@ function MobileHome() {
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-50">
               De documentos dispersos a la decisión informada.
             </h2>
-            <p className="mt-5 text-base leading-7 text-slate-400">
+            <p className="font-body mt-5 text-base leading-7 text-slate-400">
               La robustez de Consensus Salutis se construye sobre contenidos
               médicos revisados, infraestructura preparada para operar de forma
               continua y software que controla el ciclo de cada respuesta. Tres
@@ -680,23 +712,190 @@ function MobileHome() {
       </DarkSection>
 
       <DarkSection>
-        <ViewportReveal className="space-y-8 px-5">
-          <div>
-            <Eyebrow>Atención Primaria</Eyebrow>
+        <div className="px-5">
+          <ViewportReveal>
+            <Eyebrow>Proceso de consulta</Eyebrow>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-50">
-              Preguntar, contrastar, citar, aprender.
+              De la pregunta a la evidencia.
             </h2>
-          </div>
-          <EvidenceFlow />
-          <Link
-            href="/contacto"
-            className="inline-flex rounded-md bg-cyan-300 px-5 py-3 text-sm font-semibold text-[#04111e]"
-          >
-            Solicitar reunión
-          </Link>
-        </ViewportReveal>
+            <p className="font-body mt-5 text-base leading-7 text-slate-400">
+              Consensus Salutis acompaña cada consulta hasta una respuesta
+              contrastada, referenciada y preparada para ser revisada.
+            </p>
+          </ViewportReveal>
+          <ClinicalProcess className="mt-10" />
+          <ViewportReveal className="mt-10">
+            <Link
+              href="/contacto"
+              className="inline-flex rounded-md bg-cyan-300 px-5 py-3 text-sm font-semibold text-[#04111e]"
+            >
+              Solicitar reunión
+            </Link>
+          </ViewportReveal>
+        </div>
       </DarkSection>
     </main>
+  );
+}
+
+function ClinicalProcess({
+  visible,
+  className = "",
+  compact = false,
+}: {
+  visible?: boolean;
+  className?: string;
+  compact?: boolean;
+}) {
+  const reducedMotion = useReducedMotion();
+  const show = reducedMotion ? true : visible;
+  const sharedAnimation = {
+    initial: reducedMotion ? "visible" : "hidden",
+    animate: visible === undefined ? undefined : show ? "visible" : "hidden",
+    whileInView: visible === undefined ? "visible" : undefined,
+    viewport: { amount: 0.25, once: true },
+  } as const;
+  return (
+    <motion.div
+      {...sharedAnimation}
+      className={`relative ${className}`}
+      variants={{
+        hidden: {},
+        visible: {},
+      }}
+    >
+      <div
+        className={`relative hidden grid-cols-3 lg:grid ${
+          compact ? "gap-x-10 gap-y-10" : "gap-x-14 gap-y-16"
+        }`}
+      >
+        {clinicalProcess.map((item, index) => (
+          <ProcessMilestone
+            key={item.step}
+            item={item}
+            index={index}
+            compact={compact}
+            desktop
+            connector={index === 0 || index === 1 || index === 3}
+            className={
+              [
+                "col-start-1 row-start-1",
+                "col-start-2 row-start-1",
+                "col-start-3 row-start-1",
+                "col-start-1 row-start-2",
+                "col-start-2 row-start-2",
+              ][index]
+            }
+            reducedMotion={reducedMotion}
+          />
+        ))}
+      </div>
+
+      <div className="relative space-y-10 pl-12 lg:hidden">
+        <div
+          aria-hidden="true"
+          className="absolute top-5 bottom-5 left-5 w-px bg-cyan-200/15"
+        />
+        <motion.div
+          aria-hidden="true"
+          className="absolute top-5 bottom-5 left-5 w-px origin-top bg-cyan-300"
+          variants={{
+            hidden: { scaleY: reducedMotion ? 1 : 0 },
+            visible: {
+              scaleY: 1,
+              transition: { duration: reducedMotion ? 0 : 1.35 },
+            },
+          }}
+        />
+        {clinicalProcess.map((item, index) => (
+          <ProcessMilestone
+            key={item.step}
+            item={item}
+            index={index}
+            reducedMotion={reducedMotion}
+          />
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+function ProcessMilestone({
+  item,
+  index,
+  compact = false,
+  className = "",
+  desktop = false,
+  connector = false,
+  reducedMotion,
+}: {
+  item: (typeof clinicalProcess)[number];
+  index: number;
+  compact?: boolean;
+  className?: string;
+  desktop?: boolean;
+  connector?: boolean;
+  reducedMotion: boolean | null;
+}) {
+  const nodeDelay = reducedMotion ? 0 : [0, 0.72, 1.44, 2.16, 2.88][index];
+  const connectorDelay = reducedMotion ? 0 : [0.16, 0.88, 0, 2.32, 0][index];
+
+  return (
+    <motion.article
+      className={`relative z-10 ${className}`}
+      variants={{
+        hidden: { opacity: reducedMotion ? 1 : 0 },
+        visible: {
+          opacity: 1,
+          transition: {
+            delay: nodeDelay,
+            duration: reducedMotion ? 0 : 0.32,
+          },
+        },
+      }}
+    >
+      {desktop && connector ? (
+        <motion.span
+          aria-hidden="true"
+          className={`absolute z-0 origin-left border-t border-cyan-300 ${
+            compact
+              ? "top-4 left-4 w-[calc(100%+2.5rem)]"
+              : "top-5 left-5 w-[calc(100%+3.5rem)]"
+          }`}
+          variants={{
+            hidden: { scaleX: reducedMotion ? 1 : 0 },
+            visible: {
+              scaleX: 1,
+              transition: {
+                delay: connectorDelay,
+                duration: reducedMotion ? 0 : 0.58,
+                ease: "easeInOut",
+              },
+            },
+          }}
+        />
+      ) : null}
+      <span
+        className={`relative z-10 grid shrink-0 place-items-center rounded-full border border-cyan-300 bg-[#06111f] font-semibold text-cyan-100 shadow-[0_0_18px_rgba(103,232,249,0.18)] ${
+          compact ? "size-8 text-[10px]" : "size-10 text-xs"
+        } ${desktop ? "" : "absolute top-0 -left-12"}`}
+      >
+        {item.step}
+      </span>
+      <h3
+        className={`${compact ? "mt-3 text-sm" : "mt-4 text-base"} font-semibold text-slate-100`}
+      >
+        {item.title}
+      </h3>
+      <p
+        className={`${compact ? "mt-1 min-h-10 text-[13px] leading-5" : "mt-2 min-h-12 text-sm leading-6"} font-body text-slate-400`}
+      >
+        {item.body}
+      </p>
+      <p className="mt-2 text-[10px] font-semibold tracking-[0.12em] text-cyan-300 uppercase">
+        {item.signal}
+      </p>
+    </motion.article>
   );
 }
 
@@ -737,9 +936,7 @@ function ProductPillars({
         {productPillars.map((pillar) => (
           <motion.article
             key={pillar.name}
-            className={`relative  ${
-              compact ? "py-4" : "py-6"
-            }`}
+            className={`relative ${compact ? "py-4" : "py-6"}`}
             variants={{
               hidden: { opacity: reducedMotion ? 1 : 0 },
               visible: {
@@ -760,12 +957,12 @@ function ProductPillars({
               </div>
             </div>
             <p
-              className={`${compact ? "mt-3" : "mt-5"} text-xs pb-3 pt-4 border-b border-cyan-300/20 font-semibold tracking-[0.18em] text-cyan-300 uppercase`}
+              className={`${compact ? "mt-3" : "mt-5"} border-b border-cyan-300/20 pt-4 pb-3 text-xs font-semibold tracking-[0.18em] text-cyan-300 uppercase`}
             >
               {pillar.role}
             </p>
             <p
-              className={`${compact ? "mt-2 text-[13px] leading-5" : "mt-3 text-sm leading-6"} text-slate-400`}
+              className={`${compact ? "mt-2 text-[13px] leading-5" : "mt-3 text-sm leading-6"} font-body text-slate-400`}
             >
               {pillar.body}
             </p>
@@ -816,7 +1013,7 @@ function StaggeredMetricGrid({
           }}
         >
           <p className="text-3xl font-semibold text-cyan-100">{metric.value}</p>
-          <p className="mt-2 text-sm leading-6 text-slate-400">
+          <p className="font-body mt-2 text-sm leading-6 text-slate-400">
             {metric.label}
           </p>
         </motion.div>

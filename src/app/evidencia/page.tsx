@@ -51,7 +51,7 @@ export default function EvidenciaPage() {
         <DarkSection>
           <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
             <MetricGrid metrics={evidenceMetrics} />
-            <p className="mt-5 max-w-3xl text-sm leading-6 text-slate-500">
+            <p className="font-body mt-5 max-w-3xl text-sm leading-6 text-slate-500">
               Los benchmarks se presentan como señal técnica contextualizada. El
               producto se comunica como soporte a decisión y consulta de
               evidencia, no como sustituto del criterio profesional.

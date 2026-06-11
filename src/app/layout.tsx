@@ -1,9 +1,15 @@
 import "~/styles/globals.css";
 
 import { type Metadata } from "next";
+import { Plus_Jakarta_Sans } from "next/font/google";
 
 import { MotionProvider } from "~/app/_components/motion-system";
 import { TRPCReactProvider } from "~/trpc/react";
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-plus-jakarta-sans",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -20,7 +26,9 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="es">
-      <body className="min-h-screen bg-[#06111f] font-sans text-slate-50 antialiased">
+      <body
+        className={`${plusJakartaSans.variable} min-h-screen bg-[#06111f] font-sans text-slate-50 antialiased`}
+      >
         <MotionProvider>
           <TRPCReactProvider>{children}</TRPCReactProvider>
         </MotionProvider>

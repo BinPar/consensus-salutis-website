@@ -63,7 +63,7 @@ export default function SeguridadPage() {
                 Seguridad, trazabilidad y criterio profesional en el centro.
               </h2>
             </div>
-            <div className="space-y-5 text-base leading-8 text-slate-400">
+            <div className="font-body space-y-5 text-base leading-8 text-slate-400">
               <p>
                 La comunicación pública habla de diseño orientado a
                 cumplimiento, controles técnicos y trazabilidad, evitando

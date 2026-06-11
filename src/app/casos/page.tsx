@@ -58,7 +58,7 @@ export default function CasosPage() {
                 <h2 className="mt-4 text-2xl font-semibold tracking-tight text-slate-50">
                   {item.title}
                 </h2>
-                <p className="mt-4 text-sm leading-6 text-slate-400">
+                <p className="font-body mt-4 text-sm leading-6 text-slate-400">
                   {item.body}
                 </p>
               </article>
@@ -72,7 +72,7 @@ export default function CasosPage() {
               <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-50">
                 Credibilidad sin ruido: casos, contenido, tecnología y método.
               </h2>
-              <p className="mt-5 text-base leading-8 text-slate-400">
+              <p className="font-body mt-5 text-base leading-8 text-slate-400">
                 Esta sección separa casos de uso, validadores tecnológicos y
                 fuentes de contenido, manteniendo una narrativa precisa y
                 verificable.

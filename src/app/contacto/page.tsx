@@ -17,7 +17,7 @@ export default function ContactoPage() {
             <h1 className="mt-5 max-w-3xl text-4xl font-semibold tracking-tight text-slate-50 sm:text-5xl">
               Abramos una conversación sobre tu organización sanitaria.
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-400">
+            <p className="font-body mt-6 max-w-2xl text-lg leading-8 text-slate-400">
               Revisamos caso de uso, restricciones de seguridad, requisitos de
               integración y el nivel de evidencia necesario para un piloto
               institucional.
@@ -41,7 +41,7 @@ export default function ContactoPage() {
             <p className="text-sm font-semibold text-slate-50">
               Para preparar la reunión
             </p>
-            <ul className="mt-5 space-y-4 text-sm leading-6 text-slate-400">
+            <ul className="font-body mt-5 space-y-4 text-sm leading-6 text-slate-400">
               <li>Ámbito asistencial y volumen aproximado de usuarios.</li>
               <li>Fuentes documentales, guías y protocolos prioritarios.</li>
               <li>Requisitos de seguridad, SSO, auditoría y despliegue.</li>

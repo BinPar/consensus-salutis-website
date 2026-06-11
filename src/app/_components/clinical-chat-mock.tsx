@@ -238,7 +238,7 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className={`ml-auto max-w-[88%] shrink-0 rounded-md rounded-br-sm border border-slate-600/30 bg-slate-700/35 text-slate-100 ${
+                className={`font-body ml-auto max-w-[88%] shrink-0 rounded-md rounded-br-sm border border-slate-600/30 bg-slate-700/35 text-slate-100 ${
                   compact
                     ? "px-3 py-2.5 text-sm leading-6"
                     : "px-4 py-3 text-base leading-7"
@@ -291,7 +291,7 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
                       Orientación basada en evidencia
                     </p>
                     <p
-                      className={`text-slate-300 ${
+                      className={`font-body text-slate-300 ${
                         compact ? "text-sm leading-6" : "text-base leading-7"
                       }`}
                     >
@@ -312,7 +312,7 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
                       className="mt-6"
                     >
                       <div
-                        className={`ml-auto max-w-[88%] rounded-md rounded-br-sm border border-slate-600/30 bg-slate-700/35 text-slate-100 ${
+                        className={`font-body ml-auto max-w-[88%] rounded-md rounded-br-sm border border-slate-600/30 bg-slate-700/35 text-slate-100 ${
                           compact
                             ? "px-3 py-2.5 text-sm leading-6"
                             : "px-4 py-3 text-base leading-7"
@@ -344,7 +344,7 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
                             CS
                           </span>
                           <p
-                            className={`text-slate-300 ${
+                            className={`font-body text-slate-300 ${
                               compact
                                 ? "text-sm leading-6"
                                 : "text-base leading-7"
@@ -411,7 +411,7 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
 
         <div className="shrink-0 border-t border-cyan-300/20 p-3">
           <div
-            className={`flex min-h-14 items-center rounded-2xl border px-3 text-sm transition ${
+            className={`font-body flex min-h-14 items-center rounded-2xl border px-3 text-sm transition ${
               stage === "composing-first" || stage === "composing-follow-up"
                 ? "border-cyan-300/25 bg-[#061a2a] text-slate-300"
                 : "border-cyan-300/10 bg-[#04111e]/70 text-slate-600"
