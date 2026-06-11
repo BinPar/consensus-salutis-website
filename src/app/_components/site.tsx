@@ -27,8 +27,8 @@ const contactItems = [
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-cyan-300/10 bg-[#06111f]/88 px-5 backdrop-blur-xl sm:px-8">
-      <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between">
+    <header className="sticky top-0 z-40 bg-[#06111f]/88 px-5 backdrop-blur-xl sm:px-8">
+      <div className="mx-auto flex h-16 w-full max-w-425 items-center justify-between">
         <Link href="/" className="flex items-center gap-3" aria-label="Inicio">
           <span className="grid size-8 place-items-center rounded-md border border-cyan-300/25 bg-cyan-300/10 text-xs font-semibold text-cyan-100 shadow-[0_0_24px_rgba(45,212,191,0.2)]">
             CS
@@ -55,6 +55,10 @@ export function SiteHeader() {
           Solicitar reunión
         </Link>
       </div>
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,var(--color-primary),transparent)] opacity-45"
+      />
     </header>
   );
 }

@@ -324,7 +324,7 @@ function MetricsPanel({
 }) {
   return (
     <Panel
-      className="bg-linear-to-br from-[#030916]/70 to-[#030916]/0"
+      className="bg-linear-to-br from-[#030916]/70 to-[#030916]/30"
       panelRef={panelRef}
     >
       <div className="max-w-5xl">
@@ -359,14 +359,17 @@ function ArchitecturePanel({
   panelRef: (node: HTMLElement | null) => void;
 }) {
   return (
-    <Panel className="bg-[#081827]/72" panelRef={panelRef}>
+    <Panel
+      className="bg-linear-to-bl from-[#030916]/70 to-[#030916]/30"
+      panelRef={panelRef}
+    >
       <div className="max-w-4xl">
         <Reveal visible={visible}>
           <Eyebrow>Producto</Eyebrow>
         </Reveal>
         <Reveal visible={visible} delay={0.1}>
           <h2 className="mt-4 text-5xl font-semibold tracking-tight text-slate-50">
-            Del documento disperso a la decisión informada.
+            De documentos dispersos a la decisión informada.
           </h2>
         </Reveal>
         <Reveal visible={visible} delay={0.2}>
@@ -503,7 +506,7 @@ function MobileHome() {
         <ViewportReveal className="px-5">
           <Eyebrow>Producto</Eyebrow>
           <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-50">
-            Del documento disperso a la decisión informada.
+            De documentos dispersos a la decisión informada.
           </h2>
           <p className="mt-5 text-base leading-7 text-slate-400">
             La plataforma articula contenido médico validado, documentación

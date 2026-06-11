@@ -36,12 +36,12 @@ export function FooterBandMenu({
         </span>
       </summary>
       <div className="absolute bottom-full left-1/2 z-50 min-w-48 -translate-x-1/2 pb-2">
-        <div className="rounded-md border border-cyan-300/15 bg-[#05111f]/98 p-1.5 shadow-2xl shadow-black/40 backdrop-blur-xl">
+        <div className="rounded-xl border border-cyan-300/15 bg-[#05111f]/98 p-1.5 shadow-2xl shadow-black/40 backdrop-blur-xl">
           {items.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="block rounded-sm px-3 py-2 text-sm text-slate-400 transition outline-none hover:bg-cyan-300/10 hover:text-cyan-50 focus-visible:bg-cyan-300/10 focus-visible:text-cyan-50"
+              className="block rounded-lg px-3 py-2 text-sm text-slate-400 transition outline-none hover:bg-cyan-300/10 hover:text-cyan-50 focus-visible:bg-cyan-300/10 focus-visible:text-cyan-50"
             >
               {item.label}
             </Link>
