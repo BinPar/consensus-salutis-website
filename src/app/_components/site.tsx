@@ -33,7 +33,7 @@ export function SiteHeader() {
           <span className="grid size-8 place-items-center rounded-md border border-cyan-300/25 bg-cyan-300/10 text-xs font-semibold text-cyan-100 shadow-[0_0_24px_rgba(45,212,191,0.2)]">
             CS
           </span>
-          <span className="text-sm font-semibold tracking-[0.18em] text-slate-50 uppercase">
+          <span className="hidden text-sm font-semibold tracking-[0.18em] text-slate-50 uppercase sm:inline">
             Consensus Salutis
           </span>
         </Link>

@@ -12,3 +12,14 @@
     var(--font-plus-jakarta-sans), "Plus Jakarta Sans", ui-sans-serif,
     system-ui, sans-serif;
 }
+
+@layer base {
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--color-slate-100);
+    caret-color: var(--color-slate-100);
+    box-shadow: 0 0 0 1000px #04111e inset;
+    transition: background-color 9999s ease-out;
+  }
+}

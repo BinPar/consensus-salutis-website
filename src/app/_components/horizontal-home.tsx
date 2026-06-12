@@ -2,7 +2,6 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import {
@@ -12,23 +11,32 @@ import {
   SignalPanel,
 } from "~/app/_components/site";
 import { ClinicalChatMock } from "~/app/_components/clinical-chat-mock";
-import {
-  MotionLink,
-  Reveal,
-  ViewportReveal,
-} from "~/app/_components/motion-system";
+import { ContactForm } from "~/app/_components/contact-form";
+import { Reveal, ViewportReveal } from "~/app/_components/motion-system";
 
 const metrics = [
-  { value: "+3 TB", label: "Conocimiento médico estructurado y gobernable." },
   {
-    value: "+8.327",
+    value: 3,
+    prefix: "+",
+    suffix: " TB",
+    label: "Conocimiento médico estructurado y gobernable.",
+  },
+  {
+    value: 8327,
+    prefix: "+",
     label: "Epígrafes clínicos listos para consulta trazable.",
   },
   {
-    value: "+30.000",
+    value: 30000,
+    prefix: "+",
     label: "Preguntas para evaluación continua del sistema.",
   },
-  { value: "<24h", label: "Actualización urgente de contenidos relevantes." },
+  {
+    value: 24,
+    prefix: "<",
+    suffix: "h",
+    label: "Actualización urgente de contenidos relevantes.",
+  },
 ];
 
 const productPillars = [
@@ -250,11 +258,12 @@ export function HorizontalHome() {
                 }}
                 visible={revealedPanels.has(0)}
               />
-              <MetricsPanel
+
+              <PrimaryCarePanel
                 panelRef={(node) => {
-                  panelRefs.current[1] = node;
+                  panelRefs.current[3] = node;
                 }}
-                visible={revealedPanels.has(1)}
+                visible={revealedPanels.has(3)}
               />
               <ArchitecturePanel
                 panelRef={(node) => {
@@ -262,12 +271,13 @@ export function HorizontalHome() {
                 }}
                 visible={revealedPanels.has(2)}
               />
-              <PrimaryCarePanel
+              <MetricsPanel
                 panelRef={(node) => {
-                  panelRefs.current[3] = node;
+                  panelRefs.current[1] = node;
                 }}
-                visible={revealedPanels.has(3)}
+                visible={revealedPanels.has(1)}
               />
+
               <ContactPanel
                 panelRef={(node) => {
                   panelRefs.current[4] = node;
@@ -324,7 +334,7 @@ export function VerticalHome() {
         </VerticalPanel>
         <VerticalPanel>
           {(visible, panelRef) => (
-            <MetricsPanel
+            <PrimaryCarePanel
               layout="vertical"
               panelRef={panelRef}
               visible={visible}
@@ -340,9 +350,10 @@ export function VerticalHome() {
             />
           )}
         </VerticalPanel>
+
         <VerticalPanel>
           {(visible, panelRef) => (
-            <PrimaryCarePanel
+            <MetricsPanel
               layout="vertical"
               panelRef={panelRef}
               visible={visible}
@@ -497,7 +508,7 @@ function MetricsPanel({
 }) {
   return (
     <Panel
-      className="bg-linear-to-br from-[#030916]/70 to-[#030916]/30"
+      className="bg-linear-to-bl from-[#030916]/70 to-[#030916]/30"
       panelRef={panelRef}
       layout={layout}
     >
@@ -535,11 +546,7 @@ function ArchitecturePanel({
   layout?: DesktopLayout;
 }) {
   return (
-    <Panel
-      className="bg-linear-to-bl from-[#030916]/70 to-[#030916]/30"
-      panelRef={panelRef}
-      layout={layout}
-    >
+    <Panel className="" panelRef={panelRef} layout={layout}>
       <div className="max-w-6xl">
         <Reveal visible={visible}>
           <Eyebrow>Producto</Eyebrow>
@@ -578,7 +585,11 @@ function PrimaryCarePanel({
   layout?: DesktopLayout;
 }) {
   return (
-    <Panel panelRef={panelRef} layout={layout}>
+    <Panel
+      panelRef={panelRef}
+      layout={layout}
+      className="bg-linear-to-br from-[#030916]/70 to-[#030916]/30"
+    >
       <div className="max-w-5xl">
         <Reveal visible={visible}>
           <Eyebrow>Proceso de consulta</Eyebrow>
@@ -621,7 +632,7 @@ function ContactPanel({
       layout={layout}
       height="viewport"
     >
-      <div className="grid items-center gap-12 lg:grid-cols-[1fr_0.8fr]">
+      <div className="grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr]">
         <div>
           <Reveal visible={visible}>
             <Eyebrow>Siguiente paso</Eyebrow>
@@ -638,27 +649,9 @@ function ContactPanel({
               institucional.
             </p>
           </Reveal>
-          <Reveal visible={visible} delay={0.3} className="mt-9">
-            <MotionLink
-              href="/contacto"
-              className="rounded-md bg-cyan-300 px-5 py-3 text-center text-sm font-semibold text-[#04111e] shadow-[0_0_34px_rgba(45,212,191,0.26)] transition hover:bg-cyan-200"
-            >
-              Solicitar reunión
-            </MotionLink>
-          </Reveal>
         </div>
-        <Reveal visible={visible} delay={0.4}>
-          <div className="rounded-md border border-cyan-300/10 bg-[#081a2b]/82 p-7 shadow-lg shadow-[#020817]/20">
-            <p className="text-sm font-semibold text-slate-50">
-              Preparar la reunión
-            </p>
-            <ul className="font-body mt-5 space-y-4 text-sm leading-6 text-slate-400">
-              <li>Ámbito asistencial y volumen aproximado de usuarios.</li>
-              <li>Fuentes documentales, guías y protocolos prioritarios.</li>
-              <li>Requisitos de seguridad, SSO, auditoría y despliegue.</li>
-              <li>Indicadores de éxito para piloto o despliegue inicial.</li>
-            </ul>
-          </div>
+        <Reveal visible={visible} delay={0.3}>
+          <ContactForm compact />
         </Reveal>
       </div>
     </Panel>
@@ -724,14 +717,22 @@ function MobileHome() {
             </p>
           </ViewportReveal>
           <ClinicalProcess className="mt-10" />
-          <ViewportReveal className="mt-10">
-            <Link
-              href="/contacto"
-              className="inline-flex rounded-md bg-cyan-300 px-5 py-3 text-sm font-semibold text-[#04111e]"
-            >
-              Solicitar reunión
-            </Link>
+        </div>
+      </DarkSection>
+
+      <DarkSection variant="deep">
+        <div className="px-5">
+          <ViewportReveal>
+            <Eyebrow>Contacto</Eyebrow>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-50">
+              Hablemos de tu organización sanitaria.
+            </h2>
+            <p className="font-body mt-5 text-base leading-7 text-slate-400">
+              Revisamos caso de uso, restricciones de seguridad, requisitos de
+              integración y el nivel de evidencia necesario.
+            </p>
           </ViewportReveal>
+          <ContactForm className="mt-10" />
         </div>
       </DarkSection>
     </main>
@@ -981,15 +982,18 @@ function StaggeredMetricGrid({
   className?: string;
 }) {
   const reducedMotion = useReducedMotion();
-  const shown = reducedMotion ? true : visible;
+  const [inViewport, setInViewport] = useState(false);
+  const shown = reducedMotion ? true : (visible ?? inViewport);
+  const countersActive = reducedMotion ? true : inViewport;
 
   return (
     <motion.div
       className={`grid gap-8 overflow-hidden sm:grid-cols-2 lg:grid-cols-4 ${className}`}
       initial={reducedMotion ? "visible" : "hidden"}
-      animate={visible === undefined ? undefined : shown ? "visible" : "hidden"}
-      whileInView={visible === undefined ? "visible" : undefined}
-      viewport={{ amount: 0.3, once: true }}
+      animate={shown ? "visible" : "hidden"}
+      onViewportEnter={() => setInViewport(true)}
+      onViewportLeave={() => setInViewport(false)}
+      viewport={{ amount: 0.3 }}
       variants={{
         hidden: {},
         visible: {
@@ -1000,7 +1004,7 @@ function StaggeredMetricGrid({
         },
       }}
     >
-      {metrics.map((metric) => (
+      {metrics.map((metric, index) => (
         <motion.div
           key={metric.label}
           className="rounded-2xl border border-cyan-300/20 bg-white/3 p-6 backdrop-blur-sm"
@@ -1012,12 +1016,84 @@ function StaggeredMetricGrid({
             },
           }}
         >
-          <p className="text-3xl font-semibold text-cyan-100">{metric.value}</p>
+          <AnimatedMetricValue
+            active={countersActive}
+            delay={0.3 + index * 0.18}
+            prefix={metric.prefix}
+            suffix={metric.suffix}
+            value={metric.value}
+          />
           <p className="font-body mt-2 text-sm leading-6 text-slate-400">
             {metric.label}
           </p>
         </motion.div>
       ))}
     </motion.div>
+  );
+}
+
+function AnimatedMetricValue({
+  active,
+  delay,
+  prefix = "",
+  suffix = "",
+  value,
+}: {
+  active: boolean;
+  delay: number;
+  prefix?: string;
+  suffix?: string;
+  value: number;
+}) {
+  const reducedMotion = useReducedMotion();
+  const [displayValue, setDisplayValue] = useState(reducedMotion ? value : 0);
+  const formattedValue = `${prefix}${value.toLocaleString("es-ES")}${suffix}`;
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setDisplayValue(value);
+      return;
+    }
+
+    setDisplayValue(0);
+
+    if (!active) return;
+
+    let frameId = 0;
+    let startTime = 0;
+    const duration = 1100;
+    const timeoutId = window.setTimeout(() => {
+      const update = (time: number) => {
+        startTime ||= time;
+        const progress = Math.min((time - startTime) / duration, 1);
+        const easedProgress = 1 - Math.pow(1 - progress, 3);
+
+        setDisplayValue(Math.round(value * easedProgress));
+
+        if (progress < 1) {
+          frameId = window.requestAnimationFrame(update);
+        }
+      };
+
+      frameId = window.requestAnimationFrame(update);
+    }, delay * 1000);
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      window.cancelAnimationFrame(frameId);
+    };
+  }, [active, delay, reducedMotion, value]);
+
+  return (
+    <p
+      aria-label={formattedValue}
+      className="text-3xl font-semibold text-cyan-100"
+    >
+      <span aria-hidden="true">
+        {prefix}
+        {displayValue.toLocaleString("es-ES")}
+        {suffix}
+      </span>
+    </p>
   );
 }

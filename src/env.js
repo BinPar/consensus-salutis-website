@@ -21,6 +21,13 @@ export const env = createEnv({
       .enum(["true", "false"])
       .default("false")
       .transform((value) => value === "true"),
+    RESEND_API_KEY: z.string().optional(),
+    CONTACT_FROM_EMAIL: z.string().optional(),
+    CONTACT_TO_EMAIL: z.string().email().default("adrian@binpar.com"),
+    TURNSTILE_SECRET_KEY: z.string().optional(),
+    UPSTASH_REDIS_REST_URL: z.string().url().optional(),
+    UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
+    CONTACT_RATE_LIMIT_SECRET: z.string().min(32).optional(),
   },
 
   /**
@@ -29,7 +36,7 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    // NEXT_PUBLIC_CLIENTVAR: z.string(),
+    NEXT_PUBLIC_TURNSTILE_SITE_KEY: z.string().optional(),
   },
 
   /**
@@ -43,6 +50,14 @@ export const env = createEnv({
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
     VERTICAL_HOME: process.env.VERTICAL_HOME,
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
+    CONTACT_FROM_EMAIL: process.env.CONTACT_FROM_EMAIL,
+    CONTACT_TO_EMAIL: process.env.CONTACT_TO_EMAIL,
+    TURNSTILE_SECRET_KEY: process.env.TURNSTILE_SECRET_KEY,
+    UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
+    UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
+    CONTACT_RATE_LIMIT_SECRET: process.env.CONTACT_RATE_LIMIT_SECRET,
+    NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
