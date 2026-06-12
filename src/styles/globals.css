@@ -1,11 +1,16 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-primary: #53eafd;
+  --color-primary-light: #006b77;
   --color-secondary: #f6ff53;
   --font-sans:
     ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
+  --shadow-big-blocks: 0 4px 30px 0 color-mix(in srgb, var(--color-primary-light), transparent 90%), 
+                0 2px 6px 2px color-mix(in srgb, var(--color-primary-light), transparent 98%);
 }
 
 @utility font-body {
@@ -15,12 +20,45 @@
 }
 
 @layer base {
+  .theme-changing *,
+  .theme-changing *::before,
+  .theme-changing *::after {
+    transition-property:
+      color, background-color, border-color, text-decoration-color, fill,
+      stroke, box-shadow;
+    transition-duration: 180ms;
+    transition-timing-function: ease-out;
+  }
+
+  .theme-changing [data-theme-toggle],
+  .theme-changing [data-theme-toggle] *,
+  .theme-changing [data-theme-toggle] *::before,
+  .theme-changing [data-theme-toggle] *::after {
+    transition: none !important;
+  }
+
   input:-webkit-autofill,
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--color-slate-900);
+    caret-color: var(--color-slate-900);
+    box-shadow: 0 0 0 1000px #ffffff inset;
+    transition: background-color 9999s ease-out;
+  }
+
+  .dark input:-webkit-autofill,
+  .dark input:-webkit-autofill:hover,
+  .dark input:-webkit-autofill:focus {
     -webkit-text-fill-color: var(--color-slate-100);
     caret-color: var(--color-slate-100);
     box-shadow: 0 0 0 1000px #04111e inset;
-    transition: background-color 9999s ease-out;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-changing *,
+  .theme-changing *::before,
+  .theme-changing *::after {
+    transition-duration: 0ms;
   }
 }

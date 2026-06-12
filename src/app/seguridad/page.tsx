@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import {
   CapabilityGrid,
-  DarkSection,
+  ThemeSection,
   Eyebrow,
   PageHero,
   PageShell,
@@ -50,20 +50,20 @@ export default function SeguridadPage() {
           title="Diseñado para operar donde la confianza no es decorativa."
           body="Consensus Salutis se plantea desde el diseño para privacidad, auditoría, despliegue en la Unión Europea y gobierno técnico compatible con organizaciones sanitarias."
         />
-        <DarkSection>
+        <ThemeSection>
           <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
             <CapabilityGrid items={controls} />
           </div>
-        </DarkSection>
-        <DarkSection variant="deep">
+        </ThemeSection>
+        <ThemeSection variant="deep">
           <div className="mx-auto grid w-full max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
               <Eyebrow>Marco regulatorio</Eyebrow>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-50">
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
                 Seguridad, trazabilidad y criterio profesional en el centro.
               </h2>
             </div>
-            <div className="font-body space-y-5 text-base leading-8 text-slate-400">
+            <div className="font-body space-y-5 text-base leading-8 text-slate-600 dark:text-slate-400">
               <p>
                 La comunicación pública habla de diseño orientado a
                 cumplimiento, controles técnicos y trazabilidad, evitando
@@ -76,7 +76,7 @@ export default function SeguridadPage() {
               </p>
             </div>
           </div>
-        </DarkSection>
+        </ThemeSection>
       </main>
     </PageShell>
   );

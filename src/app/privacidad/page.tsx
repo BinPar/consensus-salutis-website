@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { DarkSection, Eyebrow, PageShell } from "~/app/_components/site";
+import { ThemeSection, Eyebrow, PageShell } from "~/app/_components/site";
 
 export const metadata: Metadata = {
   title: "Política de Privacidad",
@@ -12,13 +12,13 @@ export default function PrivacyPage() {
   return (
     <PageShell>
       <main>
-        <DarkSection>
+        <ThemeSection>
           <article className="mx-auto w-full max-w-4xl px-5 sm:px-8">
             <Eyebrow>Información legal</Eyebrow>
-            <h1 className="mt-5 text-4xl font-semibold tracking-tight text-slate-50 sm:text-5xl">
+            <h1 className="mt-5 text-4xl font-semibold tracking-tight text-[#05215e] sm:text-5xl dark:text-slate-50">
               Política de Privacidad
             </h1>
-            <div className="font-body mt-10 space-y-8 text-base leading-8 text-slate-400">
+            <div className="font-body mt-10 space-y-8 text-base leading-8 text-slate-600 dark:text-slate-400">
               <LegalSection title="Responsable del tratamiento">
                 BinPar Team S.L., con NIF B85271930 y domicilio social en Paseo
                 de la Castellana 43, 4, es responsable del tratamiento de los
@@ -52,7 +52,7 @@ export default function PrivacyPage() {
               </LegalSection>
             </div>
           </article>
-        </DarkSection>
+        </ThemeSection>
       </main>
     </PageShell>
   );
@@ -67,7 +67,9 @@ function LegalSection({
 }) {
   return (
     <section>
-      <h2 className="text-xl font-semibold text-slate-100">{title}</h2>
+      <h2 className="text-xl font-semibold text-[#05215e] dark:text-slate-100">
+        {title}
+      </h2>
       <p className="mt-3">{children}</p>
     </section>
   );

@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from "react";
 
 import {
   CTAGroup,
-  DarkSection,
+  ThemeSection,
   Eyebrow,
   SignalPanel,
 } from "~/app/_components/site";
@@ -46,7 +46,7 @@ const productPillars = [
     logo: "/logos/emp.svg",
     logoWidth: 180,
     logoHeight: 45,
-    logoClassName: "h-10 w-auto max-w-[150px]",
+    logoClassName: "h-10 w-auto max-w-[150px] ",
     body: "Más de 70 años de experiencia editorial sostienen una base médica estructurada y actualizada de forma continua, con mas de 3TB de conocimiento médico.",
   },
   {
@@ -55,7 +55,7 @@ const productPillars = [
     logo: "/logos/Amazon_Web_Services_Logo.svg",
     logoWidth: 84,
     logoHeight: 50,
-    logoClassName: "h-11 w-auto",
+    logoClassName: "h-11 w-auto opacity-80",
     body: "Arquitectura cloud native preparada para aislar cargas, escalar automáticamente y mantener continuidad, observabilidad y cumplimiento.",
   },
   {
@@ -212,7 +212,7 @@ export function HorizontalHome() {
   return (
     <>
       <main className="relative z-10 hidden min-h-0 flex-1 lg:block">
-        <section className="relative h-full overflow-hidden border-b border-cyan-300/10">
+        <section className="relative h-full overflow-hidden border-b border-cyan-800/10 dark:border-cyan-300/10">
           <div
             ref={railRef}
             tabIndex={0}
@@ -289,7 +289,7 @@ export function HorizontalHome() {
 
           <div className="pointer-events-none absolute right-8 bottom-4 left-8">
             <div className="flex items-center justify-between gap-6">
-              <p className="text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase">
+              <p className="text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase dark:text-slate-500">
                 {
                   panels[
                     Math.min(
@@ -299,14 +299,14 @@ export function HorizontalHome() {
                   ]
                 }
               </p>
-              <div className="h-px flex-1 bg-cyan-300/10">
+              <div className="h-px flex-1 bg-primary-light/10 dark:bg-cyan-300/10">
                 <motion.div
-                  className="h-px origin-left bg-cyan-300 shadow-[0_0_18px_rgba(34,211,238,0.55)]"
+                  className="h-px origin-left bg-primary-light shadow-[0_0_18px_rgba(34,211,238,0.55)] dark:bg-cyan-300"
                   animate={{ scaleX: Math.max(progress, 0.07) }}
                   transition={{ type: "spring", stiffness: 180, damping: 28 }}
                 />
               </div>
-              <p className="text-xs text-slate-500">
+              <p className="text-xs text-slate-500 dark:text-slate-500">
                 Scroll vertical para avanzar
               </p>
             </div>
@@ -390,7 +390,7 @@ function VerticalPanel({
   useEffect(() => {
     previousScrollY.current = window.scrollY;
 
-    const updateVisibility = () => {
+    const updateVisibility = (mode: "initial" | "scroll" = "scroll") => {
       const panel = panelRef.current;
 
       if (!panel) return;
@@ -405,8 +405,14 @@ function VerticalPanel({
         Math.min(rect.bottom, activationBottom) - Math.max(rect.top, 0),
       );
       const visibility = visibleHeight / rect.height;
+      const passedActivationPoint =
+        rect.bottom <= 0 ||
+        rect.top <= activationBottom - rect.height * 0.45;
 
-      if (scrollingDown && visibility >= 0.45) {
+      if (
+        (mode === "initial" && passedActivationPoint) ||
+        (scrollingDown && visibility >= 0.45)
+      ) {
         setVisible(true);
       }
 
@@ -417,9 +423,18 @@ function VerticalPanel({
       previousScrollY.current = currentScrollY;
     };
 
-    window.addEventListener("scroll", updateVisibility, { passive: true });
+    const handleScroll = () => updateVisibility("scroll");
 
-    return () => window.removeEventListener("scroll", updateVisibility);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    updateVisibility("initial");
+    const frameId = window.requestAnimationFrame(() =>
+      updateVisibility("initial"),
+    );
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   return children(visible, (node) => {
@@ -474,12 +489,12 @@ function HeroPanel({
             <Eyebrow>IA médica institucional</Eyebrow>
           </Reveal>
           <Reveal visible={visible} delay={0.1}>
-            <h1 className="mt-6 max-w-4xl text-6xl font-semibold tracking-tight text-slate-50 xl:text-7xl">
+            <h1 className="mt-6 max-w-4xl text-6xl font-semibold tracking-tight text-[#05215e] xl:text-7xl dark:text-slate-50">
               Conocimiento clínico gobernado por IA.
             </h1>
           </Reveal>
           <Reveal visible={visible} delay={0.2}>
-            <p className="font-body mt-7 max-w-2xl text-xl leading-9 text-slate-300">
+            <p className="font-body mt-7 max-w-2xl text-xl leading-9 text-slate-700 dark:text-slate-300">
               Consensus Salutis convierte guías, protocolos y corpus médico en
               respuestas trazables para Atención Primaria. Una capa de IA seria,
               auditable y preparada para operar dentro de un sistema sanitario.
@@ -508,7 +523,7 @@ function MetricsPanel({
 }) {
   return (
     <Panel
-      className="bg-linear-to-bl from-[#030916]/70 to-[#030916]/30"
+      className="bg-linear-to-br from-[#deedf3]/80 to-[#edf6f9]/30 dark:from-[#030916]/70 dark:to-[#030916]/30"
       panelRef={panelRef}
       layout={layout}
     >
@@ -517,12 +532,12 @@ function MetricsPanel({
           <Eyebrow>KPIs operativos</Eyebrow>
         </Reveal>
         <Reveal visible={visible} delay={0.1}>
-          <h2 className="mt-4 max-w-4xl text-5xl font-semibold tracking-tight text-slate-50">
+          <h2 className="mt-4 max-w-4xl text-5xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
             Volumen y actualización continua.
           </h2>
         </Reveal>
         <Reveal visible={visible} delay={0.2}>
-          <p className="font-body mt-6 max-w-5xl text-lg leading-8 text-slate-400">
+          <p className="font-body mt-6 max-w-5xl text-lg leading-8 text-slate-600 dark:text-slate-400">
             La plataforma combina una base de conocimiento médico estructurada
             con guías clínicas y protocolos propios de cada organización. Los
             contenidos pasan por procesos automatizados de ingesta, evaluación
@@ -552,12 +567,12 @@ function ArchitecturePanel({
           <Eyebrow>Producto</Eyebrow>
         </Reveal>
         <Reveal visible={visible} delay={0.1}>
-          <h2 className="mt-4 max-w-5xl text-5xl font-semibold tracking-tight text-slate-50">
+          <h2 className="mt-4 max-w-135 text-5xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
             De documentos dispersos a la decisión informada.
           </h2>
         </Reveal>
         <Reveal visible={visible} delay={0.2}>
-          <p className="font-body mt-5 mb-10 max-w-5xl text-lg leading-8 text-slate-400">
+          <p className="font-body mt-5 mb-10 max-w-5xl text-lg leading-8 text-slate-600 dark:text-slate-400">
             La robustez de Consensus Salutis se construye sobre un sistema
             completo: contenidos médicos revisados, una infraestructura
             preparada para operar de forma continua y una capa de software que
@@ -588,19 +603,19 @@ function PrimaryCarePanel({
     <Panel
       panelRef={panelRef}
       layout={layout}
-      className="bg-linear-to-br from-[#030916]/70 to-[#030916]/30"
+      className="bg-linear-to-br from-[#deedf3]/80 to-[#edf6f9]/30 dark:from-[#030916]/70 dark:to-[#030916]/30"
     >
       <div className="max-w-5xl">
         <Reveal visible={visible}>
           <Eyebrow>Proceso de consulta</Eyebrow>
         </Reveal>
         <Reveal visible={visible} delay={0.1}>
-          <h2 className="mt-4 text-5xl font-semibold tracking-tight text-slate-50">
+          <h2 className="mt-4 text-5xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
             De la pregunta a la evidencia.
           </h2>
         </Reveal>
         <Reveal visible={visible} delay={0.2}>
-          <p className="font-body mt-5 max-w-4xl text-lg leading-8 text-slate-400">
+          <p className="font-body mt-5 max-w-4xl text-lg leading-8 text-slate-600 dark:text-slate-400">
             Consensus Salutis acompaña cada consulta desde la formulación de la
             duda clínica hasta una respuesta contrastada, referenciada y
             preparada para ser revisada.
@@ -627,7 +642,7 @@ function ContactPanel({
 }) {
   return (
     <Panel
-      className="bg-[#030916]/82"
+      className="bg-[#deedf3]/82 dark:bg-[#030916]/82"
       panelRef={panelRef}
       layout={layout}
       height="viewport"
@@ -638,12 +653,12 @@ function ContactPanel({
             <Eyebrow>Siguiente paso</Eyebrow>
           </Reveal>
           <Reveal visible={visible} delay={0.1}>
-            <h2 className="mt-4 max-w-3xl text-5xl font-semibold tracking-tight text-slate-50">
+            <h2 className="mt-4 max-w-3xl text-5xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
               Una conversación seria sobre tu organización sanitaria.
             </h2>
           </Reveal>
           <Reveal visible={visible} delay={0.2}>
-            <p className="font-body mt-6 max-w-2xl text-lg leading-8 text-slate-400">
+            <p className="font-body mt-6 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-400">
               Revisamos caso de uso, restricciones de seguridad, requisitos de
               integración y el nivel de evidencia necesario para un piloto
               institucional.
@@ -660,15 +675,15 @@ function ContactPanel({
 
 function MobileHome() {
   return (
-    <main className="relative z-10 bg-[#06111f] lg:hidden">
-      <section className="relative overflow-hidden border-b border-cyan-300/10 px-5 py-16">
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(34,211,238,0.12),transparent_30%,rgba(20,184,166,0.1)_72%,transparent)]" />
+    <main className="relative z-10 bg-[#f4f9fc] lg:hidden dark:bg-[#06111f]">
+      <section className="relative overflow-hidden border-b border-cyan-800/10 px-5 py-16 dark:border-cyan-300/10">
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.1),transparent_30%,rgba(13,148,136,0.08)_72%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.12),transparent_30%,rgba(20,184,166,0.1)_72%,transparent)]" />
         <ViewportReveal className="relative">
           <Eyebrow>IA médica institucional</Eyebrow>
-          <h1 className="mt-6 text-5xl font-semibold tracking-tight text-slate-50">
+          <h1 className="mt-6 text-5xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
             Conocimiento clínico gobernado por IA.
           </h1>
-          <p className="font-body mt-7 text-lg leading-8 text-slate-300">
+          <p className="font-body mt-7 text-lg leading-8 text-slate-700 dark:text-slate-300">
             Consensus Salutis convierte guías, protocolos y corpus médico en
             respuestas trazables para Atención Primaria.
           </p>
@@ -681,18 +696,18 @@ function MobileHome() {
         </ViewportReveal>
       </section>
 
-      <DarkSection variant="deep">
+      <ThemeSection variant="deep">
         <StaggeredMetricGrid className="px-5" />
-      </DarkSection>
+      </ThemeSection>
 
-      <DarkSection variant="panel">
+      <ThemeSection variant="panel">
         <div className="px-5">
           <ViewportReveal>
             <Eyebrow>Producto</Eyebrow>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-50">
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
               De documentos dispersos a la decisión informada.
             </h2>
-            <p className="font-body mt-5 text-base leading-7 text-slate-400">
+            <p className="font-body mt-5 text-base leading-7 text-slate-600 dark:text-slate-400">
               La robustez de Consensus Salutis se construye sobre contenidos
               médicos revisados, infraestructura preparada para operar de forma
               continua y software que controla el ciclo de cada respuesta. Tres
@@ -702,39 +717,39 @@ function MobileHome() {
           </ViewportReveal>
           <ProductPillars className="mt-10" />
         </div>
-      </DarkSection>
+      </ThemeSection>
 
-      <DarkSection>
+      <ThemeSection>
         <div className="px-5">
           <ViewportReveal>
             <Eyebrow>Proceso de consulta</Eyebrow>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-50">
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
               De la pregunta a la evidencia.
             </h2>
-            <p className="font-body mt-5 text-base leading-7 text-slate-400">
+            <p className="font-body mt-5 text-base leading-7 text-slate-600 dark:text-slate-400">
               Consensus Salutis acompaña cada consulta hasta una respuesta
               contrastada, referenciada y preparada para ser revisada.
             </p>
           </ViewportReveal>
           <ClinicalProcess className="mt-10" />
         </div>
-      </DarkSection>
+      </ThemeSection>
 
-      <DarkSection variant="deep">
+      <ThemeSection variant="deep">
         <div className="px-5">
           <ViewportReveal>
             <Eyebrow>Contacto</Eyebrow>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-50">
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
               Hablemos de tu organización sanitaria.
             </h2>
-            <p className="font-body mt-5 text-base leading-7 text-slate-400">
+            <p className="font-body mt-5 text-base leading-7 text-slate-600 dark:text-slate-400">
               Revisamos caso de uso, restricciones de seguridad, requisitos de
               integración y el nivel de evidencia necesario.
             </p>
           </ViewportReveal>
           <ContactForm className="mt-10" />
         </div>
-      </DarkSection>
+      </ThemeSection>
     </main>
   );
 }
@@ -795,11 +810,11 @@ function ClinicalProcess({
       <div className="relative space-y-10 pl-12 lg:hidden">
         <div
           aria-hidden="true"
-          className="absolute top-5 bottom-5 left-5 w-px bg-cyan-200/15"
+          className="absolute top-5 bottom-5 left-5 w-px bg-cyan-600/15 dark:bg-cyan-200/15"
         />
         <motion.div
           aria-hidden="true"
-          className="absolute top-5 bottom-5 left-5 w-px origin-top bg-cyan-300"
+          className="absolute top-5 bottom-5 left-5 w-px origin-top bg-primary-light dark:bg-cyan-300"
           variants={{
             hidden: { scaleY: reducedMotion ? 1 : 0 },
             visible: {
@@ -858,7 +873,7 @@ function ProcessMilestone({
       {desktop && connector ? (
         <motion.span
           aria-hidden="true"
-          className={`absolute z-0 origin-left border-t border-cyan-300 ${
+          className={`absolute z-0 origin-left border-t border-primary-light dark:border-cyan-300 ${
             compact
               ? "top-4 left-4 w-[calc(100%+2.5rem)]"
               : "top-5 left-5 w-[calc(100%+3.5rem)]"
@@ -877,23 +892,23 @@ function ProcessMilestone({
         />
       ) : null}
       <span
-        className={`relative z-10 grid shrink-0 place-items-center rounded-full border border-cyan-300 bg-[#06111f] font-semibold text-cyan-100 shadow-[0_0_18px_rgba(103,232,249,0.18)] ${
+        className={`relative z-10 grid shrink-0 place-items-center rounded-full border border-primary-light bg-white/50 backdrop-blur-sm font-semibold text-cyan-800 shadow-sm dark:border-cyan-300 dark:bg-[#06111f] dark:text-cyan-100 dark:shadow-[0_0_18px_rgba(103,232,249,0.18)] ${
           compact ? "size-8 text-[10px]" : "size-10 text-xs"
         } ${desktop ? "" : "absolute top-0 -left-12"}`}
       >
         {item.step}
       </span>
       <h3
-        className={`${compact ? "mt-3 text-sm" : "mt-4 text-base"} font-semibold text-slate-100`}
+        className={`${compact ? "mt-3 text-sm" : "mt-4 text-base"} font-semibold text-[#05215e] dark:text-slate-100`}
       >
         {item.title}
       </h3>
       <p
-        className={`${compact ? "mt-1 min-h-10 text-[13px] leading-5" : "mt-2 min-h-12 text-sm leading-6"} font-body text-slate-400`}
+        className={`${compact ? "mt-1 min-h-10 text-[13px] leading-5" : "mt-2 min-h-12 text-sm leading-6"} font-body text-slate-600 dark:text-slate-400`}
       >
         {item.body}
       </p>
-      <p className="mt-2 text-[10px] font-semibold tracking-[0.12em] text-cyan-300 uppercase">
+      <p className="mt-2 text-[10px] font-semibold tracking-[0.12em] text-primary-light uppercase dark:text-cyan-300">
         {item.signal}
       </p>
     </motion.article>
@@ -953,17 +968,17 @@ function ProductPillars({
                   alt={pillar.name}
                   width={pillar.logoWidth}
                   height={pillar.logoHeight}
-                  className={`${pillar.logoClassName} opacity-80 brightness-0 invert`}
+                  className={`${pillar.logoClassName} dark:opacity-80 dark:brightness-0 dark:invert`}
                 />
               </div>
             </div>
             <p
-              className={`${compact ? "mt-3" : "mt-5"} border-b border-cyan-300/20 pt-4 pb-3 text-xs font-semibold tracking-[0.18em] text-cyan-300 uppercase`}
+              className={`${compact ? "mt-3" : "mt-5"} border-b border-primary-light pt-4 pb-3 text-xs font-semibold tracking-[0.18em] text-primary-light uppercase dark:border-cyan-300/20 dark:text-cyan-300`}
             >
               {pillar.role}
             </p>
             <p
-              className={`${compact ? "mt-2 text-[13px] leading-5" : "mt-3 text-sm leading-6"} font-body text-slate-400`}
+              className={`${compact ? "mt-2 text-[13px] leading-5" : "mt-3 text-sm leading-6"} font-body text-slate-600 dark:text-slate-400`}
             >
               {pillar.body}
             </p>
@@ -984,11 +999,11 @@ function StaggeredMetricGrid({
   const reducedMotion = useReducedMotion();
   const [inViewport, setInViewport] = useState(false);
   const shown = reducedMotion ? true : (visible ?? inViewport);
-  const countersActive = reducedMotion ? true : inViewport;
+  const countersActive = reducedMotion ? true : shown;
 
   return (
     <motion.div
-      className={`grid gap-8 overflow-hidden sm:grid-cols-2 lg:grid-cols-4 ${className}`}
+      className={`grid gap-8 sm:grid-cols-2 lg:grid-cols-4 ${className}`}
       initial={reducedMotion ? "visible" : "hidden"}
       animate={shown ? "visible" : "hidden"}
       onViewportEnter={() => setInViewport(true)}
@@ -1007,7 +1022,7 @@ function StaggeredMetricGrid({
       {metrics.map((metric, index) => (
         <motion.div
           key={metric.label}
-          className="rounded-2xl border border-cyan-300/20 bg-white/3 p-6 shadow-[0_0_18px_rgba(103,232,249,0.08)] backdrop-blur-sm"
+          className="rounded-2xl border border-cyan-800/20 bg-white/30 p-6 shadow-big-blocks dark:shadow-[0_0_18px_rgba(103,232,249,0.08)] backdrop-blur-xs dark:backdrop-blur-sm dark:border-cyan-300/20 dark:bg-white/3"
           variants={{
             hidden: { opacity: reducedMotion ? 1 : 0 },
             visible: {
@@ -1023,7 +1038,7 @@ function StaggeredMetricGrid({
             suffix={metric.suffix}
             value={metric.value}
           />
-          <p className="font-body mt-2 text-sm leading-6 text-slate-400">
+          <p className="font-body mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">
             {metric.label}
           </p>
         </motion.div>
@@ -1047,7 +1062,7 @@ function AnimatedMetricValue({
 }) {
   const reducedMotion = useReducedMotion();
   const [displayValue, setDisplayValue] = useState(reducedMotion ? value : 0);
-  const formattedValue = `${prefix}${value.toLocaleString("es-ES")}${suffix}`;
+  // const formattedValue = `${prefix}${value.toLocaleString("es-ES")}${suffix}`;
 
   useEffect(() => {
     if (reducedMotion) {
@@ -1086,8 +1101,8 @@ function AnimatedMetricValue({
 
   return (
     <p
-      aria-label={formattedValue}
-      className="text-3xl font-semibold text-cyan-100"
+      // aria-label={formattedValue}
+      className="text-3xl font-semibold text-cyan-800 dark:text-cyan-100"
     >
       <span aria-hidden="true">
         {prefix}

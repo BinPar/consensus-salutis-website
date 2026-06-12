@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import {
   CapabilityGrid,
-  DarkSection,
+  ThemeSection,
   MetricGrid,
   PageHero,
   PageShell,
@@ -48,21 +48,21 @@ export default function EvidenciaPage() {
           title="Precisión medible sin perder trazabilidad clínica."
           body="Consensus Salutis combina evaluación continuada, preguntas de control y referencias visibles para que cada respuesta pueda ser revisada, corregida y mejorada dentro de un marco institucional."
         />
-        <DarkSection>
+        <ThemeSection>
           <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
             <MetricGrid metrics={evidenceMetrics} />
-            <p className="font-body mt-5 max-w-3xl text-sm leading-6 text-slate-500">
+            <p className="font-body mt-5 max-w-3xl text-sm leading-6 text-slate-500 dark:text-slate-500">
               Los benchmarks se presentan como señal técnica contextualizada. El
               producto se comunica como soporte a decisión y consulta de
               evidencia, no como sustituto del criterio profesional.
             </p>
           </div>
-        </DarkSection>
-        <DarkSection variant="panel">
+        </ThemeSection>
+        <ThemeSection variant="panel">
           <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
             <CapabilityGrid items={items} />
           </div>
-        </DarkSection>
+        </ThemeSection>
       </main>
     </PageShell>
   );

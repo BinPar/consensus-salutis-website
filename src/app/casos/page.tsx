@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import {
-  DarkSection,
+  ThemeSection,
   Eyebrow,
   PageHero,
   PageShell,
@@ -45,41 +45,41 @@ export default function CasosPage() {
           title="Un ecosistema construido para operar en salud."
           body="Consensus Salutis combina experiencia institucional, conocimiento médico experto, infraestructura cloud y cultura de evaluación para entornos sanitarios exigentes."
         />
-        <DarkSection>
+        <ThemeSection>
           <div className="mx-auto grid w-full max-w-7xl gap-4 px-5 sm:px-8 md:grid-cols-2">
             {cases.map((item) => (
               <article
                 key={item.label}
-                className="rounded-md border border-cyan-300/10 bg-[#081a2b]/82 p-7 shadow-lg shadow-[#020817]/20"
+                className="rounded-md border border-cyan-800/10 bg-white/80 p-7 shadow-lg shadow-slate-900/5 dark:border-cyan-300/10 dark:bg-[#081a2b]/82 dark:shadow-[#020817]/20"
               >
-                <p className="text-xs font-semibold tracking-[0.18em] text-cyan-300 uppercase">
+                <p className="text-xs font-semibold tracking-[0.18em] text-primary-light uppercase dark:text-cyan-300">
                   {item.label}
                 </p>
-                <h2 className="mt-4 text-2xl font-semibold tracking-tight text-slate-50">
+                <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
                   {item.title}
                 </h2>
-                <p className="font-body mt-4 text-sm leading-6 text-slate-400">
+                <p className="font-body mt-4 text-sm leading-6 text-slate-600 dark:text-slate-400">
                   {item.body}
                 </p>
               </article>
             ))}
           </div>
-        </DarkSection>
-        <DarkSection variant="panel">
+        </ThemeSection>
+        <ThemeSection variant="panel">
           <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
             <div className="max-w-3xl">
               <Eyebrow>Uso responsable</Eyebrow>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-slate-50">
+              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
                 Credibilidad sin ruido: casos, contenido, tecnología y método.
               </h2>
-              <p className="font-body mt-5 text-base leading-8 text-slate-400">
+              <p className="font-body mt-5 text-base leading-8 text-slate-600 dark:text-slate-400">
                 Esta sección separa casos de uso, validadores tecnológicos y
                 fuentes de contenido, manteniendo una narrativa precisa y
                 verificable.
               </p>
             </div>
           </div>
-        </DarkSection>
+        </ThemeSection>
       </main>
     </PageShell>
   );
