@@ -50,7 +50,7 @@ export function SiteHeader() {
         </nav>
         <Link
           href="/contacto"
-          className="rounded-md border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-sm font-semibold text-cyan-50 transition hover:border-cyan-200/50 hover:bg-cyan-300/18"
+          className="bg-secondary focus-visible:outline-secondary rounded-full px-3 py-2 text-sm font-semibold text-[#06111f] transition-transform hover:scale-102 focus-visible:scale-102 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none"
         >
           Solicitar reunión
         </Link>
@@ -180,15 +180,15 @@ export function CTAGroup() {
     <div className="flex flex-col gap-3 sm:flex-row">
       <MotionLink
         href="/contacto"
-        className="rounded-md bg-cyan-300 px-5 py-3 text-center text-sm font-semibold text-[#04111e] shadow-[0_0_34px_rgba(45,212,191,0.26)] transition hover:bg-cyan-200"
+        className="rounded-full bg-cyan-300 px-5 py-3 text-center text-sm font-semibold text-[#04111e] shadow-[0_0_34px_rgba(45,212,191,0.26)] transition hover:bg-cyan-200"
       >
         Solicitar reunión
       </MotionLink>
       <MotionLink
         href="/plataforma"
-        className="rounded-md border border-cyan-300/20 bg-white/3 px-5 py-3 text-center text-sm font-semibold text-cyan-50 transition hover:border-cyan-200/50 hover:bg-cyan-300/10"
+        className="rounded-full border backdrop-blur-sm border-cyan-300/30 bg-white/3 px-5 py-3 text-center text-sm font-semibold text-cyan-50 transition hover:border-cyan-200/50 hover:bg-cyan-300/10"
       >
-        Explorar plataforma
+        Probar plataforma
       </MotionLink>
     </div>
   );

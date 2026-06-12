@@ -323,7 +323,7 @@ export function ContactForm({
               He leído y acepto la{" "}
               <Link
                 href="/privacidad"
-                className="text-cyan-300 underline underline-offset-4 hover:text-cyan-200"
+                className="text-secondary underline underline-offset-4 hover:text-cyan-200"
               >
                 Política de Privacidad
               </Link>
@@ -362,7 +362,7 @@ export function ContactForm({
         <button
           type="submit"
           disabled={busy}
-          className="flex min-h-12 w-full items-center justify-center rounded-2xl bg-cyan-300 px-5 py-3 text-sm font-semibold text-[#04111e] transition hover:bg-cyan-200 disabled:cursor-wait disabled:opacity-60"
+          className="flex min-h-11 w-full items-center justify-center rounded-full bg-cyan-300 px-5 py-3 text-sm font-semibold text-[#04111e] transition hover:bg-cyan-200 disabled:cursor-wait disabled:opacity-60"
         >
           {busy ? "Enviando..." : "Enviar mensaje"}
         </button>

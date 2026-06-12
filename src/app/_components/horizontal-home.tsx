@@ -1007,7 +1007,7 @@ function StaggeredMetricGrid({
       {metrics.map((metric, index) => (
         <motion.div
           key={metric.label}
-          className="rounded-2xl border border-cyan-300/20 bg-white/3 p-6 backdrop-blur-sm"
+          className="rounded-2xl border border-cyan-300/20 bg-white/3 p-6 shadow-[0_0_18px_rgba(103,232,249,0.08)] backdrop-blur-sm"
           variants={{
             hidden: { opacity: reducedMotion ? 1 : 0 },
             visible: {
