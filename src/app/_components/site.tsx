@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 
 import { ClinicalChatMock } from "~/app/_components/clinical-chat-mock";
 import { FooterBandMenu } from "~/app/_components/footer-band-menu";
+import { MobileNavigation } from "~/app/_components/mobile-navigation";
 import { ThemeToggle } from "~/app/_components/theme-toggle";
 import {
   HomeMotionBackground,
@@ -36,11 +37,11 @@ export function SiteHeader() {
           <span className="border-primary-light/50 bg-primary-light/70 grid size-8 place-items-center rounded-md border text-xs font-semibold text-white shadow-sm dark:border-cyan-300/25 dark:bg-cyan-300/10 dark:text-cyan-100 dark:shadow-[0_0_24px_rgba(45,212,191,0.2)]">
             CS
           </span>
-          <span className="hidden text-sm font-semibold tracking-[0.18em] text-slate-900 uppercase sm:inline dark:text-slate-50">
+          <span className="hidden text-sm font-semibold tracking-[0.18em] text-slate-900 uppercase md:inline dark:text-slate-50">
             Consensus Salutis
           </span>
         </Link>
-        <nav className="hidden items-center gap-7 text-sm font-medium text-slate-600 md:flex dark:text-slate-400">
+        <nav className="hidden items-center gap-4 lg:gap-7 text-xs lg:text-sm font-medium text-slate-600 md:flex dark:text-slate-400">
           {navItems.map((item) => (
             <Link
               key={item.href}
@@ -55,10 +56,13 @@ export function SiteHeader() {
           <ThemeToggle />
           <Link
             href="/contacto"
-            className="dark:bg-secondary focus-visible:outline-secondary rounded-full bg-amber-300 px-3 py-2 text-sm font-semibold text-[#06111f] transition-transform hover:scale-102 focus-visible:scale-102 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none"
+            className="dark:bg-secondary focus-visible:outline-secondary hidden rounded-full bg-amber-300 px-3 py-2 text-xs lg:text-sm font-semibold text-[#06111f] transition-transform hover:scale-102 focus-visible:scale-102 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none md:block"
           >
             Solicitar reunión
           </Link>
+          <MobileNavigation
+            items={[{ href: "/", label: "Inicio" }, ...navItems]}
+          />
         </div>
       </div>
       <div
