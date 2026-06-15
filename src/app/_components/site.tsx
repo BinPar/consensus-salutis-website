@@ -121,7 +121,7 @@ export function VerticalFooter() {
             className="grid grid-cols-2 gap-8 text-sm"
           >
             <div className="space-y-1">
-              <p className="font-semibold mb-2 text-slate-900 dark:text-slate-100">
+              <p className="mb-2 font-semibold text-slate-900 dark:text-slate-100">
                 Producto
               </p>
               {navItems.map((item) => (
@@ -135,7 +135,7 @@ export function VerticalFooter() {
               ))}
             </div>
             <div className="space-y-1">
-              <p className="font-semibold mb-2 text-slate-900 dark:text-slate-100">
+              <p className="mb-2 font-semibold text-slate-900 dark:text-slate-100">
                 Contacto
               </p>
               {contactItems.map((item) =>
@@ -157,8 +157,8 @@ export function VerticalFooter() {
                   </Link>
                 ),
               )}
-              <div className="space-y-1 mt-3">
-                <p className="font-semibold mb-2 text-slate-900 dark:text-slate-100">
+              <div className="mt-3 space-y-1">
+                <p className="mb-2 font-semibold text-slate-900 dark:text-slate-100">
                   Legal
                 </p>
                 {legalItems.map((item) => (
@@ -349,19 +349,27 @@ export function CapabilityGrid({
 
 export function ThemeSection({
   children,
+  className = "",
   variant = "plain",
 }: {
   children: ReactNode;
-  variant?: "plain" | "panel" | "deep";
+  className?: string;
+  variant?: "plain" | "panel" | "deep" | "transparent";
 }) {
-  const className =
+  const variantClassName =
     variant === "panel"
-      ? "border-y border-cyan-800/10 bg-[#e8f2f7] dark:border-cyan-300/10 dark:bg-[#081827]"
+      ? "border-y border-cyan-800/10 bg-[linear-gradient(135deg,rgba(222,237,243,0.74),rgba(237,246,249,0.34))] dark:border-cyan-300/10 dark:bg-[linear-gradient(135deg,rgba(3,9,22,0.74),rgba(8,24,39,0.48))] lg:bg-[#e8f2f7] lg:dark:bg-[#081827]"
       : variant === "deep"
-        ? "border-y border-cyan-800/10 bg-[#deedf3] dark:border-cyan-300/10 dark:bg-[#030916]"
-        : "bg-[#f4f9fc] dark:bg-[#06111f]";
+        ? "border-y border-cyan-800/10 bg-[linear-gradient(135deg,rgba(222,237,243,0.82),rgba(237,246,249,0.42))] dark:border-cyan-300/10 dark:bg-[linear-gradient(135deg,rgba(3,9,22,0.82),rgba(3,9,22,0.54))] lg:bg-[#deedf3] lg:dark:bg-[#030916]"
+        : variant === "transparent"
+          ? "bg-transparent relative"
+          : "bg-linear-to-br from-[#deedf3]/80 to-[#edf6f9]/30 dark:from-[#030916]/70 dark:to-[#030916]/30 lg:bg-[#f4f9fc] lg:dark:bg-[#06111f]";
 
-  return <section className={`${className} py-20`}>{children}</section>;
+  return (
+    <section className={`${variantClassName} ${className} py-20`}>
+      {children}
+    </section>
+  );
 }
 
 export function PageHero({

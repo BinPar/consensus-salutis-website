@@ -726,9 +726,9 @@ function ContactPanel({
 
 function MobileHome() {
   return (
-    <main className="relative z-10 bg-[#f4f9fc] lg:hidden dark:bg-[#06111f]">
+    <main className="relative z-10 bg-transparent lg:hidden">
       <section className="relative overflow-hidden border-b border-cyan-800/10 px-5 py-10 sm:py-16 dark:border-cyan-300/10">
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.1),transparent_30%,rgba(13,148,136,0.08)_72%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.12),transparent_30%,rgba(20,184,166,0.1)_72%,transparent)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.03),rgba(244,249,252,0.38)_10%,rgba(13,148,136,0.02)_60%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.01),rgba(6,17,31,0.42)_20%,rgba(20,184,166,0.01)_80%,transparent)]" />
         <ViewportReveal className="relative">
           <Eyebrow>IA médica institucional</Eyebrow>
           <h1 className="mt-3.5 text-4xl font-semibold tracking-tight text-[#05215e] sm:mt-6 sm:text-5xl dark:text-slate-50">
@@ -763,8 +763,9 @@ function MobileHome() {
         </div>
       </ThemeSection>
 
-      <ThemeSection variant="panel">
-        <div className="px-5">
+      <ThemeSection variant="transparent">
+         <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.03),rgba(244,249,252,0.38)_10%,rgba(13,148,136,0.02)_60%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.01),rgba(6,17,31,0.42)_20%,rgba(20,184,166,0.01)_80%,transparent)]" />
+        <div className="px-5 relative z-10">
           <ViewportReveal>
             <Eyebrow>Producto</Eyebrow>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
@@ -1133,7 +1134,7 @@ function StaggeredMetricGrid({
       {metrics.map((metric, index) => (
         <motion.div
           key={metric.label}
-          className="shadow-big-blocks flex flex-col items-center sm:block rounded-2xl border border-cyan-800/20 bg-white/30 p-3 sm:p-6 backdrop-blur-xs dark:border-cyan-300/20 dark:bg-white/3 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)] dark:backdrop-blur-sm"
+          className="shadow-big-blocks flex flex-col items-center rounded-2xl border border-cyan-800/20 bg-white/30 p-3 backdrop-blur-xs sm:block sm:p-6 dark:border-cyan-300/20 dark:bg-white/3 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)] dark:backdrop-blur-sm"
           variants={{
             hidden: { opacity: reducedMotion ? 1 : 0 },
             visible: {
@@ -1149,7 +1150,7 @@ function StaggeredMetricGrid({
             suffix={metric.suffix}
             value={metric.value}
           />
-          <p className="font-body mt-2 text-xs text-center sm:text-left sm:text-sm leading-5 sm:leading-6 text-slate-600 dark:text-slate-400">
+          <p className="font-body mt-2 text-center text-xs leading-5 text-slate-600 sm:text-left sm:text-sm sm:leading-6 dark:text-slate-400">
             {metric.label}
           </p>
         </motion.div>
@@ -1213,7 +1214,7 @@ function AnimatedMetricValue({
   return (
     <p
       // aria-label={formattedValue}
-      className="text-xl sm:text-3xl font-semibold text-cyan-800 dark:text-cyan-100"
+      className="text-xl font-semibold text-cyan-800 sm:text-3xl dark:text-cyan-100"
     >
       <span aria-hidden="true">
         {prefix}
