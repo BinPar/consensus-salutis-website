@@ -194,11 +194,19 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
   ].includes(stage);
   const showReferences = stage === "complete" || stage === "resetting";
   const isResetting = stage === "resetting";
+  const isComposing =
+    stage === "composing-first" || stage === "composing-follow-up";
+  const inputText =
+    stage === "composing-first"
+      ? question.slice(0, questionLength)
+      : stage === "composing-follow-up"
+        ? followUpQuestion.slice(0, followUpQuestionLength)
+        : "Consulta información clínica...";
 
   return (
     <motion.div
       className={`pointer-events-none relative overflow-hidden rounded-3xl border border-cyan-800/20 bg-white/30 dark:shadow-2xl shadow-big-blocks backdrop-blur-xs dark:backdrop-blur-sm select-none dark:border-cyan-300/20 dark:bg-white/3 dark:shadow-cyan-950/30 ${
-        compact ? "min-h-124" : "h-136"
+        compact ? "h-87.5" : "h-136"
       }`}
       aria-label="Demostración animada de Consensus Salutis"
       data-stage={stage}
@@ -413,24 +421,25 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
 
         <div className="shrink-0 border-t border-cyan-800/20 p-3 bg-white/40 dark:bg-transparent dark:border-cyan-300/20">
           <div
-            className={`font-body flex min-h-14 items-center rounded-2xl border px-3 text-sm transition ${
-              stage === "composing-first" || stage === "composing-follow-up"
+            className={`font-body flex items-center rounded-2xl border px-3 text-sm transition ${
+              compact
+                ? "h-14 overflow-hidden whitespace-nowrap"
+                : "min-h-14"
+            } ${
+              isComposing
                 ? "border-cyan-800/25 bg-white text-slate-700 dark:border-cyan-300/25 dark:bg-[#061a2a] dark:text-slate-300"
                 : "border-cyan-800/10 bg-slate-100/70 text-slate-700 dark:border-cyan-300/10 dark:bg-[#04111e]/70 dark:text-slate-600"
             }`}
           >
-            {stage === "composing-first"
-              ? question.slice(0, questionLength)
-              : stage === "composing-follow-up"
-                ? followUpQuestion.slice(0, followUpQuestionLength)
-                : "Consulta información clínica..."}
-            {(stage === "composing-first" ||
-              stage === "composing-follow-up") && (
+            <span className={compact ? "min-w-0 truncate" : undefined}>
+              {inputText}
+            </span>
+            {isComposing && (
               <span className="ml-0.5 inline-block h-3 w-px animate-pulse bg-primary-light align-middle dark:bg-cyan-300" />
             )}
             <span
               className={`ml-auto transition ${
-                stage === "composing-first" || stage === "composing-follow-up"
+                isComposing
                   ? "text-primary-light dark:text-cyan-300"
                   : "text-primary-light dark:text-cyan-300/50"
               }`}

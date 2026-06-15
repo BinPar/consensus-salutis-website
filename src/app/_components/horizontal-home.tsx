@@ -299,9 +299,9 @@ export function HorizontalHome() {
                   ]
                 }
               </p>
-              <div className="h-px flex-1 bg-primary-light/10 dark:bg-cyan-300/10">
+              <div className="bg-primary-light/10 h-px flex-1 dark:bg-cyan-300/10">
                 <motion.div
-                  className="h-px origin-left bg-primary-light shadow-[0_0_18px_rgba(34,211,238,0.55)] dark:bg-cyan-300"
+                  className="bg-primary-light h-px origin-left shadow-[0_0_18px_rgba(34,211,238,0.55)] dark:bg-cyan-300"
                   animate={{ scaleX: Math.max(progress, 0.07) }}
                   transition={{ type: "spring", stiffness: 180, damping: 28 }}
                 />
@@ -406,8 +406,7 @@ function VerticalPanel({
       );
       const visibility = visibleHeight / rect.height;
       const passedActivationPoint =
-        rect.bottom <= 0 ||
-        rect.top <= activationBottom - rect.height * 0.45;
+        rect.bottom <= 0 || rect.top <= activationBottom - rect.height * 0.45;
 
       if (
         (mode === "initial" && passedActivationPoint) ||
@@ -527,27 +526,79 @@ function MetricsPanel({
       panelRef={panelRef}
       layout={layout}
     >
-      <div className="max-w-5xl">
-        <Reveal visible={visible}>
-          <Eyebrow>KPIs operativos</Eyebrow>
-        </Reveal>
-        <Reveal visible={visible} delay={0.1}>
-          <h2 className="mt-4 max-w-4xl text-5xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
-            Volumen y actualización continua.
-          </h2>
-        </Reveal>
-        <Reveal visible={visible} delay={0.2}>
-          <p className="font-body mt-6 max-w-5xl text-lg leading-8 text-slate-600 dark:text-slate-400">
-            La plataforma combina una base de conocimiento médico estructurada
-            con guías clínicas y protocolos propios de cada organización. Los
-            contenidos pasan por procesos automatizados de ingesta, evaluación
-            mediante preguntas clave, validación clínica y publicación
-            controlada antes de incorporarse a las respuestas del sistema.
-          </p>
-        </Reveal>
-      </div>
+      <MetricsIntro visible={visible} />
       <StaggeredMetricGrid visible={visible} className="mt-10" />
     </Panel>
+  );
+}
+
+function MetricsIntro({
+  visible,
+  compact = false,
+}: {
+  visible?: boolean;
+  compact?: boolean;
+}) {
+  const content = (
+    <>
+      <Eyebrow>KPIs operativos</Eyebrow>
+      <h2
+        className={`mt-4 max-w-4xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50 ${
+          compact ? "text-3xl" : "text-5xl"
+        }`}
+      >
+        Volumen y actualización continua.
+      </h2>
+      <p
+        className={`font-body max-w-5xl text-slate-600 dark:text-slate-400 ${
+          compact
+            ? "mt-3.5 text-base leading-7 sm:mt-5"
+            : "mt-6 text-lg leading-8"
+        }`}
+      >
+        La plataforma combina una base de conocimiento médico estructurada con
+        guías clínicas y protocolos propios de cada organización. Los contenidos
+        pasan por procesos automatizados de ingesta, evaluación mediante
+        preguntas clave, validación clínica y publicación controlada antes de
+        incorporarse a las respuestas del sistema.
+      </p>
+    </>
+  );
+
+  if (visible === undefined) {
+    return <ViewportReveal>{content}</ViewportReveal>;
+  }
+
+  return (
+    <div className="max-w-5xl">
+      <Reveal visible={visible}>
+        <Eyebrow>KPIs operativos</Eyebrow>
+      </Reveal>
+      <Reveal visible={visible} delay={0.1}>
+        <h2
+          className={`mt-4 max-w-4xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50 ${
+            compact ? "text-3xl" : "text-5xl"
+          }`}
+        >
+          Volumen y actualización continua.
+        </h2>
+      </Reveal>
+      <Reveal visible={visible} delay={0.2}>
+        <p
+          className={`font-body max-w-5xl text-slate-600 dark:text-slate-400 ${
+            compact
+              ? "mt-3.5 text-base leading-7 sm:mt-5"
+              : "mt-6 text-lg leading-8"
+          }`}
+        >
+          La plataforma combina una base de conocimiento médico estructurada con
+          guías clínicas y protocolos propios de cada organización. Los
+          contenidos pasan por procesos automatizados de ingesta, evaluación
+          mediante preguntas clave, validación clínica y publicación controlada
+          antes de incorporarse a las respuestas del sistema.
+        </p>
+      </Reveal>
+    </div>
   );
 }
 
@@ -676,28 +727,40 @@ function ContactPanel({
 function MobileHome() {
   return (
     <main className="relative z-10 bg-[#f4f9fc] lg:hidden dark:bg-[#06111f]">
-      <section className="relative overflow-hidden border-b border-cyan-800/10 px-5 py-16 dark:border-cyan-300/10">
+      <section className="relative overflow-hidden border-b border-cyan-800/10 px-5 py-10 sm:py-16 dark:border-cyan-300/10">
         <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.1),transparent_30%,rgba(13,148,136,0.08)_72%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.12),transparent_30%,rgba(20,184,166,0.1)_72%,transparent)]" />
         <ViewportReveal className="relative">
           <Eyebrow>IA médica institucional</Eyebrow>
-          <h1 className="mt-6 text-5xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
+          <h1 className="mt-3.5 text-4xl font-semibold tracking-tight text-[#05215e] sm:mt-6 sm:text-5xl dark:text-slate-50">
             Conocimiento clínico gobernado por IA.
           </h1>
-          <p className="font-body mt-7 text-lg leading-8 text-slate-700 dark:text-slate-300">
+          <p className="font-body mt-3.5 text-base leading-7 text-slate-700 sm:mt-7 sm:text-lg sm:leading-8 dark:text-slate-300">
             Consensus Salutis convierte guías, protocolos y corpus médico en
             respuestas trazables para Atención Primaria.
           </p>
+          <div className="mt-7">
+            <ClinicalChatMock compact />
+          </div>
           <div className="mt-9">
             <CTAGroup />
-          </div>
-          <div className="mt-10">
-            <ClinicalChatMock compact />
           </div>
         </ViewportReveal>
       </section>
 
-      <ThemeSection variant="deep">
-        <StaggeredMetricGrid className="px-5" />
+      <ThemeSection>
+        <div className="px-5">
+          <ViewportReveal>
+            <Eyebrow>Proceso de consulta</Eyebrow>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
+              De la pregunta a la evidencia.
+            </h2>
+            <p className="font-body mt-3.5 text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
+              Consensus Salutis acompaña cada consulta hasta una respuesta
+              contrastada, referenciada y preparada para ser revisada.
+            </p>
+          </ViewportReveal>
+          <ClinicalProcess className="mt-10" />
+        </div>
       </ThemeSection>
 
       <ThemeSection variant="panel">
@@ -707,7 +770,7 @@ function MobileHome() {
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
               De documentos dispersos a la decisión informada.
             </h2>
-            <p className="font-body mt-5 text-base leading-7 text-slate-600 dark:text-slate-400">
+            <p className="font-body mt-3.5 text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
               La robustez de Consensus Salutis se construye sobre contenidos
               médicos revisados, infraestructura preparada para operar de forma
               continua y software que controla el ciclo de cada respuesta. Tres
@@ -715,23 +778,14 @@ function MobileHome() {
               continuidad.
             </p>
           </ViewportReveal>
-          <ProductPillars className="mt-10" />
+          <ProductPillars className="mt-8 lg:mt-10" />
         </div>
       </ThemeSection>
 
-      <ThemeSection>
+      <ThemeSection variant="deep">
         <div className="px-5">
-          <ViewportReveal>
-            <Eyebrow>Proceso de consulta</Eyebrow>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
-              De la pregunta a la evidencia.
-            </h2>
-            <p className="font-body mt-5 text-base leading-7 text-slate-600 dark:text-slate-400">
-              Consensus Salutis acompaña cada consulta hasta una respuesta
-              contrastada, referenciada y preparada para ser revisada.
-            </p>
-          </ViewportReveal>
-          <ClinicalProcess className="mt-10" />
+          <MetricsIntro compact />
+          <StaggeredMetricGrid className="mt-8" />
         </div>
       </ThemeSection>
 
@@ -742,7 +796,7 @@ function MobileHome() {
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
               Hablemos de tu organización sanitaria.
             </h2>
-            <p className="font-body mt-5 text-base leading-7 text-slate-600 dark:text-slate-400">
+            <p className="font-body mt-3.5 text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
               Revisamos caso de uso, restricciones de seguridad, requisitos de
               integración y el nivel de evidencia necesario.
             </p>
@@ -807,32 +861,89 @@ function ClinicalProcess({
         ))}
       </div>
 
-      <div className="relative space-y-10 pl-12 lg:hidden">
-        <div
-          aria-hidden="true"
-          className="absolute top-5 bottom-5 left-5 w-px bg-cyan-600/15 dark:bg-cyan-200/15"
-        />
-        <motion.div
-          aria-hidden="true"
-          className="absolute top-5 bottom-5 left-5 w-px origin-top bg-primary-light dark:bg-cyan-300"
-          variants={{
-            hidden: { scaleY: reducedMotion ? 1 : 0 },
-            visible: {
-              scaleY: 1,
-              transition: { duration: reducedMotion ? 0 : 1.35 },
-            },
-          }}
-        />
+      <div className="relative lg:hidden">
         {clinicalProcess.map((item, index) => (
-          <ProcessMilestone
+          <MobileProcessMilestone
             key={item.step}
             item={item}
             index={index}
+            last={index === clinicalProcess.length - 1}
             reducedMotion={reducedMotion}
           />
         ))}
       </div>
     </motion.div>
+  );
+}
+
+function MobileProcessMilestone({
+  item,
+  index,
+  last,
+  reducedMotion,
+}: {
+  item: (typeof clinicalProcess)[number];
+  index: number;
+  last: boolean;
+  reducedMotion: boolean | null;
+}) {
+  const nodeDelay = reducedMotion ? 0 : [0, 0.72, 1.44, 2.16, 2.88][index];
+  const connectorDelay = reducedMotion ? 0 : [0.16, 0.88, 1.6, 2.32, 0][index];
+
+  return (
+    <motion.article
+      className="grid grid-cols-[4.5rem_1fr]"
+      variants={{
+        hidden: { opacity: reducedMotion ? 1 : 0 },
+        visible: {
+          opacity: 1,
+          transition: {
+            delay: nodeDelay,
+            duration: reducedMotion ? 0 : 0.32,
+          },
+        },
+      }}
+    >
+      <div className="relative flex justify-center">
+        <span className="border-primary-light relative z-10 grid size-10 place-items-center rounded-full border bg-white/50 text-xs font-semibold text-cyan-800 shadow-sm backdrop-blur-sm dark:border-cyan-300 dark:bg-[#06111f] dark:text-cyan-100 dark:shadow-[0_0_18px_rgba(103,232,249,0.18)]">
+          {item.step}
+        </span>
+        {!last ? (
+          <>
+            <span
+              aria-hidden="true"
+              className="absolute top-10 bottom-0 left-1/2 w-px -translate-x-1/2 bg-cyan-600/15 dark:bg-cyan-200/15"
+            />
+            <motion.span
+              aria-hidden="true"
+              className="bg-primary-light absolute top-10 bottom-0 left-1/2 w-px origin-top -translate-x-1/2 dark:bg-cyan-300"
+              variants={{
+                hidden: { scaleY: reducedMotion ? 1 : 0 },
+                visible: {
+                  scaleY: 1,
+                  transition: {
+                    delay: connectorDelay,
+                    duration: reducedMotion ? 0 : 0.58,
+                    ease: "easeInOut",
+                  },
+                },
+              }}
+            />
+          </>
+        ) : null}
+      </div>
+      <div className={last ? "pb-0" : "pb-6"}>
+        <h3 className="mt-1 text-base font-semibold text-[#05215e] dark:text-slate-100">
+          {item.title}
+        </h3>
+        <p className="font-body mt-2 min-h-12 text-sm leading-6 text-slate-600 dark:text-slate-400">
+          {item.body}
+        </p>
+        <p className="text-primary-light mt-2 text-[10px] font-semibold tracking-[0.12em] uppercase dark:text-cyan-300">
+          {item.signal}
+        </p>
+      </div>
+    </motion.article>
   );
 }
 
@@ -873,7 +984,7 @@ function ProcessMilestone({
       {desktop && connector ? (
         <motion.span
           aria-hidden="true"
-          className={`absolute z-0 origin-left border-t border-primary-light dark:border-cyan-300 ${
+          className={`border-primary-light absolute z-0 origin-left border-t dark:border-cyan-300 ${
             compact
               ? "top-4 left-4 w-[calc(100%+2.5rem)]"
               : "top-5 left-5 w-[calc(100%+3.5rem)]"
@@ -892,7 +1003,7 @@ function ProcessMilestone({
         />
       ) : null}
       <span
-        className={`relative z-10 grid shrink-0 place-items-center rounded-full border border-primary-light bg-white/50 backdrop-blur-sm font-semibold text-cyan-800 shadow-sm dark:border-cyan-300 dark:bg-[#06111f] dark:text-cyan-100 dark:shadow-[0_0_18px_rgba(103,232,249,0.18)] ${
+        className={`border-primary-light relative z-10 grid shrink-0 place-items-center rounded-full border bg-white/50 font-semibold text-cyan-800 shadow-sm backdrop-blur-sm dark:border-cyan-300 dark:bg-[#06111f] dark:text-cyan-100 dark:shadow-[0_0_18px_rgba(103,232,249,0.18)] ${
           compact ? "size-8 text-[10px]" : "size-10 text-xs"
         } ${desktop ? "" : "absolute top-0 -left-12"}`}
       >
@@ -908,7 +1019,7 @@ function ProcessMilestone({
       >
         {item.body}
       </p>
-      <p className="mt-2 text-[10px] font-semibold tracking-[0.12em] text-primary-light uppercase dark:text-cyan-300">
+      <p className="text-primary-light mt-2 text-[10px] font-semibold tracking-[0.12em] uppercase dark:text-cyan-300">
         {item.signal}
       </p>
     </motion.article>
@@ -947,12 +1058,12 @@ function ProductPillars({
       }}
     >
       <div
-        className={`grid ${compact ? "lg:gap-10" : "lg:gap-10"} lg:grid-cols-3`}
+        className={`grid ${compact ? "lg:gap-10" : "md:gap-4 lg:gap-10"} md:grid-cols-3`}
       >
         {productPillars.map((pillar) => (
           <motion.article
             key={pillar.name}
-            className={`relative ${compact ? "py-4" : "py-6"}`}
+            className={`relative ${compact ? "py-4" : "py-4 sm:py-6"}`}
             variants={{
               hidden: { opacity: reducedMotion ? 1 : 0 },
               visible: {
@@ -973,7 +1084,7 @@ function ProductPillars({
               </div>
             </div>
             <p
-              className={`${compact ? "mt-3" : "mt-5"} border-b border-primary-light pt-4 pb-3 text-xs font-semibold tracking-[0.18em] text-primary-light uppercase dark:border-cyan-300/20 dark:text-cyan-300`}
+              className={`${compact ? "mt-3" : "mt-1 lg:mt-5"} border-primary-light text-primary-light shrink-0 border-b pt-4 pb-3 text-xs font-semibold tracking-[0.13em] uppercase lg:tracking-[0.18em] dark:border-cyan-300/20 dark:text-cyan-300`}
             >
               {pillar.role}
             </p>
@@ -1003,7 +1114,7 @@ function StaggeredMetricGrid({
 
   return (
     <motion.div
-      className={`grid gap-8 sm:grid-cols-2 lg:grid-cols-4 ${className}`}
+      className={`grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-4 lg:gap-8 ${className}`}
       initial={reducedMotion ? "visible" : "hidden"}
       animate={shown ? "visible" : "hidden"}
       onViewportEnter={() => setInViewport(true)}
@@ -1022,7 +1133,7 @@ function StaggeredMetricGrid({
       {metrics.map((metric, index) => (
         <motion.div
           key={metric.label}
-          className="rounded-2xl border border-cyan-800/20 bg-white/30 p-6 shadow-big-blocks dark:shadow-[0_0_18px_rgba(103,232,249,0.08)] backdrop-blur-xs dark:backdrop-blur-sm dark:border-cyan-300/20 dark:bg-white/3"
+          className="shadow-big-blocks flex flex-col items-center sm:block rounded-2xl border border-cyan-800/20 bg-white/30 p-3 sm:p-6 backdrop-blur-xs dark:border-cyan-300/20 dark:bg-white/3 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)] dark:backdrop-blur-sm"
           variants={{
             hidden: { opacity: reducedMotion ? 1 : 0 },
             visible: {
@@ -1038,7 +1149,7 @@ function StaggeredMetricGrid({
             suffix={metric.suffix}
             value={metric.value}
           />
-          <p className="font-body mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">
+          <p className="font-body mt-2 text-xs text-center sm:text-left sm:text-sm leading-5 sm:leading-6 text-slate-600 dark:text-slate-400">
             {metric.label}
           </p>
         </motion.div>
@@ -1102,7 +1213,7 @@ function AnimatedMetricValue({
   return (
     <p
       // aria-label={formattedValue}
-      className="text-3xl font-semibold text-cyan-800 dark:text-cyan-100"
+      className="text-xl sm:text-3xl font-semibold text-cyan-800 dark:text-cyan-100"
     >
       <span aria-hidden="true">
         {prefix}
