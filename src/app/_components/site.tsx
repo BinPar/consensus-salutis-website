@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { forwardRef } from "react";
 import type { ReactNode } from "react";
 
 import { ClinicalChatMock } from "~/app/_components/clinical-chat-mock";
@@ -7,8 +8,6 @@ import { FooterBandMenu } from "~/app/_components/footer-band-menu";
 import { ThemeToggle } from "~/app/_components/theme-toggle";
 import {
   HomeMotionBackground,
-  HomeTransitionShell,
-  MotionLink,
   MotionSurface,
 } from "~/app/_components/motion-system";
 
@@ -213,20 +212,18 @@ export function HomeShell({
   vertical?: boolean;
 }) {
   return (
-    <HomeTransitionShell>
-      <div
-        className={`relative isolate bg-[#f4f9fc] dark:bg-[#06111f] ${
-          vertical
-            ? "min-h-screen"
-            : "lg:flex lg:h-screen lg:flex-col lg:overflow-hidden"
-        }`}
-      >
-        <HomeMotionBackground />
-        <SiteHeader />
-        {children}
-        {vertical ? <VerticalFooter /> : <HomeFooterBand />}
-      </div>
-    </HomeTransitionShell>
+    <div
+      className={`relative isolate bg-[#f4f9fc] dark:bg-[#06111f] ${
+        vertical
+          ? "min-h-screen"
+          : "lg:flex lg:h-screen lg:flex-col lg:overflow-hidden"
+      }`}
+    >
+      <HomeMotionBackground />
+      <SiteHeader />
+      {children}
+      {vertical ? <VerticalFooter /> : <HomeFooterBand />}
+    </div>
   );
 }
 
@@ -241,18 +238,18 @@ export function Eyebrow({ children }: { children: ReactNode }) {
 export function CTAGroup() {
   return (
     <div className="flex flex-col gap-3 sm:flex-row">
-      <MotionLink
+      <Link
         href="/contacto"
         className="bg-primary-light rounded-full px-5 py-3 text-center text-sm font-semibold text-white shadow-md transition hover:bg-cyan-800 dark:bg-cyan-300 dark:text-[#04111e] dark:shadow-[0_0_34px_rgba(45,212,191,0.26)] dark:hover:bg-cyan-200"
       >
         Solicitar reunión
-      </MotionLink>
-      <MotionLink
+      </Link>
+      <Link
         href="/plataforma"
         className="border-primary-light/25 hover:border-primary-light/45 rounded-full border bg-white/65 px-5 py-3 text-center text-sm font-semibold text-cyan-800 backdrop-blur-sm transition hover:bg-cyan-50 dark:border-cyan-300/30 dark:bg-white/3 dark:text-cyan-50 dark:hover:border-cyan-200/50 dark:hover:bg-cyan-300/10"
       >
         Probar plataforma
-      </MotionLink>
+      </Link>
     </div>
   );
 }
@@ -347,15 +344,14 @@ export function CapabilityGrid({
   );
 }
 
-export function ThemeSection({
-  children,
-  className = "",
-  variant = "plain",
-}: {
-  children: ReactNode;
-  className?: string;
-  variant?: "plain" | "panel" | "deep" | "transparent";
-}) {
+export const ThemeSection = forwardRef<
+  HTMLElement,
+  {
+    children: ReactNode;
+    className?: string;
+    variant?: "plain" | "panel" | "deep" | "transparent";
+  }
+>(function ThemeSection({ children, className = "", variant = "plain" }, ref) {
   const variantClassName =
     variant === "panel"
       ? "border-y border-cyan-800/10 bg-[linear-gradient(135deg,rgba(222,237,243,0.74),rgba(237,246,249,0.34))] dark:border-cyan-300/10 dark:bg-[linear-gradient(135deg,rgba(3,9,22,0.74),rgba(8,24,39,0.48))] lg:bg-[#e8f2f7] lg:dark:bg-[#081827]"
@@ -366,11 +362,11 @@ export function ThemeSection({
           : "bg-linear-to-br from-[#deedf3]/80 to-[#edf6f9]/30 dark:from-[#030916]/70 dark:to-[#030916]/30 lg:bg-[#f4f9fc] lg:dark:bg-[#06111f]";
 
   return (
-    <section className={`${variantClassName} ${className} py-20`}>
+    <section ref={ref} className={`${variantClassName} ${className} py-20`}>
       {children}
     </section>
   );
-}
+});
 
 export function PageHero({
   eyebrow,

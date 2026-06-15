@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import {
   CTAGroup,
@@ -109,10 +109,74 @@ const panels = [
   "Atención Primaria",
   "Reunión",
 ];
+const mobilePanelOrder = [0, 3, 2, 1, 4] as const;
 
 type DesktopLayout = "horizontal" | "vertical";
 type PanelHeight = "natural" | "viewport";
 type PanelRef = (node: HTMLElement | null) => void;
+
+function usePassedViewport(amount: number) {
+  const elementRef = useRef<HTMLDivElement | null>(null);
+  const previousScrollY = useRef(0);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    previousScrollY.current = window.scrollY;
+
+    const updateVisibility = (mode: "initial" | "scroll" = "scroll") => {
+      const element = elementRef.current;
+
+      if (!element) return;
+
+      const currentScrollY = window.scrollY;
+      const scrollingDown = currentScrollY > previousScrollY.current;
+      const scrollingUp = currentScrollY < previousScrollY.current;
+      const rect = element.getBoundingClientRect();
+      if (rect.height === 0) return;
+
+      const activationBottom = window.innerHeight * 0.85;
+      const visibleHeight = Math.max(
+        0,
+        Math.min(rect.bottom, activationBottom) - Math.max(rect.top, 0),
+      );
+      const visibility = visibleHeight / rect.height;
+      const passedActivationPoint =
+        rect.bottom <= 0 || rect.top <= activationBottom - rect.height * amount;
+
+      if (
+        (mode === "initial" && passedActivationPoint) ||
+        (scrollingDown && (rect.bottom <= 0 || visibility >= amount))
+      ) {
+        setVisible(true);
+      }
+
+      if (scrollingUp && rect.top >= activationBottom) {
+        setVisible(false);
+      }
+
+      previousScrollY.current = currentScrollY;
+    };
+
+    const handleScroll = () => updateVisibility("scroll");
+    const handleResize = () => updateVisibility("initial");
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleResize);
+
+    updateVisibility("initial");
+    const frameId = window.requestAnimationFrame(() =>
+      updateVisibility("initial"),
+    );
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [amount]);
+
+  return [elementRef, visible] as const;
+}
 
 export function HorizontalHome() {
   const railRef = useRef<HTMLDivElement>(null);
@@ -123,6 +187,22 @@ export function HorizontalHome() {
     () => new Set([0]),
   );
   const reducedMotion = useReducedMotion();
+  const revealPanelsThrough = useCallback((panelIndex: number) => {
+    setRevealedPanels((current) => {
+      const next = new Set(current);
+      const orderIndex = mobilePanelOrder.indexOf(
+        panelIndex as (typeof mobilePanelOrder)[number],
+      );
+
+      if (orderIndex === -1) return next;
+
+      mobilePanelOrder.slice(0, orderIndex + 1).forEach((index) => {
+        next.add(index);
+      });
+
+      return next;
+    });
+  }, []);
 
   useEffect(() => {
     const rail = railRef.current;
@@ -314,16 +394,36 @@ export function HorizontalHome() {
         </section>
       </main>
 
-      <MobileHome />
+      <MobileHome onPanelReveal={revealPanelsThrough} />
     </>
   );
 }
 
 export function VerticalHome() {
+  const [revealedPanels, setRevealedPanels] = useState<Set<number>>(
+    () => new Set([0]),
+  );
+  const revealPanelsThrough = useCallback((panelIndex: number) => {
+    setRevealedPanels((current) => {
+      const next = new Set(current);
+      const orderIndex = mobilePanelOrder.indexOf(
+        panelIndex as (typeof mobilePanelOrder)[number],
+      );
+
+      if (orderIndex === -1) return next;
+
+      mobilePanelOrder.slice(0, orderIndex + 1).forEach((index) => {
+        next.add(index);
+      });
+
+      return next;
+    });
+  }, []);
+
   return (
     <>
       <main className="relative z-10 hidden lg:block">
-        <VerticalPanel initiallyVisible>
+        <VerticalPanel initiallyVisible={revealedPanels.has(0)}>
           {(visible, panelRef) => (
             <HeroPanel
               layout="vertical"
@@ -332,7 +432,7 @@ export function VerticalHome() {
             />
           )}
         </VerticalPanel>
-        <VerticalPanel>
+        <VerticalPanel initiallyVisible={revealedPanels.has(3)}>
           {(visible, panelRef) => (
             <PrimaryCarePanel
               layout="vertical"
@@ -341,7 +441,7 @@ export function VerticalHome() {
             />
           )}
         </VerticalPanel>
-        <VerticalPanel>
+        <VerticalPanel initiallyVisible={revealedPanels.has(2)}>
           {(visible, panelRef) => (
             <ArchitecturePanel
               layout="vertical"
@@ -351,7 +451,7 @@ export function VerticalHome() {
           )}
         </VerticalPanel>
 
-        <VerticalPanel>
+        <VerticalPanel initiallyVisible={revealedPanels.has(1)}>
           {(visible, panelRef) => (
             <MetricsPanel
               layout="vertical"
@@ -360,7 +460,7 @@ export function VerticalHome() {
             />
           )}
         </VerticalPanel>
-        <VerticalPanel>
+        <VerticalPanel initiallyVisible={revealedPanels.has(4)}>
           {(visible, panelRef) => (
             <ContactPanel
               layout="vertical"
@@ -371,7 +471,7 @@ export function VerticalHome() {
         </VerticalPanel>
       </main>
 
-      <MobileHome />
+      <MobileHome onPanelReveal={revealPanelsThrough} />
     </>
   );
 }
@@ -386,6 +486,12 @@ function VerticalPanel({
   const panelRef = useRef<HTMLElement | null>(null);
   const previousScrollY = useRef(0);
   const [visible, setVisible] = useState(initiallyVisible);
+
+  useEffect(() => {
+    if (initiallyVisible) {
+      setVisible(true);
+    }
+  }, [initiallyVisible]);
 
   useEffect(() => {
     previousScrollY.current = window.scrollY;
@@ -724,10 +830,60 @@ function ContactPanel({
   );
 }
 
-function MobileHome() {
+function MobileHome({
+  onPanelReveal,
+}: {
+  onPanelReveal?: (panelIndex: number) => void;
+}) {
+  const sectionRefs = useRef<Array<HTMLElement | null>>([]);
+
+  useEffect(() => {
+    const updateRevealedPanels = () => {
+      const mobileQuery = window.matchMedia("(max-width: 1023.98px)");
+
+      if (!mobileQuery.matches) return;
+
+      const activationBottom = window.innerHeight * 0.85;
+
+      sectionRefs.current.forEach((section, sectionIndex) => {
+        if (!section) return;
+
+        const panelIndex = mobilePanelOrder[sectionIndex];
+        if (panelIndex === undefined) return;
+
+        const rect = section.getBoundingClientRect();
+        if (rect.height === 0) return;
+
+        const hasPassedActivationPoint =
+          rect.bottom <= 0 || rect.top <= activationBottom;
+
+        if (hasPassedActivationPoint) {
+          onPanelReveal?.(panelIndex);
+        }
+      });
+    };
+
+    window.addEventListener("scroll", updateRevealedPanels, { passive: true });
+    window.addEventListener("resize", updateRevealedPanels);
+
+    updateRevealedPanels();
+    const frameId = window.requestAnimationFrame(updateRevealedPanels);
+
+    return () => {
+      window.cancelAnimationFrame(frameId);
+      window.removeEventListener("scroll", updateRevealedPanels);
+      window.removeEventListener("resize", updateRevealedPanels);
+    };
+  }, [onPanelReveal]);
+
   return (
     <main className="relative z-10 bg-transparent lg:hidden">
-      <section className="relative overflow-hidden border-b border-cyan-800/10 px-5 py-10 sm:py-16 dark:border-cyan-300/10">
+      <section
+        ref={(node) => {
+          sectionRefs.current[0] = node;
+        }}
+        className="relative overflow-hidden border-b border-cyan-800/10 px-5 py-10 sm:py-16 dark:border-cyan-300/10"
+      >
         <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.03),rgba(244,249,252,0.38)_10%,rgba(13,148,136,0.02)_60%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.01),rgba(6,17,31,0.42)_20%,rgba(20,184,166,0.01)_80%,transparent)]" />
         <ViewportReveal className="relative">
           <Eyebrow>IA médica institucional</Eyebrow>
@@ -747,7 +903,11 @@ function MobileHome() {
         </ViewportReveal>
       </section>
 
-      <ThemeSection>
+      <ThemeSection
+        ref={(node) => {
+          sectionRefs.current[1] = node;
+        }}
+      >
         <div className="px-5">
           <ViewportReveal>
             <Eyebrow>Proceso de consulta</Eyebrow>
@@ -763,9 +923,14 @@ function MobileHome() {
         </div>
       </ThemeSection>
 
-      <ThemeSection variant="transparent">
-         <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.03),rgba(244,249,252,0.38)_10%,rgba(13,148,136,0.02)_60%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.01),rgba(6,17,31,0.42)_20%,rgba(20,184,166,0.01)_80%,transparent)]" />
-        <div className="px-5 relative z-10">
+      <ThemeSection
+        ref={(node) => {
+          sectionRefs.current[2] = node;
+        }}
+        variant="transparent"
+      >
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.03),rgba(244,249,252,0.38)_10%,rgba(13,148,136,0.02)_60%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.01),rgba(6,17,31,0.42)_20%,rgba(20,184,166,0.01)_80%,transparent)]" />
+        <div className="relative z-10 px-5">
           <ViewportReveal>
             <Eyebrow>Producto</Eyebrow>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
@@ -783,14 +948,24 @@ function MobileHome() {
         </div>
       </ThemeSection>
 
-      <ThemeSection variant="deep">
+      <ThemeSection
+        ref={(node) => {
+          sectionRefs.current[3] = node;
+        }}
+        variant="deep"
+      >
         <div className="px-5">
           <MetricsIntro compact />
           <StaggeredMetricGrid className="mt-8" />
         </div>
       </ThemeSection>
 
-      <ThemeSection variant="deep">
+      <ThemeSection
+        ref={(node) => {
+          sectionRefs.current[4] = node;
+        }}
+        variant="deep"
+      >
         <div className="px-5">
           <ViewportReveal>
             <Eyebrow>Contacto</Eyebrow>
@@ -819,15 +994,15 @@ function ClinicalProcess({
   compact?: boolean;
 }) {
   const reducedMotion = useReducedMotion();
-  const show = reducedMotion ? true : visible;
+  const [viewportRef, inViewport] = usePassedViewport(0.25);
+  const show = reducedMotion ? true : (visible ?? inViewport);
   const sharedAnimation = {
     initial: reducedMotion ? "visible" : "hidden",
-    animate: visible === undefined ? undefined : show ? "visible" : "hidden",
-    whileInView: visible === undefined ? "visible" : undefined,
-    viewport: { amount: 0.25, once: true },
+    animate: show ? "visible" : "hidden",
   } as const;
   return (
     <motion.div
+      ref={viewportRef}
       {...sharedAnimation}
       className={`relative ${className}`}
       variants={{
@@ -1037,16 +1212,16 @@ function ProductPillars({
   compact?: boolean;
 }) {
   const reducedMotion = useReducedMotion();
-  const show = reducedMotion ? true : visible;
+  const [viewportRef, inViewport] = usePassedViewport(0.35);
+  const show = reducedMotion ? true : (visible ?? inViewport);
   const sharedAnimation = {
     initial: reducedMotion ? "visible" : "hidden",
-    animate: visible === undefined ? undefined : show ? "visible" : "hidden",
-    whileInView: visible === undefined ? "visible" : undefined,
-    viewport: { amount: 0.35, once: true },
+    animate: show ? "visible" : "hidden",
   } as const;
 
   return (
     <motion.div
+      ref={viewportRef}
       {...sharedAnimation}
       className={`relative ${className}`}
       variants={{
@@ -1109,18 +1284,16 @@ function StaggeredMetricGrid({
   className?: string;
 }) {
   const reducedMotion = useReducedMotion();
-  const [inViewport, setInViewport] = useState(false);
+  const [viewportRef, inViewport] = usePassedViewport(0.3);
   const shown = reducedMotion ? true : (visible ?? inViewport);
   const countersActive = reducedMotion ? true : shown;
 
   return (
     <motion.div
+      ref={viewportRef}
       className={`grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-4 lg:gap-8 ${className}`}
       initial={reducedMotion ? "visible" : "hidden"}
       animate={shown ? "visible" : "hidden"}
-      onViewportEnter={() => setInViewport(true)}
-      onViewportLeave={() => setInViewport(false)}
-      viewport={{ amount: 0.3 }}
       variants={{
         hidden: {},
         visible: {
