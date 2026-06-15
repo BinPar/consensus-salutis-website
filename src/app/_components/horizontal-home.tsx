@@ -102,14 +102,57 @@ const clinicalProcess = [
   },
 ];
 
+const successCases = [
+  {
+    name: "Axia",
+    organization: "Generalitat de Catalunya",
+    logo: "/logos/Axia.svg",
+    darkLogo: "/logos/axia-white.svg",
+    logoWidth: 158,
+    logoHeight: 48,
+  },
+  {
+    name: "SERMAS",
+    organization: "Servicio Madrileño de Salud",
+    logo: "/logos/sermas-lite.svg",
+    darkLogo: null,
+    logoWidth: 499,
+    logoHeight: 116,
+  },
+];
+
+const sharedSuccessBenefits = [
+  {
+    number: "01",
+    title: "Acceso rápido a conocimiento clínico fiable",
+    body: "Consultas conversacionales sobre guías, protocolos y literatura científica seleccionada para el contexto asistencial.",
+  },
+  {
+    number: "02",
+    title: "Decisiones respaldadas por evidencia visible",
+    body: "Respuestas trazables que permiten revisar las fuentes utilizadas y contrastar cada conclusión.",
+  },
+  {
+    number: "03",
+    title: "Más tiempo para la atención asistencial",
+    body: "Menos esfuerzo dedicado a localizar y contrastar información para responder con mayor agilidad.",
+  },
+  {
+    number: "04",
+    title: "Mejora continua desde la práctica real",
+    body: "El uso profesional ayuda a revisar contenidos, detectar necesidades y reforzar la calidad de las respuestas.",
+  },
+];
+
 const panels = [
   "Inicio",
-  "Métricas",
-  "Arquitectura",
+  "Casos de éxito",
   "Atención Primaria",
+  "Arquitectura",
+  "Métricas",
   "Reunión",
 ];
-const mobilePanelOrder = [0, 3, 2, 1, 4] as const;
+const mobilePanelOrder = [0, 1, 2, 3, 4, 5] as const;
 
 type DesktopLayout = "horizontal" | "vertical";
 type PanelHeight = "natural" | "viewport";
@@ -339,30 +382,36 @@ export function HorizontalHome() {
                 visible={revealedPanels.has(0)}
               />
 
-              <PrimaryCarePanel
-                panelRef={(node) => {
-                  panelRefs.current[3] = node;
-                }}
-                visible={revealedPanels.has(3)}
-              />
-              <ArchitecturePanel
-                panelRef={(node) => {
-                  panelRefs.current[2] = node;
-                }}
-                visible={revealedPanels.has(2)}
-              />
-              <MetricsPanel
+              <SuccessCasesPanel
                 panelRef={(node) => {
                   panelRefs.current[1] = node;
                 }}
                 visible={revealedPanels.has(1)}
               />
-
-              <ContactPanel
+              <PrimaryCarePanel
+                panelRef={(node) => {
+                  panelRefs.current[2] = node;
+                }}
+                visible={revealedPanels.has(2)}
+              />
+              <ArchitecturePanel
+                panelRef={(node) => {
+                  panelRefs.current[3] = node;
+                }}
+                visible={revealedPanels.has(3)}
+              />
+              <MetricsPanel
                 panelRef={(node) => {
                   panelRefs.current[4] = node;
                 }}
                 visible={revealedPanels.has(4)}
+              />
+
+              <ContactPanel
+                panelRef={(node) => {
+                  panelRefs.current[5] = node;
+                }}
+                visible={revealedPanels.has(5)}
               />
             </div>
           </div>
@@ -432,7 +481,16 @@ export function VerticalHome() {
             />
           )}
         </VerticalPanel>
-        <VerticalPanel initiallyVisible={revealedPanels.has(3)}>
+        <VerticalPanel initiallyVisible={revealedPanels.has(1)}>
+          {(visible, panelRef) => (
+            <SuccessCasesPanel
+              layout="vertical"
+              panelRef={panelRef}
+              visible={visible}
+            />
+          )}
+        </VerticalPanel>
+        <VerticalPanel initiallyVisible={revealedPanels.has(2)}>
           {(visible, panelRef) => (
             <PrimaryCarePanel
               layout="vertical"
@@ -441,7 +499,7 @@ export function VerticalHome() {
             />
           )}
         </VerticalPanel>
-        <VerticalPanel initiallyVisible={revealedPanels.has(2)}>
+        <VerticalPanel initiallyVisible={revealedPanels.has(3)}>
           {(visible, panelRef) => (
             <ArchitecturePanel
               layout="vertical"
@@ -451,7 +509,7 @@ export function VerticalHome() {
           )}
         </VerticalPanel>
 
-        <VerticalPanel initiallyVisible={revealedPanels.has(1)}>
+        <VerticalPanel initiallyVisible={revealedPanels.has(4)}>
           {(visible, panelRef) => (
             <MetricsPanel
               layout="vertical"
@@ -460,7 +518,7 @@ export function VerticalHome() {
             />
           )}
         </VerticalPanel>
-        <VerticalPanel initiallyVisible={revealedPanels.has(4)}>
+        <VerticalPanel initiallyVisible={revealedPanels.has(5)}>
           {(visible, panelRef) => (
             <ContactPanel
               layout="vertical"
@@ -634,6 +692,47 @@ function MetricsPanel({
     >
       <MetricsIntro visible={visible} />
       <StaggeredMetricGrid visible={visible} className="mt-10" />
+    </Panel>
+  );
+}
+
+function SuccessCasesPanel({
+  visible,
+  panelRef,
+  layout = "horizontal",
+}: {
+  visible: boolean;
+  panelRef: PanelRef;
+  layout?: DesktopLayout;
+}) {
+  return (
+    <Panel
+      className="bg-linear-to-br from-[#deedf3]/80 to-[#edf6f9]/30 dark:from-[#030916]/70 dark:to-[#030916]/30"
+      panelRef={panelRef}
+      layout={layout}
+    >
+      <div className="max-w-5xl">
+        <Reveal visible={visible}>
+          <Eyebrow>Casos de éxito</Eyebrow>
+        </Reveal>
+        <Reveal visible={visible} delay={0.1}>
+          <h2 className="mt-4 text-5xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
+            Nuestros casos en el sistema sanitario.
+          </h2>
+        </Reveal>
+        <Reveal visible={visible} delay={0.2}>
+          <p className="font-body mt-5 max-w-5xl text-lg leading-8 text-slate-600 dark:text-slate-400">
+            Dos servicios sanitarios que incorporan inteligencia artificial
+            clínica para facilitar el acceso a evidencia, optimizar procesos y
+            reforzar la mejora continua.
+          </p>
+        </Reveal>
+      </div>
+      <SuccessCases
+        visible={visible}
+        compact={layout === "horizontal"}
+        className={layout === "horizontal" ? "mt-6" : "mt-10"}
+      />
     </Panel>
   );
 }
@@ -907,6 +1006,28 @@ function MobileHome({
         ref={(node) => {
           sectionRefs.current[1] = node;
         }}
+        variant="panel"
+      >
+        <div className="px-5">
+          <ViewportReveal>
+            <Eyebrow>Casos de éxito</Eyebrow>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
+              Nuestro conocimiento clínico en el sistema sanitario.
+            </h2>
+            <p className="font-body mt-3.5 text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
+              Dos servicios sanitarios que incorporan inteligencia artificial
+              clínica para facilitar el acceso a evidencia, optimizar procesos y
+              reforzar la mejora continua.
+            </p>
+          </ViewportReveal>
+          <SuccessCases className="mt-8" />
+        </div>
+      </ThemeSection>
+
+      <ThemeSection
+        ref={(node) => {
+          sectionRefs.current[2] = node;
+        }}
       >
         <div className="px-5">
           <ViewportReveal>
@@ -925,7 +1046,7 @@ function MobileHome({
 
       <ThemeSection
         ref={(node) => {
-          sectionRefs.current[2] = node;
+          sectionRefs.current[3] = node;
         }}
         variant="transparent"
       >
@@ -950,7 +1071,7 @@ function MobileHome({
 
       <ThemeSection
         ref={(node) => {
-          sectionRefs.current[3] = node;
+          sectionRefs.current[4] = node;
         }}
         variant="deep"
       >
@@ -962,7 +1083,7 @@ function MobileHome({
 
       <ThemeSection
         ref={(node) => {
-          sectionRefs.current[4] = node;
+          sectionRefs.current[5] = node;
         }}
         variant="deep"
       >
@@ -981,6 +1102,113 @@ function MobileHome({
         </div>
       </ThemeSection>
     </main>
+  );
+}
+
+function SuccessCases({
+  visible,
+  className = "",
+  compact = false,
+}: {
+  visible?: boolean;
+  className?: string;
+  compact?: boolean;
+}) {
+  const reducedMotion = useReducedMotion();
+  const [viewportRef, inViewport] = usePassedViewport(0.3);
+  const show = reducedMotion ? true : (visible ?? inViewport);
+
+  return (
+    <motion.div
+      ref={viewportRef}
+      className={className}
+      initial={reducedMotion ? "visible" : "hidden"}
+      animate={show ? "visible" : "hidden"}
+      variants={{
+        hidden: {},
+        visible: {
+          transition: {
+            staggerChildren: reducedMotion ? 0 : 0.18,
+          },
+        },
+      }}
+    >
+      <div className="flex flex-col gap-8">
+        <motion.div className="grid w-full gap-3 sm:grid-cols-2 md:gap-6 lg:min-w-125 lg:flex-1 dark:border-cyan-300/15">
+          {successCases.map((item, index) => (
+            <motion.div
+              key={item.name}
+              className="shadow-big-blocks flex min-w-0 flex-col items-center rounded-2xl border border-cyan-800/15 bg-white/30 px-5 py-3 backdrop-blur-xs dark:border-cyan-300/15 dark:bg-white/3 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)]"
+              initial={{ opacity: reducedMotion ? 1 : 0 }}
+              animate={{ opacity: show ? 1 : 0 }}
+              transition={{
+                duration: reducedMotion ? 0 : 0.4,
+                delay: show && !reducedMotion ? index * 0.18 : 0,
+              }}
+            >
+              <div className="flex h-14 items-center justify-start">
+                <Image
+                  src={item.logo}
+                  alt={item.name}
+                  width={item.logoWidth}
+                  height={item.logoHeight}
+                  className={`max-h-9 w-full object-contain object-left ${
+                    item.darkLogo
+                      ? "dark:hidden"
+                      : "dark:brightness-0 dark:invert"
+                  }`}
+                />
+                {item.darkLogo ? (
+                  <Image
+                    src={item.darkLogo}
+                    alt={item.name}
+                    width={item.logoWidth}
+                    height={item.logoHeight}
+                    className="hidden max-h-10 w-full object-contain object-left dark:block"
+                  />
+                ) : null}
+              </div>
+              <p className="text-primary-light mt-2 text-[10px] font-semibold tracking-[0.13em] uppercase dark:text-cyan-300">
+                {item.organization}
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
+        <div className="grid grid-cols-1 gap-x-6 md:grid-cols-2">
+          {sharedSuccessBenefits.map((benefit) => (
+            <motion.article
+              key={benefit.number}
+              className={`grid grid-cols-[2.5rem_1fr] gap-4 border-t border-cyan-800/20 ${
+                compact ? "py-3" : "py-3"
+              } dark:border-cyan-300/15`}
+              variants={{
+                hidden: { opacity: reducedMotion ? 1 : 0 },
+                visible: {
+                  opacity: 1,
+                  transition: { duration: reducedMotion ? 0 : 0.4 },
+                },
+              }}
+            >
+              <p className="text-primary-light text-xs font-semibold dark:text-cyan-300">
+                {benefit.number}
+              </p>
+              <div>
+                <h3
+                  className={`${compact ? "text-sm" : "text-sm"} font-semibold text-[#05215e] dark:text-slate-100`}
+                >
+                  {benefit.title}
+                </h3>
+                <p
+                  className={`${compact ? "mt-1 text-[13px] leading-5" : "mt-1 text-[13px] leading-5"} font-body text-slate-600 dark:text-slate-400`}
+                >
+                  {benefit.body}
+                </p>
+              </div>
+            </motion.article>
+          ))}
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
