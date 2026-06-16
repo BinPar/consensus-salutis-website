@@ -60,7 +60,7 @@ export default function PlataformaPage() {
           <div className="mx-auto grid w-full max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
               <Eyebrow>Gobierno del dato</Eyebrow>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
+              <h2 className="font-display mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
                 El conocimiento no solo se consulta. Se gobierna.
               </h2>
             </div>

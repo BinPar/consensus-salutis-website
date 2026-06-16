@@ -211,7 +211,7 @@ export function ContactForm({
         <p className="text-xs font-semibold tracking-[0.18em] text-primary-light uppercase dark:text-cyan-300">
           Mensaje enviado
         </p>
-        <h3 className="mt-4 text-2xl font-semibold text-[#05215e] dark:text-slate-50">
+        <h3 className="font-display mt-4 text-2xl font-semibold text-[#05215e] dark:text-slate-50">
           Gracias por contactar.
         </h3>
         <p className="font-body mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">
@@ -360,7 +360,7 @@ export function ContactForm({
         <button
           type="submit"
           disabled={busy}
-          className="flex min-h-11 w-full items-center justify-center rounded-full bg-primary-light px-5 py-3 text-sm font-semibold text-white transition hover:bg-cyan-800 disabled:cursor-wait disabled:opacity-60 dark:bg-cyan-300 dark:text-[#04111e] dark:hover:bg-cyan-200"
+          className="flex min-h-11 w-full items-center font-body justify-center rounded-full bg-primary-light px-5 py-3 text-sm font-semibold text-white transition hover:bg-cyan-800 disabled:cursor-wait disabled:opacity-60 dark:bg-cyan-300 dark:text-[#04111e] dark:hover:bg-cyan-200"
         >
           {busy ? "Enviando..." : "Enviar mensaje"}
         </button>
@@ -384,7 +384,7 @@ function FormField({
     <div>
       <label
         htmlFor={id}
-        className="mb-2 block text-sm font-medium text-slate-900 dark:text-slate-100"
+        className="mb-2 font-body block text-sm font-medium text-slate-900 dark:text-slate-100"
       >
         {label} <span aria-hidden="true">*</span>
       </label>

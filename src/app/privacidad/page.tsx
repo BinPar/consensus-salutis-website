@@ -15,7 +15,7 @@ export default function PrivacyPage() {
         <ThemeSection>
           <article className="mx-auto w-full max-w-4xl px-5 sm:px-8">
             <Eyebrow>Información legal</Eyebrow>
-            <h1 className="mt-5 text-4xl font-semibold tracking-tight text-[#05215e] sm:text-5xl dark:text-slate-50">
+            <h1 className="font-display mt-5 text-4xl font-semibold tracking-tight text-[#05215e] sm:text-5xl dark:text-slate-50">
               Política de Privacidad
             </h1>
             <div className="font-body mt-10 space-y-8 text-base leading-8 text-slate-600 dark:text-slate-400">
@@ -67,7 +67,7 @@ function LegalSection({
 }) {
   return (
     <section>
-      <h2 className="text-xl font-semibold text-[#05215e] dark:text-slate-100">
+      <h2 className="font-display text-xl font-semibold text-[#05215e] dark:text-slate-100">
         {title}
       </h2>
       <p className="mt-3">{children}</p>

@@ -59,7 +59,7 @@ export default function SeguridadPage() {
           <div className="mx-auto grid w-full max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr]">
             <div>
               <Eyebrow>Marco regulatorio</Eyebrow>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
+              <h2 className="font-display mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
                 Seguridad, trazabilidad y criterio profesional en el centro.
               </h2>
             </div>

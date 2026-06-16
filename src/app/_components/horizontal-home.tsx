@@ -12,7 +12,11 @@ import {
 } from "~/app/_components/site";
 import { ClinicalChatMock } from "~/app/_components/clinical-chat-mock";
 import { ContactForm } from "~/app/_components/contact-form";
-import { Reveal, ViewportReveal } from "~/app/_components/motion-system";
+import {
+  Reveal,
+  SignalField,
+  ViewportReveal,
+} from "~/app/_components/motion-system";
 
 const metrics = [
   {
@@ -40,14 +44,14 @@ const metrics = [
 ];
 
 const productPillars = [
-  {
-    name: "Editorial Médica Panamericana",
-    role: "Conocimiento clínico",
-    logo: "/logos/emp.svg",
-    logoWidth: 180,
-    logoHeight: 45,
-    logoClassName: "h-10 w-auto max-w-[150px] ",
-    body: "Más de 70 años de experiencia editorial sostienen una base médica estructurada y actualizada de forma continua, con mas de 3TB de conocimiento médico.",
+   {
+    name: "BinPar",
+    role: "Producto e ingeniería",
+    logo: "/logos/BinparSquare.svg",
+    logoWidth: 112,
+    logoHeight: 54,
+    logoClassName: "h-10 w-auto",
+    body: "Más de 15 años desarrollando software sanitario convierten contenidos y protocolos en un sistema integrable, evaluable y trazable.",
   },
   {
     name: "AWS",
@@ -59,14 +63,15 @@ const productPillars = [
     body: "Arquitectura cloud native preparada para aislar cargas, escalar automáticamente y mantener continuidad, observabilidad y cumplimiento.",
   },
   {
-    name: "BinPar",
-    role: "Producto e ingeniería",
-    logo: "/logos/BinparSquare.svg",
-    logoWidth: 112,
-    logoHeight: 54,
-    logoClassName: "h-10 w-auto",
-    body: "Más de 15 años desarrollando software sanitario convierten contenidos y protocolos en un sistema integrable, evaluable y trazable.",
+    name: "Editorial Médica Panamericana",
+    role: "Conocimiento clínico",
+    logo: "/logos/emp.svg",
+    logoWidth: 180,
+    logoHeight: 45,
+    logoClassName: "h-10 w-auto max-w-[150px] ",
+    body: "Más de 70 años de experiencia editorial sostienen una base médica estructurada y actualizada de forma continua, con mas de 3TB de conocimiento médico.",
   },
+ 
 ];
 
 const clinicalProcess = [
@@ -177,7 +182,7 @@ function usePassedViewport(amount: number) {
       const rect = element.getBoundingClientRect();
       if (rect.height === 0) return;
 
-      const activationBottom = window.innerHeight * 0.85;
+      const activationBottom = window.innerHeight * 1.12;
       const visibleHeight = Math.max(
         0,
         Math.min(rect.bottom, activationBottom) - Math.max(rect.top, 0),
@@ -569,12 +574,11 @@ function VerticalPanel({
         Math.min(rect.bottom, activationBottom) - Math.max(rect.top, 0),
       );
       const visibility = visibleHeight / rect.height;
-      const passedActivationPoint =
-        rect.bottom <= 0 || rect.top <= activationBottom - rect.height * 0.45;
+      const passedActivationPoint = rect.bottom <= 0 || rect.top <= activationBottom;
 
       if (
         (mode === "initial" && passedActivationPoint) ||
-        (scrollingDown && visibility >= 0.45)
+        (scrollingDown && (passedActivationPoint || visibility >= 0.05))
       ) {
         setVisible(true);
       }
@@ -611,26 +615,33 @@ function Panel({
   panelRef,
   layout = "horizontal",
   height = "natural",
+  fixedSignal = false,
 }: {
   children: React.ReactNode;
   className?: string;
   panelRef: PanelRef;
   layout?: DesktopLayout;
   height?: PanelHeight;
+  fixedSignal?: boolean;
 }) {
   const layoutClassName =
     layout === "horizontal"
       ? "flex h-full w-screen shrink-0 items-center px-10 py-12"
       : height === "viewport"
         ? "flex min-h-[calc(100svh-4rem)] items-center px-10 py-20"
-        : "px-10 py-28";
+        : "px-10 py-20";
 
   return (
     <section
       ref={panelRef}
-      className={`relative ${layoutClassName} ${className}`}
+      className={`relative overflow-hidden ${layoutClassName} ${className}`}
     >
-      <div className="mx-auto w-full max-w-7xl">{children}</div>
+      {fixedSignal ? (
+        <div className="pointer-events-none fixed inset-0 z-0">
+          <SignalField intensity="hero" opacity={0.72} />
+        </div>
+      ) : null}
+      <div className="relative z-10 mx-auto w-full max-w-7xl">{children}</div>
     </section>
   );
 }
@@ -645,15 +656,15 @@ function HeroPanel({
   layout?: DesktopLayout;
 }) {
   return (
-    <Panel panelRef={panelRef} layout={layout} height="viewport">
+    <Panel panelRef={panelRef} layout={layout} height="viewport" fixedSignal>
       <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
         <div className="relative">
           <Reveal visible={visible}>
             <Eyebrow>IA médica institucional</Eyebrow>
           </Reveal>
           <Reveal visible={visible} delay={0.1}>
-            <h1 className="mt-6 max-w-4xl text-6xl font-semibold tracking-tight text-[#05215e] xl:text-7xl dark:text-slate-50">
-              Conocimiento clínico gobernado por IA.
+            <h1 className="font-display mt-6 max-w-4xl text-6xl font-extrabold tracking-tight text-[#05215e] xl:text-6xl dark:text-slate-50">
+            Conocimiento clínico gobernado por IA.
             </h1>
           </Reveal>
           <Reveal visible={visible} delay={0.2}>
@@ -707,7 +718,8 @@ function SuccessCasesPanel({
 }) {
   return (
     <Panel
-      className="bg-linear-to-br from-[#deedf3]/80 to-[#edf6f9]/30 dark:from-[#030916]/70 dark:to-[#030916]/30"
+      // className="bg-linear-to-br from-[#deedf3]/80 to-[#edf6f9]/30 dark:from-[#030916]/70 dark:to-[#030916]/30"
+      className="dark:bg-linear-to-br bg-transparent dark:from-[#030916]/70 dark:to-[#030916]/30"
       panelRef={panelRef}
       layout={layout}
     >
@@ -716,7 +728,7 @@ function SuccessCasesPanel({
           <Eyebrow>Casos de éxito</Eyebrow>
         </Reveal>
         <Reveal visible={visible} delay={0.1}>
-          <h2 className="mt-4 text-5xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
+          <h2 className="font-display mt-4 text-5xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
             Nuestros casos en el sistema sanitario.
           </h2>
         </Reveal>
@@ -748,7 +760,7 @@ function MetricsIntro({
     <>
       <Eyebrow>KPIs operativos</Eyebrow>
       <h2
-        className={`mt-4 max-w-4xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50 ${
+        className={`font-display mt-4 max-w-4xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${
           compact ? "text-3xl" : "text-5xl"
         }`}
       >
@@ -781,7 +793,7 @@ function MetricsIntro({
       </Reveal>
       <Reveal visible={visible} delay={0.1}>
         <h2
-          className={`mt-4 max-w-4xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50 ${
+          className={`font-display mt-4 max-w-4xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${
             compact ? "text-3xl" : "text-5xl"
           }`}
         >
@@ -823,7 +835,7 @@ function ArchitecturePanel({
           <Eyebrow>Producto</Eyebrow>
         </Reveal>
         <Reveal visible={visible} delay={0.1}>
-          <h2 className="mt-4 max-w-135 text-5xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
+          <h2 className="font-display mt-4 max-w-135 text-5xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
             De documentos dispersos a la decisión informada.
           </h2>
         </Reveal>
@@ -866,7 +878,7 @@ function PrimaryCarePanel({
           <Eyebrow>Proceso de consulta</Eyebrow>
         </Reveal>
         <Reveal visible={visible} delay={0.1}>
-          <h2 className="mt-4 text-5xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
+          <h2 className="font-display mt-4 text-5xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
             De la pregunta a la evidencia.
           </h2>
         </Reveal>
@@ -904,22 +916,25 @@ function ContactPanel({
       height="viewport"
     >
       <div className="grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr]">
-        <div>
-          <Reveal visible={visible}>
-            <Eyebrow>Siguiente paso</Eyebrow>
-          </Reveal>
-          <Reveal visible={visible} delay={0.1}>
-            <h2 className="mt-4 max-w-3xl text-5xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
-              Una conversación seria sobre tu organización sanitaria.
-            </h2>
-          </Reveal>
-          <Reveal visible={visible} delay={0.2}>
-            <p className="font-body mt-6 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-400">
-              Revisamos caso de uso, restricciones de seguridad, requisitos de
-              integración y el nivel de evidencia necesario para un piloto
-              institucional.
-            </p>
-          </Reveal>
+        <div className="relative">
+          {/* <ContactSignalAccent /> */}
+          <div className="relative z-10">
+            <Reveal visible={visible}>
+              <Eyebrow>Siguiente paso</Eyebrow>
+            </Reveal>
+            <Reveal visible={visible} delay={0.1}>
+              <h2 className="font-display mt-4 max-w-3xl text-5xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
+                Una conversación seria sobre tu organización sanitaria.
+              </h2>
+            </Reveal>
+            <Reveal visible={visible} delay={0.2}>
+              <p className="font-body mt-6 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-400">
+                Revisamos caso de uso, restricciones de seguridad, requisitos de
+                integración y el nivel de evidencia necesario para un piloto
+                institucional.
+              </p>
+            </Reveal>
+          </div>
         </div>
         <Reveal visible={visible} delay={0.3}>
           <ContactForm compact />
@@ -942,7 +957,7 @@ function MobileHome({
 
       if (!mobileQuery.matches) return;
 
-      const activationBottom = window.innerHeight * 0.85;
+      const activationBottom = window.innerHeight * 1.12;
 
       sectionRefs.current.forEach((section, sectionIndex) => {
         if (!section) return;
@@ -984,9 +999,10 @@ function MobileHome({
         className="relative overflow-hidden border-b border-cyan-800/10 px-5 py-10 sm:py-16 dark:border-cyan-300/10"
       >
         <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.03),rgba(244,249,252,0.38)_10%,rgba(13,148,136,0.02)_60%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.01),rgba(6,17,31,0.42)_20%,rgba(20,184,166,0.01)_80%,transparent)]" />
-        <ViewportReveal className="relative">
+        <SignalField intensity="hero" opacity={0.72} />
+        <ViewportReveal className="relative z-10">
           <Eyebrow>IA médica institucional</Eyebrow>
-          <h1 className="mt-3.5 text-4xl font-semibold tracking-tight text-[#05215e] sm:mt-6 sm:text-5xl dark:text-slate-50">
+          <h1 className="font-display mt-3.5 text-4xl font-semibold tracking-tight text-[#05215e] sm:mt-6 sm:text-5xl dark:text-slate-50">
             Conocimiento clínico gobernado por IA.
           </h1>
           <p className="font-body mt-3.5 text-base leading-7 text-slate-700 sm:mt-7 sm:text-lg sm:leading-8 dark:text-slate-300">
@@ -1011,7 +1027,7 @@ function MobileHome({
         <div className="px-5">
           <ViewportReveal>
             <Eyebrow>Casos de éxito</Eyebrow>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
+            <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
               Nuestro conocimiento clínico en el sistema sanitario.
             </h2>
             <p className="font-body mt-3.5 text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
@@ -1032,7 +1048,7 @@ function MobileHome({
         <div className="px-5">
           <ViewportReveal>
             <Eyebrow>Proceso de consulta</Eyebrow>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
+            <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
               De la pregunta a la evidencia.
             </h2>
             <p className="font-body mt-3.5 text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
@@ -1054,7 +1070,7 @@ function MobileHome({
         <div className="relative z-10 px-5">
           <ViewportReveal>
             <Eyebrow>Producto</Eyebrow>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
+            <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
               De documentos dispersos a la decisión informada.
             </h2>
             <p className="font-body mt-3.5 text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
@@ -1087,10 +1103,11 @@ function MobileHome({
         }}
         variant="deep"
       >
-        <div className="px-5">
-          <ViewportReveal>
+        <div className="relative px-5">
+          {/* <ContactSignalAccent compact /> */}
+          <ViewportReveal className="relative z-10">
             <Eyebrow>Contacto</Eyebrow>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
+            <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
               Hablemos de tu organización sanitaria.
             </h2>
             <p className="font-body mt-3.5 text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
@@ -1104,6 +1121,96 @@ function MobileHome({
     </main>
   );
 }
+
+// function ContactSignalAccent({ compact = false }: { compact?: boolean }) {
+//   const reducedMotion = useReducedMotion();
+
+//   return (
+//     <div
+//       aria-hidden="true"
+//       className={`contact-signal-accent pointer-events-none absolute z-0 ${
+//         compact
+//           ? "-top-16 -right-10 h-72 w-72 opacity-55"
+//           : "-top-24 -right-4 h-96 w-96 opacity-60"
+//       } dark:opacity-25`}
+//     >
+//       <motion.svg
+//         className="h-full w-full text-cyan-800/28 dark:text-cyan-200/16"
+//         viewBox="0 0 420 420"
+//         fill="none"
+//         initial={false}
+//       >
+//         <defs>
+//           <radialGradient id="contact-signal-fill" cx="50%" cy="42%" r="58%">
+//             <stop stopColor="rgb(8 145 178)" stopOpacity="0.16" />
+//             <stop offset="0.58" stopColor="rgb(20 184 166)" stopOpacity="0.08" />
+//             <stop offset="1" stopColor="rgb(246 255 83)" stopOpacity="0.08" />
+//           </radialGradient>
+//           <linearGradient id="contact-signal-stroke" x1="58" y1="70" x2="360" y2="340">
+//             <stop stopColor="currentColor" stopOpacity="0" />
+//             <stop offset="0.28" stopColor="currentColor" stopOpacity="0.72" />
+//             <stop offset="0.68" stopColor="currentColor" stopOpacity="0.26" />
+//             <stop offset="1" stopColor="currentColor" stopOpacity="0" />
+//           </linearGradient>
+//         </defs>
+//         <motion.path
+//           d="M210 34C280 22 358 78 376 154C394 232 350 308 292 350C236 390 154 386 104 338C52 288 38 206 70 142C98 88 142 46 210 34Z"
+//           animate={
+//             reducedMotion
+//               ? undefined
+//               : {
+//                   d: [
+//                     "M210 34C280 22 358 78 376 154C394 232 350 308 292 350C236 390 154 386 104 338C52 288 38 206 70 142C98 88 142 46 210 34Z",
+//                     "M224 28C296 28 366 94 372 170C378 244 330 326 262 356C196 386 126 366 86 306C48 250 54 168 96 112C128 70 164 28 224 28Z",
+//                     "M198 42C270 16 348 56 382 132C414 206 382 292 326 344C270 396 176 394 118 350C60 304 40 222 62 156C82 96 132 66 198 42Z",
+//                     "M210 34C280 22 358 78 376 154C394 232 350 308 292 350C236 390 154 386 104 338C52 288 38 206 70 142C98 88 142 46 210 34Z",
+//                   ],
+//                 }
+//           }
+//           transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+//           fill="url(#contact-signal-fill)"
+//         />
+//         <motion.path
+//           d="M74 258C134 208 170 242 224 194C274 150 296 86 382 104"
+//           animate={
+//             reducedMotion
+//               ? undefined
+//               : {
+//                   d: [
+//                     "M74 258C134 208 170 242 224 194C274 150 296 86 382 104",
+//                     "M62 246C130 190 178 236 230 186C282 136 316 100 386 126",
+//                     "M82 270C150 220 174 250 236 202C296 156 314 82 386 98",
+//                     "M74 258C134 208 170 242 224 194C274 150 296 86 382 104",
+//                   ],
+//                 }
+//           }
+//           transition={{ duration: 14, repeat: Infinity, ease: "linear" }}
+//           stroke="url(#contact-signal-stroke)"
+//           strokeWidth="2.4"
+//         />
+//         <motion.path
+//           d="M62 316C142 252 192 302 260 236C318 180 340 150 398 168"
+//           animate={
+//             reducedMotion
+//               ? undefined
+//               : {
+//                   d: [
+//                     "M62 316C142 252 192 302 260 236C318 180 340 150 398 168",
+//                     "M54 300C136 236 206 294 268 224C324 162 352 144 398 178",
+//                     "M74 326C150 270 200 304 276 248C336 204 344 144 400 156",
+//                     "M62 316C142 252 192 302 260 236C318 180 340 150 398 168",
+//                   ],
+//                 }
+//           }
+//           transition={{ duration: 17, repeat: Infinity, ease: "linear" }}
+//           stroke="url(#contact-signal-stroke)"
+//           strokeWidth="1.7"
+//           opacity="0.72"
+//         />
+//       </motion.svg>
+//     </div>
+//   );
+// }
 
 function SuccessCases({
   visible,
@@ -1133,52 +1240,13 @@ function SuccessCases({
         },
       }}
     >
-      <div className="flex flex-col gap-9">
-        <motion.div className="grid w-full gap-3 sm:grid-cols-2 md:gap-6 lg:min-w-125 lg:flex-1 dark:border-cyan-300/15">
-          {successCases.map((item, index) => (
-            <motion.div
-              key={item.name}
-              className="shadow-big-blocks flex min-w-0 flex-col items-center rounded-2xl border border-cyan-800/15 bg-white/30 px-5 py-3 backdrop-blur-xs dark:border-cyan-300/15 dark:bg-white/3 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)]"
-              initial={{ opacity: reducedMotion ? 1 : 0 }}
-              animate={{ opacity: show ? 1 : 0 }}
-              transition={{
-                duration: reducedMotion ? 0 : 0.4,
-                delay: show && !reducedMotion ? index * 0.18 : 0,
-              }}
-            >
-              <div className="flex h-14 items-center justify-start">
-                <Image
-                  src={item.logo}
-                  alt={item.name}
-                  width={item.logoWidth}
-                  height={item.logoHeight}
-                  className={`max-h-9 w-full object-contain object-left ${
-                    item.darkLogo
-                      ? "dark:hidden"
-                      : "dark:brightness-0 dark:invert"
-                  }`}
-                />
-                {item.darkLogo ? (
-                  <Image
-                    src={item.darkLogo}
-                    alt={item.name}
-                    width={item.logoWidth}
-                    height={item.logoHeight}
-                    className="hidden max-h-10 w-full object-contain object-left dark:block"
-                  />
-                ) : null}
-              </div>
-              <p className="text-primary-light mt-2 text-[10px] font-semibold tracking-[0.13em] uppercase dark:text-cyan-300">
-                {item.organization}
-              </p>
-            </motion.div>
-          ))}
-        </motion.div>
-        <div className="grid grid-cols-1 gap-x-6 md:grid-cols-2">
+      <div className="flex gap-9">
+      
+        <div className="grid grid-cols-1 gap-x-6">
           {sharedSuccessBenefits.map((benefit) => (
             <motion.article
               key={benefit.number}
-              className={`grid grid-cols-[2.5rem_1fr] gap-4 border-t border-cyan-800/20 ${
+              className={`grid grid-cols-[1.5rem_1fr] gap-4 border-t border-cyan-800/20 ${
                 compact ? "py-3" : "py-3"
               } dark:border-cyan-300/15`}
               variants={{
@@ -1189,12 +1257,12 @@ function SuccessCases({
                 },
               }}
             >
-              <p className="text-primary-light text-xs font-semibold dark:text-cyan-300">
+              <p className="text-primary-light text-sm font-semibold dark:text-cyan-300">
                 {benefit.number}
               </p>
               <div>
                 <h3
-                  className={`${compact ? "text-sm" : "text-sm"} font-semibold text-[#05215e] dark:text-slate-100`}
+                  className={`${compact ? "text-sm" : "text-base"} font-semibold font-body text-[#05215e] dark:text-slate-100`}
                 >
                   {benefit.title}
                 </h3>
@@ -1207,6 +1275,46 @@ function SuccessCases({
             </motion.article>
           ))}
         </div>
+          <motion.div className="grid w-full gap-3 sm:grid-cols-1 md:gap-6 lg:min-w-125 lg:flex-1 dark:border-cyan-300/15">
+          {successCases.map((item, index) => (
+            <motion.div
+              key={item.name}
+              className="shadow-big-blocks flex min-w-0 flex-col items-center justify-center rounded-2xl border border-cyan-800/15 bg-white/70 px-5 py-3 backdrop-blur-xs dark:border-cyan-300/15 dark:bg-white/3 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)]"
+              initial={{ opacity: reducedMotion ? 1 : 0 }}
+              animate={{ opacity: show ? 1 : 0 }}
+              transition={{
+                duration: reducedMotion ? 0 : 0.4,
+                delay: show && !reducedMotion ? index * 0.18 : 0,
+              }}
+            >
+              <div className="flex h-14 items-center justify-center">
+                <Image
+                  src={item.logo}
+                  alt={item.name}
+                  width={item.logoWidth}
+                  height={item.logoHeight}
+                  className={`max-h-11 w-full object-contain object-left ${
+                    item.darkLogo
+                      ? "dark:hidden"
+                      : "dark:brightness-0 dark:invert"
+                  }`}
+                />
+                {item.darkLogo ? (
+                  <Image
+                    src={item.darkLogo}
+                    alt={item.name}
+                    width={item.logoWidth}
+                    height={item.logoHeight}
+                    className="hidden max-h-11 w-full object-contain object-left dark:block"
+                  />
+                ) : null}
+              </div>
+              <p className="text-primary-light mt-2 text-xs font-semibold tracking-[0.13em] uppercase dark:text-cyan-300 font-display">
+                {item.organization}
+              </p>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </motion.div>
   );
@@ -1337,13 +1445,13 @@ function MobileProcessMilestone({
         ) : null}
       </div>
       <div className={last ? "pb-0" : "pb-6"}>
-        <h3 className="mt-1 text-base font-semibold text-[#05215e] dark:text-slate-100">
+        <h3 className="font-display mt-1 text-base font-semibold text-[#05215e] dark:text-slate-100">
           {item.title}
         </h3>
         <p className="font-body mt-2 min-h-12 text-sm leading-6 text-slate-600 dark:text-slate-400">
           {item.body}
         </p>
-        <p className="text-primary-light mt-2 text-[10px] font-semibold tracking-[0.12em] uppercase dark:text-cyan-300">
+        <p className="font-body text-primary-light mt-2 text-[10px] font-semibold tracking-[0.12em] uppercase dark:text-cyan-300">
           {item.signal}
         </p>
       </div>
@@ -1407,14 +1515,14 @@ function ProcessMilestone({
         />
       ) : null}
       <span
-        className={`border-primary-light relative z-10 grid shrink-0 place-items-center rounded-full border bg-white/50 font-semibold text-cyan-800 shadow-sm backdrop-blur-sm dark:border-cyan-300 dark:bg-[#06111f] dark:text-cyan-100 dark:shadow-[0_0_18px_rgba(103,232,249,0.18)] ${
+        className={`border-primary-light font-display relative z-10 grid shrink-0 place-items-center rounded-full border bg-white/50 font-semibold text-cyan-800 shadow-sm backdrop-blur-sm dark:border-cyan-300 dark:bg-[#06111f] dark:text-cyan-100 dark:shadow-[0_0_18px_rgba(103,232,249,0.18)] ${
           compact ? "size-8 text-[10px]" : "size-10 text-xs"
         } ${desktop ? "" : "absolute top-0 -left-12"}`}
       >
         {item.step}
       </span>
       <h3
-        className={`${compact ? "mt-3 text-sm" : "mt-4 text-base"} font-semibold text-[#05215e] dark:text-slate-100`}
+        className={`${compact ? "mt-3 text-sm" : "mt-4 text-base"} font-display font-body text-[#05215e] dark:text-slate-100`}
       >
         {item.title}
       </h3>
@@ -1423,7 +1531,7 @@ function ProcessMilestone({
       >
         {item.body}
       </p>
-      <p className="text-primary-light mt-2 text-[10px] font-semibold tracking-[0.12em] uppercase dark:text-cyan-300">
+      <p className="font-body text-primary-light mt-2 text-[10px] font-semibold tracking-[0.12em] uppercase dark:text-cyan-300">
         {item.signal}
       </p>
     </motion.article>
@@ -1488,7 +1596,7 @@ function ProductPillars({
               </div>
             </div>
             <p
-              className={`${compact ? "mt-3" : "mt-1 lg:mt-5"} border-primary-light text-primary-light shrink-0 border-b pt-4 pb-3 text-xs font-semibold tracking-[0.13em] uppercase lg:tracking-[0.18em] dark:border-cyan-300/20 dark:text-cyan-300`}
+              className={`${compact ? "mt-3" : "mt-1 lg:mt-5"} border-primary-light font-display text-primary-light shrink-0 border-b pt-4 pb-3 text-xs font-semibold tracking-[0.13em] uppercase lg:tracking-[0.18em] dark:border-cyan-300/20 dark:text-cyan-300`}
             >
               {pillar.role}
             </p>
@@ -1615,7 +1723,7 @@ function AnimatedMetricValue({
   return (
     <p
       // aria-label={formattedValue}
-      className="text-xl font-semibold text-cyan-800 sm:text-3xl dark:text-cyan-100"
+      className="text-xl font-display font-semibold text-cyan-800 sm:text-3xl dark:text-cyan-100"
     >
       <span aria-hidden="true">
         {prefix}

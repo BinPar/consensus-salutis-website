@@ -205,8 +205,8 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
 
   return (
     <motion.div
-      className={`pointer-events-none relative overflow-hidden rounded-3xl border border-cyan-800/20 bg-white/30 dark:shadow-2xl shadow-big-blocks backdrop-blur-xs dark:backdrop-blur-sm select-none dark:border-cyan-300/20 dark:bg-white/3 dark:shadow-cyan-950/30 ${
-        compact ? "h-87.5" : "h-136"
+      className={`pointer-events-none relative overflow-hidden rounded-3xl border border-cyan-800/20 bg-white/70 dark:shadow-2xl shadow-big-blocks backdrop-blur-xs dark:backdrop-blur-sm select-none dark:border-cyan-300/20 dark:bg-white/5 dark:shadow-cyan-950/30 ${
+        compact ? "h-87.5" : "h-110"
       }`}
       aria-label="Demostración animada de Consensus Salutis"
       data-stage={stage}
@@ -216,7 +216,7 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
         animate={{ opacity: isResetting ? 0 : 1 }}
         transition={{ duration: 0.45 }}
       >
-        <div className="flex h-14 shrink-0 items-center bg-white/40 dark:bg-transparent justify-between border-b border-cyan-800/20 px-4 dark:border-cyan-300/20">
+        <div className="flex h-14 shrink-0 items-center bg-white/40 dark:bg-white/3 justify-between border-b border-cyan-800/20 px-4 dark:border-cyan-300/20">
           <div className="flex items-center gap-2.5">
             <span className="grid size-7 place-items-center rounded-md border border-primary-light/50 bg-primary-light/70 text-[10px] font-semibold text-white dark:border-cyan-300/25 dark:bg-cyan-300/10 dark:text-cyan-100">
               CS

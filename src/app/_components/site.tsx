@@ -6,10 +6,12 @@ import type { ReactNode } from "react";
 import { ClinicalChatMock } from "~/app/_components/clinical-chat-mock";
 import { FooterBandMenu } from "~/app/_components/footer-band-menu";
 import { MobileNavigation } from "~/app/_components/mobile-navigation";
+import { ScrollHeaderFrame } from "~/app/_components/scroll-header-frame";
 import { ThemeToggle } from "~/app/_components/theme-toggle";
 import {
   HomeMotionBackground,
   MotionSurface,
+  SignalField,
 } from "~/app/_components/motion-system";
 
 const navItems = [
@@ -31,32 +33,34 @@ const legalItems = [{ href: "/privacidad", label: "Política de privacidad" }];
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 bg-white/50 px-5 backdrop-blur-md sm:px-8 dark:bg-[#06111f]/70">
+    <ScrollHeaderFrame>
       <div className="mx-auto flex h-16 w-full max-w-425 items-center justify-between">
         <Link href="/" className="flex items-center gap-3" aria-label="Inicio">
           <span className="border-primary-light/50 bg-primary-light/70 grid size-8 place-items-center rounded-md border text-xs font-semibold text-white shadow-sm dark:border-cyan-300/25 dark:bg-cyan-300/10 dark:text-cyan-100 dark:shadow-[0_0_24px_rgba(45,212,191,0.2)]">
             CS
           </span>
-          <span className="hidden text-sm font-semibold tracking-[0.18em] text-slate-900 uppercase md:inline dark:text-slate-50">
+          <span className="hidden text-sm font-semibold font-display tracking-[0.18em] text-slate-900 uppercase md:inline dark:text-slate-50">
             Consensus Salutis
           </span>
         </Link>
-        <nav className="hidden items-center gap-4 lg:gap-7 text-xs lg:text-sm font-medium text-slate-600 md:flex dark:text-slate-400">
+        <div className="flex gap-4 lg:gap-6">
+
+        <nav className="hidden items-center gap-2 lg:gap-7 text-xs lg:text-sm font-medium text-slate-600 md:flex dark:text-slate-400">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="transition hover:text-cyan-800 dark:hover:text-cyan-100"
+              className="font-body font-medium transition hover:text-cyan-800 dark:hover:text-cyan-100"
             >
               {item.label}
             </Link>
           ))}
         </nav>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-4 lg:gap-6">
           <ThemeToggle />
           <Link
             href="/contacto"
-            className="dark:bg-secondary focus-visible:outline-secondary hidden rounded-full bg-amber-300 px-3 py-2 text-xs lg:text-sm font-semibold text-[#06111f] transition-transform hover:scale-102 focus-visible:scale-102 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none md:block"
+            className="dark:bg-secondary focus-visible:outline-secondary hidden font-body rounded-full bg-amber-300 px-3 py-2 text-xs lg:text-sm font-semibold text-[#06111f] transition-transform hover:scale-102 focus-visible:scale-102 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none md:block"
           >
             Solicitar reunión
           </Link>
@@ -64,12 +68,13 @@ export function SiteHeader() {
             items={[{ href: "/", label: "Inicio" }, ...navItems]}
           />
         </div>
+        </div>
       </div>
-      <div
+      {/* <div
         aria-hidden="true"
         className="absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,hsl(185.87deg_100%_28.04%),transparent)] opacity-45 dark:bg-[linear-gradient(90deg,transparent,var(--color-primary),transparent)]"
-      />
-    </header>
+      /> */}
+    </ScrollHeaderFrame>
   );
 }
 
@@ -109,7 +114,7 @@ export function VerticalFooter() {
               <span className="border-primary-light/50 bg-primary-light/70 grid size-8 place-items-center rounded-md border text-xs font-semibold text-white shadow-sm dark:border-cyan-300/25 dark:bg-cyan-300/10 dark:text-cyan-100 dark:shadow-[0_0_24px_rgba(45,212,191,0.2)]">
                 CS
               </span>
-              <span className="text-sm font-semibold tracking-[0.18em] uppercase">
+              <span className="text-sm font-semibold font-display tracking-[0.18em] uppercase">
                 Consensus Salutis
               </span>
             </Link>
@@ -124,21 +129,21 @@ export function VerticalFooter() {
             className="grid grid-cols-2 gap-8 text-sm"
           >
             <div className="space-y-1">
-              <p className="mb-2 font-semibold text-slate-900 dark:text-slate-100">
+              <p className="font-display mb-2 font-semibold text-slate-900 dark:text-slate-100">
                 Producto
               </p>
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="block text-slate-600 transition hover:text-cyan-800 dark:text-slate-400 dark:hover:text-cyan-100"
+                  className="font-body block text-slate-600 transition hover:text-cyan-800 dark:text-slate-400 dark:hover:text-cyan-100"
                 >
                   {item.label}
                 </Link>
               ))}
             </div>
             <div className="space-y-1">
-              <p className="mb-2 font-semibold text-slate-900 dark:text-slate-100">
+              <p className="font-display mb-2 font-semibold text-slate-900 dark:text-slate-100">
                 Contacto
               </p>
               {contactItems.map((item) =>
@@ -146,7 +151,7 @@ export function VerticalFooter() {
                   <a
                     key={item.href}
                     href={item.href}
-                    className="block text-slate-600 transition hover:text-cyan-800 dark:text-slate-400 dark:hover:text-cyan-100"
+                    className="font-body block text-slate-600 transition hover:text-cyan-800 dark:text-slate-400 dark:hover:text-cyan-100"
                   >
                     {item.label}
                   </a>
@@ -154,21 +159,21 @@ export function VerticalFooter() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="block text-slate-600 transition hover:text-cyan-800 dark:text-slate-400 dark:hover:text-cyan-100"
+                    className="font-body block text-slate-600 transition hover:text-cyan-800 dark:text-slate-400 dark:hover:text-cyan-100"
                   >
                     {item.label}
                   </Link>
                 ),
               )}
               <div className="mt-3 space-y-1">
-                <p className="mb-2 font-semibold text-slate-900 dark:text-slate-100">
+                <p className="font-display mb-2 font-semibold text-slate-900 dark:text-slate-100">
                   Legal
                 </p>
                 {legalItems.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="block text-slate-600 transition hover:text-cyan-800 dark:text-slate-400 dark:hover:text-cyan-100"
+                    className="font-body block text-slate-600 transition hover:text-cyan-800 dark:text-slate-400 dark:hover:text-cyan-100"
                   >
                     {item.label}
                   </Link>
@@ -233,7 +238,7 @@ export function HomeShell({
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <p className="text-primary-light text-xs font-bold tracking-[0.22em] uppercase dark:text-cyan-300">
+    <p className="text-primary-light font-display text-xs font-bold tracking-[0.22em] uppercase dark:text-cyan-300">
       {children}
     </p>
   );
@@ -244,13 +249,13 @@ export function CTAGroup() {
     <div className="flex flex-col gap-3 sm:flex-row">
       <Link
         href="/contacto"
-        className="bg-primary-light rounded-full px-5 py-3 text-center text-sm font-semibold text-white shadow-md transition hover:bg-cyan-800 dark:bg-cyan-300 dark:text-[#04111e] dark:shadow-[0_0_34px_rgba(45,212,191,0.26)] dark:hover:bg-cyan-200"
+        className="bg-primary-light font-body rounded-full px-5 py-3 text-center text-sm font-semibold text-white shadow-md transition hover:bg-cyan-800 dark:bg-cyan-300 dark:text-[#04111e] dark:shadow-[0_0_34px_rgba(45,212,191,0.26)] dark:hover:bg-cyan-200"
       >
         Solicitar reunión
       </Link>
       <Link
         href="/plataforma"
-        className="border-primary-light/25 hover:border-primary-light/45 rounded-full border bg-white/65 px-5 py-3 text-center text-sm font-semibold text-cyan-800 backdrop-blur-sm transition hover:bg-cyan-50 dark:border-cyan-300/30 dark:bg-white/3 dark:text-cyan-50 dark:hover:border-cyan-200/50 dark:hover:bg-cyan-300/10"
+        className="border-primary-light/25 font-body hover:border-primary-light/45 rounded-full border bg-white/65 px-5 py-3 text-center text-sm font-semibold text-cyan-800 backdrop-blur-sm transition hover:bg-cyan-50 dark:border-cyan-300/30 dark:bg-white/3 dark:text-cyan-50 dark:hover:border-cyan-200/50 dark:hover:bg-cyan-300/10"
       >
         Probar plataforma
       </Link>
@@ -336,7 +341,7 @@ export function CapabilityGrid({
           key={item.title}
           className="rounded-md border border-cyan-800/10 bg-white/80 p-6 shadow-lg shadow-slate-900/5 dark:border-cyan-300/10 dark:bg-[#081a2b]/82 dark:shadow-[#020817]/20"
         >
-          <h3 className="text-lg font-semibold text-[#05215e] dark:text-slate-50">
+          <h3 className="font-display text-lg font-semibold text-[#05215e] dark:text-slate-50">
             {item.title}
           </h3>
           <p className="font-body mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">
@@ -358,16 +363,16 @@ export const ThemeSection = forwardRef<
 >(function ThemeSection({ children, className = "", variant = "plain" }, ref) {
   const variantClassName =
     variant === "panel"
-      ? "border-y border-cyan-800/10 bg-[linear-gradient(135deg,rgba(222,237,243,0.74),rgba(237,246,249,0.34))] dark:border-cyan-300/10 dark:bg-[linear-gradient(135deg,rgba(3,9,22,0.74),rgba(8,24,39,0.48))] lg:bg-[#e8f2f7] lg:dark:bg-[#081827]"
+      ? "relative overflow-hidden border-y border-cyan-800/10 bg-[linear-gradient(135deg,rgba(222,237,243,0.74),rgba(237,246,249,0.34))] dark:border-cyan-300/10 dark:bg-[linear-gradient(135deg,rgba(3,9,22,0.74),rgba(8,24,39,0.48))] lg:bg-[#e8f2f7] lg:dark:bg-[#081827]"
       : variant === "deep"
-        ? "border-y border-cyan-800/10 bg-[linear-gradient(135deg,rgba(222,237,243,0.82),rgba(237,246,249,0.42))] dark:border-cyan-300/10 dark:bg-[linear-gradient(135deg,rgba(3,9,22,0.82),rgba(3,9,22,0.54))] lg:bg-[#deedf3] lg:dark:bg-[#030916]"
+        ? "relative overflow-hidden border-y border-cyan-800/10 bg-[linear-gradient(135deg,rgba(222,237,243,0.82),rgba(237,246,249,0.42))] dark:border-cyan-300/10 dark:bg-[linear-gradient(135deg,rgba(3,9,22,0.82),rgba(3,9,22,0.54))] lg:bg-[#deedf3] lg:dark:bg-[#030916]"
         : variant === "transparent"
-          ? "bg-transparent relative"
-          : "bg-linear-to-br from-[#deedf3]/80 to-[#edf6f9]/30 dark:from-[#030916]/70 dark:to-[#030916]/30 lg:bg-[#f4f9fc] lg:dark:bg-[#06111f]";
+          ? "relative overflow-hidden bg-transparent"
+          : "relative overflow-hidden bg-linear-to-br from-[#deedf3]/80 to-[#edf6f9]/30 dark:from-[#030916]/70 dark:to-[#030916]/30 lg:bg-[#f4f9fc] lg:dark:bg-[#06111f]";
 
   return (
     <section ref={ref} className={`${variantClassName} ${className} py-20`}>
-      {children}
+      <div className="relative z-10">{children}</div>
     </section>
   );
 });
@@ -385,9 +390,10 @@ export function PageHero({
     <section className="relative overflow-hidden border-b border-cyan-800/10 bg-[#f4f9fc] dark:border-cyan-300/10 dark:bg-[#06111f]">
       <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.1),transparent_35%,rgba(13,148,136,0.08)_72%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.1),transparent_35%,rgba(20,184,166,0.08)_72%,transparent)]" />
       <div className="absolute inset-0 bg-[linear-gradient(rgba(8,145,178,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(8,145,178,0.07)_1px,transparent_1px)] bg-size-[40px_40px] dark:bg-[linear-gradient(rgba(125,211,252,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(125,211,252,0.04)_1px,transparent_1px)]" />
+      <SignalField intensity="hero" />
       <div className="relative mx-auto w-full max-w-7xl px-5 py-20 sm:px-8 lg:py-24">
         <Eyebrow>{eyebrow}</Eyebrow>
-        <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-[#05215e] sm:text-5xl dark:text-slate-50">
+        <h1 className="font-display mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-[#05215e] sm:text-5xl dark:text-slate-50">
           {title}
         </h1>
         <p className="font-body mt-6 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-400">

@@ -55,7 +55,7 @@ export default function CasosPage() {
                 <p className="text-xs font-semibold tracking-[0.18em] text-primary-light uppercase dark:text-cyan-300">
                   {item.label}
                 </p>
-                <h2 className="mt-4 text-2xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
+                <h2 className="font-display mt-4 text-2xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
                   {item.title}
                 </h2>
                 <p className="font-body mt-4 text-sm leading-6 text-slate-600 dark:text-slate-400">
@@ -69,7 +69,7 @@ export default function CasosPage() {
           <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
             <div className="max-w-3xl">
               <Eyebrow>Uso responsable</Eyebrow>
-              <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
+              <h2 className="font-display mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
                 Credibilidad sin ruido: casos, contenido, tecnología y método.
               </h2>
               <p className="font-body mt-5 text-base leading-8 text-slate-600 dark:text-slate-400">

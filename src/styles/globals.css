@@ -7,19 +7,41 @@
   --color-primary-light: #006b77;
   --color-secondary: #f6ff53;
   --font-sans:
+    var(--font-plus-jakarta-sans), "Plus Jakarta Sans", ui-sans-serif,
+    system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol", "Noto Color Emoji";
+  --font-system:
     ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
   --shadow-big-blocks: 0 4px 30px 0 color-mix(in srgb, var(--color-primary-light), transparent 90%), 
                 0 2px 6px 2px color-mix(in srgb, var(--color-primary-light), transparent 98%);
 }
 
-@utility font-body {
-  font-family:
-    var(--font-plus-jakarta-sans), "Plus Jakarta Sans", ui-sans-serif,
-    system-ui, sans-serif;
+@layer utilities {
+  .font-body {
+    font-family:
+      var(--font-plus-jakarta-sans), "Plus Jakarta Sans", ui-sans-serif,
+      system-ui, sans-serif;
+  }
+
+  .font-display {
+    font-family: var(--font-sora), "Sora", ui-sans-serif, system-ui, sans-serif;
+  }
 }
 
 @layer base {
+  .header-scroll-backdrop {
+    background-color: rgb(
+      255 255 255 / calc(var(--header-bg-progress, 0) * 50%)
+    );
+  }
+
+  .dark .header-scroll-backdrop {
+    background-color: rgb(
+      6 17 31 / calc(var(--header-bg-progress, 0) * 70%)
+    );
+  }
+
   .theme-changing *,
   .theme-changing *::before,
   .theme-changing *::after {
