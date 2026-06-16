@@ -60,7 +60,6 @@ function clientIp(request: NextRequest) {
 function hashIdentifier(value: string) {
   const secret =
     env.CONTACT_RATE_LIMIT_SECRET ??
-    env.AUTH_SECRET ??
     "development-contact-rate-limit";
 
   return createHmac("sha256", secret).update(value).digest("hex");

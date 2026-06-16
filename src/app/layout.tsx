@@ -4,7 +4,6 @@ import { type Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 
 import { MotionProvider } from "~/app/_components/motion-system";
-import { TRPCReactProvider } from "~/trpc/react";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -37,7 +36,7 @@ export default function RootLayout({
         className={`${plusJakartaSans.variable} min-h-screen bg-[#f4f9fc] font-sans text-slate-900 antialiased dark:bg-[#06111f] dark:text-slate-50`}
       >
         <MotionProvider>
-          <TRPCReactProvider>{children}</TRPCReactProvider>
+          {children}
         </MotionProvider>
       </body>
     </html>

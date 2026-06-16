@@ -1133,7 +1133,7 @@ function SuccessCases({
         },
       }}
     >
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col gap-9">
         <motion.div className="grid w-full gap-3 sm:grid-cols-2 md:gap-6 lg:min-w-125 lg:flex-1 dark:border-cyan-300/15">
           {successCases.map((item, index) => (
             <motion.div
