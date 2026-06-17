@@ -36,7 +36,7 @@ export function ScrollHeaderFrame({ children }: { children: ReactNode }) {
 
   return (
     <header
-      className="header-scroll-backdrop sticky top-0 z-40 px-5 backdrop-blur-md sm:px-8"
+      className="header-scroll-backdrop fixed w-full top-0 z-40 px-5 backdrop-blur-md sm:px-8"
       style={{ "--header-bg-progress": progress } as HeaderStyle}
     >
       {children}

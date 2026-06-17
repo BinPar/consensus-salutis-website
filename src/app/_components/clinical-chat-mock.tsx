@@ -205,7 +205,7 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
 
   return (
     <motion.div
-      className={`pointer-events-none relative overflow-hidden rounded-3xl border border-cyan-800/20 bg-white/70 dark:shadow-2xl shadow-big-blocks backdrop-blur-xs dark:backdrop-blur-sm select-none dark:border-cyan-300/20 dark:bg-white/5 dark:shadow-cyan-950/30 ${
+      className={`pointer-events-none relative overflow-hidden rounded-3xl border border-cyan-800/20 bg-white/90 dark:shadow-2xl shadow-big-blocks backdrop-blur-xs dark:backdrop-blur-sm select-none dark:border-cyan-300/20 dark:bg-white/5 dark:shadow-cyan-950/30 ${
         compact ? "h-87.5" : "h-110"
       }`}
       aria-label="Demostración animada de Consensus Salutis"

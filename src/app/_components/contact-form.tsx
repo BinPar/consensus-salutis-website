@@ -237,7 +237,7 @@ export function ContactForm({
       />
       <form
         ref={formRef}
-        className={`min-w-0 rounded-3xl border border-cyan-800/20 bg-white/50 dark:shadow-2xl shadow-big-blocks backdrop-blur-sm dark:border-cyan-300/20 dark:bg-white/3 dark:shadow-cyan-950/30 ${
+        className={`min-w-0 rounded-3xl border border-cyan-800/20 bg-white/80 dark:shadow-2xl shadow-big-blocks backdrop-blur-sm dark:border-cyan-300/20 dark:bg-white/3 dark:shadow-cyan-950/30 ${
           compact ? "space-y-3 p-5" : "space-y-5 p-7"
         } ${className}`}
         onSubmit={handleSubmit}

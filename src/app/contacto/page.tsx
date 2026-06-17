@@ -12,7 +12,7 @@ export default function ContactoPage() {
   return (
     <PageShell>
       <main className="bg-[#f4f9fc] dark:bg-[#06111f]">
-        <section className="mx-auto grid min-h-[calc(100vh-4rem)] w-full max-w-7xl grid-cols-[minmax(0,1fr)] items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[1fr_0.9fr]">
+        <section className="mx-auto grid min-h-[calc(100vh)] w-full max-w-7xl grid-cols-[minmax(0,1fr)] items-center gap-12 px-5 py-20 sm:px-8 lg:grid-cols-[1fr_0.9fr]">
           <div className="min-w-0">
             <Eyebrow>Contacto</Eyebrow>
             <h1 className="font-display mt-5 max-w-3xl text-4xl font-semibold tracking-tight text-[#05215e] sm:text-5xl dark:text-slate-50">

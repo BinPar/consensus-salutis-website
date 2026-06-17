@@ -36,11 +36,11 @@ export function SiteHeader() {
     <ScrollHeaderFrame>
       <div className="mx-auto flex h-16 w-full max-w-425 items-center justify-between">
         <Link href="/" className="flex items-center gap-3" aria-label="Inicio">
-          <span className="border-primary-light/50 bg-primary-light/70 grid size-8 place-items-center rounded-md border text-xs font-semibold text-white shadow-sm dark:border-cyan-300/25 dark:bg-cyan-300/10 dark:text-cyan-100 dark:shadow-[0_0_24px_rgba(45,212,191,0.2)]">
+          <span className="border-primary-light/50 font-body bg-primary-light/70 grid size-8 place-items-center rounded-md border text-xs font-semibold text-white shadow-sm dark:border-cyan-300/25 dark:bg-cyan-300/10 dark:text-cyan-100 dark:shadow-[0_0_24px_rgba(45,212,191,0.2)]">
             CS
           </span>
-          <span className="hidden text-sm font-semibold font-display tracking-[0.18em] text-slate-900 uppercase md:inline dark:text-slate-50">
-            Consensus Salutis
+          <span className="hidden font-display text-sm uppercase tracking-widest font-extrabold font-display text-[#05215e] md:inline dark:text-slate-50">
+            Consensus <span className="text-primary-light dark:text-primary">Salutis</span>
           </span>
         </Link>
         <div className="flex gap-4 lg:gap-6">
@@ -106,18 +106,14 @@ export function VerticalFooter() {
       <div className="mx-auto w-full max-w-7xl px-5 pt-10 sm:px-8 lg:pt-12">
         <div className="grid gap-10 md:grid-cols-[1.25fr_0.75fr]">
           <div>
-            <Link
-              href="/"
-              className="inline-flex items-center gap-3 text-slate-900 transition hover:text-cyan-800 dark:text-slate-50 dark:hover:text-cyan-100"
-              aria-label="Inicio"
-            >
-              <span className="border-primary-light/50 bg-primary-light/70 grid size-8 place-items-center rounded-md border text-xs font-semibold text-white shadow-sm dark:border-cyan-300/25 dark:bg-cyan-300/10 dark:text-cyan-100 dark:shadow-[0_0_24px_rgba(45,212,191,0.2)]">
-                CS
-              </span>
-              <span className="text-sm font-semibold font-display tracking-[0.18em] uppercase">
-                Consensus Salutis
-              </span>
-            </Link>
+             <Link href="/" className="flex items-center gap-3" aria-label="Inicio">
+          <span className="border-primary-light/50 font-body bg-primary-light/70 grid size-8 place-items-center rounded-md border text-xs font-semibold text-white shadow-sm dark:border-cyan-300/25 dark:bg-cyan-300/10 dark:text-cyan-100 dark:shadow-[0_0_24px_rgba(45,212,191,0.2)]">
+            CS
+          </span>
+          <span className="hidden font-display text-sm uppercase tracking-widest font-extrabold font-display text-[#05215e] md:inline dark:text-slate-50">
+            Consensus <span className="text-primary-light dark:text-primary">Salutis</span>
+          </span>
+        </Link>
             <p className="font-body mt-5 max-w-xl text-sm leading-6 text-slate-600 dark:text-slate-400">
               IA médica institucional para convertir conocimiento clínico en
               decisión trazable, gobernada y segura.
@@ -222,7 +218,7 @@ export function HomeShell({
 }) {
   return (
     <div
-      className={`relative isolate bg-[#f4f9fc] dark:bg-[#06111f] ${
+      className={`relative isolate bg-[#fbfdff] dark:bg-[#06111f] ${
         vertical
           ? "min-h-screen"
           : "lg:flex lg:h-screen lg:flex-col lg:overflow-hidden"
@@ -387,7 +383,7 @@ export function PageHero({
   body: string;
 }) {
   return (
-    <section className="relative overflow-hidden border-b border-cyan-800/10 bg-[#f4f9fc] dark:border-cyan-300/10 dark:bg-[#06111f]">
+    <section className="relative overflow-hidden border-b border-cyan-800/10 bg-[#fbfdff] dark:border-cyan-300/10 dark:bg-[#06111f]">
       <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.1),transparent_35%,rgba(13,148,136,0.08)_72%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.1),transparent_35%,rgba(20,184,166,0.08)_72%,transparent)]" />
       <div className="absolute inset-0 bg-[linear-gradient(rgba(8,145,178,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(8,145,178,0.07)_1px,transparent_1px)] bg-size-[40px_40px] dark:bg-[linear-gradient(rgba(125,211,252,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(125,211,252,0.04)_1px,transparent_1px)]" />
       <SignalField intensity="hero" />
