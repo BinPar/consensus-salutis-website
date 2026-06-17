@@ -380,25 +380,28 @@ export function HorizontalHome() {
             className="relative h-full scrollbar-none overflow-x-auto overflow-y-hidden outline-none [&::-webkit-scrollbar]:hidden"
           >
             <div className="flex h-full w-max">
-              <HeroPanel
-                panelRef={(node) => {
-                  panelRefs.current[0] = node;
-                }}
-                visible={revealedPanels.has(0)}
-              />
+              <div className="relative flex h-full [clip-path:inset(0)]">
+                <FixedSignalLayer />
+                <HeroPanel
+                  panelRef={(node) => {
+                    panelRefs.current[0] = node;
+                  }}
+                  visible={revealedPanels.has(0)}
+                />
 
-              <SuccessCasesPanel
-                panelRef={(node) => {
-                  panelRefs.current[1] = node;
-                }}
-                visible={revealedPanels.has(1)}
-              />
-              <PrimaryCarePanel
-                panelRef={(node) => {
-                  panelRefs.current[2] = node;
-                }}
-                visible={revealedPanels.has(2)}
-              />
+                <SuccessCasesPanel
+                  panelRef={(node) => {
+                    panelRefs.current[1] = node;
+                  }}
+                  visible={revealedPanels.has(1)}
+                />
+                <PrimaryCarePanel
+                  panelRef={(node) => {
+                    panelRefs.current[2] = node;
+                  }}
+                  visible={revealedPanels.has(2)}
+                />
+              </div>
               <ArchitecturePanel
                 panelRef={(node) => {
                   panelRefs.current[3] = node;
@@ -477,33 +480,36 @@ export function VerticalHome() {
   return (
     <>
       <main className="relative z-10 hidden lg:block">
-        <VerticalPanel initiallyVisible={revealedPanels.has(0)}>
-          {(visible, panelRef) => (
-            <HeroPanel
-              layout="vertical"
-              panelRef={panelRef}
-              visible={visible}
-            />
-          )}
-        </VerticalPanel>
-        <VerticalPanel initiallyVisible={revealedPanels.has(1)}>
-          {(visible, panelRef) => (
-            <SuccessCasesPanel
-              layout="vertical"
-              panelRef={panelRef}
-              visible={visible}
-            />
-          )}
-        </VerticalPanel>
-        <VerticalPanel initiallyVisible={revealedPanels.has(2)}>
-          {(visible, panelRef) => (
-            <PrimaryCarePanel
-              layout="vertical"
-              panelRef={panelRef}
-              visible={visible}
-            />
-          )}
-        </VerticalPanel>
+        <div className="relative [clip-path:inset(0)]">
+          <FixedSignalLayer />
+          <VerticalPanel initiallyVisible={revealedPanels.has(0)}>
+            {(visible, panelRef) => (
+              <HeroPanel
+                layout="vertical"
+                panelRef={panelRef}
+                visible={visible}
+              />
+            )}
+          </VerticalPanel>
+          <VerticalPanel initiallyVisible={revealedPanels.has(1)}>
+            {(visible, panelRef) => (
+              <SuccessCasesPanel
+                layout="vertical"
+                panelRef={panelRef}
+                visible={visible}
+              />
+            )}
+          </VerticalPanel>
+          <VerticalPanel initiallyVisible={revealedPanels.has(2)}>
+            {(visible, panelRef) => (
+              <PrimaryCarePanel
+                layout="vertical"
+                panelRef={panelRef}
+                visible={visible}
+              />
+            )}
+          </VerticalPanel>
+        </div>
         <VerticalPanel initiallyVisible={revealedPanels.has(3)}>
           {(visible, panelRef) => (
             <ArchitecturePanel
@@ -609,20 +615,26 @@ function VerticalPanel({
   });
 }
 
+function FixedSignalLayer() {
+  return (
+    <div className="pointer-events-none fixed inset-0 z-0">
+      <SignalField intensity="hero" opacity={0.72} />
+    </div>
+  );
+}
+
 function Panel({
   children,
   className = "",
   panelRef,
   layout = "horizontal",
   height = "natural",
-  fixedSignal = false,
 }: {
   children: React.ReactNode;
   className?: string;
   panelRef: PanelRef;
   layout?: DesktopLayout;
   height?: PanelHeight;
-  fixedSignal?: boolean;
 }) {
   const layoutClassName =
     layout === "horizontal"
@@ -636,11 +648,6 @@ function Panel({
       ref={panelRef}
       className={`relative overflow-hidden ${layoutClassName} ${className}`}
     >
-      {fixedSignal ? (
-        <div className="pointer-events-none fixed inset-0 z-0">
-          <SignalField intensity="hero" opacity={0.72} />
-        </div>
-      ) : null}
       <div className="relative z-10 mx-auto w-full max-w-7xl">{children}</div>
     </section>
   );
@@ -656,7 +663,7 @@ function HeroPanel({
   layout?: DesktopLayout;
 }) {
   return (
-    <Panel panelRef={panelRef} layout={layout} height="viewport" fixedSignal>
+    <Panel panelRef={panelRef} layout={layout} height="viewport">
       <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
         <div className="relative">
           <Reveal visible={visible}>
