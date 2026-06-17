@@ -36,7 +36,7 @@ export function SiteHeader() {
     <ScrollHeaderFrame>
       <div className="mx-auto flex h-16 w-full max-w-425 items-center justify-between">
         <Link href="/" className="flex items-center gap-3" aria-label="Inicio">
-          <span className="border-primary-light/50 font-body bg-primary-light/70 grid size-8 place-items-center rounded-md border text-xs font-semibold text-white shadow-sm dark:border-cyan-300/25 dark:bg-cyan-300/10 dark:text-cyan-100 dark:shadow-[0_0_24px_rgba(45,212,191,0.2)]">
+          <span className="border-primary-light/50 font-body bg-primary-light/90 grid size-8 place-items-center rounded-md border text-xs font-semibold text-white shadow-sm dark:border-cyan-300/25 dark:bg-cyan-300/10 dark:text-cyan-100 dark:shadow-[0_0_24px_rgba(45,212,191,0.2)]">
             CS
           </span>
           <span className="hidden font-display text-sm uppercase tracking-widest font-extrabold font-display text-[#05215e] md:inline dark:text-slate-50">
@@ -107,7 +107,7 @@ export function VerticalFooter() {
         <div className="grid gap-10 md:grid-cols-[1.25fr_0.75fr]">
           <div>
              <Link href="/" className="flex items-center gap-3" aria-label="Inicio">
-          <span className="border-primary-light/50 font-body bg-primary-light/70 grid size-8 place-items-center rounded-md border text-xs font-semibold text-white shadow-sm dark:border-cyan-300/25 dark:bg-cyan-300/10 dark:text-cyan-100 dark:shadow-[0_0_24px_rgba(45,212,191,0.2)]">
+          <span className="border-primary-light/50 font-body bg-primary-light/90 grid size-8 place-items-center rounded-md border text-xs font-semibold text-white shadow-sm dark:border-cyan-300/25 dark:bg-cyan-300/10 dark:text-cyan-100 dark:shadow-[0_0_24px_rgba(45,212,191,0.2)]">
             CS
           </span>
           <span className="hidden font-display text-sm uppercase tracking-widest font-extrabold font-display text-[#05215e] md:inline dark:text-slate-50">
@@ -179,7 +179,7 @@ export function VerticalFooter() {
           </nav>
         </div>
 
-        <div className="mt-8 flex flex-col gap-5 border-t border-cyan-800/10 py-5 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between dark:border-cyan-300/10 dark:text-slate-500">
+        <div className="mt-8 flex flex-col gap-5 border-t border-cyan-800/10 py-5 text-xs text-slate-600 sm:flex-row sm:items-center sm:justify-between dark:border-cyan-300/10 dark:text-slate-500">
           <div className="flex items-center gap-3">
             <Image
               src="/logos/BinparSquare.svg"

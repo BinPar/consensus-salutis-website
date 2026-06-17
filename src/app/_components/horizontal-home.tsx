@@ -621,6 +621,10 @@ function ProductSignalAccent({ className = "" }: { className?: string }) {
     shapePaths[0]!,
     shapePaths[1]!,
   ];
+  const safeShapePaths = shapePaths.filter((path) => path.startsWith("M"));
+  const safeOffsetShapePaths = offsetShapePaths.filter((path) =>
+    path.startsWith("M"),
+  );
   const transition = {
     duration: 10,
     ease: "linear" as const,
@@ -656,16 +660,16 @@ function ProductSignalAccent({ className = "" }: { className?: string }) {
           </linearGradient>
         </defs>
         <motion.path
-          d={shapePaths[0]}
-          animate={reducedMotion ? undefined : { d: shapePaths }}
+          d={safeShapePaths[0] ?? shapePaths[0]}
+          animate={reducedMotion ? undefined : { d: safeShapePaths }}
           transition={transition}
           fill={`url(#${fillId})`}
           opacity={"0.25"}
         />
         <g transform="translate(-14 8)">
           <motion.path
-            d={offsetShapePaths[0]}
-            animate={reducedMotion ? undefined : { d: offsetShapePaths }}
+            d={safeOffsetShapePaths[0] ?? offsetShapePaths[0]}
+            animate={reducedMotion ? undefined : { d: safeOffsetShapePaths }}
             transition={offsetTransition}
             fill={`url(#${fillId})`}
             opacity={"0.2"}
@@ -696,6 +700,10 @@ function ProductSignalLeft({ className = "" }: { className?: string }) {
     "M108 66C150 32 212 48 244 104C274 156 348 130 356 194C364 256 280 270 216 260C154 250 148 328 90 294C34 260 78 216 36 178C-2 142 66 100 108 66Z",
     "M118 72C154 20 226 42 252 94C278 144 344 122 360 180C378 246 296 288 228 278C164 268 140 322 86 286C32 250 78 212 36 174C0 138 72 110 118 72Z",
   ];
+  const safeShapePaths = shapePaths.filter((path) => path.startsWith("M"));
+  const safeOffsetShapePaths = offsetShapePaths.filter((path) =>
+    path.startsWith("M"),
+  );
   const transition = {
     duration: 10,
     ease: "linear" as const,
@@ -733,14 +741,14 @@ function ProductSignalLeft({ className = "" }: { className?: string }) {
         <g transform="translate(-20 0)">
           <motion.path
             className="fill-[#eff8fa] dark:fill-[#06111f]"
-            d={shapePaths[0]}
-            animate={reducedMotion ? undefined : { d: shapePaths }}
+            d={safeShapePaths[0] ?? shapePaths[0]}
+            animate={reducedMotion ? undefined : { d: safeShapePaths }}
             transition={transition}
             fill={`url(#${fillId})`}
           />
           <motion.path
-            d={shapePaths[0]}
-            animate={reducedMotion ? undefined : { d: shapePaths }}
+            d={safeShapePaths[0] ?? shapePaths[0]}
+            animate={reducedMotion ? undefined : { d: safeShapePaths }}
             transition={transition}
             fill={`url(#${fillId})`}
             opacity={"0.15"}
@@ -748,8 +756,8 @@ function ProductSignalLeft({ className = "" }: { className?: string }) {
         </g>
         <g transform="translate(-15 -20)">
           <motion.path
-            d={offsetShapePaths[0]}
-            animate={reducedMotion ? undefined : { d: offsetShapePaths }}
+            d={safeOffsetShapePaths[0] ?? offsetShapePaths[0]}
+            animate={reducedMotion ? undefined : { d: safeOffsetShapePaths }}
             transition={offsetTransition}
             fill={`url(#${fillId})`}
             opacity={"0.2"}
@@ -908,11 +916,11 @@ function MetricsIntro({
     <>
       <Eyebrow>KPIs operativos</Eyebrow>
       <h2
-        className={`font-display mt-4 max-w-4xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${
-          compact ? "text-3xl" : "text-5xl"
+        className={`font-display mt-4 max-w-110  font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${
+          compact ? "text-3xl sm:text-4xl" : "text-5xl"
         }`}
       >
-        Volumen y actualización continua.
+        Volumen datos y actualización continua.
       </h2>
       <p
         className={`font-body max-w-5xl text-slate-600 dark:text-slate-400 ${
@@ -941,11 +949,11 @@ function MetricsIntro({
       </Reveal>
       <Reveal visible={visible} delay={0.1}>
         <h2
-          className={`font-display mt-4 max-w-4xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${
+          className={`font-display mt-4 max-w-xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${
             compact ? "text-3xl" : "text-5xl"
           }`}
         >
-          Volumen y actualización continua.
+          Volumen datos y actualización continua.
         </h2>
       </Reveal>
       <Reveal visible={visible} delay={0.2}>
@@ -977,7 +985,7 @@ function ArchitecturePanel({
   layout?: DesktopLayout;
 }) {
   return (
-    <Panel className="" panelRef={panelRef} layout={layout}>
+    <Panel className="bg-white dark:bg-transparent" panelRef={panelRef} layout={layout}>
       <div className="relative z-10 max-w-6xl">
         <Reveal visible={visible}>
           <Eyebrow>Producto</Eyebrow>
@@ -1141,86 +1149,90 @@ function MobileHome({
 
   return (
     <main className="relative z-10 bg-transparent lg:hidden">
-      <section
-        ref={(node) => {
-          sectionRefs.current[0] = node;
-        }}
-        className="relative overflow-hidden border-b border-cyan-800/10 px-5 py-10 sm:py-16 dark:border-cyan-300/10"
-      >
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.03),rgba(244,249,252,0.38)_10%,rgba(13,148,136,0.02)_60%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.01),rgba(6,17,31,0.42)_20%,rgba(20,184,166,0.01)_80%,transparent)]" />
-        <SignalField intensity="hero" opacity={0.72} />
-        <ViewportReveal className="relative z-10">
-          <Eyebrow>IA médica institucional</Eyebrow>
-          <h1 className="font-display mt-3.5 text-4xl font-semibold tracking-tight text-[#05215e] sm:mt-6 sm:text-5xl dark:text-slate-50">
-            Conocimiento clínico gobernado por IA.
-          </h1>
-          <p className="font-body mt-3.5 text-base leading-7 text-slate-700 sm:mt-7 sm:text-lg sm:leading-8 dark:text-slate-300">
-            Consensus Salutis convierte guías, protocolos y corpus médico en
-            respuestas trazables para Atención Primaria.
-          </p>
-          <div className="mt-7">
-            <ClinicalChatMock compact />
-          </div>
-          <div className="mt-9">
-            <CTAGroup />
-          </div>
-        </ViewportReveal>
-      </section>
-
-      <ThemeSection
-        ref={(node) => {
-          sectionRefs.current[1] = node;
-        }}
-        variant="panel"
-      >
-        <div className="px-5">
-          <ViewportReveal>
-            <Eyebrow>Casos de éxito</Eyebrow>
-            <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
-              Nuestro conocimiento clínico en el sistema sanitario.
-            </h2>
-            <p className="font-body mt-3.5 text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
-              Dos servicios sanitarios que ya incorporan inteligencia artificial
-              para facilitar el acceso rápido al conocimiento clínico fiable,
-              optimizar procesos de atención asistencial y reforzar la mejora
-              continua.
+      <div className="relative [clip-path:inset(0)]">
+        <SignalField intensity="hero" opacity={0.72} className="fixed" />
+        <ProductSignalLeft className="fixed -bottom-80 -left-200 sm:-left-155 w-250 rotate-20" />
+        <section
+          ref={(node) => {
+            sectionRefs.current[0] = node;
+          }}
+          className="relative overflow-hidden border-b border-cyan-800/10 px-5 sm:px-10 py-10 sm:py-16 dark:border-cyan-300/10"
+        >
+          <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.03),rgba(244,249,252,0.38)_10%,rgba(13,148,136,0.02)_60%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.01),rgba(6,17,31,0.42)_20%,rgba(20,184,166,0.01)_80%,transparent)]" />
+          <ViewportReveal className="relative z-10 mt-10">
+            <Eyebrow>IA médica institucional</Eyebrow>
+            <h1 className="font-display max-w-xl mt-3.5 text-4xl font-extrabold tracking-tight text-[#05215e] sm:mt-6 sm:text-5xl dark:text-slate-50">
+              Conocimiento clínico gobernado por IA.
+            </h1>
+            <p className="font-body mt-3.5 max-w-xl text-base leading-7 text-slate-700 sm:mt-7 sm:text-lg sm:leading-8 dark:text-slate-300">
+              Consensus Salutis convierte guías, protocolos y corpus médico en
+              respuestas trazables para Atención Primaria.
             </p>
+            <div className="mt-7">
+              <ClinicalChatMock compact />
+            </div>
+            <div className="mt-9">
+              <CTAGroup />
+            </div>
           </ViewportReveal>
-          <SuccessCases className="mt-8" />
-        </div>
-      </ThemeSection>
+        </section>
 
-      <ThemeSection
-        ref={(node) => {
-          sectionRefs.current[2] = node;
-        }}
-      >
-        <div className="px-5">
-          <ViewportReveal>
-            <Eyebrow>Proceso de consulta</Eyebrow>
-            <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
-              De la pregunta a la evidencia.
-            </h2>
-            <p className="font-body mt-3.5 text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
-              Consensus Salutis acompaña cada consulta hasta una respuesta
-              contrastada, referenciada y preparada para ser revisada.
-            </p>
-          </ViewportReveal>
-          <ClinicalProcess className="mt-10" />
-        </div>
-      </ThemeSection>
+        <ThemeSection
+          ref={(node) => {
+            sectionRefs.current[1] = node;
+          }}
+          variant="transparent"
+          className="bg-white dark:bg-transparent dark:bg-linear-to-br dark:from-[#030916]/80 dark:to-[#030916]/40"
+        >
+          <div className="px-5 sm:px-10">
+            <ViewportReveal>
+              <Eyebrow>Casos de éxito</Eyebrow>
+              <h2 className="font-display mt-4 text-3xl sm:text-4xl max-w-sm font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
+                Nuestros casos en el sistema sanitario.
+              </h2>
+              <p className="font-body mt-3.5 text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
+                Dos servicios sanitarios que ya incorporan inteligencia artificial
+                para facilitar el acceso rápido al conocimiento clínico fiable,
+                optimizar procesos de atención asistencial y reforzar la mejora
+                continua.
+              </p>
+            </ViewportReveal>
+            <SuccessCases className="mt-8" />
+          </div>
+        </ThemeSection>
+
+        <ThemeSection
+          ref={(node) => {
+            sectionRefs.current[2] = node;
+          }}
+        >
+          <div className="px-5 sm:px-10">
+            <ViewportReveal>
+              <Eyebrow>Proceso de consulta</Eyebrow>
+              <h2 className="font-display mt-4 text-3xl sm:text-4xl max-w-70 font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
+                De la pregunta a la evidencia.
+              </h2>
+              <p className="font-body mt-3.5 text-base max-w-xl leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
+                Consensus Salutis acompaña cada consulta hasta una respuesta
+                contrastada, referenciada y preparada para ser revisada.
+              </p>
+            </ViewportReveal>
+            <ClinicalProcess className="mt-10" />
+          </div>
+        </ThemeSection>
+      </div>
 
       <ThemeSection
         ref={(node) => {
           sectionRefs.current[3] = node;
         }}
-        variant="transparent"
+       variant="transparent"
+        className="bg-white dark:bg-transparent"
       >
-        <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.03),rgba(244,249,252,0.38)_10%,rgba(13,148,136,0.02)_60%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.01),rgba(6,17,31,0.42)_20%,rgba(20,184,166,0.01)_80%,transparent)]" />
-        <div className="relative z-10 px-5">
+        <div className="relative z-10 px-5 sm:px-10">
           <ViewportReveal className="relative z-10">
             <Eyebrow>Producto</Eyebrow>
-            <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
+            <h2 className="font-display mt-4 text-3xl sm:text-4xl max-w-120 font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
               De documentos dispersos a la decisión informada.
             </h2>
             <p className="font-body mt-3.5 text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
@@ -1241,7 +1253,7 @@ function MobileHome({
         }}
         variant="deep"
       >
-        <div className="px-5">
+        <div className="px-5 sm:px-10">
           <MetricsIntro compact />
           <StaggeredMetricGrid className="mt-8" />
         </div>
@@ -1253,15 +1265,15 @@ function MobileHome({
         }}
         variant="deep"
       >
-        <div className="relative px-5">
-          <ProductSignalAccent className="-top-8 -left-8 h-56 w-72 sm:-top-12 sm:left-0 sm:h-72 sm:w-96" />
+        <div className="relative px-5 sm:px-10">
+          <ProductSignalAccent className="-top-24 -left-18 w-120  " />
           {/* <ContactSignalAccent compact /> */}
           <ViewportReveal className="relative z-10">
             <Eyebrow>Contacto</Eyebrow>
-            <h2 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
+            <h2 className="font-display mt-4 text-3xl sm:text-4xl max-w-110 font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
               Hablemos de tu organización sanitaria.
             </h2>
-            <p className="font-body mt-3.5 text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
+            <p className="font-body mt-3.5 text-base leading-7 max-w-120 text-slate-600 sm:mt-5 dark:text-slate-400">
               Revisamos caso de uso, restricciones de seguridad, requisitos de
               integración y el nivel de evidencia necesario.
             </p>
@@ -1301,7 +1313,7 @@ function SuccessCases({
       }}
     >
       <div className="grid grid-cols-1 gap-x-6">
-        <motion.div className="grid w-full gap-3 sm:grid-cols-1 md:gap-6 lg:min-w-125 lg:flex-1 dark:border-cyan-300/15">
+        <motion.div className="grid w-full gap-3 sm:grid-cols-1 md:gap-6 lg:flex-1 dark:border-cyan-300/15">
           {successCases.map((item, index) => (
             <motion.div
               key={item.name}
