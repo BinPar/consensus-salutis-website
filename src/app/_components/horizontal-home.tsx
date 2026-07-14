@@ -412,9 +412,9 @@ export function HorizontalHome() {
                   ]
                 }
               </p>
-              <div className="bg-primary-light/10 h-px flex-1 dark:bg-cyan-300/10">
+              <div className="bg-primary-light/10 h-px flex-1 dark:bg-primary-dark/10">
                 <motion.div
-                  className="bg-primary-light h-px origin-left shadow-[0_0_18px_rgba(34,211,238,0.55)] dark:bg-cyan-300"
+                  className="bg-primary-light h-px origin-left shadow-[0_0_18px_rgba(34,211,238,0.55)] dark:bg-primary-dark"
                   animate={{ scaleX: Math.max(progress, 0.07) }}
                   transition={{ type: "spring", stiffness: 180, damping: 28 }}
                 />
@@ -608,6 +608,7 @@ function ProductSignalAccent({ className = "" }: { className?: string }) {
   const reducedMotion = useReducedMotion();
   const gradientId = useId().replace(/:/g, "");
   const fillId = `product-signal-fill-${gradientId}`;
+  const darkFillId = `product-signal-dark-fill-${gradientId}`;
   const innerFillId = `product-signal-inner-${gradientId}`;
   const shapePaths = [
     "M72 92C110 32 184 40 226 76C264 108 318 100 338 146C362 202 316 246 258 274C204 300 174 336 118 316C64 296 82 248 46 208C12 170 30 124 72 92Z",
@@ -640,7 +641,7 @@ function ProductSignalAccent({ className = "" }: { className?: string }) {
   return (
     <div
       aria-hidden="true"
-      className={`pointer-events-none absolute z-0 opacity-80 dark:opacity-35 ${className}`}
+      className={`pointer-events-none absolute z-0 opacity-80 dark:opacity-45 ${className}`}
     >
       <svg
         className="h-full w-full"
@@ -654,25 +655,48 @@ function ProductSignalAccent({ className = "" }: { className?: string }) {
             <stop offset="0.56" stopColor="rgb(20 184 166)" stopOpacity="0.2" />
             <stop offset="1" stopColor="rgb(246 255 83)" stopOpacity="0.1" />
           </linearGradient>
+          <linearGradient id={darkFillId} x1="52" y1="48" x2="330" y2="318">
+            <stop stopColor="rgb(0 188 187)" stopOpacity="0.34" />
+            <stop offset="0.58" stopColor="rgb(20 184 166)" stopOpacity="0.24" />
+            <stop offset="1" stopColor="rgb(125 211 252)" stopOpacity="0.08" />
+          </linearGradient>
           <linearGradient id={innerFillId} x1="90" y1="72" x2="302" y2="280">
             <stop stopColor="rgb(125 211 252)" stopOpacity="0.32" />
             <stop offset="1" stopColor="rgb(20 184 166)" stopOpacity="0.18" />
           </linearGradient>
         </defs>
         <motion.path
+          className="dark:hidden"
           d={safeShapePaths[0] ?? shapePaths[0]}
           animate={reducedMotion ? undefined : { d: safeShapePaths }}
           transition={transition}
           fill={`url(#${fillId})`}
           opacity={"0.25"}
         />
+        <motion.path
+          className="hidden dark:block"
+          d={safeShapePaths[0] ?? shapePaths[0]}
+          animate={reducedMotion ? undefined : { d: safeShapePaths }}
+          transition={transition}
+          fill={`url(#${darkFillId})`}
+          opacity={"0.28"}
+        />
         <g transform="translate(-14 8)">
           <motion.path
+            className="dark:hidden"
             d={safeOffsetShapePaths[0] ?? offsetShapePaths[0]}
             animate={reducedMotion ? undefined : { d: safeOffsetShapePaths }}
             transition={offsetTransition}
             fill={`url(#${fillId})`}
             opacity={"0.2"}
+          />
+          <motion.path
+            className="hidden dark:block"
+            d={safeOffsetShapePaths[0] ?? offsetShapePaths[0]}
+            animate={reducedMotion ? undefined : { d: safeOffsetShapePaths }}
+            transition={offsetTransition}
+            fill={`url(#${darkFillId})`}
+            opacity={"0.24"}
           />
         </g>
       </svg>
@@ -683,6 +707,7 @@ function ProductSignalLeft({ className = "" }: { className?: string }) {
   const reducedMotion = useReducedMotion();
   const gradientId = useId().replace(/:/g, "");
   const fillId = `product-signal-fill-${gradientId}`;
+  const darkFillId = `product-signal-dark-fill-${gradientId}`;
   const innerFillId = `product-signal-inner-${gradientId}`;
   const shapePaths = [
     "M72 96C108 34 184 34 230 76C270 112 326 98 348 150C376 214 312 260 250 288C190 314 156 342 106 314C54 286 78 242 42 202C8 164 28 122 72 96Z",
@@ -719,7 +744,7 @@ function ProductSignalLeft({ className = "" }: { className?: string }) {
   return (
     <div
       aria-hidden="true"
-      className={`pointer-events-none absolute z-0 opacity-80 dark:opacity-35 ${className}`}
+      className={`pointer-events-none absolute z-0 opacity-80 dark:opacity-45 ${className}`}
     >
       <svg
         className="h-full w-full"
@@ -732,6 +757,11 @@ function ProductSignalLeft({ className = "" }: { className?: string }) {
             <stop stopColor="rgb(8 145 178)" stopOpacity="0.34" />
             <stop offset="0.56" stopColor="rgb(20 184 166)" stopOpacity="0.2" />
             <stop offset="1" stopColor="rgb(246 255 83)" stopOpacity="0.1" />
+          </linearGradient>
+          <linearGradient id={darkFillId} x1="52" y1="48" x2="330" y2="318">
+            <stop stopColor="rgb(0 188 187)" stopOpacity="0.34" />
+            <stop offset="0.58" stopColor="rgb(20 184 166)" stopOpacity="0.24" />
+            <stop offset="1" stopColor="rgb(125 211 252)" stopOpacity="0.08" />
           </linearGradient>
           <linearGradient id={innerFillId} x1="90" y1="72" x2="302" y2="280">
             <stop stopColor="rgb(125 211 252)" stopOpacity="0.32" />
@@ -747,20 +777,38 @@ function ProductSignalLeft({ className = "" }: { className?: string }) {
             fill={`url(#${fillId})`}
           />
           <motion.path
+            className="dark:hidden"
             d={safeShapePaths[0] ?? shapePaths[0]}
             animate={reducedMotion ? undefined : { d: safeShapePaths }}
             transition={transition}
             fill={`url(#${fillId})`}
             opacity={"0.15"}
           />
+          <motion.path
+            className="hidden dark:block"
+            d={safeShapePaths[0] ?? shapePaths[0]}
+            animate={reducedMotion ? undefined : { d: safeShapePaths }}
+            transition={transition}
+            fill={`url(#${darkFillId})`}
+            opacity={"0.18"}
+          />
         </g>
         <g transform="translate(-15 -20)">
           <motion.path
+            className="dark:hidden"
             d={safeOffsetShapePaths[0] ?? offsetShapePaths[0]}
             animate={reducedMotion ? undefined : { d: safeOffsetShapePaths }}
             transition={offsetTransition}
             fill={`url(#${fillId})`}
             opacity={"0.2"}
+          />
+          <motion.path
+            className="hidden dark:block"
+            d={safeOffsetShapePaths[0] ?? offsetShapePaths[0]}
+            animate={reducedMotion ? undefined : { d: safeOffsetShapePaths }}
+            transition={offsetTransition}
+            fill={`url(#${darkFillId})`}
+            opacity={"0.24"}
           />
         </g>
       </svg>
@@ -1317,7 +1365,7 @@ function SuccessCases({
           {successCases.map((item, index) => (
             <motion.div
               key={item.name}
-              className="shadow-big-blocks flex min-w-0 flex-col items-center justify-center rounded-2xl border border-cyan-800/15 bg-white/70 px-5 py-3 backdrop-blur-xs dark:border-cyan-300/15 dark:bg-white/3 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)]"
+              className="shadow-big-blocks flex min-w-0 flex-col items-center justify-center rounded-2xl border border-cyan-800/15 bg-white/70 px-5 py-3 backdrop-blur-xs dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)]"
               initial={{ opacity: reducedMotion ? 1 : 0 }}
               animate={{ opacity: show ? 1 : 0 }}
               transition={{
@@ -1347,7 +1395,7 @@ function SuccessCases({
                   />
                 ) : null}
               </div>
-              <p className="text-primary-light font-display mt-2 text-xs font-semibold tracking-[0.13em] uppercase dark:text-cyan-300">
+              <p className="text-primary-light font-display mt-2 text-xs font-semibold tracking-[0.13em] uppercase dark:text-primary-dark">
                 {item.organization}
               </p>
             </motion.div>
@@ -1455,7 +1503,7 @@ function MobileProcessMilestone({
       }}
     >
       <div className="relative flex justify-center">
-        <span className="border-primary-light relative z-10 grid size-10 place-items-center rounded-full border bg-white/50 text-xs font-semibold text-cyan-800 shadow-sm backdrop-blur-sm dark:border-cyan-300 dark:bg-[#06111f] dark:text-cyan-100 dark:shadow-[0_0_18px_rgba(103,232,249,0.18)]">
+        <span className="border-primary-light relative z-10 grid size-10 place-items-center rounded-full border bg-white/50 text-xs font-semibold text-cyan-800 shadow-sm backdrop-blur-sm dark:border-cyan-300 dark:bg-[#06111f] dark:text-primary-dark-lighter dark:shadow-[0_0_18px_rgba(103,232,249,0.18)]">
           {item.step}
         </span>
         {!last ? (
@@ -1466,7 +1514,7 @@ function MobileProcessMilestone({
             />
             <motion.span
               aria-hidden="true"
-              className="bg-primary-light absolute top-10 bottom-0 left-1/2 w-px origin-top -translate-x-1/2 dark:bg-cyan-300"
+              className="bg-primary-light absolute top-10 bottom-0 left-1/2 w-px origin-top -translate-x-1/2 dark:bg-primary-dark"
               variants={{
                 hidden: { scaleY: reducedMotion ? 1 : 0 },
                 visible: {
@@ -1489,7 +1537,7 @@ function MobileProcessMilestone({
         <p className="font-body mt-2 min-h-12 text-sm leading-6 text-slate-600 dark:text-slate-400">
           {item.body}
         </p>
-        <p className="font-body text-primary-light mt-2 text-[10px] font-semibold tracking-[0.12em] uppercase dark:text-cyan-300">
+        <p className="font-body text-primary-light mt-2 text-[10px] font-semibold tracking-[0.12em] uppercase dark:text-primary-dark">
           {item.signal}
         </p>
       </div>
@@ -1553,7 +1601,7 @@ function ProcessMilestone({
         />
       ) : null}
       <span
-        className={`border-primary-light font-display relative z-10 grid shrink-0 place-items-center rounded-full border bg-white/80 font-semibold text-cyan-800 shadow-sm backdrop-blur-sm dark:border-cyan-300 dark:bg-[#06111f] dark:text-cyan-100 dark:shadow-[0_0_18px_rgba(103,232,249,0.18)] ${
+        className={`border-primary-light font-display relative z-10 grid shrink-0 place-items-center rounded-full border bg-white/80 font-semibold text-cyan-800 shadow-sm backdrop-blur-sm dark:border-cyan-300 dark:bg-[#06111f] dark:text-primary-dark-lighter dark:shadow-[0_0_18px_rgba(103,232,249,0.18)] ${
           compact ? "size-8 text-[10px]" : "size-10 text-xs"
         } ${desktop ? "" : "absolute top-0 -left-12"}`}
       >
@@ -1569,7 +1617,7 @@ function ProcessMilestone({
       >
         {item.body}
       </p>
-      <p className="font-body text-primary-light mt-2 text-[10px] font-semibold tracking-[0.12em] uppercase dark:text-cyan-300">
+      <p className="font-body text-primary-light mt-2 text-[10px] font-semibold tracking-[0.12em] uppercase dark:text-primary-dark">
         {item.signal}
       </p>
     </motion.article>
@@ -1634,7 +1682,7 @@ function ProductPillars({
               </div>
             </div>
             <p
-              className={`${compact ? "mt-3" : "mt-1 lg:mt-5"} border-primary-light font-display text-primary-light shrink-0 border-b pt-4 pb-3 text-xs font-semibold tracking-[0.13em] uppercase lg:tracking-[0.18em] dark:border-cyan-300/20 dark:text-cyan-300`}
+              className={`${compact ? "mt-3" : "mt-1 lg:mt-5"} border-primary-light font-display text-primary-light shrink-0 border-b pt-4 pb-3 text-xs font-semibold tracking-[0.13em] uppercase lg:tracking-[0.18em] dark:border-cyan-300/20 dark:text-primary-dark`}
             >
               {pillar.role}
             </p>
@@ -1681,7 +1729,7 @@ function StaggeredMetricGrid({
       {metrics.map((metric, index) => (
         <motion.div
           key={metric.label}
-          className="shadow-big-blocks flex flex-col items-center rounded-2xl border border-cyan-800/20 bg-white/80 p-3 backdrop-blur-xs sm:block sm:p-6 dark:border-cyan-300/20 dark:bg-white/3 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)] dark:backdrop-blur-sm"
+          className="shadow-big-blocks flex flex-col items-center rounded-2xl border border-cyan-800/20 bg-white/80 p-3 backdrop-blur-xs sm:block sm:p-6 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)] dark:backdrop-blur-sm"
           variants={{
             hidden: { opacity: reducedMotion ? 1 : 0 },
             visible: {
@@ -1761,7 +1809,7 @@ function AnimatedMetricValue({
   return (
     <p
       // aria-label={formattedValue}
-      className="font-display text-xl font-semibold text-cyan-800 sm:text-3xl dark:text-cyan-100"
+      className="font-display text-xl font-semibold text-cyan-800 sm:text-3xl dark:text-primary-dark-lighter"
     >
       <span aria-hidden="true">
         {prefix}

@@ -69,7 +69,7 @@ export function HomeShell({
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <p className="text-primary-light font-display text-xs font-bold tracking-[0.22em] uppercase dark:text-cyan-300">
+    <p className="text-primary-light font-display text-xs font-bold tracking-[0.22em] uppercase dark:text-primary-dark">
       {children}
     </p>
   );
@@ -80,7 +80,7 @@ export function CTAGroup() {
     <div className="flex flex-col gap-3 sm:flex-row">
       <Link
         href="/contacto"
-        className="bg-primary-light font-body rounded-full px-5 py-3 text-center text-sm font-semibold text-white shadow-md transition hover:bg-cyan-800 dark:bg-cyan-300 dark:text-[#04111e] dark:shadow-[0_0_34px_rgba(45,212,191,0.26)] dark:hover:bg-cyan-200"
+        className="bg-primary-light font-body rounded-full px-5 py-3 text-center text-sm font-semibold text-white shadow-md transition hover:bg-cyan-800 dark:bg-primary-dark dark:text-[#04111e] dark:shadow-[0_0_34px_rgba(45,212,191,0.26)] dark:hover:bg-primary-dark-lighter"
       >
         Solicitar reunión
       </Link>
@@ -106,7 +106,7 @@ export function MetricGrid({
           key={metric.label}
           className="rounded-2xl border border-cyan-800/10 bg-white/75 p-6 shadow-sm backdrop-blur-sm dark:border-cyan-300/20 dark:bg-white/3 dark:shadow-none"
         >
-          <p className="text-3xl font-semibold text-cyan-800 dark:text-cyan-100">
+          <p className="text-3xl font-semibold text-cyan-800 dark:text-primary-dark-lighter">
             {metric.value}
           </p>
           <p className="font-body mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">
@@ -143,7 +143,7 @@ export function EvidenceFlow() {
           key={step}
           className="grid grid-cols-[3rem_1fr] gap-4 rounded-md border border-cyan-800/10 bg-white/70 p-4 dark:border-cyan-300/10 dark:bg-white/[0.035]"
         >
-          <span className="text-primary-light text-sm font-semibold dark:text-cyan-300">
+          <span className="text-primary-light text-sm font-semibold dark:text-primary-dark">
             {step}
           </span>
           <div>

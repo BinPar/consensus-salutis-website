@@ -4,8 +4,9 @@
 
 @theme {
   --breakpoint-3xl: 2000px;
-  --color-primary: #53eafd;
-  --color-primary-light: #006b77;
+  --color-primary-dark: #00BCBB;
+  --color-primary-dark-lighter: #71fffe;
+  --color-primary-light: #006b79;
   --color-secondary: #f6ff53;
   --font-sans:
     var(--font-plus-jakarta-sans), "Plus Jakarta Sans", ui-sans-serif,

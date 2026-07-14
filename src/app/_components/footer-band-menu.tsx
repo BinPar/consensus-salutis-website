@@ -30,7 +30,7 @@ export function FooterBandMenu({
         {label}
         <span
           aria-hidden="true"
-          className="text-[10px] text-primary-light transition group-open:rotate-45 dark:text-cyan-300"
+          className="text-[10px] text-primary-light transition group-open:rotate-45 dark:text-primary-dark"
         >
           +
         </span>

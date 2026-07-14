@@ -312,7 +312,7 @@ export function SignalField({
       style={{ opacity: fieldOpacity }}
     >
       <svg
-        className="absolute inset-0 h-full w-full text-cyan-700/42 dark:text-cyan-200/20"
+        className="absolute inset-0 h-full w-full text-cyan-700/42 dark:text-primary-dark"
         viewBox="0 0 1440 900"
         preserveAspectRatio="xMidYMid slice"
         fill="none"
@@ -327,18 +327,18 @@ export function SignalField({
           </linearGradient>
           <linearGradient id={fillId} x1="300" y1="0" x2="1100" y2="850">
             <stop
-              className="dark:[stop-opacity:0.11]"
+              className="dark:[stop-opacity:0.16]"
               stopColor="rgb(8 145 178)"
               stopOpacity="0.24"
             />
             <stop
-              className="dark:[stop-opacity:0.05]"
+              className="dark:[stop-opacity:0.10]"
               offset="0.52"
               stopColor="rgb(20 184 166)"
               stopOpacity="0.11"
             />
             <stop
-              className="dark:[stop-opacity:0.07]"
+              className="dark:[stop-opacity:0.04]"
               offset="1"
               stopColor="rgb(246 255 83)"
               stopOpacity="0.16"
