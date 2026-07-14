@@ -125,6 +125,45 @@ const successCases = [
   },
 ];
 
+const featuredArticles = [
+  {
+    category: "Evaluación clínica",
+    readTime: "6 min",
+    title: "Cómo medir la fiabilidad de una respuesta clínica generada por IA",
+    excerpt:
+      "Criterios de evaluación, preguntas de control y revisión experta para sostener confianza institucional.",
+    imageLabel: "Matriz de evaluación",
+    imageSrc: "/img/mockImage.png",
+  },
+  {
+    category: "Trazabilidad",
+    readTime: "5 min",
+    title: "Del documento fuente a la decisión: evidencia visible en cada consulta",
+    excerpt:
+      "Una capa de consulta clínica debe mostrar el origen de cada conclusión y preservar contexto documental.",
+    imageLabel: "Fuente verificable",
+    imageSrc: "/img/mockImage.png",
+  },
+  {
+    category: "Gobierno",
+    readTime: "7 min",
+    title: "Gobernar conocimiento médico cuando cambia el corpus institucional",
+    excerpt:
+      "Roles, publicación controlada y validación continua para mantener una base clínica auditable.",
+    imageLabel: "Ciclo gobernado",
+    imageSrc: "/img/mockImage.png",
+  },
+  {
+    category: "Seguridad",
+    readTime: "4 min",
+    title: "Adopción responsable de IA clínica en organizaciones sanitarias",
+    excerpt:
+      "Privacidad, despliegue europeo y límites operativos para usar IA sin diluir responsabilidad profesional.",
+    imageLabel: "Entorno seguro",
+    imageSrc: "/img/mockImage.png",
+  },
+];
+
 const panels = [
   "Inicio",
   "Casos de éxito",
@@ -133,7 +172,7 @@ const panels = [
   "Métricas",
   "Reunión",
 ];
-const mobilePanelOrder = [0, 1, 2, 3, 4, 5] as const;
+const mobilePanelOrder = [0, 1, 2, 3, 4, 5, 6] as const;
 
 type DesktopLayout = "horizontal" | "vertical";
 type PanelHeight = "natural" | "viewport";
@@ -506,6 +545,11 @@ export function VerticalHome() {
           )}
         </VerticalPanel>
         <VerticalPanel initiallyVisible={revealedPanels.has(5)}>
+          {(visible, panelRef) => (
+            <BlogPanel layout="vertical" panelRef={panelRef} visible={visible} />
+          )}
+        </VerticalPanel>
+        <VerticalPanel initiallyVisible={revealedPanels.has(6)}>
           {(visible, panelRef) => (
             <ContactPanel
               layout="vertical"
@@ -1103,6 +1147,131 @@ function PrimaryCarePanel({
   );
 }
 
+function BlogPanel({
+  visible,
+  panelRef,
+  layout = "horizontal",
+}: {
+  visible: boolean;
+  panelRef: PanelRef;
+  layout?: DesktopLayout;
+}) {
+  return (
+    <Panel
+      panelRef={panelRef}
+      layout={layout}
+      className="bg-white dark:bg-transparent"
+    >
+      <BlogContent visible={visible} />
+    </Panel>
+  );
+}
+
+function BlogContent({
+  visible,
+  compact = false,
+}: {
+  visible?: boolean;
+  compact?: boolean;
+}) {
+  const reducedMotion = useReducedMotion();
+  const [viewportRef, inViewport] = usePassedViewport(0.28);
+  const show = reducedMotion ? true : (visible ?? inViewport);
+  const heading = (
+    <>
+      <Eyebrow>Lecturas clínicas</Eyebrow>
+      <h2
+        className={`font-display mt-4 max-w-4xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${
+          compact ? "text-3xl sm:text-4xl" : "text-5xl"
+        }`}
+      >
+        Articulos para implantar IA clínica.
+      </h2>
+      <p
+        className={`font-body mt-5 max-w-3xl text-slate-600 dark:text-slate-400 ${
+          compact ? "text-base leading-7" : "text-lg leading-8"
+        }`}
+      >
+        Artículos sobre evaluación, trazabilidad, gobierno y seguridad para
+        equipos que necesitan rigor clínico y capacidad tecnológica real.
+      </p>
+    </>
+  );
+
+  return (
+    <motion.section
+      ref={viewportRef}
+      className="relative z-10"
+      initial={reducedMotion ? "visible" : "hidden"}
+      animate={show ? "visible" : "hidden"}
+      variants={{
+        hidden: {},
+        visible: {
+          transition: {
+            staggerChildren: reducedMotion ? 0 : 0.12,
+          },
+        },
+      }}
+    >
+      {compact ? (
+        <ViewportReveal>{heading}</ViewportReveal>
+      ) : (
+        <Reveal visible={show}>{heading}</Reveal>
+      )}
+
+      <div
+        className={`mt-8 grid gap-4 ${
+          compact ? "sm:grid-cols-2" : "lg:grid-cols-4"
+        }`}
+      >
+        {featuredArticles.map((article) => (
+          <motion.article
+            key={article.title}
+            variants={{
+              hidden: { opacity: reducedMotion ? 1 : 0, y: reducedMotion ? 0 : 18 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: { duration: reducedMotion ? 0 : 0.42 },
+              },
+            }}
+            className="group overflow-hidden rounded-2xl border border-cyan-800/15 bg-white/80 shadow-big-blocks backdrop-blur-xs dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)]"
+          >
+            <div className="relative aspect-[1.45] overflow-hidden border-b border-cyan-800/10 bg-[#deedf3]/70 dark:border-cyan-300/10 dark:bg-[#06111f]">
+              <Image
+                src={article.imageSrc}
+                alt=""
+                width={800}
+                height={533}
+                className="h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,15,26,0.02),rgba(3,15,26,0.18)),linear-gradient(rgba(8,145,178,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(8,145,178,0.08)_1px,transparent_1px)] bg-size-[100%_100%,28px_28px,28px_28px] dark:bg-[linear-gradient(180deg,rgba(3,9,22,0.08),rgba(3,9,22,0.38)),linear-gradient(rgba(0,188,187,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(0,188,187,0.08)_1px,transparent_1px)]" />
+          
+              <div className="absolute right-5 bottom-5 left-5 h-px bg-[linear-gradient(90deg,var(--color-primary-light),transparent)] opacity-45 dark:bg-[linear-gradient(90deg,var(--color-primary-dark),transparent)]" />
+            </div>
+            <div className={compact ? "p-5" : "p-5 xl:p-6"}>
+              <div className="flex items-center justify-between gap-3 text-[10px] font-semibold tracking-[0.14em] uppercase">
+                <span className="text-primary-light dark:text-primary-dark">
+                  {article.category}
+                </span>
+                <span className="text-slate-500 dark:text-slate-500">
+                  {article.readTime}
+                </span>
+              </div>
+              <h3 className="font-display mt-4 text-lg font-semibold leading-6 text-[#05215e] dark:text-slate-50">
+                {article.title}
+              </h3>
+              <p className="font-body mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">
+                {article.excerpt}
+              </p>
+            </div>
+          </motion.article>
+        ))}
+      </div>
+    </motion.section>
+  );
+}
+
 function ContactPanel({
   visible,
   panelRef,
@@ -1310,6 +1479,17 @@ function MobileHome({
       <ThemeSection
         ref={(node) => {
           sectionRefs.current[5] = node;
+        }}
+        variant="deep"
+      >
+        <div className="px-5 sm:px-10">
+          <BlogContent compact />
+        </div>
+      </ThemeSection>
+
+      <ThemeSection
+        ref={(node) => {
+          sectionRefs.current[6] = node;
         }}
         variant="deep"
       >
