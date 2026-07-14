@@ -22,7 +22,21 @@ export const metadata: Metadata = {
   },
   description:
     "Plataforma de IA médica institucional para soporte a la toma de decisiones, evidencia clínica y gobierno del conocimiento sanitario.",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: {
+    icon: [
+      {
+        url: "/favicon.svg?v=7eaf3efa",
+        type: "image/svg+xml",
+        sizes: "any",
+      },
+    ],
+    shortcut: [
+      {
+        url: "/favicon.svg?v=7eaf3efa",
+        type: "image/svg+xml",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({

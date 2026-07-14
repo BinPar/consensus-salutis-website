@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 const question =
@@ -217,18 +218,21 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
         transition={{ duration: 0.45 }}
       >
         <div className="flex h-14 shrink-0 items-center bg-white/40 dark:bg-white/3 justify-between border-b border-cyan-800/20 px-4 dark:border-cyan-300/20">
-          <div className="flex items-center gap-2.5">
-            <span className="grid size-7 place-items-center rounded-md border border-primary-light/50 bg-primary-light/70 text-[10px] font-semibold text-white dark:border-cyan-300/25 dark:bg-cyan-300/10 dark:text-cyan-100">
-              CS
-            </span>
-            <div>
-              <p className="text-xs font-semibold text-slate-900 dark:text-slate-100">
-                Consensus Salutis
-              </p>
-              <p className="text-[10px] text-slate-500 dark:text-slate-500">
-                Asistente clínico
-              </p>
-            </div>
+          <div className="flex items-center">
+            <Image
+              src="/logos/consensus-brand/consensus-light.svg"
+              alt="Consensus Salutis"
+              width={618}
+              height={88}
+              className="h-6 w-auto dark:hidden"
+            />
+            <Image
+              src="/logos/consensus-brand/consensus-dark.svg"
+              alt="Consensus Salutis"
+              width={618}
+              height={88}
+              className="hidden h-6 w-auto dark:block"
+            />
           </div>
           <div className="flex items-center gap-1.5 text-[10px] font-medium text-teal-700 dark:text-teal-200">
             <span className="size-1.5 rounded-full bg-teal-300 shadow-[0_0_10px_rgba(94,234,212,0.7)]" />
@@ -293,8 +297,21 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
                 className="shrink-0"
               >
                 <div className="flex items-start gap-2.5">
-                  <span className="mt-0.5 grid size-7 shrink-0 place-items-center rounded-md border border-primary-light/50 bg-primary-light/70 text-[10px] font-semibold text-white dark:border-cyan-300/25 dark:bg-cyan-300/10 dark:text-cyan-100">
-                    CS
+                  <span className="mt-0.5 block size-6 shrink-0">
+                    <Image
+                      src="/logos/consensus-brand/consensus-isotipo-light.svg"
+                      alt=""
+                      width={93}
+                      height={93}
+                      className="size-6 dark:hidden"
+                    />
+                    <Image
+                      src="/logos/consensus-brand/consensus-isotipo-dark.svg"
+                      alt=""
+                      width={93}
+                      height={93}
+                      className="hidden size-6 dark:block"
+                    />
                   </span>
                   <div>
                     <p className="mb-1.5 text-xs font-semibold tracking-[0.12em] text-primary-light uppercase dark:text-cyan-200">
@@ -350,8 +367,21 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
 
                       {showFollowUpResponse && (
                         <div className="mt-6 flex items-start gap-2.5">
-                          <span className="mt-0.5 grid size-7 shrink-0 place-items-center rounded-md border border-primary-light/50 bg-primary-light/70 text-[10px] font-semibold text-white dark:border-cyan-300/20 dark:bg-cyan-300/10 dark:text-cyan-100">
-                            CS
+                          <span className="mt-0.5 block size-6 shrink-0">
+                            <Image
+                              src="/logos/consensus-brand/consensus-isotipo-light.svg"
+                              alt=""
+                              width={93}
+                              height={93}
+                              className="size-6 dark:hidden"
+                            />
+                            <Image
+                              src="/logos/consensus-brand/consensus-isotipo-dark.svg"
+                              alt=""
+                              width={93}
+                              height={93}
+                              className="hidden size-6 dark:block"
+                            />
                           </span>
                           <p
                             className={`font-body text-slate-700 dark:text-slate-300 ${
