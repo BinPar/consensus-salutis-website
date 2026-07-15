@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import { ArrowRight, Calendar, Clock } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
@@ -127,17 +128,17 @@ const successCases = [
 
 const featuredArticles = [
   {
-    category: "Evaluación clínica",
-    readTime: "6 min",
-    title: "Cómo medir la fiabilidad de una respuesta clínica generada por IA",
+    createdAtLabel: "11 feb 2026",
+    readTime: "6 min de lectura",
+    title: "Cómo medir la fiabilidad de una respuesta clínica.",
     excerpt:
       "Criterios de evaluación, preguntas de control y revisión experta para sostener confianza institucional.",
     imageLabel: "Matriz de evaluación",
     imageSrc: "/img/mockImage.png",
   },
   {
-    category: "Trazabilidad",
-    readTime: "5 min",
+    createdAtLabel: "18 feb 2026",
+    readTime: "5 min de lectura",
     title: "Del documento fuente a la decisión: evidencia visible en cada consulta",
     excerpt:
       "Una capa de consulta clínica debe mostrar el origen de cada conclusión y preservar contexto documental.",
@@ -145,17 +146,17 @@ const featuredArticles = [
     imageSrc: "/img/mockImage.png",
   },
   {
-    category: "Gobierno",
-    readTime: "7 min",
-    title: "Gobernar conocimiento médico cuando cambia el corpus institucional",
+    createdAtLabel: "26 feb 2026",
+    readTime: "7 min de lectura",
+    title: "Gobernar el conocimiento médico en el sector.",
     excerpt:
       "Roles, publicación controlada y validación continua para mantener una base clínica auditable.",
     imageLabel: "Ciclo gobernado",
     imageSrc: "/img/mockImage.png",
   },
   {
-    category: "Seguridad",
-    readTime: "4 min",
+    createdAtLabel: "5 mar 2026",
+    readTime: "4 min de lectura",
     title: "Adopción responsable de IA clínica en organizaciones sanitarias",
     excerpt:
       "Privacidad, despliegue europeo y límites operativos para usar IA sin diluir responsabilidad profesional.",
@@ -1178,24 +1179,33 @@ function BlogContent({
   const [viewportRef, inViewport] = usePassedViewport(0.28);
   const show = reducedMotion ? true : (visible ?? inViewport);
   const heading = (
-    <>
-      <Eyebrow>Lecturas clínicas</Eyebrow>
-      <h2
-        className={`font-display mt-4 max-w-4xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${
-          compact ? "text-3xl sm:text-4xl" : "text-5xl"
-        }`}
+    <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <Eyebrow>Lecturas clínicas</Eyebrow>
+        <h2
+          className={`font-display mt-4 max-w-4xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${
+            compact ? "text-3xl sm:text-4xl" : "text-5xl"
+          }`}
+        >
+          Últimos artículos
+        </h2>
+        <p
+          className={`font-body mt-5 max-w-3xl text-slate-600 dark:text-slate-400 ${
+            compact ? "text-base leading-7" : "text-lg leading-8"
+          }`}
+        >
+          Lecturas recientes sobre IA médica, tendencias sanitarias y nuevas formas de transformar la asistencia al paciente en el sistema de salud.
+
+        </p>
+      </div>
+      <a
+        href="#"
+        className="font-body inline-flex h-11 shrink-0 items-center justify-center gap-2 self-start rounded-full bg-primary-light px-7 text-sm font-semibold text-white shadow-big-blocks transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#087a85] sm:self-end dark:bg-primary-dark dark:text-[#03111d] dark:shadow-[0_0_24px_rgba(0,188,187,0.18)] dark:hover:bg-primary-dark-lighter"
       >
-        Articulos para implantar IA clínica.
-      </h2>
-      <p
-        className={`font-body mt-5 max-w-3xl text-slate-600 dark:text-slate-400 ${
-          compact ? "text-base leading-7" : "text-lg leading-8"
-        }`}
-      >
-        Artículos sobre evaluación, trazabilidad, gobierno y seguridad para
-        equipos que necesitan rigor clínico y capacidad tecnológica real.
-      </p>
-    </>
+        Ver todos
+        <ArrowRight aria-hidden="true" className="size-4" strokeWidth={1.8} />
+      </a>
+    </div>
   );
 
   return (
@@ -1221,49 +1231,60 @@ function BlogContent({
 
       <div
         className={`mt-8 grid gap-4 ${
-          compact ? "sm:grid-cols-2" : "lg:grid-cols-4"
+          compact ? "sm:grid-cols-2" : "lg:grid-cols-3 xl:grid-cols-4"
         }`}
       >
-        {featuredArticles.map((article) => (
+        {featuredArticles.map((article, index) => (
           <motion.article
             key={article.title}
             variants={{
-              hidden: { opacity: reducedMotion ? 1 : 0, y: reducedMotion ? 0 : 18 },
+              hidden: { opacity: reducedMotion ? 1 : 0 },
               visible: {
                 opacity: 1,
-                y: 0,
                 transition: { duration: reducedMotion ? 0 : 0.42 },
               },
             }}
-            className="group overflow-hidden rounded-2xl border border-cyan-800/15 bg-white/80 shadow-big-blocks backdrop-blur-xs dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)]"
+            className={`group overflow-hidden rounded-2xl hover:-translate-y-2 transition-all duration-150 border border-cyan-800/15 hover:border-primary-light/30 bg-white/80 shadow-big-blocks backdrop-blur-xs dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)] ${
+              !compact && index === 3 ? "lg:max-xl:hidden" : ""
+            }`}
           >
-            <div className="relative aspect-[1.45] overflow-hidden border-b border-cyan-800/10 bg-[#deedf3]/70 dark:border-cyan-300/10 dark:bg-[#06111f]">
+            <div className="relative aspect-[1.6] overflow-hidden border-b border-cyan-800/10 bg-[#deedf3]/70 dark:border-cyan-300/10 dark:bg-[#06111f]">
               <Image
                 src={article.imageSrc}
                 alt=""
                 width={800}
                 height={533}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-150"
               />
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,15,26,0.02),rgba(3,15,26,0.18)),linear-gradient(rgba(8,145,178,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(8,145,178,0.08)_1px,transparent_1px)] bg-size-[100%_100%,28px_28px,28px_28px] dark:bg-[linear-gradient(180deg,rgba(3,9,22,0.08),rgba(3,9,22,0.38)),linear-gradient(rgba(0,188,187,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(0,188,187,0.08)_1px,transparent_1px)]" />
+             
           
-              <div className="absolute right-5 bottom-5 left-5 h-px bg-[linear-gradient(90deg,var(--color-primary-light),transparent)] opacity-45 dark:bg-[linear-gradient(90deg,var(--color-primary-dark),transparent)]" />
+              
             </div>
-            <div className={compact ? "p-5" : "p-5 xl:p-6"}>
-              <div className="flex items-center justify-between gap-3 text-[10px] font-semibold tracking-[0.14em] uppercase">
-                <span className="text-primary-light dark:text-primary-dark">
-                  {article.category}
+            <div className={compact ? "p-5 pt-4" : "p-5 xl:p-6 pt-4.5!"}>
+              <h3 className="font-display font-body text-base line-clamp-2 text-[#05215e] dark:text-slate-100">
+                {article.title}
+              </h3>
+              <p className="font-body mt-3 text-sm line-clamp-3 text-slate-600 dark:text-slate-400">
+                {article.excerpt}
+              </p>
+              <div className="flex flex-wrap mt-4.5 justify-between items-center gap-x-4 gap-y-2 text-xs font-medium text-slate-500 dark:text-slate-400">
+                <span className="inline-flex items-center gap-1.5">
+                  <Calendar
+                    aria-hidden="true"
+                    className="size-3.5 text-slate-500 dark:text-slate-400"
+                    strokeWidth={1.8}
+                  />
+                  {article.createdAtLabel}
                 </span>
-                <span className="text-slate-500 dark:text-slate-500">
+                <span className="inline-flex items-center gap-1.5">
+                  <Clock
+                    aria-hidden="true"
+                    className="size-3.5 text-slate-500 dark:text-slate-400"
+                    strokeWidth={1.8}
+                  />
                   {article.readTime}
                 </span>
               </div>
-              <h3 className="font-display mt-4 text-lg font-semibold leading-6 text-[#05215e] dark:text-slate-50">
-                {article.title}
-              </h3>
-              <p className="font-body mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">
-                {article.excerpt}
-              </p>
             </div>
           </motion.article>
         ))}
