@@ -10,6 +10,7 @@ export const navItems = [
   { href: "/evidencia", label: "Evidencia" },
   { href: "/seguridad", label: "Seguridad" },
   { href: "/casos", label: "Casos" },
+  { href: "/blog", label: "Blog" },
 ];
 
 export function SiteHeader() {
