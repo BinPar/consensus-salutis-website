@@ -109,11 +109,11 @@ export function VerticalFooter() {
               height={54}
               className="h-7 w-auto opacity-70 brightness-75 contrast-125 grayscale dark:opacity-80 dark:brightness-0 dark:invert"
             />
-            <span>
+            <span className="text-slate-600 dark:text-slate-400">
               Una iniciativa tecnológica de binpar para instituciones sanitarias
             </span>
           </div>
-          <p>© Consensus Salutis all rights reserved</p>
+          <p className="text-slate-600 dark:text-slate-400">© Consensus Salutis all rights reserved</p>
         </div>
       </div>
     </footer>

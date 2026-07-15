@@ -30,9 +30,9 @@ export function BlogArticleCard({
               : "flex flex-1 flex-col p-5 pt-4.5! xl:p-6"
           }
         >
-          <h3 className="font-display font-body line-clamp-2 text-base text-[#05215e] dark:text-slate-100">
+          <h2 className="font-display font-body line-clamp-2 text-base text-[#05215e] dark:text-slate-100">
             {article.title}
-          </h3>
+          </h2>
           <p className="font-body mt-3 line-clamp-3 text-sm text-slate-600 dark:text-slate-400">
             {article.excerpt}
           </p>

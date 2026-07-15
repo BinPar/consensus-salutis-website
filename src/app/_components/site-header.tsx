@@ -51,7 +51,7 @@ export function SiteHeader() {
             <ThemeToggle />
             <Link
               href="/contacto"
-              className="dark:bg-secondary focus-visible:outline-secondary font-body hidden rounded-full bg-amber-300 px-3 py-2 text-xs font-semibold text-[#06111f] transition-transform hover:scale-102 focus-visible:scale-102 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none md:block lg:text-sm"
+              className="dark:bg-secondary-dark focus-visible:outline-secondary-dark font-body hidden rounded-full bg-secondary-light px-3 py-2 text-xs font-semibold text-[#06111f] transition-transform hover:scale-102 focus-visible:scale-102 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none md:block lg:text-sm"
             >
               Solicitar reunión
             </Link>

@@ -80,13 +80,13 @@ export function CTAGroup() {
     <div className="flex flex-col gap-3 sm:flex-row">
       <Link
         href="/contacto"
-        className="bg-primary-light font-body rounded-full px-5 py-3 text-center text-sm font-semibold text-white shadow-md transition hover:bg-cyan-800 dark:bg-primary-dark dark:text-[#04111e] dark:shadow-[0_0_34px_rgba(45,212,191,0.26)] dark:hover:bg-primary-dark-lighter"
+        className="bg-primary-light font-body rounded-full px-5 py-2 min-h-10 text-center text-sm font-semibold text-white shadow-md transition hover:bg-cyan-800 dark:bg-primary-dark dark:text-[#04111e] dark:shadow-[0_0_34px_rgba(45,212,191,0.26)] dark:hover:bg-primary-dark-lighter"
       >
         Solicitar reunión
       </Link>
       <Link
         href="/plataforma"
-        className="border-primary-light/25 font-body hover:border-primary-light/45 rounded-full border bg-white/65 px-5 py-3 text-center text-sm font-semibold text-cyan-800 backdrop-blur-sm transition hover:bg-cyan-50 dark:border-cyan-300/30 dark:bg-white/3 dark:text-cyan-50 dark:hover:border-cyan-200/50 dark:hover:bg-cyan-300/10"
+        className="border-primary-light/25 font-body hover:border-primary-light/45 rounded-full border bg-white/65 px-5 py-2 min-h-10 text-center text-sm font-semibold text-cyan-800 backdrop-blur-sm transition hover:bg-cyan-50 dark:border-cyan-300/30 dark:bg-white/3 dark:text-cyan-50 dark:hover:border-cyan-200/50 dark:hover:bg-cyan-300/10"
       >
         Probar plataforma
       </Link>

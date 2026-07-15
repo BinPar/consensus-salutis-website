@@ -1,0 +1,94 @@
+# Cómo medir la fiabilidad de una respuesta clínica
+
+La fiabilidad de una respuesta clínica generada por IA no puede evaluarse solo por su apariencia lingüística. Una respuesta puede sonar correcta y, aun así, omitir una contraindicación, mezclar niveles de evidencia o perder el contexto operativo de una organización sanitaria.
+
+El objetivo de una plataforma institucional no es producir una respuesta brillante en abstracto, sino entregar una conclusión **revisable, trazable y útil** para equipos que trabajan bajo responsabilidad clínica.
+
+En un entorno asistencial real, la pregunta rara vez llega aislada. Llega acompañada de contexto, presión de tiempo, documentos locales, criterios de derivación, protocolos de centro y expectativas profesionales. Por eso la evaluación debe observar tanto la respuesta final como el proceso que la produce: qué información recupera, qué prioriza, qué omite y cómo expresa la incertidumbre.
+
+Esta mirada es especialmente importante cuando el sistema se integra en organizaciones sanitarias con múltiples equipos. La misma respuesta puede ser adecuada para consulta general, pero insuficiente para un comité, una auditoría interna o una revisión de seguridad. Medir fiabilidad implica anticipar esos usos y construir evidencia operativa, no solo una impresión favorable.
+
+![Profesional sanitario revisando una respuesta clínica generada por IA](/img/mockImage.png)
+
+## 1. Separar precisión, trazabilidad y utilidad
+
+Una evaluación madura distingue tres dimensiones que a menudo se mezclan:
+
+- **Precisión clínica:** la respuesta es correcta respecto al caso planteado.
+- **Trazabilidad documental:** el sistema muestra de dónde procede cada afirmación relevante.
+- **Utilidad operativa:** la respuesta ayuda a tomar la siguiente decisión sin añadir ruido.
+
+Estas tres dimensiones deben revisarse por separado. Una respuesta puede ser clínicamente razonable pero insuficiente si no permite verificar su fuente.
+
+La precisión clínica responde a la pregunta de si el contenido es correcto. La trazabilidad responde a la pregunta de si puede revisarse. La utilidad responde a si ayuda a avanzar en la práctica diaria. Cuando una de estas dimensiones falla, la confianza se debilita aunque las demás parezcan sólidas.
+
+Por ejemplo, una respuesta puede recoger correctamente una recomendación general, pero no indicar el documento del que procede ni la versión utilizada. En ese caso, el equipo clínico puede intuir que la respuesta es razonable, pero no dispone de una base suficiente para incorporarla a un proceso institucional. En sentido contrario, una respuesta puede citar fuentes de forma impecable y seguir siendo poco útil si no sintetiza la decisión siguiente.
+
+### Criterios mínimos de evaluación
+
+Antes de aceptar una respuesta como fiable, conviene comprobar:
+
+1. Si responde exactamente a la pregunta formulada.
+2. Si declara límites, incertidumbres o condiciones de aplicación.
+3. Si referencia contenido verificable.
+4. Si evita extrapolar más allá del corpus disponible.
+5. Si mantiene una redacción adecuada para el contexto asistencial.
+
+> La confianza institucional no se construye con una respuesta aislada, sino con un sistema capaz de explicar por qué responde así y cómo puede ser revisado.
+
+Estos criterios no sustituyen el juicio clínico. Lo ordenan. Permiten que distintas personas revisen respuestas con una base común y reducen la dependencia de impresiones subjetivas como “suena bien” o “parece completo”. También ayudan a detectar cambios de comportamiento cuando se actualiza el corpus documental o se modifican prioridades internas.
+
+## 2. Preguntas de control para medir estabilidad
+
+Las preguntas de control permiten comprobar que el sistema mantiene su comportamiento cuando cambian documentos, versiones o prioridades clínicas.
+
+En la práctica, estas preguntas funcionan como una red de seguridad. No buscan cubrir todos los casos posibles, sino representar situaciones críticas, frecuentes o especialmente sensibles. Una buena batería de control incluye preguntas sencillas, preguntas ambiguas y preguntas en las que el sistema debe reconocer que no tiene información suficiente para responder con seguridad.
+
+El valor de estas pruebas aparece con el tiempo. Cuando se incorpora un nuevo protocolo o se ajusta una fuente prioritaria, las preguntas de control permiten observar si el sistema mejora, empeora o cambia de forma inesperada. Sin esa medición, cada actualización del conocimiento clínico se convierte en un acto de confianza difícil de auditar.
+
+### Ejemplo de matriz básica
+
+- Preguntas frecuentes de práctica asistencial.
+- Preguntas críticas de seguridad.
+- Preguntas con respuesta condicionada por edad, comorbilidad o contexto.
+- Preguntas donde la respuesta correcta sea reconocer insuficiencia de información.
+
+#### Señales de alerta
+
+Una revisión debería detenerse si aparecen patrones como:
+
+- Respuestas más seguras que la evidencia disponible.
+- Fuentes citadas que no sostienen la conclusión.
+- Omisión de advertencias relevantes.
+- Variabilidad injustificada ante preguntas equivalentes.
+
+Estas señales no siempre indican un fallo grave, pero sí justifican una revisión. A veces el problema está en la recuperación de documentos, otras en la síntesis, y otras en la propia estructura del corpus. La evaluación debe permitir distinguir esas causas para evitar correcciones superficiales.
+
+También es importante conservar el historial de estos hallazgos. La memoria de evaluación permite saber qué problemas ya se detectaron, qué decisiones se tomaron y qué cambios demostraron ser eficaces. En organizaciones complejas, esa memoria evita repetir discusiones y convierte la revisión en un proceso acumulativo.
+
+## 3. Revisión experta y ciclo de mejora
+
+La revisión clínica no debe limitarse a decir si una respuesta está bien o mal. Debe dejar una señal útil para mejorar el sistema:
+
+1. Qué parte de la respuesta es correcta.
+2. Qué parte debe corregirse.
+3. Qué fuente debería priorizarse.
+4. Qué pregunta de control debe añadirse para detectar el problema en el futuro.
+
+El ciclo de mejora empieza cuando la revisión experta se traduce en acciones concretas. Si una respuesta omite una condición de aplicación, puede ser necesario enriquecer el documento fuente, ajustar prioridades o crear una pregunta de control. Si una respuesta cita un fragmento poco representativo, quizá el problema no sea el modelo, sino la forma en que el corpus está segmentado.
+
+Este enfoque también protege al equipo clínico de una carga excesiva. No se trata de revisar todo continuamente, sino de crear mecanismos que concentren la revisión donde aporta más valor: respuestas críticas, cambios documentales, consultas frecuentes y situaciones con mayor riesgo de ambigüedad.
+
+### Una evaluación que pueda explicarse
+
+La evaluación debe poder comunicarse a perfiles distintos: clínicos, responsables de sistemas, equipos legales y dirección sanitaria. Cada perfil necesita un nivel de detalle diferente, pero todos deben poder entender por qué una respuesta se considera aceptable o no.
+
+Por eso conviene documentar los criterios en un lenguaje operativo. Una plataforma puede tener métricas internas sofisticadas, pero si el resultado no se puede explicar de forma clara, su adopción institucional será más frágil.
+
+---
+
+## 4. Conclusión
+
+Medir fiabilidad en IA médica exige combinar criterio clínico, trazabilidad técnica y gobierno documental. El resultado no es solo una puntuación: es una capacidad institucional para aprender, corregir y operar con seguridad.
+
+La fiabilidad no aparece al final del proyecto, como una validación puntual. Se diseña desde el inicio: en la forma de estructurar contenidos, en la manera de recuperar fuentes, en los criterios de revisión y en la disciplina con la que se registran los cambios. Cuando esas piezas trabajan juntas, la IA deja de ser una demostración aislada y se convierte en una herramienta gobernable dentro del sistema sanitario.

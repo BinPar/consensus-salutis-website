@@ -128,7 +128,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
               <div className="max-w-4xl">
                 <Eyebrow>Lecturas clínicas</Eyebrow>
                 <h1 className="font-display mt-5 text-5xl font-extrabold tracking-tight text-[#05215e] sm:text-6xl dark:text-slate-50">
-                  Nustro blog
+                  Nuestro blog
                 </h1>
                 <p className="font-body mt-6 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-400">
                   Lecturas recientes sobre IA médica, tendencias sanitarias y

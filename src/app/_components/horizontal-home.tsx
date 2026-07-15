@@ -3,6 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
 import { BlogArticleCard } from "~/app/_components/blog-article-card";
@@ -1050,13 +1051,13 @@ function BlogContent({
 
         </p>
       </div>
-      <a
+      <Link
         href="/blog"
-        className="font-body inline-flex h-11 shrink-0 items-center justify-center gap-2 self-start rounded-full bg-primary-light px-7 text-sm font-semibold text-white shadow-big-blocks transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#087a85] sm:self-end dark:bg-primary-dark dark:text-[#03111d] dark:shadow-[0_0_24px_rgba(0,188,187,0.18)] dark:hover:bg-primary-dark-lighter"
+        className="font-body inline-flex h-10 shrink-0 items-center justify-center gap-2 self-start rounded-full bg-primary-light px-6 text-sm font-semibold text-white shadow-big-blocks transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#087a85] sm:self-end dark:bg-primary-dark dark:text-[#03111d] dark:shadow-[0_0_24px_rgba(0,188,187,0.18)] dark:hover:bg-primary-dark-lighter"
       >
         Ver todos
         <ArrowRight aria-hidden="true" className="size-4" strokeWidth={1.8} />
-      </a>
+      </Link>
     </div>
   );
 
