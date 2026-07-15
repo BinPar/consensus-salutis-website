@@ -134,7 +134,7 @@ export function MobileNavigation({
             </div>
             <Link
               href="/contacto"
-              className="dark:bg-secondary font-body focus-visible:outline-secondary mt-auto inline-flex min-h-11 w-fit items-center rounded-full bg-amber-300 px-5 py-2.5 text-sm font-semibold text-[#06111f] transition-transform hover:scale-[1.01] focus-visible:scale-[1.01] focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none"
+              className="dark:bg-secondary-dark font-body focus-visible:outline-secondary-dark mt-auto inline-flex min-h-11 w-fit items-center rounded-full bg-secondary-light px-5 py-2.5 text-sm font-semibold text-[#06111f] transition-transform hover:scale-[1.01] focus-visible:scale-[1.01] focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none"
             >
               Solicitar reunión
             </Link>
