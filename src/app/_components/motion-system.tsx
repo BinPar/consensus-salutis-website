@@ -12,6 +12,7 @@ import {
   useId,
   useRef,
   useState,
+  type ComponentProps,
   type ReactNode,
 } from "react";
 
@@ -150,6 +151,18 @@ const signalInnerTimes: Record<SignalIntensity, number[]> = {
   hero: getMorphTimes(signalInnerPaths.hero),
 };
 
+const signalOffsetShapePaths: Record<SignalIntensity, string[]> = {
+  ambient: shiftMorphPaths(signalShapePaths.ambient, 1),
+  section: shiftMorphPaths(signalShapePaths.section, 1),
+  hero: shiftMorphPaths(signalShapePaths.hero, 1),
+};
+
+const signalOffsetShapeTimes: Record<SignalIntensity, number[]> = {
+  ambient: getMorphTimes(signalOffsetShapePaths.ambient),
+  section: getMorphTimes(signalOffsetShapePaths.section),
+  hero: getMorphTimes(signalOffsetShapePaths.hero),
+};
+
 export function MotionProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -263,6 +276,32 @@ export function HomeMotionBackground() {
   );
 }
 
+/**
+ * Morphs an SVG path through `paths`, looping back to `paths[0]`.
+ *
+ * `initial` is required, not decorative: without it Framer Motion has no base
+ * value for `d` on mount and renders one frame with `d="undefined"`, which the
+ * browser rejects with a path-parsing error before the keyframes resolve.
+ */
+export function MorphPath({
+  paths,
+  ...props
+}: Omit<ComponentProps<typeof motion.path>, "animate" | "d" | "initial"> & {
+  paths: string[];
+}) {
+  const reducedMotion = useReducedMotion();
+  const firstPath = paths[0];
+
+  return (
+    <motion.path
+      {...props}
+      d={firstPath}
+      initial={{ d: firstPath }}
+      animate={reducedMotion ? undefined : { d: paths }}
+    />
+  );
+}
+
 export function SignalField({
   className = "",
   intensity = "section",
@@ -272,13 +311,12 @@ export function SignalField({
   intensity?: SignalIntensity;
   opacity?: number;
 }) {
-  const reducedMotion = useReducedMotion();
   const gradientId = useId().replace(/:/g, "");
   const strokeId = `signal-stroke-${gradientId}`;
   const fillId = `signal-fill-${gradientId}`;
   const shapePaths = signalShapePaths[intensity];
   const innerPaths = signalInnerPaths[intensity];
-  const offsetShapePaths = shiftMorphPaths(shapePaths, 1);
+  const offsetShapePaths = signalOffsetShapePaths[intensity];
   const shapeOffset =
     intensity === "hero" ? 20 : intensity === "section" ? 40 : 60;
   const morphTransitionBase = {
@@ -299,7 +337,7 @@ export function SignalField({
   const offsetShapeMorphTransition = {
     ...morphTransitionBase,
     duration: signalMorphDuration[intensity] * 1.06,
-    times: getMorphTimes(offsetShapePaths),
+    times: signalOffsetShapeTimes[intensity],
   };
   const fieldOpacity =
     opacity ??
@@ -363,41 +401,34 @@ export function SignalField({
           opacity="0.68"
         />
         <g transform={`translate(${shapeOffset} 0)`}>
-          <motion.path
+          <MorphPath
             className="fill-[#eff8fa] dark:fill-[#06111f]"
-            d={shapePaths[0]}
-            animate={reducedMotion ? undefined : { d: shapePaths }}
+            paths={shapePaths}
             transition={shapeMorphTransition}
           />
-          <motion.path
-          
-            d={shapePaths[0]}
-            animate={reducedMotion ? undefined : { d: shapePaths }}
+          <MorphPath
+            paths={shapePaths}
             transition={shapeMorphTransition}
             fill={`url(#${fillId})`}
             opacity="0.45"
           />
           <g transform="translate(-24 60)">
-            <motion.path
-              d={offsetShapePaths[0]}
-              animate={reducedMotion ? undefined : { d: offsetShapePaths }}
+            <MorphPath
+              paths={offsetShapePaths}
               transition={offsetShapeMorphTransition}
               fill={`url(#${fillId})`}
               opacity="0.35"
             />
           </g>
-      
-          <motion.path
-            d={shapePaths[0]}
-            animate={reducedMotion ? undefined : { d: shapePaths }}
+          <MorphPath
+            paths={shapePaths}
             transition={shapeMorphTransition}
             stroke={`url(#${strokeId})`}
             strokeWidth="1.7"
             opacity="0.62"
           />
-          <motion.path
-            d={innerPaths[0]}
-            animate={reducedMotion ? undefined : { d: innerPaths }}
+          <MorphPath
+            paths={innerPaths}
             transition={innerMorphTransition}
             stroke={`url(#${strokeId})`}
             strokeWidth="1.4"
