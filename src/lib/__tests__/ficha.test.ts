@@ -16,14 +16,37 @@ import {
   ALL_FICHA_FIELDS,
   countFilledFields,
   EMPTY_FICHA,
+  enumerar,
   FICHA_BLOCKS,
   FICHA_BLOCK_LABELS,
   fichaFieldByPath,
+  fmt,
   formatFichaValue,
   parseFichaInput,
+  plural,
   toInputValue,
   type Ficha,
 } from "~/lib/ficha";
+
+/*
+  El vocabulario del motor, que no puede salir en nada que el cliente lea: ni en
+  la etiqueta de un campo ni en su plantilla. Es la misma regla que impide pintar
+  banderas o nivel — un campo llamado «bandera de corpus» delataría el mecanismo
+  aunque no mostrara su valor.
+*/
+const FORBIDDEN_VOCABULARY = [
+  "bandera",
+  "nivel",
+  "semáforo",
+  "semaforo",
+  "regla",
+  "verde",
+  "ámbar",
+  "ambar",
+  "rojo",
+  "puntuación",
+  "vía pública",
+];
 
 /** Los 28 `bloque.campo` del schema de Convex, copiados a mano a propósito. */
 const SERVER_FIELDS = [
@@ -118,26 +141,122 @@ describe("el catálogo cubre exactamente el del servidor", () => {
   su valor.
 */
 describe("las etiquetas no delatan el motor", () => {
-  const FORBIDDEN = [
-    "bandera",
-    "nivel",
-    "semáforo",
-    "semaforo",
-    "regla",
-    "verde",
-    "ámbar",
-    "ambar",
-    "rojo",
-    "puntuación",
-    "vía pública",
-  ];
-
   it("ninguna etiqueta usa el vocabulario interno", () => {
     const offenders = ALL_FICHA_FIELDS.filter((spec) =>
-      FORBIDDEN.some((term) => spec.label.toLowerCase().includes(term)),
+      FORBIDDEN_VOCABULARY.some((term) => spec.label.toLowerCase().includes(term)),
     ).map((spec) => spec.path);
 
     expect(offenders).toEqual([]);
+  });
+});
+
+/*
+  Un valor plausible por campo, para medir la plantilla.
+
+  No son los valores del ejemplo de la especificación en todos los casos: en un
+  campo de paso —`usoPrincipal`, `phiPrevisto`— la longitud del resultado es la
+  del texto que escribió el modelo y no la de la plantilla, así que aquí va un
+  valor corto de los que se ven de verdad. La regla de los 28 caracteres es sobre
+  lo que la plantilla AÑADE, y en un campo de paso no añade nada.
+*/
+const REALISTA: Record<string, string | number | boolean | string[]> = {
+  "perfil.familia": "hospital",
+  "perfil.pais": "España",
+  "perfil.centros": 3,
+  "perfil.profesionales": 600,
+  "perfil.especialidades": Array.from({ length: 12 }, (_, i) => `esp-${i}`),
+  "perfil.ambitoPublico": true,
+  "perfil.comunidad": "Madrid",
+  "corpus.corpusPropio": true,
+  "corpus.volumenDocs": 1_200,
+  "corpus.volumenPaginas": 18_000,
+  "corpus.formato": "PDF",
+  "corpus.vigencia": "revisión anual",
+  "corpus.aprobador": "la comisión",
+  "corpus.derechos": "propios",
+  "corpus.interesCorpusGeneral": true,
+  "uso.usoPrincipal": "consulta clínica",
+  "uso.perfilesUsuarios": ["médicos", "enfermería"],
+  "uso.usuariosIdentificados": true,
+  "uso.finalidadPromocional": false,
+  "datos.phiPrevisto": "no",
+  "datos.residenciaDato": "la UE",
+  "datos.dpo": true,
+  "datos.comiteEtica": true,
+  "datos.requisitosAuditoria": "trazabilidad completa",
+  "operativa.sponsorEjecutivo": true,
+  "operativa.horizonte": "6 meses",
+  "operativa.idpCorporativo": "Azure AD",
+  "operativa.capacidadTI": "equipo TI propio",
+};
+
+describe("las 28 plantillas se leen sin su etiqueta", () => {
+  it("los 28 campos tienen plantilla, y ninguna devuelve vacío", () => {
+    for (const spec of ALL_FICHA_FIELDS) {
+      const valor = REALISTA[spec.path];
+      expect(valor, `falta un valor realista para ${spec.path}`).toBeDefined();
+      expect(spec.chip(valor!).trim().length).toBeGreaterThan(2);
+    }
+  });
+
+  it("ninguna pasa de 28 caracteres con un valor realista", () => {
+    const largas = ALL_FICHA_FIELDS.map((spec) => ({
+      path: spec.path,
+      chip: spec.chip(REALISTA[spec.path]!),
+    })).filter((row) => row.chip.length > 28);
+
+    expect(largas).toEqual([]);
+  });
+
+  /*
+    La regla 1: nunca «Sí» ni «No» a secas. Es la que se incumple sola, porque
+    escribir `v ? "Sí" : "No"` es lo que pide el cuerpo al rellenar la tabla.
+  */
+  it("un booleano no se escribe «Sí» ni «No», en ninguna de sus dos ramas", () => {
+    const booleanos = ALL_FICHA_FIELDS.filter((spec) => spec.kind === "booleano");
+    expect(booleanos.length).toBeGreaterThan(6);
+
+    for (const spec of booleanos) {
+      for (const valor of [true, false]) {
+        const chip = spec.chip(valor);
+        expect(chip, spec.path).not.toMatch(/^(Sí|No)$/);
+        // Y la rama negativa dice algo, no calla: «Sin DPO» es un hallazgo.
+        expect(chip.length, spec.path).toBeGreaterThan(4);
+        expect(chip.length, spec.path).toBeLessThanOrEqual(28);
+      }
+    }
+  });
+
+  it("las plantillas tampoco delatan el motor", () => {
+    const offenders = ALL_FICHA_FIELDS.filter((spec) => {
+      const chip = spec.chip(REALISTA[spec.path]!).toLowerCase();
+      return FORBIDDEN_VOCABULARY.some((term) => chip.includes(term));
+    }).map((spec) => spec.path);
+
+    expect(offenders).toEqual([]);
+  });
+});
+
+describe("los ayudantes de las plantillas", () => {
+  it("el plural sigue la regla del castellano", () => {
+    expect(plural(1, "centro")).toBe("1 centro");
+    expect(plural(3, "centro")).toBe("3 centros");
+    expect(plural(12, "especialidad")).toBe("12 especialidades");
+    expect(plural(1_200, "documento")).toBe("1.200 documentos");
+    // Cero no es un caso que el panel pinte —una cifra en cero se descarta—,
+    // pero si llegara, se lee como plural y no como «0 centro».
+    expect(plural(0, "centro")).toBe("0 centros");
+  });
+
+  it("una enumeración lleva «y» antes del último", () => {
+    expect(enumerar([])).toBe("");
+    expect(enumerar(["médicos"])).toBe("médicos");
+    expect(enumerar(["médicos", "enfermería"])).toBe("médicos y enfermería");
+    expect(enumerar(["a", "b", "c"])).toBe("a, b y c");
+  });
+
+  it("un número lleva el separador de miles español", () => {
+    expect(fmt(18_000)).toBe("18.000");
   });
 });
 

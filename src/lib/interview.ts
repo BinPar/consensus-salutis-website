@@ -30,12 +30,23 @@ export type InterviewMessage = {
   content: string;
   /** Opciones sugeridas del agente. Vacío = solo campo libre. */
   opciones: string[];
+  /**
+   * La pregunta admite varias respuestas a la vez.
+   *
+   * Lo decide el agente por pregunta —«¿en qué formato están?» admite varias,
+   * «¿tenéis DPO?» no— y cambia el control: con `multiple` las opciones son
+   * casillas que se marcan y se envían con un botón, en vez de filas que envían
+   * al pulsarlas.
+   */
+  multiple?: boolean;
 };
 
 /** Lo que devuelve un turno del agente. */
 export type InterviewTurn = {
   mensaje: string;
   opciones: string[];
+  /** Ver `InterviewMessage.multiple`. Ausente en el payload es `false`. */
+  multiple: boolean;
   ficha: Ficha;
   /** El turno cerró la entrevista: viene el informe detrás, en el mismo stream. */
   cerrada: boolean;
@@ -184,6 +195,10 @@ function parseTurn(raw: Record<string, unknown>): InterviewTurn {
   return {
     mensaje: asString(raw.mensaje),
     opciones: asStringArray(raw.opciones),
+    // Comparación estricta: un servidor que no conozca el campo no puede
+    // convertir la pregunta en múltiple por accidente, y el control de una sola
+    // respuesta es el que no se equivoca nunca.
+    multiple: raw.multiple === true,
     ficha: parseFicha(raw.ficha),
     cerrada: raw.cerrada === true,
     datosRetirados: raw.datosRetirados === true,
@@ -395,6 +410,9 @@ export async function fetchInterviewState(
         role: row.role === "user" ? ("user" as const) : ("assistant" as const),
         content: asString(row.content),
         opciones: asStringArray(row.opciones),
+        // Retomar la entrevista tiene que devolver el mismo control que había:
+        // sin esto, una pregunta de varias respuestas se reabría como de una.
+        multiple: row.multiple === true,
       })),
     ...(typeof raw.reportMarkdown === "string" && {
       reportMarkdown: raw.reportMarkdown,

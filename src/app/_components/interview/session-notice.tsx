@@ -13,14 +13,14 @@
 
 import Link from "next/link";
 
+import { Eyebrow } from "~/app/_components/eyebrow";
+
 export function SessionNotice({ expired }: { expired: boolean }) {
   return (
-    <div className="mx-auto w-full max-w-2xl px-5 pt-32 pb-24 sm:px-8">
+    <div className="relative z-10 mx-auto w-full max-w-2xl px-5 pt-32 pb-24 sm:px-8">
       <div className="shadow-big-blocks rounded-3xl border border-cyan-800/20 bg-white/85 p-7 backdrop-blur-sm dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30">
-        <p className="text-primary-light font-display dark:text-primary-dark text-xs font-bold tracking-[0.22em] uppercase">
-          {expired ? "Sesión caducada" : "Evaluación no iniciada"}
-        </p>
-        <h1 className="font-display mt-4 text-2xl font-semibold tracking-tight text-[#05215e] sm:text-3xl dark:text-slate-50">
+        <Eyebrow>{expired ? "Sesión caducada" : "Evaluación no iniciada"}</Eyebrow>
+        <h1 className="font-display mt-4 text-2xl font-extrabold tracking-tight text-[#05215e] sm:text-3xl dark:text-slate-50">
           {expired
             ? "Necesitamos que vuelvas a identificarte"
             : "Empieza por identificarte"}
@@ -37,7 +37,7 @@ export function SessionNotice({ expired }: { expired: boolean }) {
         </p>
         <Link
           href="/evaluador"
-          className="bg-primary-light font-body dark:bg-primary-dark dark:hover:bg-primary-dark-lighter mt-6 inline-flex rounded-full px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-cyan-800 dark:text-[#04111e]"
+          className="bg-primary-light font-body dark:bg-primary-dark dark:hover:bg-primary-dark-lighter focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark mt-6 inline-flex min-h-10 items-center rounded-full px-5 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 dark:text-[#04111e] dark:shadow-[0_0_34px_rgba(45,212,191,0.26)]"
         >
           {expired ? "Volver a identificarme" : "Ir al formulario"}
         </Link>

@@ -24,7 +24,28 @@
  * panel del cliente se lee como jerga o, peor, deja ver por dónde puntúa el
  * motor. La etiqueta de esta tabla es lo que ve el cliente; la pista se queda en
  * el prompt.
+ *
+ * ## Etiqueta y plantilla, que no son lo mismo
+ *
+ * Cada campo tiene **dos** formas de leerse y las dos están en la misma tabla:
+ *
+ * - `label` es el nombre del campo. Va en el informe y en los `title`, donde hay
+ *   sitio para un par etiqueta→valor.
+ * - `chip` es el campo dicho **sin su etiqueta**: `dpo: true` no es «Sí», es
+ *   «Con DPO». Es lo que hace que el panel pueda enseñar cinco rasgos en vez de
+ *   veintiocho filas de dos columnas.
+ *
+ * Tres reglas para escribir una plantilla, y la tercera es la que se incumple
+ * sola:
+ *
+ * 1. Se lee sin su etiqueta. Nunca «Sí» ni «No» a secas.
+ * 2. Un negativo se escribe como negativo, no como ausencia. «Sin datos de
+ *    paciente» es un hallazgo y buena noticia; omitirlo lo convertiría en un
+ *    hueco.
+ * 3. Máximo 28 caracteres con un valor realista. Lo comprueba `ficha.test.ts`.
  */
+
+import { mayusculaInicial } from "~/lib/opciones";
 
 /** Forma del valor de un campo. Decide qué control se pinta para corregirlo. */
 export type FichaKind = "texto" | "numero" | "booleano" | "lista";
@@ -75,8 +96,10 @@ export type FichaFieldSpec = {
   block: FichaBlock;
   field: string;
   kind: FichaKind;
-  /** Lo que lee el cliente en el panel. */
+  /** El nombre del campo. Va en el informe y en los `title`. */
   label: string;
+  /** El campo dicho sin su etiqueta. Ver la cabecera del módulo. */
+  chip: (valor: FichaValue) => string;
 };
 
 export const FICHA_BLOCK_LABELS: Record<FichaBlock, string> = {
@@ -88,63 +111,202 @@ export const FICHA_BLOCK_LABELS: Record<FichaBlock, string> = {
 };
 
 /**
+ * Un número como lo escribe el español: «1.200», «18.000».
+ *
+ * `useGrouping: true` no es decorativo: `es-ES` agrupa por defecto a partir de
+ * cinco dígitos, así que sin él mil doscientos documentos se pintan «1200» y
+ * dieciocho mil páginas «18.000» — dos formatos distintos en la misma tarjeta.
+ */
+export function fmt(value: number): string {
+  return new Intl.NumberFormat("es-ES", { useGrouping: true }).format(value);
+}
+
+/**
+ * «3 centros», «1 centro», «12 especialidades».
+ *
+ * El plural se forma con la regla del castellano —vocal final añade `s`,
+ * consonante añade `es`— y no con una tabla: los cuatro sustantivos que se
+ * pluralizan aquí la cumplen, y una excepción futura se ve en el test antes que
+ * en la pantalla.
+ */
+export function plural(count: number, singular: string): string {
+  if (count === 1) return `1 ${singular}`;
+  const sufijo = /[aeiouáéíóú]$/i.test(singular) ? "s" : "es";
+  return `${fmt(count)} ${singular}${sufijo}`;
+}
+
+/** «a», «a y b», «a, b y c». Lo que separa una enumeración de una lista CSV. */
+export function enumerar(items: readonly string[]): string {
+  if (items.length === 0) return "";
+  if (items.length === 1) return items[0]!;
+  return `${items.slice(0, -1).join(", ")} y ${items.at(-1)!}`;
+}
+
+/** El valor de un campo de texto en cabeza de plantilla. */
+function texto(valor: FichaValue): string {
+  if (Array.isArray(valor)) return mayusculaInicial(enumerar(valor));
+  return mayusculaInicial(String(valor));
+}
+
+function numero(valor: FichaValue): number {
+  if (typeof valor === "number") return valor;
+  if (Array.isArray(valor)) return valor.length;
+  const parsed = Number(valor);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function lista(valor: FichaValue): string[] {
+  return Array.isArray(valor) ? valor : [String(valor)];
+}
+
+/**
+ * Si un campo booleano vale sí.
+ *
+ * No es `=== true` porque el valor llega del servidor sin coerción y un booleano
+ * que viniera como `"sí"` daría un negativo: y aquí un negativo no es un hueco,
+ * es una afirmación — «Sin DPO» sobre un hospital que tiene DPO es peor que no
+ * decir nada.
+ */
+export function esCierto(valor: FichaValue): boolean {
+  if (typeof valor === "boolean") return valor;
+  if (typeof valor === "string") {
+    return ["true", "sí", "si", "1"].includes(valor.trim().toLowerCase());
+  }
+  return valor === 1;
+}
+
+/**
  * Los 28 campos anotables, por bloque y en el orden de lectura del panel.
  *
  * `ambitoPublico` y `comunidad` los infiere el agente sin preguntarlos, así que
  * pueden aparecer rellenos sin que nadie recuerde haberlos dicho: por eso su
- * etiqueta es la más literal de la tabla, para que corregirlos sea evidente.
+ * etiqueta es la más literal de la tabla, y por eso el hilo dice en voz alta que
+ * los ha deducido.
  */
 const FIELD_TABLE: Record<
   FichaBlock,
-  ReadonlyArray<readonly [field: string, kind: FichaKind, label: string]>
+  ReadonlyArray<
+    readonly [
+      field: string,
+      kind: FichaKind,
+      label: string,
+      chip: (valor: FichaValue) => string,
+    ]
+  >
 > = {
   perfil: [
-    ["familia", "texto", "Tipo de institución"],
-    ["pais", "texto", "País"],
-    ["centros", "numero", "Centros"],
-    ["profesionales", "numero", "Profesionales"],
-    ["especialidades", "lista", "Especialidades"],
-    ["ambitoPublico", "booleano", "Titularidad pública"],
-    ["comunidad", "texto", "Comunidad autónoma"],
+    ["familia", "texto", "Tipo de institución", texto],
+    ["pais", "texto", "País", texto],
+    ["centros", "numero", "Centros", (v) => plural(numero(v), "centro")],
+    [
+      "profesionales",
+      "numero",
+      "Profesionales",
+      (v) => `~${fmt(numero(v))} profesionales`,
+    ],
+    [
+      "especialidades",
+      "lista",
+      "Especialidades",
+      (v) => plural(lista(v).length, "especialidad"),
+    ],
+    [
+      "ambitoPublico",
+      "booleano",
+      "Titularidad pública",
+      (v) => (esCierto(v) ? "Titularidad pública" : "Titularidad privada"),
+    ],
+    ["comunidad", "texto", "Comunidad autónoma", texto],
   ],
   corpus: [
-    ["corpusPropio", "booleano", "Documentación propia"],
-    ["volumenDocs", "numero", "Documentos"],
-    ["volumenPaginas", "numero", "Páginas"],
-    ["formato", "texto", "Formato de los documentos"],
-    ["vigencia", "texto", "Proceso de revisión"],
-    ["aprobador", "texto", "Quién aprueba el contenido"],
-    ["derechos", "texto", "Derechos sobre el contenido"],
-    ["interesCorpusGeneral", "booleano", "Interés en corpus general"],
+    [
+      "corpusPropio",
+      "booleano",
+      "Documentación propia",
+      (v) => (esCierto(v) ? "Documentación propia" : "Sin documentación propia"),
+    ],
+    ["volumenDocs", "numero", "Documentos", (v) => plural(numero(v), "documento")],
+    ["volumenPaginas", "numero", "Páginas", (v) => `~${fmt(numero(v))} páginas`],
+    ["formato", "texto", "Formato de los documentos", texto],
+    ["vigencia", "texto", "Proceso de revisión", texto],
+    ["aprobador", "texto", "Quién aprueba el contenido", (v) => `Aprueba ${String(v)}`],
+    ["derechos", "texto", "Derechos sobre el contenido", (v) => `Derechos ${String(v)}`],
+    [
+      "interesCorpusGeneral",
+      "booleano",
+      "Interés en corpus general",
+      (v) => (esCierto(v) ? "Interés en corpus general" : "Solo corpus propio"),
+    ],
   ],
   uso: [
-    ["usoPrincipal", "texto", "Uso principal"],
-    ["perfilesUsuarios", "lista", "Perfiles de usuario"],
-    ["usuariosIdentificados", "booleano", "Usuarios identificados"],
-    ["finalidadPromocional", "booleano", "Finalidad promocional"],
+    ["usoPrincipal", "texto", "Uso principal", texto],
+    [
+      "perfilesUsuarios",
+      "lista",
+      "Perfiles de usuario",
+      (v) => mayusculaInicial(enumerar(lista(v))),
+    ],
+    [
+      "usuariosIdentificados",
+      "booleano",
+      "Usuarios identificados",
+      (v) => (esCierto(v) ? "Usuarios identificados" : "Usuarios anónimos"),
+    ],
+    [
+      "finalidadPromocional",
+      "booleano",
+      "Finalidad promocional",
+      (v) => (esCierto(v) ? "Con finalidad promocional" : "Sin finalidad promocional"),
+    ],
   ],
   datos: [
-    ["phiPrevisto", "texto", "Datos de paciente previstos"],
-    ["residenciaDato", "texto", "Residencia del dato"],
-    ["dpo", "booleano", "Delegado de protección de datos"],
-    ["comiteEtica", "booleano", "Comité de ética"],
-    ["requisitosAuditoria", "texto", "Requisitos de auditoría"],
+    [
+      "phiPrevisto",
+      "texto",
+      "Datos de paciente previstos",
+      // El «no» es el caso bueno y el que más se lee: se escribe como hallazgo
+      // —«Sin datos de paciente»— y no como la ausencia de un valor.
+      (v) =>
+        String(v).trim().toLowerCase() === "no"
+          ? "Sin datos de paciente"
+          : `Datos de paciente: ${String(v)}`,
+    ],
+    ["residenciaDato", "texto", "Residencia del dato", (v) => `Dato en ${String(v)}`],
+    [
+      "dpo",
+      "booleano",
+      "Delegado de protección de datos",
+      (v) => (esCierto(v) ? "Con DPO" : "Sin DPO"),
+    ],
+    [
+      "comiteEtica",
+      "booleano",
+      "Comité de ética",
+      (v) => (esCierto(v) ? "Con comité de ética" : "Sin comité de ética"),
+    ],
+    ["requisitosAuditoria", "texto", "Requisitos de auditoría", texto],
   ],
   operativa: [
-    ["sponsorEjecutivo", "booleano", "Patrocinio ejecutivo"],
-    ["horizonte", "texto", "Horizonte temporal"],
-    ["idpCorporativo", "texto", "Identidad corporativa"],
-    ["capacidadTI", "texto", "Capacidad del equipo de TI"],
+    [
+      "sponsorEjecutivo",
+      "booleano",
+      "Patrocinio ejecutivo",
+      (v) => (esCierto(v) ? "Patrocinio de dirección" : "Sin patrocinio de dirección"),
+    ],
+    ["horizonte", "texto", "Horizonte temporal", (v) => `Horizonte de ${String(v)}`],
+    ["idpCorporativo", "texto", "Identidad corporativa", texto],
+    ["capacidadTI", "texto", "Capacidad del equipo de TI", texto],
   ],
 };
 
 function specsFor(block: FichaBlock): readonly FichaFieldSpec[] {
-  return FIELD_TABLE[block].map(([field, kind, label]) => ({
+  return FIELD_TABLE[block].map(([field, kind, label, chip]) => ({
     path: `${block}.${field}`,
     block,
     field,
     kind,
     label,
+    chip,
   }));
 }
 
@@ -158,6 +320,22 @@ export const FICHA_FIELDS: Record<FichaBlock, readonly FichaFieldSpec[]> = {
   datos: specsFor("datos"),
   operativa: specsFor("operativa"),
 };
+
+/**
+ * Los campos que el agente **infiere** sin preguntarlos.
+ *
+ * Es lo más impresionante que hace el sistema y en pantalla pasaba en silencio:
+ * el hilo lo dice en voz alta cuando llegan («Anotado también: …»), que es lo que
+ * hace que alguien de dirección médica piense «esto entiende de lo mío».
+ *
+ * La lista es corta porque es la que el prompt infiere de verdad. Ensancharla
+ * a «cualquier campo que no era el objeto de la pregunta» necesita que el turno
+ * diga a qué campo apuntaba, y eso no viaja hoy en el payload.
+ */
+export const CAMPOS_INFERIDOS: readonly string[] = [
+  "perfil.ambitoPublico",
+  "perfil.comunidad",
+];
 
 /** Los 28 campos aplanados, para recorrerlos sin anidar dos bucles. */
 export const ALL_FICHA_FIELDS: readonly FichaFieldSpec[] = FICHA_BLOCKS.flatMap(
@@ -194,7 +372,7 @@ export function countFilledFields(ficha: Ficha): number {
 export function formatFichaValue(value: FichaValue): string {
   if (Array.isArray(value)) return value.join(", ");
   if (typeof value === "boolean") return value ? "Sí" : "No";
-  if (typeof value === "number") return new Intl.NumberFormat("es-ES").format(value);
+  if (typeof value === "number") return fmt(value);
   return value;
 }
 

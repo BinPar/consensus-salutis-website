@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useId, useState } from "react";
 
+import { Eyebrow } from "~/app/_components/eyebrow";
+
 import {
   AMBITO_PAIS_OPTIONS,
   CARGO_OPTIONS,
@@ -133,10 +135,8 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
         className={`min-w-0 rounded-3xl border border-cyan-800/20 bg-white/80 p-7 shadow-big-blocks backdrop-blur-sm dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30 ${className}`}
         role="status"
       >
-        <p className="text-primary-light font-display text-xs font-bold tracking-[0.22em] uppercase dark:text-primary-dark">
-          Ficha registrada
-        </p>
-        <h2 className="font-display mt-4 text-2xl font-semibold text-[#05215e] dark:text-slate-50">
+        <Eyebrow>Ficha registrada</Eyebrow>
+        <h2 className="font-display mt-4 text-2xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
           Empezamos la entrevista.
         </h2>
         <p className="font-body mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">
@@ -150,7 +150,7 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
         */}
         <Link
           href="/evaluador/entrevista"
-          className="border-cyan-800/20 bg-primary-light/10 hover:bg-primary-light/18 mt-6 inline-flex rounded-full border px-4 py-2 text-sm font-semibold text-cyan-800 transition dark:border-cyan-300/20 dark:bg-primary-dark/10 dark:text-cyan-50 dark:hover:bg-cyan-300/18"
+          className="border-cyan-800/20 bg-primary-light/10 hover:bg-primary-light/18 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark mt-6 inline-flex rounded-md border px-4 py-2 text-sm font-semibold text-cyan-800 transition focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-cyan-300/20 dark:bg-primary-dark/10 dark:text-cyan-50 dark:hover:bg-cyan-300/18"
         >
           Continuar a la entrevista
         </Link>
@@ -195,7 +195,7 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
 
       {genericDomain ? (
         <p
-          className="font-body rounded-lg border border-amber-500/30 bg-amber-50/80 px-4 py-3 text-xs leading-5 text-amber-900 dark:border-amber-300/25 dark:bg-amber-300/10 dark:text-amber-100"
+          className="font-body rounded-lg border border-cyan-800/20 bg-cyan-50/70 px-4 py-3 text-xs leading-5 text-cyan-900 dark:border-cyan-300/20 dark:bg-cyan-300/8 dark:text-cyan-50"
           role="note"
         >
           Parece una dirección de correo personal. Puedes continuar sin problema
@@ -314,7 +314,7 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
         </FormField>
       </div>
 
-      <div className="rounded-xl border border-cyan-800/12 bg-[#f4f9fc]/70 p-4 dark:border-cyan-300/12 dark:bg-white/3">
+      <div className="rounded-xl border border-cyan-800/15 bg-[#f4f9fc]/70 p-4 dark:border-cyan-300/15 dark:bg-white/3">
         <label className="flex cursor-pointer items-start gap-3 text-sm text-slate-700 dark:text-slate-200">
           <input
             name="consentimiento"
@@ -369,7 +369,7 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
       <button
         type="submit"
         disabled={busy}
-        className="bg-primary-light font-body dark:bg-primary-dark dark:hover:bg-primary-dark-lighter flex min-h-10 w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold text-white transition hover:bg-cyan-800 disabled:cursor-wait disabled:opacity-60 dark:text-[#04111e]"
+        className="bg-primary-light font-body dark:bg-primary-dark dark:hover:bg-primary-dark-lighter focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark flex min-h-10 w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-wait disabled:opacity-60 dark:text-[#04111e] dark:shadow-[0_0_34px_rgba(45,212,191,0.26)]"
       >
         {busy ? "Guardando..." : "Comenzar la evaluación"}
       </button>

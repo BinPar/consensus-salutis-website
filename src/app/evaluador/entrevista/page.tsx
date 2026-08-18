@@ -19,6 +19,16 @@
  * `noindex`: es una pantalla de sesión, no una página del sitio. Sin esto un
  * buscador acabaría publicando la URL de una entrevista, que siempre respondería
  * «vuelve a identificarte» a quien la abriera desde el resultado.
+ *
+ * ## El fondo es el del sitio, no el del navegador
+ *
+ * `HomeMotionBackground` —la rejilla de 44px sobre `#fbfdff` / `#06111f`— va aquí
+ * y no dentro de `InterviewScreen`: el aviso de sesión caducada se pinta desde
+ * esta misma página y necesita el mismo suelo. Sin él la entrevista quedaba como
+ * una tarjeta flotando sobre el color plano del `body`, que es el único sitio del
+ * sitio donde ese suelo no aparece. Aquí no se añade `SignalField`: la pantalla
+ * es una app a pantalla completa y el campo animado detrás de una tarjeta de
+ * cristal a `100dvh` solo se ve por los bordes.
  */
 
 import type { Metadata } from "next";
@@ -26,6 +36,7 @@ import { cookies } from "next/headers";
 
 import { InterviewScreen } from "~/app/_components/interview/interview-screen";
 import { SessionNotice } from "~/app/_components/interview/session-notice";
+import { HomeMotionBackground } from "~/app/_components/motion-system";
 import { PageShell } from "~/app/_components/site";
 import { env } from "~/env";
 import {
@@ -59,7 +70,8 @@ export default async function EntrevistaPage() {
   if (!session.ok) {
     return (
       <PageShell>
-        <main>
+        <main className="relative isolate bg-[#fbfdff] dark:bg-[#06111f]">
+          <HomeMotionBackground />
           <SessionNotice expired={session.reason === "expired"} />
         </main>
       </PageShell>
@@ -68,7 +80,8 @@ export default async function EntrevistaPage() {
 
   return (
     <PageShell>
-      <main>
+      <main className="relative isolate bg-[#fbfdff] dark:bg-[#06111f]">
+        <HomeMotionBackground />
         <InterviewScreen
           token={cookieStore.get(SESSION_COOKIE_NAME)!.value}
           convexSiteUrl={env.NEXT_PUBLIC_CONVEX_SITE_URL}

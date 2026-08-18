@@ -3,6 +3,7 @@ import { forwardRef } from "react";
 import type { ReactNode } from "react";
 
 import { ClinicalChatMock } from "~/app/_components/clinical-chat-mock";
+import { Eyebrow } from "~/app/_components/eyebrow";
 import { FooterBandMenu } from "~/app/_components/footer-band-menu";
 import { contactItems, VerticalFooter } from "~/app/_components/site-footer";
 import { navItems, SiteHeader } from "~/app/_components/site-header";
@@ -67,13 +68,7 @@ export function HomeShell({
   );
 }
 
-export function Eyebrow({ children }: { children: ReactNode }) {
-  return (
-    <p className="text-primary-light font-display text-xs font-bold tracking-[0.22em] uppercase dark:text-primary-dark">
-      {children}
-    </p>
-  );
-}
+export { Eyebrow };
 
 export function CTAGroup() {
   return (

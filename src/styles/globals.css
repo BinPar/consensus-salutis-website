@@ -30,6 +30,33 @@
   .font-display {
     font-family: var(--font-sora), "Sora", ui-sans-serif, system-ui, sans-serif;
   }
+
+  /*
+    El arco de bloques del panel de la entrevista.
+
+    `stroke-dasharray` va AQUÍ y no en el componente, y no es una preferencia de
+    estilo: es un *presentation attribute*, así que cualquier regla CSS le gana.
+    Con el atributo puesto desde React y una regla en la hoja de estilos, el arco
+    se queda vacío en todos los estados — y el atributo sigue leyéndose correcto,
+    de modo que un test que comprobara el atributo pasaría.
+
+    El relleno se anima con `stroke-dashoffset`, que el componente pone por
+    `style` —el estilo en línea sí gana a la hoja—. Animar `dasharray` interpola
+    una lista de dos longitudes y se encalla; `dashoffset` es un valor único.
+  */
+  .ficha-arco {
+    fill: none;
+    stroke-width: 6;
+    stroke-linecap: round;
+    stroke-dasharray: 263.894;
+    transition: stroke-dashoffset 620ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ficha-arco {
+      transition: none;
+    }
+  }
 }
 
 @layer base {

@@ -27,28 +27,29 @@
  * estado al servidor, que es la única copia que existe.
  */
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   AlertTriangle,
+  ArrowRight,
   ArrowUp,
-  ClipboardList,
+  Check,
+  Clock3,
+  FileText,
   Loader2,
   RotateCcw,
   ShieldCheck,
+  Sparkles,
   X,
 } from "lucide-react";
 
-import {
-  FichaPanel,
-  type FichaPanelProps,
-} from "~/app/_components/interview/ficha-panel";
+import { FichaArco } from "~/app/_components/interview/ficha-arco";
+import { FichaPanel } from "~/app/_components/interview/ficha-panel";
 import { ReportView } from "~/app/_components/interview/report-view";
 import { SessionNotice } from "~/app/_components/interview/session-notice";
 import {
-  correctFichaField,
   fetchInterviewState,
   InterviewError,
   MAX_MENSAJE_CHARS,
@@ -62,17 +63,26 @@ import {
 } from "~/lib/interview";
 import {
   ALL_FICHA_FIELDS,
+  CAMPOS_INFERIDOS,
   EMPTY_FICHA,
-  countFilledFields,
+  enumerar,
   fichaCell,
-  formatFichaValue,
+  fichaFieldByPath,
   type Ficha,
-  type FichaFieldSpec,
-  type FichaValue,
 } from "~/lib/ficha";
+import { avanceDeBloques } from "~/lib/ficha-rasgos";
+import { capitalizarInstitucion, partirOpciones } from "~/lib/opciones";
 
 /** Cuánto dura el resaltado de un campo que acaba de cambiar. */
 const HIGHLIGHT_MS = 2_600;
+
+/**
+ * El vacío estable de opciones.
+ *
+ * Un `[]` nuevo en cada render invalidaría el `useMemo` del reparto y con él el
+ * atajo de teclado, que se recolocaría en cada pulsación.
+ */
+const SIN_OPCIONES: string[] = [];
 
 /** Cierre honesto para una evaluación completada cuyo informe no llegó. */
 const INFORME_NO_DISPONIBLE = `## Evaluación completada
@@ -99,6 +109,16 @@ type LastAttempt =
   | { type: "finalizar" };
 
 type Failure = { message: string; retryable: boolean };
+
+/**
+ * Un turno del hilo tal y como lo pinta esta pantalla.
+ *
+ * `inferidos` es lo que el agente dedujo de ESE mensaje sin que se lo
+ * preguntaran. Es un añadido de la interfaz y no del transporte: el payload no
+ * trae la idea de «lo que se anotó a raíz de este turno», se calcula aquí
+ * comparando la ficha de antes con la de después.
+ */
+type ThreadItem = InterviewMessage & { inferidos?: string[] };
 
 /** Los paths cuyo valor ha cambiado entre dos versiones de la ficha. */
 function changedPaths(previous: Ficha, next: Ficha): string[] {
@@ -129,7 +149,7 @@ export function InterviewScreen({
   );
 
   const [phase, setPhase] = useState<Phase>("cargando");
-  const [messages, setMessages] = useState<InterviewMessage[]>([]);
+  const [messages, setMessages] = useState<ThreadItem[]>([]);
   const [ficha, setFicha] = useState<Ficha>(EMPTY_FICHA);
   const [report, setReport] = useState<InterviewReport | null>(null);
   const [pending, setPending] = useState(false);
@@ -138,6 +158,19 @@ export function InterviewScreen({
   const [redactedNotice, setRedactedNotice] = useState(false);
   const [draft, setDraft] = useState("");
   const [fichaOpen, setFichaOpen] = useState(false);
+  /*
+    Los turnos que le quedan al agente. NO se escribe nunca —una cuenta atrás en
+    una entrevista de idoneidad se lee como cuántas preguntas quedan para
+    suspender—: alimenta la frase suave del panel («Vamos por la mitad»). Llega en
+    cada turno y hasta ahora no se pintaba en ningún sitio.
+  */
+  const [turnosRestantes, setTurnosRestantes] = useState(12);
+  /*
+    Cuántos datos trajo el último turno. La barra móvil lo cuenta como novedad y
+    no como deuda, así que no puede salir de `highlighted`: ese conjunto se vacía
+    a los 2,6 s y el contador caería a cero solo.
+  */
+  const [nuevos, setNuevos] = useState(0);
   /*
     El nombre de la institución no viaja en la cookie: la sesión firmada lleva
     solo `assessmentId` y añadirle datos de contacto sería ensanchar sin motivo
@@ -150,21 +183,33 @@ export function InterviewScreen({
   const threadRef = useRef<HTMLDivElement>(null);
   const composerRef = useRef<HTMLTextAreaElement>(null);
   const hasScrolled = useRef(false);
+  /*
+    La ficha vigente, en una referencia además del estado.
 
-  /** Aplica una ficha nueva resaltando lo que ha cambiado respecto a la actual. */
-  const applyFicha = useCallback((next: Ficha) => {
-    setFicha((current) => {
-      const changed = changedPaths(current, next);
-      if (changed.length > 0) {
-        setHighlighted(new Set(changed));
-        if (highlightTimer.current !== null) clearTimeout(highlightTimer.current);
-        highlightTimer.current = setTimeout(
-          () => setHighlighted(new Set()),
-          HIGHLIGHT_MS,
-        );
-      }
-      return next;
-    });
+    Hace falta porque quien aplica un turno necesita saber QUÉ cambió para poder
+    decir «anotado también», y el diff se hace contra la ficha de antes. Leerla del
+    estado dentro del propio `setFicha` obligaba a hacer el efecto —resaltar— dentro
+    del actualizador, que es exactamente donde React no garantiza que se ejecute una
+    sola vez.
+  */
+  const fichaRef = useRef<Ficha>(EMPTY_FICHA);
+
+  /**
+   * Aplica una ficha nueva resaltando lo que ha cambiado, y devuelve los paths
+   * que cambiaron para quien necesite mirarlos.
+   */
+  const applyFicha = useCallback((next: Ficha): string[] => {
+    const changed = changedPaths(fichaRef.current, next);
+    fichaRef.current = next;
+    setFicha(next);
+
+    if (changed.length > 0) {
+      setHighlighted(new Set(changed));
+      if (highlightTimer.current !== null) clearTimeout(highlightTimer.current);
+      highlightTimer.current = setTimeout(() => setHighlighted(new Set()), HIGHLIGHT_MS);
+    }
+
+    return changed;
   }, []);
 
   useEffect(
@@ -194,23 +239,64 @@ export function InterviewScreen({
       return;
     }
 
+    /*
+      Era el único aviso que no decía qué se conserva, y es justo cuando más
+      importa: un fallo sin diagnóstico deja al cliente pensando que ha perdido
+      diez minutos de entrevista.
+    */
     setFailure({
-      message: "Ha ocurrido un error inesperado. Inténtalo de nuevo.",
+      message:
+        "Algo ha fallado por nuestra parte. Tus respuestas siguen guardadas: inténtalo otra vez.",
       retryable: true,
     });
   }, []);
 
   const applyTurn = useCallback(
     (turn: InterviewTurn) => {
-      applyFicha(turn.ficha);
-      setMessages((current) => [
-        ...current,
-        {
+      const changed = applyFicha(turn.ficha);
+      setTurnosRestantes(turn.turnosRestantes);
+      setNuevos(changed.length);
+
+      /*
+        Los campos que el agente ha DEDUCIDO en este turno: los que se anotaron sin
+        que se preguntaran por ellos. Se cuelgan del mensaje del cliente que los
+        provocó, porque la línea se lee justo debajo de lo que acaba de escribir.
+
+        Un campo que el cliente corrigió no cuenta: lo suyo no es una deducción.
+      */
+      const inferidos = changed.filter((path) => {
+        if (!CAMPOS_INFERIDOS.includes(path)) return false;
+        const spec = fichaFieldByPath(path);
+        return spec !== undefined && fichaCell(turn.ficha, spec)?.origen === "agente";
+      });
+
+      setMessages((current) => {
+        const next = [...current];
+
+        if (inferidos.length > 0) {
+          // `findLastIndex` es ES2023 y la `lib` del proyecto es ES2022.
+          let lastUser = -1;
+          for (let i = next.length - 1; i >= 0; i -= 1) {
+            if (next[i]!.role === "user") {
+              lastUser = i;
+              break;
+            }
+          }
+          // En la apertura no hay mensaje del cliente al que colgarlo: el agente
+          // habla primero y todavía no ha podido deducir nada de nadie.
+          if (lastUser !== -1) next[lastUser] = { ...next[lastUser]!, inferidos };
+        }
+
+        next.push({
           role: "assistant",
           content: turn.mensaje,
           opciones: turn.opciones,
-        },
-      ]);
+          multiple: turn.multiple,
+        });
+
+        return next;
+      });
+
       if (turn.datosRetirados) setRedactedNotice(true);
       if (turn.cerrada) {
         /*
@@ -239,6 +325,13 @@ export function InterviewScreen({
       applyFicha(state.ficha);
       setMessages(state.mensajes);
       setInstitucion(state.institucion);
+      setTurnosRestantes(state.turnosRestantes);
+      /*
+        Retomar una entrevista no es recibir un turno: nada acaba de llegar, así que
+        la barra móvil no puede anunciar novedades. Sin esto, reabrir la pestaña
+        presentaba veintitrés datos viejos como recién anotados.
+      */
+      setNuevos(0);
 
       if (state.status === "completed") {
         /*
@@ -463,35 +556,41 @@ export function InterviewScreen({
     }
   }, [applyTurn, client, handleFailure, runClose, sync]);
 
-  const correct = useCallback(
-    async (spec: FichaFieldSpec, valor: FichaValue): Promise<string | null> => {
-      try {
-        const result = await correctFichaField(client, spec.path, valor);
-        if (!result.ok) return result.message;
-        applyFicha(result.ficha);
-        return null;
-      } catch (error) {
-        if (error instanceof InterviewError && error.kind === "sesion") {
-          setPhase("caducada");
-          return null;
-        }
-        return error instanceof InterviewError
-          ? error.message
-          : "No se ha podido guardar la corrección.";
-      }
-    },
-    [applyFicha, client],
-  );
+  /*
+    Ya no hay `correct` aquí, y el hueco es la mitad del rediseño: la corrección va
+    por el chat, que es donde ya está la conversación. `correctFichaField` sigue en
+    `~/lib/interview` como vía de escape si eso no cuaja.
+  */
+  const lastAssistant = [...messages].reverse().find((m) => m.role === "assistant");
+  /*
+    Las opciones viven DENTRO del mensaje que las motiva, así que hace falta saber
+    en qué índice está ese mensaje y no solo cuáles son sus opciones.
+  */
+  let lastAssistantIndex = -1;
+  for (let i = messages.length - 1; i >= 0; i -= 1) {
+    if (messages[i]!.role === "assistant") {
+      lastAssistantIndex = i;
+      break;
+    }
+  }
+
+  /*
+    `opcionesCrudas` sale del estado, así que su identidad solo cambia cuando llega
+    un turno. Es lo que permite memorizar el reparto y, con él, que el atajo de
+    teclado no se recoloque en cada render.
+  */
+  const opcionesCrudas =
+    phase === "entrevista" ? (lastAssistant?.opciones ?? SIN_OPCIONES) : SIN_OPCIONES;
+  const opciones = useMemo(() => partirOpciones(opcionesCrudas), [opcionesCrudas]);
+  const respuestas = opciones.respuestas;
+  const hayOpciones = respuestas.length > 0;
+  const readOnlyFicha = phase !== "entrevista";
+  const cerrada = phase === "calculando" || phase === "informe";
 
   if (phase === "caducada") return <SessionNotice expired />;
 
-  const lastAssistant = [...messages].reverse().find((m) => m.role === "assistant");
-  const opciones =
-    !pending && phase === "entrevista" ? (lastAssistant?.opciones ?? []) : [];
-  const readOnlyFicha = phase !== "entrevista";
-
   return (
-    <div className="mx-auto grid w-full max-w-7xl gap-5 px-4 pt-20 pb-6 sm:px-6 lg:grid-cols-[minmax(0,1fr)_23rem] lg:gap-6 lg:pt-24">
+    <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-5 px-5 pt-20 pb-6 sm:px-8 lg:grid-cols-[minmax(0,1fr)_23rem] lg:gap-6 lg:pt-24">
       {/*
         Región de estado para lectores de pantalla. Anuncia el turno del agente
         SIN robar el foco, que sigue en el campo de texto: un `focus()` a cada
@@ -521,16 +620,40 @@ export function InterviewScreen({
         <div
           ref={threadRef}
           role="log"
-          className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-4 py-6 sm:px-7"
+          className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-5 py-6 sm:px-7"
         >
           {phase === "cargando" ? <ThreadSkeleton /> : null}
 
+          {/*
+            Las tres líneas de apertura. El texto ya existía, disperso: la duración
+            estaba dentro del saludo del agente y la garantía de datos en el hint del
+            compositor, en gris de 11px, donde se repetía en cada turno y por eso
+            mismo no se leía. Dicha una vez y grande, se sostiene.
+          */}
+          {phase !== "cargando" ? <OpeningBrief /> : null}
+
           {messages.map((message, index) => (
-            <MessageBubble
-              key={`${index}-${message.role}`}
-              message={message}
-              reducedMotion={reducedMotion ?? false}
-            />
+            <Fragment key={`${index}-${message.role}`}>
+              <MessageBubble
+                message={message}
+                reducedMotion={reducedMotion ?? false}
+                /*
+                  Las opciones viven dentro del mensaje que las motiva, no flotando
+                  sobre el compositor: la pregunta y sus respuestas se leen juntas.
+                */
+                opciones={index === lastAssistantIndex ? opciones : null}
+                pending={pending}
+                onSend={(text) => void send(text)}
+              />
+
+              {message.inferidos !== undefined && message.inferidos.length > 0 ? (
+                <InferenceLine
+                  paths={message.inferidos}
+                  ficha={ficha}
+                  reducedMotion={reducedMotion ?? false}
+                />
+              ) : null}
+            </Fragment>
           ))}
 
           {pending ? <TypingIndicator /> : null}
@@ -542,7 +665,7 @@ export function InterviewScreen({
           ) : null}
         </div>
 
-        <div className="shrink-0 border-t border-cyan-800/15 bg-white/50 px-4 py-4 sm:px-7 dark:border-cyan-300/15 dark:bg-white/2">
+        <div className="shrink-0 border-t border-cyan-800/15 bg-white/50 px-5 py-4 sm:px-7 dark:border-cyan-300/15 dark:bg-white/3">
           {redactedNotice ? (
             <Notice
               tone="info"
@@ -581,7 +704,7 @@ export function InterviewScreen({
               inputRef={composerRef}
               draft={draft}
               setDraft={setDraft}
-              opciones={opciones}
+              hayOpciones={hayOpciones}
               pending={pending}
               onSend={(text) => void send(text)}
             />
@@ -597,7 +720,8 @@ export function InterviewScreen({
           <FichaPanel
             ficha={ficha}
             highlighted={highlighted}
-            onCorrect={correct}
+            turnosRestantes={turnosRestantes}
+            cerrada={cerrada}
             readOnly={readOnlyFicha}
           />
         </div>
@@ -608,7 +732,9 @@ export function InterviewScreen({
         setOpen={setFichaOpen}
         ficha={ficha}
         highlighted={highlighted}
-        onCorrect={correct}
+        turnosRestantes={turnosRestantes}
+        cerrada={cerrada}
+        nuevos={nuevos}
         readOnly={readOnlyFicha}
       />
     </div>
@@ -617,7 +743,7 @@ export function InterviewScreen({
 
 function InterviewHeader({ institucion }: { institucion: string }) {
   return (
-    <div className="flex h-14 shrink-0 items-center justify-between gap-3 border-b border-cyan-800/15 bg-white/45 px-4 sm:px-7 dark:border-cyan-300/15 dark:bg-white/3">
+    <div className="flex h-14 shrink-0 items-center justify-between gap-3 border-b border-cyan-800/15 bg-white/40 px-5 sm:px-7 dark:border-cyan-300/15 dark:bg-white/3">
       <div className="flex min-w-0 items-center gap-3">
         <Image
           src="/logos/consensus-brand/consensus-light.svg"
@@ -634,15 +760,79 @@ function InterviewHeader({ institucion }: { institucion: string }) {
           className="hidden h-5 w-auto shrink-0 dark:block"
         />
         {institucion.length > 0 ? (
+          /*
+            El nombre llega tal cual lo escribió el cliente en la etapa 0, así que
+            «Hospital de móstoles» se pintaba con la minúscula incluida. Se capitaliza
+            por palabra, con las partículas en minúscula.
+          */
           <span className="font-body hidden min-w-0 truncate border-l border-cyan-800/15 pl-3 text-xs text-slate-500 sm:block dark:border-cyan-300/15 dark:text-slate-400">
-            {institucion}
+            {capitalizarInstitucion(institucion)}
           </span>
         ) : null}
       </div>
+      {/*
+        El punto baja de intensidad: con el resplandor de antes parecía un LED de
+        estado —algo que se enciende y se apaga— y lo que dice es una promesa.
+      */}
       <span className="flex shrink-0 items-center gap-1.5 text-[10px] font-medium text-teal-700 dark:text-teal-200">
-        <span className="size-1.5 rounded-full bg-teal-300 shadow-[0_0_10px_rgba(94,234,212,0.7)]" />
+        <span className="size-1.5 rounded-full bg-teal-500/70 dark:bg-teal-300/60" />
         Sin datos de paciente
       </span>
+    </div>
+  );
+}
+
+/**
+ * Las tres líneas que van antes de la primera pregunta.
+ *
+ * Sin ellas la primera pantalla era una pregunta arriba, setecientos píxeles de
+ * nada y un panel anunciando veintiocho huecos. Lo que dicen no es nuevo: es lo
+ * que estaba escondido en el saludo del agente y en el hint del compositor.
+ */
+function OpeningBrief() {
+  const lineas = [
+    {
+      icon: <Clock3 aria-hidden="true" strokeWidth={1.8} className="size-3.5" />,
+      body: <>Ocho a doce minutos, unas doce preguntas.</>,
+    },
+    {
+      icon: <FileText aria-hidden="true" strokeWidth={1.8} className="size-3.5" />,
+      body: (
+        <>
+          Al terminar recibes un{" "}
+          <b className="font-semibold text-slate-800 dark:text-slate-100">
+            informe sobre el encaje de tu caso
+          </b>
+          , y te lo mandamos por correo.
+        </>
+      ),
+    },
+    {
+      icon: <ShieldCheck aria-hidden="true" strokeWidth={1.8} className="size-3.5" />,
+      body: (
+        <>
+          <b className="font-semibold text-slate-800 dark:text-slate-100">
+            No hace falta ningún dato de paciente.
+          </b>{" "}
+          Si aparece alguno, lo retiramos antes de guardar.
+        </>
+      ),
+    },
+  ];
+
+  return (
+    <div className="grid gap-2 border-b border-cyan-800/12 pb-4 dark:border-cyan-300/12">
+      {lineas.map((linea, index) => (
+        <p
+          key={index}
+          className="font-body flex items-baseline gap-2.5 text-[12.5px] leading-snug text-slate-600 dark:text-slate-400"
+        >
+          <span className="text-primary-light dark:text-primary-dark shrink-0 translate-y-0.5">
+            {linea.icon}
+          </span>
+          <span className="min-w-0">{linea.body}</span>
+        </p>
+      ))}
     </div>
   );
 }
@@ -650,9 +840,16 @@ function InterviewHeader({ institucion }: { institucion: string }) {
 function MessageBubble({
   message,
   reducedMotion,
+  opciones,
+  pending,
+  onSend,
 }: {
   message: InterviewMessage;
   reducedMotion: boolean;
+  /** El reparto de opciones, si este es el mensaje que las motiva. */
+  opciones: ReturnType<typeof partirOpciones> | null;
+  pending: boolean;
+  onSend: (text: string) => void;
 }) {
   if (message.role === "user") {
     return (
@@ -660,12 +857,14 @@ function MessageBubble({
         initial={{ opacity: reducedMotion ? 1 : 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: reducedMotion ? 0 : 0.22 }}
-        className="font-body ml-auto max-w-[88%] rounded-xl rounded-br-sm border border-slate-300/80 bg-white/60 px-4 py-3 text-sm leading-6 whitespace-pre-wrap text-slate-900 sm:text-base sm:leading-7 dark:border-slate-600/30 dark:bg-slate-700/35 dark:text-slate-100"
+        className="font-body ml-auto max-w-[88%] rounded-xl rounded-br-sm border border-slate-300/80 bg-white/50 px-4 py-3 text-sm leading-6 whitespace-pre-wrap text-slate-900 sm:text-base sm:leading-7 dark:border-slate-600/30 dark:bg-slate-700/35 dark:text-slate-100"
       >
         {message.content}
       </motion.div>
     );
   }
+
+  const hayRespuestas = opciones !== null && opciones.respuestas.length > 0;
 
   return (
     <motion.div
@@ -690,10 +889,347 @@ function MessageBubble({
           className="hidden size-6 dark:block"
         />
       </span>
-      <p className="font-body min-w-0 text-sm leading-6 whitespace-pre-wrap text-slate-700 sm:text-base sm:leading-7 dark:text-slate-300">
-        {message.content}
-      </p>
+      <div className="min-w-0 flex-1">
+        <p className="font-body min-w-0 text-sm leading-6 whitespace-pre-wrap text-slate-700 sm:text-base sm:leading-7 dark:text-slate-300">
+          {message.content}
+        </p>
+        {hayRespuestas ? (
+          <QuickAnswers
+            /*
+              La clave es la pregunta: garantiza que lo que el cliente llevara
+              marcado no sobreviva al turno siguiente, sin depender de que el
+              índice del mensaje cambie.
+            */
+            key={message.content}
+            opciones={opciones}
+            multiple={message.multiple === true}
+            pending={pending}
+            onSend={onSend}
+          />
+        ) : null}
+      </div>
     </motion.div>
+  );
+}
+
+/**
+ * Las respuestas rápidas: una por fila, del ancho del mensaje.
+ *
+ * ## Por qué en columna y no en píldoras
+ *
+ * Tres filas ocupan unos 130px frente a los 34px de una fila de píldoras, y ese
+ * alto sale del hilo: con el compositor de altura fija, se ve un turno menos de
+ * historia mientras hay opciones en pantalla. Es un buen cambio — la pregunta
+ * activa importa más que el turno anterior. A cambio la legibilidad es constante
+ * (una opción, una línea), las opciones largas caben sin descolocar nada, y en
+ * móvil se comporta igual que en escritorio, que es donde el diseño horizontal se
+ * descontrola.
+ *
+ * ## El caso binario
+ *
+ * Tres filas para decir «sí» y «no» es desperdiciar alto, así que una pregunta
+ * cuyas respuestas son exactamente esas dos se pinta como un segmentado. Da además
+ * la variedad visual que evita que los cinco bloques se sientan iguales en el
+ * minuto ocho.
+ *
+ * ## Y el caso de varias respuestas
+ *
+ * Lo decide el agente por pregunta: «¿en qué formato están los documentos?» admite
+ * varias y «¿tenéis DPO?» no. Con `multiple`, las filas pasan a ser casillas y hace
+ * falta un botón para enviar — porque si pulsar una fila enviara, marcar la segunda
+ * sería imposible. Es la única forma de control de esta pantalla que necesita dos
+ * gestos, y por eso solo aparece cuando el modelo lo pide.
+ *
+ * El binario se ignora si `multiple` viene puesto: un «sí/no» de varias respuestas
+ * no significa nada, pero quien manda sobre el control es el agente.
+ */
+function QuickAnswers({
+  opciones,
+  multiple,
+  pending,
+  onSend,
+}: {
+  opciones: ReturnType<typeof partirOpciones>;
+  multiple: boolean;
+  pending: boolean;
+  onSend: (text: string) => void;
+}) {
+  const { respuestas, escapatoria, binaria } = opciones;
+  const [marcadas, setMarcadas] = useState<readonly string[]>([]);
+
+  const alternar = useCallback((respuesta: string) => {
+    setMarcadas((current) =>
+      current.includes(respuesta)
+        ? current.filter((item) => item !== respuesta)
+        : [...current, respuesta],
+    );
+  }, []);
+
+  /*
+    Lo que se manda es lo marcado escrito como lo escribiría una persona —«PDF
+    nativo, Word y papel»— y no una lista separada por comas: al otro lado hay un
+    modelo leyendo un turno de conversación, no un formulario parseando un CSV.
+
+    El orden es el de las opciones y no el de los clics: dos clientes que marcan lo
+    mismo en distinto orden tienen que producir el mismo turno.
+  */
+  const enviarMarcadas = useCallback(() => {
+    const enOrden = respuestas.filter((respuesta) => marcadas.includes(respuesta));
+    if (enOrden.length === 0) return;
+    onSend(enumerar(enOrden));
+  }, [marcadas, onSend, respuestas]);
+
+  /*
+    Del 1 al 4: envía la fila, o la marca si la pregunta admite varias. Con `Intro`
+    se confirma lo marcado.
+
+    El atajo NO se escucha cuando el foco está en un campo de texto, y esa condición
+    es la mitad del atajo: el compositor recupera el foco después de cada turno, así
+    que sin ella escribir «1.200 documentos» habría enviado la primera opción en la
+    primera tecla. Tampoco con modificadores, que son atajos del navegador.
+  */
+  useEffect(() => {
+    if (pending) return;
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.metaKey || event.ctrlKey || event.altKey) return;
+
+      const target = event.target;
+      if (target instanceof HTMLElement) {
+        const editable =
+          target.isContentEditable ||
+          ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName);
+        if (editable) return;
+      }
+
+      if (multiple && event.key === "Enter") {
+        event.preventDefault();
+        enviarMarcadas();
+        return;
+      }
+
+      const index = Number(event.key) - 1;
+      const elegida = respuestas[index];
+      if (!Number.isInteger(index) || elegida === undefined) return;
+
+      event.preventDefault();
+      if (multiple) alternar(elegida);
+      else onSend(elegida);
+    };
+
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [alternar, enviarMarcadas, multiple, onSend, pending, respuestas]);
+
+  return (
+    <div
+      role="group"
+      /* «Sugeridas» no dice que al pulsar se envíe; «rápidas» sí. */
+      aria-label={
+        multiple
+          ? "Respuestas rápidas a esta pregunta, puedes marcar varias"
+          : "Respuestas rápidas a esta pregunta"
+      }
+      className={`mt-3.5 grid gap-1.5 ${pending ? "pointer-events-none opacity-50" : ""}`}
+    >
+      {multiple ? (
+        <MultiAnswers
+          respuestas={respuestas}
+          marcadas={marcadas}
+          pending={pending}
+          onToggle={alternar}
+          onContinue={enviarMarcadas}
+        />
+      ) : binaria ? (
+        <div className="border-primary-light/28 dark:border-primary-dark/34 flex w-fit overflow-hidden rounded-full border-[1.5px] bg-white/70 dark:bg-white/4">
+          {respuestas.map((respuesta, index) => (
+            <button
+              key={respuesta}
+              type="button"
+              disabled={pending}
+              onClick={() => onSend(respuesta)}
+              aria-keyshortcuts={`${index + 1}`}
+              className="font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark hover:text-primary-light dark:hover:text-primary-dark border-primary-light/28 dark:border-primary-dark/34 px-6 py-2 text-[13px] font-semibold text-slate-800 transition not-first:border-l-[1.5px] hover:bg-cyan-800/6 focus-visible:outline-2 focus-visible:-outline-offset-2 disabled:opacity-100 dark:text-slate-100 dark:hover:bg-cyan-300/8"
+            >
+              {respuesta}
+            </button>
+          ))}
+        </div>
+      ) : (
+        respuestas.map((respuesta, index) => (
+          <button
+            key={respuesta}
+            type="button"
+            disabled={pending}
+            onClick={() => onSend(respuesta)}
+            aria-keyshortcuts={`${index + 1}`}
+            className="group font-body focus-visible:outline-primary-light hover:border-primary-light dark:hover:border-primary-dark dark:focus-visible:outline-primary-dark grid w-full grid-cols-[1fr_auto] items-center gap-2.5 rounded-[11px] border border-cyan-800/30 bg-white/70 px-3.5 py-2.5 text-left text-[13px] leading-snug font-medium text-slate-800 transition hover:translate-x-0.5 hover:bg-cyan-800/5 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-100 dark:border-cyan-300/28 dark:bg-white/4 dark:text-slate-100 dark:hover:bg-cyan-300/8"
+          >
+            <span className="min-w-0">{respuesta}</span>
+            {/*
+              Al pulsar se ENVÍA, así que el control tiene que decirlo: sin la
+              flecha, una fila que se ilumina al pasar por encima se lee como algo
+              que se selecciona y luego se confirma.
+            */}
+            <ArrowRight
+              aria-hidden="true"
+              strokeWidth={2.2}
+              className="text-primary-light dark:text-primary-dark size-3.5 shrink-0 opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+            />
+          </button>
+        ))
+      )}
+
+      {escapatoria !== null ? (
+        /*
+          «No lo sé» no es una respuesta: es la salida de quien no tiene el dato.
+          Como fila pesaría lo mismo que «Sí, ya lo tenemos», que la convertiría en
+          una opción legítima. Va como enlace de texto debajo.
+        */
+        <button
+          type="button"
+          disabled={pending}
+          onClick={() => onSend(escapatoria)}
+          className="font-body focus-visible:outline-primary-light hover:text-primary-light dark:hover:text-primary-dark dark:focus-visible:outline-primary-dark mt-1 w-fit rounded-md text-left text-[11.5px] font-medium text-slate-500 transition hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-100 dark:text-slate-400"
+        >
+          {escapatoria}
+        </button>
+      ) : null}
+    </div>
+  );
+}
+
+/**
+ * Las respuestas cuando se pueden marcar varias.
+ *
+ * Cada fila es una casilla —`role="checkbox"` sobre un botón, que es lo que hace
+ * que un lector de pantalla diga «casilla, no marcada» y no «botón»— y el envío va
+ * en un control aparte. La escapatoria sigue fuera del grupo y sigue enviando al
+ * pulsarla: no es una de las respuestas que se acumulan.
+ */
+function MultiAnswers({
+  respuestas,
+  marcadas,
+  pending,
+  onToggle,
+  onContinue,
+}: {
+  respuestas: readonly string[];
+  marcadas: readonly string[];
+  pending: boolean;
+  onToggle: (respuesta: string) => void;
+  onContinue: () => void;
+}) {
+  return (
+    <>
+      {/*
+        Que se puede marcar más de una no se adivina de una casilla: los cuatro
+        turnos anteriores enviaban al primer clic, y el gesto aprendido gana a la
+        forma del control. Se dice una vez, encima del grupo.
+      */}
+      <p className="font-body mb-0.5 text-[11px] text-slate-500 dark:text-slate-400">
+        Marca todas las que apliquen.
+      </p>
+
+      {respuestas.map((respuesta, index) => {
+        const marcada = marcadas.includes(respuesta);
+
+        return (
+          <button
+            key={respuesta}
+            type="button"
+            role="checkbox"
+            aria-checked={marcada}
+            disabled={pending}
+            onClick={() => onToggle(respuesta)}
+            aria-keyshortcuts={`${index + 1}`}
+            className={`group font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark grid w-full grid-cols-[auto_1fr] items-center gap-2.5 rounded-[11px] border px-3.5 py-2.5 text-left text-[13px] leading-snug font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-100 ${
+              marcada
+                ? "border-primary-light dark:border-primary-dark bg-primary-light/8 dark:bg-primary-dark/12 text-slate-900 dark:text-slate-50"
+                : "border-cyan-800/30 bg-white/70 text-slate-800 hover:border-cyan-800/55 hover:bg-cyan-800/5 dark:border-cyan-300/28 dark:bg-white/4 dark:text-slate-100 dark:hover:border-cyan-300/55 dark:hover:bg-cyan-300/8"
+            }`}
+          >
+            <span
+              aria-hidden="true"
+              className={`grid size-4 shrink-0 place-items-center rounded-[5px] border transition ${
+                marcada
+                  ? "bg-primary-light dark:bg-primary-dark border-transparent text-white dark:text-[#04111e]"
+                  : "border-cyan-800/40 dark:border-cyan-300/40"
+              }`}
+            >
+              {marcada ? <Check strokeWidth={3} className="size-2.5" /> : null}
+            </span>
+            <span className="min-w-0">{respuesta}</span>
+          </button>
+        );
+      })}
+
+      {/*
+        Deshabilitado con cero marcadas en vez de escondido: un botón que aparece al
+        marcar la primera opción mueve la escapatoria de sitio justo cuando el ojo
+        está ahí.
+      */}
+      <button
+        type="button"
+        disabled={pending || marcadas.length === 0}
+        onClick={onContinue}
+        className="bg-primary-light font-body dark:bg-primary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark dark:hover:bg-primary-dark-lighter mt-1.5 inline-flex w-fit items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-semibold text-white transition hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-40 dark:text-[#04111e]"
+      >
+        Continuar
+        <ArrowRight aria-hidden="true" strokeWidth={2.4} className="size-3.5" />
+      </button>
+    </>
+  );
+}
+
+/**
+ * «Anotado también»: la inferencia, dicha en voz alta.
+ *
+ * `ambitoPublico` y `comunidad` se deducen sin preguntarlos, y hasta ahora
+ * aparecían en el panel en silencio. Es lo más impresionante que hace el sistema y
+ * era invisible: decirlo hace que alguien de dirección médica piense «esto entiende
+ * de lo mío», que es lo que un contador de veintiocho campos no consigue nunca.
+ */
+function InferenceLine({
+  paths,
+  ficha,
+  reducedMotion,
+}: {
+  paths: readonly string[];
+  ficha: Ficha;
+  reducedMotion: boolean;
+}) {
+  const dichos = paths
+    .map((path) => {
+      const spec = fichaFieldByPath(path);
+      if (spec === undefined) return null;
+      const cell = fichaCell(ficha, spec);
+      return cell === undefined ? null : spec.chip(cell.valor);
+    })
+    .filter((dicho): dicho is string => dicho !== null);
+
+  if (dichos.length === 0) return null;
+
+  return (
+    <motion.p
+      initial={{ opacity: reducedMotion ? 1 : 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: reducedMotion ? 0 : 0.28, delay: reducedMotion ? 0 : 0.1 }}
+      className="font-body -mt-2.5 flex items-baseline gap-2 text-[11px] leading-snug text-slate-500 dark:text-slate-400"
+    >
+      <Sparkles
+        aria-hidden="true"
+        strokeWidth={1.8}
+        className="text-primary-light dark:text-primary-dark size-3 shrink-0 translate-y-0.5"
+      />
+      <span className="min-w-0">
+        <b className="text-primary-light dark:text-primary-dark font-semibold">
+          Anotado también:
+        </b>{" "}
+        {enumerar(dichos)} —{" "}
+        {dichos.length === 1 ? "deducido" : "deducidos"} de lo que has contado.
+      </span>
+    </motion.p>
   );
 }
 
@@ -723,7 +1259,7 @@ function CalculatingNotice() {
         className="text-primary-light dark:text-primary-dark mt-0.5 size-5 shrink-0 animate-spin motion-reduce:animate-none"
       />
       <div>
-        <p className="font-display text-sm font-semibold text-[#05215e] dark:text-slate-50">
+        <p className="font-display text-sm font-extrabold text-[#05215e] dark:text-slate-50">
           Estamos preparando tu informe
         </p>
         <p className="font-body mt-1 text-sm leading-6 text-slate-600 dark:text-slate-400">
@@ -791,18 +1327,27 @@ function Notice({
   );
 }
 
+/**
+ * El compositor, ahora limpio.
+ *
+ * Las opciones se han ido a la burbuja del mensaje que las motiva, y lo que queda
+ * aquí es el campo libre. Su marcador de posición cambia mientras hay opciones:
+ * «…o escribe tu propia respuesta». Los puntos iniciales cosen el campo a las filas
+ * de arriba y dicen en pantalla lo que hasta ahora solo estaba en un comentario del
+ * código fuente — que las opciones aceleran, pero no acotan.
+ */
 function Composer({
   inputRef,
   draft,
   setDraft,
-  opciones,
+  hayOpciones,
   pending,
   onSend,
 }: {
   inputRef: React.RefObject<HTMLTextAreaElement | null>;
   draft: string;
   setDraft: (value: string) => void;
-  opciones: string[];
+  hayOpciones: boolean;
   pending: boolean;
   onSend: (text: string) => void;
 }) {
@@ -811,27 +1356,6 @@ function Composer({
 
   return (
     <div>
-      {/*
-        Las opciones no son el único camino: el campo libre está debajo y
-        siempre activo. Son un atajo para la mitad de las preguntas que lo
-        admiten, no un menú del que haya que elegir.
-      */}
-      {opciones.length > 0 ? (
-        <div className="mb-3 flex flex-wrap gap-2" role="group" aria-label="Respuestas sugeridas">
-          {opciones.map((option) => (
-            <button
-              key={option}
-              type="button"
-              onClick={() => onSend(option)}
-              disabled={pending}
-              className="border-primary-light/30 font-body hover:border-primary-light/60 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark rounded-full border bg-white/70 px-3.5 py-1.5 text-xs font-medium text-cyan-900 transition hover:bg-cyan-50 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-50 dark:border-cyan-300/30 dark:bg-white/4 dark:text-cyan-50 dark:hover:border-cyan-200/60 dark:hover:bg-cyan-300/10"
-            >
-              {option}
-            </button>
-          ))}
-        </div>
-      ) : null}
-
       <div className="focus-within:border-primary-light/50 flex items-end gap-2 rounded-2xl border border-cyan-800/20 bg-white px-3 py-2 transition dark:border-cyan-300/20 dark:bg-[#04111e]/80 dark:focus-within:border-cyan-300/50">
         <label htmlFor="interview-composer" className="sr-only">
           Tu respuesta
@@ -842,7 +1366,9 @@ function Composer({
           rows={1}
           value={draft}
           disabled={pending}
-          placeholder="Escribe tu respuesta…"
+          placeholder={
+            hayOpciones ? "…o escribe tu propia respuesta" : "Escribe tu respuesta…"
+          }
           aria-describedby="interview-composer-hint"
           className="font-body max-h-40 min-h-9 flex-1 resize-none bg-transparent py-1.5 text-sm text-slate-900 outline-none placeholder:text-slate-400 disabled:opacity-60 dark:text-slate-100 dark:placeholder:text-slate-500"
           onChange={(event) => {
@@ -887,9 +1413,14 @@ function Composer({
             : "text-slate-400 dark:text-slate-500"
         }`}
       >
+        {/*
+          La garantía de datos ha subido a la cabecera de apertura. Aquí se repetía
+          en cada turno, en gris de 11px, y repetirla la devaluaba: dicha una vez y
+          grande, se sostiene.
+        */}
         {tooLong
           ? `El mensaje supera los ${MAX_MENSAJE_CHARS.toLocaleString("es-ES")} caracteres. Acórtalo para poder enviarlo.`
-          : "Pulsa Intro para enviar. No hace falta ningún dato de paciente en esta evaluación."}
+          : "Pulsa Intro para enviar."}
       </p>
     </div>
   );
@@ -915,26 +1446,33 @@ function ReportFooter() {
  * La ficha en móvil.
  *
  * Va en una hoja a pantalla completa y no en una columna encogida: con 360px de
- * ancho, la ficha al lado del chat deja las dos cosas ilegibles. La barra de
- * abajo mantiene visible el dato que importa —cuántos campos llevamos— para que
- * la ficha no sea algo que exista solo si a alguien se le ocurre buscarla.
+ * ancho, la ficha al lado del chat deja las dos cosas ilegibles. La barra de abajo
+ * mantiene visible el arco y **cuántos datos acaban de llegar** para que la ficha no
+ * sea algo que exista solo si a alguien se le ocurre buscarla.
+ *
+ * El contador pasa de deuda a novedad: antes decía `0 de 28` —lo que falta— y ahora
+ * cuenta lo que ha llegado.
  */
 function MobileFicha({
   open,
   setOpen,
   ficha,
   highlighted,
-  onCorrect,
+  turnosRestantes,
+  cerrada,
+  nuevos,
   readOnly,
 }: {
   open: boolean;
   setOpen: (open: boolean) => void;
   ficha: Ficha;
   highlighted: ReadonlySet<string>;
-  onCorrect: FichaPanelProps["onCorrect"];
+  turnosRestantes: number;
+  cerrada: boolean;
+  nuevos: number;
   readOnly: boolean;
 }) {
-  const filled = countFilledFields(ficha);
+  const { cerrados, actual } = avanceDeBloques(ficha);
   const lastChanged = [...highlighted].at(-1);
   const changedSpec = lastChanged
     ? ALL_FICHA_FIELDS.find((spec) => spec.path === lastChanged)
@@ -952,25 +1490,33 @@ function MobileFicha({
 
   return (
     <>
-      <div className="sticky bottom-0 z-30 -mx-4 mt-3 border-t border-cyan-800/15 bg-[#f4f9fc]/92 px-4 py-2.5 backdrop-blur-md sm:-mx-6 sm:px-6 lg:hidden dark:border-cyan-300/15 dark:bg-[#06111f]/92">
+      <div className="sticky bottom-0 z-30 -mx-5 mt-3 border-t border-cyan-800/15 bg-[#fbfdff]/92 px-5 py-2.5 backdrop-blur-md sm:-mx-8 sm:px-8 lg:hidden dark:border-cyan-300/15 dark:bg-[#06111f]/92">
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark flex w-full items-center gap-3 rounded-xl border border-cyan-800/15 bg-white/70 px-3.5 py-2.5 text-left focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-cyan-300/15 dark:bg-white/4"
+          className="focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark flex w-full items-center gap-3 rounded-xl border border-cyan-800/15 bg-white/65 px-3.5 py-2.5 text-left backdrop-blur-sm transition hover:bg-cyan-50 focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-cyan-300/15 dark:bg-white/4 dark:hover:bg-cyan-300/10"
         >
-          <ClipboardList
-            aria-hidden="true"
-            strokeWidth={1.8}
-            className="text-primary-light dark:text-primary-dark size-4 shrink-0"
+          {/* El arco sustituye al icono de portapapeles: dice algo, y el icono no. */}
+          <FichaArco
+            cerrados={cerrados}
+            actual={actual}
+            cerrada={cerrada}
+            size={28}
+            compact
           />
           <span className="min-w-0 flex-1">
             <span className="font-body block text-xs font-semibold text-slate-900 dark:text-slate-100">
-              Ficha de la evaluación · {filled} de {ALL_FICHA_FIELDS.length}
+              Lo que hemos entendido
+              {nuevos > 0
+                ? ` · ${nuevos === 1 ? "1 dato nuevo" : `${nuevos} datos nuevos`}`
+                : ""}
             </span>
             <span className="font-body block truncate text-[11px] text-slate-500 dark:text-slate-400">
               {changedSpec && changedCell
-                ? `${changedSpec.label}: ${formatFichaValue(changedCell.valor)}`
-                : "Toca para revisarla y corregir cualquier valor"}
+                ? changedSpec.chip(changedCell.valor)
+                : /* Ya no se corrige ahí, y en una línea truncada de 11px cada
+                     palabra cuesta. */
+                  "Toca para verlo"}
             </span>
           </span>
         </button>
@@ -981,16 +1527,16 @@ function MobileFicha({
           <motion.div
             role="dialog"
             aria-modal="true"
-            aria-label="Ficha de la evaluación"
+            aria-label="Lo que hemos entendido"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.18 }}
-            className="fixed inset-0 z-50 flex flex-col bg-[#f4f9fc] lg:hidden dark:bg-[#06111f]"
+            className="fixed inset-0 z-50 flex flex-col bg-[#fbfdff] lg:hidden dark:bg-[#06111f]"
           >
-            <div className="flex h-14 shrink-0 items-center justify-between border-b border-cyan-800/15 px-4 dark:border-cyan-300/15">
-              <p className="font-display text-sm font-semibold text-[#05215e] dark:text-slate-50">
-                Ficha de la evaluación
+            <div className="flex h-14 shrink-0 items-center justify-between border-b border-cyan-800/15 px-5 dark:border-cyan-300/15">
+              <p className="font-display text-sm font-extrabold text-[#05215e] dark:text-slate-50">
+                Lo que hemos entendido
               </p>
               <button
                 type="button"
@@ -1006,7 +1552,8 @@ function MobileFicha({
               <FichaPanel
                 ficha={ficha}
                 highlighted={highlighted}
-                onCorrect={onCorrect}
+                turnosRestantes={turnosRestantes}
+                cerrada={cerrada}
                 readOnly={readOnly}
               />
             </div>

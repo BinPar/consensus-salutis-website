@@ -151,6 +151,41 @@ describe("un turno", () => {
     expect(turns[0]!.mensaje).toBe("¿Tenéis corpus propio?");
     expect(turns[0]!.opciones).toEqual(["sí", "no"]);
     expect(turns[0]!.ficha.perfil.pais?.valor).toBe("España");
+    // Sin `multiple` en el payload, la pregunta es de una sola respuesta.
+    expect(turns[0]!.multiple).toBe(false);
+  });
+
+  /*
+    El control de varias respuestas necesita dos gestos —marcar y confirmar— y el
+    de una solo uno. Convertir una pregunta simple en múltiple por una coerción
+    laxa dejaría al cliente marcando casillas sin saber que hay que continuar, así
+    que la comparación es estricta: solo el booleano `true` lo activa.
+  */
+  it("`multiple` solo se activa con el booleano, no con cualquier valor", async () => {
+    async function multipleDe(valor: unknown) {
+      const { options } = clientWith(
+        ndjsonResponse(
+          JSON.stringify({
+            event: "turno",
+            mensaje: "¿En qué formato están?",
+            opciones: ["PDF nativo", "Word"],
+            multiple: valor,
+          }) + "\n",
+        ),
+      );
+
+      const turns: InterviewTurn[] = [];
+      await sendInterviewMessage(options, "hola", {
+        onTurn: (turn) => turns.push(turn),
+      });
+      return turns[0]!.multiple;
+    }
+
+    expect(await multipleDe(true)).toBe(true);
+    expect(await multipleDe(false)).toBe(false);
+    expect(await multipleDe("true")).toBe(false);
+    expect(await multipleDe(1)).toBe(false);
+    expect(await multipleDe(undefined)).toBe(false);
   });
 
   it("la apertura no manda mensaje, manda `abrir`", async () => {
@@ -295,6 +330,37 @@ describe("el estado para retomar", () => {
       "user",
     ]);
     expect(JSON.stringify(state)).not.toContain("nota interna");
+  });
+
+  /*
+    Retomar tiene que devolver el mismo control que había. Sin esto, recargar en una
+    pregunta de varias respuestas la reabría como de una: las casillas se convertían
+    en filas que envían al primer clic, y lo que el cliente llevaba marcado se
+    perdía sin aviso.
+  */
+  it("conserva si la pregunta admitía varias respuestas", async () => {
+    const { options } = clientWith(() =>
+      jsonResponse({
+        status: "draft",
+        stage0: { institucion: "Hospital de Ejemplo" },
+        ficha: {},
+        turno: 3,
+        turnosRestantes: 9,
+        mensajes: [
+          {
+            role: "assistant",
+            content: "¿En qué formato están?",
+            opciones: ["PDF nativo", "Word"],
+            multiple: true,
+          },
+          { role: "assistant", content: "¿Tenéis DPO?", opciones: ["sí", "no"] },
+        ],
+      }),
+    );
+
+    const state = await fetchInterviewState(options);
+
+    expect(state.mensajes.map((message) => message.multiple)).toEqual([true, false]);
   });
 });
 
