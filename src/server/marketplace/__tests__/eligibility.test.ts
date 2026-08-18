@@ -313,10 +313,16 @@ describe("el envío no dispara correo", () => {
     "utf8",
   );
 
-  it("crea el assessment en draft, con origen directo y sin suscripción", () => {
-    expect(route).toContain('status: "draft"');
-    expect(route).toContain('origin: "directo"');
-    expect(route).toContain("subscriptionId: null");
+  /*
+    El `draft`, el `origin: "directo"` y el `subscriptionId` nulo los decide
+    ahora Convex —`startAssessment` los escribe a partir de si viene o no una
+    suscripción—, así que lo que le toca comprobar a este repo es que la ruta
+    delega en ese arranque y que NO le pasa ninguna suscripción, que es lo que
+    hace que la evaluación sea `directo` mientras no exista la issue #3.
+  */
+  it("crea el assessment delegando en Convex, sin suscripción", () => {
+    expect(route).toContain("startEligibilityAssessment");
+    expect(route).not.toContain("subscriptionId:");
   });
 
   // Criterio de aceptación §7: el envío crea el assessment en draft y no manda

@@ -25,12 +25,17 @@
 
 import type { Metadata } from "next";
 import Link from "next/link";
-import { LifeBuoy, LogIn, Mail, ShieldCheck } from "lucide-react";
+import { cookies } from "next/headers";
+import { ArrowRight, LifeBuoy, LogIn, Mail, ShieldCheck } from "lucide-react";
 
 import { EligibilityForm } from "~/app/_components/eligibility-form";
 import { Eyebrow, PageShell, ThemeSection } from "~/app/_components/site";
 import { env } from "~/env";
 import { RETENTION_STATEMENT } from "~/lib/eligibility";
+import {
+  SESSION_COOKIE_NAME,
+  verifySession,
+} from "~/server/marketplace/session";
 
 export const metadata: Metadata = {
   title: "Evaluador de idoneidad",
@@ -40,7 +45,22 @@ export const metadata: Metadata = {
 
 const SUPPORT_EMAIL = "info@binpar.com";
 
-export default function EvaluadorPage() {
+export default async function EvaluadorPage() {
+  /*
+    «Abandono y vuelta» es un caso normal, no un borde: alguien deja la
+    entrevista a medias y vuelve por la tarde a la URL que tiene a mano, que es
+    ésta. Si su sesión sigue viva se le ofrece retomarla en vez de dejar que
+    rellene el formulario otra vez y arranque una evaluación nueva.
+
+    Volver a enviar el formulario también es legítimo —puede ser otra persona de
+    la misma institución— y por eso el formulario sigue debajo, entero.
+  */
+  const cookieStore = await cookies();
+  const session = verifySession(
+    cookieStore.get(SESSION_COOKIE_NAME)?.value,
+    { secret: env.MARKETPLACE_SESSION_SECRET },
+  );
+
   return (
     <PageShell>
       <main>
@@ -65,6 +85,28 @@ export default function EvaluadorPage() {
                 Empieza por identificarte. Después, una entrevista guiada de unos
                 minutos y un informe con el veredicto y sus motivos.
               </p>
+
+              {session.ok ? (
+                <Link
+                  href="/evaluador/entrevista"
+                  className="border-primary-light/30 hover:border-primary-light/60 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark mt-6 flex max-w-xl items-center gap-3 rounded-xl border bg-white/70 px-4 py-3 transition hover:bg-cyan-50 focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-cyan-300/30 dark:bg-white/4 dark:hover:border-cyan-200/60 dark:hover:bg-cyan-300/10"
+                >
+                  <span className="min-w-0 flex-1">
+                    <span className="font-body block text-sm font-semibold text-cyan-900 dark:text-cyan-50">
+                      Tienes una evaluación en curso
+                    </span>
+                    <span className="font-body mt-0.5 block text-xs leading-5 text-slate-600 dark:text-slate-400">
+                      Retómala donde la dejaste, con la ficha que ya habías
+                      rellenado.
+                    </span>
+                  </span>
+                  <ArrowRight
+                    aria-hidden="true"
+                    strokeWidth={1.8}
+                    className="text-primary-light dark:text-primary-dark size-4 shrink-0"
+                  />
+                </Link>
+              ) : null}
             </div>
 
             <ol className="font-body order-last grid gap-3 text-sm text-slate-600 lg:order-none lg:col-start-1 lg:row-start-2 lg:mt-2 dark:text-slate-400">

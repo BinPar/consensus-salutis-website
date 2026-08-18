@@ -53,6 +53,16 @@ export type AssessmentOrigin = "directo" | "aws";
 /**
  * Fila de `eligibilityAssessments` en el único estado que crea esta issue.
  * Un `draft` no consume la evaluación de la cuenta y no dispara ningún email.
+ *
+ * ⚠️ **La mitad de evaluaciones de este puerto ya no la usa nadie.** Desde la
+ * issue #5, la Etapa 0 crea el `draft` contra `/eligibility-start` de Convex
+ * (`./convex-eligibility`), que es donde tiene que estar para que la entrevista
+ * pueda leerlo. `createDraftAssessment` y `getAssessment` se conservan como
+ * contrato documentado y siguen probados, pero **no los vuelvas a cablear a una
+ * ruta**: una evaluación que solo exista en esta memoria no tiene entrevista.
+ *
+ * La mitad de tokens (`saveToken`, `redeemToken`, `countRecentTokensForEmail`)
+ * sí sigue viva: es la del espacio de cliente, que es otro camino.
  */
 export type DraftAssessment = {
   assessmentId: string;

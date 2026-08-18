@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useId, useState } from "react";
 
 import {
@@ -38,6 +39,7 @@ function readForm(form: HTMLFormElement) {
 
 export function EligibilityForm({ className = "" }: { className?: string }) {
   const id = useId();
+  const router = useRouter();
   const [status, setStatus] = useState<"idle" | "submitting" | "success">(
     "idle",
   );
@@ -104,9 +106,19 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
         return;
       }
 
+      /*
+        Se pasa directamente a la entrevista. La pantalla de «ficha registrada»
+        que había aquí era el final del camino cuando la Etapa 1 no existía;
+        ahora sería un paso intermedio que solo pide un clic más.
+
+        El estado `success` se mantiene hasta que la navegación ocurre: el botón
+        queda deshabilitado y no se puede enviar el formulario dos veces mientras
+        el router trabaja.
+      */
       setStatus("success");
       form.reset();
       setGenericDomain(false);
+      router.push("/evaluador/entrevista");
     } catch {
       setStatus("idle");
       setMessage(
@@ -125,20 +137,23 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
           Ficha registrada
         </p>
         <h2 className="font-display mt-4 text-2xl font-semibold text-[#05215e] dark:text-slate-50">
-          Ya podemos empezar la evaluación.
+          Empezamos la entrevista.
         </h2>
         <p className="font-body mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">
-          Hemos guardado tus datos de identificación. La entrevista de evaluación
-          estará disponible en cuanto la habilitemos para tu institución, y
-          recibirás el informe en el correo que has indicado.
+          Hemos guardado tus datos de identificación. Te llevamos a la
+          conversación; son entre ocho y doce minutos.
         </p>
-        <button
-          type="button"
-          className="border-cyan-800/20 bg-primary-light/10 mt-6 rounded-md border px-4 py-2 text-sm font-semibold text-cyan-800 transition hover:bg-primary-light/18 dark:border-cyan-300/20 dark:bg-primary-dark/10 dark:text-cyan-50 dark:hover:bg-cyan-300/18"
-          onClick={() => setStatus("idle")}
+        {/*
+          Enlace real y no solo el `router.push`: si la navegación del cliente
+          falla —una pestaña que pierde la red justo aquí—, sigue habiendo una
+          forma de llegar que no depende de JavaScript.
+        */}
+        <Link
+          href="/evaluador/entrevista"
+          className="border-cyan-800/20 bg-primary-light/10 hover:bg-primary-light/18 mt-6 inline-flex rounded-full border px-4 py-2 text-sm font-semibold text-cyan-800 transition dark:border-cyan-300/20 dark:bg-primary-dark/10 dark:text-cyan-50 dark:hover:bg-cyan-300/18"
         >
-          Registrar otra institución
-        </button>
+          Continuar a la entrevista
+        </Link>
       </div>
     );
   }

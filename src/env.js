@@ -42,6 +42,24 @@ export const env = createEnv({
   client: {
     NEXT_PUBLIC_TURNSTILE_SITE_KEY: z.string().optional(),
     /**
+     * Origen HTTP del deployment de Convex (`https://<slug>.convex.site`, no
+     * `.convex.cloud`: las `httpAction` se sirven desde el primero).
+     *
+     * Es `NEXT_PUBLIC_` porque **el navegador la llama directamente**: la UI de
+     * la entrevista abre `POST /eligibility-stream` contra este origen con la
+     * sesión firmada en `Authorization`. No se proxya desde esta landing a
+     * propósito — el stream de la entrevista dura minutos y Convex ya restringe
+     * el CORS a los orígenes de `MARKETPLACE_ALLOWED_ORIGIN`, que es un control
+     * más estricto que el que podría poner un proxy sin `Origin`.
+     *
+     * La ruta de la Etapa 0 usa la misma variable desde el servidor, contra
+     * `/eligibility-start`, que sí es servidor a servidor.
+     */
+    NEXT_PUBLIC_CONVEX_SITE_URL: z
+      .string()
+      .url("Debe ser la URL del deployment de Convex (https://….convex.site).")
+      .transform((value) => value.replace(/\/$/, "")),
+    /**
      * `/sign-in` de `apps/chat`. AWS exige que un cliente que ya tiene cuenta
      * pueda entrar desde la página de fulfillment, y esa identidad es Clerk en
      * el monorepo — no la sesión de esta landing.
@@ -78,6 +96,7 @@ export const env = createEnv({
     MARKETPLACE_SESSION_SECRET: process.env.MARKETPLACE_SESSION_SECRET,
     MARKETPLACE_TOKEN_PEPPER: process.env.MARKETPLACE_TOKEN_PEPPER,
     NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
+    NEXT_PUBLIC_CONVEX_SITE_URL: process.env.NEXT_PUBLIC_CONVEX_SITE_URL,
     NEXT_PUBLIC_PLATFORM_SIGN_IN_URL:
       process.env.NEXT_PUBLIC_PLATFORM_SIGN_IN_URL,
   },
