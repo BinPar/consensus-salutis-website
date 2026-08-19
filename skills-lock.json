@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "consensus-salutis-brand-design-system": {
+      "source": "BinPar/consensus-salutis-skills",
+      "sourceType": "github",
+      "skillPath": "skills/consensus-salutis-brand-design-system/SKILL.md",
+      "computedHash": "35ee745603e4b869fb5afd4033338ec5c174c9c3f8185339249728abaceaab47"
+    }
+  }
+}

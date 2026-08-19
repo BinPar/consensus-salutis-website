@@ -18,6 +18,7 @@ import {
 import { ClinicalChatMock } from "~/app/_components/clinical-chat-mock";
 import { ContactForm } from "~/app/_components/contact-form";
 import {
+  MorphPath,
   Reveal,
   SignalField,
   ViewportReveal,
@@ -616,7 +617,6 @@ function FixedSignalLayer() {
 }
 
 function ProductSignalAccent({ className = "" }: { className?: string }) {
-  const reducedMotion = useReducedMotion();
   const gradientId = useId().replace(/:/g, "");
   const fillId = `product-signal-fill-${gradientId}`;
   const darkFillId = `product-signal-dark-fill-${gradientId}`;
@@ -633,10 +633,6 @@ function ProductSignalAccent({ className = "" }: { className?: string }) {
     shapePaths[0]!,
     shapePaths[1]!,
   ];
-  const safeShapePaths = shapePaths.filter((path) => path.startsWith("M"));
-  const safeOffsetShapePaths = offsetShapePaths.filter((path) =>
-    path.startsWith("M"),
-  );
   const transition = {
     duration: 10,
     ease: "linear" as const,
@@ -676,35 +672,31 @@ function ProductSignalAccent({ className = "" }: { className?: string }) {
             <stop offset="1" stopColor="rgb(20 184 166)" stopOpacity="0.18" />
           </linearGradient>
         </defs>
-        <motion.path
+        <MorphPath
           className="dark:hidden"
-          d={safeShapePaths[0] ?? shapePaths[0]}
-          animate={reducedMotion ? undefined : { d: safeShapePaths }}
+          paths={shapePaths}
           transition={transition}
           fill={`url(#${fillId})`}
           opacity={"0.25"}
         />
-        <motion.path
+        <MorphPath
           className="hidden dark:block"
-          d={safeShapePaths[0] ?? shapePaths[0]}
-          animate={reducedMotion ? undefined : { d: safeShapePaths }}
+          paths={shapePaths}
           transition={transition}
           fill={`url(#${darkFillId})`}
           opacity={"0.28"}
         />
         <g transform="translate(-14 8)">
-          <motion.path
+          <MorphPath
             className="dark:hidden"
-            d={safeOffsetShapePaths[0] ?? offsetShapePaths[0]}
-            animate={reducedMotion ? undefined : { d: safeOffsetShapePaths }}
+            paths={offsetShapePaths}
             transition={offsetTransition}
             fill={`url(#${fillId})`}
             opacity={"0.2"}
           />
-          <motion.path
+          <MorphPath
             className="hidden dark:block"
-            d={safeOffsetShapePaths[0] ?? offsetShapePaths[0]}
-            animate={reducedMotion ? undefined : { d: safeOffsetShapePaths }}
+            paths={offsetShapePaths}
             transition={offsetTransition}
             fill={`url(#${darkFillId})`}
             opacity={"0.24"}
