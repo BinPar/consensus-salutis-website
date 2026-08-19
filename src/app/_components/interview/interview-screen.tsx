@@ -78,6 +78,9 @@ import { capitalizarInstitucion, partirOpciones } from "~/lib/opciones";
 /** Cuánto dura el resaltado de un campo que acaba de cambiar. */
 const HIGHLIGHT_MS = 2_600;
 
+/** Alto máximo del compositor en píxeles. El mismo valor que su `max-h-40`. */
+const COMPOSER_MAX_HEIGHT = 160;
+
 /**
  * El vacío estable de opciones.
  *
@@ -211,20 +214,33 @@ export function InterviewScreen({
   /**
    * Aplica una ficha nueva resaltando lo que ha cambiado, y devuelve los paths
    * que cambiaron para quien necesite mirarlos.
+   *
+   * `highlight: false` para quien no está recibiendo un turno. El resaltado dice
+   * «esto acaba de llegar», y al sincronizar el diff se hace contra la ficha de
+   * recién montado —vacía—, así que TODO sale como cambiado: sin esto, reabrir la
+   * pestaña a mitad de entrevista encendía los veintitrés datos viejos como si
+   * acabaran de anotarse, que es el mismo malentendido que `setNuevos(0)` evita
+   * en la barra móvil.
    */
-  const applyFicha = useCallback((next: Ficha): string[] => {
-    const changed = changedPaths(fichaRef.current, next);
-    fichaRef.current = next;
-    setFicha(next);
+  const applyFicha = useCallback(
+    (next: Ficha, options?: { highlight?: boolean }): string[] => {
+      const changed = changedPaths(fichaRef.current, next);
+      fichaRef.current = next;
+      setFicha(next);
 
-    if (changed.length > 0) {
-      setHighlighted(new Set(changed));
-      if (highlightTimer.current !== null) clearTimeout(highlightTimer.current);
-      highlightTimer.current = setTimeout(() => setHighlighted(new Set()), HIGHLIGHT_MS);
-    }
+      if (changed.length > 0 && options?.highlight !== false) {
+        setHighlighted(new Set(changed));
+        if (highlightTimer.current !== null) clearTimeout(highlightTimer.current);
+        highlightTimer.current = setTimeout(
+          () => setHighlighted(new Set()),
+          HIGHLIGHT_MS,
+        );
+      }
 
-    return changed;
-  }, []);
+      return changed;
+    },
+    [],
+  );
 
   useEffect(
     () => () => {
@@ -233,37 +249,104 @@ export function InterviewScreen({
     [],
   );
 
-  /** Traduce cualquier fallo a un estado de pantalla. */
-  const handleFailure = useCallback((error: unknown) => {
-    if (error instanceof DOMException && error.name === "AbortError") return;
+  /**
+   * Sincroniza con el servidor. Es también la forma de recuperarse de un corte:
+   * la acción de Convex termina aunque el navegador se desconecte, así que un
+   * turno que «falló» puede estar perfectamente guardado. Preguntar antes de
+   * reenviar evita duplicar el turno del cliente en la transcripción.
+   */
+  const sync = useCallback(
+    async (signal?: AbortSignal) => {
+      const state = await fetchInterviewState(client, signal);
+      applyFicha(state.ficha, { highlight: false });
+      setMessages(state.mensajes);
+      setInstitucion(state.institucion);
+      setTurnosRestantes(state.turnosRestantes);
+      setMarcadas([]);
+      /*
+        Retomar una entrevista no es recibir un turno: nada acaba de llegar, así que
+        la barra móvil no puede anunciar novedades. Sin esto, reabrir la pestaña
+        presentaba veintitrés datos viejos como recién anotados.
+      */
+      setNuevos(0);
 
-    if (error instanceof InterviewError) {
-      if (error.kind === "sesion") {
-        setPhase("caducada");
-        setFailure(null);
+      if (state.status === "completed") {
+        /*
+          Una evaluación completada tiene informe: el cierre escribe el estado y
+          el markdown en la misma operación. Si aun así faltara, la pantalla NO
+          se queda calculando para siempre —que era el final sin salida de la
+          primera versión: nada volvería a intentar el cierre, porque el endpoint
+          rechaza cerrar lo ya cerrado—. Se cierra con lo que sí es cierto y se
+          sostiene por correo.
+        */
+        setReport({
+          nivelNombre: "",
+          diagnostico: "",
+          reportMarkdown: state.reportMarkdown ?? INFORME_NO_DISPONIBLE,
+          reportSlug: state.reportSlug ?? "",
+        });
+        setPhase("informe");
+      }
+
+      return state;
+    },
+    [applyFicha, client],
+  );
+
+  /** Traduce cualquier fallo a un estado de pantalla. */
+  const handleFailure = useCallback(
+    (error: unknown) => {
+      if (error instanceof DOMException && error.name === "AbortError") return;
+
+      if (error instanceof InterviewError) {
+        if (error.kind === "sesion") {
+          setPhase("caducada");
+          setFailure(null);
+          return;
+        }
+
+        /*
+          «Ya completada» no es un fallo: es que la evaluación ya estaba cerrada
+          —otra pestaña la cerró, o el cierre llegó mientras esto se enviaba—, y
+          lo que corresponde es resincronizar, que es lo que deja el informe en
+          pantalla. Se HACE aquí; antes solo lo prometía este comentario, y sin
+          reintento ni resincronización el cliente se quedaba con un aviso, sin
+          informe y con el compositor puesto, repitiendo el mismo error en cada
+          mensaje. Si la resincronización falla, entonces sí hay algo que
+          reintentar.
+        */
+        if (error.kind === "completada") {
+          setFailure(null);
+          void sync().catch((syncError: unknown) => {
+            if (
+              syncError instanceof InterviewError &&
+              syncError.kind === "sesion"
+            ) {
+              setPhase("caducada");
+              return;
+            }
+            setFailure({ message: error.message, retryable: true });
+          });
+          return;
+        }
+
+        setFailure({ message: error.message, retryable: true });
         return;
       }
-      setFailure({
-        message: error.message,
-        // «Ya completada» no se reintenta: no es un fallo, es que la evaluación
-        // ya estaba cerrada. La pantalla se resincroniza en vez de ofrecer un
-        // botón que volvería a fallar igual.
-        retryable: error.kind !== "completada",
-      });
-      return;
-    }
 
-    /*
-      Era el único aviso que no decía qué se conserva, y es justo cuando más
-      importa: un fallo sin diagnóstico deja al cliente pensando que ha perdido
-      diez minutos de entrevista.
-    */
-    setFailure({
-      message:
-        "Algo ha fallado por nuestra parte. Tus respuestas siguen guardadas: inténtalo otra vez.",
-      retryable: true,
-    });
-  }, []);
+      /*
+        Era el único aviso que no decía qué se conserva, y es justo cuando más
+        importa: un fallo sin diagnóstico deja al cliente pensando que ha perdido
+        diez minutos de entrevista.
+      */
+      setFailure({
+        message:
+          "Algo ha fallado por nuestra parte. Tus respuestas siguen guardadas: inténtalo otra vez.",
+        retryable: true,
+      });
+    },
+    [sync],
+  );
 
   const applyTurn = useCallback(
     (turn: InterviewTurn) => {
@@ -329,49 +412,6 @@ export function InterviewScreen({
     [applyFicha],
   );
 
-  /**
-   * Sincroniza con el servidor. Es también la forma de recuperarse de un corte:
-   * la acción de Convex termina aunque el navegador se desconecte, así que un
-   * turno que «falló» puede estar perfectamente guardado. Preguntar antes de
-   * reenviar evita duplicar el turno del cliente en la transcripción.
-   */
-  const sync = useCallback(
-    async (signal?: AbortSignal) => {
-      const state = await fetchInterviewState(client, signal);
-      applyFicha(state.ficha);
-      setMessages(state.mensajes);
-      setInstitucion(state.institucion);
-      setTurnosRestantes(state.turnosRestantes);
-      setMarcadas([]);
-      /*
-        Retomar una entrevista no es recibir un turno: nada acaba de llegar, así que
-        la barra móvil no puede anunciar novedades. Sin esto, reabrir la pestaña
-        presentaba veintitrés datos viejos como recién anotados.
-      */
-      setNuevos(0);
-
-      if (state.status === "completed") {
-        /*
-          Una evaluación completada tiene informe: el cierre escribe el estado y
-          el markdown en la misma operación. Si aun así faltara, la pantalla NO
-          se queda calculando para siempre —que era el final sin salida de la
-          primera versión: nada volvería a intentar el cierre, porque el endpoint
-          rechaza cerrar lo ya cerrado—. Se cierra con lo que sí es cierto y se
-          sostiene por correo.
-        */
-        setReport({
-          nivelNombre: "",
-          diagnostico: "",
-          reportMarkdown: state.reportMarkdown ?? INFORME_NO_DISPONIBLE,
-          reportSlug: state.reportSlug ?? "",
-        });
-        setPhase("informe");
-      }
-
-      return state;
-    },
-    [applyFicha, client],
-  );
 
   const runClose = useCallback(
     async (signal?: AbortSignal) => {
@@ -1492,6 +1532,23 @@ function Composer({
   const tooLong = draft.length > MAX_MENSAJE_CHARS;
   const canSend = !pending && draft.trim().length > 0 && !tooLong;
 
+  /*
+    El alto sigue al contenido, y se mide en un efecto y no en el `onChange`: al
+    enviar, `send` vacía el borrador desde fuera, así que el `onChange` no vuelve
+    a correr y el alto en línea del último tecleo se quedaba puesto — el campo se
+    quedaba de cinco líneas y vacío. Y ese alto sale del hilo, que es de altura
+    fija, así que se pagaba en turnos de historia visible.
+  */
+  useEffect(() => {
+    const element = inputRef.current;
+    if (element === null) return;
+
+    element.style.height = "auto";
+    if (draft.length > 0) {
+      element.style.height = `${Math.min(element.scrollHeight, COMPOSER_MAX_HEIGHT)}px`;
+    }
+  }, [draft, inputRef]);
+
   return (
     <div>
       <div className="focus-within:border-primary-light/50 flex items-end gap-2 rounded-2xl border border-cyan-800/20 bg-white px-3 py-2 transition dark:border-cyan-300/20 dark:bg-[#04111e]/80 dark:focus-within:border-cyan-300/50">
@@ -1509,12 +1566,7 @@ function Composer({
           }
           aria-describedby="interview-composer-hint"
           className="font-body max-h-40 min-h-9 flex-1 resize-none bg-transparent py-1.5 text-sm text-slate-900 outline-none placeholder:text-slate-400 disabled:opacity-60 dark:text-slate-100 dark:placeholder:text-slate-500"
-          onChange={(event) => {
-            setDraft(event.target.value);
-            const element = event.target;
-            element.style.height = "auto";
-            element.style.height = `${Math.min(element.scrollHeight, 160)}px`;
-          }}
+          onChange={(event) => setDraft(event.target.value)}
           onKeyDown={(event) => {
             // Enter envía; Mayús+Enter hace párrafo. Es lo que espera cualquiera
             // que haya usado un chat, y la alternativa obliga a ir al ratón.

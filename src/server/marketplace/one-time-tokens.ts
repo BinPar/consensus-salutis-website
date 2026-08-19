@@ -72,6 +72,7 @@ export async function issueOneTimeToken(
     tokenHash: hashToken(token, options.pepper),
     subscriptionId: input.subscriptionId,
     email: normalizeEmail(input.email),
+    issuedAt,
     expiresAt,
   });
 

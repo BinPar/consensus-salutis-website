@@ -30,6 +30,14 @@ export type CustomerSpaceToken = {
   /** El enlace da acceso a una suscripción concreta, no es un login global. */
   subscriptionId: string;
   email: string;
+  /**
+   * Segundos desde epoch. CUÁNDO se emitió, que es lo que cuenta el límite por
+   * email — y va aparte de `expiresAt` a propósito: contar por caducidad daba
+   * por reciente todo lo emitido en la ventana MÁS el TTL del token, o sea media
+   * hora de más sobre una ventana de una. En Convex esto es `_creationTime`, que
+   * viene en milisegundos.
+   */
+  issuedAt: number;
   /** Segundos desde epoch. */
   expiresAt: number;
   /** Segundos desde epoch. Presente en cuanto se canjea. */
@@ -109,7 +117,11 @@ export type MarketplaceStore = {
     now: number,
     expectedSubscriptionId?: string,
   ): Promise<RedeemResult>;
-  /** Cuenta tokens emitidos a un email dentro de una ventana, para el límite. */
+  /**
+   * Cuenta tokens **emitidos** a un email desde `since`, para el límite. Compara
+   * contra `issuedAt` y no contra `expiresAt`: ver el campo en
+   * `CustomerSpaceToken`.
+   */
   countRecentTokensForEmail(email: string, since: number): Promise<number>;
   /** Crea la evaluación en `draft`. No manda correo. */
   createDraftAssessment(assessment: DraftAssessment): Promise<void>;
@@ -133,7 +145,7 @@ export function createInMemoryStore(): MarketplaceStore {
       tokens.set(token.tokenHash, { ...token });
 
       const issued = issuedByEmail.get(token.email) ?? [];
-      issued.push(token.expiresAt);
+      issued.push(token.issuedAt);
       issuedByEmail.set(token.email, issued);
     },
 
@@ -161,7 +173,7 @@ export function createInMemoryStore(): MarketplaceStore {
 
     async countRecentTokensForEmail(email, since) {
       const issued = issuedByEmail.get(email) ?? [];
-      return issued.filter((expiresAt) => expiresAt >= since).length;
+      return issued.filter((issuedAt) => issuedAt >= since).length;
     },
 
     async createDraftAssessment(assessment) {

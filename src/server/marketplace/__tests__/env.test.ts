@@ -62,3 +62,67 @@ describe("declaración de los secretos del marketplace", () => {
     }
   });
 });
+
+/**
+ * La lista COMPLETA de variables que rompen el build si faltan.
+ *
+ * Existe porque los dos secretos no son las únicas: `NEXT_PUBLIC_CONVEX_SITE_URL`
+ * también se declara sin `.optional()` ni `.default()`, así que un despliegue con
+ * los secretos puestos y esa sin poner falla igual — y con la lista viviendo en la
+ * descripción de un PR, eso se descubre en el build.
+ *
+ * La lista se DERIVA del esquema en vez de escribirse a mano: una variable
+ * obligatoria nueva aparece aquí sola, y el test obliga a documentarla en
+ * `.env.example`, que es lo que alguien lee para configurar el proyecto.
+ */
+describe("variables obligatorias para desplegar", () => {
+  /** Quita comentarios: un `.optional()` citado en una explicación no cuenta. */
+  function codeOnly(contents: string) {
+    return contents
+      .replace(/\/\*[\s\S]*?\*\//g, "")
+      .replace(/(^|[^:])\/\/.*$/gm, "$1");
+  }
+
+  /**
+   * Las declaraciones de `server:` y `client:`, cada una con su cuerpo.
+   *
+   * `runtimeEnv` se corta antes de mirar: lleva los mismos nombres con la misma
+   * indentación y no declara nada, solo reexpide `process.env`.
+   */
+  function declarations(): Map<string, string> {
+    const schema = codeOnly(envSource).split("runtimeEnv:")[0] ?? "";
+    const found = new Map<string, string>();
+    const pattern = /\n {4}([A-Z][A-Z0-9_]*):/g;
+
+    const starts: Array<{ name: string; from: number }> = [];
+    let match: RegExpExecArray | null;
+    while ((match = pattern.exec(schema)) !== null) {
+      starts.push({ name: match[1]!, from: match.index });
+    }
+
+    starts.forEach((start, index) => {
+      const end = starts[index + 1]?.from ?? schema.length;
+      found.set(start.name, schema.slice(start.from, end));
+    });
+
+    return found;
+  }
+
+  const required = [...declarations()]
+    .filter(([, body]) => !/\.optional\(\)|\.default\(/.test(body))
+    .map(([name]) => name);
+
+  it("son exactamente las tres que hay que dar de alta antes de mergear", () => {
+    expect([...required].sort()).toEqual([
+      "MARKETPLACE_SESSION_SECRET",
+      "MARKETPLACE_TOKEN_PEPPER",
+      "NEXT_PUBLIC_CONVEX_SITE_URL",
+    ]);
+  });
+
+  it("todas están documentadas en .env.example", () => {
+    const undocumented = required.filter((name) => !envExample.includes(name));
+
+    expect(undocumented).toEqual([]);
+  });
+});
