@@ -75,6 +75,20 @@ export type InterviewState = {
   turno: number;
   turnosRestantes: number;
   mensajes: InterviewMessage[];
+  /**
+   * La entrevista ya cerró. Con `status: "draft"` significa que el informe se
+   * está preparando AHORA MISMO en el servidor.
+   *
+   * Es lo que hace recuperable una recarga durante el cálculo: sin este dato, el
+   * cliente solo veía una entrevista sin terminar, pintaba el compositor y
+   * dejaba al cliente escribiéndole a un agente que ya se había despedido —
+   * mientras su informe se terminaba de escribir sin nadie mirando.
+   */
+  cerrada: boolean;
+  /** Fase del cierre en curso, para retomar la pantalla de espera donde iba. */
+  reportFase?: CalculandoFase;
+  /** Caracteres del borrador ya escritos. Ver `CalculandoProgreso`. */
+  reportChars?: number;
   reportMarkdown?: string;
   reportSlug?: string;
 };
@@ -129,10 +143,32 @@ export type InterviewClientOptions = {
  */
 export type CalculandoFase = "veredicto" | "redaccion" | "revision";
 
+/**
+ * El avance del cierre: la fase y cuánto lleva escrito el borrador.
+ *
+ * Los caracteres son avance REAL —los cuenta el redactor mientras genera—, no un
+ * temporizador disfrazado. Importan porque la redacción es la fase larga: con
+ * solo la fase, la pantalla se queda quieta cuarenta segundos y se lee como
+ * colgada.
+ */
+export type CalculandoProgreso = {
+  fase: CalculandoFase;
+  caracteres: number;
+};
+
 type StreamHandlers = {
   onTurn?: (turn: InterviewTurn) => void;
-  /** El cierre está en marcha: la UI muestra la fase en la que va. */
-  onCalculando?: (fase: CalculandoFase) => void;
+  /**
+   * El mensaje del agente TAL Y COMO SE ESCRIBE.
+   *
+   * Llega entero en cada evento, nunca por incrementos, y puede llegar más corto
+   * que la vez anterior: cuando un paso del agente acaba anotando la ficha, lo
+   * que hubiera escrito era narración y se retira. Quien lo pinta reemplaza, no
+   * concatena.
+   */
+  onParcial?: (texto: string) => void;
+  /** El cierre está en marcha: la UI muestra la fase y el avance. */
+  onCalculando?: (progreso: CalculandoProgreso) => void;
   onReport?: (report: InterviewReport) => void;
   signal?: AbortSignal;
 };
@@ -217,7 +253,7 @@ function parseTurn(raw: Record<string, unknown>): InterviewTurn {
 }
 
 /** La fase del `calculando`, con `veredicto` como suelo para servidores viejos. */
-function parseFase(raw: unknown): CalculandoFase {
+export function parseFase(raw: unknown): CalculandoFase {
   return raw === "redaccion" || raw === "revision" ? raw : "veredicto";
 }
 
@@ -366,8 +402,14 @@ async function consume(
         case "turno":
           handlers.onTurn?.(parseTurn(line));
           break;
+        case "parcial":
+          handlers.onParcial?.(asString(line.texto));
+          break;
         case "calculando":
-          handlers.onCalculando?.(parseFase(line.fase));
+          handlers.onCalculando?.({
+            fase: parseFase(line.fase),
+            caracteres: asNumber(line.caracteres),
+          });
           break;
         case "informe":
           handlers.onReport?.(parseReport(line));
@@ -417,6 +459,15 @@ export async function fetchInterviewState(
     ficha: parseFicha(raw.ficha),
     turno: asNumber(raw.turno),
     turnosRestantes: asNumber(raw.turnosRestantes),
+    // Comparación estricta: un servidor que no conozca el campo deja la
+    // entrevista abierta, que es el estado del que siempre se puede salir.
+    cerrada: raw.cerrada === true,
+    ...(raw.reportFase !== undefined && {
+      reportFase: parseFase(raw.reportFase),
+    }),
+    ...(typeof raw.reportChars === "number" && {
+      reportChars: raw.reportChars,
+    }),
     mensajes: mensajes
       .filter(isRecord)
       .filter((row) => row.role === "user" || row.role === "assistant")
@@ -490,7 +541,11 @@ export async function correctFichaField(
   valor: FichaValue,
   signal?: AbortSignal,
 ): Promise<CorrectionResult> {
-  const response = await post(options, { correccion: { campo, valor } }, signal);
+  const response = await post(
+    options,
+    { correccion: { campo, valor } },
+    signal,
+  );
   const raw = (await response.json()) as unknown;
 
   if (!isRecord(raw)) {

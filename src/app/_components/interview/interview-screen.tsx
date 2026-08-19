@@ -27,7 +27,14 @@
  * estado al servidor, que es la única copia que existe.
  */
 
-import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
@@ -58,6 +65,7 @@ import {
   retryInterviewClose,
   sendInterviewMessage,
   type CalculandoFase,
+  type CalculandoProgreso,
   type InterviewClientOptions,
   type InterviewMessage,
   type InterviewReport,
@@ -78,6 +86,45 @@ import { capitalizarInstitucion, partirOpciones } from "~/lib/opciones";
 /** Cuánto dura el resaltado de un campo que acaba de cambiar. */
 const HIGHLIGHT_MS = 2_600;
 
+/**
+ * Cada cuánto se le pregunta al servidor por el informe mientras se prepara.
+ *
+ * El sondeo es la RED, no el camino normal: lo normal es que el informe llegue
+ * por el mismo stream que cerró la entrevista. Existe para el caso que no tenía
+ * salida —recargar la página durante el cálculo—, donde el stream murió con la
+ * pestaña anterior y el servidor sigue escribiendo el informe sin nadie
+ * escuchando.
+ */
+const CALC_POLL_MS = 2_500;
+
+/**
+ * Sin ninguna señal de avance durante este rato, se ofrece reintentar el cierre.
+ *
+ * Dos minutos y medio es MUCHO más de lo que tarda un cierre normal —medido, unos
+ * cincuenta segundos— y es a propósito: reintentar lanza un segundo cierre que
+ * puede solaparse con el primero y volver a pagar la generación entera. El botón
+ * tiene que aparecer cuando algo va mal de verdad, no cuando el modelo va lento.
+ *
+ * Cualquier movimiento —un cambio de fase, un carácter más— reinicia la cuenta.
+ */
+const CALC_STALL_MS = 150_000;
+
+/**
+ * Por qué el cierre se cuenta en SEGUNDOS y no en una barra de progreso.
+ *
+ * Se intentó la barra, medida contra el deployment de dev, y el dato la tumbó: el
+ * redactor pasa casi todo el cierre razonando —cincuenta segundos con el contador
+ * de caracteres clavado en uno— y luego escribe el informe entero de golpe. El
+ * proveedor no entrega ese razonamiento en trozos, así que durante la única parte
+ * larga NO HAY nada real que medir, y una barra ahí no es información: es
+ * decorado que además promete un final que nadie sabe cuándo llega.
+ *
+ * El reloj sí es cierto siempre. Dice lo único que hay que saber en esa pantalla
+ * —esto sigue vivo y llevamos tanto— y deja que quien mira lo compare con el «cerca
+ * de un minuto» que pone justo encima.
+ */
+const CALC_TICK_MS = 1_000;
+
 /** Alto máximo del compositor en píxeles. El mismo valor que su `max-h-40`. */
 const COMPOSER_MAX_HEIGHT = 160;
 
@@ -95,12 +142,7 @@ const INFORME_NO_DISPONIBLE = `## Evaluación completada
 Hemos registrado tus respuestas y la evaluación está cerrada. El informe no se
 ha podido mostrar aquí, pero lo tienes en el correo con el que te identificaste.`;
 
-type Phase =
-  | "cargando"
-  | "entrevista"
-  | "calculando"
-  | "informe"
-  | "caducada";
+type Phase = "cargando" | "entrevista" | "calculando" | "informe" | "caducada";
 
 /**
  * Lo último que se intentó, para poder reintentarlo.
@@ -162,7 +204,41 @@ export function InterviewScreen({
     La fase del cierre, para la tarjeta de progreso. La resetea cada arranque de
     cierre (el servidor emite `veredicto` como primera fase) y solo avanza.
   */
-  const [calcFase, setCalcFase] = useState<CalculandoFase>("veredicto");
+  /*
+    Fase y caracteres van JUNTOS en un solo estado porque la regla que los
+    gobierna los mira a la vez: ninguno de los dos retrocede, salvo que la fase
+    avance —la revisión empieza un borrador nuevo y el contador vuelve a cero de
+    verdad—. Separados, esa regla habría que escribirla dentro de un actualizador
+    leyendo la otra mitad, que es justo donde React no garantiza nada.
+
+    Los caracteres son avance REAL: los cuenta el redactor mientras genera. Sin
+    ellos, la fase larga —la redacción— dejaba la pantalla quieta casi un minuto,
+    y una pantalla quieta se lee como una pantalla colgada.
+  */
+  const [calc, setCalc] = useState<CalculandoProgreso>({
+    fase: "veredicto",
+    caracteres: 0,
+  });
+  /*
+    Lo que llevamos esperando el informe. Ver `CALC_TICK_MS`: es el único avance
+    que en esa pantalla se puede dar sin inventárselo.
+  */
+  const [calcSegundos, setCalcSegundos] = useState(0);
+  /*
+    Ni una señal de avance en un buen rato. No significa que haya fallado —una
+    generación larga puede tardar—, así que no es un error: es la puerta de
+    salida, un reintento ofrecido en vez de una espera sin fondo.
+  */
+  const [atascado, setAtascado] = useState(false);
+  /*
+    El mensaje del agente MIENTRAS lo escribe.
+
+    Llega entero en cada evento y no por incrementos, así que aquí se reemplaza y
+    no se concatena: cuando un paso del agente acaba anotando la ficha, lo que
+    hubiera escrito era narración y el servidor lo retira mandando un texto más
+    corto.
+  */
+  const [parcial, setParcial] = useState("");
   /*
     Las casillas marcadas de la pregunta de varias respuestas ACTIVA. Vive aquí y
     no dentro de `QuickAnswers` porque el compositor también la necesita: marcar
@@ -171,7 +247,9 @@ export function InterviewScreen({
   */
   const [marcadas, setMarcadas] = useState<readonly string[]>([]);
   const [failure, setFailure] = useState<Failure | null>(null);
-  const [highlighted, setHighlighted] = useState<ReadonlySet<string>>(new Set());
+  const [highlighted, setHighlighted] = useState<ReadonlySet<string>>(
+    new Set(),
+  );
   const [redactedNotice, setRedactedNotice] = useState(false);
   const [draft, setDraft] = useState("");
   const [fichaOpen, setFichaOpen] = useState(false);
@@ -236,7 +314,8 @@ export function InterviewScreen({
 
       if (changed.length > 0 && options?.highlight !== false) {
         setHighlighted(new Set(changed));
-        if (highlightTimer.current !== null) clearTimeout(highlightTimer.current);
+        if (highlightTimer.current !== null)
+          clearTimeout(highlightTimer.current);
         highlightTimer.current = setTimeout(
           () => setHighlighted(new Set()),
           HIGHLIGHT_MS,
@@ -254,6 +333,27 @@ export function InterviewScreen({
     },
     [],
   );
+
+  /**
+   * El avance del cierre, venga del stream o del sondeo.
+   *
+   * La fase solo AVANZA: el sondeo y el stream corren a la vez durante una
+   * recarga, y el sondeo puede traer una lectura vieja justo después de que el
+   * stream anunciara la siguiente fase. Retroceder pintaría la revisión como
+   * pendiente cuando ya está hecha.
+   */
+  const applyCalculando = useCallback((progreso: CalculandoProgreso) => {
+    setCalc((current) => {
+      const avanza =
+        ORDEN_FASES.indexOf(progreso.fase) > ORDEN_FASES.indexOf(current.fase);
+      return {
+        fase: avanza ? progreso.fase : current.fase,
+        caracteres: avanza
+          ? progreso.caracteres
+          : Math.max(current.caracteres, progreso.caracteres),
+      };
+    });
+  }, []);
 
   /**
    * Sincroniza con el servidor. Es también la forma de recuperarse de un corte:
@@ -293,11 +393,28 @@ export function InterviewScreen({
           reportSlug: state.reportSlug ?? "",
         });
         setPhase("informe");
+      } else if (state.cerrada) {
+        /*
+          La entrevista cerró y el informe todavía se está escribiendo, ahí
+          fuera, ahora mismo. Es el estado que dejaba una recarga a mitad del
+          cálculo, y antes se leía como una entrevista sin terminar: se pintaba
+          el compositor y el cliente le escribía a un agente que ya se había
+          despedido, mientras su informe se terminaba sin nadie mirando.
+
+          El reintento pasa a ser el cierre por lo mismo que en `applyTurn`: el
+          agente ya no va a contestar a otro mensaje.
+        */
+        lastAttempt.current = { type: "finalizar" };
+        applyCalculando({
+          fase: state.reportFase ?? "veredicto",
+          caracteres: state.reportChars ?? 0,
+        });
+        setPhase("calculando");
       }
 
       return state;
     },
-    [applyFicha, client],
+    [applyCalculando, applyFicha, client],
   );
 
   /** Traduce cualquier fallo a un estado de pantalla. */
@@ -357,6 +474,9 @@ export function InterviewScreen({
 
   const applyTurn = useCallback(
     (turn: InterviewTurn) => {
+      // El mensaje ya está entero: lo que se estaba escribiendo pasa a ser el
+      // turno de verdad, con sus opciones y su sitio en el hilo.
+      setParcial("");
       const changed = applyFicha(turn.ficha);
       setTurnosRestantes(turn.turnosRestantes);
       setTurno(turn.turno);
@@ -374,7 +494,9 @@ export function InterviewScreen({
       const inferidos = changed.filter((path) => {
         if (!CAMPOS_INFERIDOS.includes(path)) return false;
         const spec = fichaFieldByPath(path);
-        return spec !== undefined && fichaCell(turn.ficha, spec)?.origen === "agente";
+        return (
+          spec !== undefined && fichaCell(turn.ficha, spec)?.origen === "agente"
+        );
       });
 
       setMessages((current) => {
@@ -420,22 +542,21 @@ export function InterviewScreen({
     [applyFicha],
   );
 
-
   const runClose = useCallback(
     async (signal?: AbortSignal) => {
       lastAttempt.current = { type: "finalizar" };
-      setCalcFase("veredicto");
+      setCalc({ fase: "veredicto", caracteres: 0 });
       setPhase("calculando");
       await retryInterviewClose(client, {
         ...(signal !== undefined && { signal }),
-        onCalculando: setCalcFase,
+        onCalculando: applyCalculando,
         onReport: (value) => {
           setReport(value);
           setPhase("informe");
         },
       });
     },
-    [client],
+    [applyCalculando, client],
   );
 
   // Arranque: estado, y si no hay conversación todavía, que abra el agente.
@@ -446,7 +567,9 @@ export function InterviewScreen({
       try {
         const state = await sync(controller.signal);
 
-        if (state.status === "completed") return;
+        // Cerrada o completada, `sync` ya ha dejado la pantalla donde toca —el
+        // informe o la espera— y aquí no hay nada que abrir.
+        if (state.status === "completed" || state.cerrada) return;
 
         if (state.mensajes.length === 0) {
           lastAttempt.current = { type: "abrir" };
@@ -454,6 +577,7 @@ export function InterviewScreen({
           setPending(true);
           await openInterview(client, {
             signal: controller.signal,
+            onParcial: setParcial,
             onTurn: applyTurn,
           });
         } else {
@@ -500,7 +624,98 @@ export function InterviewScreen({
     });
 
     return () => cancelAnimationFrame(frame);
-  }, [messages, pending, phase, report, reducedMotion]);
+  }, [messages, parcial, pending, phase, report, reducedMotion]);
+
+  /*
+    El sondeo del informe mientras se prepara.
+
+    No es el camino normal —lo normal es que llegue por el mismo stream que cerró
+    la entrevista— sino la red para el caso que no tenía salida: recargar la
+    página durante el cálculo mataba el stream con la pestaña anterior, y el
+    servidor seguía escribiendo el informe sin nadie escuchando.
+
+    Pide el estado y no `sync`: reemplazar el hilo entero cada dos segundos y
+    medio movería el desplazamiento y volvería a resaltar la ficha. Solo cuando
+    el informe ya está se sincroniza de verdad, que es lo que lo pinta.
+  */
+  useEffect(() => {
+    if (phase !== "calculando") return;
+
+    const controller = new AbortController();
+    const id = setInterval(() => {
+      void (async () => {
+        try {
+          const state = await fetchInterviewState(client, controller.signal);
+          if (controller.signal.aborted) return;
+          applyCalculando({
+            fase: state.reportFase ?? "veredicto",
+            caracteres: state.reportChars ?? 0,
+          });
+          if (state.status === "completed") await sync(controller.signal);
+        } catch (error) {
+          // Un sondeo que falla no rompe la espera: el stream puede seguir vivo y
+          // el siguiente intento llega en dos segundos. La sesión caducada sí,
+          // porque a partir de ahí no va a llegar nada.
+          if (error instanceof InterviewError && error.kind === "sesion") {
+            setPhase("caducada");
+          }
+        }
+      })();
+    }, CALC_POLL_MS);
+
+    return () => {
+      clearInterval(id);
+      controller.abort();
+    };
+  }, [applyCalculando, client, phase, sync]);
+
+  /* El reloj de la espera. Empieza de cero cada vez que se entra en el cálculo. */
+  useEffect(() => {
+    if (phase !== "calculando") {
+      setCalcSegundos(0);
+      return;
+    }
+    const id = setInterval(
+      () => setCalcSegundos((current) => current + 1),
+      CALC_TICK_MS,
+    );
+    return () => clearInterval(id);
+  }, [phase]);
+
+  /*
+    Ni una señal de avance en más de un minuto. No es un error —una generación
+    larga puede tardar— así que no se pinta como tal: se ofrece la salida.
+    Cualquier movimiento reinicia la cuenta, así que solo salta cuando de verdad
+    no se mueve nada.
+  */
+  useEffect(() => {
+    if (phase !== "calculando") {
+      setAtascado(false);
+      return;
+    }
+    setAtascado(false);
+    const id = setTimeout(() => setAtascado(true), CALC_STALL_MS);
+    return () => clearTimeout(id);
+  }, [calc, phase]);
+
+  /*
+    El foco vuelve al campo de texto en cuanto hay algo que contestar.
+
+    Se hace en un efecto y no al terminar el envío, que es donde estaba y por eso
+    no funcionaba: el `focus()` corría con el `pending` todavía puesto en el DOM y
+    enfocar un campo deshabilitado no hace nada. El campo ya no se deshabilita
+    —se puede ir escribiendo mientras el agente responde— y esto solo lo devuelve
+    al sitio después de contestar con una opción, que es cuando el foco se había
+    ido al botón.
+
+    Solo con ratón: en un móvil, enfocar levanta el teclado y tapa media
+    conversación sin que nadie lo haya pedido.
+  */
+  useEffect(() => {
+    if (phase !== "entrevista" || pending) return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    composerRef.current?.focus();
+  }, [messages.length, pending, phase]);
 
   const send = useCallback(
     async (text: string) => {
@@ -511,6 +726,9 @@ export function InterviewScreen({
       setFailure(null);
       setRedactedNotice(false);
       setDraft("");
+      // Un turno que falló pudo dejar texto a medias: la pregunta nueva no puede
+      // heredarlo.
+      setParcial("");
       // Lo marcado ya viaja dentro de `mensaje` (o se descarta a conciencia al
       // elegir la escapatoria): no debe sobrevivir al envío.
       setMarcadas([]);
@@ -525,12 +743,13 @@ export function InterviewScreen({
       let redacted = false;
       try {
         await sendInterviewMessage(client, mensaje, {
+          onParcial: setParcial,
           onTurn: (turn) => {
             redacted = turn.datosRetirados;
             applyTurn(turn);
           },
-          onCalculando: (fase) => {
-            setCalcFase(fase);
+          onCalculando: (progreso) => {
+            applyCalculando(progreso);
             setPhase("calculando");
           },
           onReport: (value) => {
@@ -550,10 +769,9 @@ export function InterviewScreen({
         handleFailure(error);
       } finally {
         setPending(false);
-        composerRef.current?.focus();
       }
     },
-    [applyTurn, client, handleFailure, pending, sync],
+    [applyCalculando, applyTurn, client, handleFailure, pending, sync],
   );
 
   /**
@@ -587,7 +805,10 @@ export function InterviewScreen({
       }
 
       if (state.mensajes.length === 0) {
-        await openInterview(client, { onTurn: applyTurn });
+        await openInterview(client, {
+          onParcial: setParcial,
+          onTurn: applyTurn,
+        });
         return;
       }
 
@@ -615,9 +836,10 @@ export function InterviewScreen({
       }
 
       await sendInterviewMessage(client, attempt.mensaje, {
+        onParcial: setParcial,
         onTurn: applyTurn,
-        onCalculando: (fase) => {
-          setCalcFase(fase);
+        onCalculando: (progreso) => {
+          applyCalculando(progreso);
           setPhase("calculando");
         },
         onReport: (value) => {
@@ -630,7 +852,7 @@ export function InterviewScreen({
     } finally {
       setPending(false);
     }
-  }, [applyTurn, client, handleFailure, runClose, sync]);
+  }, [applyCalculando, applyTurn, client, handleFailure, runClose, sync]);
 
   /*
     Ya no hay `correct` aquí, y el hueco es la mitad del rediseño: la corrección va
@@ -787,9 +1009,28 @@ export function InterviewScreen({
             informa es la tarjeta de fases, y los dos a la vez decían cosas
             contradictorias («escribiendo…» sobre «preparando tu informe»).
           */}
-          {pending && phase === "entrevista" ? <TypingIndicator /> : null}
+          {/*
+            Mientras el agente escribe hay dos cosas que enseñar, y no son la
+            misma: hasta que sale la primera letra, los tres puntos —está
+            pensando, o anotando la ficha—; a partir de ahí, el mensaje según se
+            escribe. Los puntos sobre un texto que ya se está leyendo sobran.
+          */}
+          {pending && phase === "entrevista" ? (
+            parcial.trim().length > 0 ? (
+              <StreamingBubble text={parcial} />
+            ) : (
+              <TypingIndicator />
+            )
+          ) : null}
 
-          {phase === "calculando" ? <CalculatingNotice fase={calcFase} /> : null}
+          {phase === "calculando" ? (
+            <CalculatingNotice
+              fase={calc.fase}
+              caracteres={calc.caracteres}
+              segundos={calcSegundos}
+              onRetry={atascado ? () => void runClose() : null}
+            />
+          ) : null}
 
           {phase === "informe" && report !== null ? (
             <ReportView report={report} />
@@ -1055,6 +1296,19 @@ function MessageBubble({
 }
 
 /**
+ * El dígito que se ha pulsado, con o sin `Alt`.
+ *
+ * Con `Alt`, macOS entrega en `event.key` el carácter alternativo —`Alt+1` es
+ * «¡»— así que el número hay que sacarlo del código FÍSICO de la tecla, que no
+ * cambia. `Digit1` y `Numpad1` cubren la fila de números y el teclado numérico.
+ */
+function digitoPulsado(event: KeyboardEvent): string | null {
+  if (/^[0-9]$/.test(event.key)) return event.key;
+  const fisico = /^(?:Digit|Numpad)([0-9])$/.exec(event.code);
+  return fisico?.[1] ?? null;
+}
+
+/**
  * Las respuestas rápidas: una por fila, del ancho del mensaje.
  *
  * ## Por qué en columna y no en píldoras
@@ -1122,23 +1376,30 @@ function QuickAnswers({
     if (pending) return;
 
     const onKey = (event: KeyboardEvent) => {
-      if (event.metaKey || event.ctrlKey || event.altKey) return;
+      if (event.metaKey || event.ctrlKey) return;
 
+      /*
+        Con `Alt` el atajo vale también desde el campo de texto, y hace falta:
+        ahora el foco vuelve al compositor en cuanto hay pregunta, así que el
+        número a secas —que ahí es un número que se escribe, y «1.200 documentos»
+        empieza por uno— ya no puede dispararlo. Sin `Alt` sigue funcionando para
+        quien esté navegando con el teclado fuera del campo.
+      */
       const target = event.target;
-      if (target instanceof HTMLElement) {
+      if (!event.altKey && target instanceof HTMLElement) {
         const editable =
           target.isContentEditable ||
           ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName);
         if (editable) return;
       }
 
-      if (multiple && event.key === "Enter") {
+      if (multiple && event.key === "Enter" && !event.altKey) {
         event.preventDefault();
         onContinue();
         return;
       }
 
-      const index = Number(event.key) - 1;
+      const index = Number(digitoPulsado(event)) - 1;
       const elegida = respuestas[index];
       if (!Number.isInteger(index) || elegida === undefined) return;
 
@@ -1178,7 +1439,7 @@ function QuickAnswers({
               type="button"
               disabled={pending}
               onClick={() => onSend(respuesta)}
-              aria-keyshortcuts={`${index + 1}`}
+              aria-keyshortcuts={`Alt+${index + 1} ${index + 1}`}
               className="font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark hover:text-primary-light dark:hover:text-primary-dark border-primary-light/28 dark:border-primary-dark/34 px-6 py-2 text-[13px] font-semibold text-slate-800 transition not-first:border-l-[1.5px] hover:bg-cyan-800/6 focus-visible:outline-2 focus-visible:-outline-offset-2 disabled:opacity-100 dark:text-slate-100 dark:hover:bg-cyan-300/8"
             >
               {respuesta}
@@ -1192,7 +1453,7 @@ function QuickAnswers({
             type="button"
             disabled={pending}
             onClick={() => onSend(respuesta)}
-            aria-keyshortcuts={`${index + 1}`}
+            aria-keyshortcuts={`Alt+${index + 1} ${index + 1}`}
             className="group font-body focus-visible:outline-primary-light hover:border-primary-light dark:hover:border-primary-dark dark:focus-visible:outline-primary-dark grid w-full grid-cols-[1fr_auto] items-center gap-2.5 rounded-[11px] border border-cyan-800/30 bg-white/70 px-3.5 py-2.5 text-left text-[13px] leading-snug font-medium text-slate-800 transition hover:translate-x-0.5 hover:bg-cyan-800/5 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-100 dark:border-cyan-300/28 dark:bg-white/4 dark:text-slate-100 dark:hover:bg-cyan-300/8"
           >
             <span className="min-w-0">{respuesta}</span>
@@ -1274,7 +1535,7 @@ function MultiAnswers({
             aria-checked={marcada}
             disabled={pending}
             onClick={() => onToggle(respuesta)}
-            aria-keyshortcuts={`${index + 1}`}
+            aria-keyshortcuts={`Alt+${index + 1} ${index + 1}`}
             className={`group font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark grid w-full grid-cols-[auto_1fr] items-center gap-2.5 rounded-[11px] border px-3.5 py-2.5 text-left text-[13px] leading-snug font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-100 ${
               marcada
                 ? "border-primary-light dark:border-primary-dark bg-primary-light/8 dark:bg-primary-dark/12 text-slate-900 dark:text-slate-50"
@@ -1365,6 +1626,77 @@ function InferenceLine({
   );
 }
 
+/**
+ * Esconde el marcador de énfasis que todavía no se ha cerrado.
+ *
+ * El agente escribe `**comité de ética**` y, entre la primera pareja de
+ * asteriscos y la segunda, hay un instante en el que el texto lleva sintaxis a la
+ * vista. Sale igual que llegará —sin negrita hasta que se cierre— en vez de
+ * enseñar los asteriscos y quitarlos después.
+ *
+ * Los tres marcadores se miran en orden de longitud: al llegar a `*`, las parejas
+ * de `**` que queden se cuentan como dos y siguen saliendo pares, así que no se
+ * pisan entre sí.
+ */
+function sinEnfasisAbierto(text: string): string {
+  let out = text;
+  for (const marca of ["**", "`", "*"]) {
+    const trozos = out.split(marca);
+    // Número PAR de trozos = número impar de marcadores = el último está abierto.
+    if (trozos.length % 2 === 0) {
+      out = trozos.slice(0, -1).join(marca) + trozos[trozos.length - 1]!;
+    }
+  }
+  return out;
+}
+
+/**
+ * El mensaje del agente mientras se escribe.
+ *
+ * Es la misma burbuja que `MessageBubble` pinta para el agente —mismo isotipo,
+ * misma tipografía, mismo ancho— y eso es deliberado: cuando el turno termina, el
+ * texto no se mueve ni un píxel, solo aparecen las opciones debajo. Una burbuja
+ * distinta habría hecho saltar la línea justo al terminar de leerla.
+ *
+ * Sin animación de entrada: la de `MessageBubble` es un fundido de 220 ms, y aquí
+ * se dispararía en cada letra.
+ *
+ * `aria-hidden`: el hilo ya tiene su región de estado, que anuncia el turno una
+ * vez y entero. Un lector de pantalla leyendo el texto según crece diría la misma
+ * frase treinta veces.
+ */
+function StreamingBubble({ text }: { text: string }) {
+  return (
+    <div className="flex max-w-[92%] items-start gap-2.5" aria-hidden="true">
+      <span className="mt-0.5 block size-6 shrink-0">
+        <Image
+          src="/logos/consensus-brand/consensus-isotipo-light.svg"
+          alt=""
+          width={93}
+          height={93}
+          className="size-6 dark:hidden"
+        />
+        <Image
+          src="/logos/consensus-brand/consensus-isotipo-dark.svg"
+          alt=""
+          width={93}
+          height={93}
+          className="hidden size-6 dark:block"
+        />
+      </span>
+      <p className="font-body min-w-0 flex-1 text-sm leading-6 whitespace-pre-wrap text-slate-700 sm:text-base sm:leading-7 dark:text-slate-300">
+        <MarkdownInline>{sinEnfasisAbierto(text.trimEnd())}</MarkdownInline>
+        {/*
+          El cursor dice que ESTO SIGUE. Sin él, un texto que se para un segundo
+          entre dos frases se lee como un turno que ya ha terminado y al que le
+          faltan las opciones.
+        */}
+        <span className="bg-primary-light dark:bg-primary-dark ml-0.5 inline-block h-[1em] w-[2px] translate-y-[0.15em] animate-pulse rounded-full motion-reduce:animate-none" />
+      </p>
+    </div>
+  );
+}
+
 function TypingIndicator() {
   return (
     <div className="text-primary-light dark:text-primary-dark flex items-center gap-2 pl-8.5 text-sm">
@@ -1392,14 +1724,52 @@ function TypingIndicator() {
  * informe puede llegar sin pasar por ella: lo normal es que el primer borrador
  * valga.
  */
-const CALC_STEPS: Array<{ fase: CalculandoFase; label: string }> = [
-  { fase: "veredicto", label: "Revisando tus respuestas" },
-  { fase: "redaccion", label: "Redactando el informe" },
-  { fase: "revision", label: "Revisión final" },
-];
+const CALC_STEPS: Array<{ fase: CalculandoFase; label: string; nota: string }> =
+  [
+    {
+      fase: "veredicto",
+      label: "Revisando tus respuestas",
+      nota: "Cruzando la ficha con los criterios.",
+    },
+    {
+      fase: "redaccion",
+      label: "Redactando el informe",
+      nota: "Es la parte larga: suele tardar cerca de un minuto.",
+    },
+    {
+      fase: "revision",
+      label: "Revisión final",
+      nota: "Comprobando el borrador.",
+    },
+  ];
 
-function CalculatingNotice({ fase }: { fase: CalculandoFase }) {
+/** El orden real de las fases. La pantalla nunca retrocede: ver `applyCalculando`. */
+const ORDEN_FASES: CalculandoFase[] = CALC_STEPS.map((step) => step.fase);
+
+/** Un rato de espera, dicho como se dice en voz alta. */
+function enSegundos(segundos: number): string {
+  if (segundos < 60) return `${segundos} s`;
+  const minutos = Math.floor(segundos / 60);
+  const resto = segundos % 60;
+  return resto === 0 ? `${minutos} min` : `${minutos} min ${resto} s`;
+}
+
+function CalculatingNotice({
+  fase,
+  caracteres,
+  segundos,
+  onRetry,
+}: {
+  fase: CalculandoFase;
+  /** Caracteres generados del informe. Cero = el modelo todavía está razonando. */
+  caracteres: number;
+  /** Lo que llevamos esperando. Ver `CALC_TICK_MS` para por qué es esto y no una barra. */
+  segundos: number;
+  /** Se ofrece cuando no llega ninguna señal de avance. `null` = todo va bien. */
+  onRetry: (() => void) | null;
+}) {
   const actual = CALC_STEPS.findIndex((step) => step.fase === fase);
+
 
   return (
     <div
@@ -1417,7 +1787,13 @@ function CalculatingNotice({ fase }: { fase: CalculandoFase }) {
             Estamos preparando tu informe
           </p>
           <p className="font-body mt-1 text-sm leading-6 text-slate-600 dark:text-slate-400">
-            Tarda menos de un minuto; no cierres esta página.
+            {/*
+              Ya no dice «no cierres esta página»: desde que el cierre se retoma
+              solo al volver, cerrarla dejó de perder el informe — y el aviso
+              pedía quedarse mirando una pantalla que se prepara sola.
+            */}
+            Suele tardar cerca de un minuto. Si cierras la pestaña, al volver lo
+            encuentras aquí mismo, y también te llega por correo.
           </p>
         </div>
       </div>
@@ -1457,11 +1833,56 @@ function CalculatingNotice({ fase }: { fase: CalculandoFase }) {
               <span className="min-w-0">
                 {step.label}
                 {done ? <span className="sr-only"> (hecho)</span> : null}
+                {/*
+                  La nota del paso en curso: dice cuánto se espera y por qué, que
+                  es la mitad de lo que hace que una espera no se lea como un
+                  cuelgue.
+                */}
+                {current ? (
+                  <span className="mt-0.5 block text-[11.5px] leading-snug font-normal text-slate-500 dark:text-slate-400">
+                    {/*
+                      El único hito real que el servidor puede dar de la fase
+                      larga: el primer carácter del borrador. Antes de eso el
+                      modelo está razonando y no hay nada más que contar.
+                    */}
+                    {step.fase === "redaccion" && caracteres > 0
+                      ? "Ya está escribiendo el borrador."
+                      : step.nota}
+                    {/*
+                      El reloj va fuera del anuncio: la tarjeta es `role="status"`
+                      y sin esto un lector de pantalla cantaría el segundo nuevo
+                      una vez por segundo, encima de lo que sí importa.
+                    */}
+                    <span aria-hidden="true"> · {enSegundos(segundos)}</span>
+                  </span>
+                ) : null}
               </span>
             </li>
           );
         })}
       </ol>
+
+      {onRetry !== null ? (
+        /*
+          Sin señales de avance en más de un minuto. No se pinta como error
+          —puede que solo esté tardando— pero deja de ser una espera sin fondo:
+          esta es la puerta de salida, y reintentar el cierre es seguro (el
+          servidor devuelve el informe si ya estaba hecho).
+        */
+        <div className="mt-3.5 flex flex-wrap items-center gap-x-3 gap-y-1.5 border-t border-cyan-800/12 pt-3 dark:border-cyan-300/12">
+          <p className="font-body min-w-0 flex-1 text-[12px] leading-snug text-slate-500 dark:text-slate-400">
+            Está tardando más de lo normal.
+          </p>
+          <button
+            type="button"
+            onClick={onRetry}
+            className="font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark border-primary-light/40 text-primary-light dark:border-primary-dark/40 dark:text-primary-dark inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold transition hover:bg-cyan-800/8 focus-visible:outline-2 focus-visible:outline-offset-2 dark:hover:bg-cyan-300/8"
+          >
+            <RotateCcw aria-hidden="true" strokeWidth={2} className="size-3" />
+            Reintentar
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }
@@ -1577,9 +1998,18 @@ function Composer({
           id="interview-composer"
           rows={1}
           value={draft}
-          disabled={pending}
+          /*
+            SIN `disabled`, y no es un descuido: deshabilitarlo mientras el agente
+            responde es lo que le quitaba el foco en cada pregunta —el navegador
+            lo suelta al deshabilitar el campo, y devolvérselo antes de que React
+            lo reactive no hace nada—. Así además se puede ir escribiendo la
+            respuesta mientras el mensaje se escribe. El envío sí sigue cerrado:
+            lo cierra `canSend`.
+          */
           placeholder={
-            hayOpciones ? "…o escribe tu propia respuesta" : "Escribe tu respuesta…"
+            hayOpciones
+              ? "…o escribe tu propia respuesta"
+              : "Escribe tu respuesta…"
           }
           aria-describedby="interview-composer-hint"
           className="font-body max-h-40 min-h-9 flex-1 resize-none overscroll-contain bg-transparent py-1.5 text-sm text-slate-900 outline-none placeholder:text-slate-400 disabled:opacity-60 dark:text-slate-100 dark:placeholder:text-slate-500"
@@ -1598,7 +2028,7 @@ function Composer({
           onClick={() => onSend(draft)}
           disabled={!canSend}
           aria-label="Enviar respuesta"
-          className="bg-primary-light dark:bg-primary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark grid size-9 shrink-0 place-items-center rounded-full text-white transition hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-40 dark:text-[#04111e] dark:hover:bg-primary-dark-lighter"
+          className="bg-primary-light dark:bg-primary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark dark:hover:bg-primary-dark-lighter grid size-9 shrink-0 place-items-center rounded-full text-white transition hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-40 dark:text-[#04111e]"
         >
           {pending ? (
             <Loader2
@@ -1631,7 +2061,7 @@ function Composer({
       </p>
     </div>
   );
-};
+}
 
 function ReportFooter() {
   return (
@@ -1773,4 +2203,3 @@ function MobileFicha({
     </>
   );
 }
-

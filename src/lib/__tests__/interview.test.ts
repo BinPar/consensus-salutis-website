@@ -219,6 +219,86 @@ describe("un turno", () => {
   banderas, ni nivel, ni reglas visibles en ningún momento». Descartarlo aquí, en
   la frontera, es lo que hace que ningún componente pueda pintarlo.
 */
+/*
+  El mensaje según se escribe. Es la superficie que hace que la espera del turno
+  se lea como alguien escribiendo y no como una pantalla parada, y llega SIEMPRE
+  entero: el que lo pinta reemplaza, no concatena.
+*/
+describe("el mensaje en curso", () => {
+  it("entrega cada `parcial` entero y luego el turno completo", async () => {
+    const { options } = clientWith(() =>
+      ndjsonResponse(
+        '{"event":"parcial","texto":"¿Cuántos "}\n',
+        '{"event":"parcial","texto":"¿Cuántos documentos"}\n',
+        '{"event":"turno","mensaje":"¿Cuántos documentos?","opciones":["Menos de 100"],"ficha":{},"turno":3,"turnosRestantes":27}\n',
+      ),
+    );
+
+    const parciales: string[] = [];
+    let turno: InterviewTurn | null = null;
+    await sendInterviewMessage(options, "hola", {
+      onParcial: (texto) => parciales.push(texto),
+      onTurn: (value) => {
+        turno = value;
+      },
+    });
+
+    expect(parciales).toEqual(["¿Cuántos ", "¿Cuántos documentos"]);
+    expect(turno!.mensaje).toBe("¿Cuántos documentos?");
+  });
+
+  /*
+    Un `parcial` más corto que el anterior no es un error del transporte: el
+    servidor retira lo que había escrito un paso que acabó anotando la ficha. Se
+    entrega tal cual y sin recomponer nada.
+  */
+  it("un texto más corto se entrega igual, sin acumular", async () => {
+    const { options } = clientWith(() =>
+      ndjsonResponse(
+        '{"event":"parcial","texto":"Voy a anotarlo"}\n',
+        '{"event":"parcial","texto":""}\n',
+        '{"event":"parcial","texto":"Anotado. ¿Y el formato?"}\n',
+      ),
+    );
+
+    const parciales: string[] = [];
+    await sendInterviewMessage(options, "hola", {
+      onParcial: (texto) => parciales.push(texto),
+    });
+
+    expect(parciales).toEqual([
+      "Voy a anotarlo",
+      "",
+      "Anotado. ¿Y el formato?",
+    ]);
+  });
+
+  /*
+    El avance del cierre lleva ahora los caracteres del borrador además de la
+    fase. Un servidor que no los mande sigue siendo válido: la fase basta.
+  */
+  it("el avance del cierre trae fase y caracteres", async () => {
+    const { options } = clientWith(() =>
+      ndjsonResponse(
+        '{"event":"calculando","fase":"veredicto","caracteres":0}\n',
+        '{"event":"calculando","fase":"redaccion","caracteres":1200}\n',
+        '{"event":"calculando","fase":"loquesea"}\n',
+      ),
+    );
+
+    const avances: Array<{ fase: string; caracteres: number }> = [];
+    await sendInterviewMessage(options, "hola", {
+      onCalculando: (progreso) => avances.push(progreso),
+    });
+
+    expect(avances).toEqual([
+      { fase: "veredicto", caracteres: 0 },
+      { fase: "redaccion", caracteres: 1200 },
+      { fase: "veredicto", caracteres: 0 },
+    ]);
+  });
+});
+
 describe("el informe llega sin lo interno", () => {
   it("descarta nivel, versión de criterios y coste", async () => {
     const { options } = clientWith(
@@ -361,6 +441,60 @@ describe("el estado para retomar", () => {
     const state = await fetchInterviewState(options);
 
     expect(state.mensajes.map((message) => message.multiple)).toEqual([true, false]);
+  });
+});
+
+/*
+  Recargar durante el cálculo del informe. El estado tiene que decir que la
+  entrevista ya cerró: sin eso, el cliente solo veía una entrevista sin terminar
+  —pintaba el compositor y dejaba escribiéndole a un agente que ya se había
+  despedido— mientras el informe se terminaba de escribir sin nadie mirando.
+*/
+describe("el cierre en marcha", () => {
+  it("trae que la entrevista cerró, con la fase y el avance del informe", async () => {
+    const { options } = clientWith(() =>
+      jsonResponse({
+        status: "draft",
+        stage0: { institucion: "Hospital de Ejemplo" },
+        ficha: {},
+        turno: 14,
+        turnosRestantes: 16,
+        mensajes: [{ role: "assistant", content: "Hasta aquí. Gracias." }],
+        cerrada: true,
+        reportFase: "redaccion",
+        reportChars: 1_800,
+      }),
+    );
+
+    const state = await fetchInterviewState(options);
+
+    expect(state.cerrada).toBe(true);
+    expect(state.reportFase).toBe("redaccion");
+    expect(state.reportChars).toBe(1_800);
+  });
+
+  /*
+    Un servidor que no conozca el campo deja la entrevista ABIERTA, que es el
+    estado del que siempre se puede salir: quedarse atrapado en la pantalla de
+    espera sería peor que ver el compositor de más.
+  */
+  it("sin el campo, la entrevista no se da por cerrada", async () => {
+    const { options } = clientWith(() =>
+      jsonResponse({
+        status: "draft",
+        stage0: { institucion: "Hospital de Ejemplo" },
+        ficha: {},
+        turno: 1,
+        turnosRestantes: 29,
+        mensajes: [],
+        cerrada: "sí",
+      }),
+    );
+
+    const state = await fetchInterviewState(options);
+
+    expect(state.cerrada).toBe(false);
+    expect(state.reportFase).toBeUndefined();
   });
 });
 
