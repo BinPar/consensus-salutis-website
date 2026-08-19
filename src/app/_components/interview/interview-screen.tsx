@@ -81,6 +81,7 @@ import {
   type Ficha,
 } from "~/lib/ficha";
 import { avanceDeBloques } from "~/lib/ficha-rasgos";
+import { avanceDelTecleo } from "~/lib/tecleo";
 import { capitalizarInstitucion, partirOpciones } from "~/lib/opciones";
 
 /** Cuánto dura el resaltado de un campo que acaba de cambiar. */
@@ -166,6 +167,74 @@ type Failure = { message: string; retryable: boolean };
  * comparando la ficha de antes con la de después.
  */
 type ThreadItem = InterviewMessage & { inferidos?: string[] };
+
+/**
+ * Suelta un texto que llega a bloques como si alguien lo estuviera escribiendo.
+ *
+ * No inventa nada: lo único que hace es RETENER lo que ya ha llegado y dejarlo
+ * salir a un ritmo parejo. El texto es el del servidor, letra por letra y en su
+ * orden; lo que se elige es cuándo se ve cada una.
+ *
+ * El ritmo —y el porqué de que sea proporcional a lo que queda— vive en
+ * `~/lib/tecleo`, que es la parte que se puede probar sin navegador. Aquí solo
+ * queda el bucle.
+ *
+ * Con `prefers-reduced-motion` no hay tecleo: el texto sale entero según llega.
+ * Escribir es moverse.
+ */
+function useTecleo(objetivo: string, inmediato: boolean): string {
+  const [visibles, setVisibles] = useState(0);
+  const objetivoRef = useRef(objetivo);
+
+  useEffect(() => {
+    objetivoRef.current = objetivo;
+    /*
+      El objetivo puede ENCOGER: cuando un paso del agente acaba anotando la
+      ficha, lo que había escrito era narración y el servidor la retira. Sin este
+      recorte, lo ya enseñado se quedaría por encima del texto nuevo y el tecleo
+      no volvería a moverse.
+    */
+    setVisibles((current) =>
+      inmediato ? objetivo.length : Math.min(current, objetivo.length),
+    );
+  }, [inmediato, objetivo]);
+
+  const enCurso = objetivo.length > 0;
+
+  useEffect(() => {
+    if (!enCurso) return;
+    if (inmediato) {
+      setVisibles(objetivoRef.current.length);
+      return;
+    }
+
+    let frame = 0;
+    let previo = performance.now();
+
+    const paso = (ahora: number) => {
+      // Tope al salto: volver de una pestaña en segundo plano trae un `dt` de
+      // varios segundos, y sin esto el tecleo se lo saltaría de golpe.
+      const dt = Math.min(ahora - previo, 100);
+      previo = ahora;
+
+      setVisibles(
+        (current) =>
+          current + avanceDelTecleo(objetivoRef.current.length - current, dt),
+      );
+
+      frame = requestAnimationFrame(paso);
+    };
+
+    frame = requestAnimationFrame(paso);
+    return () => cancelAnimationFrame(frame);
+    // El bucle solo arranca y para con el mensaje en curso: mientras lo haya
+    // sigue vivo, y cuando va al día no hace nada —un `setVisibles` con el mismo
+    // número no vuelve a pintar—. Reengancharlo en cada bloque que llega habría
+    // sido cancelar y programar un frame sesenta veces por segundo.
+  }, [enCurso, inmediato]);
+
+  return objetivo.slice(0, visibles);
+}
 
 /** Los paths cuyo valor ha cambiado entre dos versiones de la ficha. */
 function changedPaths(previous: Ficha, next: Ficha): string[] {
@@ -278,6 +347,12 @@ export function InterviewScreen({
     lo que un token robado revela. Llega con el estado, que ya se pide igualmente.
   */
   const [institucion, setInstitucion] = useState("");
+
+  /*
+    El mensaje en curso, soltado como si alguien lo escribiera. El servidor manda
+    el texto entero cada ~120 ms; esto es lo que lo convierte en letras.
+  */
+  const tecleado = useTecleo(parcial, reducedMotion ?? false);
 
   const lastAttempt = useRef<LastAttempt | null>(null);
   const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -615,8 +690,16 @@ export function InterviewScreen({
     const thread = threadRef.current;
     if (thread === null) return;
 
+    /*
+      Durante el tecleo el desplazamiento es instantáneo. Un desplazamiento suave
+      relanzado sesenta veces por segundo no llega a ninguna parte: cada frame
+      reinicia la animación del anterior y el hilo se queda persiguiendo el final
+      sin alcanzarlo.
+    */
     const behavior =
-      reducedMotion || !hasScrolled.current ? ("auto" as const) : ("smooth" as const);
+      reducedMotion || !hasScrolled.current || parcial.length > 0
+        ? ("auto" as const)
+        : ("smooth" as const);
 
     const frame = requestAnimationFrame(() => {
       thread.scrollTo({ top: thread.scrollHeight, behavior });
@@ -624,7 +707,7 @@ export function InterviewScreen({
     });
 
     return () => cancelAnimationFrame(frame);
-  }, [messages, parcial, pending, phase, report, reducedMotion]);
+  }, [messages, parcial, pending, phase, report, reducedMotion, tecleado]);
 
   /*
     El sondeo del informe mientras se prepara.
@@ -1016,8 +1099,8 @@ export function InterviewScreen({
             escribe. Los puntos sobre un texto que ya se está leyendo sobran.
           */}
           {pending && phase === "entrevista" ? (
-            parcial.trim().length > 0 ? (
-              <StreamingBubble text={parcial} />
+            tecleado.trim().length > 0 ? (
+              <StreamingBubble text={tecleado} />
             ) : (
               <TypingIndicator />
             )
