@@ -181,7 +181,13 @@ export function InterviewScreen({
     suspender—: alimenta la frase suave del panel («Vamos por la mitad»). Llega en
     cada turno y hasta ahora no se pintaba en ningún sitio.
   */
-  const [turnosRestantes, setTurnosRestantes] = useState(12);
+  const [turnosRestantes, setTurnosRestantes] = useState(0);
+  /*
+    El turno en curso. Va con `turnosRestantes` porque la frase del panel necesita
+    los dos: la suma es el presupuesto de la entrevista, y sin él los umbrales
+    quedan atados a un número de turnos que el servidor puede cambiar sin avisar.
+  */
+  const [turno, setTurno] = useState(0);
   /*
     Cuántos datos trajo el último turno. La barra móvil lo cuenta como novedad y
     no como deuda, así que no puede salir de `highlighted`: ese conjunto se vacía
@@ -262,6 +268,7 @@ export function InterviewScreen({
       setMessages(state.mensajes);
       setInstitucion(state.institucion);
       setTurnosRestantes(state.turnosRestantes);
+      setTurno(state.turno);
       setMarcadas([]);
       /*
         Retomar una entrevista no es recibir un turno: nada acaba de llegar, así que
@@ -352,6 +359,7 @@ export function InterviewScreen({
     (turn: InterviewTurn) => {
       const changed = applyFicha(turn.ficha);
       setTurnosRestantes(turn.turnosRestantes);
+      setTurno(turn.turno);
       setNuevos(changed.length);
       // Pregunta nueva, casillas a cero: lo marcado era de la anterior.
       setMarcadas([]);
@@ -725,10 +733,17 @@ export function InterviewScreen({
       >
         <InterviewHeader institucion={institucion} />
 
+        {/*
+          `overscroll-contain`: sin él, al llegar al final del hilo la rueda seguía
+          empujando y lo que se movía era la PÁGINA —debajo de la tarjeta hay 290px
+          de pie de sitio—, así que uno se salía de la entrevista sin querer a mitad
+          de conversación. Contenido aquí, la rueda sobre el hilo no sale del hilo;
+          el pie sigue alcanzable desplazando fuera de la tarjeta.
+        */}
         <div
           ref={threadRef}
           role="log"
-          className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-5 py-6 sm:px-7"
+          className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto overscroll-contain px-5 py-6 sm:px-7"
         >
           {phase === "cargando" ? <ThreadSkeleton /> : null}
 
@@ -837,6 +852,7 @@ export function InterviewScreen({
             ficha={ficha}
             highlighted={highlighted}
             turnosRestantes={turnosRestantes}
+            turno={turno}
             cerrada={cerrada}
             readOnly={readOnlyFicha}
           />
@@ -849,6 +865,7 @@ export function InterviewScreen({
         ficha={ficha}
         highlighted={highlighted}
         turnosRestantes={turnosRestantes}
+        turno={turno}
         cerrada={cerrada}
         nuevos={nuevos}
         readOnly={readOnlyFicha}
@@ -1565,7 +1582,7 @@ function Composer({
             hayOpciones ? "…o escribe tu propia respuesta" : "Escribe tu respuesta…"
           }
           aria-describedby="interview-composer-hint"
-          className="font-body max-h-40 min-h-9 flex-1 resize-none bg-transparent py-1.5 text-sm text-slate-900 outline-none placeholder:text-slate-400 disabled:opacity-60 dark:text-slate-100 dark:placeholder:text-slate-500"
+          className="font-body max-h-40 min-h-9 flex-1 resize-none overscroll-contain bg-transparent py-1.5 text-sm text-slate-900 outline-none placeholder:text-slate-400 disabled:opacity-60 dark:text-slate-100 dark:placeholder:text-slate-500"
           onChange={(event) => setDraft(event.target.value)}
           onKeyDown={(event) => {
             // Enter envía; Mayús+Enter hace párrafo. Es lo que espera cualquiera
@@ -1649,6 +1666,7 @@ function MobileFicha({
   ficha,
   highlighted,
   turnosRestantes,
+  turno,
   cerrada,
   nuevos,
   readOnly,
@@ -1658,6 +1676,7 @@ function MobileFicha({
   ficha: Ficha;
   highlighted: ReadonlySet<string>;
   turnosRestantes: number;
+  turno: number;
   cerrada: boolean;
   nuevos: number;
   readOnly: boolean;
@@ -1743,6 +1762,7 @@ function MobileFicha({
                 ficha={ficha}
                 highlighted={highlighted}
                 turnosRestantes={turnosRestantes}
+                turno={turno}
                 cerrada={cerrada}
                 readOnly={readOnly}
               />

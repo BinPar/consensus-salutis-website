@@ -32,21 +32,6 @@ const CIRCUNFERENCIA = 263.894;
 
 const TOTAL_BLOQUES = 5;
 
-/**
- * La frase suave de `turnosRestantes`.
- *
- * El número llega en cada turno y **nunca se escribe**: una cuenta atrás en una
- * entrevista de idoneidad se lee como cuántas preguntas quedan para suspender.
- * Tampoco «Pregunta 4 de 12» ni «33 % completado», que son la misma idea con otra
- * ropa.
- */
-export function fraseTurnos(turnosRestantes: number): string {
-  if (turnosRestantes >= 9) return "Acabamos de empezar";
-  if (turnosRestantes >= 5) return "Vamos por la mitad";
-  if (turnosRestantes >= 2) return "Ya queda poco";
-  return "Última pregunta";
-}
-
 export type FichaArcoProps = {
   /** Bloques que la conversación ya dejó atrás, de 0 a 5. */
   cerrados: number;

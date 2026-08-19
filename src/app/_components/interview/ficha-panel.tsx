@@ -50,7 +50,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 
-import { FichaArco, fraseTurnos } from "~/app/_components/interview/ficha-arco";
+import { FichaArco } from "~/app/_components/interview/ficha-arco";
 import {
   countFilledFields,
   fichaCell,
@@ -61,6 +61,7 @@ import {
   avanceDeBloques,
   cifras,
   contarDudas,
+  fraseTurnos,
   rasgos,
   type Rasgo,
   type RasgoFragment,
@@ -72,6 +73,12 @@ export type FichaPanelProps = {
   highlighted: ReadonlySet<string>;
   /** Cuántos turnos le quedan al agente. Nunca se escribe: da la frase suave. */
   turnosRestantes: number;
+  /**
+   * El turno en curso. Tampoco se escribe: con `turnosRestantes` da el
+   * presupuesto de la entrevista, que es lo que hace que la frase avance sin
+   * saber si el servidor reparte doce turnos o treinta.
+   */
+  turno: number;
   /** La entrevista ha cerrado: la ficha se congela y el arco lo dice. */
   cerrada: boolean;
   /**
@@ -85,6 +92,7 @@ export function FichaPanel({
   ficha,
   highlighted,
   turnosRestantes,
+  turno,
   cerrada,
   readOnly = false,
 }: FichaPanelProps) {
@@ -104,13 +112,24 @@ export function FichaPanel({
         </p>
       </div>
 
-      <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">
+      <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-4">
         {/* El arco, con la frase suave del avance al lado. */}
         <div className="grid grid-cols-[auto_1fr] items-center gap-3.5 border-b border-cyan-800/12 pb-3.5 dark:border-cyan-300/12">
           <FichaArco cerrados={cerrados} actual={actual} cerrada={cerrada} />
           <div className="min-w-0">
             <p className="font-display text-[12.5px] leading-tight font-bold text-[#05215e] dark:text-slate-50">
-              {cerrada ? "Evaluación cerrada" : fraseTurnos(turnosRestantes)}
+              {cerrada
+                ? "Evaluación cerrada"
+                : /*
+                    Los bloques VISITADOS, que es lo que el arco de al lado está
+                    pintando: `cerrados` son los que dejó atrás, y el actual
+                    cuenta porque ya tiene dato.
+                  */
+                  fraseTurnos(
+                    turno,
+                    turnosRestantes,
+                    actual === null ? 0 : cerrados + 1,
+                  )}
             </p>
             <p className="font-body mt-1 text-[11px] leading-snug text-slate-500 dark:text-slate-400">
               {cerrada

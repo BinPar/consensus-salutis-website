@@ -60,6 +60,21 @@
 }
 
 @layer base {
+  /*
+    El navegador pinta los botones con `cursor: default` y Tailwind v4 ya no lo
+    corrige en su preflight, así que ningún control del sitio —empezando por las
+    respuestas del chat de la entrevista— mostraba la mano al pasar por encima.
+    Se arregla una vez aquí en lugar de repetir `cursor-pointer` botón a botón;
+    los deshabilitados quedan fuera para no pisar los `disabled:cursor-*` que ya
+    tienen algunos controles.
+  */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  label:has(> input[type="checkbox"]:not(:disabled)),
+  label:has(> input[type="radio"]:not(:disabled)) {
+    cursor: pointer;
+  }
+
   .header-scroll-backdrop {
     background-color: rgb(
       255 255 255 / calc(var(--header-bg-progress, 0) * 50%)

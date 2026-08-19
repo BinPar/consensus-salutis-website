@@ -357,6 +357,71 @@ export function cifras(ficha: Ficha, limite = 3): Cifra[] {
 }
 
 /**
+ * Suelo del presupuesto de turnos deducido. Sin él, un estado a medio cargar
+ * —`turno: 1`, `turnosRestantes: 0`— daría un total de 1 y la primera pregunta
+ * de la entrevista se anunciaría como el final.
+ */
+const PRESUPUESTO_MINIMO = 6;
+
+/**
+ * La frase suave del avance.
+ *
+ * El número llega en cada turno y **nunca se escribe**: una cuenta atrás en una
+ * entrevista de idoneidad se lee como cuántas preguntas quedan para suspender.
+ * Tampoco «Pregunta 4 de 12» ni «33 % completado», que son la misma idea con otra
+ * ropa.
+ *
+ * ## Por qué es una fracción y no un umbral de `turnosRestantes`
+ *
+ * La versión anterior comparaba `turnosRestantes` contra 9 / 5 / 2, umbrales
+ * calibrados para un presupuesto de doce turnos. El servidor da treinta: una
+ * entrevista real empieza en 29 restantes y termina cerca de 6, así que la frase
+ * se quedaba clavada en «Acabamos de empezar» durante dos tercios de la
+ * conversación —con el arco ya en «4 de 5» al lado— y decía lo contrario de lo
+ * que el cliente estaba viendo.
+ *
+ * El presupuesto no se supone: se deduce de `turno + turnosRestantes`, que es
+ * constante venga de un servidor de doce turnos o de treinta.
+ *
+ * ## Las cuatro frases
+ *
+ * «Acabamos de empezar», «Vamos por la mitad», «Recta final» y «Última pregunta».
+ * La tercera dice el TRAMO y no lo que falta: con «Ya queda poco» las dos últimas
+ * decían lo mismo con otras palabras, y un cliente que las ve seguidas no percibe
+ * ningún avance entre ellas.
+ *
+ * ## Y con suelo en los bloques
+ *
+ * La frase vive pegada al arco, así que no puede contradecirlo: se toma el mayor
+ * de los dos avances. `avanceDeBloques` solo crece, de modo que el suelo tampoco
+ * hace retroceder la frase. Si el servidor no manda los turnos —campo ausente,
+ * ambos a cero—, los bloques la sostienen solos.
+ */
+export function fraseTurnos(
+  turno: number,
+  turnosRestantes: number,
+  bloquesVisitados = 0,
+): string {
+  /*
+    El tramo final se dice en absoluto y no en fracción: «Última pregunta» es el
+    único sitio donde el número es literalmente verdad.
+
+    Exactamente uno, y no «uno o menos»: `turnosRestantes` cae a 0 cuando el
+    servidor no manda el campo —`asNumber` devuelve 0—, y con «o menos» un estado
+    a medio cargar anunciaba el final en la primera pregunta. Cero turnos de
+    verdad no llega aquí: esa entrevista ya está cerrada y el panel dice otra cosa.
+  */
+  if (turno > 0 && turnosRestantes === 1) return "Última pregunta";
+
+  const total = Math.max(turno + turnosRestantes, PRESUPUESTO_MINIMO);
+  const recorrido = Math.max(turno / total, bloquesVisitados / FICHA_BLOCKS.length);
+
+  if (recorrido < 0.25) return "Acabamos de empezar";
+  if (recorrido < 0.7) return "Vamos por la mitad";
+  return "Recta final";
+}
+
+/**
  * Por dónde va la conversación, en bloques VISITADOS.
  *
  * Un bloque cuenta cuando tiene algún dato, no cuando sus campos están llenos: un

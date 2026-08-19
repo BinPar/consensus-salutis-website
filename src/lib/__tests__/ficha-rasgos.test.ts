@@ -17,6 +17,7 @@ import {
   avanceDeBloques,
   cifras,
   contarDudas,
+  fraseTurnos,
   rasgoDe,
   rasgos,
 } from "~/lib/ficha-rasgos";
@@ -485,5 +486,64 @@ describe("las dudas se cuentan sobre los 28 campos", () => {
     });
 
     expect(contarDudas(f)).toBe(2);
+  });
+});
+
+/**
+ * La frase suave del avance.
+ *
+ * Lo que se prueba es lo que se rompió en producción: con el presupuesto de
+ * treinta turnos que reparte el servidor, los umbrales absolutos de la primera
+ * versión —9 / 5 / 2 restantes— dejaban «Acabamos de empezar» clavado durante dos
+ * tercios de la entrevista, con el arco ya en «4 de 5» justo al lado.
+ */
+describe("la frase del avance", () => {
+  /** Los valores reales del servidor: `turno + turnosRestantes = 30`. */
+  const restantesDe = (turno: number) => 30 - turno;
+
+  it("avanza con el presupuesto de treinta turnos del servidor", () => {
+    expect(fraseTurnos(1, restantesDe(1))).toBe("Acabamos de empezar");
+    expect(fraseTurnos(12, restantesDe(12))).toBe("Vamos por la mitad");
+    expect(fraseTurnos(24, restantesDe(24))).toBe("Recta final");
+  });
+
+  /*
+    El caso reportado: el arco decía «Corpus, 2 de 5» y la frase seguía diciendo
+    «Acabamos de empezar» porque quedaban veintiséis turnos de treinta.
+  */
+  it("no contradice al arco: los bloques visitados son el suelo", () => {
+    expect(fraseTurnos(4, restantesDe(4))).toBe("Acabamos de empezar");
+    expect(fraseTurnos(4, restantesDe(4), 2)).toBe("Vamos por la mitad");
+    expect(fraseTurnos(4, restantesDe(4), 4)).toBe("Recta final");
+  });
+
+  it("dice «última» solo cuando queda una y hay turnos de los que fiarse", () => {
+    expect(fraseTurnos(29, 1)).toBe("Última pregunta");
+    expect(fraseTurnos(29, 2)).toBe("Recta final");
+    // Un servidor que no manda los turnos no puede anunciar el final.
+    expect(fraseTurnos(0, 0)).toBe("Acabamos de empezar");
+    expect(fraseTurnos(0, 0, 4)).toBe("Recta final");
+  });
+
+  /* Un presupuesto absurdo —estado a medio cargar— no adelanta el final. */
+  it("aguanta un turno sin restantes creíbles", () => {
+    expect(fraseTurnos(1, 0)).toBe("Acabamos de empezar");
+  });
+
+  it("nunca retrocede a lo largo de una entrevista", () => {
+    const ORDEN = [
+      "Acabamos de empezar",
+      "Vamos por la mitad",
+      "Recta final",
+      "Última pregunta",
+    ];
+
+    let anterior = 0;
+    for (let turno = 1; turno <= 29; turno += 1) {
+      const bloques = Math.min(Math.ceil(turno / 6), 5);
+      const indice = ORDEN.indexOf(fraseTurnos(turno, restantesDe(turno), bloques));
+      expect(indice).toBeGreaterThanOrEqual(anterior);
+      anterior = indice;
+    }
   });
 });
