@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useId, useState } from "react";
+import { ChevronDown } from "lucide-react";
 
 import { Eyebrow } from "~/app/_components/eyebrow";
 
@@ -19,6 +20,24 @@ import {
 
 const fieldClassName =
   "font-body w-full rounded-lg border border-cyan-800/15 bg-white/60 px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-500 focus:border-primary-light/55 focus:bg-white focus:ring-2 focus:ring-primary-light/10 disabled:cursor-not-allowed disabled:opacity-60 dark:border-cyan-300/10 dark:bg-[#04111e]/68 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-cyan-300/55 dark:focus:bg-[#061a2a] dark:focus:ring-cyan-300/10";
+
+/**
+ * Recipiente para `<select>`: sin la flecha nativa —que el navegador pinta
+ * pegada al borde derecho, fuera del ritmo del `px-4` de los campos— y con
+ * un chevron propio alineado con ese padding.
+ */
+function SelectChrome({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="relative">
+      {children}
+      <ChevronDown
+        aria-hidden="true"
+        strokeWidth={1.8}
+        className="pointer-events-none absolute top-1/2 right-4 size-4 -translate-y-1/2 text-slate-500 dark:text-slate-400"
+      />
+    </div>
+  );
+}
 
 function formValue(formData: FormData, name: string) {
   const value = formData.get(name);
@@ -221,25 +240,27 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
         </FormField>
 
         <FormField id={`${id}-cargo`} label="Cargo" error={fieldErrors.cargo}>
-          <select
-            id={`${id}-cargo`}
-            name="cargo"
-            required
-            disabled={busy}
-            defaultValue=""
-            className={fieldClassName}
-            aria-invalid={Boolean(fieldErrors.cargo)}
-            onChange={() => clearFieldError("cargo")}
-          >
-            <option value="" disabled>
-              Selecciona tu cargo
-            </option>
-            {CARGO_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
+          <SelectChrome>
+            <select
+              id={`${id}-cargo`}
+              name="cargo"
+              required
+              disabled={busy}
+              defaultValue=""
+              className={`${fieldClassName} appearance-none pr-11`}
+              aria-invalid={Boolean(fieldErrors.cargo)}
+              onChange={() => clearFieldError("cargo")}
+            >
+              <option value="" disabled>
+                Selecciona tu cargo
               </option>
-            ))}
-          </select>
+              {CARGO_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </SelectChrome>
         </FormField>
       </div>
 
@@ -271,25 +292,27 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
           label="Ámbito geográfico"
           error={fieldErrors.ambitoPais}
         >
-          <select
-            id={`${id}-ambito`}
-            name="ambitoPais"
-            required
-            disabled={busy}
-            defaultValue=""
-            className={fieldClassName}
-            aria-invalid={Boolean(fieldErrors.ambitoPais)}
-            onChange={() => clearFieldError("ambitoPais")}
-          >
-            <option value="" disabled>
-              Selecciona el ámbito
-            </option>
-            {AMBITO_PAIS_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
+          <SelectChrome>
+            <select
+              id={`${id}-ambito`}
+              name="ambitoPais"
+              required
+              disabled={busy}
+              defaultValue=""
+              className={`${fieldClassName} appearance-none pr-11`}
+              aria-invalid={Boolean(fieldErrors.ambitoPais)}
+              onChange={() => clearFieldError("ambitoPais")}
+            >
+              <option value="" disabled>
+                Selecciona el ámbito
               </option>
-            ))}
-          </select>
+              {AMBITO_PAIS_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </SelectChrome>
         </FormField>
 
         <FormField

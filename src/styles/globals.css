@@ -114,3 +114,31 @@
     transition-duration: 0ms;
   }
 }
+
+/*
+  El semáforo del informe de idoneidad (issue #6, diseño F′).
+
+  Cuatro colores y no tres: verde/ámbar/rojo dicen cumple/falta/bloquea, y el
+  NEUTRO dice «esto no se ha juzgado» o «esto queda fuera del borde» — lo usan la
+  línea del nivel «A explorar» y la columna de fuera de alcance. No es un color
+  del semáforo y por eso no es un cuarto tono de los otros tres.
+
+  Van como variables y no como clases sueltas porque cada color aparece como
+  texto, como fondo y como borde, y en los dos temas: doce combinaciones de un
+  mismo valor se mantienen aquí, no repartidas por el componente. El color nunca
+  va solo — cada estado lleva su palabra escrita al lado (criterio §6 de la
+  issue: el semáforo se entiende sin distinguir los tonos).
+*/
+:root {
+  --semaforo-ok: oklch(0.53 0.1 168);
+  --semaforo-mid: oklch(0.62 0.12 66);
+  --semaforo-no: oklch(0.54 0.15 25);
+  --semaforo-neutro: oklch(0.55 0.02 255);
+}
+
+.dark {
+  --semaforo-ok: oklch(0.8 0.13 168);
+  --semaforo-mid: oklch(0.86 0.13 88);
+  --semaforo-no: oklch(0.73 0.16 25);
+  --semaforo-neutro: oklch(0.7 0.02 255);
+}

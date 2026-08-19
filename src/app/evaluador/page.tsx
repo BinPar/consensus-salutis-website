@@ -142,7 +142,13 @@ export default async function EvaluadorPage() {
               ) : null}
             </div>
 
-            <ol className="font-body order-last grid gap-3 text-sm text-slate-600 lg:order-none lg:col-start-1 lg:row-start-2 lg:mt-2 dark:text-slate-400">
+            {/*
+              Una sola tarjeta de cristal con las tres filas dentro, no tres
+              cajas sueltas: el fondo translúcido de antes dejaba ver la rejilla
+              a través del texto, y tres recipientes independientes competían
+              con la tarjeta del formulario de al lado en vez de acompañarla.
+            */}
+            <ol className="font-body order-last overflow-hidden rounded-2xl border border-cyan-800/15 bg-white/80 text-sm text-slate-600 shadow-big-blocks backdrop-blur-xs lg:order-none lg:col-start-1 lg:row-start-2 lg:mt-2 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:text-slate-400 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)]">
               {[
                 ["01", "Identificación", "Los datos de esta ficha."],
                 ["02", "Entrevista guiada", "Preguntas según tu institución."],
@@ -150,9 +156,9 @@ export default async function EvaluadorPage() {
               ].map(([step, title, detail]) => (
                 <li
                   key={step}
-                  className="grid grid-cols-[2.5rem_1fr] items-baseline gap-3 rounded-md border border-cyan-800/10 bg-white/70 p-3 dark:border-cyan-300/10 dark:bg-white/[0.035]"
+                  className="grid grid-cols-[2.5rem_1fr] items-baseline gap-3 border-b border-cyan-800/10 px-5 py-4 last:border-b-0 dark:border-cyan-300/10"
                 >
-                  <span className="text-primary-light dark:text-primary-dark text-sm font-semibold">
+                  <span className="font-display text-primary-light dark:text-primary-dark text-sm font-bold">
                     {step}
                   </span>
                   <span>
