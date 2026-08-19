@@ -17,6 +17,29 @@
  *
  * El cambio no es cosmético: sin él la Etapa 1 no tiene con qué hablar. La
  * entrevista corre en Convex y necesita que la evaluación exista **allí**.
+ *
+ * ## Esta ruta no tiene límite de tasa, y es una carencia consciente
+ *
+ * Es un POST público sin autenticar, y lo que hace no es barato: crea una fila en
+ * Convex y devuelve una sesión firmada que abre la Etapa 1, que tiene un modelo
+ * detrás. El control de origen y la trampa para bots frenan a un bot torpe, no a
+ * un bucle deliberado.
+ *
+ * El tope **no se pone aquí** por dónde tendría que vivir el contador. Esta
+ * landing no tiene base de datos: el único almacén de la evaluación es Convex, la
+ * fila se crea ahí mismo unas líneas más abajo y `/eligibility-start` es servidor
+ * a servidor, ya autenticado y ya sabe el email. Un contador ahí no necesita
+ * infraestructura nueva ni un secreto nuevo. La alternativa era Upstash, que no
+ * está aprovisionado en ningún entorno del proyecto y que habría añadido una
+ * segunda dependencia con estado para guardar un entero — y, peor, un límite que
+ * deniega cuando no puede contar convierte esta ruta en un 429 para todo el
+ * mundo, justo en la página de la que depende el alta.
+ *
+ * La política (cuánto, por qué el tope de IP va más alto que el de email) está
+ * escrita en `~/server/marketplace/rate-limit`, para que implementarla en Convex
+ * no obligue a redecidirla. Tampoco hay Turnstile a propósito: esta es la página
+ * que abre el revisor de AWS y el captcha caería justo delante del campo de email
+ * que el programa exige ver.
  */
 
 import { type NextRequest, NextResponse } from "next/server";

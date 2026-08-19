@@ -22,7 +22,7 @@ export const contactSchema = z.object({
       message: "Debes aceptar la Política de Privacidad.",
     }),
   }),
-  turnstileToken: z.string().min(1, "No se pudo completar la verificación."),
+  /** Trampa para bots: la única defensa antibot que queda. Tiene que ir vacío. */
   website: z.string().max(0),
 });
 

@@ -1,4 +1,3 @@
-import { createHmac } from "node:crypto";
 import { type NextRequest, NextResponse } from "next/server";
 
 import { env } from "~/env";
@@ -11,9 +10,6 @@ import {
 export const runtime = "nodejs";
 
 const MAX_BODY_BYTES = 10_000;
-const RATE_LIMIT = 5;
-const RATE_WINDOW_SECONDS = 60 * 60;
-const DEVELOPMENT_TURNSTILE_SECRET = "1x0000000000000000000000000000000AA";
 const contactFields = new Set<ContactField>([
   "name",
   "email",
@@ -46,81 +42,6 @@ function isSameOrigin(request: NextRequest) {
   } catch {
     return false;
   }
-}
-
-function clientIp(request: NextRequest) {
-  return (
-    request.headers.get("cf-connecting-ip") ??
-    request.headers.get("x-real-ip") ??
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    "unknown"
-  );
-}
-
-function hashIdentifier(value: string) {
-  const secret =
-    env.CONTACT_RATE_LIMIT_SECRET ??
-    "development-contact-rate-limit";
-
-  return createHmac("sha256", secret).update(value).digest("hex");
-}
-
-async function verifyTurnstile(token: string, ip: string) {
-  const secret =
-    env.TURNSTILE_SECRET_KEY ??
-    (env.NODE_ENV === "development" ? DEVELOPMENT_TURNSTILE_SECRET : undefined);
-
-  if (!secret) return false;
-
-  const body = new URLSearchParams({
-    secret,
-    response: token,
-    remoteip: ip,
-  });
-  const response = await fetch(
-    "https://challenges.cloudflare.com/turnstile/v0/siteverify",
-    {
-      method: "POST",
-      body,
-      signal: AbortSignal.timeout(5_000),
-    },
-  );
-  const result = (await response.json()) as { success?: boolean };
-
-  return response.ok && result.success === true;
-}
-
-async function checkRateLimit(ip: string, email: string) {
-  if (!env.UPSTASH_REDIS_REST_URL || !env.UPSTASH_REDIS_REST_TOKEN) {
-    return env.NODE_ENV !== "production";
-  }
-
-  const window = Math.floor(Date.now() / (RATE_WINDOW_SECONDS * 1000));
-  const ipKey = `contact:ip:${hashIdentifier(ip)}:${window}`;
-  const emailKey = `contact:email:${hashIdentifier(email)}:${window}`;
-
-  const response = await fetch(`${env.UPSTASH_REDIS_REST_URL}/pipeline`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${env.UPSTASH_REDIS_REST_TOKEN}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify([
-      ["INCR", ipKey],
-      ["EXPIRE", ipKey, RATE_WINDOW_SECONDS],
-      ["INCR", emailKey],
-      ["EXPIRE", emailKey, RATE_WINDOW_SECONDS],
-    ]),
-    signal: AbortSignal.timeout(5_000),
-  });
-
-  if (!response.ok) return false;
-
-  const result = (await response.json()) as Array<{ result?: number }>;
-  const ipCount = Number(result[0]?.result ?? RATE_LIMIT + 1);
-  const emailCount = Number(result[2]?.result ?? RATE_LIMIT + 1);
-
-  return ipCount <= RATE_LIMIT && emailCount <= RATE_LIMIT;
 }
 
 function escapeHtml(value: string) {
@@ -227,35 +148,21 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const ip = clientIp(request);
-
   try {
-    const turnstileValid = await verifyTurnstile(
-      parsed.data.turnstileToken,
-      ip,
-    );
-    if (!turnstileValid) {
-      return json(
-        {
-          ok: false,
-          message: "No se pudo verificar el envío. Inténtalo de nuevo.",
-        },
-        400,
-      );
-    }
+    /*
+      Aquí había un contador por IP y email contra Upstash, y antes de él una
+      verificación de Turnstile. Los dos se han retirado por el mismo motivo: no
+      estaban aprovisionados en ningún entorno del proyecto. El contador no se
+      ejecutó nunca —y era inalcanzable, porque Turnstile cortaba antes con un
+      400—, y Turnstile aprobaba con la clave de prueba pública de Cloudflare en
+      el cliente mientras rechazaba a todo el mundo en el servidor. Una defensa
+      declarada que no existe es peor que no tenerla, porque se lee como una
+      defensa.
 
-    const allowed = await checkRateLimit(ip, parsed.data.email);
-    if (!allowed) {
-      return json(
-        {
-          ok: false,
-          message:
-            "Se han realizado demasiados intentos. Inténtalo de nuevo más tarde.",
-        },
-        429,
-      );
-    }
-
+      Lo que queda es la trampa para bots de arriba. Si hace falta un tope por
+      email, el sitio es Convex —la única base de datos del producto— y la
+      política está escrita en `~/server/marketplace/rate-limit`.
+    */
     const sent = await sendContactEmail(parsed.data);
     if (!sent) throw new Error("Contact email provider rejected the request");
 

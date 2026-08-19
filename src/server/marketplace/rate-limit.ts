@@ -1,13 +1,25 @@
 /**
- * Limitación de tasa del módulo marketplace.
+ * Política de limitación de tasa del módulo marketplace.
  *
  * Emitir un enlace al espacio de cliente se dispara con un email en un
  * formulario público. Sin límite, eso es un vector de spam contra el buzón de un
- * tercero: cualquiera puede pedir cien enlaces al correo de otro.
+ * tercero: cualquiera puede pedir cien enlaces al correo de otro. Hay que
+ * limitar, y hay que limitar por email y por IP.
  *
- * Se limita por email y por IP. Reutiliza el patrón REST de Upstash que ya usa
- * `src/app/api/contact/route.ts`, con ventana fija y contadores hasheados —
- * ninguna clave de Redis contiene un email en claro.
+ * ## Aquí está la política; el contador va en Convex
+ *
+ * Este archivo NO implementa el contador, y eso es deliberado. Esta landing no
+ * tiene base de datos: el único almacén de la evaluación es Convex, en el
+ * monorepo, que es donde están las filas y donde un contador no cuesta ni una
+ * variable de entorno nueva. La primera versión de esto hablaba con Upstash por
+ * REST, copiando el patrón de `src/app/api/contact/route.ts` — y Upstash no está
+ * aprovisionado en ningún entorno del proyecto, así que era una dependencia
+ * declarada que no existía y un contador que nunca contó.
+ *
+ * Lo que queda aquí es lo que no se puede perder al mover el contador de sitio:
+ * los topes, por qué son dos y no uno, y la respuesta congelada. Quien implemente
+ * la mutación en Convex (`BinPar/consensus-salutis#83`) no tiene que volver a
+ * decidir nada de esto.
  *
  * ## Por qué la respuesta no distingue
  *
@@ -18,72 +30,33 @@
  * hospitales que han comprado es información comercial que no toca publicar.
  */
 
-import { createHmac } from "node:crypto";
-
-/** Cinco intentos por hora, igual que el formulario de contacto. */
+/** Cinco intentos por hora y por email, igual que el formulario de contacto. */
 export const RATE_LIMIT = 5;
 export const RATE_WINDOW_SECONDS = 60 * 60;
 
-export type RateLimitConfig = {
-  redisUrl?: string;
-  redisToken?: string;
-  secret: string;
-  /** Si no hay Redis, permitir en desarrollo y denegar en producción. */
-  allowWithoutRedis: boolean;
-  now?: number;
-};
-
-function hashIdentifier(value: string, secret: string) {
-  return createHmac("sha256", secret).update(value).digest("hex");
-}
+/**
+ * Tope por IP, más alto que el de email a propósito.
+ *
+ * Una institución sale a internet por una sola dirección, así que cinco por hora
+ * por IP bloquearía al sexto compañero que rellena el formulario — y que lo
+ * rellene otra persona del mismo hospital es un caso que el producto da por
+ * bueno, no un ataque. El contador que de verdad protege un buzón ajeno es el del
+ * email, y ese se queda en cinco: subir el de IP no afloja esa defensa.
+ */
+export const SHARED_IP_RATE_LIMIT = 20;
 
 /**
- * Incrementa los contadores de IP y email y dice si el intento cabe en la
- * ventana.
+ * Lo que el contador de Convex tiene que devolver, y por qué son tres estados y
+ * no un booleano.
  *
- * Ante un fallo de Redis devuelve `false` — cerrar y no abrir: un límite que
- * desaparece cuando el backend tose no es un límite.
+ * Con un `true`/`false`, quien llama no puede distinguir a alguien que se ha
+ * pasado del límite de un contador que no se ha podido consultar, y las dos cosas
+ * no se responden igual: donde el efecto es mandar un correo al buzón de un
+ * tercero, no poder contar significa no mandarlo; donde el efecto es crear un
+ * borrador —la Etapa 0—, denegar tumbaría el alta entera. Quien decide es quien
+ * llama, porque es el único que sabe qué cuesta cada error.
  */
-export async function checkMarketplaceRateLimit(
-  input: { ip: string; email: string },
-  config: RateLimitConfig,
-): Promise<boolean> {
-  if (!config.redisUrl || !config.redisToken) {
-    return config.allowWithoutRedis;
-  }
-
-  const now = config.now ?? Date.now();
-  const window = Math.floor(now / (RATE_WINDOW_SECONDS * 1000));
-  const ipKey = `marketplace:ip:${hashIdentifier(input.ip, config.secret)}:${window}`;
-  const emailKey = `marketplace:email:${hashIdentifier(input.email.trim().toLowerCase(), config.secret)}:${window}`;
-
-  try {
-    const response = await fetch(`${config.redisUrl}/pipeline`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${config.redisToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify([
-        ["INCR", ipKey],
-        ["EXPIRE", ipKey, RATE_WINDOW_SECONDS],
-        ["INCR", emailKey],
-        ["EXPIRE", emailKey, RATE_WINDOW_SECONDS],
-      ]),
-      signal: AbortSignal.timeout(5_000),
-    });
-
-    if (!response.ok) return false;
-
-    const result = (await response.json()) as Array<{ result?: number }>;
-    const ipCount = Number(result[0]?.result ?? RATE_LIMIT + 1);
-    const emailCount = Number(result[2]?.result ?? RATE_LIMIT + 1);
-
-    return ipCount <= RATE_LIMIT && emailCount <= RATE_LIMIT;
-  } catch {
-    return false;
-  }
-}
+export type RateLimitOutcome = "allow" | "over-limit" | "unavailable";
 
 /**
  * La única respuesta que el formulario público de «enviadme el enlace» puede

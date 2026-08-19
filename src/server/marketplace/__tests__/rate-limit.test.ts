@@ -1,104 +1,34 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+/**
+ * La política de limitación de tasa y la respuesta indistinguible.
+ *
+ * Ya no hay tests de contador: el contador no vive aquí — ver la cabecera de
+ * `rate-limit.ts`—, así que lo que queda por fijar es lo que sí decide este
+ * módulo y que quien lo implemente en Convex tiene que respetar.
+ */
+
+import { describe, expect, it } from "vitest";
 
 import {
-  checkMarketplaceRateLimit,
   issueLinkOutcome,
   RATE_LIMIT,
+  RATE_WINDOW_SECONDS,
+  SHARED_IP_RATE_LIMIT,
 } from "~/server/marketplace/rate-limit";
 
-const SECRET = "secreto-de-pruebas-con-mas-de-32-caracteres";
-
-const REDIS = {
-  redisUrl: "https://redis.example",
-  redisToken: "token-de-pruebas",
-  secret: SECRET,
-  allowWithoutRedis: false,
-};
-
-/** Simula la respuesta del pipeline de Upstash: [incr ip, expire, incr email, expire]. */
-function mockRedis(ipCount: number, emailCount: number) {
-  const fetchMock = vi.fn().mockResolvedValue({
-    ok: true,
-    json: () =>
-      Promise.resolve([
-        { result: ipCount },
-        { result: 1 },
-        { result: emailCount },
-        { result: 1 },
-      ]),
-  });
-  vi.stubGlobal("fetch", fetchMock);
-  return fetchMock;
-}
-
-afterEach(() => {
-  vi.unstubAllGlobals();
-});
-
-describe("limitación de tasa del marketplace", () => {
-  it("permite dentro del límite y deniega al pasarlo", async () => {
-    mockRedis(RATE_LIMIT, 1);
-    await expect(
-      checkMarketplaceRateLimit(
-        { ip: "203.0.113.1", email: "gerencia@hospital.example" },
-        REDIS,
-      ),
-    ).resolves.toBe(true);
-
-    mockRedis(RATE_LIMIT + 1, 1);
-    await expect(
-      checkMarketplaceRateLimit(
-        { ip: "203.0.113.1", email: "gerencia@hospital.example" },
-        REDIS,
-      ),
-    ).resolves.toBe(false);
+describe("política de limitación de tasa del marketplace", () => {
+  it("son cinco por hora, la misma ventana que el formulario de contacto", () => {
+    expect(RATE_LIMIT).toBe(5);
+    expect(RATE_WINDOW_SECONDS).toBe(60 * 60);
   });
 
-  it("deniega cuando el que se pasa es el contador del email", async () => {
-    mockRedis(1, RATE_LIMIT + 1);
-    await expect(
-      checkMarketplaceRateLimit(
-        { ip: "203.0.113.9", email: "gerencia@hospital.example" },
-        REDIS,
-      ),
-    ).resolves.toBe(false);
-  });
-
-  it("no pone el email en claro en ninguna clave de Redis", async () => {
-    const fetchMock = mockRedis(1, 1);
-    await checkMarketplaceRateLimit(
-      { ip: "203.0.113.1", email: "gerencia@hospital.example" },
-      REDIS,
-    );
-
-    const init = fetchMock.mock.calls[0]?.[1] as
-      | { body?: string }
-      | undefined;
-    const body = init?.body ?? "";
-
-    expect(body).not.toContain("gerencia@hospital.example");
-    expect(body).not.toContain("203.0.113.1");
-    expect(body).toContain("marketplace:email:");
-  });
-
-  it("deniega si Redis falla, en lugar de abrirse", async () => {
-    vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("red caída")));
-
-    await expect(
-      checkMarketplaceRateLimit(
-        { ip: "203.0.113.1", email: "gerencia@hospital.example" },
-        REDIS,
-      ),
-    ).resolves.toBe(false);
-  });
-
-  it("deniega en producción cuando no hay Redis configurado", async () => {
-    await expect(
-      checkMarketplaceRateLimit(
-        { ip: "203.0.113.1", email: "gerencia@hospital.example" },
-        { secret: SECRET, allowWithoutRedis: false },
-      ),
-    ).resolves.toBe(false);
+  /*
+    Los dos topes son independientes y el de IP va por encima: en un hospital la
+    IP se comparte y el sexto compañero que rellena el formulario no es un bot,
+    mientras que el contador del email —el que protege un buzón ajeno— tiene que
+    seguir en cinco. Si alguien iguala los dos, este test lo dice.
+  */
+  it("el tope de IP es más alto que el de email, no igual", () => {
+    expect(SHARED_IP_RATE_LIMIT).toBeGreaterThan(RATE_LIMIT);
   });
 
   // Criterio de aceptación §6: la limitación responde igual con email conocido

@@ -17,10 +17,6 @@ export const env = createEnv({
     RESEND_API_KEY: z.string().optional(),
     CONTACT_FROM_EMAIL: z.string().optional(),
     CONTACT_TO_EMAIL: z.string().email().default("adrian@binpar.com"),
-    TURNSTILE_SECRET_KEY: z.string().optional(),
-    UPSTASH_REDIS_REST_URL: z.string().url().optional(),
-    UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
-    CONTACT_RATE_LIMIT_SECRET: z.string().min(32).optional(),
     /**
      * Firma de la cookie de sesión del evaluador de idoneidad. Requerido: sin
      * él no se puede atar un navegador a su evaluación, ni sostener la regla de
@@ -40,7 +36,6 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    NEXT_PUBLIC_TURNSTILE_SITE_KEY: z.string().optional(),
     /**
      * Origen HTTP del deployment de Convex (`https://<slug>.convex.site`, no
      * `.convex.cloud`: las `httpAction` se sirven desde el primero).
@@ -89,13 +84,8 @@ export const env = createEnv({
     RESEND_API_KEY: process.env.RESEND_API_KEY,
     CONTACT_FROM_EMAIL: process.env.CONTACT_FROM_EMAIL,
     CONTACT_TO_EMAIL: process.env.CONTACT_TO_EMAIL,
-    TURNSTILE_SECRET_KEY: process.env.TURNSTILE_SECRET_KEY,
-    UPSTASH_REDIS_REST_URL: process.env.UPSTASH_REDIS_REST_URL,
-    UPSTASH_REDIS_REST_TOKEN: process.env.UPSTASH_REDIS_REST_TOKEN,
-    CONTACT_RATE_LIMIT_SECRET: process.env.CONTACT_RATE_LIMIT_SECRET,
     MARKETPLACE_SESSION_SECRET: process.env.MARKETPLACE_SESSION_SECRET,
     MARKETPLACE_TOKEN_PEPPER: process.env.MARKETPLACE_TOKEN_PEPPER,
-    NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
     NEXT_PUBLIC_CONVEX_SITE_URL: process.env.NEXT_PUBLIC_CONVEX_SITE_URL,
     NEXT_PUBLIC_PLATFORM_SIGN_IN_URL:
       process.env.NEXT_PUBLIC_PLATFORM_SIGN_IN_URL,
