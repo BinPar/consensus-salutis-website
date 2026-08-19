@@ -120,10 +120,19 @@ export type InterviewClientOptions = {
   fetcher?: Fetcher;
 };
 
+/**
+ * Fase de la preparación del informe, tal y como la emite el servidor en cada
+ * evento `calculando`. Son las fronteras reales del cierre: el veredicto del
+ * motor, la redacción (la parte larga) y la revisión, que solo aparece si la
+ * puerta de contrato obligó a reintentar. Un servidor viejo que no mande `fase`
+ * cae a `veredicto`, que pinta lo mismo que el aviso único de antes.
+ */
+export type CalculandoFase = "veredicto" | "redaccion" | "revision";
+
 type StreamHandlers = {
   onTurn?: (turn: InterviewTurn) => void;
-  /** El veredicto está en marcha: la UI muestra que se está calculando. */
-  onCalculando?: () => void;
+  /** El cierre está en marcha: la UI muestra la fase en la que va. */
+  onCalculando?: (fase: CalculandoFase) => void;
   onReport?: (report: InterviewReport) => void;
   signal?: AbortSignal;
 };
@@ -205,6 +214,11 @@ function parseTurn(raw: Record<string, unknown>): InterviewTurn {
     turno: asNumber(raw.turno),
     turnosRestantes: asNumber(raw.turnosRestantes),
   };
+}
+
+/** La fase del `calculando`, con `veredicto` como suelo para servidores viejos. */
+function parseFase(raw: unknown): CalculandoFase {
+  return raw === "redaccion" || raw === "revision" ? raw : "veredicto";
 }
 
 /** El informe SIN `nivel`, `criteriaVersion` ni `costUsd`. Ver la cabecera. */
@@ -353,7 +367,7 @@ async function consume(
           handlers.onTurn?.(parseTurn(line));
           break;
         case "calculando":
-          handlers.onCalculando?.();
+          handlers.onCalculando?.(parseFase(line.fase));
           break;
         case "informe":
           handlers.onReport?.(parseReport(line));

@@ -42,6 +42,19 @@ function renderInline(text: string, keyPrefix: string): ReactNode[] {
   });
 }
 
+/**
+ * Solo el énfasis en línea (negrita, cursiva, código), sin bloques.
+ *
+ * Es lo que pintan las burbujas del chat de la entrevista: el agente escribe
+ * `**comité de ética**` y sin esto el cliente veía los asteriscos tal cual
+ * (website#5 §4). No se usa el parser de bloques a propósito — un turno de chat
+ * no tiene encabezados ni listas que respetar, y el `whitespace-pre-wrap` del
+ * contenedor ya conserva los saltos de línea de los chunks de texto.
+ */
+export function MarkdownInline({ children }: { children: string }) {
+  return <>{renderInline(children, "inline")}</>;
+}
+
 const HEADING_CLASS: Record<1 | 2 | 3, string> = {
   1: "font-display mt-0 text-2xl font-semibold tracking-tight text-[#05215e] sm:text-3xl dark:text-slate-50",
   2: "font-display mt-8 text-lg font-semibold tracking-tight text-[#05215e] sm:text-xl dark:text-slate-50",

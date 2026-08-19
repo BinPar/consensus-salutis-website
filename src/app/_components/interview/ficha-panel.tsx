@@ -256,13 +256,25 @@ function RasgoLine({
         se desvanece: se queda puesto mientras dure y desaparece de golpe. Sigue
         diciendo lo mismo —«esto acaba de cambiar»— sin animar nada.
       */
-      className={`grid grid-cols-[5px_1fr] items-baseline gap-2.5 rounded-md py-0.5 text-xs leading-normal text-slate-800 dark:text-slate-100 ${
+      /*
+        `items-start` + el offset calculado, y no `items-baseline`: un span vacío
+        no tiene línea base de texto, así que con baseline el navegador lo cuelga
+        del borde inferior y el punto quedaba descentrado justo cuando el fondo
+        del resaltado lo enmarcaba (website#5 §1). El offset centra el punto de
+        5px en la primera línea: texto de 12px × 1.5 de interlineado = 18px de
+        caja, (18 − 5) / 2 = 6.5px.
+
+        El fondo del resaltado lleva su propio aire horizontal (`px-2 -mx-2`):
+        sin él, el rectángulo nacía pegado al punto y se leía como un fallo de
+        pintado y no como un realce.
+      */
+      className={`grid grid-cols-[5px_1fr] items-start gap-2.5 rounded-md px-2 py-0.5 -mx-2 text-xs leading-normal text-slate-800 dark:text-slate-100 ${
         reciente ? "bg-primary-light/8 dark:bg-primary-dark/10" : ""
       } ${reducedMotion ? "" : "transition-colors duration-700"}`}
     >
       <span
         aria-hidden="true"
-        className="bg-primary-light dark:bg-primary-dark mt-1.5 block size-[5px] rounded-full"
+        className="bg-primary-light dark:bg-primary-dark mt-[6.5px] block size-[5px] rounded-full"
       />
       <span className="font-body min-w-0">
         {rasgo.fragments.map((fragment, index) => (

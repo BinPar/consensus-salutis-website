@@ -445,11 +445,25 @@ describe("el avance cuenta bloques de conversación, no campos", () => {
     ).toEqual({ cerrados: 1, actual: "corpus" });
   });
 
-  it("un salto adelante cierra todo lo anterior", () => {
+  /*
+    El prompt dice explícitamente que el agente NO recorre los bloques en orden
+    fijo: una inferencia temprana en operativa no puede poner el arco casi al
+    final (era el comportamiento antiguo, que además retrocedía al volver la
+    conversación a un bloque anterior).
+  */
+  it("un salto adelante NO cierra lo no visitado", () => {
     expect(avanceDeBloques(ficha({ "operativa.sponsorEjecutivo": true }))).toEqual({
-      cerrados: 4,
+      cerrados: 0,
       actual: "operativa",
     });
+  });
+
+  it("cuenta bloques visitados aunque no sean contiguos", () => {
+    expect(
+      avanceDeBloques(
+        ficha({ "perfil.familia": "hospital", "operativa.sponsorEjecutivo": true }),
+      ),
+    ).toEqual({ cerrados: 1, actual: "operativa" });
   });
 });
 

@@ -86,13 +86,22 @@ function plano(value: string): string {
 /**
  * «No lo sé» y sus variantes.
  *
- * No es una respuesta: es la salida de quien no tiene el dato. Por eso se pinta
- * como un enlace de texto debajo de las filas y no como una fila más — pesar lo
- * mismo que «Sí, ya lo tenemos» la convertiría en una opción legítima.
+ * No es una respuesta: es la salida de quien no tiene el dato. Se pinta como una
+ * fila secundaria —borde punteado, tono apagado— debajo de las respuestas: sigue
+ * sin pesar lo mismo que «Sí, ya lo tenemos», pero se ve (website#5 §3; el enlace
+ * de 11px de antes pasaba desapercibido).
+ *
+ * El modelo escribe la variante que le sale ese día, así que además de la lista
+ * exacta se acepta cualquier opción que EMPIECE por una fórmula de no-saber:
+ * «No lo sé todavía», «No sabría decirle», «No lo sabemos aún».
  */
 export function esEscapatoria(opcion: string): boolean {
-  return ["no lo se", "no lo se / no aplica", "no sabria decir", "no estoy seguro"].includes(
-    plano(opcion),
+  const p = plano(opcion);
+  if (["no lo se / no aplica", "no aplica", "sin datos", "no tenemos ese dato"].includes(p)) {
+    return true;
+  }
+  return ["no lo se", "no lo sabemos", "no sabria decir", "no sabemos", "no estoy segur"].some(
+    (prefix) => p.startsWith(prefix),
   );
 }
 

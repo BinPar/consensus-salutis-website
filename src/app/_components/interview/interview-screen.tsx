@@ -47,6 +47,7 @@ import {
 
 import { FichaArco } from "~/app/_components/interview/ficha-arco";
 import { FichaPanel } from "~/app/_components/interview/ficha-panel";
+import { MarkdownInline } from "~/app/_components/interview/markdown";
 import { ReportView } from "~/app/_components/interview/report-view";
 import { SessionNotice } from "~/app/_components/interview/session-notice";
 import {
@@ -56,6 +57,7 @@ import {
   openInterview,
   retryInterviewClose,
   sendInterviewMessage,
+  type CalculandoFase,
   type InterviewClientOptions,
   type InterviewMessage,
   type InterviewReport,
@@ -153,6 +155,18 @@ export function InterviewScreen({
   const [ficha, setFicha] = useState<Ficha>(EMPTY_FICHA);
   const [report, setReport] = useState<InterviewReport | null>(null);
   const [pending, setPending] = useState(false);
+  /*
+    La fase del cierre, para la tarjeta de progreso. La resetea cada arranque de
+    cierre (el servidor emite `veredicto` como primera fase) y solo avanza.
+  */
+  const [calcFase, setCalcFase] = useState<CalculandoFase>("veredicto");
+  /*
+    Las casillas marcadas de la pregunta de varias respuestas ACTIVA. Vive aquí y
+    no dentro de `QuickAnswers` porque el compositor también la necesita: marcar
+    tres opciones y escribir «y además cardiología» tiene que salir en UN turno con
+    las dos cosas — antes lo marcado se descartaba en silencio (website#5 §2).
+  */
+  const [marcadas, setMarcadas] = useState<readonly string[]>([]);
   const [failure, setFailure] = useState<Failure | null>(null);
   const [highlighted, setHighlighted] = useState<ReadonlySet<string>>(new Set());
   const [redactedNotice, setRedactedNotice] = useState(false);
@@ -256,6 +270,8 @@ export function InterviewScreen({
       const changed = applyFicha(turn.ficha);
       setTurnosRestantes(turn.turnosRestantes);
       setNuevos(changed.length);
+      // Pregunta nueva, casillas a cero: lo marcado era de la anterior.
+      setMarcadas([]);
 
       /*
         Los campos que el agente ha DEDUCIDO en este turno: los que se anotaron sin
@@ -326,6 +342,7 @@ export function InterviewScreen({
       setMessages(state.mensajes);
       setInstitucion(state.institucion);
       setTurnosRestantes(state.turnosRestantes);
+      setMarcadas([]);
       /*
         Retomar una entrevista no es recibir un turno: nada acaba de llegar, así que
         la barra móvil no puede anunciar novedades. Sin esto, reabrir la pestaña
@@ -359,9 +376,11 @@ export function InterviewScreen({
   const runClose = useCallback(
     async (signal?: AbortSignal) => {
       lastAttempt.current = { type: "finalizar" };
+      setCalcFase("veredicto");
       setPhase("calculando");
       await retryInterviewClose(client, {
         ...(signal !== undefined && { signal }),
+        onCalculando: setCalcFase,
         onReport: (value) => {
           setReport(value);
           setPhase("informe");
@@ -444,6 +463,9 @@ export function InterviewScreen({
       setFailure(null);
       setRedactedNotice(false);
       setDraft("");
+      // Lo marcado ya viaja dentro de `mensaje` (o se descarta a conciencia al
+      // elegir la escapatoria): no debe sobrevivir al envío.
+      setMarcadas([]);
       // El turno del cliente se pinta ya: la espera del modelo es de segundos y
       // ver desaparecer lo que acabas de escribir es peor que la espera.
       setMessages((current) => [
@@ -459,7 +481,10 @@ export function InterviewScreen({
             redacted = turn.datosRetirados;
             applyTurn(turn);
           },
-          onCalculando: () => setPhase("calculando"),
+          onCalculando: (fase) => {
+            setCalcFase(fase);
+            setPhase("calculando");
+          },
           onReport: (value) => {
             setReport(value);
             setPhase("informe");
@@ -543,7 +568,10 @@ export function InterviewScreen({
 
       await sendInterviewMessage(client, attempt.mensaje, {
         onTurn: applyTurn,
-        onCalculando: () => setPhase("calculando"),
+        onCalculando: (fase) => {
+          setCalcFase(fase);
+          setPhase("calculando");
+        },
         onReport: (value) => {
           setReport(value);
           setPhase("informe");
@@ -586,6 +614,46 @@ export function InterviewScreen({
   const hayOpciones = respuestas.length > 0;
   const readOnlyFicha = phase !== "entrevista";
   const cerrada = phase === "calculando" || phase === "informe";
+
+  /*
+    Lo marcado, en el orden de las opciones y no en el de los clics: dos clientes
+    que marcan lo mismo en distinto orden producen el mismo turno.
+  */
+  const marcadasEnOrden = respuestas.filter((respuesta) => marcadas.includes(respuesta));
+  const activaMultiple = lastAssistant?.multiple === true;
+
+  const alternarMarcada = useCallback((respuesta: string) => {
+    setMarcadas((current) =>
+      current.includes(respuesta)
+        ? current.filter((item) => item !== respuesta)
+        : [...current, respuesta],
+    );
+  }, []);
+
+  /** El botón «Continuar» de las preguntas de varias respuestas. */
+  const enviarMarcadas = () => {
+    if (marcadasEnOrden.length === 0) return;
+    void send(enumerar(marcadasEnOrden));
+  };
+
+  /**
+   * El envío desde el campo libre. Si la pregunta activa es de varias respuestas
+   * y hay casillas marcadas, lo marcado viaja en el MISMO turno que lo escrito:
+   * marcar tres formatos y escribir «y además papel» era antes un turno que
+   * descartaba las tres casillas sin avisar.
+   */
+  const enviarDesdeCompositor = (text: string) => {
+    const escrito = text.trim();
+    if (activaMultiple && marcadasEnOrden.length > 0) {
+      const combinado =
+        escrito.length > 0
+          ? `He marcado: ${enumerar(marcadasEnOrden)}.\n\n${escrito}`
+          : enumerar(marcadasEnOrden);
+      void send(combinado);
+      return;
+    }
+    void send(escrito);
+  };
 
   if (phase === "caducada") return <SessionNotice expired />;
 
@@ -644,6 +712,9 @@ export function InterviewScreen({
                 opciones={index === lastAssistantIndex ? opciones : null}
                 pending={pending}
                 onSend={(text) => void send(text)}
+                marcadas={marcadas}
+                onToggle={alternarMarcada}
+                onContinue={enviarMarcadas}
               />
 
               {message.inferidos !== undefined && message.inferidos.length > 0 ? (
@@ -656,9 +727,14 @@ export function InterviewScreen({
             </Fragment>
           ))}
 
-          {pending ? <TypingIndicator /> : null}
+          {/*
+            El indicador de escritura es de la ENTREVISTA: durante el cierre lo que
+            informa es la tarjeta de fases, y los dos a la vez decían cosas
+            contradictorias («escribiendo…» sobre «preparando tu informe»).
+          */}
+          {pending && phase === "entrevista" ? <TypingIndicator /> : null}
 
-          {phase === "calculando" ? <CalculatingNotice /> : null}
+          {phase === "calculando" ? <CalculatingNotice fase={calcFase} /> : null}
 
           {phase === "informe" && report !== null ? (
             <ReportView report={report} />
@@ -706,7 +782,7 @@ export function InterviewScreen({
               setDraft={setDraft}
               hayOpciones={hayOpciones}
               pending={pending}
-              onSend={(text) => void send(text)}
+              onSend={enviarDesdeCompositor}
             />
           ) : null}
 
@@ -843,6 +919,9 @@ function MessageBubble({
   opciones,
   pending,
   onSend,
+  marcadas,
+  onToggle,
+  onContinue,
 }: {
   message: InterviewMessage;
   reducedMotion: boolean;
@@ -850,6 +929,10 @@ function MessageBubble({
   opciones: ReturnType<typeof partirOpciones> | null;
   pending: boolean;
   onSend: (text: string) => void;
+  /** Las casillas marcadas de la pregunta activa. Viven en la pantalla. */
+  marcadas: readonly string[];
+  onToggle: (respuesta: string) => void;
+  onContinue: () => void;
 }) {
   if (message.role === "user") {
     return (
@@ -891,20 +974,22 @@ function MessageBubble({
       </span>
       <div className="min-w-0 flex-1">
         <p className="font-body min-w-0 text-sm leading-6 whitespace-pre-wrap text-slate-700 sm:text-base sm:leading-7 dark:text-slate-300">
-          {message.content}
+          {/*
+            Énfasis en línea y nada más: el agente escribe `**comité de ética**`
+            y los asteriscos no son para el cliente. Los bloques (listas,
+            encabezados) no se parsean — un turno de chat no los lleva.
+          */}
+          <MarkdownInline>{message.content}</MarkdownInline>
         </p>
         {hayRespuestas ? (
           <QuickAnswers
-            /*
-              La clave es la pregunta: garantiza que lo que el cliente llevara
-              marcado no sobreviva al turno siguiente, sin depender de que el
-              índice del mensaje cambie.
-            */
-            key={message.content}
             opciones={opciones}
             multiple={message.multiple === true}
             pending={pending}
             onSend={onSend}
+            marcadas={marcadas}
+            onToggle={onToggle}
+            onContinue={onContinue}
           />
         ) : null}
       </div>
@@ -948,36 +1033,24 @@ function QuickAnswers({
   multiple,
   pending,
   onSend,
+  marcadas,
+  onToggle,
+  onContinue,
 }: {
   opciones: ReturnType<typeof partirOpciones>;
   multiple: boolean;
   pending: boolean;
   onSend: (text: string) => void;
+  /*
+    El estado de las casillas vive en la pantalla, no aquí: el compositor lo
+    necesita para mandar lo marcado y lo escrito en un solo turno. Este componente
+    solo pinta y avisa.
+  */
+  marcadas: readonly string[];
+  onToggle: (respuesta: string) => void;
+  onContinue: () => void;
 }) {
   const { respuestas, escapatoria, binaria } = opciones;
-  const [marcadas, setMarcadas] = useState<readonly string[]>([]);
-
-  const alternar = useCallback((respuesta: string) => {
-    setMarcadas((current) =>
-      current.includes(respuesta)
-        ? current.filter((item) => item !== respuesta)
-        : [...current, respuesta],
-    );
-  }, []);
-
-  /*
-    Lo que se manda es lo marcado escrito como lo escribiría una persona —«PDF
-    nativo, Word y papel»— y no una lista separada por comas: al otro lado hay un
-    modelo leyendo un turno de conversación, no un formulario parseando un CSV.
-
-    El orden es el de las opciones y no el de los clics: dos clientes que marcan lo
-    mismo en distinto orden tienen que producir el mismo turno.
-  */
-  const enviarMarcadas = useCallback(() => {
-    const enOrden = respuestas.filter((respuesta) => marcadas.includes(respuesta));
-    if (enOrden.length === 0) return;
-    onSend(enumerar(enOrden));
-  }, [marcadas, onSend, respuestas]);
 
   /*
     Del 1 al 4: envía la fila, o la marca si la pregunta admite varias. Con `Intro`
@@ -1004,7 +1077,7 @@ function QuickAnswers({
 
       if (multiple && event.key === "Enter") {
         event.preventDefault();
-        enviarMarcadas();
+        onContinue();
         return;
       }
 
@@ -1013,13 +1086,13 @@ function QuickAnswers({
       if (!Number.isInteger(index) || elegida === undefined) return;
 
       event.preventDefault();
-      if (multiple) alternar(elegida);
+      if (multiple) onToggle(elegida);
       else onSend(elegida);
     };
 
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [alternar, enviarMarcadas, multiple, onSend, pending, respuestas]);
+  }, [onToggle, onContinue, multiple, onSend, pending, respuestas]);
 
   return (
     <div
@@ -1037,8 +1110,8 @@ function QuickAnswers({
           respuestas={respuestas}
           marcadas={marcadas}
           pending={pending}
-          onToggle={alternar}
-          onContinue={enviarMarcadas}
+          onToggle={onToggle}
+          onContinue={onContinue}
         />
       ) : binaria ? (
         <div className="border-primary-light/28 dark:border-primary-dark/34 flex w-fit overflow-hidden rounded-full border-[1.5px] bg-white/70 dark:bg-white/4">
@@ -1083,14 +1156,16 @@ function QuickAnswers({
       {escapatoria !== null ? (
         /*
           «No lo sé» no es una respuesta: es la salida de quien no tiene el dato.
-          Como fila pesaría lo mismo que «Sí, ya lo tenemos», que la convertiría en
-          una opción legítima. Va como enlace de texto debajo.
+          Va como fila SECUNDARIA —borde punteado, tono apagado, sin flecha— debajo
+          de las respuestas: distinguible de «Sí, ya lo tenemos», pero visible. El
+          enlace de 11px de la primera versión pasaba tan desapercibido que los
+          clientes no lo encontraban (website#5 §3).
         */
         <button
           type="button"
           disabled={pending}
           onClick={() => onSend(escapatoria)}
-          className="font-body focus-visible:outline-primary-light hover:text-primary-light dark:hover:text-primary-dark dark:focus-visible:outline-primary-dark mt-1 w-fit rounded-md text-left text-[11.5px] font-medium text-slate-500 transition hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-100 dark:text-slate-400"
+          className="font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark w-fit rounded-[11px] border border-dashed border-slate-400/60 px-3.5 py-2 text-left text-[12.5px] leading-snug font-medium text-slate-500 transition hover:border-slate-500/70 hover:bg-slate-500/5 hover:text-slate-700 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-100 dark:border-slate-500/50 dark:text-slate-400 dark:hover:border-slate-400/60 dark:hover:bg-slate-400/10 dark:hover:text-slate-200"
         >
           {escapatoria}
         </button>
@@ -1250,23 +1325,86 @@ function TypingIndicator() {
   );
 }
 
-function CalculatingNotice() {
+/**
+ * Los pasos de la preparación del informe, en el orden en que ocurren.
+ *
+ * Son las fronteras REALES del cierre —el servidor las emite al cruzarlas, no un
+ * temporizador—: el veredicto del motor, la redacción (la parte larga) y la
+ * revisión final, que solo se ilumina si la puerta de contrato pidió un segundo
+ * borrador. Con la fase en `redaccion`, la revisión queda como pendiente y el
+ * informe puede llegar sin pasar por ella: lo normal es que el primer borrador
+ * valga.
+ */
+const CALC_STEPS: Array<{ fase: CalculandoFase; label: string }> = [
+  { fase: "veredicto", label: "Revisando tus respuestas" },
+  { fase: "redaccion", label: "Redactando el informe" },
+  { fase: "revision", label: "Revisión final" },
+];
+
+function CalculatingNotice({ fase }: { fase: CalculandoFase }) {
+  const actual = CALC_STEPS.findIndex((step) => step.fase === fase);
+
   return (
-    <div className="border-primary-light/25 dark:border-primary-dark/25 mt-2 flex items-start gap-3 rounded-2xl border bg-white/60 px-4 py-4 dark:bg-white/3">
-      <Loader2
-        aria-hidden="true"
-        strokeWidth={1.8}
-        className="text-primary-light dark:text-primary-dark mt-0.5 size-5 shrink-0 animate-spin motion-reduce:animate-none"
-      />
-      <div>
-        <p className="font-display text-sm font-extrabold text-[#05215e] dark:text-slate-50">
-          Estamos preparando tu informe
-        </p>
-        <p className="font-body mt-1 text-sm leading-6 text-slate-600 dark:text-slate-400">
-          Revisamos lo que has contado y redactamos el resultado. Tarda menos de
-          un minuto; no cierres esta página.
-        </p>
+    <div
+      role="status"
+      className="border-primary-light/25 dark:border-primary-dark/25 mt-2 rounded-2xl border bg-white/60 px-4 py-4 dark:bg-white/3"
+    >
+      <div className="flex items-start gap-3">
+        <Loader2
+          aria-hidden="true"
+          strokeWidth={1.8}
+          className="text-primary-light dark:text-primary-dark mt-0.5 size-5 shrink-0 animate-spin motion-reduce:animate-none"
+        />
+        <div className="min-w-0 flex-1">
+          <p className="font-display text-sm font-extrabold text-[#05215e] dark:text-slate-50">
+            Estamos preparando tu informe
+          </p>
+          <p className="font-body mt-1 text-sm leading-6 text-slate-600 dark:text-slate-400">
+            Tarda menos de un minuto; no cierres esta página.
+          </p>
+        </div>
       </div>
+
+      <ol className="mt-3.5 grid gap-2 pl-8">
+        {CALC_STEPS.map((step, index) => {
+          const done = index < actual;
+          const current = index === actual;
+          return (
+            <li
+              key={step.fase}
+              className={`font-body flex items-center gap-2.5 text-[12.5px] leading-snug ${
+                current
+                  ? "font-semibold text-slate-800 dark:text-slate-100"
+                  : done
+                    ? "text-slate-600 dark:text-slate-300"
+                    : "text-slate-400 dark:text-slate-500"
+              }`}
+            >
+              {done ? (
+                <Check
+                  aria-hidden="true"
+                  strokeWidth={2.4}
+                  className="text-primary-light dark:text-primary-dark size-3.5 shrink-0"
+                />
+              ) : current ? (
+                <span
+                  aria-hidden="true"
+                  className="bg-primary-light dark:bg-primary-dark size-2 shrink-0 animate-pulse rounded-full motion-reduce:animate-none"
+                />
+              ) : (
+                <span
+                  aria-hidden="true"
+                  className="size-2 shrink-0 rounded-full border border-slate-400/50 dark:border-slate-500/50"
+                />
+              )}
+              <span className="min-w-0">
+                {step.label}
+                {done ? <span className="sr-only"> (hecho)</span> : null}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
     </div>
   );
 }

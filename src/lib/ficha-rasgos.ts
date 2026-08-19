@@ -357,29 +357,29 @@ export function cifras(ficha: Ficha, limite = 3): Cifra[] {
 }
 
 /**
- * Por dónde va la conversación, en bloques cerrados.
+ * Por dónde va la conversación, en bloques VISITADOS.
  *
- * Un bloque cuenta como cerrado **cuando la conversación pasa al siguiente**, no
- * cuando sus campos están llenos: un cierre real deja cinco o seis campos sin
- * valor, así que contar campos daría un indicador que nunca llega al final. El
- * agente recorre los bloques en orden, de modo que el último con algún dato es el
- * que está en curso y los anteriores están cerrados — de eso el agente sí tiene
- * certeza.
+ * Un bloque cuenta cuando tiene algún dato, no cuando sus campos están llenos: un
+ * cierre real deja cinco o seis campos sin valor, así que contar campos daría un
+ * indicador que nunca llega al final.
+ *
+ * Se cuentan los bloques con dato y NO la posición del último: el prompt dice
+ * explícitamente que el agente no recorre los bloques en orden fijo, y con la
+ * posición una sola inferencia temprana en el bloque E («encaje operativo») ponía
+ * el arco casi al final en el segundo turno — y lo hacía RETROCEDER al volver la
+ * conversación al bloque B. Contar visitados solo avanza.
  */
 export function avanceDeBloques(ficha: Ficha): {
   cerrados: number;
   actual: FichaBlock | null;
 } {
-  let ultimo = -1;
+  const visitados = FICHA_BLOCKS.filter((block) =>
+    Object.values(ficha[block]).some((found) => found !== undefined),
+  );
 
-  FICHA_BLOCKS.forEach((block, index) => {
-    const tiene = Object.values(ficha[block]).some((found) => found !== undefined);
-    if (tiene) ultimo = index;
-  });
+  if (visitados.length === 0) return { cerrados: 0, actual: null };
 
-  if (ultimo === -1) return { cerrados: 0, actual: null };
-
-  return { cerrados: ultimo, actual: FICHA_BLOCKS[ultimo]! };
+  return { cerrados: visitados.length - 1, actual: visitados[visitados.length - 1]! };
 }
 
 /**

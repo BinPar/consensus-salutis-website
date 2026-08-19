@@ -83,6 +83,26 @@ describe("la escapatoria no es una respuesta", () => {
     expect(esEscapatoria("no")).toBe(false);
     expect(esEscapatoria("no, todavía no")).toBe(false);
   });
+
+  /*
+    El modelo escribe la variante que le sale ese día: la detección va por
+    prefijo de fórmula de no-saber, no por lista cerrada. Cazado ejecutando:
+    «No lo sé todavía» caía como fila normal y además rompía el segmentado
+    binario del sí/no.
+  */
+  it("reconoce las variantes que el modelo improvisa", () => {
+    expect(esEscapatoria("No lo sé todavía")).toBe(true);
+    expect(esEscapatoria("no sabría decirle")).toBe(true);
+    expect(esEscapatoria("No lo sabemos aún")).toBe(true);
+    expect(esEscapatoria("no estoy segura")).toBe(true);
+    expect(esEscapatoria("No aplica")).toBe(true);
+    expect(esEscapatoria("sin datos")).toBe(true);
+  });
+
+  it("una respuesta legítima que empieza por «no» sigue siendo respuesta", () => {
+    expect(esEscapatoria("No hay proceso definido")).toBe(false);
+    expect(esEscapatoria("No hay patrocinador")).toBe(false);
+  });
 });
 
 describe("las opciones se parten en respuestas y escapatoria", () => {
