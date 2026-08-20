@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { ThemeSection, Eyebrow, PageShell } from "~/app/_components/site";
+import { PURPOSE_STATEMENT, RETENTION_STATEMENT } from "~/lib/eligibility";
 
 export const metadata: Metadata = {
   title: "Política de Privacidad",
@@ -37,6 +39,38 @@ export default function PrivacyPage() {
                 aplicables. No se cederán a terceros salvo obligación legal o a
                 proveedores necesarios para prestar el servicio bajo las
                 garantías correspondientes.
+              </LegalSection>
+              {/*
+                Evaluador de idoneidad. El plazo y la finalidad salen de las
+                mismas constantes que el texto del consentimiento en /evaluador:
+                los dos textos tienen que decir lo mismo, y compartiendo la
+                constante no pueden divergir editando solo uno.
+              */}
+              <LegalSection title="Evaluador de idoneidad">
+                Si completas el{" "}
+                <Link
+                  href="/evaluador"
+                  className="text-primary-light dark:text-secondary-dark underline underline-offset-4 hover:text-cyan-800 dark:hover:text-cyan-200"
+                >
+                  evaluador de idoneidad
+                </Link>
+                , tratamos los datos de identificación que facilitas —nombre,
+                cargo, correo electrónico institucional, institución y ámbito
+                geográfico— junto con la transcripción de la entrevista.{" "}
+                {PURPOSE_STATEMENT} La base jurídica es el consentimiento que
+                otorgas de forma expresa antes de empezar, y puedes retirarlo en
+                cualquier momento escribiendo a info@binpar.com.
+              </LegalSection>
+              <LegalSection title="Retención de la evaluación">
+                {/*
+                  Retención indefinida, sostenida por el consentimiento. Misma
+                  constante que el texto del consentimiento en /evaluador.
+                */}
+                {RETENTION_STATEMENT} Puedes retirar el consentimiento o pedir
+                la supresión en cualquier momento escribiendo a info@binpar.com,
+                y en ese caso eliminamos la ficha y la transcripción. En esta
+                evaluación no se tratan datos de salud de pacientes en ningún
+                momento.
               </LegalSection>
               <LegalSection title="Derechos">
                 Puedes solicitar el acceso, rectificación, supresión,

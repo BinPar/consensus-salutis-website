@@ -54,9 +54,7 @@ export default function RootLayout({
       <body
         className={`${plusJakartaSans.variable} ${sora.variable} min-h-screen bg-[#f4f9fc] font-sans text-slate-900 antialiased dark:bg-[#06111f] dark:text-slate-50`}
       >
-        <MotionProvider>
-          {children}
-        </MotionProvider>
+        <MotionProvider>{children}</MotionProvider>
       </body>
     </html>
   );

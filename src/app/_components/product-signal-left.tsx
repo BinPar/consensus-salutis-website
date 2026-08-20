@@ -1,10 +1,10 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
 import { useId } from "react";
 
+import { MorphPath } from "~/app/_components/motion-system";
+
 export function ProductSignalLeft({ className = "" }: { className?: string }) {
-  const reducedMotion = useReducedMotion();
   const gradientId = useId().replace(/:/g, "");
   const fillId = `product-signal-fill-${gradientId}`;
   const darkFillId = `product-signal-dark-fill-${gradientId}`;
@@ -25,10 +25,6 @@ export function ProductSignalLeft({ className = "" }: { className?: string }) {
     "M108 66C150 32 212 48 244 104C274 156 348 130 356 194C364 256 280 270 216 260C154 250 148 328 90 294C34 260 78 216 36 178C-2 142 66 100 108 66Z",
     "M118 72C154 20 226 42 252 94C278 144 344 122 360 180C378 246 296 288 228 278C164 268 140 322 86 286C32 250 78 212 36 174C0 138 72 110 118 72Z",
   ];
-  const safeShapePaths = shapePaths.filter((path) => path.startsWith("M"));
-  const safeOffsetShapePaths = offsetShapePaths.filter((path) =>
-    path.startsWith("M"),
-  );
   const transition = {
     duration: 10,
     ease: "linear" as const,
@@ -60,7 +56,11 @@ export function ProductSignalLeft({ className = "" }: { className?: string }) {
           </linearGradient>
           <linearGradient id={darkFillId} x1="52" y1="48" x2="330" y2="318">
             <stop stopColor="rgb(0 188 187)" stopOpacity="0.34" />
-            <stop offset="0.58" stopColor="rgb(20 184 166)" stopOpacity="0.24" />
+            <stop
+              offset="0.58"
+              stopColor="rgb(20 184 166)"
+              stopOpacity="0.24"
+            />
             <stop offset="1" stopColor="rgb(125 211 252)" stopOpacity="0.08" />
           </linearGradient>
           <linearGradient id={innerFillId} x1="90" y1="72" x2="302" y2="280">
@@ -69,43 +69,38 @@ export function ProductSignalLeft({ className = "" }: { className?: string }) {
           </linearGradient>
         </defs>
         <g transform="translate(-20 0)">
-          <motion.path
+          <MorphPath
             className="fill-[#eff8fa] dark:fill-[#06111f]"
-            d={safeShapePaths[0] ?? shapePaths[0]}
-            animate={reducedMotion ? undefined : { d: safeShapePaths }}
+            paths={shapePaths}
             transition={transition}
             fill={`url(#${fillId})`}
           />
-          <motion.path
+          <MorphPath
             className="dark:hidden"
-            d={safeShapePaths[0] ?? shapePaths[0]}
-            animate={reducedMotion ? undefined : { d: safeShapePaths }}
+            paths={shapePaths}
             transition={transition}
             fill={`url(#${fillId})`}
             opacity={"0.15"}
           />
-          <motion.path
+          <MorphPath
             className="hidden dark:block"
-            d={safeShapePaths[0] ?? shapePaths[0]}
-            animate={reducedMotion ? undefined : { d: safeShapePaths }}
+            paths={shapePaths}
             transition={transition}
             fill={`url(#${darkFillId})`}
             opacity={"0.18"}
           />
         </g>
         <g transform="translate(-15 -20)">
-          <motion.path
+          <MorphPath
             className="dark:hidden"
-            d={safeOffsetShapePaths[0] ?? offsetShapePaths[0]}
-            animate={reducedMotion ? undefined : { d: safeOffsetShapePaths }}
+            paths={offsetShapePaths}
             transition={offsetTransition}
             fill={`url(#${fillId})`}
             opacity={"0.2"}
           />
-          <motion.path
+          <MorphPath
             className="hidden dark:block"
-            d={safeOffsetShapePaths[0] ?? offsetShapePaths[0]}
-            animate={reducedMotion ? undefined : { d: safeOffsetShapePaths }}
+            paths={offsetShapePaths}
             transition={offsetTransition}
             fill={`url(#${darkFillId})`}
             opacity={"0.24"}

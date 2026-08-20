@@ -55,7 +55,7 @@ function Pagination({
         aria-disabled={currentPage === 1}
         className={`grid size-10 place-items-center rounded-full border text-slate-600 transition dark:text-slate-400 ${
           currentPage === 1
-            ? "pointer-events-none border-primary-light/60 bg-white/60 opacity-45 dark:border-cyan-300/10 dark:bg-white/3"
+            ? "border-primary-light/60 pointer-events-none bg-white/60 opacity-45 dark:border-cyan-300/10 dark:bg-white/3"
             : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 bg-white/80 hover:text-cyan-800 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:hover:text-cyan-100"
         }`}
       >
@@ -87,7 +87,7 @@ function Pagination({
         aria-disabled={currentPage === totalPages}
         className={`grid size-10 place-items-center rounded-full border text-slate-600 transition dark:text-slate-400 ${
           currentPage === totalPages
-            ? "pointer-events-none border-primary-light/60 bg-white/60 opacity-45 dark:border-cyan-300/10 dark:bg-white/3"
+            ? "border-primary-light/60 pointer-events-none bg-white/60 opacity-45 dark:border-cyan-300/10 dark:bg-white/3"
             : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 bg-white/80 hover:text-cyan-800 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:hover:text-cyan-100"
         }`}
       >

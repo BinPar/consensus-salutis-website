@@ -24,7 +24,7 @@ export function SiteHeader() {
             width={618}
             height={88}
             priority
-            className="h-6 w-auto dark:hidden sm:h-8"
+            className="h-6 w-auto sm:h-8 dark:hidden"
           />
           <Image
             src="/logos/consensus-brand/consensus-dark.svg"
@@ -32,7 +32,7 @@ export function SiteHeader() {
             width={618}
             height={88}
             priority
-            className="hidden h-6 w-auto dark:block sm:h-8"
+            className="hidden h-6 w-auto sm:h-8 dark:block"
           />
         </Link>
         <div className="flex gap-4 lg:gap-6">
@@ -51,7 +51,7 @@ export function SiteHeader() {
             <ThemeToggle />
             <Link
               href="/contacto"
-              className="dark:bg-secondary-dark focus-visible:outline-secondary-dark font-body hidden rounded-full bg-secondary-light px-3 py-2 text-xs font-semibold text-[#06111f] transition-transform hover:scale-102 focus-visible:scale-102 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none md:block lg:text-sm"
+              className="dark:bg-secondary-dark focus-visible:outline-secondary-dark font-body bg-secondary-light hidden rounded-full px-3 py-2 text-xs font-semibold text-[#06111f] transition-transform hover:scale-102 focus-visible:scale-102 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none md:block lg:text-sm"
             >
               Solicitar reunión
             </Link>

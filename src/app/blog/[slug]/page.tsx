@@ -95,10 +95,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
           <div className="relative z-10 mx-auto w-full px-5 pt-32 pb-20 sm:px-8 lg:pt-36 lg:pb-24">
             <div className="mx-auto max-w-4xl">
-              <div className="sm:px-8 px-5">
+              <div className="px-5 sm:px-8">
                 <Link
                   href="/blog"
-                  className="font-body inline-flex h-10 shrink-0 items-center justify-center gap-2 self-start rounded-full bg-primary-light px-6 text-sm font-semibold text-white shadow-big-blocks transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#087a85] sm:self-end dark:bg-primary-dark dark:text-[#03111d] dark:shadow-[0_0_24px_rgba(0,188,187,0.18)] dark:hover:bg-primary-dark-lighter"
+                  className="font-body bg-primary-light shadow-big-blocks dark:bg-primary-dark dark:hover:bg-primary-dark-lighter inline-flex h-10 shrink-0 items-center justify-center gap-2 self-start rounded-full px-6 text-sm font-semibold text-white transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#087a85] sm:self-end dark:text-[#03111d] dark:shadow-[0_0_24px_rgba(0,188,187,0.18)]"
                 >
                   <ArrowLeft
                     aria-hidden="true"
