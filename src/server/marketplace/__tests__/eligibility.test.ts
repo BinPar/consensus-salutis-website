@@ -81,7 +81,10 @@ describe("los siete campos", () => {
   });
 
   it("normaliza el email a minúsculas en los dos lados", () => {
-    const payload = { ...VALID, emailInstitucional: "  Direccion@Hospital.ES " };
+    const payload = {
+      ...VALID,
+      emailInstitucional: "  Direccion@Hospital.ES ",
+    };
 
     const client = eligibilitySchema.safeParse(payload);
     expect(client.success).toBe(true);
@@ -161,7 +164,13 @@ describe("el selector de país tiene exactamente tres opciones", () => {
       option.label.toLowerCase(),
     ).join(" ");
 
-    for (const country of ["méxico", "mexico", "colombia", "argentina", "chile"]) {
+    for (const country of [
+      "méxico",
+      "mexico",
+      "colombia",
+      "argentina",
+      "chile",
+    ]) {
       expect(labels).not.toContain(country);
     }
   });
@@ -314,15 +323,30 @@ describe("el envío no dispara correo", () => {
   );
 
   /*
-    El `draft`, el `origin: "directo"` y el `subscriptionId` nulo los decide
-    ahora Convex —`startAssessment` los escribe a partir de si viene o no una
-    suscripción—, así que lo que le toca comprobar a este repo es que la ruta
-    delega en ese arranque y que NO le pasa ninguna suscripción, que es lo que
-    hace que la evaluación sea `directo` mientras no exista la issue #3.
+    El `draft` y el `origin` los decide Convex —`startAssessment` los escribe a
+    partir de si viene o no una suscripción—, así que lo que le toca comprobar a
+    este repo es que la ruta delega en ese arranque.
+
+    Desde la issue #3 sí puede ir una suscripción: es la única diferencia entre
+    llegar por AWS Marketplace y llegar por la web pública. Lo que este test
+    fija es DE DÓNDE sale, que es lo que importa — de la cookie de procedencia
+    firmada, verificada antes de leerse, y nunca de un campo del cuerpo del POST.
   */
-  it("crea el assessment delegando en Convex, sin suscripción", () => {
+  it("crea el assessment delegando en Convex", () => {
     expect(route).toContain("startEligibilityAssessment");
-    expect(route).not.toContain("subscriptionId:");
+  });
+
+  it("la suscripción sale de la cookie firmada y no del cuerpo del POST", () => {
+    expect(route).toContain("verifyRegistration");
+    expect(route).toContain("registration.registration.subscriptionId");
+
+    /*
+      Si el `subscriptionId` se pudiera mandar en el formulario, cualquiera se
+      colgaría de la suscripción de otro escribiéndolo. `validated.value` es lo
+      único que sale del cuerpo, y no puede ser la fuente de este campo.
+    */
+    expect(route).not.toMatch(/subscriptionId:\s*validated/);
+    expect(route).not.toMatch(/subscriptionId:\s*payload/);
   });
 
   // Criterio de aceptación §7: el envío crea el assessment en draft y no manda

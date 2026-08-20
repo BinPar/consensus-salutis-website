@@ -21,7 +21,12 @@ import {
   rasgoDe,
   rasgos,
 } from "~/lib/ficha-rasgos";
-import { EMPTY_FICHA, type Ficha, type FichaCell, type FichaValue } from "~/lib/ficha";
+import {
+  EMPTY_FICHA,
+  type Ficha,
+  type FichaCell,
+  type FichaValue,
+} from "~/lib/ficha";
 
 /** Una celda del agente con confianza media, que es el caso normal. */
 function cell(valor: FichaValue): FichaCell {
@@ -41,7 +46,9 @@ function ficha(campos: Record<string, FichaValue | FichaCell>): Ficha {
   for (const [path, valor] of Object.entries(campos)) {
     const [block, field] = path.split(".") as [keyof Ficha, string];
     const esCelda =
-      typeof valor === "object" && !Array.isArray(valor) && "confianza" in valor;
+      typeof valor === "object" &&
+      !Array.isArray(valor) &&
+      "confianza" in valor;
     out[block][field] = esCelda ? valor : cell(valor);
   }
 
@@ -90,7 +97,9 @@ describe("sin su pivote, un bloque no se pinta", () => {
 
 describe("perfil degrada por prefijos", () => {
   it("solo el pivote", () => {
-    expect(texto(ficha({ "perfil.familia": "hospital" }), "perfil")).toBe("Hospital");
+    expect(texto(ficha({ "perfil.familia": "hospital" }), "perfil")).toBe(
+      "Hospital",
+    );
   });
 
   it("pivote y titularidad", () => {
@@ -151,7 +160,10 @@ describe("perfil degrada por prefijos", () => {
 
     for (const [familia, esperado] of casos) {
       expect(
-        texto(ficha({ "perfil.familia": familia, "perfil.ambitoPublico": true }), "perfil"),
+        texto(
+          ficha({ "perfil.familia": familia, "perfil.ambitoPublico": true }),
+          "perfil",
+        ),
         familia,
       ).toBe(esperado);
     }
@@ -170,7 +182,10 @@ describe("corpus degrada por prefijos", () => {
 
   it("pivote y formato", () => {
     expect(
-      texto(ficha({ "corpus.corpusPropio": true, "corpus.formato": "PDF" }), "corpus"),
+      texto(
+        ficha({ "corpus.corpusPropio": true, "corpus.formato": "PDF" }),
+        "corpus",
+      ),
     ).toBe("Documentación propia en PDF");
   });
 
@@ -190,7 +205,10 @@ describe("corpus degrada por prefijos", () => {
   it("con el formato ausente, el rasgo salta al siguiente fragmento", () => {
     expect(
       texto(
-        ficha({ "corpus.corpusPropio": true, "corpus.vigencia": "revisión anual" }),
+        ficha({
+          "corpus.corpusPropio": true,
+          "corpus.vigencia": "revisión anual",
+        }),
         "corpus",
       ),
     ).toBe("Documentación propia, revisión anual");
@@ -202,7 +220,10 @@ describe("corpus degrada por prefijos", () => {
     lo que el ojo acaba de leer.
   */
   it("el volumen no entra en el rasgo: ya está en las cifras", () => {
-    const f = ficha({ "corpus.corpusPropio": true, "corpus.volumenDocs": 1_200 });
+    const f = ficha({
+      "corpus.corpusPropio": true,
+      "corpus.volumenDocs": 1_200,
+    });
 
     expect(texto(f, "corpus")).toBe("Documentación propia");
     expect(cifras(f)).toEqual([
@@ -225,9 +246,9 @@ describe("uso y operativa degradan por prefijos", () => {
   });
 
   it("uso sin perfiles se queda en el pivote", () => {
-    expect(texto(ficha({ "uso.usoPrincipal": "consulta clínica" }), "uso")).toBe(
-      "Consulta clínica",
-    );
+    expect(
+      texto(ficha({ "uso.usoPrincipal": "consulta clínica" }), "uso"),
+    ).toBe("Consulta clínica");
   });
 
   it("operativa añade la capacidad de TI tras un separador", () => {
@@ -243,9 +264,9 @@ describe("uso y operativa degradan por prefijos", () => {
   });
 
   it("sin patrocinio se dice como negativo", () => {
-    expect(texto(ficha({ "operativa.sponsorEjecutivo": false }), "operativa")).toBe(
-      "Sin patrocinio de dirección",
-    );
+    expect(
+      texto(ficha({ "operativa.sponsorEjecutivo": false }), "operativa"),
+    ).toBe("Sin patrocinio de dirección");
   });
 });
 
@@ -331,9 +352,9 @@ describe("los fragmentos llevan de dónde salen, para poder marcarse", () => {
     ]);
 
     // La titularidad y la comunidad son los dos decisivos de perfil.
-    expect(rasgo.fragments.filter((f) => f.decisive === true).map((f) => f.text)).toEqual(
-      ["público", "Madrid"],
-    );
+    expect(
+      rasgo.fragments.filter((f) => f.decisive === true).map((f) => f.text),
+    ).toEqual(["público", "Madrid"]);
 
     // El « en » es unión: no puede llevar marca de nada.
     const union = rasgo.fragments.filter((f) => f.path === undefined);
@@ -362,7 +383,10 @@ describe("los fragmentos llevan de dónde salen, para poder marcarse", () => {
       "datos",
     )!;
 
-    expect(rasgo.fragments.at(-1)).toEqual({ text: "sin comité", path: "datos.comiteEtica" });
+    expect(rasgo.fragments.at(-1)).toEqual({
+      text: "sin comité",
+      path: "datos.comiteEtica",
+    });
   });
 });
 
@@ -384,9 +408,9 @@ describe("las tres cifras salen de la lista de prioridad", () => {
   });
 
   it("si solo hay una, se pinta una", () => {
-    expect(cifras(ficha({ "perfil.centros": 3 })).map((c) => c.etiqueta)).toEqual([
-      "centros",
-    ]);
+    expect(
+      cifras(ficha({ "perfil.centros": 3 })).map((c) => c.etiqueta),
+    ).toEqual(["centros"]);
   });
 
   it("baja por la lista cuando las de arriba faltan", () => {
@@ -401,15 +425,15 @@ describe("las tres cifras salen de la lista de prioridad", () => {
   });
 
   it("una lista da su longitud", () => {
-    expect(cifras(ficha({ "perfil.especialidades": ["a", "b", "c"] }))[0]!.valor).toBe(
-      "3",
-    );
+    expect(
+      cifras(ficha({ "perfil.especialidades": ["a", "b", "c"] }))[0]!.valor,
+    ).toBe("3");
   });
 
   it("un cero cuenta como sin valor: no hay cifras en cero", () => {
-    expect(cifras(ficha({ "corpus.volumenDocs": 0, "perfil.centros": 2 }))).toEqual([
-      { path: "perfil.centros", valor: "2", etiqueta: "centros" },
-    ]);
+    expect(
+      cifras(ficha({ "corpus.volumenDocs": 0, "perfil.centros": 2 })),
+    ).toEqual([{ path: "perfil.centros", valor: "2", etiqueta: "centros" }]);
   });
 
   it("nunca una cifra con decimales", () => {
@@ -453,7 +477,9 @@ describe("el avance cuenta bloques de conversación, no campos", () => {
     conversación a un bloque anterior).
   */
   it("un salto adelante NO cierra lo no visitado", () => {
-    expect(avanceDeBloques(ficha({ "operativa.sponsorEjecutivo": true }))).toEqual({
+    expect(
+      avanceDeBloques(ficha({ "operativa.sponsorEjecutivo": true })),
+    ).toEqual({
       cerrados: 0,
       actual: "operativa",
     });
@@ -462,7 +488,10 @@ describe("el avance cuenta bloques de conversación, no campos", () => {
   it("cuenta bloques visitados aunque no sean contiguos", () => {
     expect(
       avanceDeBloques(
-        ficha({ "perfil.familia": "hospital", "operativa.sponsorEjecutivo": true }),
+        ficha({
+          "perfil.familia": "hospital",
+          "operativa.sponsorEjecutivo": true,
+        }),
       ),
     ).toEqual({ cerrados: 1, actual: "operativa" });
   });
@@ -477,7 +506,11 @@ describe("las dudas se cuentan sobre los 28 campos", () => {
     // `idpCorporativo` no aparece en el rasgo de operativa: es dato de informe.
     // Justo por eso la línea de incertidumbre es de nivel de panel.
     const f = ficha({
-      "perfil.comunidad": { valor: "Madrid", confianza: "baja", origen: "agente" },
+      "perfil.comunidad": {
+        valor: "Madrid",
+        confianza: "baja",
+        origen: "agente",
+      },
       "operativa.idpCorporativo": {
         valor: "Azure AD",
         confianza: "baja",
@@ -541,7 +574,9 @@ describe("la frase del avance", () => {
     let anterior = 0;
     for (let turno = 1; turno <= 29; turno += 1) {
       const bloques = Math.min(Math.ceil(turno / 6), 5);
-      const indice = ORDEN.indexOf(fraseTurnos(turno, restantesDe(turno), bloques));
+      const indice = ORDEN.indexOf(
+        fraseTurnos(turno, restantesDe(turno), bloques),
+      );
       expect(indice).toBeGreaterThanOrEqual(anterior);
       anterior = indice;
     }

@@ -72,11 +72,15 @@ export function validateAssessmentSubmission(
 
   const body = payload as Record<string, unknown>;
 
-  const emailInstitucional = readString(body, "emailInstitucional").toLowerCase();
+  const emailInstitucional = readString(
+    body,
+    "emailInstitucional",
+  ).toLowerCase();
   if (emailInstitucional.length === 0) {
     fieldErrors.emailInstitucional = "Introduce tu correo electrónico.";
   } else if (emailInstitucional.length > 254) {
-    fieldErrors.emailInstitucional = "El correo electrónico es demasiado largo.";
+    fieldErrors.emailInstitucional =
+      "El correo electrónico es demasiado largo.";
   } else if (!EMAIL_PATTERN.test(emailInstitucional)) {
     fieldErrors.emailInstitucional = "Introduce un correo electrónico válido.";
   }

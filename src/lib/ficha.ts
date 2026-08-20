@@ -223,14 +223,35 @@ const FIELD_TABLE: Record<
       "corpusPropio",
       "booleano",
       "Documentación propia",
-      (v) => (esCierto(v) ? "Documentación propia" : "Sin documentación propia"),
+      (v) =>
+        esCierto(v) ? "Documentación propia" : "Sin documentación propia",
     ],
-    ["volumenDocs", "numero", "Documentos", (v) => plural(numero(v), "documento")],
-    ["volumenPaginas", "numero", "Páginas", (v) => `~${fmt(numero(v))} páginas`],
+    [
+      "volumenDocs",
+      "numero",
+      "Documentos",
+      (v) => plural(numero(v), "documento"),
+    ],
+    [
+      "volumenPaginas",
+      "numero",
+      "Páginas",
+      (v) => `~${fmt(numero(v))} páginas`,
+    ],
     ["formato", "texto", "Formato de los documentos", texto],
     ["vigencia", "texto", "Proceso de revisión", texto],
-    ["aprobador", "texto", "Quién aprueba el contenido", (v) => `Aprueba ${String(v)}`],
-    ["derechos", "texto", "Derechos sobre el contenido", (v) => `Derechos ${String(v)}`],
+    [
+      "aprobador",
+      "texto",
+      "Quién aprueba el contenido",
+      (v) => `Aprueba ${String(v)}`,
+    ],
+    [
+      "derechos",
+      "texto",
+      "Derechos sobre el contenido",
+      (v) => `Derechos ${String(v)}`,
+    ],
     [
       "interesCorpusGeneral",
       "booleano",
@@ -256,7 +277,8 @@ const FIELD_TABLE: Record<
       "finalidadPromocional",
       "booleano",
       "Finalidad promocional",
-      (v) => (esCierto(v) ? "Con finalidad promocional" : "Sin finalidad promocional"),
+      (v) =>
+        esCierto(v) ? "Con finalidad promocional" : "Sin finalidad promocional",
     ],
   ],
   datos: [
@@ -271,7 +293,12 @@ const FIELD_TABLE: Record<
           ? "Sin datos de paciente"
           : `Datos de paciente: ${String(v)}`,
     ],
-    ["residenciaDato", "texto", "Residencia del dato", (v) => `Dato en ${String(v)}`],
+    [
+      "residenciaDato",
+      "texto",
+      "Residencia del dato",
+      (v) => `Dato en ${String(v)}`,
+    ],
     [
       "dpo",
       "booleano",
@@ -291,9 +318,15 @@ const FIELD_TABLE: Record<
       "sponsorEjecutivo",
       "booleano",
       "Patrocinio ejecutivo",
-      (v) => (esCierto(v) ? "Patrocinio de dirección" : "Sin patrocinio de dirección"),
+      (v) =>
+        esCierto(v) ? "Patrocinio de dirección" : "Sin patrocinio de dirección",
     ],
-    ["horizonte", "texto", "Horizonte temporal", (v) => `Horizonte de ${String(v)}`],
+    [
+      "horizonte",
+      "texto",
+      "Horizonte temporal",
+      (v) => `Horizonte de ${String(v)}`,
+    ],
     ["idpCorporativo", "texto", "Identidad corporativa", texto],
     ["capacidadTI", "texto", "Capacidad del equipo de TI", texto],
   ],

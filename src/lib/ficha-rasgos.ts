@@ -145,7 +145,10 @@ function rasgoPerfil(ficha: Ficha): Rasgo | null {
   const familia = texto(ficha, "perfil.familia");
   if (familia === undefined) return null;
 
-  const builder = new Builder().add(chip(ficha, "perfil.familia"), "perfil.familia");
+  const builder = new Builder().add(
+    chip(ficha, "perfil.familia"),
+    "perfil.familia",
+  );
 
   if (value(ficha, "perfil.ambitoPublico") !== undefined) {
     const femenino = esFemenino(familia);
@@ -186,10 +189,12 @@ function rasgoCorpus(ficha: Ficha): Rasgo | null {
   const builder = new Builder().add(pivote, "corpus.corpusPropio", true);
 
   const formato = texto(ficha, "corpus.formato");
-  if (formato !== undefined) builder.join(" en ").add(formato, "corpus.formato");
+  if (formato !== undefined)
+    builder.join(" en ").add(formato, "corpus.formato");
 
   const vigencia = texto(ficha, "corpus.vigencia");
-  if (vigencia !== undefined) builder.join(", ").add(vigencia, "corpus.vigencia");
+  if (vigencia !== undefined)
+    builder.join(", ").add(vigencia, "corpus.vigencia");
 
   const aprobador = texto(ficha, "corpus.aprobador");
   if (aprobador !== undefined) {
@@ -339,7 +344,11 @@ function cifraDe(ficha: Ficha, path: string, etiqueta: string): Cifra | null {
   const found = value(ficha, path);
   if (found === undefined) return null;
 
-  const n = Array.isArray(found) ? found.length : typeof found === "number" ? found : NaN;
+  const n = Array.isArray(found)
+    ? found.length
+    : typeof found === "number"
+      ? found
+      : NaN;
   if (!Number.isInteger(n) || n <= 0) return null;
 
   return { path, valor: fmt(n), etiqueta };
@@ -414,7 +423,10 @@ export function fraseTurnos(
   if (turno > 0 && turnosRestantes === 1) return "Última pregunta";
 
   const total = Math.max(turno + turnosRestantes, PRESUPUESTO_MINIMO);
-  const recorrido = Math.max(turno / total, bloquesVisitados / FICHA_BLOCKS.length);
+  const recorrido = Math.max(
+    turno / total,
+    bloquesVisitados / FICHA_BLOCKS.length,
+  );
 
   if (recorrido < 0.25) return "Acabamos de empezar";
   if (recorrido < 0.7) return "Vamos por la mitad";
@@ -444,7 +456,10 @@ export function avanceDeBloques(ficha: Ficha): {
 
   if (visitados.length === 0) return { cerrados: 0, actual: null };
 
-  return { cerrados: visitados.length - 1, actual: visitados[visitados.length - 1]! };
+  return {
+    cerrados: visitados.length - 1,
+    actual: visitados[visitados.length - 1]!,
+  };
 }
 
 /**

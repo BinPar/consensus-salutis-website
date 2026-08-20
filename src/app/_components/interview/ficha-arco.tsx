@@ -52,7 +52,9 @@ export function FichaArco({
   size = 82,
   compact = false,
 }: FichaArcoProps) {
-  const llenos = cerrada ? TOTAL_BLOQUES : Math.min(Math.max(cerrados, 0), TOTAL_BLOQUES);
+  const llenos = cerrada
+    ? TOTAL_BLOQUES
+    : Math.min(Math.max(cerrados, 0), TOTAL_BLOQUES);
   const offset = CIRCUNFERENCIA * (1 - llenos / TOTAL_BLOQUES);
 
   const etiqueta = cerrada

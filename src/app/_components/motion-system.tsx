@@ -102,9 +102,9 @@ function getPathDistance(from: string, to: string) {
 }
 
 function getMorphTimes(paths: string[]) {
-  const distances = paths.slice(1).map((path, index) =>
-    Math.sqrt(getPathDistance(paths[index]!, path)),
-  );
+  const distances = paths
+    .slice(1)
+    .map((path, index) => Math.sqrt(getPathDistance(paths[index]!, path)));
   const totalDistance = distances.reduce(
     (total, distance) => total + distance,
     0,
@@ -350,7 +350,7 @@ export function SignalField({
       style={{ opacity: fieldOpacity }}
     >
       <svg
-        className="absolute inset-0 h-full w-full text-cyan-700/42 dark:text-primary-dark"
+        className="dark:text-primary-dark absolute inset-0 h-full w-full text-cyan-700/42"
         viewBox="0 0 1440 900"
         preserveAspectRatio="xMidYMid slice"
         fill="none"
@@ -513,7 +513,8 @@ export function ViewportReveal({
         Math.min(rect.bottom, activationBottom) - Math.max(rect.top, 0),
       );
       const visibility = visibleHeight / rect.height;
-      const passedActivationPoint = rect.bottom <= 0 || rect.top <= activationBottom;
+      const passedActivationPoint =
+        rect.bottom <= 0 || rect.top <= activationBottom;
 
       if (
         (mode === "initial" && passedActivationPoint) ||

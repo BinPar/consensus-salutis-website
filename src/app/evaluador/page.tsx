@@ -77,10 +77,9 @@ export default async function EvaluadorPage() {
     la misma institución— y por eso el formulario sigue debajo, entero.
   */
   const cookieStore = await cookies();
-  const session = verifySession(
-    cookieStore.get(SESSION_COOKIE_NAME)?.value,
-    { secret: env.MARKETPLACE_SESSION_SECRET },
-  );
+  const session = verifySession(cookieStore.get(SESSION_COOKIE_NAME)?.value, {
+    secret: env.MARKETPLACE_SESSION_SECRET,
+  });
 
   return (
     <PageShell>
@@ -115,8 +114,8 @@ export default async function EvaluadorPage() {
                 ¿Encaja Consensus Salutis en tu institución?
               </h1>
               <p className="font-body mt-4 max-w-xl text-base leading-7 text-slate-600 dark:text-slate-400">
-                Empieza por identificarte. Después, una entrevista guiada de unos
-                minutos y un informe con el veredicto y sus motivos.
+                Empieza por identificarte. Después, una entrevista guiada de
+                unos minutos y un informe con el veredicto y sus motivos.
               </p>
 
               {session.ok ? (
@@ -148,11 +147,15 @@ export default async function EvaluadorPage() {
               a través del texto, y tres recipientes independientes competían
               con la tarjeta del formulario de al lado en vez de acompañarla.
             */}
-            <ol className="font-body order-last overflow-hidden rounded-2xl border border-cyan-800/15 bg-white/80 text-sm text-slate-600 shadow-big-blocks backdrop-blur-xs lg:order-none lg:col-start-1 lg:row-start-2 lg:mt-2 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:text-slate-400 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)]">
+            <ol className="font-body shadow-big-blocks order-last overflow-hidden rounded-2xl border border-cyan-800/15 bg-white/80 text-sm text-slate-600 backdrop-blur-xs lg:order-none lg:col-start-1 lg:row-start-2 lg:mt-2 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:text-slate-400 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)]">
               {[
                 ["01", "Identificación", "Los datos de esta ficha."],
                 ["02", "Entrevista guiada", "Preguntas según tu institución."],
-                ["03", "Informe", "Veredicto razonado, reenviable a dirección."],
+                [
+                  "03",
+                  "Informe",
+                  "Veredicto razonado, reenviable a dirección.",
+                ],
               ].map(([step, title, detail]) => (
                 <li
                   key={step}
@@ -212,7 +215,11 @@ export default async function EvaluadorPage() {
                   href={`mailto:${SUPPORT_EMAIL}?subject=Soporte%20evaluador%20Consensus%20Salutis`}
                   className="font-body text-primary-light dark:text-secondary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark mt-4 inline-flex items-center gap-2 rounded-sm text-sm font-semibold underline underline-offset-4 hover:text-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 dark:hover:text-cyan-200"
                 >
-                  <Mail aria-hidden="true" strokeWidth={1.8} className="size-4" />
+                  <Mail
+                    aria-hidden="true"
+                    strokeWidth={1.8}
+                    className="size-4"
+                  />
                   {SUPPORT_EMAIL}
                 </a>
                 <p className="font-body mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">

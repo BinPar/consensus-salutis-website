@@ -13,7 +13,7 @@ export function BlogArticleCard({
 }) {
   return (
     <Link href={article.href} className="group block h-full">
-      <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-cyan-800/15 bg-white/80 shadow-big-blocks backdrop-blur-xs transition-all duration-150 hover:-translate-y-2 hover:border-primary-light/30 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)]">
+      <article className="shadow-big-blocks hover:border-primary-light/30 flex h-full flex-col overflow-hidden rounded-2xl border border-cyan-800/15 bg-white/80 backdrop-blur-xs transition-all duration-150 hover:-translate-y-2 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)]">
         <div className="relative aspect-[1.6] overflow-hidden border-b border-cyan-800/10 bg-[#deedf3]/70 dark:border-cyan-300/10 dark:bg-[#06111f]">
           <Image
             src={article.imageSrc}

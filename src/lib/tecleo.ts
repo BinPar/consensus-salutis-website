@@ -50,5 +50,8 @@ export const TECLEO_MS = 120;
  */
 export function avanceDelTecleo(pendientes: number, dt: number): number {
   if (pendientes <= 0) return 0;
-  return Math.min(pendientes, Math.max(1, Math.round((pendientes * dt) / TECLEO_MS)));
+  return Math.min(
+    pendientes,
+    Math.max(1, Math.round((pendientes * dt) / TECLEO_MS)),
+  );
 }

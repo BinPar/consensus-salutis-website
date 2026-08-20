@@ -66,10 +66,11 @@ export default function PrivacyPage() {
                   Retención indefinida, sostenida por el consentimiento. Misma
                   constante que el texto del consentimiento en /evaluador.
                 */}
-                {RETENTION_STATEMENT} Puedes retirar el consentimiento o pedir la
-                supresión en cualquier momento escribiendo a info@binpar.com, y en
-                ese caso eliminamos la ficha y la transcripción. En esta evaluación
-                no se tratan datos de salud de pacientes en ningún momento.
+                {RETENTION_STATEMENT} Puedes retirar el consentimiento o pedir
+                la supresión en cualquier momento escribiendo a info@binpar.com,
+                y en ese caso eliminamos la ficha y la transcripción. En esta
+                evaluación no se tratan datos de salud de pacientes en ningún
+                momento.
               </LegalSection>
               <LegalSection title="Derechos">
                 Puedes solicitar el acceso, rectificación, supresión,

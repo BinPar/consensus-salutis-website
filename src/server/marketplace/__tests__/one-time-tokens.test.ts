@@ -217,9 +217,9 @@ describe("tokens de un solo uso", () => {
       );
     }
 
-    expect(
-      await store.countRecentTokensForEmail(email, NOW - media_hora),
-    ).toBe(0);
+    expect(await store.countRecentTokensForEmail(email, NOW - media_hora)).toBe(
+      0,
+    );
 
     // Y una de hace diez minutos, que sí está dentro.
     await issueOneTimeToken(
@@ -227,9 +227,9 @@ describe("tokens de un solo uso", () => {
       { store, pepper: PEPPER, now: NOW - 10 * 60 },
     );
 
-    expect(
-      await store.countRecentTokensForEmail(email, NOW - media_hora),
-    ).toBe(1);
+    expect(await store.countRecentTokensForEmail(email, NOW - media_hora)).toBe(
+      1,
+    );
   });
 
   it("el contador es por email y no mezcla dos instituciones", async () => {
@@ -241,7 +241,10 @@ describe("tokens de un solo uso", () => {
     );
 
     expect(
-      await store.countRecentTokensForEmail("gerencia@hospital.example", NOW - 60),
+      await store.countRecentTokensForEmail(
+        "gerencia@hospital.example",
+        NOW - 60,
+      ),
     ).toBe(1);
     expect(
       await store.countRecentTokensForEmail("otra@hospital.example", NOW - 60),

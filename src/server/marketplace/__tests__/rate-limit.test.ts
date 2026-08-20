@@ -39,7 +39,9 @@ describe("política de limitación de tasa del marketplace", () => {
 
     expect(JSON.stringify(conocido)).toBe(JSON.stringify(desconocido));
     expect(Object.keys(issueLinkOutcome)).toEqual(["ok", "message"]);
-    expect(issueLinkOutcome.message).not.toMatch(/no existe|no encontrad|desconocid/i);
+    expect(issueLinkOutcome.message).not.toMatch(
+      /no existe|no encontrad|desconocid/i,
+    );
   });
 
   it("la respuesta pública está congelada, así que no se le puede añadir un campo delator", () => {

@@ -129,25 +129,24 @@ export const eligibilitySchema = z.object({
     .trim()
     .min(2, "Introduce tu nombre y apellidos.")
     .max(120, "El nombre no puede superar los 120 caracteres."),
-  cargo: z.enum(
-    CARGO_VALUES as [string, ...string[]],
-    { errorMap: () => ({ message: "Selecciona tu cargo." }) },
-  ),
+  cargo: z.enum(CARGO_VALUES as [string, ...string[]], {
+    errorMap: () => ({ message: "Selecciona tu cargo." }),
+  }),
   institucion: z
     .string()
     .trim()
     .min(2, "Introduce el nombre oficial de la institución.")
     .max(200, "El nombre no puede superar los 200 caracteres."),
-  ambitoPais: z.enum(
-    AMBITO_PAIS_VALUES as [string, ...string[]],
-    { errorMap: () => ({ message: "Selecciona el ámbito geográfico." }) },
-  ),
+  ambitoPais: z.enum(AMBITO_PAIS_VALUES as [string, ...string[]], {
+    errorMap: () => ({ message: "Selecciona el ámbito geográfico." }),
+  }),
   webInstitucion: z
     .string()
     .trim()
     .max(200, "La dirección web es demasiado larga.")
     .refine(
-      (value) => value.length === 0 || /^(https?:\/\/)?[^\s.]+\.[^\s]{2,}$/.test(value),
+      (value) =>
+        value.length === 0 || /^(https?:\/\/)?[^\s.]+\.[^\s]{2,}$/.test(value),
       "Introduce una dirección web válida.",
     )
     .optional()

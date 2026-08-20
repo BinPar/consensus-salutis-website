@@ -52,7 +52,7 @@ export default function CasosPage() {
                 key={item.label}
                 className="rounded-md border border-cyan-800/10 bg-white/80 p-7 shadow-lg shadow-slate-900/5 dark:border-cyan-300/10 dark:bg-[#081a2b]/82 dark:shadow-[#020817]/20"
               >
-                <p className="text-xs font-semibold tracking-[0.18em] text-primary-light uppercase dark:text-primary-dark">
+                <p className="text-primary-light dark:text-primary-dark text-xs font-semibold tracking-[0.18em] uppercase">
                   {item.label}
                 </p>
                 <h2 className="font-display mt-4 text-2xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">

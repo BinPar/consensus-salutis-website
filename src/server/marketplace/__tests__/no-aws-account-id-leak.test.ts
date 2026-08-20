@@ -19,9 +19,22 @@ import { describe, expect, it } from "vitest";
 
 const SRC = join(process.cwd(), "src");
 
-/** El único sitio donde `awsAccountId` puede vivir: el módulo que lo firma. */
+/**
+ * Dónde puede vivir `awsAccountId`.
+ *
+ * El módulo de servidor que lo firma, y la ruta de registro (#3), que es donde
+ * entra: `ResolveCustomer` lo devuelve ahí y de ahí pasa directo a la cookie
+ * firmada. Un `route.ts` no se sirve nunca al navegador, así que la regla —que
+ * es sobre el cliente— se sigue cumpliendo.
+ *
+ * El permiso es para ESE archivo y no para `src/app/aws/` entero: una página
+ * bajo esa ruta sí llegaría al navegador, y tiene que seguir rompiendo el build.
+ * Que la cuenta no viaje en la URL del `303` ni en claro en la cookie lo
+ * comprueban, sobre la respuesta real, los tests de `aws-registration.test.ts`.
+ */
 const ALLOWED_PATHS = [
   join("src", "server", "marketplace"),
+  join("src", "app", "aws", "registration", "route.ts"),
 ];
 
 /**
@@ -108,7 +121,9 @@ describe("awsAccountId no se filtra al cliente", () => {
       const contents = readCode(file);
       return forbidden
         .filter((pattern) => pattern.test(contents))
-        .map((pattern) => `${relative(process.cwd(), file)} :: ${pattern.source}`);
+        .map(
+          (pattern) => `${relative(process.cwd(), file)} :: ${pattern.source}`,
+        );
     });
 
     expect(offenders).toEqual([]);

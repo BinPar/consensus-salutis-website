@@ -151,7 +151,7 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
   if (status === "success") {
     return (
       <div
-        className={`min-w-0 rounded-3xl border border-cyan-800/20 bg-white/80 p-7 shadow-big-blocks backdrop-blur-sm dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30 ${className}`}
+        className={`shadow-big-blocks min-w-0 rounded-3xl border border-cyan-800/20 bg-white/80 p-7 backdrop-blur-sm dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30 ${className}`}
         role="status"
       >
         <Eyebrow>Ficha registrada</Eyebrow>
@@ -169,7 +169,7 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
         */}
         <Link
           href="/evaluador/entrevista"
-          className="border-cyan-800/20 bg-primary-light/10 hover:bg-primary-light/18 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark mt-6 inline-flex rounded-md border px-4 py-2 text-sm font-semibold text-cyan-800 transition focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-cyan-300/20 dark:bg-primary-dark/10 dark:text-cyan-50 dark:hover:bg-cyan-300/18"
+          className="bg-primary-light/10 hover:bg-primary-light/18 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark dark:bg-primary-dark/10 mt-6 inline-flex rounded-md border border-cyan-800/20 px-4 py-2 text-sm font-semibold text-cyan-800 transition focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-cyan-300/20 dark:text-cyan-50 dark:hover:bg-cyan-300/18"
         >
           Continuar a la entrevista
         </Link>
@@ -179,7 +179,7 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
 
   return (
     <form
-      className={`min-w-0 space-y-5 rounded-3xl border border-cyan-800/20 bg-white/80 p-6 shadow-big-blocks backdrop-blur-sm sm:p-7 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30 ${className}`}
+      className={`shadow-big-blocks min-w-0 space-y-5 rounded-3xl border border-cyan-800/20 bg-white/80 p-6 backdrop-blur-sm sm:p-7 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30 ${className}`}
       onSubmit={handleSubmit}
       noValidate
     >
@@ -223,7 +223,11 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
       ) : null}
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <FormField id={`${id}-nombre`} label="Nombre y apellidos" error={fieldErrors.nombre}>
+        <FormField
+          id={`${id}-nombre`}
+          label="Nombre y apellidos"
+          error={fieldErrors.nombre}
+        >
           <input
             id={`${id}-nombre`}
             name="nombre"

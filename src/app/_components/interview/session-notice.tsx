@@ -19,7 +19,9 @@ export function SessionNotice({ expired }: { expired: boolean }) {
   return (
     <div className="relative z-10 mx-auto w-full max-w-2xl px-5 pt-32 pb-24 sm:px-8">
       <div className="shadow-big-blocks rounded-3xl border border-cyan-800/20 bg-white/85 p-7 backdrop-blur-sm dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30">
-        <Eyebrow>{expired ? "Sesión caducada" : "Evaluación no iniciada"}</Eyebrow>
+        <Eyebrow>
+          {expired ? "Sesión caducada" : "Evaluación no iniciada"}
+        </Eyebrow>
         <h1 className="font-display mt-4 text-2xl font-extrabold tracking-tight text-[#05215e] sm:text-3xl dark:text-slate-50">
           {expired
             ? "Necesitamos que vuelvas a identificarte"

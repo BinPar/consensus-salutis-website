@@ -23,7 +23,9 @@ const SECRETS = [
 describe("declaración de los secretos del marketplace", () => {
   for (const secret of SECRETS) {
     it(`${secret} está en el esquema de servidor con longitud mínima`, () => {
-      const declaration = new RegExp(`${secret}:\\s*z\\.string\\(\\)\\.min\\((\\d+)\\)`);
+      const declaration = new RegExp(
+        `${secret}:\\s*z\\.string\\(\\)\\.min\\((\\d+)\\)`,
+      );
       const match = declaration.exec(envSource);
 
       expect(match).not.toBeNull();
@@ -48,7 +50,8 @@ describe("declaración de los secretos del marketplace", () => {
   }
 
   it("no filtra los secretos al cliente", () => {
-    const clientBlock = /client:\s*\{([\s\S]*?)\n {2}\}/.exec(envSource)?.[1] ?? "";
+    const clientBlock =
+      /client:\s*\{([\s\S]*?)\n {2}\}/.exec(envSource)?.[1] ?? "";
 
     for (const secret of SECRETS) {
       expect(clientBlock).not.toContain(secret);

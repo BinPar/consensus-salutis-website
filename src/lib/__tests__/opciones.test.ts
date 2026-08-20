@@ -148,6 +148,9 @@ describe("las opciones se parten en respuestas y escapatoria", () => {
   });
 
   it("descarta las opciones vacías en vez de pintar una fila sin texto", () => {
-    expect(partirOpciones(["sí", "   ", "no"]).respuestas).toEqual(["Sí", "No"]);
+    expect(partirOpciones(["sí", "   ", "no"]).respuestas).toEqual([
+      "Sí",
+      "No",
+    ]);
   });
 });

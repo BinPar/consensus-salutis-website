@@ -97,12 +97,23 @@ function plano(value: string): string {
  */
 export function esEscapatoria(opcion: string): boolean {
   const p = plano(opcion);
-  if (["no lo se / no aplica", "no aplica", "sin datos", "no tenemos ese dato"].includes(p)) {
+  if (
+    [
+      "no lo se / no aplica",
+      "no aplica",
+      "sin datos",
+      "no tenemos ese dato",
+    ].includes(p)
+  ) {
     return true;
   }
-  return ["no lo se", "no lo sabemos", "no sabria decir", "no sabemos", "no estoy segur"].some(
-    (prefix) => p.startsWith(prefix),
-  );
+  return [
+    "no lo se",
+    "no lo sabemos",
+    "no sabria decir",
+    "no sabemos",
+    "no estoy segur",
+  ].some((prefix) => p.startsWith(prefix));
 }
 
 /** Las opciones partidas en respuestas y escapatoria, ya con su etiqueta. */

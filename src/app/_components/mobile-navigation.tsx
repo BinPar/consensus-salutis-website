@@ -61,7 +61,7 @@ export function MobileNavigation({
         aria-expanded={open}
         aria-controls="mobile-navigation-panel"
         onClick={() => setOpen((current) => !current)}
-        className="border-primary-light/20 hover:border-primary-light/40 relative grid size-9 shrink-0 place-items-center rounded-full border bg-white/70 text-slate-700 shadow-sm transition hover:bg-cyan-50 hover:text-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600 dark:border-cyan-300/20 dark:bg-primary-dark/8 dark:text-primary-dark-lighter dark:shadow-none dark:hover:border-cyan-200/45 dark:hover:bg-cyan-300/15 dark:hover:text-white dark:focus-visible:outline-cyan-300"
+        className="border-primary-light/20 hover:border-primary-light/40 dark:bg-primary-dark/8 dark:text-primary-dark-lighter relative grid size-9 shrink-0 place-items-center rounded-full border bg-white/70 text-slate-700 shadow-sm transition hover:bg-cyan-50 hover:text-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600 dark:border-cyan-300/20 dark:shadow-none dark:hover:border-cyan-200/45 dark:hover:bg-cyan-300/15 dark:hover:text-white dark:focus-visible:outline-cyan-300"
       >
         <span className="relative block size-4" aria-hidden="true">
           <motion.span
@@ -102,7 +102,7 @@ export function MobileNavigation({
               ease: "easeInOut",
             }}
           >
-            <p className="text-primary-light text-base font-semibold tracking-[0.18em] uppercase dark:text-primary-dark">
+            <p className="text-primary-light dark:text-primary-dark text-base font-semibold tracking-[0.18em] uppercase">
               Navegación
             </p>
             <div className="mt-5 max-w-xl border-t border-cyan-800/12 dark:border-cyan-300/12">
@@ -125,7 +125,7 @@ export function MobileNavigation({
                     {active ? (
                       <span
                         aria-hidden="true"
-                        className="bg-primary-light absolute bottom-0 left-0 h-px w-8 dark:bg-primary-dark"
+                        className="bg-primary-light dark:bg-primary-dark absolute bottom-0 left-0 h-px w-8"
                       />
                     ) : null}
                   </Link>
@@ -134,7 +134,7 @@ export function MobileNavigation({
             </div>
             <Link
               href="/contacto"
-              className="dark:bg-secondary-dark font-body focus-visible:outline-secondary-dark mt-auto inline-flex min-h-11 w-fit items-center rounded-full bg-secondary-light px-5 py-2.5 text-sm font-semibold text-[#06111f] transition-transform hover:scale-[1.01] focus-visible:scale-[1.01] focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none"
+              className="dark:bg-secondary-dark font-body focus-visible:outline-secondary-dark bg-secondary-light mt-auto inline-flex min-h-11 w-fit items-center rounded-full px-5 py-2.5 text-sm font-semibold text-[#06111f] transition-transform hover:scale-[1.01] focus-visible:scale-[1.01] focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none"
             >
               Solicitar reunión
             </Link>

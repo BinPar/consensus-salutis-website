@@ -19,20 +19,24 @@ export function VerticalFooter() {
       <div className="mx-auto w-full max-w-7xl px-5 pt-10 sm:px-8 lg:pt-12">
         <div className="grid gap-10 md:grid-cols-[1.25fr_0.75fr]">
           <div>
-            <Link href="/" className="flex items-center gap-3" aria-label="Inicio">
+            <Link
+              href="/"
+              className="flex items-center gap-3"
+              aria-label="Inicio"
+            >
               <Image
                 src="/logos/consensus-brand/consensus-light.svg"
                 alt=""
                 width={618}
                 height={88}
-                className="h-7 w-auto dark:hidden sm:h-8"
+                className="h-7 w-auto sm:h-8 dark:hidden"
               />
               <Image
                 src="/logos/consensus-brand/consensus-dark.svg"
                 alt=""
                 width={618}
                 height={88}
-                className="hidden h-7 w-auto dark:block sm:h-8"
+                className="hidden h-7 w-auto sm:h-8 dark:block"
               />
             </Link>
             <p className="font-body mt-5 max-w-xl text-sm leading-6 text-slate-600 dark:text-slate-400">
@@ -113,7 +117,9 @@ export function VerticalFooter() {
               Una iniciativa tecnológica de binpar para instituciones sanitarias
             </span>
           </div>
-          <p className="text-slate-600 dark:text-slate-400">© Consensus Salutis all rights reserved</p>
+          <p className="text-slate-600 dark:text-slate-400">
+            © Consensus Salutis all rights reserved
+          </p>
         </div>
       </div>
     </footer>

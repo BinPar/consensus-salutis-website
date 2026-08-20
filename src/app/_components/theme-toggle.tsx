@@ -44,12 +44,9 @@ export function ThemeToggle() {
       aria-label={label}
       title={label}
       data-theme-toggle
-      className="grid size-9 shrink-0 place-items-center rounded-full border border-primary-light/20 bg-white/30 text-slate-700 transition hover:border-primary-light/40 hover:bg-cyan-50 hover:text-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600 dark:border-cyan-300/20 dark:bg-primary-dark/8 dark:text-primary-dark-lighter dark:shadow-none dark:hover:border-cyan-200/45 dark:hover:bg-cyan-300/15 dark:hover:text-white dark:focus-visible:outline-cyan-300"
+      className="border-primary-light/20 hover:border-primary-light/40 dark:bg-primary-dark/8 dark:text-primary-dark-lighter grid size-9 shrink-0 place-items-center rounded-full border bg-white/30 text-slate-700 transition hover:bg-cyan-50 hover:text-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600 dark:border-cyan-300/20 dark:shadow-none dark:hover:border-cyan-200/45 dark:hover:bg-cyan-300/15 dark:hover:text-white dark:focus-visible:outline-cyan-300"
     >
-      <span
-        data-theme-toggle-icon
-        className="grid size-4 place-items-center"
-      >
+      <span data-theme-toggle-icon className="grid size-4 place-items-center">
         <span className="grid place-items-center dark:hidden">
           <MoonIcon />
         </span>

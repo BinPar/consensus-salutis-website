@@ -419,9 +419,9 @@ export function HorizontalHome() {
                   ]
                 }
               </p>
-              <div className="bg-primary-light/10 h-px flex-1 dark:bg-primary-dark/10">
+              <div className="bg-primary-light/10 dark:bg-primary-dark/10 h-px flex-1">
                 <motion.div
-                  className="bg-primary-light h-px origin-left shadow-[0_0_18px_rgba(34,211,238,0.55)] dark:bg-primary-dark"
+                  className="bg-primary-light dark:bg-primary-dark h-px origin-left shadow-[0_0_18px_rgba(34,211,238,0.55)]"
                   animate={{ scaleX: Math.max(progress, 0.07) }}
                   transition={{ type: "spring", stiffness: 180, damping: 28 }}
                 />
@@ -514,7 +514,11 @@ export function VerticalHome() {
         </VerticalPanel>
         <VerticalPanel initiallyVisible={revealedPanels.has(5)}>
           {(visible, panelRef) => (
-            <BlogPanel layout="vertical" panelRef={panelRef} visible={visible} />
+            <BlogPanel
+              layout="vertical"
+              panelRef={panelRef}
+              visible={visible}
+            />
           )}
         </VerticalPanel>
         <VerticalPanel initiallyVisible={revealedPanels.has(6)}>
@@ -664,7 +668,11 @@ function ProductSignalAccent({ className = "" }: { className?: string }) {
           </linearGradient>
           <linearGradient id={darkFillId} x1="52" y1="48" x2="330" y2="318">
             <stop stopColor="rgb(0 188 187)" stopOpacity="0.34" />
-            <stop offset="0.58" stopColor="rgb(20 184 166)" stopOpacity="0.24" />
+            <stop
+              offset="0.58"
+              stopColor="rgb(20 184 166)"
+              stopOpacity="0.24"
+            />
             <stop offset="1" stopColor="rgb(125 211 252)" stopOpacity="0.08" />
           </linearGradient>
           <linearGradient id={innerFillId} x1="90" y1="72" x2="302" y2="280">
@@ -809,7 +817,7 @@ function SuccessCasesPanel({
 }) {
   return (
     <Panel
-      className="bg-white dark:bg-transparent dark:bg-linear-to-br from-[#deedf3]/40 to-transparent dark:from-[#030916]/80 dark:to-[#030916]/40"
+      className="bg-white from-[#deedf3]/40 to-transparent dark:bg-transparent dark:bg-linear-to-br dark:from-[#030916]/80 dark:to-[#030916]/40"
       panelRef={panelRef}
       layout={layout}
     >
@@ -854,7 +862,7 @@ function MetricsIntro({
     <>
       <Eyebrow>KPIs operativos</Eyebrow>
       <h2
-        className={`font-display mt-4 max-w-110  font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${
+        className={`font-display mt-4 max-w-110 font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${
           compact ? "text-3xl sm:text-4xl" : "text-5xl"
         }`}
       >
@@ -923,7 +931,11 @@ function ArchitecturePanel({
   layout?: DesktopLayout;
 }) {
   return (
-    <Panel className="bg-white dark:bg-transparent" panelRef={panelRef} layout={layout}>
+    <Panel
+      className="bg-white dark:bg-transparent"
+      panelRef={panelRef}
+      layout={layout}
+    >
       <div className="relative z-10 max-w-6xl">
         <Reveal visible={visible}>
           <Eyebrow>Producto</Eyebrow>
@@ -1039,13 +1051,14 @@ function BlogContent({
             compact ? "text-base leading-7" : "text-lg leading-8"
           }`}
         >
-          Lecturas recientes sobre IA médica, tendencias sanitarias y nuevas formas de transformar la asistencia al paciente en el sistema de salud.
-
+          Lecturas recientes sobre IA médica, tendencias sanitarias y nuevas
+          formas de transformar la asistencia al paciente en el sistema de
+          salud.
         </p>
       </div>
       <Link
         href="/blog"
-        className="font-body inline-flex h-10 shrink-0 items-center justify-center gap-2 self-start rounded-full bg-primary-light px-6 text-sm font-semibold text-white shadow-big-blocks transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#087a85] sm:self-end dark:bg-primary-dark dark:text-[#03111d] dark:shadow-[0_0_24px_rgba(0,188,187,0.18)] dark:hover:bg-primary-dark-lighter"
+        className="font-body bg-primary-light shadow-big-blocks dark:bg-primary-dark dark:hover:bg-primary-dark-lighter inline-flex h-10 shrink-0 items-center justify-center gap-2 self-start rounded-full px-6 text-sm font-semibold text-white transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#087a85] sm:self-end dark:text-[#03111d] dark:shadow-[0_0_24px_rgba(0,188,187,0.18)]"
       >
         Ver todos
         <ArrowRight aria-hidden="true" className="size-4" strokeWidth={1.8} />
@@ -1197,17 +1210,17 @@ function MobileHome({
     <main className="relative z-10 bg-transparent lg:hidden">
       <div className="relative [clip-path:inset(0)]">
         <SignalField intensity="hero" opacity={0.72} className="fixed" />
-        <ProductSignalLeft className="fixed -bottom-80 -left-200 sm:-left-155 w-250 rotate-20" />
+        <ProductSignalLeft className="fixed -bottom-80 -left-200 w-250 rotate-20 sm:-left-155" />
         <section
           ref={(node) => {
             sectionRefs.current[0] = node;
           }}
-          className="relative overflow-hidden border-b border-cyan-800/10 px-5 sm:px-10 py-10 sm:py-16 dark:border-cyan-300/10"
+          className="relative overflow-hidden border-b border-cyan-800/10 px-5 py-10 sm:px-10 sm:py-16 dark:border-cyan-300/10"
         >
           <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.03),rgba(244,249,252,0.38)_10%,rgba(13,148,136,0.02)_60%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.01),rgba(6,17,31,0.42)_20%,rgba(20,184,166,0.01)_80%,transparent)]" />
           <ViewportReveal className="relative z-10 mt-10">
             <Eyebrow>IA médica institucional</Eyebrow>
-            <h1 className="font-display max-w-xl mt-3.5 text-4xl font-extrabold tracking-tight text-[#05215e] sm:mt-6 sm:text-5xl dark:text-slate-50">
+            <h1 className="font-display mt-3.5 max-w-xl text-4xl font-extrabold tracking-tight text-[#05215e] sm:mt-6 sm:text-5xl dark:text-slate-50">
               Conocimiento clínico gobernado por IA.
             </h1>
             <p className="font-body mt-3.5 max-w-xl text-base leading-7 text-slate-700 sm:mt-7 sm:text-lg sm:leading-8 dark:text-slate-300">
@@ -1233,14 +1246,14 @@ function MobileHome({
           <div className="px-5 sm:px-10">
             <ViewportReveal>
               <Eyebrow>Casos de éxito</Eyebrow>
-              <h2 className="font-display mt-4 text-3xl sm:text-4xl max-w-sm font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
+              <h2 className="font-display mt-4 max-w-sm text-3xl font-extrabold tracking-tight text-[#05215e] sm:text-4xl dark:text-slate-50">
                 Nuestros casos en el sistema sanitario.
               </h2>
               <p className="font-body mt-3.5 text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
-                Dos servicios sanitarios que ya incorporan inteligencia artificial
-                para facilitar el acceso rápido al conocimiento clínico fiable,
-                optimizar procesos de atención asistencial y reforzar la mejora
-                continua.
+                Dos servicios sanitarios que ya incorporan inteligencia
+                artificial para facilitar el acceso rápido al conocimiento
+                clínico fiable, optimizar procesos de atención asistencial y
+                reforzar la mejora continua.
               </p>
             </ViewportReveal>
             <SuccessCases className="mt-8" />
@@ -1255,10 +1268,10 @@ function MobileHome({
           <div className="px-5 sm:px-10">
             <ViewportReveal>
               <Eyebrow>Proceso de consulta</Eyebrow>
-              <h2 className="font-display mt-4 text-3xl sm:text-4xl max-w-70 font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
+              <h2 className="font-display mt-4 max-w-70 text-3xl font-extrabold tracking-tight text-[#05215e] sm:text-4xl dark:text-slate-50">
                 De la pregunta a la evidencia.
               </h2>
-              <p className="font-body mt-3.5 text-base max-w-xl leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
+              <p className="font-body mt-3.5 max-w-xl text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
                 Consensus Salutis acompaña cada consulta hasta una respuesta
                 contrastada, referenciada y preparada para ser revisada.
               </p>
@@ -1272,13 +1285,13 @@ function MobileHome({
         ref={(node) => {
           sectionRefs.current[3] = node;
         }}
-       variant="transparent"
+        variant="transparent"
         className="bg-white dark:bg-transparent"
       >
         <div className="relative z-10 px-5 sm:px-10">
           <ViewportReveal className="relative z-10">
             <Eyebrow>Producto</Eyebrow>
-            <h2 className="font-display mt-4 text-3xl sm:text-4xl max-w-120 font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
+            <h2 className="font-display mt-4 max-w-120 text-3xl font-extrabold tracking-tight text-[#05215e] sm:text-4xl dark:text-slate-50">
               De documentos dispersos a la decisión informada.
             </h2>
             <p className="font-body mt-3.5 text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
@@ -1324,14 +1337,14 @@ function MobileHome({
         variant="deep"
       >
         <div className="relative px-5 sm:px-10">
-          <ProductSignalAccent className="-top-24 -left-18 w-120  " />
+          <ProductSignalAccent className="-top-24 -left-18 w-120" />
           {/* <ContactSignalAccent compact /> */}
           <ViewportReveal className="relative z-10">
             <Eyebrow>Contacto</Eyebrow>
-            <h2 className="font-display mt-4 text-3xl sm:text-4xl max-w-110 font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
+            <h2 className="font-display mt-4 max-w-110 text-3xl font-extrabold tracking-tight text-[#05215e] sm:text-4xl dark:text-slate-50">
               Hablemos de tu organización sanitaria.
             </h2>
-            <p className="font-body mt-3.5 text-base leading-7 max-w-120 text-slate-600 sm:mt-5 dark:text-slate-400">
+            <p className="font-body mt-3.5 max-w-120 text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
               Revisamos caso de uso, restricciones de seguridad, requisitos de
               integración y el nivel de evidencia necesario.
             </p>
@@ -1405,7 +1418,7 @@ function SuccessCases({
                   />
                 ) : null}
               </div>
-              <p className="text-primary-light font-display mt-2 text-xs font-semibold tracking-[0.13em] uppercase dark:text-primary-dark">
+              <p className="text-primary-light font-display dark:text-primary-dark mt-2 text-xs font-semibold tracking-[0.13em] uppercase">
                 {item.organization}
               </p>
             </motion.div>
@@ -1513,7 +1526,7 @@ function MobileProcessMilestone({
       }}
     >
       <div className="relative flex justify-center">
-        <span className="border-primary-light relative z-10 grid size-10 place-items-center rounded-full border bg-white/50 text-xs font-semibold text-cyan-800 shadow-sm backdrop-blur-sm dark:border-cyan-300 dark:bg-[#06111f] dark:text-primary-dark-lighter dark:shadow-[0_0_18px_rgba(103,232,249,0.18)]">
+        <span className="border-primary-light dark:text-primary-dark-lighter relative z-10 grid size-10 place-items-center rounded-full border bg-white/50 text-xs font-semibold text-cyan-800 shadow-sm backdrop-blur-sm dark:border-cyan-300 dark:bg-[#06111f] dark:shadow-[0_0_18px_rgba(103,232,249,0.18)]">
           {item.step}
         </span>
         {!last ? (
@@ -1524,7 +1537,7 @@ function MobileProcessMilestone({
             />
             <motion.span
               aria-hidden="true"
-              className="bg-primary-light absolute top-10 bottom-0 left-1/2 w-px origin-top -translate-x-1/2 dark:bg-primary-dark"
+              className="bg-primary-light dark:bg-primary-dark absolute top-10 bottom-0 left-1/2 w-px origin-top -translate-x-1/2"
               variants={{
                 hidden: { scaleY: reducedMotion ? 1 : 0 },
                 visible: {
@@ -1547,7 +1560,7 @@ function MobileProcessMilestone({
         <p className="font-body mt-2 min-h-12 text-sm leading-6 text-slate-600 dark:text-slate-400">
           {item.body}
         </p>
-        <p className="font-body text-primary-light mt-2 text-[10px] font-semibold tracking-[0.12em] uppercase dark:text-primary-dark">
+        <p className="font-body text-primary-light dark:text-primary-dark mt-2 text-[10px] font-semibold tracking-[0.12em] uppercase">
           {item.signal}
         </p>
       </div>
@@ -1611,7 +1624,7 @@ function ProcessMilestone({
         />
       ) : null}
       <span
-        className={`border-primary-light font-display relative z-10 grid shrink-0 place-items-center rounded-full border bg-white/80 font-semibold text-cyan-800 shadow-sm backdrop-blur-sm dark:border-cyan-300 dark:bg-[#06111f] dark:text-primary-dark-lighter dark:shadow-[0_0_18px_rgba(103,232,249,0.18)] ${
+        className={`border-primary-light font-display dark:text-primary-dark-lighter relative z-10 grid shrink-0 place-items-center rounded-full border bg-white/80 font-semibold text-cyan-800 shadow-sm backdrop-blur-sm dark:border-cyan-300 dark:bg-[#06111f] dark:shadow-[0_0_18px_rgba(103,232,249,0.18)] ${
           compact ? "size-8 text-[10px]" : "size-10 text-xs"
         } ${desktop ? "" : "absolute top-0 -left-12"}`}
       >
@@ -1627,7 +1640,7 @@ function ProcessMilestone({
       >
         {item.body}
       </p>
-      <p className="font-body text-primary-light mt-2 text-[10px] font-semibold tracking-[0.12em] uppercase dark:text-primary-dark">
+      <p className="font-body text-primary-light dark:text-primary-dark mt-2 text-[10px] font-semibold tracking-[0.12em] uppercase">
         {item.signal}
       </p>
     </motion.article>
@@ -1692,7 +1705,7 @@ function ProductPillars({
               </div>
             </div>
             <p
-              className={`${compact ? "mt-3" : "mt-1 lg:mt-5"} border-primary-light font-display text-primary-light shrink-0 border-b pt-4 pb-3 text-xs font-semibold tracking-[0.13em] uppercase lg:tracking-[0.18em] dark:border-cyan-300/20 dark:text-primary-dark`}
+              className={`${compact ? "mt-3" : "mt-1 lg:mt-5"} border-primary-light font-display text-primary-light dark:text-primary-dark shrink-0 border-b pt-4 pb-3 text-xs font-semibold tracking-[0.13em] uppercase lg:tracking-[0.18em] dark:border-cyan-300/20`}
             >
               {pillar.role}
             </p>
@@ -1819,7 +1832,7 @@ function AnimatedMetricValue({
   return (
     <p
       // aria-label={formattedValue}
-      className="font-display text-xl font-semibold text-cyan-800 sm:text-3xl dark:text-primary-dark-lighter"
+      className="font-display dark:text-primary-dark-lighter text-xl font-semibold text-cyan-800 sm:text-3xl"
     >
       <span aria-hidden="true">
         {prefix}

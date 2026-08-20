@@ -588,7 +588,8 @@ export function InterviewScreen({
           }
           // En la apertura no hay mensaje del cliente al que colgarlo: el agente
           // habla primero y todavía no ha podido deducir nada de nadie.
-          if (lastUser !== -1) next[lastUser] = { ...next[lastUser]!, inferidos };
+          if (lastUser !== -1)
+            next[lastUser] = { ...next[lastUser]!, inferidos };
         }
 
         next.push({
@@ -660,7 +661,9 @@ export function InterviewScreen({
         }
       } catch (error) {
         handleFailure(error);
-        setPhase((current) => (current === "cargando" ? "entrevista" : current));
+        setPhase((current) =>
+          current === "cargando" ? "entrevista" : current,
+        );
       } finally {
         if (!controller.signal.aborted) setPending(false);
       }
@@ -796,7 +799,8 @@ export function InterviewScreen({
   */
   useEffect(() => {
     if (phase !== "entrevista" || pending) return;
-    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches)
+      return;
     composerRef.current?.focus();
   }, [messages.length, pending, phase]);
 
@@ -942,7 +946,9 @@ export function InterviewScreen({
     por el chat, que es donde ya está la conversación. `correctFichaField` sigue en
     `~/lib/interview` como vía de escape si eso no cuaja.
   */
-  const lastAssistant = [...messages].reverse().find((m) => m.role === "assistant");
+  const lastAssistant = [...messages]
+    .reverse()
+    .find((m) => m.role === "assistant");
   /*
     Las opciones viven DENTRO del mensaje que las motiva, así que hace falta saber
     en qué índice está ese mensaje y no solo cuáles son sus opciones.
@@ -961,8 +967,13 @@ export function InterviewScreen({
     teclado no se recoloque en cada render.
   */
   const opcionesCrudas =
-    phase === "entrevista" ? (lastAssistant?.opciones ?? SIN_OPCIONES) : SIN_OPCIONES;
-  const opciones = useMemo(() => partirOpciones(opcionesCrudas), [opcionesCrudas]);
+    phase === "entrevista"
+      ? (lastAssistant?.opciones ?? SIN_OPCIONES)
+      : SIN_OPCIONES;
+  const opciones = useMemo(
+    () => partirOpciones(opcionesCrudas),
+    [opcionesCrudas],
+  );
   const respuestas = opciones.respuestas;
   const hayOpciones = respuestas.length > 0;
   const readOnlyFicha = phase !== "entrevista";
@@ -972,7 +983,9 @@ export function InterviewScreen({
     Lo marcado, en el orden de las opciones y no en el de los clics: dos clientes
     que marcan lo mismo en distinto orden producen el mismo turno.
   */
-  const marcadasEnOrden = respuestas.filter((respuesta) => marcadas.includes(respuesta));
+  const marcadasEnOrden = respuestas.filter((respuesta) =>
+    marcadas.includes(respuesta),
+  );
   const activaMultiple = lastAssistant?.multiple === true;
 
   const alternarMarcada = useCallback((respuesta: string) => {
@@ -1077,7 +1090,8 @@ export function InterviewScreen({
                 onContinue={enviarMarcadas}
               />
 
-              {message.inferidos !== undefined && message.inferidos.length > 0 ? (
+              {message.inferidos !== undefined &&
+              message.inferidos.length > 0 ? (
                 <InferenceLine
                   paths={message.inferidos}
                   ficha={ficha}
@@ -1124,7 +1138,13 @@ export function InterviewScreen({
           {redactedNotice ? (
             <Notice
               tone="info"
-              icon={<ShieldCheck aria-hidden="true" strokeWidth={1.8} className="size-4" />}
+              icon={
+                <ShieldCheck
+                  aria-hidden="true"
+                  strokeWidth={1.8}
+                  className="size-4"
+                />
+              }
               onDismiss={() => setRedactedNotice(false)}
             >
               Hemos retirado los identificadores de paciente de tu mensaje antes
@@ -1135,7 +1155,13 @@ export function InterviewScreen({
           {failure !== null ? (
             <Notice
               tone="error"
-              icon={<AlertTriangle aria-hidden="true" strokeWidth={1.8} className="size-4" />}
+              icon={
+                <AlertTriangle
+                  aria-hidden="true"
+                  strokeWidth={1.8}
+                  className="size-4"
+                />
+              }
               action={
                 failure.retryable ? (
                   <button
@@ -1144,7 +1170,11 @@ export function InterviewScreen({
                     disabled={pending}
                     className="font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark inline-flex shrink-0 items-center gap-1.5 rounded-full border border-rose-600/30 px-3 py-1 text-xs font-semibold text-rose-800 transition hover:bg-rose-600/10 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-60 dark:border-rose-300/30 dark:text-rose-200 dark:hover:bg-rose-300/10"
                   >
-                    <RotateCcw aria-hidden="true" strokeWidth={2} className="size-3" />
+                    <RotateCcw
+                      aria-hidden="true"
+                      strokeWidth={2}
+                      className="size-3"
+                    />
                     Reintentar
                   </button>
                 ) : null
@@ -1249,11 +1279,15 @@ function InterviewHeader({ institucion }: { institucion: string }) {
 function OpeningBrief() {
   const lineas = [
     {
-      icon: <Clock3 aria-hidden="true" strokeWidth={1.8} className="size-3.5" />,
+      icon: (
+        <Clock3 aria-hidden="true" strokeWidth={1.8} className="size-3.5" />
+      ),
       body: <>Ocho a doce minutos, unas doce preguntas.</>,
     },
     {
-      icon: <FileText aria-hidden="true" strokeWidth={1.8} className="size-3.5" />,
+      icon: (
+        <FileText aria-hidden="true" strokeWidth={1.8} className="size-3.5" />
+      ),
       body: (
         <>
           Al terminar recibes un{" "}
@@ -1265,7 +1299,13 @@ function OpeningBrief() {
       ),
     },
     {
-      icon: <ShieldCheck aria-hidden="true" strokeWidth={1.8} className="size-3.5" />,
+      icon: (
+        <ShieldCheck
+          aria-hidden="true"
+          strokeWidth={1.8}
+          className="size-3.5"
+        />
+      ),
       body: (
         <>
           <b className="font-semibold text-slate-800 dark:text-slate-100">
@@ -1690,7 +1730,10 @@ function InferenceLine({
     <motion.p
       initial={{ opacity: reducedMotion ? 1 : 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: reducedMotion ? 0 : 0.28, delay: reducedMotion ? 0 : 0.1 }}
+      transition={{
+        duration: reducedMotion ? 0 : 0.28,
+        delay: reducedMotion ? 0 : 0.1,
+      }}
       className="font-body -mt-2.5 flex items-baseline gap-2 text-[11px] leading-snug text-slate-500 dark:text-slate-400"
     >
       <Sparkles
@@ -1702,8 +1745,8 @@ function InferenceLine({
         <b className="text-primary-light dark:text-primary-dark font-semibold">
           Anotado también:
         </b>{" "}
-        {enumerar(dichos)} —{" "}
-        {dichos.length === 1 ? "deducido" : "deducidos"} de lo que has contado.
+        {enumerar(dichos)} — {dichos.length === 1 ? "deducido" : "deducidos"} de
+        lo que has contado.
       </span>
     </motion.p>
   );
@@ -1852,7 +1895,6 @@ function CalculatingNotice({
   onRetry: (() => void) | null;
 }) {
   const actual = CALC_STEPS.findIndex((step) => step.fase === fase);
-
 
   return (
     <div

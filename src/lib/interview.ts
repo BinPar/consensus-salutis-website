@@ -206,7 +206,13 @@ function asStringArray(value: unknown): string[] {
 export function parseFicha(raw: unknown): Ficha {
   if (!isRecord(raw)) return EMPTY_FICHA;
 
-  const ficha: Ficha = { perfil: {}, corpus: {}, uso: {}, datos: {}, operativa: {} };
+  const ficha: Ficha = {
+    perfil: {},
+    corpus: {},
+    uso: {},
+    datos: {},
+    operativa: {},
+  };
 
   for (const block of Object.keys(ficha) as Array<keyof Ficha>) {
     const cells = raw[block];
@@ -219,7 +225,8 @@ export function parseFicha(raw: unknown): Ficha {
         typeof valor === "string" ||
         typeof valor === "number" ||
         typeof valor === "boolean" ||
-        (Array.isArray(valor) && valor.every((item) => typeof item === "string"));
+        (Array.isArray(valor) &&
+          valor.every((item) => typeof item === "string"));
       if (!validValue) continue;
 
       ficha[block][field] = {
@@ -281,7 +288,11 @@ async function failureFor(response: Response): Promise<InterviewError> {
   let message = "No hemos podido continuar la entrevista. Inténtalo de nuevo.";
   try {
     const body = (await response.json()) as unknown;
-    if (isRecord(body) && typeof body.error === "string" && body.error.length > 0) {
+    if (
+      isRecord(body) &&
+      typeof body.error === "string" &&
+      body.error.length > 0
+    ) {
       message = body.error;
     }
   } catch {
@@ -317,7 +328,8 @@ async function post(
   } catch (error) {
     // Un `abort` no es un fallo de red: lo provoca la propia UI al desmontar o
     // al cancelar, y avisar de «se ha perdido la conexión» sería mentir.
-    if (error instanceof DOMException && error.name === "AbortError") throw error;
+    if (error instanceof DOMException && error.name === "AbortError")
+      throw error;
     throw new InterviewError("red", MENSAJE_RED);
   }
 
@@ -430,7 +442,8 @@ async function consume(
       }
     }
   } catch (error) {
-    if (error instanceof DOMException && error.name === "AbortError") throw error;
+    if (error instanceof DOMException && error.name === "AbortError")
+      throw error;
     if (error instanceof InterviewError) throw error;
     // El cuerpo se cortó a mitad. Lo emitido antes ya lo procesó el llamante.
     throw new InterviewError("red", MENSAJE_RED);

@@ -25,7 +25,12 @@ describe("slug del informe reenviable", () => {
   });
 
   it("rechaza slugs con forma inválida antes de tocar la base de datos", () => {
-    for (const invalid of ["", "corto", "a".repeat(REPORT_SLUG_LENGTH + 1), `${"a".repeat(REPORT_SLUG_LENGTH - 1)}/`]) {
+    for (const invalid of [
+      "",
+      "corto",
+      "a".repeat(REPORT_SLUG_LENGTH + 1),
+      `${"a".repeat(REPORT_SLUG_LENGTH - 1)}/`,
+    ]) {
       expect(isWellFormedReportSlug(invalid)).toBe(false);
     }
   });

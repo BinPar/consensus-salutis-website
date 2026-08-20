@@ -25,6 +25,7 @@ const validPayload = () => ({
   completedAt: 1_766_000_000_000,
   nivel: "casi",
   nivelNombre: "Casi listos",
+  titular: "Podemos empezar ya, con dos servicios",
   diagnostico: "El encaje es bueno y hay trabajo previo identificado.",
   dims: [
     {
@@ -39,11 +40,15 @@ const validPayload = () => ({
       dimension: "Datos y cumplimiento",
       color: "rojo",
       texto: "Asignar el delegado de protección de datos.",
+      apoyo:
+        "la plantilla de la evaluación de impacto y una sesión con vuestro DPO.",
     },
   ],
   encaje: {
     dentro: ["Consulta de protocolos"],
-    pronto: [{ uso: "Historia clínica", puerta: "se cierre el marco de datos" }],
+    pronto: [
+      { uso: "Historia clínica", puerta: "se cierre el marco de datos" },
+    ],
     fuera: ["Uso promocional"],
     quien: "Adjuntos y jefes de servicio.",
   },
@@ -69,7 +74,30 @@ describe("fetchReportBySlug", () => {
       expect.objectContaining({ method: "GET", cache: "no-store" }),
     );
     expect(report?.nivelNombre).toBe("Casi listos");
-    expect(report?.encaje?.pronto[0]?.puerta).toBe("se cierre el marco de datos");
+    expect(report?.encaje?.pronto[0]?.puerta).toBe(
+      "se cierre el marco de datos",
+    );
+    // El titular y nuestra parte de cada paso son lo que vende la página: si no
+    // cruzaran la frontera, el informe volvería a abrir con la nota.
+    expect(report?.titular).toBe("Podemos empezar ya, con dos servicios");
+    expect(report?.pasos[0]?.apoyo).toContain("una sesión con vuestro DPO");
+  });
+
+  it("un informe de antes del titular sigue siendo válido: la página lo suple", async () => {
+    // `titular` y `apoyo` los escribe el motor y son opcionales a propósito: un
+    // informe guardado antes del cambio tiene que seguir abriéndose, con el
+    // titular por nivel y sin la línea de nuestra parte.
+    const payload: Record<string, unknown> = {
+      ...validPayload(),
+      pasos: validPayload().pasos.map(({ apoyo: _apoyo, ...paso }) => paso),
+    };
+    delete payload.titular;
+    const fetcher = vi.fn().mockResolvedValue(jsonResponse(payload));
+    const report = await fetchReportBySlug(SLUG, { fetcher });
+
+    expect(report).not.toBeNull();
+    expect(report?.titular).toBeUndefined();
+    expect(report?.pasos[0]?.apoyo).toBeUndefined();
   });
 
   it("un slug malformado NI SE CONSULTA", async () => {
@@ -83,7 +111,9 @@ describe("fetchReportBySlug", () => {
   it("el 404 del endpoint es un informe que no existe", async () => {
     const fetcher = vi
       .fn()
-      .mockResolvedValue(jsonResponse({ error: "Informe no encontrado." }, 404));
+      .mockResolvedValue(
+        jsonResponse({ error: "Informe no encontrado." }, 404),
+      );
     expect(await fetchReportBySlug(SLUG, { fetcher })).toBeNull();
   });
 
@@ -127,7 +157,9 @@ describe("fetchReportBySlug", () => {
 });
 
 describe("awsBadgeDigits · el badge solo con la cookie que lo prueba", () => {
-  const session = (over: Partial<{ assessmentId: string; awsAccountId?: string }> = {}) =>
+  const session = (
+    over: Partial<{ assessmentId: string; awsAccountId?: string }> = {},
+  ) =>
     ({
       ok: true,
       session: {
@@ -144,12 +176,18 @@ describe("awsBadgeDigits · el badge solo con la cookie que lo prueba", () => {
   });
 
   it("no aparece con acceso reenviado (sin cookie)", () => {
-    expect(awsBadgeDigits({ ok: false, reason: "missing" }, "assessment-1")).toBeNull();
+    expect(
+      awsBadgeDigits({ ok: false, reason: "missing" }, "assessment-1"),
+    ).toBeNull();
   });
 
   it("no aparece con una cookie caducada o rota", () => {
-    expect(awsBadgeDigits({ ok: false, reason: "expired" }, "assessment-1")).toBeNull();
-    expect(awsBadgeDigits({ ok: false, reason: "bad-signature" }, "assessment-1")).toBeNull();
+    expect(
+      awsBadgeDigits({ ok: false, reason: "expired" }, "assessment-1"),
+    ).toBeNull();
+    expect(
+      awsBadgeDigits({ ok: false, reason: "bad-signature" }, "assessment-1"),
+    ).toBeNull();
   });
 
   it("no aparece con la cookie de OTRA evaluación: el enlace reenviado no hereda badges", () => {
@@ -157,6 +195,8 @@ describe("awsBadgeDigits · el badge solo con la cookie que lo prueba", () => {
   });
 
   it("no aparece en una evaluación directa, que tiene cookie pero no suscripción", () => {
-    expect(awsBadgeDigits(session({ awsAccountId: undefined }), "assessment-1")).toBeNull();
+    expect(
+      awsBadgeDigits(session({ awsAccountId: undefined }), "assessment-1"),
+    ).toBeNull();
   });
 });

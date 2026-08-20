@@ -106,7 +106,9 @@ describe("el texto en línea", () => {
   });
 
   it("un asterisco suelto es texto y no abre nada", () => {
-    expect(parseInline("2 * 3 = 6")).toEqual([{ kind: "text", text: "2 * 3 = 6" }]);
+    expect(parseInline("2 * 3 = 6")).toEqual([
+      { kind: "text", text: "2 * 3 = 6" },
+    ]);
   });
 
   /*

@@ -206,7 +206,7 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
 
   return (
     <motion.div
-      className={`pointer-events-none relative overflow-hidden rounded-3xl border border-cyan-800/20 bg-white/90 dark:shadow-2xl shadow-big-blocks backdrop-blur-xs dark:backdrop-blur-sm select-none dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-cyan-950/30 ${
+      className={`shadow-big-blocks pointer-events-none relative overflow-hidden rounded-3xl border border-cyan-800/20 bg-white/90 backdrop-blur-xs select-none dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30 dark:backdrop-blur-sm ${
         compact ? "h-87.5" : "h-110"
       }`}
       aria-label="Demostración animada de Consensus Salutis"
@@ -217,7 +217,7 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
         animate={{ opacity: isResetting ? 0 : 1 }}
         transition={{ duration: 0.45 }}
       >
-        <div className="flex h-14 shrink-0 items-center bg-white/40 dark:bg-white/3 justify-between border-b border-cyan-800/20 px-4 dark:border-cyan-300/20">
+        <div className="flex h-14 shrink-0 items-center justify-between border-b border-cyan-800/20 bg-white/40 px-4 dark:border-cyan-300/20 dark:bg-white/3">
           <div className="flex items-center">
             <Image
               src="/logos/consensus-brand/consensus-light.svg"
@@ -270,13 +270,13 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="flex shrink-0 items-center gap-2 text-sm text-primary-light dark:text-primary-dark"
+                className="text-primary-light dark:text-primary-dark flex shrink-0 items-center gap-2 text-sm"
               >
                 <span className="flex gap-1">
                   {[0, 1, 2].map((dot) => (
                     <span
                       key={dot}
-                      className="size-1.5 animate-pulse rounded-full bg-primary-light dark:bg-primary-dark"
+                      className="bg-primary-light dark:bg-primary-dark size-1.5 animate-pulse rounded-full"
                       style={{ animationDelay: `${dot * 160}ms` }}
                     />
                   ))}
@@ -314,7 +314,7 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
                     />
                   </span>
                   <div>
-                    <p className="mb-1.5 text-xs font-semibold tracking-[0.12em] text-primary-light uppercase dark:text-primary-dark">
+                    <p className="text-primary-light dark:text-primary-dark mb-1.5 text-xs font-semibold tracking-[0.12em] uppercase">
                       Orientación basada en evidencia
                     </p>
                     <p
@@ -324,7 +324,7 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
                     >
                       {answer.slice(0, answerLength)}
                       {answerLength < answer.length && (
-                        <span className="ml-0.5 inline-block h-3 w-px animate-pulse bg-primary-light align-middle dark:bg-primary-dark" />
+                        <span className="bg-primary-light dark:bg-primary-dark ml-0.5 inline-block h-3 w-px animate-pulse align-middle" />
                       )}
                     </p>
                   </div>
@@ -349,12 +349,12 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
                       </div>
 
                       {stage === "processing-follow-up" && (
-                        <div className="mt-3 flex items-center gap-2 text-sm text-primary-light dark:text-primary-dark">
+                        <div className="text-primary-light dark:text-primary-dark mt-3 flex items-center gap-2 text-sm">
                           <span className="flex gap-1">
                             {[0, 1, 2].map((dot) => (
                               <span
                                 key={dot}
-                                className="size-1.5 animate-pulse rounded-full bg-primary-light dark:bg-primary-dark"
+                                className="bg-primary-light dark:bg-primary-dark size-1.5 animate-pulse rounded-full"
                                 style={{ animationDelay: `${dot * 160}ms` }}
                               />
                             ))}
@@ -392,7 +392,7 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
                           >
                             {followUpAnswer.slice(0, followUpAnswerLength)}
                             {followUpAnswerLength < followUpAnswer.length && (
-                              <span className="ml-0.5 inline-block h-3 w-px animate-pulse bg-primary-light align-middle dark:bg-primary-dark" />
+                              <span className="bg-primary-light dark:bg-primary-dark ml-0.5 inline-block h-3 w-px animate-pulse align-middle" />
                             )}
                           </p>
                         </div>
@@ -423,9 +423,9 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
                             hidden: { opacity: 0 },
                             visible: { opacity: 1 },
                           }}
-                          className="flex items-center gap-3 rounded-md border border-cyan-800/10 bg-primary-light/5 px-3 py-2.5 dark:border-cyan-300/10 dark:bg-primary-dark/5"
+                          className="bg-primary-light/5 dark:bg-primary-dark/5 flex items-center gap-3 rounded-md border border-cyan-800/10 px-3 py-2.5 dark:border-cyan-300/10"
                         >
-                          <span className="grid size-6 shrink-0 place-items-center rounded-sm bg-primary-light/10 text-[10px] font-semibold text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark">
+                          <span className="bg-primary-light/10 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark grid size-6 shrink-0 place-items-center rounded-sm text-[10px] font-semibold">
                             {index + 1}
                           </span>
                           <div className="min-w-0">
@@ -436,7 +436,7 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
                               {reference.detail}
                             </p>
                           </div>
-                          <span className="ml-auto text-xs text-primary-light dark:text-primary-dark">
+                          <span className="text-primary-light dark:text-primary-dark ml-auto text-xs">
                             Ver
                           </span>
                         </motion.div>
@@ -449,12 +449,10 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
           </AnimatePresence>
         </div>
 
-        <div className="shrink-0 border-t border-cyan-800/20 p-3 bg-white/40 dark:bg-transparent dark:border-cyan-300/20">
+        <div className="shrink-0 border-t border-cyan-800/20 bg-white/40 p-3 dark:border-cyan-300/20 dark:bg-transparent">
           <div
             className={`font-body flex items-center rounded-2xl border px-3 text-sm transition ${
-              compact
-                ? "h-14 overflow-hidden whitespace-nowrap"
-                : "min-h-14"
+              compact ? "h-14 overflow-hidden whitespace-nowrap" : "min-h-14"
             } ${
               isComposing
                 ? "border-cyan-800/25 bg-white text-slate-700 dark:border-cyan-300/25 dark:bg-[#061a2a] dark:text-slate-300"
@@ -465,7 +463,7 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
               {inputText}
             </span>
             {isComposing && (
-              <span className="ml-0.5 inline-block h-3 w-px animate-pulse bg-primary-light align-middle dark:bg-primary-dark" />
+              <span className="bg-primary-light dark:bg-primary-dark ml-0.5 inline-block h-3 w-px animate-pulse align-middle" />
             )}
             <span
               className={`ml-auto transition ${

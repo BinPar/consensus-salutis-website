@@ -75,13 +75,13 @@ export function CTAGroup() {
     <div className="flex flex-col gap-3 sm:flex-row">
       <Link
         href="/contacto"
-        className="bg-primary-light font-body rounded-full px-5 py-2 min-h-10 text-center text-sm font-semibold text-white shadow-md transition hover:bg-cyan-800 dark:bg-primary-dark dark:text-[#04111e] dark:shadow-[0_0_34px_rgba(45,212,191,0.26)] dark:hover:bg-primary-dark-lighter"
+        className="bg-primary-light font-body dark:bg-primary-dark dark:hover:bg-primary-dark-lighter min-h-10 rounded-full px-5 py-2 text-center text-sm font-semibold text-white shadow-md transition hover:bg-cyan-800 dark:text-[#04111e] dark:shadow-[0_0_34px_rgba(45,212,191,0.26)]"
       >
         Solicitar reunión
       </Link>
       <Link
         href="/plataforma"
-        className="border-primary-light/25 font-body hover:border-primary-light/45 rounded-full border bg-white/65 px-5 py-2 min-h-10 text-center text-sm font-semibold text-cyan-800 backdrop-blur-sm transition hover:bg-cyan-50 dark:border-cyan-300/30 dark:bg-white/3 dark:text-cyan-50 dark:hover:border-cyan-200/50 dark:hover:bg-cyan-300/10"
+        className="border-primary-light/25 font-body hover:border-primary-light/45 min-h-10 rounded-full border bg-white/65 px-5 py-2 text-center text-sm font-semibold text-cyan-800 backdrop-blur-sm transition hover:bg-cyan-50 dark:border-cyan-300/30 dark:bg-white/3 dark:text-cyan-50 dark:hover:border-cyan-200/50 dark:hover:bg-cyan-300/10"
       >
         Probar plataforma
       </Link>
@@ -101,7 +101,7 @@ export function MetricGrid({
           key={metric.label}
           className="rounded-2xl border border-cyan-800/10 bg-white/75 p-6 shadow-sm backdrop-blur-sm dark:border-cyan-300/20 dark:bg-white/3 dark:shadow-none"
         >
-          <p className="text-3xl font-semibold text-cyan-800 dark:text-primary-dark-lighter">
+          <p className="dark:text-primary-dark-lighter text-3xl font-semibold text-cyan-800">
             {metric.value}
           </p>
           <p className="font-body mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">
@@ -138,7 +138,7 @@ export function EvidenceFlow() {
           key={step}
           className="grid grid-cols-[3rem_1fr] gap-4 rounded-md border border-cyan-800/10 bg-white/70 p-4 dark:border-cyan-300/10 dark:bg-white/[0.035]"
         >
-          <span className="text-primary-light text-sm font-semibold dark:text-primary-dark">
+          <span className="text-primary-light dark:text-primary-dark text-sm font-semibold">
             {step}
           </span>
           <div>

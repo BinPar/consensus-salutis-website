@@ -12,14 +12,21 @@
  *   Trust only AWS account IDs that are immediately returned from AWS or those
  *   that your system has signed.
  *
- * Por eso `awsAccountId` viaja siempre dentro de esta cookie firmada, y nunca
+ * Por eso `awsAccountId` viaja siempre dentro de una cookie firmada, y nunca
  * como campo de formulario, parámetro de URL ni valor en almacenamiento del
- * cliente.
+ * cliente. En esta cookie cuando la evaluación ya existe; en la de
+ * `registration.ts` durante el hueco entre el POST de AWS y la Etapa 0.
+ *
+ * El formato del sobre —firma, `iat`/`exp`, atributos de la cookie— vive en
+ * `signed-payload.ts`, que es el único implementador de este lado. Aquí solo se
+ * le da tipo a los claims.
  */
 
-import { createHmac } from "node:crypto";
-
-import { constantTimeEquals } from "~/server/marketplace/constant-time";
+import {
+  openEnvelope,
+  signEnvelope,
+  signedCookieOptions,
+} from "~/server/marketplace/signed-payload";
 
 /** Nombre de la cookie de sesión de registro. */
 export const SESSION_COOKIE_NAME = "cs_eval_session";
@@ -59,18 +66,6 @@ export type SessionVerification =
   | { ok: true; session: VerifiedSession }
   | { ok: false; reason: SessionFailureReason };
 
-function base64url(input: Buffer) {
-  return input.toString("base64url");
-}
-
-function sign(payload: string, secret: string) {
-  return base64url(createHmac("sha256", secret).update(payload).digest());
-}
-
-function nowInSeconds() {
-  return Math.floor(Date.now() / 1000);
-}
-
 /**
  * Firma una sesión y devuelve el valor de la cookie.
  *
@@ -80,56 +75,18 @@ export function signSession(
   claims: SessionClaims,
   options: { secret: string; ttlSeconds?: number; now?: number },
 ): string {
-  const issuedAt = options.now ?? nowInSeconds();
-  const ttl = options.ttlSeconds ?? SESSION_TTL_SECONDS;
-
   // Se serializan solo los campos presentes: una sesión sin AWS detrás no
   // arrastra tres `null` por el mero hecho de existir.
-  const claimed: Record<string, string | number> = {
-    assessmentId: claims.assessmentId,
-    iat: issuedAt,
-    exp: issuedAt + ttl,
-  };
+  const claimed: Record<string, string> = { assessmentId: claims.assessmentId };
   if (claims.subscriptionId) claimed.subscriptionId = claims.subscriptionId;
   if (claims.awsAccountId) claimed.awsAccountId = claims.awsAccountId;
   if (claims.licenseArn) claimed.licenseArn = claims.licenseArn;
 
-  const payload = base64url(Buffer.from(JSON.stringify(claimed), "utf8"));
-
-  return `${payload}.${sign(payload, options.secret)}`;
-}
-
-function parseClaims(raw: string): VerifiedSession | null {
-  let decoded: unknown;
-  try {
-    decoded = JSON.parse(
-      Buffer.from(raw, "base64url").toString("utf8"),
-    ) as unknown;
-  } catch {
-    return null;
-  }
-
-  if (typeof decoded !== "object" || decoded === null) return null;
-
-  const candidate = decoded as Record<string, unknown>;
-  const { assessmentId, iat, exp } = candidate;
-
-  if (typeof assessmentId !== "string" || assessmentId.length === 0) {
-    return null;
-  }
-  if (typeof iat !== "number" || !Number.isFinite(iat)) return null;
-  if (typeof exp !== "number" || !Number.isFinite(exp)) return null;
-
-  const session: VerifiedSession = { assessmentId, iat, exp };
-
-  for (const field of ["subscriptionId", "awsAccountId", "licenseArn"] as const) {
-    const value = candidate[field];
-    if (value === undefined) continue;
-    if (typeof value !== "string" || value.length === 0) return null;
-    session[field] = value;
-  }
-
-  return session;
+  return signEnvelope(claimed, {
+    secret: options.secret,
+    ttlSeconds: options.ttlSeconds ?? SESSION_TTL_SECONDS,
+    ...(options.now !== undefined && { now: options.now }),
+  });
 }
 
 /**
@@ -143,25 +100,27 @@ export function verifySession(
   cookieValue: string | undefined | null,
   options: { secret: string; now?: number },
 ): SessionVerification {
-  if (!cookieValue) return { ok: false, reason: "missing" };
+  const opened = openEnvelope(cookieValue, options);
+  if (!opened.ok) return { ok: false, reason: opened.reason };
 
-  const separator = cookieValue.lastIndexOf(".");
-  if (separator <= 0 || separator === cookieValue.length - 1) {
+  const { assessmentId, iat, exp } = opened.claims;
+  if (typeof assessmentId !== "string" || assessmentId.length === 0) {
     return { ok: false, reason: "malformed" };
   }
 
-  const payload = cookieValue.slice(0, separator);
-  const signature = cookieValue.slice(separator + 1);
+  const session: VerifiedSession = { assessmentId, iat, exp };
 
-  if (!constantTimeEquals(sign(payload, options.secret), signature)) {
-    return { ok: false, reason: "bad-signature" };
-  }
-
-  const session = parseClaims(payload);
-  if (!session) return { ok: false, reason: "malformed" };
-
-  if (session.exp <= (options.now ?? nowInSeconds())) {
-    return { ok: false, reason: "expired" };
+  for (const field of [
+    "subscriptionId",
+    "awsAccountId",
+    "licenseArn",
+  ] as const) {
+    const value = opened.claims[field];
+    if (value === undefined) continue;
+    if (typeof value !== "string" || value.length === 0) {
+      return { ok: false, reason: "malformed" };
+    }
+    session[field] = value;
   }
 
   return { ok: true, session };
@@ -179,12 +138,9 @@ export function sessionCookieOptions(options?: {
   ttlSeconds?: number;
   secure?: boolean;
 }) {
-  return {
+  return signedCookieOptions({
     name: SESSION_COOKIE_NAME,
-    httpOnly: true,
-    secure: options?.secure ?? process.env.NODE_ENV === "production",
-    sameSite: "lax" as const,
-    path: "/",
-    maxAge: options?.ttlSeconds ?? SESSION_TTL_SECONDS,
-  };
+    ttlSeconds: options?.ttlSeconds ?? SESSION_TTL_SECONDS,
+    ...(options?.secure !== undefined && { secure: options.secure }),
+  });
 }

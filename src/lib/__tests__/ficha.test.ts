@@ -143,7 +143,9 @@ describe("el catálogo cubre exactamente el del servidor", () => {
 describe("las etiquetas no delatan el motor", () => {
   it("ninguna etiqueta usa el vocabulario interno", () => {
     const offenders = ALL_FICHA_FIELDS.filter((spec) =>
-      FORBIDDEN_VOCABULARY.some((term) => spec.label.toLowerCase().includes(term)),
+      FORBIDDEN_VOCABULARY.some((term) =>
+        spec.label.toLowerCase().includes(term),
+      ),
     ).map((spec) => spec.path);
 
     expect(offenders).toEqual([]);
@@ -213,7 +215,9 @@ describe("las 28 plantillas se leen sin su etiqueta", () => {
     escribir `v ? "Sí" : "No"` es lo que pide el cuerpo al rellenar la tabla.
   */
   it("un booleano no se escribe «Sí» ni «No», en ninguna de sus dos ramas", () => {
-    const booleanos = ALL_FICHA_FIELDS.filter((spec) => spec.kind === "booleano");
+    const booleanos = ALL_FICHA_FIELDS.filter(
+      (spec) => spec.kind === "booleano",
+    );
     expect(booleanos.length).toBeGreaterThan(6);
 
     for (const spec of booleanos) {

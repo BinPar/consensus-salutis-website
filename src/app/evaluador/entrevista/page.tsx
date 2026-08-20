@@ -56,10 +56,9 @@ export const dynamic = "force-dynamic";
 
 export default async function EntrevistaPage() {
   const cookieStore = await cookies();
-  const session = verifySession(
-    cookieStore.get(SESSION_COOKIE_NAME)?.value,
-    { secret: env.MARKETPLACE_SESSION_SECRET },
-  );
+  const session = verifySession(cookieStore.get(SESSION_COOKIE_NAME)?.value, {
+    secret: env.MARKETPLACE_SESSION_SECRET,
+  });
 
   /*
     Se distinguen los dos casos porque no significan lo mismo para quien lo lee:

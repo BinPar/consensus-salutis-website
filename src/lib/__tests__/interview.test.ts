@@ -138,7 +138,7 @@ describe("un turno", () => {
           datosRetirados: false,
           turno: 1,
           turnosRestantes: 29,
-        }) + "\n{\"event\":\"fin\"}\n",
+        }) + '\n{"event":"fin"}\n',
       ),
     );
 
@@ -336,7 +336,10 @@ describe("el informe llega sin lo interno", () => {
 describe("los fallos se distinguen entre sí", () => {
   it("un 401 es «sesión caducada» y no un error genérico", async () => {
     const { options } = clientWith(() =>
-      jsonResponse({ error: "La sesión ha caducado.", reason: "expirada" }, 401),
+      jsonResponse(
+        { error: "La sesión ha caducado.", reason: "expirada" },
+        401,
+      ),
     );
 
     await expect(fetchInterviewState(options)).rejects.toMatchObject({
@@ -433,14 +436,21 @@ describe("el estado para retomar", () => {
             opciones: ["PDF nativo", "Word"],
             multiple: true,
           },
-          { role: "assistant", content: "¿Tenéis DPO?", opciones: ["sí", "no"] },
+          {
+            role: "assistant",
+            content: "¿Tenéis DPO?",
+            opciones: ["sí", "no"],
+          },
         ],
       }),
     );
 
     const state = await fetchInterviewState(options);
 
-    expect(state.mensajes.map((message) => message.multiple)).toEqual([true, false]);
+    expect(state.mensajes.map((message) => message.multiple)).toEqual([
+      true,
+      false,
+    ]);
   });
 });
 

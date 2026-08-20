@@ -26,11 +26,11 @@ export function FooterBandMenu({
       }}
       onToggle={(event) => setOpen(event.currentTarget.open)}
     >
-      <summary className="flex cursor-pointer list-none items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-slate-600 transition outline-none hover:bg-primary-light/10 hover:text-cyan-800 focus-visible:ring-1 focus-visible:ring-primary-light/50 dark:text-slate-300 dark:hover:bg-cyan-300/10 dark:hover:text-cyan-50 dark:focus-visible:ring-cyan-300/60 [&::-webkit-details-marker]:hidden">
+      <summary className="hover:bg-primary-light/10 focus-visible:ring-primary-light/50 flex cursor-pointer list-none items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-slate-600 transition outline-none hover:text-cyan-800 focus-visible:ring-1 dark:text-slate-300 dark:hover:bg-cyan-300/10 dark:hover:text-cyan-50 dark:focus-visible:ring-cyan-300/60 [&::-webkit-details-marker]:hidden">
         {label}
         <span
           aria-hidden="true"
-          className="text-[10px] text-primary-light transition group-open:rotate-45 dark:text-primary-dark"
+          className="text-primary-light dark:text-primary-dark text-[10px] transition group-open:rotate-45"
         >
           +
         </span>
@@ -41,7 +41,7 @@ export function FooterBandMenu({
             <Link
               key={item.href}
               href={item.href}
-              className="block rounded-lg px-3 py-2 text-sm text-slate-600 transition outline-none hover:bg-primary-light/10 hover:text-cyan-800 focus-visible:bg-primary-light/10 focus-visible:text-cyan-800 dark:text-slate-400 dark:hover:bg-cyan-300/10 dark:hover:text-cyan-50 dark:focus-visible:bg-cyan-300/10 dark:focus-visible:text-cyan-50"
+              className="hover:bg-primary-light/10 focus-visible:bg-primary-light/10 block rounded-lg px-3 py-2 text-sm text-slate-600 transition outline-none hover:text-cyan-800 focus-visible:text-cyan-800 dark:text-slate-400 dark:hover:bg-cyan-300/10 dark:hover:text-cyan-50 dark:focus-visible:bg-cyan-300/10 dark:focus-visible:text-cyan-50"
             >
               {item.label}
             </Link>

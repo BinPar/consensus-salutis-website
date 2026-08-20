@@ -18,10 +18,12 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@aws-sdk/client-marketplace-metering": "^3.1114.0",
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
     "@next/mdx": "^15.2.3",
     "@t3-oss/env-nextjs": "^0.12.0",
+    "@vercel/functions": "^3.9.3",
     "framer-motion": "^12.40.0",
     "lucide-react": "^1.24.0",
     "next": "^15.2.3",

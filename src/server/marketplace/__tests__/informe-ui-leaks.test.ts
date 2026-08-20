@@ -20,7 +20,13 @@ import { describe, expect, it } from "vitest";
 
 const INFORME_UI = join(process.cwd(), "src", "app", "_components", "informe");
 const INFORME_PAGE = join(process.cwd(), "src", "app", "informe");
-const READ_MODULE = join(process.cwd(), "src", "server", "marketplace", "report-read.ts");
+const READ_MODULE = join(
+  process.cwd(),
+  "src",
+  "server",
+  "marketplace",
+  "report-read.ts",
+);
 
 function walk(directory: string): string[] {
   return readdirSync(directory).flatMap((entry) => {
@@ -52,14 +58,18 @@ describe("la página del informe no puede pintar el mecanismo", () => {
   const forbidden: Array<{ name: string; pattern: RegExp }> = [
     {
       name: "id de regla del motor",
-      pattern: /["'`](?:perfil|corpus|uso|datos|operativa)\.[a-z][a-z-]{2,}["'`]/,
+      pattern:
+        /["'`](?:perfil|corpus|uso|datos|operativa)\.[a-z][a-z-]{2,}["'`]/,
     },
     {
       name: "tipo de bandera",
       pattern:
         /phi_previsto|derechos_dudosos|corpus_no_digital|sin_sponsor|fuera_de_ambito|ccaa-cubierta|independencia-editorial|email-generico/,
     },
-    { name: "campo interno del veredicto", pattern: /reglasDisparadas|criteriaVersion|costUsd/ },
+    {
+      name: "campo interno del veredicto",
+      pattern: /reglasDisparadas|criteriaVersion|costUsd/,
+    },
   ];
 
   for (const rule of forbidden) {
@@ -77,12 +87,16 @@ describe("la página del informe no puede pintar el mecanismo", () => {
   it("no hay botón de imprimir ni hoja de impresión: el informe es de navegador", () => {
     for (const file of files) {
       const contents = codeOnly(readFileSync(file, "utf8"));
-      expect(/window\.print|@media print/.test(contents), relative(process.cwd(), file)).toBe(
-        false,
-      );
+      expect(
+        /window\.print|@media print/.test(contents),
+        relative(process.cwd(), file),
+      ).toBe(false);
     }
     // Tampoco en la hoja global: la decisión de §1 de la issue es del sitio entero.
-    const globals = readFileSync(join(process.cwd(), "src", "styles", "globals.css"), "utf8");
+    const globals = readFileSync(
+      join(process.cwd(), "src", "styles", "globals.css"),
+      "utf8",
+    );
     expect(globals.includes("@media print")).toBe(false);
   });
 
@@ -92,7 +106,10 @@ describe("la página del informe no puede pintar el mecanismo", () => {
     // cosa, este test obliga a mirar que no sea para esto.
     for (const file of walk(INFORME_PAGE)) {
       const contents = codeOnly(readFileSync(file, "utf8"));
-      expect(contents.includes("searchParams"), relative(process.cwd(), file)).toBe(false);
+      expect(
+        contents.includes("searchParams"),
+        relative(process.cwd(), file),
+      ).toBe(false);
     }
   });
 });

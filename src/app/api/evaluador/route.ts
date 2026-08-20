@@ -48,8 +48,13 @@ import {
   isGenericEmailDomain,
   type EligibilityResponse,
 } from "~/lib/eligibility";
+import { env } from "~/env";
 import { validateAssessmentSubmission } from "~/server/marketplace/assessment-validators";
 import { startEligibilityAssessment } from "~/server/marketplace/convex-eligibility";
+import {
+  REGISTRATION_COOKIE_NAME,
+  verifyRegistration,
+} from "~/server/marketplace/registration";
 import { sessionCookieOptions } from "~/server/marketplace/session";
 
 // `nodejs` y no edge: la firma de la cookie usa `crypto` de Node.
@@ -146,17 +151,40 @@ export async function POST(request: NextRequest) {
     validated.value.emailInstitucional,
   );
 
+  /*
+    La procedencia de AWS, si la hay.
+
+    Es la ÚNICA diferencia entre llegar por Marketplace y llegar por la web
+    pública: la evaluación nace atada a la suscripción que `/aws/registration`
+    canjeó y persistió. El `subscriptionId` sale de una cookie firmada por
+    nosotros y no de un campo del formulario — que es la regla de AWS y lo que
+    impide que alguien se cuelgue de la suscripción de otro escribiendo un
+    identificador en el cuerpo del POST.
+
+    Una cookie ausente, caducada o con la firma tocada no es un error: significa
+    tráfico público, que es el caso mayoritario y el que siempre funciona.
+  */
+  const registration = verifyRegistration(
+    request.cookies.get(REGISTRATION_COOKIE_NAME)?.value,
+    { secret: env.MARKETPLACE_SESSION_SECRET },
+  );
+
   let started;
   try {
-    started = await startEligibilityAssessment({
-      ...validated.value,
-      ambitoPais: validated.value.ambitoPais as "espana" | "latam" | "otro",
-      consentimiento: true,
-      // En milisegundos, que es lo que espera Convex. La versión del texto
-      // consentido la fija `CONSENT_TEXT_VERSION` y viaja con la evaluación
-      // desde el modelo de datos, no desde aquí.
-      consentimientoAt: Date.now(),
-    });
+    started = await startEligibilityAssessment(
+      {
+        ...validated.value,
+        ambitoPais: validated.value.ambitoPais as "espana" | "latam" | "otro",
+        consentimiento: true,
+        // En milisegundos, que es lo que espera Convex. La versión del texto
+        // consentido la fija `CONSENT_TEXT_VERSION` y viaja con la evaluación
+        // desde el modelo de datos, no desde aquí.
+        consentimientoAt: Date.now(),
+      },
+      registration.ok
+        ? { subscriptionId: registration.registration.subscriptionId }
+        : {},
+    );
   } catch (error) {
     console.error(
       "No se pudo crear la evaluación de idoneidad",
@@ -187,8 +215,10 @@ export async function POST(request: NextRequest) {
     Sigue siendo `HttpOnly`: al cliente se lo entrega la página, ya verificado, y
     no hay script que pueda leerlo del documento.
 
-    Cuando llegue #3, los campos de AWS entran en este mismo token —firmados por
-    Convex al arrancar— y nunca como campo de formulario ni parámetro de URL.
+    Lleva `subscriptionId` cuando la evaluación vino de AWS, porque Convex lo
+    firma dentro. El `awsAccountId` no: ése se queda en la cookie de procedencia
+    de `~/server/marketplace/registration`, que es la que lo firmó al canjear el
+    token, y de ahí lo lee el badge del informe.
   */
   response.cookies.set({
     ...sessionCookieOptions({

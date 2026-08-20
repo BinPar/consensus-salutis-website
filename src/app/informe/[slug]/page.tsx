@@ -39,14 +39,17 @@ import {
   fetchReportBySlug,
 } from "~/server/marketplace/report-read";
 import {
+  REGISTRATION_COOKIE_NAME,
+  verifyRegistration,
+} from "~/server/marketplace/registration";
+import {
   SESSION_COOKIE_NAME,
   verifySession,
 } from "~/server/marketplace/session";
 
 export const metadata: Metadata = {
   title: "Informe de idoneidad",
-  description:
-    "Informe de idoneidad de Consensus Salutis para su institución.",
+  description: "Informe de idoneidad de Consensus Salutis para su institución.",
   robots: { index: false, follow: false },
 };
 
@@ -67,8 +70,21 @@ export default async function InformePage({
   const session = verifySession(cookieStore.get(SESSION_COOKIE_NAME)?.value, {
     secret: env.MARKETPLACE_SESSION_SECRET,
   });
-  // Las tres condiciones del badge viven (y se prueban) en `awsBadgeDigits`.
-  const badgeDigits = awsBadgeDigits(session, report.assessmentId);
+  /*
+    La procedencia de AWS va aparte porque se firmó antes de que la evaluación
+    existiera: el POST de Marketplace llega antes de la Etapa 0. Las dos cookies
+    se cruzan por `subscriptionId` dentro de `awsBadgeDigits`, donde viven (y se
+    prueban) las condiciones del badge.
+  */
+  const registration = verifyRegistration(
+    cookieStore.get(REGISTRATION_COOKIE_NAME)?.value,
+    { secret: env.MARKETPLACE_SESSION_SECRET },
+  );
+  const badgeDigits = awsBadgeDigits(
+    session,
+    report.assessmentId,
+    registration,
+  );
 
   /*
     La URL absoluta, del host real de la petición: es lo que copia el botón y lo

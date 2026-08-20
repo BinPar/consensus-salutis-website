@@ -28,7 +28,8 @@ export const blogArticles: BlogArticle[] = [
     createdAt: "2026-02-18",
     createdAtLabel: "18 feb 2026",
     readTime: "5 min de lectura",
-    title: "Del documento fuente a la decisión: evidencia visible en cada consulta",
+    title:
+      "Del documento fuente a la decisión: evidencia visible en cada consulta",
     excerpt:
       "Una capa de consulta clínica debe mostrar el origen de cada conclusión y preservar contexto documental.",
     imageLabel: "Fuente verificable",
@@ -76,7 +77,8 @@ export const blogArticles: BlogArticle[] = [
     createdAt: "2026-03-19",
     createdAtLabel: "19 mar 2026",
     readTime: "5 min de lectura",
-    title: "De la guía clínica al flujo asistencial: cerrar la distancia operativa",
+    title:
+      "De la guía clínica al flujo asistencial: cerrar la distancia operativa",
     excerpt:
       "Cómo convertir recomendaciones documentales en respuestas útiles dentro del trabajo sanitario diario.",
     imageLabel: "Flujo asistencial",
@@ -160,7 +162,8 @@ export const blogArticles: BlogArticle[] = [
     createdAt: "2026-05-07",
     createdAtLabel: "7 may 2026",
     readTime: "7 min de lectura",
-    title: "IA médica institucional: producto, evidencia y gobierno en equilibrio",
+    title:
+      "IA médica institucional: producto, evidencia y gobierno en equilibrio",
     excerpt:
       "Tres dimensiones necesarias para pasar de un piloto atractivo a una capacidad sostenible.",
     imageLabel: "IA institucional",

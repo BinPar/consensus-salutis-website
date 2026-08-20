@@ -28,6 +28,41 @@ export const env = createEnv({
      * sesión para que filtrar uno no comprometa el otro.
      */
     MARKETPLACE_TOKEN_PEPPER: z.string().min(32),
+    /**
+     * Código del producto en AWS Marketplace, de la página de resumen.
+     *
+     * Opcional **en el esquema** y obligatorio **en la ruta de registro**, que
+     * no es lo mismo. Si fuera obligatorio aquí, el build de toda la landing
+     * —home, blog, evaluador público— dependería de la configuración de un canal
+     * de distribución que se publica después. Lo que no puede pasar es que la
+     * ruta lo dé por bueno cuando falta: `AWS_MP_PRODUCT_CODE` sin poner
+     * convierte la comparación en `undefined === undefined`, que acepta
+     * cualquier producto. Por eso `/aws/registration` falla en seco si no está,
+     * y hay un test que lo fija.
+     */
+    AWS_MP_PRODUCT_CODE: z.string().optional(),
+    /**
+     * Rol a asumir por federación OIDC en la cuenta que registró el producto.
+     *
+     * No es un adorno de configuración: AWS exige que `ResolveCustomer` se
+     * llame **desde la cuenta proveedora**, y desde otra la llamada funciona
+     * igual y aun así no cuenta. Provisionado en `BinPar/consensus-salutis#91`.
+     */
+    AWS_ROLE_ARN: z.string().optional(),
+    /**
+     * Región del servicio de Metering. `us-east-1` con independencia de dónde se
+     * despliegue la landing: el servicio vive ahí.
+     */
+    AWS_REGION: z.string().default("us-east-1"),
+    /**
+     * Endpoint alternativo para `ResolveCustomer`. **Solo desarrollo.**
+     *
+     * Apunta al `resolve-stub` de `scripts/marketplace-sim.mts` del monorepo
+     * (`http://localhost:4599`), que habla el protocolo real. En local no hay
+     * credenciales de AWS ni las va a haber, porque la llamada solo cuenta desde
+     * la cuenta proveedora.
+     */
+    AWS_MP_RESOLVE_ENDPOINT: z.string().url().optional(),
   },
 
   /**
@@ -86,6 +121,10 @@ export const env = createEnv({
     CONTACT_TO_EMAIL: process.env.CONTACT_TO_EMAIL,
     MARKETPLACE_SESSION_SECRET: process.env.MARKETPLACE_SESSION_SECRET,
     MARKETPLACE_TOKEN_PEPPER: process.env.MARKETPLACE_TOKEN_PEPPER,
+    AWS_MP_PRODUCT_CODE: process.env.AWS_MP_PRODUCT_CODE,
+    AWS_ROLE_ARN: process.env.AWS_ROLE_ARN,
+    AWS_REGION: process.env.AWS_REGION,
+    AWS_MP_RESOLVE_ENDPOINT: process.env.AWS_MP_RESOLVE_ENDPOINT,
     NEXT_PUBLIC_CONVEX_SITE_URL: process.env.NEXT_PUBLIC_CONVEX_SITE_URL,
     NEXT_PUBLIC_PLATFORM_SIGN_IN_URL:
       process.env.NEXT_PUBLIC_PLATFORM_SIGN_IN_URL,

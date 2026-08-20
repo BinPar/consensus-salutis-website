@@ -45,7 +45,11 @@ export function ReportView({ report }: { report: InterviewReport }) {
             className="bg-primary-light dark:bg-primary-dark shadow-big-blocks mt-5 inline-flex min-h-11 items-center gap-2.5 rounded-full px-5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-cyan-800 dark:text-[#03111d] dark:hover:bg-[#71fffe]"
           >
             Abrir el informe
-            <ArrowRight aria-hidden="true" strokeWidth={1.8} className="size-4" />
+            <ArrowRight
+              aria-hidden="true"
+              strokeWidth={1.8}
+              className="size-4"
+            />
           </a>
         </>
       ) : (

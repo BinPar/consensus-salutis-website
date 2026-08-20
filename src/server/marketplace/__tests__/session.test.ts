@@ -26,7 +26,10 @@ function tamperOneByteOfPayload(cookie: string) {
 
 describe("cookie de sesión de registro", () => {
   it("firma y verifica una sesión con solo assessmentId", () => {
-    const cookie = signSession({ assessmentId: "assess_1" }, { secret: SECRET, now: NOW });
+    const cookie = signSession(
+      { assessmentId: "assess_1" },
+      { secret: SECRET, now: NOW },
+    );
     const result = verifySession(cookie, { secret: SECRET, now: NOW + 10 });
 
     expect(result.ok).toBe(true);
@@ -56,7 +59,10 @@ describe("cookie de sesión de registro", () => {
 
   // Criterio de aceptación §6: alterar un byte del payload y comprobar el rechazo.
   it("rechaza una cookie con un byte del payload alterado", () => {
-    const cookie = signSession({ assessmentId: "assess_3" }, { secret: SECRET, now: NOW });
+    const cookie = signSession(
+      { assessmentId: "assess_3" },
+      { secret: SECRET, now: NOW },
+    );
     const tampered = tamperOneByteOfPayload(cookie);
 
     expect(tampered).not.toBe(cookie);
@@ -69,9 +75,13 @@ describe("cookie de sesión de registro", () => {
   });
 
   it("rechaza una cookie con la firma alterada", () => {
-    const cookie = signSession({ assessmentId: "assess_4" }, { secret: SECRET, now: NOW });
+    const cookie = signSession(
+      { assessmentId: "assess_4" },
+      { secret: SECRET, now: NOW },
+    );
     const [payload, signature] = cookie.split(".") as [string, string];
-    const flipped = signature.slice(0, -1) + (signature.endsWith("A") ? "B" : "A");
+    const flipped =
+      signature.slice(0, -1) + (signature.endsWith("A") ? "B" : "A");
 
     const result = verifySession(`${payload}.${flipped}`, {
       secret: SECRET,
@@ -84,7 +94,10 @@ describe("cookie de sesión de registro", () => {
   });
 
   it("rechaza una cookie firmada con otro secreto", () => {
-    const cookie = signSession({ assessmentId: "assess_5" }, { secret: OTHER_SECRET, now: NOW });
+    const cookie = signSession(
+      { assessmentId: "assess_5" },
+      { secret: OTHER_SECRET, now: NOW },
+    );
     const result = verifySession(cookie, { secret: SECRET, now: NOW + 10 });
 
     expect(result.ok).toBe(false);
@@ -99,7 +112,9 @@ describe("cookie de sesión de registro", () => {
       { secret: SECRET, ttlSeconds: 60, now: NOW },
     );
 
-    expect(verifySession(cookie, { secret: SECRET, now: NOW + 59 }).ok).toBe(true);
+    expect(verifySession(cookie, { secret: SECRET, now: NOW + 59 }).ok).toBe(
+      true,
+    );
 
     const result = verifySession(cookie, { secret: SECRET, now: NOW + 61 });
 

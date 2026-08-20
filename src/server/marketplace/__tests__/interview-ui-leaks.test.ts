@@ -19,8 +19,20 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { describe, expect, it } from "vitest";
 
-const INTERVIEW_UI = join(process.cwd(), "src", "app", "_components", "interview");
-const INTERVIEW_PAGE = join(process.cwd(), "src", "app", "evaluador", "entrevista");
+const INTERVIEW_UI = join(
+  process.cwd(),
+  "src",
+  "app",
+  "_components",
+  "interview",
+);
+const INTERVIEW_PAGE = join(
+  process.cwd(),
+  "src",
+  "app",
+  "evaluador",
+  "entrevista",
+);
 const TRANSPORT = join(process.cwd(), "src", "lib", "interview.ts");
 
 function walk(directory: string): string[] {
@@ -75,7 +87,9 @@ describe("la UI de la entrevista no puede pintar el mecanismo", () => {
       const contents = codeOnly(readFileSync(file, "utf8"));
       return FORBIDDEN_IDENTIFIERS.filter((identifier) =>
         new RegExp(identifier).test(contents),
-      ).map((identifier) => `${relative(process.cwd(), file)} :: ${identifier}`);
+      ).map(
+        (identifier) => `${relative(process.cwd(), file)} :: ${identifier}`,
+      );
     });
 
     expect(offenders).toEqual([]);
@@ -92,7 +106,12 @@ describe("la UI de la entrevista no puede pintar el mecanismo", () => {
     const parseReport = /function parseReport[\s\S]*?\n}/.exec(transport)?.[0];
 
     expect(parseReport).toBeDefined();
-    for (const field of ["criteriaVersion", "costUsd", "raw.nivel,", "banderas"]) {
+    for (const field of [
+      "criteriaVersion",
+      "costUsd",
+      "raw.nivel,",
+      "banderas",
+    ]) {
       expect(parseReport).not.toContain(field);
     }
   });
@@ -101,7 +120,9 @@ describe("la UI de la entrevista no puede pintar el mecanismo", () => {
     const offenders = files
       .filter((file) => {
         const contents = codeOnly(readFileSync(file, "utf8"));
-        return /"(listos|casi|explorar)"|'(listos|casi|explorar)'/.test(contents);
+        return /"(listos|casi|explorar)"|'(listos|casi|explorar)'/.test(
+          contents,
+        );
       })
       .map((file) => relative(process.cwd(), file));
 
@@ -161,7 +182,9 @@ describe("la sesión no sale del sitio donde tiene que estar", () => {
       const contents = codeOnly(readFileSync(file, "utf8"));
       return forbidden
         .filter((pattern) => pattern.test(contents))
-        .map((pattern) => `${relative(process.cwd(), file)} :: ${pattern.source}`);
+        .map(
+          (pattern) => `${relative(process.cwd(), file)} :: ${pattern.source}`,
+        );
     });
 
     expect(offenders).toEqual([]);

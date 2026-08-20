@@ -1,12 +1,13 @@
 "use client";
 
 /**
- * Copiar el enlace del informe: la acción principal de la página (issue #6 §1).
+ * Copiar el enlace del informe (issue #6 §1).
  *
  * Es la única compensación por no generar PDF: el informe se reenvía como URL o
- * no se reenvía. Por eso es el único botón con relleno de acento de la página, y
- * por eso no hay botón de imprimir al lado — ofrecer ⌘P sin maquetar la salida
- * prometería algo que no se va a cuidar.
+ * no se reenvía. Por eso lleva el relleno de acento y por eso no hay botón de
+ * imprimir al lado — ofrecer ⌘P sin maquetar la salida prometería algo que no se
+ * va a cuidar. Va en segundo lugar, detrás de «Empezar la conversación»: reenviar
+ * el informe dentro de la institución importa, pero escribirnos importa antes.
  *
  * Único componente de cliente de la página: el resto se sirve renderizado. El
  * portapapeles exige gesto del usuario y `navigator.clipboard`, así que no hay
