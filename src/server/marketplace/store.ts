@@ -1,24 +1,58 @@
 /**
- * Puerto de persistencia del módulo marketplace.
+ * Puerto de persistencia del módulo marketplace. **Hoy es documentación
+ * ejecutable, no la persistencia de ninguna ruta.**
  *
- * ⚠️ **Costura hacia `BinPar/consensus-salutis#83`.** El modelo de datos real
- * (`eligibilityAssessments`, `customerSpaceTokens`) vive en Convex, en el
- * monorepo de la plataforma, y esa issue todavía está abierta. Este archivo
- * define el contrato que esas tablas tienen que cumplir y trae un adaptador en
- * memoria para poder construir y probar el evaluador mientras no exista.
+ * ## Cómo acabó así
  *
- * Cuando #83 aterrice, se añade un adaptador que llama a las
- * `internalMutation` correspondientes y se cambia `marketplaceStore` por él. El
- * resto del módulo no se toca.
+ * Este fichero nació como la costura hacia `BinPar/consensus-salutis#83`: el
+ * modelo real (`eligibilityAssessments`, `customerSpaceTokens`) vivía en el
+ * monorepo y esa issue estaba abierta, así que aquí se escribió el contrato que
+ * esas tablas tendrían que cumplir, con un adaptador en memoria para poder
+ * construir el evaluador mientras no existieran. El plan era añadir después un
+ * adaptador que llamara a las `internalMutation` y cambiar `marketplaceStore`
+ * por él.
  *
- * Dos decisiones del contrato que no son cosméticas:
+ * **El plan no se cumplió, y no se cumplió por buenos motivos.** Las dos mitades
+ * se fueron a Convex, cada una por su razón:
+ *
+ * - La mitad de evaluaciones, con `#83`: la Etapa 0 pasó a `/eligibility-start`,
+ *   que además firma la sesión de la entrevista. Lo pone el docblock de
+ *   `DraftAssessment`.
+ * - La mitad de tokens, con `#93` y `website#7`: quien EMITE el enlace es una
+ *   action de Convex (la clave de Resend se queda con los datos) y quien lo
+ *   canja es una `internalMutation` de Convex. Esta landing no guarda ni emite
+ *   nada: deriva el hash (`hashToken`) y llama a `/marketplace-space-redeem`.
+ *   Ver `convex-space.ts`.
+ *
+ * Se consideró escribir el adaptador de todas formas, para cumplir la letra del
+ * plan, y se descartó: el éxito de `redeemToken` devuelve **la fila del token**
+ * (`tokenHash`, `issuedAt`, `expiresAt`) y lo que el endpoint devuelve es **el
+ * estado del espacio** (`status`, `statusSince`, `reportSlug`). Un adaptador
+ * tendría que inventarse los campos que le faltan, y un contrato que se cumple
+ * inventando datos no es un contrato: es un sitio donde mentir con tipos verdes.
+ *
+ * ## Entonces qué sigue haciendo aquí
+ *
+ * Las tres invariantes del canje, escritas y **probadas** con el adaptador en
+ * memoria (`one-time-tokens.test.ts`, 13 casos). Son las que el lado de Convex
+ * tiene que cumplir, y son la referencia contra la que se lee su código:
  *
  * 1. `redeemToken` es **una sola operación**, no un buscar-y-luego-marcar. El
  *    uso único tiene que ser atómico; si se parte en dos llamadas, dos canjes
- *    simultáneos del mismo enlace pasan los dos. En Convex esto es una única
- *    `internalMutation`.
+ *    simultáneos del mismo enlace pasan los dos. En Convex es `redeemRow`, una
+ *    única `internalMutation`.
  * 2. El puerto solo conoce **hashes** de token. El token en claro no entra aquí
- *    ni por parámetro, así que no hay forma de almacenarlo por descuido.
+ *    ni por parámetro, así que no hay forma de almacenarlo por descuido. En
+ *    Convex, `customerSpaceTokens` guarda solo el hash.
+ * 3. Un token de OTRA suscripción se rechaza **sin gastarse**
+ *    (`wrong-subscription` no marca `usedAt`), o un canje cruzado le estropearía
+ *    el enlace a su dueño. En Convex es el `expectedSubscriptionId` de
+ *    `space.redeem`, comprobado antes del `patch` y dentro de la transacción —
+ *    que es el único sitio donde esa garantía se puede sostener de verdad.
+ *
+ * Lo que **no** hay que hacer es volver a cablear esto a una ruta. Si alguna vez
+ * hiciera falta, la pregunta previa es por qué la landing vuelve a querer una
+ * base de datos.
  */
 
 import { constantTimeEquals } from "~/server/marketplace/constant-time";

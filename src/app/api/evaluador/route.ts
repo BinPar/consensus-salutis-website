@@ -50,7 +50,11 @@ import {
 } from "~/lib/eligibility";
 import { env } from "~/env";
 import { validateAssessmentSubmission } from "~/server/marketplace/assessment-validators";
-import { startEligibilityAssessment } from "~/server/marketplace/convex-eligibility";
+import { clientKeyFrom } from "~/server/marketplace/client-key";
+import {
+  EligibilityStartError,
+  startEligibilityAssessment,
+} from "~/server/marketplace/convex-eligibility";
 import {
   REGISTRATION_COOKIE_NAME,
   verifyRegistration,
@@ -181,11 +185,36 @@ export async function POST(request: NextRequest) {
         // desde el modelo de datos, no desde aquí.
         consentimientoAt: Date.now(),
       },
-      registration.ok
-        ? { subscriptionId: registration.registration.subscriptionId }
-        : {},
+      {
+        ...(registration.ok && {
+          subscriptionId: registration.registration.subscriptionId,
+        }),
+        // El límite de tasa que esta ruta llevaba anotado como carencia
+        // consciente: ya existe contador, y vive en Convex (#93 §4). Lo que va es
+        // un HMAC de la IP, no la IP.
+        //
+        // **Falla abierto en los dos lados.** Aquí, porque sin cabecera de IP no
+        // hay clave y sin clave no hay límite; allí, porque un contador que no se
+        // puede leer deja pasar. Es la decisión correcta para esta ruta en
+        // concreto: es la página de la que depende el alta, y la que abre el
+        // revisor de AWS.
+        clientKey: clientKeyFrom(request, env.MARKETPLACE_TOKEN_PEPPER),
+      },
     );
   } catch (error) {
+    // El límite de tasa tiene su propia frase: decirle «no hemos podido guardar
+    // tus datos» a quien solo tiene que esperar un rato le hace pensar que el
+    // sitio está roto, y probablemente reintentar más deprisa.
+    if (error instanceof EligibilityStartError && error.status === 429) {
+      return json(
+        {
+          ok: false,
+          message:
+            "Se han iniciado varias evaluaciones desde tu red en la última hora. Espera unos minutos y vuelve a intentarlo, o escríbenos y la abrimos nosotros.",
+        },
+        429,
+      );
+    }
     console.error(
       "No se pudo crear la evaluación de idoneidad",
       error,

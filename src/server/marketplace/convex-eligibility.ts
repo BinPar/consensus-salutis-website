@@ -84,7 +84,11 @@ function isRecord(value: unknown): value is Record<string, unknown> {
  */
 export async function startEligibilityAssessment(
   stage0: EligibilityStage0,
-  options: { subscriptionId?: string; fetcher?: typeof fetch } = {},
+  options: {
+    subscriptionId?: string;
+    clientKey?: string;
+    fetcher?: typeof fetch;
+  } = {},
 ): Promise<StartedAssessment> {
   const doFetch = options.fetcher ?? fetch;
   const endpoint = `${env.NEXT_PUBLIC_CONVEX_SITE_URL}/eligibility-start`;
@@ -103,6 +107,12 @@ export async function startEligibilityAssessment(
         ...(options.subscriptionId !== undefined && {
           subscriptionId: options.subscriptionId,
         }),
+        // HMAC de la IP, para el contador de tasa del otro lado (#93 §4). No la
+        // IP: el contador tiene que distinguir clientes, no identificarlos. Ver
+        // `client-key.ts`. Ausente = sin límite por cliente, que es lo que pasaba
+        // hasta ahora en esta ruta.
+        ...(options.clientKey !== undefined &&
+          options.clientKey.length > 0 && { clientKey: options.clientKey }),
       }),
       signal: AbortSignal.timeout(START_TIMEOUT_MS),
       cache: "no-store",
@@ -122,7 +132,12 @@ export async function startEligibilityAssessment(
     const detail = await response.text().catch(() => "");
     throw new EligibilityStartError(
       `\`/eligibility-start\` respondió ${response.status}: ${detail.slice(0, 300)}`,
-      response.status === 401 ? 500 : 503,
+      // El `429` del límite de tasa (#93 §4) se propaga TAL CUAL y no se disfraza
+      // de `503`: son dos cosas distintas para quien está delante del formulario
+      // —«espera un momento» frente a «esto está roto»— y la ruta las cuenta
+      // distinto. Un `401` sigue siendo `500`: los dos lados tienen secretos
+      // distintos y eso es culpa nuestra, no de quien rellenó el formulario.
+      response.status === 401 ? 500 : response.status === 429 ? 429 : 503,
     );
   }
 
