@@ -7,7 +7,6 @@ import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
 import { BlogArticleCard } from "~/app/_components/blog-article-card";
-import { latestBlogArticles } from "~/app/_components/blog-articles";
 import { ProductSignalLeft } from "~/app/_components/product-signal-left";
 import {
   CTAGroup,
@@ -23,6 +22,7 @@ import {
   SignalField,
   ViewportReveal,
 } from "~/app/_components/motion-system";
+import type { BlogPost } from "~/lib/blog";
 
 const metrics = [
   {
@@ -140,7 +140,8 @@ const panels = [
   "Reunión",
 ];
 const mobilePanelOrder = [0, 1, 2, 3, 4, 5, 6] as const;
-const homeBlogArticles = latestBlogArticles.slice(0, 4);
+/* La home enseña los cuatro últimos; el resto vive en `/blog`. */
+const HOME_POSTS = 4;
 
 type DesktopLayout = "horizontal" | "vertical";
 type PanelHeight = "natural" | "viewport";
@@ -209,7 +210,7 @@ function usePassedViewport(amount: number) {
   return [elementRef, visible] as const;
 }
 
-export function HorizontalHome() {
+export function HorizontalHome({ posts }: { posts: BlogPost[] }) {
   const railRef = useRef<HTMLDivElement>(null);
   const panelRefs = useRef<Array<HTMLElement | null>>([]);
   const previousScrollLeft = useRef(0);
@@ -434,12 +435,12 @@ export function HorizontalHome() {
         </section>
       </main>
 
-      <MobileHome onPanelReveal={revealPanelsThrough} />
+      <MobileHome onPanelReveal={revealPanelsThrough} posts={posts} />
     </>
   );
 }
 
-export function VerticalHome() {
+export function VerticalHome({ posts }: { posts: BlogPost[] }) {
   const [revealedPanels, setRevealedPanels] = useState<Set<number>>(
     () => new Set([0]),
   );
@@ -512,15 +513,19 @@ export function VerticalHome() {
             />
           )}
         </VerticalPanel>
-        <VerticalPanel initiallyVisible={revealedPanels.has(5)}>
-          {(visible, panelRef) => (
-            <BlogPanel
-              layout="vertical"
-              panelRef={panelRef}
-              visible={visible}
-            />
-          )}
-        </VerticalPanel>
+        {/* Sin posts no hay sección: mejor un panel menos que un panel vacío. */}
+        {posts.length > 0 ? (
+          <VerticalPanel initiallyVisible={revealedPanels.has(5)}>
+            {(visible, panelRef) => (
+              <BlogPanel
+                layout="vertical"
+                panelRef={panelRef}
+                visible={visible}
+                posts={posts}
+              />
+            )}
+          </VerticalPanel>
+        ) : null}
         <VerticalPanel initiallyVisible={revealedPanels.has(6)}>
           {(visible, panelRef) => (
             <ContactPanel
@@ -532,7 +537,7 @@ export function VerticalHome() {
         </VerticalPanel>
       </main>
 
-      <MobileHome onPanelReveal={revealPanelsThrough} />
+      <MobileHome onPanelReveal={revealPanelsThrough} posts={posts} />
     </>
   );
 }
@@ -1009,10 +1014,12 @@ function BlogPanel({
   visible,
   panelRef,
   layout = "horizontal",
+  posts,
 }: {
   visible: boolean;
   panelRef: PanelRef;
   layout?: DesktopLayout;
+  posts: BlogPost[];
 }) {
   return (
     <Panel
@@ -1020,7 +1027,7 @@ function BlogPanel({
       layout={layout}
       className="bg-white dark:bg-transparent"
     >
-      <BlogContent visible={visible} />
+      <BlogContent visible={visible} posts={posts} />
     </Panel>
   );
 }
@@ -1028,13 +1035,16 @@ function BlogPanel({
 function BlogContent({
   visible,
   compact = false,
+  posts,
 }: {
   visible?: boolean;
   compact?: boolean;
+  posts: BlogPost[];
 }) {
   const reducedMotion = useReducedMotion();
   const [viewportRef, inViewport] = usePassedViewport(0.28);
   const show = reducedMotion ? true : (visible ?? inViewport);
+  const homePosts = posts.slice(0, HOME_POSTS);
   const heading = (
     <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
       <div>
@@ -1092,9 +1102,9 @@ function BlogContent({
           compact ? "sm:grid-cols-2" : "lg:grid-cols-3 xl:grid-cols-4"
         }`}
       >
-        {homeBlogArticles.map((article, index) => (
+        {homePosts.map((article, index) => (
           <motion.div
-            key={article.title}
+            key={article.slug}
             variants={{
               hidden: { opacity: reducedMotion ? 1 : 0 },
               visible: {
@@ -1162,8 +1172,10 @@ function ContactPanel({
 
 function MobileHome({
   onPanelReveal,
+  posts,
 }: {
   onPanelReveal?: (panelIndex: number) => void;
+  posts: BlogPost[];
 }) {
   const sectionRefs = useRef<Array<HTMLElement | null>>([]);
 
@@ -1318,17 +1330,19 @@ function MobileHome({
         </div>
       </ThemeSection>
 
-      <ThemeSection
-        ref={(node) => {
-          sectionRefs.current[5] = node;
-        }}
-        variant="transparent"
-        className="bg-white dark:bg-transparent"
-      >
-        <div className="px-5 sm:px-10">
-          <BlogContent compact />
-        </div>
-      </ThemeSection>
+      {posts.length > 0 ? (
+        <ThemeSection
+          ref={(node) => {
+            sectionRefs.current[5] = node;
+          }}
+          variant="transparent"
+          className="bg-white dark:bg-transparent"
+        >
+          <div className="px-5 sm:px-10">
+            <BlogContent compact posts={posts} />
+          </div>
+        </ThemeSection>
+      ) : null}
 
       <ThemeSection
         ref={(node) => {

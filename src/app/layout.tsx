@@ -4,6 +4,7 @@ import { type Metadata } from "next";
 import { Plus_Jakarta_Sans, Sora } from "next/font/google";
 
 import { MotionProvider } from "~/app/_components/motion-system";
+import { getSiteUrl } from "~/lib/site";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -16,6 +17,16 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
+  /*
+    `metadataBase`: sin ella Next resuelve las URLs de Open Graph contra
+    `localhost` y avisa en cada build.
+  */
+  metadataBase: new URL(getSiteUrl()),
+  alternates: {
+    types: {
+      "application/rss+xml": "/blog/rss.xml",
+    },
+  },
   title: {
     default: "Consensus Salutis",
     template: "%s | Consensus Salutis",

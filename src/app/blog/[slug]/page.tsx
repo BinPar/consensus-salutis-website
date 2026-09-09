@@ -4,27 +4,21 @@ import Link from "next/link";
 import { Calendar, Clock, ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 
-import SampleArticle from "~/app/blog/_articles/sample-article.mdx";
-import {
-  blogArticles,
-  getBlogArticleBySlug,
-} from "~/app/_components/blog-articles";
+import { BlogCover } from "~/app/_components/blog-cover";
 import { ProductSignalLeft } from "~/app/_components/product-signal-left";
 import { Eyebrow, PageShell } from "~/app/_components/site";
 import {
   HomeMotionBackground,
   SignalField,
 } from "~/app/_components/motion-system";
+import { getBlogPostBySlug, getBlogPosts, type BlogPost } from "~/lib/blog";
+import { absoluteUrl } from "~/lib/site";
 
 type ArticlePageProps = {
   params: Promise<{
     slug: string;
   }>;
 };
-
-const articleContentBySlug = Object.fromEntries(
-  blogArticles.map((article) => [article.slug, SampleArticle]),
-);
 
 const articleBodyClassName = [
   "font-body mx-auto text-base leading-7 text-slate-700 dark:text-slate-300",
@@ -44,44 +38,107 @@ const articleBodyClassName = [
 ].join(" ");
 
 export function generateStaticParams() {
-  return blogArticles.map((article) => ({ slug: article.slug }));
+  return getBlogPosts().map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({
   params,
 }: ArticlePageProps): Promise<Metadata> {
   const { slug } = await params;
-  const article = getBlogArticleBySlug(slug);
+  const post = getBlogPostBySlug(slug);
 
-  if (!article) {
+  if (!post) {
     return {
       title: "Artículo no encontrado",
     };
   }
 
   return {
-    title: article.title,
-    description: article.excerpt,
+    title: post.title,
+    description: post.excerpt,
+    alternates: {
+      canonical: absoluteUrl(post.href),
+    },
     openGraph: {
-      title: article.title,
-      description: article.excerpt,
-      images: [article.imageSrc],
+      type: "article",
+      title: post.title,
+      description: post.excerpt,
+      url: absoluteUrl(post.href),
+      publishedTime: post.date,
+      modifiedTime: post.updatedAt ?? post.date,
+      /* La imagen la aporta `opengraph-image.tsx`: 1200×630 con el título dentro. */
     },
   };
 }
 
+/**
+ * `schema.org/Article` en línea.
+ *
+ * Apunta a la imagen OG y no a `image` del frontmatter a propósito: la OG existe
+ * siempre y tiene el formato que piden los validadores; la portada es opcional y
+ * es 16:7.
+ */
+function ArticleJsonLd({ post }: { post: BlogPost }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.date,
+    dateModified: post.updatedAt ?? post.date,
+    inLanguage: "es-ES",
+    mainEntityOfPage: absoluteUrl(post.href),
+    url: absoluteUrl(post.href),
+    image: [absoluteUrl(`${post.href}/opengraph-image`)],
+    keywords: post.tags.join(", "),
+    author: {
+      "@type": "Person",
+      name: post.author.name,
+      jobTitle: post.author.role,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Consensus Salutis",
+      url: absoluteUrl("/"),
+      logo: {
+        "@type": "ImageObject",
+        url: absoluteUrl("/favicon.svg"),
+      },
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      /* El JSON viene de nuestro propio frontmatter validado, no de entrada externa. */
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
 export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
-  const article = getBlogArticleBySlug(slug);
-  const ArticleContent = articleContentBySlug[slug];
+  const post = getBlogPostBySlug(slug);
 
-  if (!article || !ArticleContent) {
+  if (!post) {
     notFound();
   }
+
+  /*
+    Import dinámico con plantilla: es lo que permite que publicar un post sea
+    crear un fichero y nada más. Verificado bajo Turbopack (`pnpm dev`) y bajo
+    el build de producción. El `slug` no es entrada libre —viene de
+    `getBlogPostBySlug`, que solo devuelve ficheros que existen— así que el
+    contexto que genera el bundler no abre ninguna ruta que no sea un post.
+  */
+  const { default: PostBody } = (await import(
+    `../../../content/blog/${post.slug}.mdx`
+  )) as { default: React.ComponentType };
 
   return (
     <PageShell>
       <main className="relative isolate bg-[#fbfdff] dark:bg-[#06111f]">
+        <ArticleJsonLd post={post} />
         <HomeMotionBackground />
         <article className="relative isolate z-10 overflow-hidden">
           <div className="pointer-events-none fixed inset-0 -right-50 z-0">
@@ -111,19 +168,28 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                 <header className="mt-10">
                   <Eyebrow>Lecturas clínicas</Eyebrow>
                   <h1 className="font-display mt-5 max-w-3xl text-4xl font-extrabold tracking-tight text-[#05215e] sm:text-5xl lg:text-6xl dark:text-slate-50">
-                    {article.title}
+                    {post.title}
                   </h1>
                   <p className="font-body mt-6 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-400">
-                    {article.excerpt}
+                    {post.excerpt}
                   </p>
-                  <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-medium text-slate-500 dark:text-slate-400">
+                  <p className="font-body mt-7 text-sm text-slate-600 dark:text-slate-400">
+                    <span className="font-semibold text-[#05215e] dark:text-slate-100">
+                      {post.author.name}
+                    </span>
+                    <span className="text-slate-500 dark:text-slate-500">
+                      {" · "}
+                      {post.author.role}
+                    </span>
+                  </p>
+                  <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-medium text-slate-500 dark:text-slate-400">
                     <span className="inline-flex items-center gap-2">
                       <Calendar
                         aria-hidden="true"
                         className="size-4"
                         strokeWidth={1.8}
                       />
-                      {article.createdAtLabel}
+                      {post.createdAtLabel}
                     </span>
                     <span className="inline-flex items-center gap-2">
                       <Clock
@@ -131,27 +197,50 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                         className="size-4"
                         strokeWidth={1.8}
                       />
-                      {article.readTime}
+                      {post.readTime}
                     </span>
+                    {post.updatedAtLabel ? (
+                      <span>Actualizado el {post.updatedAtLabel}</span>
+                    ) : null}
                   </div>
+                  <nav
+                    aria-label="Etiquetas del artículo"
+                    className="mt-6 flex flex-wrap gap-2"
+                  >
+                    {post.tags.map((tag, position) => (
+                      <Link
+                        key={tag}
+                        href={`/blog/tag/${tag}`}
+                        className="font-body hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 inline-flex h-8 items-center rounded-full border bg-white/80 px-4 text-xs font-semibold text-slate-600 transition-all duration-150 hover:text-cyan-800 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:text-slate-400 dark:hover:text-cyan-100"
+                      >
+                        {post.tagLabels[position] ?? tag}
+                      </Link>
+                    ))}
+                  </nav>
                 </header>
               </div>
               <div className="px-5 sm:px-8">
                 <div className="shadow-big-blocks relative mt-12 overflow-hidden rounded-2xl border border-cyan-800/15 bg-white/70 dark:border-cyan-300/20 dark:bg-[#152230e6]/80">
-                  <Image
-                    src={article.imageSrc}
-                    alt=""
-                    width={1600}
-                    height={900}
-                    priority
-                    className="aspect-16/7 w-full object-cover"
-                  />
+                  {post.image ? (
+                    <Image
+                      src={post.image}
+                      alt={post.imageAlt ?? ""}
+                      width={1600}
+                      height={700}
+                      priority
+                      className="aspect-16/7 w-full object-cover"
+                    />
+                  ) : (
+                    <div className="aspect-16/7 w-full">
+                      <BlogCover slug={post.slug} />
+                    </div>
+                  )}
                 </div>
               </div>
 
               <div className="mt-10 rounded-2xl px-5 pb-6 backdrop-blur-xs sm:px-8 sm:pb-7">
                 <div className={articleBodyClassName}>
-                  <ArticleContent />
+                  <PostBody />
                 </div>
               </div>
             </div>
