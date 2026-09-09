@@ -82,7 +82,11 @@ import {
 } from "~/lib/ficha";
 import { avanceDeBloques } from "~/lib/ficha-rasgos";
 import { avanceDelTecleo } from "~/lib/tecleo";
-import { capitalizarInstitucion, partirOpciones } from "~/lib/opciones";
+import {
+  capitalizarInstitucion,
+  esTodas,
+  partirOpciones,
+} from "~/lib/opciones";
 
 /** Cuánto dura el resaltado de un campo que acaba de cambiar. */
 const HIGHLIGHT_MS = 2_600;
@@ -988,12 +992,21 @@ export function InterviewScreen({
   );
   const activaMultiple = lastAssistant?.multiple === true;
 
+  /*
+    La casilla «Todas las especialidades» es EXCLUYENTE, en los dos sentidos:
+    marcarla vacía el resto, y marcar cualquier otra la quita. «Todas» más tres
+    nombres no es un dato más rico, es una contradicción que alguien tiene que
+    resolver después — y el servidor la resuelve colapsando a «todas», así que las
+    tres marcas del cliente se perderían sin que él lo viera.
+  */
   const alternarMarcada = useCallback((respuesta: string) => {
-    setMarcadas((current) =>
-      current.includes(respuesta)
-        ? current.filter((item) => item !== respuesta)
-        : [...current, respuesta],
-    );
+    setMarcadas((current) => {
+      if (current.includes(respuesta)) {
+        return current.filter((item) => item !== respuesta);
+      }
+      if (esTodas(respuesta)) return [respuesta];
+      return [...current.filter((item) => !esTodas(item)), respuesta];
+    });
   }, []);
 
   /** El botón «Continuar» de las preguntas de varias respuestas. */

@@ -11,6 +11,7 @@ import { describe, expect, it } from "vitest";
 import {
   capitalizarInstitucion,
   esEscapatoria,
+  esTodas,
   etiquetaOpcion,
   partirOpciones,
 } from "~/lib/opciones";
@@ -152,5 +153,37 @@ describe("las opciones se parten en respuestas y escapatoria", () => {
       "Sí",
       "No",
     ]);
+  });
+});
+
+/*
+  «Todas» es la respuesta de las preguntas cuyo catálogo real no cabe en las
+  opciones. Los casos son los que se vieron probando: el cliente escribió «todas
+  las especialidades de la medicina» y el panel pintó «1 especialidad».
+*/
+describe("«todas» se reconoce aunque el modelo la escriba a su manera", () => {
+  it("acepta la forma que el prompt pide y las que salen solas", () => {
+    expect(esTodas("Todas las especialidades")).toBe(true);
+    expect(esTodas("todas las especialidades de la medicina")).toBe(true);
+    expect(esTodas("Todas las especialidades médicas")).toBe(true);
+    expect(esTodas("todas las de la medicina")).toBe(true);
+    expect(esTodas("Todas")).toBe(true);
+    expect(esTodas("Todos los perfiles")).toBe(true);
+  });
+
+  it("una especialidad no es «todas», ni un bloque asistencial", () => {
+    expect(esTodas("Cardiología")).toBe(false);
+    expect(esTodas("Quirúrgicas")).toBe(false);
+    expect(esTodas("Servicios centrales")).toBe(false);
+  });
+
+  /*
+    Lo estrecho es deliberado: en «todas menos pediatría» el dato que importa es
+    lo que queda fuera, y colapsar a «todas» lo borraría.
+  */
+  it("una exclusión NO es «todas»", () => {
+    expect(esTodas("Todas menos pediatría")).toBe(false);
+    expect(esTodas("todas excepto salud mental")).toBe(false);
+    expect(esTodas("todas salvo urgencias")).toBe(false);
   });
 });

@@ -116,6 +116,38 @@ export function esEscapatoria(opcion: string): boolean {
   ].some((prefix) => p.startsWith(prefix));
 }
 
+/**
+ * «Todas las especialidades» y sus variantes.
+ *
+ * Hay preguntas cuyo catálogo real NO cabe en las opciones: las especialidades de
+ * la medicina son medio centenar y la pregunta ofrece ocho filas. Ahí la
+ * respuesta de verdad de un hospital no es una lista de siete nombres, es
+ * «todas», y el prompt la ofrece como opción propia.
+ *
+ * Anotada en un campo de lista, «todas» es UN elemento — y un contador la pinta
+ * «1 especialidad» sobre el hospital que consulta con toda la casa. Este
+ * predicado es lo que evita esa mentira en los tres sitios que la contaban: el
+ * chip del campo, la cifra grande del panel y las casillas.
+ *
+ * Se reconoce por forma y no por constante, como la escapatoria: el modelo
+ * escribe la variante que le sale ese día («Todas», «todas las especialidades
+ * médicas», «todas las de la medicina»). Y a propósito **es estrecho**: una
+ * respuesta con exclusión («todas menos pediatría») NO es «todas», porque ahí el
+ * dato que importa es justo lo que queda fuera.
+ */
+export function esTodas(valor: string): boolean {
+  const p = plano(valor).replace(/[.…]+$/, "");
+  if (/\b(menos|excepto|salvo)\b/.test(p)) return false;
+  if (["todas", "todos"].includes(p)) return true;
+  return [
+    "todas las especialidades",
+    "todas las de la medicina",
+    "todas las de medicina",
+    "todos los perfiles",
+    "todas las disciplinas",
+  ].some((prefix) => p.startsWith(prefix));
+}
+
 /** Las opciones partidas en respuestas y escapatoria, ya con su etiqueta. */
 export type OpcionesPartidas = {
   /** Las respuestas de verdad, en el orden en que llegaron. */
