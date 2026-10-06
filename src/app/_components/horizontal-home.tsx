@@ -763,7 +763,11 @@ function HeroPanel({
     <Panel panelRef={panelRef} layout={layout} height="viewport">
       <ProductSignalLeft className="fixed -bottom-80 -left-155 w-250 rotate-20" />
       <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
-        <div className="relative">
+        <div
+          data-home-copy=""
+          className="relative"
+          style={{ translate: "var(--home-copy-offset, 0px 0px)" }}
+        >
           <Reveal visible={visible}>
             <Eyebrow>IA médica institucional</Eyebrow>
           </Reveal>
