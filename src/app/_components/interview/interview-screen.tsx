@@ -1246,17 +1246,17 @@ function InterviewHeader({ institucion }: { institucion: string }) {
     <div className="flex h-14 shrink-0 items-center justify-between gap-3 border-b border-cyan-800/15 bg-white/40 px-5 sm:px-7 dark:border-cyan-300/15 dark:bg-white/3">
       <div className="flex min-w-0 items-center gap-3">
         <Image
-          src="/logos/consensus-brand/consensus-light.svg"
-          alt="Consensus Salutis"
-          width={618}
-          height={88}
+          src="/logos/binpar-brand/binpar-logo-light.svg"
+          alt="BinPar"
+          width={430.04}
+          height={131.79}
           className="h-5 w-auto shrink-0 dark:hidden"
         />
         <Image
-          src="/logos/consensus-brand/consensus-dark.svg"
-          alt="Consensus Salutis"
-          width={618}
-          height={88}
+          src="/logos/binpar-brand/binpar-logo-dark.svg"
+          alt="BinPar"
+          width={430.04}
+          height={131.79}
           className="hidden h-5 w-auto shrink-0 dark:block"
         />
         {institucion.length > 0 ? (
@@ -1392,18 +1392,18 @@ function MessageBubble({
     >
       <span className="mt-0.5 block size-6 shrink-0">
         <Image
-          src="/logos/consensus-brand/consensus-isotipo-light.svg"
+          src="/logos/binpar-brand/binpar-isotipo-light.svg"
           alt=""
-          width={93}
-          height={93}
-          className="size-6 dark:hidden"
+          width={121.76}
+          height={131.79}
+          className="size-6 object-contain dark:hidden"
         />
         <Image
-          src="/logos/consensus-brand/consensus-isotipo-dark.svg"
+          src="/logos/binpar-brand/binpar-isotipo-dark.svg"
           alt=""
-          width={93}
-          height={93}
-          className="hidden size-6 dark:block"
+          width={121.76}
+          height={131.79}
+          className="hidden size-6 object-contain dark:block"
         />
       </span>
       <div className="min-w-0 flex-1">
@@ -1809,18 +1809,18 @@ function StreamingBubble({ text }: { text: string }) {
     <div className="flex max-w-[92%] items-start gap-2.5" aria-hidden="true">
       <span className="mt-0.5 block size-6 shrink-0">
         <Image
-          src="/logos/consensus-brand/consensus-isotipo-light.svg"
+          src="/logos/binpar-brand/binpar-isotipo-light.svg"
           alt=""
-          width={93}
-          height={93}
-          className="size-6 dark:hidden"
+          width={121.76}
+          height={131.79}
+          className="size-6 object-contain dark:hidden"
         />
         <Image
-          src="/logos/consensus-brand/consensus-isotipo-dark.svg"
+          src="/logos/binpar-brand/binpar-isotipo-dark.svg"
           alt=""
-          width={93}
-          height={93}
-          className="hidden size-6 dark:block"
+          width={121.76}
+          height={131.79}
+          className="hidden size-6 object-contain dark:block"
         />
       </span>
       <p className="font-body min-w-0 flex-1 text-sm leading-6 whitespace-pre-wrap text-slate-700 sm:text-base sm:leading-7 dark:text-slate-300">
@@ -1830,7 +1830,7 @@ function StreamingBubble({ text }: { text: string }) {
           entre dos frases se lee como un turno que ya ha terminado y al que le
           faltan las opciones.
         */}
-        <span className="bg-primary-light dark:bg-primary-dark ml-0.5 inline-block h-[1em] w-[2px] translate-y-[0.15em] animate-pulse rounded-full motion-reduce:animate-none" />
+        <span className="bg-primary-light dark:bg-primary-dark ml-0.5 inline-block h-[1em] w-0.5 translate-y-[0.15em] animate-pulse rounded-full motion-reduce:animate-none" />
       </p>
     </div>
   );

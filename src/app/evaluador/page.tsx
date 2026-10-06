@@ -53,7 +53,7 @@ import {
 export const metadata: Metadata = {
   title: "Evaluador de idoneidad",
   description:
-    "Comprueba si Consensus Salutis encaja en tu institución. Una entrevista guiada y un informe con el veredicto y sus motivos.",
+    "Comprueba si BinPar encaja en tu institución. Una entrevista guiada y un informe con el veredicto y sus motivos.",
 };
 
 const SUPPORT_EMAIL = "info@binpar.com";
@@ -111,7 +111,7 @@ export default async function EvaluadorPage() {
             <div className="lg:col-start-1 lg:row-start-1">
               <Eyebrow>Evaluador de idoneidad</Eyebrow>
               <h1 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-[#05215e] sm:text-4xl lg:text-5xl dark:text-slate-50">
-                ¿Encaja Consensus Salutis en tu institución?
+                ¿Encaja BinPar en tu institución?
               </h1>
               <p className="font-body mt-4 max-w-xl text-base leading-7 text-slate-600 dark:text-slate-400">
                 Empieza por identificarte. Después, una entrevista guiada de
@@ -212,7 +212,7 @@ export default async function EvaluadorPage() {
                   respuesta habitual: un día laborable.
                 </p>
                 <a
-                  href={`mailto:${SUPPORT_EMAIL}?subject=Soporte%20evaluador%20Consensus%20Salutis`}
+                  href={`mailto:${SUPPORT_EMAIL}?subject=Soporte%20evaluador%20BinPar`}
                   className="font-body text-primary-light dark:text-secondary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark mt-4 inline-flex items-center gap-2 rounded-sm text-sm font-semibold underline underline-offset-4 hover:text-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 dark:hover:text-cyan-200"
                 >
                   <Mail

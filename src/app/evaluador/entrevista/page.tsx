@@ -46,8 +46,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Entrevista de evaluación",
-  description:
-    "Entrevista guiada del evaluador de idoneidad de Consensus Salutis.",
+  description: "Entrevista guiada del evaluador de idoneidad de BinPar.",
   robots: { index: false, follow: false },
 };
 

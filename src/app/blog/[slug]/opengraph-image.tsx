@@ -20,7 +20,7 @@ import { getBlogPostBySlug } from "~/lib/blog";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "Consensus Salutis · Lecturas clínicas";
+export const alt = "BinPar · Lecturas clínicas";
 
 /*
   `fs` y no `new URL(..., import.meta.url)`: ese patrón resuelve a una ruta de
@@ -137,7 +137,7 @@ export default async function BlogOpengraphImage({
           {footer}
         </div>
         <div style={{ fontSize: 26, fontWeight: 800, color: "#f8fafc" }}>
-          Consensus Salutis
+          BinPar
         </div>
       </div>
     </div>,

@@ -17,11 +17,11 @@ export const blogAuthors = {
   "alberto-blanco": {
     id: "alberto-blanco",
     name: "Alberto Blanco",
-    role: "Dirección técnica, Consensus Salutis",
+    role: "Dirección técnica, BinPar",
   },
   "equipo-consensus-salutis": {
     id: "equipo-consensus-salutis",
-    name: "Equipo Consensus Salutis",
+    name: "Equipo BinPar",
     role: "Producto y evidencia clínica",
   },
 } as const satisfies Record<string, BlogAuthor>;

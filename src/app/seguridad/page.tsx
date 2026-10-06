@@ -11,7 +11,7 @@ import {
 export const metadata: Metadata = {
   title: "Seguridad",
   description:
-    "Seguridad, privacidad, compliance y operación institucional de Consensus Salutis.",
+    "Seguridad, privacidad, compliance y operación institucional de BinPar.",
 };
 
 const controls = [
@@ -48,7 +48,7 @@ export default function SeguridadPage() {
         <PageHero
           eyebrow="Seguridad y compliance"
           title="Diseñado para operar donde la confianza no es decorativa."
-          body="Consensus Salutis se plantea desde el diseño para privacidad, auditoría, despliegue en la Unión Europea y gobierno técnico compatible con organizaciones sanitarias."
+          body="BinPar se plantea desde el diseño para privacidad, auditoría, despliegue en la Unión Europea y gobierno técnico compatible con organizaciones sanitarias."
         />
         <ThemeSection>
           <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">

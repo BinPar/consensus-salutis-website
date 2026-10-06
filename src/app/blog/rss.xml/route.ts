@@ -8,7 +8,7 @@
 import { getBlogPosts } from "~/lib/blog";
 import { absoluteUrl, getSiteUrl } from "~/lib/site";
 
-const TITLE = "Consensus Salutis · Lecturas clínicas";
+const TITLE = "BinPar · Lecturas clínicas";
 const DESCRIPTION =
   "Lecturas recientes sobre IA médica, tendencias sanitarias y nuevas formas de transformar la asistencia al paciente en el sistema de salud.";
 

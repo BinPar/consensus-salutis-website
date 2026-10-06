@@ -19,18 +19,18 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 w-full max-w-425 items-center justify-between">
         <Link href="/" className="flex items-center gap-3" aria-label="Inicio">
           <Image
-            src="/logos/consensus-brand/consensus-light.svg"
+            src="/logos/binpar-brand/binpar-logo-light.svg"
             alt=""
-            width={618}
-            height={88}
+            width={430.04}
+            height={131.79}
             priority
             className="h-6 w-auto sm:h-8 dark:hidden"
           />
           <Image
-            src="/logos/consensus-brand/consensus-dark.svg"
+            src="/logos/binpar-brand/binpar-logo-dark.svg"
             alt=""
-            width={618}
-            height={88}
+            width={430.04}
+            height={131.79}
             priority
             className="hidden h-6 w-auto sm:h-8 dark:block"
           />

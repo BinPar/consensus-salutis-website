@@ -10,7 +10,7 @@ import {
 export const metadata: Metadata = {
   title: "Casos",
   description:
-    "Casos, validadores y ecosistema de Consensus Salutis para organizaciones sanitarias.",
+    "Casos, validadores y ecosistema de BinPar para organizaciones sanitarias.",
 };
 
 const cases = [
@@ -43,7 +43,7 @@ export default function CasosPage() {
         <PageHero
           eyebrow="Casos y validadores"
           title="Un ecosistema construido para operar en salud."
-          body="Consensus Salutis combina experiencia institucional, conocimiento médico experto, infraestructura cloud y cultura de evaluación para entornos sanitarios exigentes."
+          body="BinPar combina experiencia institucional, conocimiento médico experto, infraestructura cloud y cultura de evaluación para entornos sanitarios exigentes."
         />
         <ThemeSection>
           <div className="mx-auto grid w-full max-w-7xl gap-4 px-5 sm:px-8 md:grid-cols-2">

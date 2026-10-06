@@ -5,7 +5,7 @@ import { Eyebrow, PageShell } from "~/app/_components/site";
 
 export const metadata: Metadata = {
   title: "Contacto",
-  description: "Solicitar una reunión institucional sobre Consensus Salutis.",
+  description: "Solicitar una reunión institucional sobre BinPar.",
 };
 
 export default function ContactoPage() {

@@ -49,7 +49,7 @@ export async function generateMetadata({
 
   return {
     title: `Artículos sobre ${entry.label}`,
-    description: `Lecturas clínicas de Consensus Salutis etiquetadas como «${entry.label}».`,
+    description: `Lecturas clínicas de BinPar etiquetadas como «${entry.label}».`,
     alternates: {
       canonical: absoluteUrl(`/blog/tag/${entry.tag}`),
     },

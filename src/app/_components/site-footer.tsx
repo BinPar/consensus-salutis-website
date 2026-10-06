@@ -6,7 +6,7 @@ import { navItems } from "~/app/_components/site-header";
 export const contactItems = [
   { href: "/contacto", label: "Solicitar reunión" },
   {
-    href: "mailto:info@binpar.com?subject=Consensus%20Salutis",
+    href: "mailto:info@binpar.com?subject=BinPar",
     label: "info@binpar.com",
   },
 ];
@@ -25,17 +25,17 @@ export function VerticalFooter() {
               aria-label="Inicio"
             >
               <Image
-                src="/logos/consensus-brand/consensus-light.svg"
+                src="/logos/binpar-brand/binpar-logo-light.svg"
                 alt=""
-                width={618}
-                height={88}
+                width={430.04}
+                height={131.79}
                 className="h-7 w-auto sm:h-8 dark:hidden"
               />
               <Image
-                src="/logos/consensus-brand/consensus-dark.svg"
+                src="/logos/binpar-brand/binpar-logo-dark.svg"
                 alt=""
-                width={618}
-                height={88}
+                width={430.04}
+                height={131.79}
                 className="hidden h-7 w-auto sm:h-8 dark:block"
               />
             </Link>
@@ -107,18 +107,25 @@ export function VerticalFooter() {
         <div className="mt-8 flex flex-col gap-5 border-t border-cyan-800/10 py-5 text-xs text-slate-600 sm:flex-row sm:items-center sm:justify-between dark:border-cyan-300/10 dark:text-slate-500">
           <div className="flex items-center gap-3">
             <Image
-              src="/logos/BinparSquare.svg"
+              src="/logos/binpar-brand/binpar-logo-light.svg"
               alt="BinPar"
-              width={112}
-              height={54}
-              className="h-7 w-auto opacity-70 brightness-75 contrast-125 grayscale dark:opacity-80 dark:brightness-0 dark:invert"
+              width={430.04}
+              height={131.79}
+              className="h-7 w-auto dark:hidden"
+            />
+            <Image
+              src="/logos/binpar-brand/binpar-logo-dark.svg"
+              alt="BinPar"
+              width={430.04}
+              height={131.79}
+              className="hidden h-7 w-auto dark:block"
             />
             <span className="text-slate-600 dark:text-slate-400">
-              Una iniciativa tecnológica de binpar para instituciones sanitarias
+              Tecnología de BinPar para instituciones sanitarias
             </span>
           </div>
           <p className="text-slate-600 dark:text-slate-400">
-            © Consensus Salutis all rights reserved
+            © BinPar all rights reserved
           </p>
         </div>
       </div>

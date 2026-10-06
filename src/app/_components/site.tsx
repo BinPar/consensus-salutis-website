@@ -21,7 +21,7 @@ export function HomeFooterBand() {
           href="/"
           className="text-[9px] font-semibold tracking-[0.16em] text-slate-700 uppercase transition hover:text-cyan-800 dark:text-slate-100 dark:hover:text-cyan-100"
         >
-          © Consensus Salutis all rights reserved
+          © BinPar all rights reserved
         </Link>
         <nav
           aria-label="Enlaces del pie"

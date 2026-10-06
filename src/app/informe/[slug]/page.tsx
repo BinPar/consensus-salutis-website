@@ -49,7 +49,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Informe de idoneidad",
-  description: "Informe de idoneidad de Consensus Salutis para su institución.",
+  description: "Informe de idoneidad de BinPar para su institución.",
   robots: { index: false, follow: false },
 };
 

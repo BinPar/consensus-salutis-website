@@ -75,7 +75,7 @@ async function sendContactEmail(input: {
       from: env.CONTACT_FROM_EMAIL,
       to: [env.CONTACT_TO_EMAIL],
       reply_to: input.email,
-      subject: `Consulta Consensus Salutis de ${input.name}`,
+      subject: `Consulta BinPar de ${input.name}`,
       text: `Nombre: ${input.name}\nCorreo: ${input.email}\n\n${input.message}`,
       html: `<p><strong>Nombre:</strong> ${escapeHtml(input.name)}</p><p><strong>Correo:</strong> ${escapeHtml(input.email)}</p><p>${escapeHtml(input.message).replace(/\n/g, "<br>")}</p>`,
     }),

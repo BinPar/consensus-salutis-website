@@ -7,7 +7,7 @@ import { PURPOSE_STATEMENT, RETENTION_STATEMENT } from "~/lib/eligibility";
 export const metadata: Metadata = {
   title: "Política de Privacidad",
   description:
-    "Información sobre el tratamiento de datos personales en Consensus Salutis.",
+    "Información sobre el tratamiento de datos personales en BinPar.",
 };
 
 export default function PrivacyPage() {
@@ -24,8 +24,8 @@ export default function PrivacyPage() {
               <LegalSection title="Responsable del tratamiento">
                 BinPar Team S.L., con NIF B85271930 y domicilio social en Paseo
                 de la Castellana 43, 4, es responsable del tratamiento de los
-                datos enviados mediante el formulario de contacto de Consensus
-                Salutis. Puedes contactar mediante info@binpar.com.
+                datos enviados mediante el formulario de contacto de BinPar.
+                Puedes contactar mediante info@binpar.com.
               </LegalSection>
               <LegalSection title="Finalidad y base jurídica">
                 Tratamos el nombre, correo electrónico y contenido del mensaje

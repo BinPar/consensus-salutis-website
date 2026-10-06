@@ -53,9 +53,10 @@ const productPillars = [
   {
     name: "BinPar",
     role: "Producto e ingeniería",
-    logo: "/logos/BinparSquare.svg",
-    logoWidth: 112,
-    logoHeight: 54,
+    logo: "/logos/binpar-brand/binpar-logo-light.svg",
+    darkLogo: "/logos/binpar-brand/binpar-logo-dark.svg",
+    logoWidth: 430.04,
+    logoHeight: 131.79,
     logoClassName: "h-10 w-auto",
     body: "Más de 15 años desarrollando software sanitario convierten contenidos y protocolos en un sistema integrable, evaluable y trazable.",
   },
@@ -328,7 +329,7 @@ export function HorizontalHome({ posts }: { posts: BlogPost[] }) {
           <div
             ref={railRef}
             tabIndex={0}
-            aria-label="Home horizontal de Consensus Salutis"
+            aria-label="Home horizontal de BinPar"
             onScroll={updateProgress}
             onKeyDown={(event) => {
               const rail = railRef.current;
@@ -773,9 +774,9 @@ function HeroPanel({
           </Reveal>
           <Reveal visible={visible} delay={0.2}>
             <p className="font-body mt-7 max-w-2xl text-xl leading-9 text-slate-700 dark:text-slate-300">
-              Consensus Salutis convierte guías, protocolos y corpus médico en
-              respuestas trazables para Atención Primaria. Una capa de IA seria,
-              auditable y preparada para operar dentro de un sistema sanitario.
+              BinPar convierte guías, protocolos y corpus médico en respuestas
+              trazables para Atención Primaria. Una capa de IA seria, auditable
+              y preparada para operar dentro de un sistema sanitario.
             </p>
           </Reveal>
           <Reveal visible={visible} delay={0.3} className="mt-9">
@@ -952,11 +953,11 @@ function ArchitecturePanel({
         </Reveal>
         <Reveal visible={visible} delay={0.2}>
           <p className="font-body mt-5 mb-10 max-w-5xl text-lg leading-8 text-slate-600 dark:text-slate-400">
-            La robustez de Consensus Salutis se construye sobre un sistema
-            completo: contenidos médicos revisados, una infraestructura
-            preparada para operar de forma continua y una capa de software que
-            controla el ciclo de cada respuesta. Tres capacidades coordinadas
-            para responder con confianza y operar con continuidad.
+            La robustez de BinPar se construye sobre un sistema completo:
+            contenidos médicos revisados, una infraestructura preparada para
+            operar de forma continua y una capa de software que controla el
+            ciclo de cada respuesta. Tres capacidades coordinadas para responder
+            con confianza y operar con continuidad.
           </p>
         </Reveal>
       </div>
@@ -995,9 +996,9 @@ function PrimaryCarePanel({
         </Reveal>
         <Reveal visible={visible} delay={0.2}>
           <p className="font-body mt-5 max-w-4xl text-lg leading-8 text-slate-600 dark:text-slate-400">
-            Consensus Salutis acompaña cada consulta desde la formulación de la
-            duda clínica hasta una respuesta contrastada, referenciada y
-            preparada para ser revisada.
+            BinPar acompaña cada consulta desde la formulación de la duda
+            clínica hasta una respuesta contrastada, referenciada y preparada
+            para ser revisada.
           </p>
         </Reveal>
       </div>
@@ -1236,8 +1237,8 @@ function MobileHome({
               Conocimiento clínico gobernado por IA.
             </h1>
             <p className="font-body mt-3.5 max-w-xl text-base leading-7 text-slate-700 sm:mt-7 sm:text-lg sm:leading-8 dark:text-slate-300">
-              Consensus Salutis convierte guías, protocolos y corpus médico en
-              respuestas trazables para Atención Primaria.
+              BinPar convierte guías, protocolos y corpus médico en respuestas
+              trazables para Atención Primaria.
             </p>
             <div className="mt-7">
               <ClinicalChatMock compact />
@@ -1284,8 +1285,8 @@ function MobileHome({
                 De la pregunta a la evidencia.
               </h2>
               <p className="font-body mt-3.5 max-w-xl text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
-                Consensus Salutis acompaña cada consulta hasta una respuesta
-                contrastada, referenciada y preparada para ser revisada.
+                BinPar acompaña cada consulta hasta una respuesta contrastada,
+                referenciada y preparada para ser revisada.
               </p>
             </ViewportReveal>
             <ClinicalProcess className="mt-10" />
@@ -1307,9 +1308,9 @@ function MobileHome({
               De documentos dispersos a la decisión informada.
             </h2>
             <p className="font-body mt-3.5 text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
-              La robustez de Consensus Salutis se construye sobre contenidos
-              médicos revisados, infraestructura preparada para operar de forma
-              continua y software que controla el ciclo de cada respuesta. Tres
+              La robustez de BinPar se construye sobre contenidos médicos
+              revisados, infraestructura preparada para operar de forma continua
+              y software que controla el ciclo de cada respuesta. Tres
               capacidades coordinadas para responder con confianza y operar con
               continuidad.
             </p>
@@ -1714,8 +1715,17 @@ function ProductPillars({
                   alt={pillar.name}
                   width={pillar.logoWidth}
                   height={pillar.logoHeight}
-                  className={`${pillar.logoClassName} dark:opacity-80 dark:brightness-0 dark:invert`}
+                  className={`${pillar.logoClassName} ${pillar.darkLogo ? "dark:hidden" : "dark:opacity-80 dark:brightness-0 dark:invert"}`}
                 />
+                {pillar.darkLogo && (
+                  <Image
+                    src={pillar.darkLogo}
+                    alt={pillar.name}
+                    width={pillar.logoWidth}
+                    height={pillar.logoHeight}
+                    className={`${pillar.logoClassName} hidden dark:block`}
+                  />
+                )}
               </div>
             </div>
             <p

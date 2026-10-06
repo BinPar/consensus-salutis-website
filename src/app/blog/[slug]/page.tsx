@@ -98,7 +98,7 @@ function ArticleJsonLd({ post }: { post: BlogPost }) {
     },
     publisher: {
       "@type": "Organization",
-      name: "Consensus Salutis",
+      name: "BinPar",
       url: absoluteUrl("/"),
       logo: {
         "@type": "ImageObject",

@@ -199,7 +199,7 @@ export function InformeView({
               </p>
             </div>
             <p className="font-body text-sm text-slate-500 dark:text-slate-400">
-              {fechaTexto} · Evaluación de idoneidad de Consensus Salutis
+              {fechaTexto} · Evaluación de idoneidad de BinPar
             </p>
           </div>
 
@@ -474,7 +474,7 @@ export function InformeView({
                   >
                     <span
                       aria-hidden="true"
-                      className={`mt-[7px] size-2.5 rounded-full ${SEMAFORO[dim.color].fondo}`}
+                      className={`mt-1.75 size-2.5 rounded-full ${SEMAFORO[dim.color].fondo}`}
                     />
                     <div>
                       <p className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">

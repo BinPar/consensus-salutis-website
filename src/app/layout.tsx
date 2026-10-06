@@ -28,22 +28,22 @@ export const metadata: Metadata = {
     },
   },
   title: {
-    default: "Consensus Salutis",
-    template: "%s | Consensus Salutis",
+    default: "BinPar",
+    template: "%s | BinPar",
   },
   description:
     "Plataforma de IA médica institucional para soporte a la toma de decisiones, evidencia clínica y gobierno del conocimiento sanitario.",
   icons: {
     icon: [
       {
-        url: "/favicon.svg?v=7eaf3efa",
+        url: "/favicon.svg?v=3f2ea0207fce",
         type: "image/svg+xml",
         sizes: "any",
       },
     ],
     shortcut: [
       {
-        url: "/favicon.svg?v=7eaf3efa",
+        url: "/favicon.svg?v=3f2ea0207fce",
         type: "image/svg+xml",
       },
     ],

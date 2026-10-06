@@ -12,7 +12,7 @@ import {
 export const metadata: Metadata = {
   title: "Plataforma",
   description:
-    "Capacidades de Consensus Salutis para consulta clínica, ingesta documental y gobierno del conocimiento sanitario.",
+    "Capacidades de BinPar para consulta clínica, ingesta documental y gobierno del conocimiento sanitario.",
 };
 
 const capabilities = [
@@ -49,7 +49,7 @@ export default function PlataformaPage() {
         <PageHero
           eyebrow="Plataforma"
           title="Un sistema operativo para el conocimiento clínico."
-          body="Consensus Salutis transforma corpus médico, guías clínicas y documentación propia en una capa de consulta institucional con referencias, roles y procesos de validación."
+          body="BinPar transforma corpus médico, guías clínicas y documentación propia en una capa de consulta institucional con referencias, roles y procesos de validación."
         />
         <ThemeSection>
           <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">

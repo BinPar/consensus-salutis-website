@@ -11,7 +11,7 @@ import {
 export const metadata: Metadata = {
   title: "Evidencia",
   description:
-    "Evidencia técnica, trazabilidad y evaluación continua de Consensus Salutis.",
+    "Evidencia técnica, trazabilidad y evaluación continua de BinPar.",
 };
 
 const evidenceMetrics = [
@@ -46,7 +46,7 @@ export default function EvidenciaPage() {
         <PageHero
           eyebrow="Evidencia"
           title="Precisión medible sin perder trazabilidad clínica."
-          body="Consensus Salutis combina evaluación continuada, preguntas de control y referencias visibles para que cada respuesta pueda ser revisada, corregida y mejorada dentro de un marco institucional."
+          body="BinPar combina evaluación continuada, preguntas de control y referencias visibles para que cada respuesta pueda ser revisada, corregida y mejorada dentro de un marco institucional."
         />
         <ThemeSection>
           <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
