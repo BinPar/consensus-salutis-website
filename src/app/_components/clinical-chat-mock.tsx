@@ -222,11 +222,16 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
       const bounds = grid.getBoundingClientRect();
       if (!bounds.width || !bounds.height) return;
       const mock = grid.closest("[data-stage]")!.getBoundingClientRect();
-      // Anchor the shared grid at the visible mock's outer border. Hidden
-      // desktop/mobile variants must not overwrite the active grid origin.
-      ownedPosition = `${mock.left % 44}px ${mock.top % 44}px`;
+      // Document coordinates keep the fixed page grid stationary on scroll.
+      // Hidden variants must not overwrite the visible mock's grid origin.
+      const originX = (mock.left + window.scrollX) % 44;
+      const originY = (mock.top + window.scrollY) % 44;
+      ownedPosition = `${originX}px ${originY}px`;
       homeGrid?.style.setProperty("--home-grid-position", ownedPosition);
-      grid.style.backgroundPosition = `${mock.left - bounds.left}px ${mock.top - bounds.top}px`;
+      // CSS fixes the texture to the viewport, sharing the page's origin.
+      // No scroll handler: JS updates can lag behind compositor scrolling.
+      grid.style.backgroundAttachment = "fixed";
+      grid.style.backgroundPosition = ownedPosition;
       if (copy) {
         const copyBounds = copy.getBoundingClientRect();
         const left = copyBounds.left - copyOffsetX;
@@ -250,10 +255,6 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
     observer.observe(grid);
     observer.observe(document.documentElement);
     if (copy) observer.observe(copy);
-    window.addEventListener("scroll", scheduleAlignment, {
-      passive: true,
-      capture: true,
-    });
     window.addEventListener("resize", scheduleAlignment);
     document.fonts.addEventListener("loadingdone", scheduleAlignment);
     return () => {
@@ -267,7 +268,6 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
       ) {
         homeGrid?.style.removeProperty("--home-grid-position");
       }
-      window.removeEventListener("scroll", scheduleAlignment, true);
       window.removeEventListener("resize", scheduleAlignment);
       document.fonts.removeEventListener("loadingdone", scheduleAlignment);
     };

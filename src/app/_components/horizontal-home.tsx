@@ -15,6 +15,7 @@ import {
   SignalPanel,
 } from "~/app/_components/site";
 import { ClinicalChatMock } from "~/app/_components/clinical-chat-mock";
+import { ClinicalProcessShowcase } from "~/app/_components/clinical-process-showcase";
 import { ContactForm } from "~/app/_components/contact-form";
 import {
   MorphPath,
@@ -485,6 +486,11 @@ export function VerticalHome({ posts }: { posts: BlogPost[] }) {
               />
             )}
           </VerticalPanel>
+          <section className="relative px-10 py-20">
+            <div className="relative z-10 mx-auto w-full max-w-7xl">
+              <ClinicalProcessShowcase />
+            </div>
+          </section>
           <VerticalPanel initiallyVisible={revealedPanels.has(2)}>
             {(visible, panelRef) => (
               <PrimaryCarePanel
@@ -1276,6 +1282,10 @@ function MobileHome({
             <SuccessCases className="mt-8" />
           </div>
         </ThemeSection>
+
+        <section className="relative px-5 py-10 sm:px-10 sm:py-16">
+          <ClinicalProcessShowcase />
+        </section>
 
         <ThemeSection
           ref={(node) => {
