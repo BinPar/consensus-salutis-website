@@ -42,6 +42,7 @@ export const PUBLIC_ROUTES = [
  * además que se rastreen.
  */
 export const PRIVATE_PATH_PREFIXES = [
+  "/casos-lab",
   "/informe",
   "/espacio",
   "/aws",

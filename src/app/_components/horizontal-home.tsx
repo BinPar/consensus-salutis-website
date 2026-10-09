@@ -15,6 +15,8 @@ import {
   SignalPanel,
 } from "~/app/_components/site";
 import { ClinicalChatMock } from "~/app/_components/clinical-chat-mock";
+import { SuccessCasesSection } from "~/app/_components/success-cases/success-cases-section";
+import { ProcessBackground } from "~/app/_components/success-cases/success-cases-surfaces";
 import { ClinicalProcessShowcase } from "~/app/_components/clinical-process-showcase";
 import { ContactForm } from "~/app/_components/contact-form";
 import {
@@ -111,25 +113,6 @@ const clinicalProcess = [
     title: "Revisar y mejorar",
     body: "La valoración profesional permite revisar los contenidos y reforzar las pruebas automáticas para futuras consultas.",
     signal: "Feedback + pruebas automáticas",
-  },
-];
-
-const successCases = [
-  {
-    name: "Axia",
-    organization: "Generalitat de Catalunya",
-    logo: "/logos/Axia.svg",
-    darkLogo: "/logos/axia-white.svg",
-    logoWidth: 158,
-    logoHeight: 48,
-  },
-  {
-    name: "SERMAS",
-    organization: "Servicio Madrileño de Salud",
-    logo: "/logos/sermas-lite.svg",
-    darkLogo: null,
-    logoWidth: 499,
-    logoHeight: 116,
   },
 ];
 
@@ -486,20 +469,12 @@ export function VerticalHome({ posts }: { posts: BlogPost[] }) {
               />
             )}
           </VerticalPanel>
-          <section className="relative px-10 py-20">
+          <section className="relative px-10 pt-14 pb-20">
+            <ProcessBackground />
             <div className="relative z-10 mx-auto w-full max-w-7xl">
               <ClinicalProcessShowcase />
             </div>
           </section>
-          <VerticalPanel initiallyVisible={revealedPanels.has(2)}>
-            {(visible, panelRef) => (
-              <PrimaryCarePanel
-                layout="vertical"
-                panelRef={panelRef}
-                visible={visible}
-              />
-            )}
-          </VerticalPanel>
         </div>
         <VerticalPanel initiallyVisible={revealedPanels.has(3)}>
           {(visible, panelRef) => (
@@ -620,7 +595,7 @@ function VerticalPanel({
   });
 }
 
-function FixedSignalLayer() {
+export function FixedSignalLayer() {
   return (
     <div className="pointer-events-none fixed inset-0 -right-50 z-0">
       <SignalField
@@ -756,7 +731,7 @@ function Panel({
   );
 }
 
-function HeroPanel({
+export function HeroPanel({
   visible,
   panelRef,
   layout = "horizontal",
@@ -832,38 +807,11 @@ function SuccessCasesPanel({
   layout?: DesktopLayout;
 }) {
   return (
-    <Panel
-      className="bg-white from-[#deedf3]/40 to-transparent dark:bg-transparent dark:bg-linear-to-br dark:from-[#030916]/80 dark:to-[#030916]/40"
+    <SuccessCasesSection
+      visible={visible}
       panelRef={panelRef}
       layout={layout}
-    >
-      <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
-        <div className="max-w-5xl">
-          <Reveal visible={visible}>
-            <Eyebrow>Casos de éxito</Eyebrow>
-          </Reveal>
-          <Reveal visible={visible} delay={0.1}>
-            <h2 className="font-display mt-4 max-w-2xl text-5xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
-              Nuestros casos en el sistema sanitario.
-            </h2>
-          </Reveal>
-          <Reveal visible={visible} delay={0.2}>
-            <p className="font-body mt-5 max-w-5xl text-lg leading-8 text-slate-600 dark:text-slate-400">
-              Dos servicios sanitarios que ya incorporan inteligencia artificial
-              para facilitar el acceso rápido al conocimiento clínico fiable,
-              optimizar procesos de atención asistencial y reforzar la mejora
-              continua.
-            </p>
-          </Reveal>
-        </div>
-
-        <SuccessCases
-          visible={visible}
-          compact={layout === "horizontal"}
-          className={layout === "horizontal" ? "mt-6" : "mt-10"}
-        />
-      </div>
-    </Panel>
+    />
   );
 }
 
@@ -1181,6 +1129,30 @@ function ContactPanel({
   );
 }
 
+export function MobileHeroContent() {
+  return (
+    <>
+      <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.03),rgba(244,249,252,0.38)_10%,rgba(13,148,136,0.02)_60%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.01),rgba(6,17,31,0.42)_20%,rgba(20,184,166,0.01)_80%,transparent)]" />
+      <ViewportReveal className="relative z-10 mt-10">
+        <Eyebrow>IA médica institucional</Eyebrow>
+        <h1 className="font-display mt-3.5 max-w-xl text-4xl font-extrabold tracking-tight text-[#05215e] sm:mt-6 sm:text-5xl dark:text-slate-50">
+          Conocimiento clínico gobernado por IA.
+        </h1>
+        <p className="font-body mt-3.5 max-w-xl text-base leading-7 text-slate-700 sm:mt-7 sm:text-lg sm:leading-8 dark:text-slate-300">
+          BinPar convierte guías, protocolos y corpus médico en respuestas
+          trazables para Atención Primaria.
+        </p>
+        <div className="mt-7">
+          <ClinicalChatMock compact />
+        </div>
+        <div className="mt-9">
+          <CTAGroup />
+        </div>
+      </ViewportReveal>
+    </>
+  );
+}
+
 function MobileHome({
   onPanelReveal,
   posts,
@@ -1240,72 +1212,21 @@ function MobileHome({
           }}
           className="relative overflow-hidden border-b border-cyan-800/10 px-5 py-10 sm:px-10 sm:py-16 dark:border-cyan-300/10"
         >
-          <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.03),rgba(244,249,252,0.38)_10%,rgba(13,148,136,0.02)_60%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.01),rgba(6,17,31,0.42)_20%,rgba(20,184,166,0.01)_80%,transparent)]" />
-          <ViewportReveal className="relative z-10 mt-10">
-            <Eyebrow>IA médica institucional</Eyebrow>
-            <h1 className="font-display mt-3.5 max-w-xl text-4xl font-extrabold tracking-tight text-[#05215e] sm:mt-6 sm:text-5xl dark:text-slate-50">
-              Conocimiento clínico gobernado por IA.
-            </h1>
-            <p className="font-body mt-3.5 max-w-xl text-base leading-7 text-slate-700 sm:mt-7 sm:text-lg sm:leading-8 dark:text-slate-300">
-              BinPar convierte guías, protocolos y corpus médico en respuestas
-              trazables para Atención Primaria.
-            </p>
-            <div className="mt-7">
-              <ClinicalChatMock compact />
-            </div>
-            <div className="mt-9">
-              <CTAGroup />
-            </div>
-          </ViewportReveal>
+          <MobileHeroContent />
         </section>
 
-        <ThemeSection
-          ref={(node) => {
+        <SuccessCasesSection
+          panelRef={(node) => {
             sectionRefs.current[1] = node;
           }}
-          variant="transparent"
-          className="bg-white dark:bg-transparent dark:bg-linear-to-br dark:from-[#030916]/80 dark:to-[#030916]/40"
-        >
-          <div className="px-5 sm:px-10">
-            <ViewportReveal>
-              <Eyebrow>Casos de éxito</Eyebrow>
-              <h2 className="font-display mt-4 max-w-sm text-3xl font-extrabold tracking-tight text-[#05215e] sm:text-4xl dark:text-slate-50">
-                Nuestros casos en el sistema sanitario.
-              </h2>
-              <p className="font-body mt-3.5 text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
-                Dos servicios sanitarios que ya incorporan inteligencia
-                artificial para facilitar el acceso rápido al conocimiento
-                clínico fiable, optimizar procesos de atención asistencial y
-                reforzar la mejora continua.
-              </p>
-            </ViewportReveal>
-            <SuccessCases className="mt-8" />
-          </div>
-        </ThemeSection>
+        />
 
-        <section className="relative px-5 py-10 sm:px-10 sm:py-16">
-          <ClinicalProcessShowcase />
+        <section className="relative px-5 pt-8 pb-10 sm:px-10 sm:pt-12 sm:pb-16">
+          <ProcessBackground />
+          <div className="relative z-10">
+            <ClinicalProcessShowcase />
+          </div>
         </section>
-
-        <ThemeSection
-          ref={(node) => {
-            sectionRefs.current[2] = node;
-          }}
-        >
-          <div className="px-5 sm:px-10">
-            <ViewportReveal>
-              <Eyebrow>Proceso de consulta</Eyebrow>
-              <h2 className="font-display mt-4 max-w-70 text-3xl font-extrabold tracking-tight text-[#05215e] sm:text-4xl dark:text-slate-50">
-                De la pregunta a la evidencia.
-              </h2>
-              <p className="font-body mt-3.5 max-w-xl text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
-                BinPar acompaña cada consulta hasta una respuesta contrastada,
-                referenciada y preparada para ser revisada.
-              </p>
-            </ViewportReveal>
-            <ClinicalProcess className="mt-10" />
-          </div>
-        </ThemeSection>
       </div>
 
       <ThemeSection
@@ -1382,79 +1303,6 @@ function MobileHome({
         </div>
       </ThemeSection>
     </main>
-  );
-}
-
-function SuccessCases({
-  visible,
-  className = "",
-}: {
-  visible?: boolean;
-  className?: string;
-  compact?: boolean;
-}) {
-  const reducedMotion = useReducedMotion();
-  const [viewportRef, inViewport] = usePassedViewport(0.3);
-  const show = reducedMotion ? true : (visible ?? inViewport);
-
-  return (
-    <motion.div
-      ref={viewportRef}
-      className={className}
-      initial={reducedMotion ? "visible" : "hidden"}
-      animate={show ? "visible" : "hidden"}
-      variants={{
-        hidden: {},
-        visible: {
-          transition: {
-            staggerChildren: reducedMotion ? 0 : 0.18,
-          },
-        },
-      }}
-    >
-      <div className="grid grid-cols-1 gap-x-6">
-        <motion.div className="grid w-full gap-3 sm:grid-cols-1 md:gap-6 lg:flex-1 dark:border-cyan-300/15">
-          {successCases.map((item, index) => (
-            <motion.div
-              key={item.name}
-              className="shadow-big-blocks flex min-w-0 flex-col items-center justify-center rounded-2xl border border-cyan-800/15 bg-white/70 px-5 py-3 backdrop-blur-xs dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)]"
-              initial={{ opacity: reducedMotion ? 1 : 0 }}
-              animate={{ opacity: show ? 1 : 0 }}
-              transition={{
-                duration: reducedMotion ? 0 : 0.4,
-                delay: show && !reducedMotion ? index * 0.18 : 0,
-              }}
-            >
-              <div className="flex h-14 items-center justify-center">
-                <Image
-                  src={item.logo}
-                  alt={item.name}
-                  width={item.logoWidth}
-                  height={item.logoHeight}
-                  className={`max-h-11 w-full object-contain object-left ${
-                    item.darkLogo
-                      ? "dark:hidden"
-                      : "dark:brightness-0 dark:invert"
-                  }`}
-                />
-                {item.darkLogo ? (
-                  <Image
-                    src={item.darkLogo}
-                    alt={item.name}
-                    width={item.logoWidth}
-                    height={item.logoHeight}
-                    className="hidden max-h-11 w-full object-contain object-left dark:block"
-                  />
-                ) : null}
-              </div>
-              <p className="text-primary-light font-display dark:text-primary-dark mt-2 text-xs font-semibold tracking-[0.13em] uppercase">
-                {item.organization}
-              </p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    </motion.div>
   );
 }
 

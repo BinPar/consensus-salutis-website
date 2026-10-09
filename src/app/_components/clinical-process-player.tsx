@@ -38,12 +38,14 @@ export function ClinicalProcessPlayer({
 }) {
   const titleId = useId();
   const frame = useRef<HTMLDivElement>(null);
+  const section = useRef<HTMLElement>(null);
   const reduced = Boolean(useReducedMotion());
   const [clock, setClock] = useState({ index: 0, time: 0 });
   const [selected, setSelected] = useState<number | null>(null);
   const [paused, setPaused] = useState(false);
   const [speed, setSpeed] = useState<1 | 1.5 | 2>(1);
   const [visible, setVisible] = useState(false);
+  const [painted, setPainted] = useState(false);
   const [tabVisible, setTabVisible] = useState(true);
 
   useLayoutEffect(() => {
@@ -116,6 +118,48 @@ export function ClinicalProcessPlayer({
   }, []);
 
   useEffect(() => {
+    let previousScrollY = window.scrollY;
+    let isPainted = false;
+    const updatePaint = (initial = false) => {
+      const element = section.current;
+      if (!element) return;
+      const rect = element.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      const scrollY = window.scrollY;
+      const activationBottom = window.innerHeight * 0.85;
+      const visibleHeight = Math.max(
+        0,
+        Math.min(rect.bottom, activationBottom) - Math.max(rect.top, 0),
+      );
+      const entering =
+        (initial && rect.top <= activationBottom - rect.height * 0.28) ||
+        (scrollY > previousScrollY &&
+          (rect.bottom <= 0 || visibleHeight / rect.height >= 0.28));
+      const leaving = scrollY < previousScrollY && rect.top >= activationBottom;
+      if ((entering && !isPainted) || (leaving && isPainted)) {
+        isPainted = entering && !leaving;
+        setPainted(isPainted);
+        setClock({ index: 0, time: 0 });
+        setSelected(null);
+        setPaused(false);
+        setSpeed(1);
+      }
+      previousScrollY = scrollY;
+    };
+    const onScroll = () => updatePaint();
+    const onResize = () => updatePaint(true);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize);
+    updatePaint(true);
+    const request = requestAnimationFrame(() => updatePaint(true));
+    return () => {
+      cancelAnimationFrame(request);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+    };
+  }, []);
+
+  useEffect(() => {
     const element = frame.current;
     if (!element) return;
     const observer = new IntersectionObserver(
@@ -134,7 +178,7 @@ export function ClinicalProcessPlayer({
   }, []);
 
   useEffect(() => {
-    if (!visible || !tabVisible || paused || reduced) return;
+    if (!painted || !visible || !tabVisible || paused || reduced) return;
     let previous = performance.now();
     let request = 0;
     const advance = (now: number) => {
@@ -156,7 +200,7 @@ export function ClinicalProcessPlayer({
     };
     request = requestAnimationFrame(advance);
     return () => cancelAnimationFrame(request);
-  }, [visible, tabVisible, paused, reduced, stages, speed]);
+  }, [painted, visible, tabVisible, paused, reduced, stages, speed]);
 
   const nextSpeed = speed === 1 ? 1.5 : speed === 1.5 ? 2 : 1;
   const index = reduced ? (selected ?? 3) : clock.index;
@@ -195,9 +239,12 @@ export function ClinicalProcessPlayer({
 
   return (
     <section
+      ref={section}
       aria-labelledby={titleId}
       data-process-showcase=""
-      className="relative"
+      data-process-painted={painted || reduced}
+      className="relative transition-opacity duration-700 motion-reduce:transition-none"
+      style={{ opacity: painted || reduced ? 1 : 0 }}
     >
       <h2 id={titleId} className="sr-only">
         De la pregunta a la evidencia.
@@ -304,7 +351,9 @@ export function ClinicalProcessPlayer({
           <div
             ref={frame}
             data-process-showcase-frame=""
-            data-playing={visible && tabVisible && !paused && !reduced}
+            data-playing={
+              painted && visible && tabVisible && !paused && !reduced
+            }
             className="shadow-big-blocks @container relative isolate h-[482px] overflow-hidden rounded-3xl border border-cyan-800/15 bg-white/80 backdrop-blur-sm dark:border-cyan-300/15 dark:bg-[#06111f]"
           >
             <div
