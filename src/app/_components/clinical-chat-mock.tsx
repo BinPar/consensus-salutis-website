@@ -232,7 +232,7 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
       // No scroll handler: JS updates can lag behind compositor scrolling.
       grid.style.backgroundAttachment = "fixed";
       grid.style.backgroundPosition = ownedPosition;
-      if (copy) {
+      if (copy && copy.dataset.homeCopySnap !== "false") {
         const copyBounds = copy.getBoundingClientRect();
         const left = copyBounds.left - copyOffsetX;
         const top = copyBounds.top - copyOffsetY;

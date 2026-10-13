@@ -2,11 +2,12 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
 import { BlogArticleCard } from "~/app/_components/blog-article-card";
+import { HomeCover } from "~/app/_components/home-cover";
+import { ProductStrataSection } from "~/app/_components/product-strata/product-strata-section";
 import { ProductSignalLeft } from "~/app/_components/product-signal-left";
 import {
   CTAGroup,
@@ -16,7 +17,10 @@ import {
 } from "~/app/_components/site";
 import { ClinicalChatMock } from "~/app/_components/clinical-chat-mock";
 import { SuccessCasesSection } from "~/app/_components/success-cases/success-cases-section";
-import { ProcessBackground } from "~/app/_components/success-cases/success-cases-surfaces";
+import {
+  IntroductionBottomFade,
+  ProcessBackground,
+} from "~/app/_components/success-cases/success-cases-surfaces";
 import { ClinicalProcessShowcase } from "~/app/_components/clinical-process-showcase";
 import { ContactForm } from "~/app/_components/contact-form";
 import {
@@ -49,37 +53,6 @@ const metrics = [
     prefix: "<",
     suffix: "h",
     label: "Actualización urgente de contenidos relevantes.",
-  },
-];
-
-const productPillars = [
-  {
-    name: "BinPar",
-    role: "Producto e ingeniería",
-    logo: "/logos/binpar-brand/binpar-logo-light.svg",
-    darkLogo: "/logos/binpar-brand/binpar-logo-dark.svg",
-    logoWidth: 430.04,
-    logoHeight: 131.79,
-    logoClassName: "h-10 w-auto",
-    body: "Más de 15 años desarrollando software sanitario convierten contenidos y protocolos en un sistema integrable, evaluable y trazable.",
-  },
-  {
-    name: "AWS",
-    role: "Infraestructura resiliente",
-    logo: "/logos/Amazon_Web_Services_Logo.svg",
-    logoWidth: 84,
-    logoHeight: 50,
-    logoClassName: "h-11 w-auto opacity-80",
-    body: "Arquitectura cloud native preparada para aislar cargas, escalar automáticamente y mantener continuidad, observabilidad y cumplimiento.",
-  },
-  {
-    name: "Editorial Médica Panamericana",
-    role: "Conocimiento clínico",
-    logo: "/logos/emp.svg",
-    logoWidth: 180,
-    logoHeight: 45,
-    logoClassName: "h-10 w-auto max-w-[150px] ",
-    body: "Más de 70 años de experiencia editorial sostienen una base médica estructurada y actualizada de forma continua, con mas de 3TB de conocimiento médico.",
   },
 ];
 
@@ -451,12 +424,16 @@ export function VerticalHome({ posts }: { posts: BlogPost[] }) {
       <main className="relative z-10 hidden lg:block">
         <div className="relative [clip-path:inset(0)]">
           <FixedSignalLayer />
+          <HomeCover targetId="home-introduction" />
           <VerticalPanel initiallyVisible={revealedPanels.has(0)}>
             {(visible, panelRef) => (
               <HeroPanel
+                id="home-introduction"
                 layout="vertical"
                 panelRef={panelRef}
                 visible={visible}
+                presentation="section"
+                fadeBottom
               />
             )}
           </VerticalPanel>
@@ -464,14 +441,15 @@ export function VerticalHome({ posts }: { posts: BlogPost[] }) {
             {(visible, panelRef) => (
               <SuccessCasesPanel
                 layout="vertical"
+                continueBackground
                 panelRef={panelRef}
                 visible={visible}
               />
             )}
           </VerticalPanel>
-          <section className="relative px-10 pt-14 pb-20">
-            <ProcessBackground />
-            <div className="relative z-10 mx-auto w-full max-w-7xl">
+          <section className="relative px-10 py-12">
+            <ProcessBackground fadeToProduct />
+            <div className="relative z-30 mx-auto w-full max-w-7xl">
               <ClinicalProcessShowcase />
             </div>
           </section>
@@ -519,7 +497,7 @@ export function VerticalHome({ posts }: { posts: BlogPost[] }) {
         </VerticalPanel>
       </main>
 
-      <MobileHome onPanelReveal={revealPanelsThrough} posts={posts} />
+      <MobileHome onPanelReveal={revealPanelsThrough} posts={posts} withCover />
     </>
   );
 }
@@ -702,50 +680,82 @@ function ProductSignalAccent({ className = "" }: { className?: string }) {
   );
 }
 function Panel({
+  id,
   children,
   className = "",
   panelRef,
   layout = "horizontal",
   height = "natural",
+  fadeBottom = false,
 }: {
+  id?: string;
   children: React.ReactNode;
   className?: string;
   panelRef: PanelRef;
   layout?: DesktopLayout;
   height?: PanelHeight;
+  fadeBottom?: boolean;
 }) {
   const layoutClassName =
     layout === "horizontal"
       ? "flex h-full w-screen shrink-0 items-center px-10 py-12"
       : height === "viewport"
         ? "flex min-h-[calc(100svh)] items-center px-10 py-20"
-        : "px-10 py-20";
+        : "px-10 py-16";
 
   return (
     <section
+      id={id}
       ref={panelRef}
       className={`relative overflow-hidden ${layoutClassName} ${className}`}
     >
+      {fadeBottom && <IntroductionBottomFade />}
       <div className="relative z-10 mx-auto w-full max-w-7xl">{children}</div>
     </section>
   );
 }
 
 export function HeroPanel({
+  id,
   visible,
   panelRef,
   layout = "horizontal",
+  showSignal = true,
+  presentation = "hero",
+  fadeBottom = false,
 }: {
+  id?: string;
   visible: boolean;
   panelRef: PanelRef;
   layout?: DesktopLayout;
+  showSignal?: boolean;
+  presentation?: "hero" | "section";
+  fadeBottom?: boolean;
 }) {
+  const section = presentation === "section";
+  const Heading = section ? "h2" : "h1";
   return (
-    <Panel panelRef={panelRef} layout={layout} height="viewport">
-      <ProductSignalLeft className="fixed -bottom-80 -left-155 w-250 rotate-20" />
-      <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_0.85fr]">
+    <Panel
+      id={id}
+      className={
+        section
+          ? `scroll-mt-20 ${layout === "vertical" ? "pb-8" : ""}`
+          : undefined
+      }
+      panelRef={panelRef}
+      layout={layout}
+      height={section ? "natural" : "viewport"}
+      fadeBottom={fadeBottom}
+    >
+      {showSignal && (
+        <ProductSignalLeft className="fixed -bottom-80 -left-155 w-250 rotate-20" />
+      )}
+      <div
+        className={`relative z-10 grid items-center lg:grid-cols-[1.15fr_0.85fr] ${section ? "gap-8 lg:gap-12" : "gap-12"}`}
+      >
         <div
           data-home-copy=""
+          data-home-copy-snap={layout === "horizontal"}
           className="relative"
           style={{ translate: "var(--home-copy-offset, 0px 0px)" }}
         >
@@ -753,18 +763,26 @@ export function HeroPanel({
             <Eyebrow>IA médica institucional</Eyebrow>
           </Reveal>
           <Reveal visible={visible} delay={0.1}>
-            <h1 className="font-display mt-6 max-w-4xl text-6xl font-extrabold tracking-tight text-[#05215e] xl:text-6xl dark:text-slate-50">
+            <Heading
+              className={`font-display max-w-4xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${section ? "mt-5 text-4xl leading-tight xl:text-5xl" : "mt-6 text-6xl xl:text-6xl"}`}
+            >
               Conocimiento clínico gobernado por IA.
-            </h1>
+            </Heading>
           </Reveal>
           <Reveal visible={visible} delay={0.2}>
-            <p className="font-body mt-7 max-w-2xl text-xl leading-9 text-slate-700 dark:text-slate-300">
+            <p
+              className={`font-body max-w-2xl text-slate-700 dark:text-slate-300 ${section ? "mt-5 text-lg leading-8" : "mt-7 text-xl leading-9"}`}
+            >
               BinPar convierte guías, protocolos y corpus médico en respuestas
               trazables para Atención Primaria. Una capa de IA seria, auditable
               y preparada para operar dentro de un sistema sanitario.
             </p>
           </Reveal>
-          <Reveal visible={visible} delay={0.3} className="mt-9">
+          <Reveal
+            visible={visible}
+            delay={0.3}
+            className={section ? "mt-7" : "mt-9"}
+          >
             <CTAGroup />
           </Reveal>
         </div>
@@ -801,16 +819,19 @@ function SuccessCasesPanel({
   visible,
   panelRef,
   layout = "horizontal",
+  continueBackground = false,
 }: {
   visible: boolean;
   panelRef: PanelRef;
   layout?: DesktopLayout;
+  continueBackground?: boolean;
 }) {
   return (
     <SuccessCasesSection
       visible={visible}
       panelRef={panelRef}
       layout={layout}
+      continueBackground={continueBackground}
     />
   );
 }
@@ -895,36 +916,11 @@ function ArchitecturePanel({
   layout?: DesktopLayout;
 }) {
   return (
-    <Panel
-      className="bg-white dark:bg-transparent"
+    <ProductStrataSection
       panelRef={panelRef}
+      visible={visible}
       layout={layout}
-    >
-      <div className="relative z-10 max-w-6xl">
-        <Reveal visible={visible}>
-          <Eyebrow>Producto</Eyebrow>
-        </Reveal>
-        <Reveal visible={visible} delay={0.1}>
-          <h2 className="font-display mt-4 max-w-135 text-5xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
-            De documentos dispersos a la decisión informada.
-          </h2>
-        </Reveal>
-        <Reveal visible={visible} delay={0.2}>
-          <p className="font-body mt-5 mb-10 max-w-5xl text-lg leading-8 text-slate-600 dark:text-slate-400">
-            La robustez de BinPar se construye sobre un sistema completo:
-            contenidos médicos revisados, una infraestructura preparada para
-            operar de forma continua y una capa de software que controla el
-            ciclo de cada respuesta. Tres capacidades coordinadas para responder
-            con confianza y operar con continuidad.
-          </p>
-        </Reveal>
-      </div>
-      <ProductPillars
-        visible={visible}
-        compact={layout === "horizontal"}
-        className={layout === "horizontal" ? "z-10 mt-6" : "z-10 mt-9"}
-      />
-    </Panel>
+    />
   );
 }
 
@@ -1097,7 +1093,7 @@ function ContactPanel({
       className="min-h-fit bg-[#deedf3]/82 dark:bg-[#030916]/82"
       panelRef={panelRef}
       layout={layout}
-      height="viewport"
+      height={layout === "vertical" ? "natural" : "viewport"}
     >
       <ProductSignalAccent className="-top-30 -left-35 w-170" />
       <div className="grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr]">
@@ -1129,15 +1125,25 @@ function ContactPanel({
   );
 }
 
-export function MobileHeroContent() {
+export function MobileHeroContent({
+  presentation = "hero",
+}: {
+  presentation?: "hero" | "section";
+}) {
+  const section = presentation === "section";
+  const Heading = section ? "h2" : "h1";
   return (
     <>
       <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.03),rgba(244,249,252,0.38)_10%,rgba(13,148,136,0.02)_60%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.01),rgba(6,17,31,0.42)_20%,rgba(20,184,166,0.01)_80%,transparent)]" />
-      <ViewportReveal className="relative z-10 mt-10">
+      <ViewportReveal
+        className={section ? "relative z-10" : "relative z-10 mt-10"}
+      >
         <Eyebrow>IA médica institucional</Eyebrow>
-        <h1 className="font-display mt-3.5 max-w-xl text-4xl font-extrabold tracking-tight text-[#05215e] sm:mt-6 sm:text-5xl dark:text-slate-50">
+        <Heading
+          className={`font-display mt-3.5 max-w-xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${section ? "text-3xl sm:mt-5 sm:text-4xl" : "text-4xl sm:mt-6 sm:text-5xl"}`}
+        >
           Conocimiento clínico gobernado por IA.
-        </h1>
+        </Heading>
         <p className="font-body mt-3.5 max-w-xl text-base leading-7 text-slate-700 sm:mt-7 sm:text-lg sm:leading-8 dark:text-slate-300">
           BinPar convierte guías, protocolos y corpus médico en respuestas
           trazables para Atención Primaria.
@@ -1145,7 +1151,7 @@ export function MobileHeroContent() {
         <div className="mt-7">
           <ClinicalChatMock compact />
         </div>
-        <div className="mt-9">
+        <div className={section ? "mt-7" : "mt-9"}>
           <CTAGroup />
         </div>
       </ViewportReveal>
@@ -1156,9 +1162,11 @@ export function MobileHeroContent() {
 function MobileHome({
   onPanelReveal,
   posts,
+  withCover = false,
 }: {
   onPanelReveal?: (panelIndex: number) => void;
   posts: BlogPost[];
+  withCover?: boolean;
 }) {
   const sectionRefs = useRef<Array<HTMLElement | null>>([]);
 
@@ -1206,55 +1214,42 @@ function MobileHome({
       <div className="relative [clip-path:inset(0)]">
         <SignalField intensity="hero" opacity={0.72} className="fixed" />
         <ProductSignalLeft className="fixed -bottom-80 -left-200 w-250 rotate-20 sm:-left-155" />
+        {withCover && <HomeCover targetId="home-introduction-mobile" />}
         <section
+          id={withCover ? "home-introduction-mobile" : undefined}
           ref={(node) => {
             sectionRefs.current[0] = node;
           }}
-          className="relative overflow-hidden border-b border-cyan-800/10 px-5 py-10 sm:px-10 sm:py-16 dark:border-cyan-300/10"
+          className={`relative overflow-hidden border-b border-cyan-800/10 px-5 pt-12 pb-6 sm:px-10 sm:pt-16 sm:pb-8 dark:border-cyan-300/10 ${withCover ? "scroll-mt-20" : ""}`}
         >
-          <MobileHeroContent />
+          <MobileHeroContent presentation={withCover ? "section" : "hero"} />
+          {withCover && <IntroductionBottomFade />}
         </section>
 
         <SuccessCasesSection
+          continueBackground={withCover}
           panelRef={(node) => {
             sectionRefs.current[1] = node;
           }}
         />
 
         <section className="relative px-5 pt-8 pb-10 sm:px-10 sm:pt-12 sm:pb-16">
-          <ProcessBackground />
-          <div className="relative z-10">
+          <ProcessBackground fadeToProduct />
+          <div className="relative z-30 mx-auto w-full max-w-7xl">
             <ClinicalProcessShowcase />
           </div>
         </section>
       </div>
 
-      <ThemeSection
-        ref={(node) => {
+      <ProductStrataSection
+        layout="mobile"
+        panelRef={(node) => {
           sectionRefs.current[3] = node;
         }}
-        variant="transparent"
-        className="bg-white dark:bg-transparent"
-      >
-        <div className="relative z-10 px-5 sm:px-10">
-          <ViewportReveal className="relative z-10">
-            <Eyebrow>Producto</Eyebrow>
-            <h2 className="font-display mt-4 max-w-120 text-3xl font-extrabold tracking-tight text-[#05215e] sm:text-4xl dark:text-slate-50">
-              De documentos dispersos a la decisión informada.
-            </h2>
-            <p className="font-body mt-3.5 text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
-              La robustez de BinPar se construye sobre contenidos médicos
-              revisados, infraestructura preparada para operar de forma continua
-              y software que controla el ciclo de cada respuesta. Tres
-              capacidades coordinadas para responder con confianza y operar con
-              continuidad.
-            </p>
-          </ViewportReveal>
-          <ProductPillars className="mt-8 lg:mt-10" />
-        </div>
-      </ThemeSection>
+      />
 
       <ThemeSection
+        compact
         ref={(node) => {
           sectionRefs.current[4] = node;
         }}
@@ -1268,6 +1263,7 @@ function MobileHome({
 
       {posts.length > 0 ? (
         <ThemeSection
+          compact
           ref={(node) => {
             sectionRefs.current[5] = node;
           }}
@@ -1281,6 +1277,7 @@ function MobileHome({
       ) : null}
 
       <ThemeSection
+        compact
         ref={(node) => {
           sectionRefs.current[6] = node;
         }}
@@ -1521,89 +1518,6 @@ function ProcessMilestone({
         {item.signal}
       </p>
     </motion.article>
-  );
-}
-
-function ProductPillars({
-  visible,
-  className = "",
-  compact = false,
-}: {
-  visible?: boolean;
-  className?: string;
-  compact?: boolean;
-}) {
-  const reducedMotion = useReducedMotion();
-  const [viewportRef, inViewport] = usePassedViewport(0.35);
-  const show = reducedMotion ? true : (visible ?? inViewport);
-  const sharedAnimation = {
-    initial: reducedMotion ? "visible" : "hidden",
-    animate: show ? "visible" : "hidden",
-  } as const;
-
-  return (
-    <motion.div
-      ref={viewportRef}
-      {...sharedAnimation}
-      className={`relative ${className}`}
-      variants={{
-        hidden: {},
-        visible: {
-          transition: {
-            staggerChildren: reducedMotion ? 0 : 0.24,
-          },
-        },
-      }}
-    >
-      <div
-        className={`grid ${compact ? "lg:gap-10" : "md:gap-4 lg:gap-10"} md:grid-cols-3`}
-      >
-        {productPillars.map((pillar) => (
-          <motion.article
-            key={pillar.name}
-            className={`relative ${compact ? "py-4" : "py-4 sm:py-6"}`}
-            variants={{
-              hidden: { opacity: reducedMotion ? 1 : 0 },
-              visible: {
-                opacity: 1,
-                transition: { duration: reducedMotion ? 0 : 0.42 },
-              },
-            }}
-          >
-            <div className="flex items-start justify-between gap-5">
-              <div className={`flex items-center ${compact ? "h-10" : "h-12"}`}>
-                <Image
-                  src={pillar.logo}
-                  alt={pillar.name}
-                  width={pillar.logoWidth}
-                  height={pillar.logoHeight}
-                  className={`${pillar.logoClassName} ${pillar.darkLogo ? "dark:hidden" : "dark:opacity-80 dark:brightness-0 dark:invert"}`}
-                />
-                {pillar.darkLogo && (
-                  <Image
-                    src={pillar.darkLogo}
-                    alt={pillar.name}
-                    width={pillar.logoWidth}
-                    height={pillar.logoHeight}
-                    className={`${pillar.logoClassName} hidden dark:block`}
-                  />
-                )}
-              </div>
-            </div>
-            <p
-              className={`${compact ? "mt-3" : "mt-1 lg:mt-5"} border-primary-light font-display text-primary-light dark:text-primary-dark shrink-0 border-b pt-4 pb-3 text-xs font-semibold tracking-[0.13em] uppercase lg:tracking-[0.18em] dark:border-cyan-300/20`}
-            >
-              {pillar.role}
-            </p>
-            <p
-              className={`${compact ? "mt-2 text-[13px] leading-5" : "mt-3 text-sm leading-6"} font-body text-slate-600 dark:text-slate-400`}
-            >
-              {pillar.body}
-            </p>
-          </motion.article>
-        ))}
-      </div>
-    </motion.div>
   );
 }
 

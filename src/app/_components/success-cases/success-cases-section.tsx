@@ -10,10 +10,12 @@ export function SuccessCasesSection({
   panelRef,
   visible = true,
   layout = "vertical",
+  continueBackground = false,
 }: {
   panelRef?: (node: HTMLElement | null) => void;
   visible?: boolean;
   layout?: "vertical" | "horizontal";
+  continueBackground?: boolean;
 }) {
   const section = useRef<HTMLElement>(null);
   const inView = useInView(section, { amount: "some" });
@@ -81,9 +83,9 @@ export function SuccessCasesSection({
       data-home-success-cases="definitive-two"
       data-map-painted={painted || reduced}
       data-intro-painted={(visible && introPainted) || reduced}
-      className={`relative overflow-hidden px-5 sm:px-10 ${layout === "horizontal" ? "flex h-full w-screen shrink-0 items-center py-12" : "pt-28 pb-12 sm:pt-32"}`}
+      className={`relative overflow-hidden px-5 sm:px-10 ${layout === "horizontal" ? "flex h-full w-screen shrink-0 items-center py-12" : "pt-12 pb-8 sm:pt-12 sm:pb-12"}`}
     >
-      <CasesBackground />
+      <CasesBackground fadeIn={!continueBackground} />
       <motion.div
         className="case-proposal relative isolate z-10 mx-auto w-full max-w-7xl"
         initial={reduced ? false : { opacity: 0 }}
@@ -97,6 +99,7 @@ export function SuccessCasesSection({
           key={painted ? "painted" : "unpainted"}
           cases={institutionalCases}
           motionEnabled={running}
+          compactLayout={layout === "vertical"}
         />
       </motion.div>
       <style jsx global>{`

@@ -185,8 +185,12 @@ export const ThemeSection = forwardRef<
     children: ReactNode;
     className?: string;
     variant?: "plain" | "panel" | "deep" | "transparent";
+    compact?: boolean;
   }
->(function ThemeSection({ children, className = "", variant = "plain" }, ref) {
+>(function ThemeSection(
+  { children, className = "", variant = "plain", compact = false },
+  ref,
+) {
   const variantClassName =
     variant === "panel"
       ? "relative overflow-hidden border-y border-cyan-800/10 bg-[linear-gradient(135deg,rgba(222,237,243,0.74),rgba(237,246,249,0.34))] dark:border-cyan-300/10 dark:bg-[linear-gradient(135deg,rgba(3,9,22,0.74),rgba(8,24,39,0.48))] lg:bg-[#e8f2f7] lg:dark:bg-[#081827]"
@@ -197,7 +201,10 @@ export const ThemeSection = forwardRef<
           : "relative overflow-hidden bg-linear-to-br from-[#deedf3]/80 to-[#edf6f9]/30 dark:from-[#030916]/70 dark:to-[#030916]/30 lg:bg-[#f4f9fc] lg:dark:bg-[#06111f]";
 
   return (
-    <section ref={ref} className={`${variantClassName} ${className} py-20`}>
+    <section
+      ref={ref}
+      className={`${variantClassName} ${className} ${compact ? "py-12 sm:py-16" : "py-20"}`}
+    >
       <div className="relative z-10">{children}</div>
     </section>
   );

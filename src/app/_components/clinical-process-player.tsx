@@ -1,6 +1,6 @@
 "use client";
 
-import { useReducedMotion } from "framer-motion";
+import { motion, useReducedMotion, type MotionValue } from "framer-motion";
 import { Pause, Play, RotateCcw } from "lucide-react";
 import {
   useEffect,
@@ -202,7 +202,6 @@ export function ClinicalProcessPlayer({
     return () => cancelAnimationFrame(request);
   }, [painted, visible, tabVisible, paused, reduced, stages, speed]);
 
-  const nextSpeed = speed === 1 ? 1.5 : speed === 1.5 ? 2 : 1;
   const index = reduced ? (selected ?? 3) : clock.index;
   const stage = stages[index]!;
   const duration = stage.end - stage.start;
@@ -272,79 +271,19 @@ export function ClinicalProcessPlayer({
               </div>
             ))}
           </div>
-          <div className="font-body mt-6 shrink-0 text-xs text-slate-500 lg:relative lg:top-[var(--process-frame-offset-y,0px)] dark:text-slate-400">
-            <div className="flex items-center justify-between gap-2 pb-1.5">
-              <nav aria-label="Etapas de la consulta" className="shrink-0">
-                <ol className="flex items-center gap-0.5 xl:gap-1">
-                  {stages.map((item, itemIndex) => (
-                    <li key={item.number}>
-                      <button
-                        type="button"
-                        onClick={() => select(itemIndex)}
-                        aria-current={itemIndex === index ? "step" : undefined}
-                        aria-label={`${item.number}. ${item.title}`}
-                        title={item.title}
-                        className={`font-display relative grid size-8 place-items-center rounded-full text-xs font-semibold tabular-nums transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-700 ${itemIndex === index ? "bg-primary-light/10 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark" : "text-slate-500 hover:bg-cyan-800/5 dark:text-slate-400 dark:hover:bg-white/5"}`}
-                      >
-                        {item.number}
-                        {itemIndex === index && (
-                          <span
-                            aria-hidden="true"
-                            className="bg-primary-light/25 dark:bg-primary-dark/25 absolute inset-x-1 -bottom-1.5 h-0.5 overflow-hidden rounded-full"
-                          >
-                            <span
-                              className="bg-primary-light dark:bg-primary-dark block h-full origin-left rounded-full"
-                              style={{ transform: `scaleX(${progress})` }}
-                            />
-                          </span>
-                        )}
-                      </button>
-                    </li>
-                  ))}
-                </ol>
-              </nav>
-              <div className="flex shrink-0 items-center gap-1">
-                {!reduced && (
-                  <button
-                    type="button"
-                    onClick={() => setSpeed(nextSpeed)}
-                    aria-label={`Velocidad ×${speed}. Cambiar a ×${nextSpeed}`}
-                    title={`Velocidad ×${speed} · Cambiar a ×${nextSpeed}`}
-                    className="font-display bg-primary-light/10 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark hover:bg-primary-light/15 dark:hover:bg-primary-dark/15 grid size-8 place-items-center rounded-full text-[11px] font-semibold tabular-nums focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-700"
-                  >
-                    ×{speed}
-                  </button>
-                )}
-                {!reduced && (
-                  <button
-                    type="button"
-                    onClick={() => setPaused((value) => !value)}
-                    aria-pressed={paused}
-                    aria-label={
-                      paused ? "Reproducir recorrido" : "Pausar recorrido"
-                    }
-                    title={paused ? "Reproducir" : "Pausar"}
-                    className="bg-primary-light/10 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark hover:bg-primary-light/15 dark:hover:bg-primary-dark/15 grid size-8 place-items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-700"
-                  >
-                    {paused ? (
-                      <Play size={16} strokeWidth={1.1} />
-                    ) : (
-                      <Pause size={16} strokeWidth={1.1} />
-                    )}
-                  </button>
-                )}
-                <button
-                  type="button"
-                  onClick={() => select(index)}
-                  aria-label={`Reiniciar animación de la etapa ${stage.number}`}
-                  title="Reiniciar escena actual"
-                  className="bg-primary-light/10 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark hover:bg-primary-light/15 dark:hover:bg-primary-dark/15 grid size-8 place-items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-700"
-                >
-                  <RotateCcw size={16} strokeWidth={1.1} />
-                </button>
-              </div>
-            </div>
-          </div>
+          <PlaybackControls
+            steps={stages}
+            index={index}
+            progress={progress}
+            reduced={reduced}
+            paused={paused}
+            speed={speed}
+            onSelect={select}
+            onSpeedChange={setSpeed}
+            onTogglePause={() => setPaused((value) => !value)}
+            onRestart={() => select(index)}
+            className="lg:relative lg:top-[var(--process-frame-offset-y,0px)]"
+          />
         </div>
 
         <figure className="m-0 min-w-0 lg:col-span-2">
@@ -381,5 +320,121 @@ export function ClinicalProcessPlayer({
         </figure>
       </div>
     </section>
+  );
+}
+
+/** Shared controls for the consultation and the laboratory scenes. */
+export function PlaybackControls({
+  steps,
+  index,
+  progress,
+  reduced,
+  paused,
+  speed = 1,
+  onSelect,
+  onSpeedChange,
+  onTogglePause,
+  onRestart,
+  navigationLabel = "Etapas de la consulta",
+  playbackLabel = "recorrido",
+  unit = "etapa",
+  className = "",
+}: {
+  steps: readonly { number: string; title: string }[];
+  index: number;
+  progress: number | MotionValue<number>;
+  reduced: boolean;
+  paused: boolean;
+  speed?: 1 | 1.5 | 2;
+  onSelect: (index: number) => void;
+  onSpeedChange?: (speed: 1 | 1.5 | 2) => void;
+  onTogglePause: () => void;
+  onRestart?: () => void;
+  navigationLabel?: string;
+  playbackLabel?: string;
+  unit?: "etapa" | "capa";
+  className?: string;
+}) {
+  const nextSpeed = speed === 1 ? 1.5 : speed === 1.5 ? 2 : 1;
+  return (
+    <div
+      className={`font-body mt-6 shrink-0 text-xs text-slate-500 dark:text-slate-400 ${className}`}
+    >
+      <div className="flex items-center justify-between gap-2 pb-1.5">
+        <nav aria-label={navigationLabel} className="shrink-0">
+          <ol className="flex items-center gap-0.5 xl:gap-1">
+            {steps.map((item, itemIndex) => (
+              <li key={item.number}>
+                <button
+                  type="button"
+                  onClick={() => onSelect(itemIndex)}
+                  aria-current={itemIndex === index ? "step" : undefined}
+                  aria-label={`${item.number}. ${item.title}`}
+                  title={item.title}
+                  className={`font-display relative grid size-8 place-items-center rounded-full text-xs font-semibold tabular-nums transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-700 ${itemIndex === index ? "bg-primary-light/10 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark" : "text-slate-500 hover:bg-cyan-800/5 dark:text-slate-400 dark:hover:bg-white/5"}`}
+                >
+                  {item.number}
+                  {itemIndex === index && (
+                    <span
+                      aria-hidden="true"
+                      className="bg-primary-light/25 dark:bg-primary-dark/25 absolute inset-x-1 -bottom-1.5 h-0.5 overflow-hidden rounded-full"
+                    >
+                      <motion.span
+                        className="bg-primary-light dark:bg-primary-dark block h-full origin-left rounded-full"
+                        style={{ scaleX: progress }}
+                      />
+                    </span>
+                  )}
+                </button>
+              </li>
+            ))}
+          </ol>
+        </nav>
+        <div className="flex shrink-0 items-center gap-1">
+          {!reduced && onSpeedChange && (
+            <button
+              type="button"
+              onClick={() => onSpeedChange(nextSpeed)}
+              aria-label={`Velocidad ×${speed}. Cambiar a ×${nextSpeed}`}
+              title={`Velocidad ×${speed} · Cambiar a ×${nextSpeed}`}
+              className="font-display bg-primary-light/10 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark hover:bg-primary-light/15 dark:hover:bg-primary-dark/15 grid size-8 place-items-center rounded-full text-[11px] font-semibold tabular-nums focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-700"
+            >
+              ×{speed}
+            </button>
+          )}
+          {!reduced && (
+            <button
+              type="button"
+              onClick={onTogglePause}
+              aria-pressed={paused}
+              aria-label={
+                paused
+                  ? `Reproducir ${playbackLabel}`
+                  : `Pausar ${playbackLabel}`
+              }
+              title={paused ? "Reproducir" : "Pausar"}
+              className="bg-primary-light/10 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark hover:bg-primary-light/15 dark:hover:bg-primary-dark/15 grid size-8 place-items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-700"
+            >
+              {paused ? (
+                <Play size={16} strokeWidth={1.1} />
+              ) : (
+                <Pause size={16} strokeWidth={1.1} />
+              )}
+            </button>
+          )}
+          {onRestart && (
+            <button
+              type="button"
+              onClick={onRestart}
+              aria-label={`Reiniciar animación de la ${unit} ${steps[index]!.number}`}
+              title="Reiniciar escena actual"
+              className="bg-primary-light/10 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark hover:bg-primary-light/15 dark:hover:bg-primary-dark/15 grid size-8 place-items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-700"
+            >
+              <RotateCcw size={16} strokeWidth={1.1} />
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }

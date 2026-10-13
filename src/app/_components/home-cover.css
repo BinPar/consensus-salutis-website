@@ -1,0 +1,125 @@
+.home-entry {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  min-height: 100svh;
+  padding: 128px 32px 112px;
+}
+.home-entry-content {
+  --cover-ink: #05215e;
+  --cover-accent: #006d79;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 35px 0;
+  text-align: center;
+  color: var(--cover-ink);
+}
+.dark .home-entry-content {
+  --cover-ink: #f8fafc;
+  --cover-accent: #00bcbb;
+}
+.home-entry-content .home-cover-title {
+  margin: 0;
+  font-size: 54px;
+  line-height: 1.12;
+}
+.home-entry-content .home-cover-title span {
+  display: block;
+  margin-top: 16px;
+  color: var(--cover-accent);
+  font-size: 40px;
+  line-height: 1;
+}
+.home-entry-content .home-cover-description {
+  max-width: 560px;
+  margin: 28px auto 0;
+  text-wrap: pretty;
+}
+.home-entry-content .home-cover-explore {
+  display: inline-flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 32px;
+  padding: 13px 22px;
+  border: 1px solid transparent;
+  border-radius: 40px;
+  background: var(--cover-accent);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+.home-entry-content .home-cover-explore:hover {
+  background: #155e75;
+}
+.home-entry-content .home-cover-explore:focus-visible {
+  outline: 2px solid var(--cover-accent);
+  outline-offset: 5px;
+}
+.dark .home-entry-content .home-cover-explore {
+  color: #06111f;
+}
+.dark .home-entry-content .home-cover-explore:hover {
+  background: #71fffe;
+}
+.home-entry-content .home-aura-app-icon {
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 30px;
+  border: 1px solid rgba(5, 33, 94, 0.08);
+  border-radius: 28px;
+  background: linear-gradient(145deg, #fff, #f6fafc);
+  box-shadow:
+    0 2px 3px rgba(5, 33, 94, 0.08),
+    0 12px 28px rgba(5, 33, 94, 0.07),
+    inset 0 1px 0 #fff;
+}
+.home-entry-content .home-aura-app-icon img {
+  width: 56px;
+  height: auto;
+}
+.dark .home-entry-content .home-aura-app-icon {
+  border-color: rgba(125, 211, 252, 0.16);
+  background: linear-gradient(145deg, #172c3d, #0c1c2b);
+  box-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.2),
+    0 12px 28px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+@media (max-width: 1023px) {
+  .home-entry-content .home-cover-title {
+    font-size: 48px;
+  }
+}
+@media (max-width: 767px) {
+  .home-entry {
+    padding: 112px 24px 80px;
+  }
+  .home-entry-content .home-cover-title {
+    font-size: 36px;
+  }
+  .home-entry-content .home-cover-description {
+    margin-top: 24px;
+  }
+  .home-entry-content .home-aura-app-icon {
+    width: 76px;
+    height: 76px;
+    margin-bottom: 24px;
+    border-radius: 23px;
+  }
+  .home-entry-content .home-aura-app-icon img {
+    width: 44px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-entry-content .home-cover-explore {
+    transition: none;
+  }
+}

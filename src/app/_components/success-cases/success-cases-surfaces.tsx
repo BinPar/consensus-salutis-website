@@ -18,18 +18,41 @@ const processSurfaceMask = `linear-gradient(to bottom, ${lowerBlendStops
   )
   .join(", ")}, black)`;
 
-export function CasesBackground() {
+export function IntroductionBottomFade() {
+  return (
+    <div
+      aria-hidden="true"
+      data-introduction-bottom-fade=""
+      className="pointer-events-none absolute inset-x-0 bottom-0 z-1 bg-white dark:bg-transparent dark:bg-linear-to-br dark:from-[#030916]/80 dark:to-[#030916]/40"
+      style={{
+        height: "clamp(320px, 48vw, 560px)",
+        maskImage: `linear-gradient(to bottom, ${lowerBlendStops
+          .map(
+            (opacity, index) =>
+              `rgba(0, 0, 0, ${opacity * opacity}) ${index * 10}%`,
+          )
+          .join(", ")})`,
+      }}
+    />
+  );
+}
+
+export function CasesBackground({ fadeIn = true }: { fadeIn?: boolean }) {
   return (
     <div
       aria-hidden="true"
       data-case-background-blend=""
       className="pointer-events-none absolute inset-0 bg-white dark:bg-transparent dark:bg-linear-to-br dark:from-[#030916]/80 dark:to-[#030916]/40"
-      style={{ maskImage: casesSurfaceMask }}
+      style={{ maskImage: fadeIn ? casesSurfaceMask : undefined }}
     />
   );
 }
 
-export function ProcessBackground() {
+export function ProcessBackground({
+  fadeToProduct = false,
+}: {
+  fadeToProduct?: boolean;
+}) {
   return (
     <>
       <div
@@ -49,6 +72,13 @@ export function ProcessBackground() {
           maskImage: continuedCasesMask,
         }}
       />
+      {fadeToProduct && (
+        <div
+          aria-hidden="true"
+          data-product-background-transition=""
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-[clamp(160px,18vw,280px)] bg-linear-to-b from-transparent to-white dark:to-[#06111f]"
+        />
+      )}
     </>
   );
 }

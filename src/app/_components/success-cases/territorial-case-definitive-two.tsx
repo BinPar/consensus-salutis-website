@@ -1225,7 +1225,12 @@ function DefinitiveMap({
   cases,
   selection,
   motionEnabled,
-}: VariantProps & { selection: Selection; motionEnabled: boolean }) {
+  compactLayout = false,
+}: VariantProps & {
+  selection: Selection;
+  motionEnabled: boolean;
+  compactLayout?: boolean;
+}) {
   const groups = useMemo(() => groupMappedCases(cases), [cases]);
   const canvas = useRef<HTMLDivElement>(null);
   const elapsed = useMotionValue(0);
@@ -1339,9 +1344,19 @@ function DefinitiveMap({
   return (
     <div
       data-case-stage=""
-      className="relative min-w-0 py-5 lg:-mr-10 lg:translate-x-6"
+      className={
+        compactLayout
+          ? "relative min-w-0"
+          : "relative min-w-0 py-5 lg:-mr-10 lg:translate-x-6"
+      }
     >
-      <div className="relative sm:h-[470px] lg:h-[566px]">
+      <div
+        className={
+          compactLayout
+            ? "relative sm:h-[420px] lg:h-[480px]"
+            : "relative sm:h-[470px] lg:h-[566px]"
+        }
+      >
         <Registration className="inset-3" />
         <div
           ref={canvas}
@@ -1351,7 +1366,7 @@ function DefinitiveMap({
               ? { aspectRatio: `600 / ${calloutFrameHeight(floating)}` }
               : undefined
           }
-          className="relative aspect-[600/540] sm:absolute sm:top-1/2 sm:left-[54.5%] sm:aspect-[600/440] sm:w-full sm:max-w-[641.584px] sm:-translate-x-1/2 sm:-translate-y-1/2 lg:max-w-[772.277px]"
+          className={`relative aspect-[600/540] sm:absolute sm:top-1/2 sm:aspect-[600/440] sm:w-full sm:max-w-[641.584px] sm:-translate-x-1/2 sm:-translate-y-1/2 ${compactLayout ? "sm:left-1/2 lg:max-w-[690px]" : "sm:left-[54.5%] lg:max-w-[772.277px]"}`}
         >
           <div className="absolute inset-x-0 top-0 aspect-[600/440]">
             <TerritorialMap
@@ -1409,7 +1424,8 @@ function DefinitiveMap({
 export function DefinitiveTwoVariant({
   cases,
   motionEnabled,
-}: VariantProps & { motionEnabled: boolean }) {
+  compactLayout = false,
+}: VariantProps & { motionEnabled: boolean; compactLayout?: boolean }) {
   const selection = useTerritorialSelection(cases);
   const { openId, close } = selection;
   useEffect(() => {
@@ -1437,8 +1453,14 @@ export function DefinitiveTwoVariant({
       className="definitive-two-variant"
       data-definitive-two-variant="trace-definitive-2"
     >
-      <div className="grid items-center gap-10 lg:grid-cols-[.82fr_1.18fr] lg:gap-12">
-        <div data-case-intro="" style={{ containerType: "inline-size" }}>
+      <div
+        className={`grid gap-10 lg:grid-cols-[.82fr_1.18fr] lg:gap-12 ${compactLayout ? "items-start" : "items-center"}`}
+      >
+        <div
+          data-case-intro=""
+          className={compactLayout ? "lg:pt-8" : undefined}
+          style={{ containerType: "inline-size" }}
+        >
           <CaseHeading compact singleLine />
           <div
             className="mt-8 flex flex-wrap gap-2"
@@ -1464,6 +1486,7 @@ export function DefinitiveTwoVariant({
           cases={cases}
           selection={selection}
           motionEnabled={motionEnabled}
+          compactLayout={compactLayout}
         />
       </div>
       <style jsx global>{`
