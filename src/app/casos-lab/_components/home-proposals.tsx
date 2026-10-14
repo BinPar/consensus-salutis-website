@@ -25,7 +25,9 @@ export function HomeProposal({
   const inView = useInView(root, { amount: "some" });
   const [reduced, setReduced] = useState(false);
   const [tabVisible, setTabVisible] = useState(true);
-  const auraComposition = direction === "aura" || direction === "aura-signal";
+  const auraSignal =
+    direction === "aura-signal" || direction === "aura-particles";
+  const auraComposition = direction === "aura" || auraSignal;
 
   const running = inView && tabVisible && !reduced;
   useEffect(() => {
@@ -58,7 +60,7 @@ export function HomeProposal({
       aria-label={`Portada BinPar: ${homeDirections.find((item) => item.id === direction)?.label}`}
       data-home-proposal={direction}
       data-home-running={running}
-      className={`home-cover home-cover-${direction} ${direction === "aura-signal" ? "home-cover-aura" : ""}`}
+      className={`home-cover home-cover-${direction} ${auraSignal ? "home-cover-aura home-cover-aura-signal" : ""}`}
       onPointerMove={(e) => {
         if (reduced || e.pointerType !== "mouse") return;
         const r = e.currentTarget.getBoundingClientRect();
@@ -96,7 +98,7 @@ export function HomeProposal({
       ) : direction === "evidence" ? (
         <HomeEvidence running={running} pointer={pointer} />
       ) : null}
-      {direction !== "aura-signal" && (
+      {!auraSignal && (
         <div className="home-cover-topline">
           <Image
             src="/logos/binpar-brand/binpar-logo-light.svg"
@@ -114,8 +116,15 @@ export function HomeProposal({
           />
         </div>
       )}
-      {direction === "aura-signal" ? (
-        <HomeCoverContent onExplore={explore} />
+      {auraSignal ? (
+        <HomeCoverContent
+          onExplore={explore}
+          animateEntrance
+          running={running}
+          entranceAnimation={
+            direction === "aura-particles" ? "particles" : "trace"
+          }
+        />
       ) : (
         <motion.div
           className="home-cover-content"

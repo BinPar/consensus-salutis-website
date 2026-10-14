@@ -1,0 +1,230 @@
+.vol-banner.vol-contrast-teal .vol-container {
+  width: calc(100% - 80px);
+  max-width: 1280px;
+  margin-inline: auto;
+}
+.vol-banner.vol-contrast-teal .vol-original-contrast {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 72px;
+}
+.vol-banner.vol-contrast-teal .vol-original-eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.vol-banner.vol-contrast-teal .vol-original-contrast h2 {
+  color: var(--vol-heading);
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.16;
+  text-wrap: balance;
+  margin-top: 16px;
+  max-width: 580px;
+}
+.vol-banner.vol-contrast-teal .vol-original-intro {
+  color: var(--vol-text);
+  font-size: 18px;
+  line-height: 32px;
+  margin-top: 20px;
+  max-width: 570px;
+}
+.vol-banner.vol-contrast-teal .vol-figures {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.vol-banner.vol-contrast-teal .vol-value {
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.vol-banner.vol-contrast-teal .vol-unit {
+  font-size: 0.75em;
+  margin-left: 0.14em;
+}
+.vol-banner.vol-contrast-teal .vol-label {
+  max-width: 240px;
+}
+@media (max-width: 1100px) {
+  .vol-banner.vol-contrast-teal .vol-original-contrast {
+    gap: 40px;
+  }
+  .vol-banner.vol-contrast-teal .vol-original-contrast h2 {
+    font-size: 40px;
+  }
+}
+@media (max-width: 767px) {
+  .vol-banner.vol-contrast-teal .vol-container {
+    width: calc(100% - 40px);
+  }
+  .vol-banner.vol-contrast-teal .vol-original-contrast {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .vol-banner.vol-contrast-teal .vol-original-contrast h2 {
+    font-size: 30px;
+    line-height: 1.2;
+  }
+  .vol-banner.vol-contrast-teal .vol-original-intro {
+    font-size: 16px;
+    line-height: 28px;
+    margin-top: 16px;
+  }
+}
+
+/* Original contrast composition with paired light and dark surfaces. */
+.vol-banner.vol-contrast-teal,
+.dark .vol-banner.vol-contrast-teal {
+  --vol-accent: #fff;
+  --vol-heading: #fff;
+  --vol-text: rgb(255 255 255 / 80%);
+  --vol-line: rgb(255 255 255 / 18%);
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: center;
+  min-height: 420px;
+  padding-block: 64px;
+  background:
+    radial-gradient(ellipse at 82% 20%, rgb(255 255 255 / 9%), transparent 62%),
+    linear-gradient(125deg, #006d79 20%, #006875 65%, #005b68);
+}
+.vol-banner.vol-contrast-teal .vol-container {
+  position: relative;
+  z-index: 1;
+}
+.vol-grid-window {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0);
+  pointer-events: none;
+}
+.vol-grid-window .vol-home-grid {
+  position: fixed;
+}
+.vol-banner.vol-contrast-teal .vol-original-eyebrow {
+  color: rgb(255 255 255 / 65%);
+}
+.vol-updating-line {
+  display: grid;
+}
+.vol-updating-space,
+.vol-updating-text {
+  grid-area: 1 / 1;
+}
+.vol-updating-space {
+  visibility: hidden;
+}
+.vol-updating-space::after,
+.vol-updating-text::after {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 0.8em;
+  margin-left: 0.08em;
+  background: currentColor;
+  vertical-align: -0.03em;
+}
+.vol-updating-text::after {
+  animation: vol-cursor-blink 1s steps(1, end) infinite;
+}
+@keyframes vol-cursor-blink {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vol-updating-space {
+    visibility: visible;
+  }
+  .vol-updating-text {
+    visibility: hidden;
+  }
+  .vol-updating-text::after {
+    animation: none;
+  }
+  .vol-updating-space::after {
+    visibility: hidden;
+  }
+}
+.vol-banner.vol-contrast-teal .vol-figures {
+  gap: 16px;
+  grid-auto-rows: 1fr;
+}
+.vol-banner.vol-contrast-teal .vol-metric {
+  container-type: inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid rgb(255 255 255 / 12%);
+  border-radius: 18px;
+  padding: 16px 20px;
+  background: rgb(255 255 255 / 5%);
+}
+.vol-banner.vol-contrast-teal .vol-label {
+  color: rgb(255 255 255 / 74%);
+  margin-top: 0;
+  font-size: 14px;
+  line-height: 22px;
+  flex: 1;
+}
+.vol-banner.vol-contrast-teal .vol-value {
+  font-size: 38px;
+}
+.vol-banner.vol-contrast-teal .vol-value,
+.vol-banner.vol-contrast-teal .vol-unit {
+  color: #fff;
+}
+.dark .vol-banner.vol-contrast-teal {
+  --vol-accent: #00bcbb;
+  --vol-heading: #f8fafc;
+  --vol-text: #a9bacb;
+  --vol-line: rgb(0 188 187 / 18%);
+  background:
+    radial-gradient(ellipse at 82% 20%, rgb(0 188 187 / 9%), transparent 62%),
+    linear-gradient(125deg, #081827 20%, #091b29 65%, #06111f);
+}
+.dark .vol-banner.vol-contrast-teal .vol-original-eyebrow,
+.dark .vol-banner.vol-contrast-teal .vol-updating-line {
+  color: #00bcbb;
+}
+.dark .vol-banner.vol-contrast-teal .vol-metric {
+  border-color: rgb(0 188 187 / 16%);
+  background: rgb(16 35 49 / 72%);
+}
+.dark .vol-banner.vol-contrast-teal .vol-grid-window {
+  opacity: 0.45;
+}
+.dark .vol-banner.vol-contrast-teal .vol-label {
+  color: #a9bacb;
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .vol-banner.vol-contrast-teal .vol-value {
+    font-size: clamp(20px, 22cqw, 38px);
+  }
+}
+@media (max-width: 767px) {
+  .vol-banner.vol-contrast-teal,
+  .dark .vol-banner.vol-contrast-teal {
+    padding-block: 56px;
+  }
+  .vol-banner.vol-contrast-teal .vol-figures {
+    gap: 12px;
+  }
+  .vol-banner.vol-contrast-teal .vol-metric {
+    padding: 14px;
+    border-radius: 14px;
+  }
+  .vol-banner.vol-contrast-teal .vol-value {
+    font-size: clamp(24px, 22cqw, 30px);
+  }
+}

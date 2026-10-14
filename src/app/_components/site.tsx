@@ -61,7 +61,7 @@ export function HomeShell({
       }`}
     >
       <HomeMotionBackground />
-      <SiteHeader />
+      <SiteHeader deferUntilCover={vertical} />
       {children}
       {vertical ? <VerticalFooter /> : <HomeFooterBand />}
     </div>
@@ -113,8 +113,8 @@ export function MetricGrid({
   );
 }
 
-export function SignalPanel() {
-  return <ClinicalChatMock />;
+export function SignalPanel({ active = true }: { active?: boolean }) {
+  return <ClinicalChatMock active={active} />;
 }
 
 export function EvidenceFlow() {
@@ -203,7 +203,7 @@ export const ThemeSection = forwardRef<
   return (
     <section
       ref={ref}
-      className={`${variantClassName} ${className} ${compact ? "py-12 sm:py-16" : "py-20"}`}
+      className={`${variantClassName} ${className} ${compact ? "py-14 sm:py-18" : "py-20"}`}
     >
       <div className="relative z-10">{children}</div>
     </section>

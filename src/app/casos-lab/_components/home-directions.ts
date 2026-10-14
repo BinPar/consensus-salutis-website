@@ -8,5 +8,6 @@ export const homeDirections = [
   { id: "prism-center", number: "07", label: "Prisma · Centro" },
   { id: "prism-field", number: "08", label: "Prisma · Color" },
   { id: "aura-signal", number: "09", label: "Aura · Ondas" },
+  { id: "aura-particles", number: "10", label: "Aura · Partículas" },
 ] as const;
 export type HomeDirection = (typeof homeDirections)[number]["id"];

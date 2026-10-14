@@ -13,11 +13,19 @@ export const navItems = [
   { href: "/blog", label: "Blog" },
 ];
 
-export function SiteHeader() {
+export function SiteHeader({
+  deferUntilCover = false,
+}: {
+  deferUntilCover?: boolean;
+}) {
   return (
-    <ScrollHeaderFrame>
-      <div className="mx-auto flex h-16 w-full max-w-425 items-center justify-between">
-        <Link href="/" className="flex items-center gap-3" aria-label="Inicio">
+    <ScrollHeaderFrame deferUntilCover={deferUntilCover}>
+      <div className="mx-auto grid h-16 w-full max-w-425 grid-cols-[1fr_auto] items-center md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+        <Link
+          href="/"
+          className="flex w-fit items-center gap-3"
+          aria-label="Inicio"
+        >
           <Image
             src="/logos/binpar-brand/binpar-logo-light.svg"
             alt=""
@@ -35,30 +43,31 @@ export function SiteHeader() {
             className="hidden h-6 w-auto sm:h-8 dark:block"
           />
         </Link>
-        <div className="flex gap-4 lg:gap-6">
-          <nav className="hidden items-center gap-2 text-xs font-medium text-slate-600 md:flex lg:gap-7 lg:text-sm dark:text-slate-400">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="font-body font-medium transition hover:text-cyan-800 dark:hover:text-cyan-100"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-          <div className="flex items-center gap-4 lg:gap-6">
-            <ThemeToggle />
+        <nav
+          aria-label="Navegación principal"
+          className="hidden items-center gap-2 text-xs font-medium text-slate-600 md:flex lg:gap-7 lg:text-sm dark:text-slate-400"
+        >
+          {navItems.map((item) => (
             <Link
-              href="/contacto"
-              className="dark:bg-secondary-dark focus-visible:outline-secondary-dark font-body bg-secondary-light hidden rounded-full px-3 py-2 text-xs font-semibold text-[#06111f] transition-transform hover:scale-102 focus-visible:scale-102 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none md:block lg:text-sm"
+              key={item.href}
+              href={item.href}
+              className="font-body font-medium transition hover:text-cyan-800 dark:hover:text-cyan-100"
             >
-              Solicitar reunión
+              {item.label}
             </Link>
-            <MobileNavigation
-              items={[{ href: "/", label: "Inicio" }, ...navItems]}
-            />
-          </div>
+          ))}
+        </nav>
+        <div className="flex items-center gap-4 justify-self-end lg:gap-6">
+          <ThemeToggle />
+          <Link
+            href="/contacto"
+            className="dark:bg-secondary-dark focus-visible:outline-secondary-dark font-body bg-secondary-light hidden rounded-full px-3 py-2 text-xs font-semibold text-[#06111f] transition-transform hover:scale-102 focus-visible:scale-102 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none md:block lg:text-sm"
+          >
+            Solicitar reunión
+          </Link>
+          <MobileNavigation
+            items={[{ href: "/", label: "Inicio" }, ...navItems]}
+          />
         </div>
       </div>
       {/* <div

@@ -123,3 +123,226 @@
     transition: none;
   }
 }
+
+/* Lab entrance study: trace the canonical mark, settle its fill, then reveal copy. */
+.home-entry-content[data-entry-study="true"] .home-aura-app-icon {
+  position: relative;
+  isolation: isolate;
+  background: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+.home-entry-content[data-entry-study="true"] .home-aura-app-icon::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  border: 1px solid rgba(5, 33, 94, 0.08);
+  background: #fff;
+  box-shadow:
+    0 2px 3px rgba(5, 33, 94, 0.08),
+    0 12px 28px rgba(5, 33, 94, 0.07);
+  animation: aura-entry-fade 1.8s ease both;
+  animation-play-state: var(--entry-motion);
+}
+.dark .home-entry-content[data-entry-study="true"] .home-aura-app-icon::before {
+  background: #102535;
+  border-color: rgba(125, 211, 252, 0.16);
+  box-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.2),
+    0 12px 28px rgba(0, 0, 0, 0.15);
+}
+.brand-isotype-reveal {
+  width: 56px;
+  height: auto;
+  overflow: visible;
+  color: #006f7b;
+}
+.dark .brand-isotype-reveal {
+  color: #00bcbb;
+}
+.brand-isotype-guide {
+  stroke: currentColor;
+  stroke-width: 1;
+  opacity: 0.1;
+}
+.brand-isotype-trace {
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: aura-isotype-trace 1.75s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation-play-state: var(--entry-motion);
+}
+.brand-isotype-trace-1 {
+  animation-delay: 0.12s;
+}
+.brand-isotype-trace-2 {
+  animation-delay: 0.24s;
+}
+.brand-isotype-fill {
+  opacity: 0;
+  animation: aura-isotype-fill 0.45s ease 1.35s both;
+  animation-play-state: var(--entry-motion);
+}
+.home-entry-content[data-entry-study="true"] .home-cover-title,
+.home-entry-content[data-entry-study="true"] .home-cover-description,
+.home-entry-content[data-entry-study="true"] .home-cover-explore {
+  animation: aura-entry-fade 0.6s ease both;
+  animation-play-state: var(--entry-motion);
+}
+.home-entry-content[data-entry-study="true"] .home-cover-title {
+  animation-delay: 1.95s;
+}
+.home-entry-content[data-entry-study="true"] .home-cover-description {
+  animation-delay: 2.15s;
+}
+.home-entry-content[data-entry-study="true"] .home-cover-explore {
+  animation-delay: 2.35s;
+}
+@keyframes aura-isotype-trace {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+  80% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+@keyframes aura-isotype-fill {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes aura-entry-fade {
+  from {
+    opacity: 0;
+    visibility: hidden;
+  }
+  to {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+@media (max-width: 767px) {
+  .brand-isotype-reveal {
+    width: 44px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-entry-content[data-entry-study="true"] .home-aura-app-icon,
+  .home-entry-content[data-entry-study="true"] .home-aura-app-icon::before,
+  .home-entry-content[data-entry-study="true"] .home-cover-title,
+  .home-entry-content[data-entry-study="true"] .home-cover-description,
+  .home-entry-content[data-entry-study="true"] .home-cover-explore,
+  .brand-isotype-fill {
+    animation: none;
+    opacity: 1;
+    visibility: visible;
+  }
+  .brand-isotype-trace,
+  .brand-isotype-guide {
+    display: none;
+  }
+}
+
+/* Particle study: assemble the mark, settle the pill, then bring in the copy. */
+.brand-particle-field {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  max-width: none;
+}
+.brand-particle-final {
+  width: 64px;
+  height: auto;
+  color: #006f7b;
+  opacity: 0;
+  animation: aura-isotype-fill 0.25s ease 1.7s both;
+  animation-play-state: var(--entry-motion);
+}
+.dark .brand-particle-final {
+  color: #00bcbb;
+}
+.home-entry-content[data-entry-animation="particles"] .home-aura-app-icon {
+  width: 104px;
+  height: 104px;
+  border-radius: 30px;
+}
+.home-entry-content[data-entry-animation="particles"]
+  .home-aura-app-icon::before {
+  animation-duration: 0.3s;
+  animation-delay: 2s;
+}
+.home-entry-content[data-entry-animation="particles"] .home-cover-title {
+  animation-delay: 2.35s;
+}
+.home-entry-content[data-entry-animation="particles"] .home-cover-description {
+  animation-delay: 2.5s;
+}
+.home-entry-content[data-entry-animation="particles"] .home-cover-explore {
+  animation-delay: 2.65s;
+}
+@media (max-width: 767px) {
+  .brand-particle-final {
+    width: 48px;
+  }
+  .home-entry-content[data-entry-animation="particles"] .home-aura-app-icon {
+    width: 84px;
+    height: 84px;
+    border-radius: 25px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand-particle-field {
+    display: none;
+  }
+  .brand-particle-final {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* Aura · Ondas: overlap the logo and copy reveal to avoid an empty opening. */
+.home-entry-content[data-entry-animation="trace"] .home-aura-app-icon::before {
+  animation-duration: 0.85s;
+}
+.home-entry-content[data-entry-animation="trace"] .brand-isotype-trace {
+  animation-duration: 1.2s;
+  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.home-entry-content[data-entry-animation="trace"] .brand-isotype-trace-1 {
+  animation-delay: 0.08s;
+}
+.home-entry-content[data-entry-animation="trace"] .brand-isotype-trace-2 {
+  animation-delay: 0.16s;
+}
+.home-entry-content[data-entry-animation="trace"] .brand-isotype-fill {
+  animation-duration: 0.3s;
+  animation-delay: 0.85s;
+}
+.home-entry-content[data-entry-animation="trace"] .home-cover-title,
+.home-entry-content[data-entry-animation="trace"] .home-cover-description,
+.home-entry-content[data-entry-animation="trace"] .home-cover-explore {
+  animation-duration: 0.8s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+.home-entry-content[data-entry-animation="trace"] .home-cover-title,
+.home-entry-content[data-entry-animation="trace"] .home-cover-description {
+  animation-delay: 0.8s;
+}
+.home-entry-content[data-entry-animation="trace"] .home-cover-explore {
+  animation-delay: 1.3s;
+  animation-duration: 0.9s;
+}

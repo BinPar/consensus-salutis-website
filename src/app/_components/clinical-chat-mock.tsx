@@ -83,7 +83,13 @@ function useReducedMotion() {
   return reduced;
 }
 
-export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
+export function ClinicalChatMock({
+  compact = false,
+  active = true,
+}: {
+  compact?: boolean;
+  active?: boolean;
+}) {
   const reducedMotion = useReducedMotion();
   const threadRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
@@ -97,6 +103,15 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
   const [followUpAnswerLength, setFollowUpAnswerLength] = useState(0);
 
   useEffect(() => {
+    if (!active) {
+      setStage("idle");
+      setQuestionLength(0);
+      setFollowUpQuestionLength(0);
+      setTypedAnswerLength(0);
+      setFollowUpAnswerLength(0);
+      setProcessingIndex(0);
+      return;
+    }
     if (reducedMotion === null || reducedMotion) return;
     const controller = new AbortController();
     const { signal } = controller;
@@ -168,7 +183,7 @@ export function ClinicalChatMock({ compact = false }: { compact?: boolean }) {
     };
     void run();
     return () => controller.abort();
-  }, [reducedMotion]);
+  }, [reducedMotion, active]);
 
   const staticDemo = reducedMotion === true;
   const centered =

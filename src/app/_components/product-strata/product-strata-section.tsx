@@ -70,7 +70,7 @@ export function ProductStrataSection({
       data-home-product="strata-3"
       data-product-direction="strata-3"
       data-product-painted={shown}
-      className={`relative overflow-hidden bg-white dark:bg-[#06111f] ${layout === "horizontal" ? "flex h-full w-screen shrink-0 items-center px-10 py-12" : layout === "mobile" ? "px-5 py-12 sm:px-10 sm:py-16" : "px-10 py-16"}`}
+      className={`relative overflow-hidden bg-white dark:bg-[#06111f] ${layout === "horizontal" ? "flex h-full w-screen shrink-0 items-center px-10 py-12" : layout === "mobile" ? "px-5 py-14 sm:px-10 sm:py-18" : "px-10 py-18"}`}
     >
       <motion.div
         className="relative z-10 mx-auto w-full max-w-7xl"

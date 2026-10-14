@@ -27,7 +27,8 @@ export function HomeLab({
   onExplore: () => void;
 }) {
   const aura = direction === "aura";
-  const auraSignal = direction === "aura-signal";
+  const auraSignal =
+    direction === "aura-signal" || direction === "aura-particles";
   const sharedBackground = aura || auraSignal;
   const auraPointer = useRef({ x: 0, y: 0 });
   return (

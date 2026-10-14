@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 
 import { BlogArticleCard } from "~/app/_components/blog-article-card";
+import { VolumeSection } from "~/app/_components/volume-section";
 import { HomeCover } from "~/app/_components/home-cover";
 import { ProductStrataSection } from "~/app/_components/product-strata/product-strata-section";
 import { ProductSignalLeft } from "~/app/_components/product-signal-left";
@@ -105,7 +106,7 @@ type DesktopLayout = "horizontal" | "vertical";
 type PanelHeight = "natural" | "viewport";
 type PanelRef = (node: HTMLElement | null) => void;
 
-function usePassedViewport(amount: number) {
+function usePassedViewport(amount: number, activationRatio = 1.12) {
   const elementRef = useRef<HTMLDivElement | null>(null);
   const previousScrollY = useRef(0);
   const [visible, setVisible] = useState(false);
@@ -124,7 +125,7 @@ function usePassedViewport(amount: number) {
       const rect = element.getBoundingClientRect();
       if (rect.height === 0) return;
 
-      const activationBottom = window.innerHeight * 1.12;
+      const activationBottom = window.innerHeight * activationRatio;
       const visibleHeight = Math.max(
         0,
         Math.min(rect.bottom, activationBottom) - Math.max(rect.top, 0),
@@ -163,7 +164,7 @@ function usePassedViewport(amount: number) {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
     };
-  }, [amount]);
+  }, [amount, activationRatio]);
 
   return [elementRef, visible] as const;
 }
@@ -425,7 +426,7 @@ export function VerticalHome({ posts }: { posts: BlogPost[] }) {
         <div className="relative [clip-path:inset(0)]">
           <FixedSignalLayer />
           <HomeCover targetId="home-introduction" />
-          <VerticalPanel initiallyVisible={revealedPanels.has(0)}>
+          <VerticalPanel>
             {(visible, panelRef) => (
               <HeroPanel
                 id="home-introduction"
@@ -447,7 +448,7 @@ export function VerticalHome({ posts }: { posts: BlogPost[] }) {
               />
             )}
           </VerticalPanel>
-          <section className="relative px-10 py-12">
+          <section className="relative px-10 py-14">
             <ProcessBackground fadeToProduct />
             <div className="relative z-30 mx-auto w-full max-w-7xl">
               <ClinicalProcessShowcase />
@@ -466,11 +467,7 @@ export function VerticalHome({ posts }: { posts: BlogPost[] }) {
 
         <VerticalPanel initiallyVisible={revealedPanels.has(4)}>
           {(visible, panelRef) => (
-            <MetricsPanel
-              layout="vertical"
-              panelRef={panelRef}
-              visible={visible}
-            />
+            <VolumeSection panelRef={panelRef} visible={visible} />
           )}
         </VerticalPanel>
         {/* Sin posts no hay sección: mejor un panel menos que un panel vacío. */}
@@ -585,7 +582,11 @@ export function FixedSignalLayer() {
   );
 }
 
-function ProductSignalAccent({ className = "" }: { className?: string }) {
+export function ProductSignalAccent({
+  className = "",
+}: {
+  className?: string;
+}) {
   const gradientId = useId().replace(/:/g, "");
   const fillId = `product-signal-fill-${gradientId}`;
   const darkFillId = `product-signal-dark-fill-${gradientId}`;
@@ -701,7 +702,7 @@ function Panel({
       ? "flex h-full w-screen shrink-0 items-center px-10 py-12"
       : height === "viewport"
         ? "flex min-h-[calc(100svh)] items-center px-10 py-20"
-        : "px-10 py-16";
+        : "px-10 py-18";
 
   return (
     <section
@@ -739,7 +740,7 @@ export function HeroPanel({
       id={id}
       className={
         section
-          ? `scroll-mt-20 ${layout === "vertical" ? "pb-8" : ""}`
+          ? `scroll-mt-20 ${layout === "vertical" ? "pb-14" : ""}`
           : undefined
       }
       panelRef={panelRef}
@@ -766,7 +767,7 @@ export function HeroPanel({
             <Heading
               className={`font-display max-w-4xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${section ? "mt-5 text-4xl leading-tight xl:text-5xl" : "mt-6 text-6xl xl:text-6xl"}`}
             >
-              Conocimiento clínico gobernado por IA.
+              Conocimiento clínico orquestado por IA.
             </Heading>
           </Reveal>
           <Reveal visible={visible} delay={0.2}>
@@ -787,14 +788,14 @@ export function HeroPanel({
           </Reveal>
         </div>
         <Reveal visible={visible} delay={0.4}>
-          <SignalPanel />
+          <SignalPanel active={visible} />
         </Reveal>
       </div>
     </Panel>
   );
 }
 
-function MetricsPanel({
+export function MetricsPanel({
   visible,
   panelRef,
   layout = "horizontal",
@@ -836,7 +837,7 @@ function SuccessCasesPanel({
   );
 }
 
-function MetricsIntro({
+export function MetricsIntro({
   visible,
   compact = false,
 }: {
@@ -987,7 +988,7 @@ function BlogPanel({
   );
 }
 
-function BlogContent({
+export function BlogContent({
   visible,
   compact = false,
   posts,
@@ -1079,7 +1080,7 @@ function BlogContent({
   );
 }
 
-function ContactPanel({
+export function ContactPanel({
   visible,
   panelRef,
   layout = "horizontal",
@@ -1132,29 +1133,33 @@ export function MobileHeroContent({
 }) {
   const section = presentation === "section";
   const Heading = section ? "h2" : "h1";
+  const [heroRef, visible] = usePassedViewport(0.05, 0.85);
   return (
     <>
       <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.03),rgba(244,249,252,0.38)_10%,rgba(13,148,136,0.02)_60%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.01),rgba(6,17,31,0.42)_20%,rgba(20,184,166,0.01)_80%,transparent)]" />
-      <ViewportReveal
-        className={section ? "relative z-10" : "relative z-10 mt-10"}
-      >
-        <Eyebrow>IA médica institucional</Eyebrow>
-        <Heading
-          className={`font-display mt-3.5 max-w-xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${section ? "text-3xl sm:mt-5 sm:text-4xl" : "text-4xl sm:mt-6 sm:text-5xl"}`}
+      <div ref={heroRef}>
+        <Reveal
+          visible={visible}
+          className={section ? "relative z-10" : "relative z-10 mt-10"}
         >
-          Conocimiento clínico gobernado por IA.
-        </Heading>
-        <p className="font-body mt-3.5 max-w-xl text-base leading-7 text-slate-700 sm:mt-7 sm:text-lg sm:leading-8 dark:text-slate-300">
-          BinPar convierte guías, protocolos y corpus médico en respuestas
-          trazables para Atención Primaria.
-        </p>
-        <div className="mt-7">
-          <ClinicalChatMock compact />
-        </div>
-        <div className={section ? "mt-7" : "mt-9"}>
-          <CTAGroup />
-        </div>
-      </ViewportReveal>
+          <Eyebrow>IA médica institucional</Eyebrow>
+          <Heading
+            className={`font-display mt-3.5 max-w-xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${section ? "text-3xl sm:mt-5 sm:text-4xl" : "text-4xl sm:mt-6 sm:text-5xl"}`}
+          >
+            Conocimiento clínico orquestado por IA.
+          </Heading>
+          <p className="font-body mt-3.5 max-w-xl text-base leading-7 text-slate-700 sm:mt-7 sm:text-lg sm:leading-8 dark:text-slate-300">
+            BinPar convierte guías, protocolos y corpus médico en respuestas
+            trazables para Atención Primaria.
+          </p>
+          <div className="mt-7">
+            <ClinicalChatMock compact active={visible} />
+          </div>
+          <div className={section ? "mt-7" : "mt-9"}>
+            <CTAGroup />
+          </div>
+        </Reveal>
+      </div>
     </>
   );
 }
@@ -1220,7 +1225,7 @@ function MobileHome({
           ref={(node) => {
             sectionRefs.current[0] = node;
           }}
-          className={`relative overflow-hidden border-b border-cyan-800/10 px-5 pt-12 pb-6 sm:px-10 sm:pt-16 sm:pb-8 dark:border-cyan-300/10 ${withCover ? "scroll-mt-20" : ""}`}
+          className={`relative overflow-hidden border-b border-cyan-800/10 px-5 pt-14 pb-8 sm:px-10 sm:pt-18 sm:pb-10 dark:border-cyan-300/10 ${withCover ? "scroll-mt-20" : ""}`}
         >
           <MobileHeroContent presentation={withCover ? "section" : "hero"} />
           {withCover && <IntroductionBottomFade />}
@@ -1233,7 +1238,7 @@ function MobileHome({
           }}
         />
 
-        <section className="relative px-5 pt-8 pb-10 sm:px-10 sm:pt-12 sm:pb-16">
+        <section className="relative px-5 pt-10 pb-12 sm:px-10 sm:pt-14 sm:pb-18">
           <ProcessBackground fadeToProduct />
           <div className="relative z-30 mx-auto w-full max-w-7xl">
             <ClinicalProcessShowcase />
@@ -1248,18 +1253,11 @@ function MobileHome({
         }}
       />
 
-      <ThemeSection
-        compact
-        ref={(node) => {
+      <VolumeSection
+        panelRef={(node) => {
           sectionRefs.current[4] = node;
         }}
-        variant="deep"
-      >
-        <div className="px-5 sm:px-10">
-          <MetricsIntro compact />
-          <StaggeredMetricGrid className="mt-8" />
-        </div>
-      </ThemeSection>
+      />
 
       {posts.length > 0 ? (
         <ThemeSection
@@ -1521,7 +1519,7 @@ function ProcessMilestone({
   );
 }
 
-function StaggeredMetricGrid({
+export function StaggeredMetricGrid({
   visible,
   className = "",
 }: {

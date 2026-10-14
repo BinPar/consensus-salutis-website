@@ -21,13 +21,18 @@ import { SuccessCasesProposal } from "./success-cases-proposals";
 import { caseDirections, type CaseDirection } from "./case-directions";
 import { ProductLab } from "./product-lab";
 import { HomeLab } from "./home-lab";
+import type { BlogPost } from "~/lib/blog";
+import { VolumeLab } from "./volume-lab";
+import { ContactLab } from "./contact-lab";
+import { contactDirections, type ContactDirection } from "./contact-directions";
 import { homeDirections, type HomeDirection } from "./home-directions";
 import { productDirections, type ProductDirection } from "./product-directions";
+import { volumeDirections, type VolumeDirection } from "./volume-directions";
 
 const control =
   "font-body inline-flex min-h-9 items-center justify-center gap-2 rounded-full border border-cyan-800/15 px-3 text-xs font-medium text-slate-600 transition hover:border-primary-light/35 hover:bg-primary-light/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light dark:border-cyan-300/15 dark:text-slate-300 dark:hover:border-primary-dark/35 dark:hover:bg-primary-dark/5 dark:focus-visible:outline-primary-dark";
 
-type Lab = "cases" | "product" | "home";
+type Lab = "cases" | "product" | "home" | "volume" | "contact";
 
 function scrollToPreview(lab: Lab, behavior: ScrollBehavior = "instant") {
   const section = document.getElementById(`${lab}-preview`);
@@ -48,11 +53,17 @@ export function SuccessCasesLab({
   initialLab = "cases",
   initialProductDirection = "convergence",
   initialHomeDirection = "corpus",
+  initialVolumeDirection = "editorial",
+  initialContactDirection = "assistant",
+  blogPosts,
 }: {
   initialDirection: CaseDirection;
   initialLab?: Lab;
   initialProductDirection?: ProductDirection;
   initialHomeDirection?: HomeDirection;
+  initialVolumeDirection?: VolumeDirection;
+  initialContactDirection?: ContactDirection;
+  blogPosts: BlogPost[];
 }) {
   const [lab, setLab] = useState<Lab>(initialLab);
   const [direction, setDirection] = useState(initialDirection);
@@ -61,11 +72,31 @@ export function SuccessCasesLab({
   );
   const [context, setContext] = useState(true);
   const [homeDirection, setHomeDirection] = useState(initialHomeDirection);
+  const [volumeDirection, setVolumeDirection] = useState(
+    initialVolumeDirection,
+  );
   const [replay, setReplay] = useState(0);
+  const [contactDirection, setContactDirection] = useState(
+    initialContactDirection,
+  );
   const root = useRef<HTMLDivElement>(null);
   const header = useRef<HTMLElement>(null);
   const proposals = useRef<HTMLDivElement>(null);
   const current = caseDirections.find((item) => item.id === direction)!;
+  const activeDirection = {
+    cases: direction,
+    product: productDirection,
+    home: homeDirection,
+    volume: volumeDirection,
+    contact: contactDirection,
+  }[lab];
+  const availableDirections = {
+    cases: caseDirections,
+    product: productDirections,
+    home: homeDirections,
+    volume: volumeDirections,
+    contact: contactDirections,
+  }[lab];
 
   useEffect(() => {
     const container = proposals.current;
@@ -76,7 +107,14 @@ export function SuccessCasesLab({
         active.offsetLeft - (container.clientWidth - active.offsetWidth) / 2,
       behavior: "instant",
     });
-  }, [lab, direction, productDirection, homeDirection]);
+  }, [
+    lab,
+    direction,
+    productDirection,
+    homeDirection,
+    volumeDirection,
+    contactDirection,
+  ]);
 
   useEffect(() => {
     if (window.location.hash !== `#${initialLab}-preview`) return;
@@ -115,7 +153,11 @@ export function SuccessCasesLab({
           ? "home"
           : requestedLab === "product"
             ? "product"
-            : "cases",
+            : requestedLab === "volume"
+              ? "volume"
+              : requestedLab === "contact"
+                ? "contact"
+                : "cases",
       );
       setProductDirection(
         productDirections.find(
@@ -125,6 +167,15 @@ export function SuccessCasesLab({
       setHomeDirection(
         homeDirections.find((item) => item.id === params.get("homeVariant"))
           ?.id ?? "corpus",
+      );
+      setVolumeDirection(
+        volumeDirections.find((item) => item.id === params.get("volumeVariant"))
+          ?.id ?? "editorial",
+      );
+      setContactDirection(
+        contactDirections.find(
+          (item) => item.id === params.get("contactVariant"),
+        )?.id ?? "assistant",
       );
       setDirection(
         caseDirections.find((item) => item.id === variant)?.id ??
@@ -144,6 +195,8 @@ export function SuccessCasesLab({
     else url.searchParams.set("lab", next);
     url.searchParams.set("productVariant", productDirection);
     url.searchParams.set("homeVariant", homeDirection);
+    url.searchParams.set("volumeVariant", volumeDirection);
+    url.searchParams.set("contactVariant", contactDirection);
     url.hash = `${next}-preview`;
     window.history.pushState(null, "", url);
     window.requestAnimationFrame(() => {
@@ -181,6 +234,46 @@ export function SuccessCasesLab({
     window.requestAnimationFrame(() => scrollToPreview("home"));
   };
 
+  const selectVolume = (next: VolumeDirection) => {
+    if (next === volumeDirection) return;
+    setVolumeDirection(next);
+    const url = new URL(window.location.href);
+    url.searchParams.set("volumeVariant", next);
+    url.hash = "volume-preview";
+    window.history.pushState(null, "", url);
+    window.requestAnimationFrame(() => scrollToPreview("volume"));
+  };
+
+  const selectContact = (next: ContactDirection) => {
+    if (next === contactDirection) return;
+    setContactDirection(next);
+    const url = new URL(window.location.href);
+    url.searchParams.set("contactVariant", next);
+    url.hash = "contact-preview";
+    window.history.pushState(null, "", url);
+    window.requestAnimationFrame(() => scrollToPreview("contact"));
+  };
+
+  const selectProposal = (id: string) => {
+    switch (lab) {
+      case "cases":
+        select(id as CaseDirection);
+        break;
+      case "product":
+        selectProduct(id as ProductDirection);
+        break;
+      case "home":
+        selectHome(id as HomeDirection);
+        break;
+      case "volume":
+        selectVolume(id as VolumeDirection);
+        break;
+      case "contact":
+        selectContact(id as ContactDirection);
+        break;
+    }
+  };
+
   return (
     <div
       ref={root}
@@ -211,7 +304,11 @@ export function SuccessCasesLab({
                   ? "Casos · Composición"
                   : lab === "home"
                     ? "Home"
-                    : "Producto"}
+                    : lab === "volume"
+                      ? "Volumen"
+                      : lab === "contact"
+                        ? "Contacto"
+                        : "Producto"}
               </p>
             </div>
           </div>
@@ -225,6 +322,8 @@ export function SuccessCasesLab({
               <option value="cases">Casos</option>
               <option value="product">Producto</option>
               <option value="home">Home</option>
+              <option value="volume">Volumen</option>
+              <option value="contact">Contacto</option>
             </select>
           </label>
           <div
@@ -233,30 +332,13 @@ export function SuccessCasesLab({
             role="group"
             aria-label="Elegir propuesta"
           >
-            {(lab === "home"
-              ? homeDirections
-              : lab === "cases"
-                ? caseDirections
-                : productDirections
-            ).map((item) => (
+            {availableDirections.map((item) => (
               <button
                 key={item.id}
                 type="button"
-                onClick={() =>
-                  lab === "cases"
-                    ? select(item.id as CaseDirection)
-                    : lab === "home"
-                      ? selectHome(item.id as HomeDirection)
-                      : selectProduct(item.id as ProductDirection)
-                }
-                aria-pressed={
-                  (lab === "cases"
-                    ? direction
-                    : lab === "home"
-                      ? homeDirection
-                      : productDirection) === item.id
-                }
-                className={`font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark inline-flex min-h-9 shrink-0 items-center gap-2 rounded-full px-3 text-xs font-medium whitespace-nowrap transition focus-visible:outline-2 focus-visible:outline-offset-2 ${(lab === "cases" ? direction : lab === "home" ? homeDirection : productDirection) === item.id ? "bg-primary-light dark:bg-primary-dark text-white dark:text-[#06111f]" : "bg-slate-100 text-slate-600 hover:bg-slate-200/75 dark:bg-white/5 dark:text-slate-400 dark:hover:bg-white/10"}`}
+                onClick={() => selectProposal(item.id)}
+                aria-pressed={activeDirection === item.id}
+                className={`font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark inline-flex min-h-9 shrink-0 items-center gap-2 rounded-full px-3 text-xs font-medium whitespace-nowrap transition focus-visible:outline-2 focus-visible:outline-offset-2 ${activeDirection === item.id ? "bg-primary-light dark:bg-primary-dark text-white dark:text-[#06111f]" : "bg-slate-100 text-slate-600 hover:bg-slate-200/75 dark:bg-white/5 dark:text-slate-400 dark:hover:bg-white/10"}`}
               >
                 <span className="text-[10px] opacity-65">{item.number}</span>
                 {item.label}
@@ -324,6 +406,20 @@ export function SuccessCasesLab({
           direction={productDirection}
           context={context}
           replay={replay}
+        />
+      ) : lab === "volume" ? (
+        <VolumeLab
+          posts={blogPosts}
+          direction={volumeDirection}
+          context={context}
+          replay={replay}
+        />
+      ) : lab === "contact" ? (
+        <ContactLab
+          posts={blogPosts}
+          context={context}
+          replay={replay}
+          direction={contactDirection}
         />
       ) : (
         <main className="relative z-10">

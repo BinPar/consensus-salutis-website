@@ -1425,7 +1425,12 @@ export function DefinitiveTwoVariant({
   cases,
   motionEnabled,
   compactLayout = false,
-}: VariantProps & { motionEnabled: boolean; compactLayout?: boolean }) {
+  mapPainted = true,
+}: VariantProps & {
+  motionEnabled: boolean;
+  compactLayout?: boolean;
+  mapPainted?: boolean;
+}) {
   const selection = useTerritorialSelection(cases);
   const { openId, close } = selection;
   useEffect(() => {
@@ -1453,14 +1458,8 @@ export function DefinitiveTwoVariant({
       className="definitive-two-variant"
       data-definitive-two-variant="trace-definitive-2"
     >
-      <div
-        className={`grid gap-10 lg:grid-cols-[.82fr_1.18fr] lg:gap-12 ${compactLayout ? "items-start" : "items-center"}`}
-      >
-        <div
-          data-case-intro=""
-          className={compactLayout ? "lg:pt-8" : undefined}
-          style={{ containerType: "inline-size" }}
-        >
+      <div className="grid items-center gap-10 lg:grid-cols-[.82fr_1.18fr] lg:gap-12">
+        <div data-case-intro="" style={{ containerType: "inline-size" }}>
           <CaseHeading compact singleLine />
           <div
             className="mt-8 flex flex-wrap gap-2"
@@ -1482,12 +1481,19 @@ export function DefinitiveTwoVariant({
             ))}
           </div>
         </div>
-        <DefinitiveMap
-          cases={cases}
-          selection={selection}
-          motionEnabled={motionEnabled}
-          compactLayout={compactLayout}
-        />
+        <div
+          data-case-stage-reveal=""
+          className="min-w-0"
+          aria-hidden={!mapPainted}
+        >
+          <DefinitiveMap
+            key={mapPainted ? "painted" : "unpainted"}
+            cases={cases}
+            selection={selection}
+            motionEnabled={motionEnabled}
+            compactLayout={compactLayout}
+          />
+        </div>
       </div>
       <style jsx global>{`
         .definitive-two-variant .definitive-two-draw {
