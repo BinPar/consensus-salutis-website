@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 export function MobileNavigation({
   items,
 }: {
-  items: Array<{ href: string; label: string }>;
+  items: Array<{ href: string; label: string; disabled?: boolean }>;
 }) {
   const pathname = usePathname();
   const reducedMotion = useReducedMotion();
@@ -107,6 +107,18 @@ export function MobileNavigation({
             </p>
             <div className="mt-5 max-w-xl border-t border-cyan-800/12 dark:border-cyan-300/12">
               {items.map((item, index) => {
+                if (item.disabled) {
+                  return (
+                    <span
+                      key={item.href}
+                      role="link"
+                      aria-disabled="true"
+                      className="block cursor-not-allowed border-b border-cyan-800/12 py-3 text-sm font-semibold text-[#05215e] opacity-45 dark:border-cyan-300/12 dark:text-slate-100"
+                    >
+                      {item.label}
+                    </span>
+                  );
+                }
                 const active = pathname === item.href;
 
                 return (

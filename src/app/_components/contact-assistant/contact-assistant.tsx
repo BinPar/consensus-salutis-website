@@ -51,9 +51,11 @@ const emptyAnswers: Answers = { name: "", email: "", message: "" };
 export function ContactAssistant({
   active,
   preview = false,
+  layout = "section",
 }: {
   active?: boolean;
   preview?: boolean;
+  layout?: "section" | "page";
 }) {
   const root = useRef<HTMLElement>(null);
   const inView = useInView(root, { amount: 0.2 });
@@ -76,6 +78,7 @@ export function ContactAssistant({
   const focusAfterStep = useRef(false);
   const reduced = useReducedMotion();
   const visible = active ?? inView;
+  const Heading = layout === "page" ? motion.h1 : motion.h2;
   useEffect(() => {
     if (visible) {
       setEntered(true);
@@ -206,7 +209,11 @@ export function ContactAssistant({
   return (
     <section
       ref={root}
-      className="contact-assistant"
+      className={
+        layout === "page"
+          ? "contact-assistant contact-assistant--page"
+          : "contact-assistant"
+      }
       aria-labelledby={`${id}-heading`}
       data-motion-running={visible && tabVisible && !reduced}
     >
@@ -231,7 +238,7 @@ export function ContactAssistant({
         >
           Contacto
         </motion.p>
-        <motion.h2
+        <Heading
           id={`${id}-heading`}
           className="ca-heading font-display"
           initial={{ opacity: reduced ? 1 : 0 }}
@@ -245,7 +252,7 @@ export function ContactAssistant({
           }}
         >
           Hablemos de tu organización.
-        </motion.h2>
+        </Heading>
         <AnimatePresence mode="wait" initial={false}>
           {complete ? (
             <motion.div

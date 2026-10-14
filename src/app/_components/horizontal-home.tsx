@@ -25,6 +25,7 @@ import {
 import { ClinicalProcessShowcase } from "~/app/_components/clinical-process-showcase";
 import { ContactForm } from "~/app/_components/contact-form";
 import { ContactAssistant } from "~/app/_components/contact-assistant/contact-assistant";
+import { HomePaintPanel as VerticalPanel } from "~/app/_components/home-paint-panel";
 import "./home-blog.css";
 import {
   MorphPath,
@@ -501,77 +502,6 @@ export function VerticalHome({ posts }: { posts: BlogPost[] }) {
       <MobileHome onPanelReveal={revealPanelsThrough} posts={posts} withCover />
     </>
   );
-}
-
-function VerticalPanel({
-  children,
-  initiallyVisible = false,
-}: {
-  children: (visible: boolean, panelRef: PanelRef) => React.ReactNode;
-  initiallyVisible?: boolean;
-}) {
-  const panelRef = useRef<HTMLElement | null>(null);
-  const previousScrollY = useRef(0);
-  const [visible, setVisible] = useState(initiallyVisible);
-
-  useEffect(() => {
-    if (initiallyVisible) {
-      setVisible(true);
-    }
-  }, [initiallyVisible]);
-
-  useEffect(() => {
-    previousScrollY.current = window.scrollY;
-
-    const updateVisibility = (mode: "initial" | "scroll" = "scroll") => {
-      const panel = panelRef.current;
-
-      if (!panel) return;
-
-      const currentScrollY = window.scrollY;
-      const scrollingDown = currentScrollY > previousScrollY.current;
-      const scrollingUp = currentScrollY < previousScrollY.current;
-      const rect = panel.getBoundingClientRect();
-      const activationBottom = window.innerHeight * 0.85;
-      const visibleHeight = Math.max(
-        0,
-        Math.min(rect.bottom, activationBottom) - Math.max(rect.top, 0),
-      );
-      const visibility = visibleHeight / rect.height;
-      const passedActivationPoint =
-        rect.bottom <= 0 || rect.top <= activationBottom;
-
-      if (
-        (mode === "initial" && passedActivationPoint) ||
-        (scrollingDown && (passedActivationPoint || visibility >= 0.05))
-      ) {
-        setVisible(true);
-      }
-
-      if (scrollingUp && rect.top >= activationBottom) {
-        setVisible(false);
-      }
-
-      previousScrollY.current = currentScrollY;
-    };
-
-    const handleScroll = () => updateVisibility("scroll");
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    updateVisibility("initial");
-    const frameId = window.requestAnimationFrame(() =>
-      updateVisibility("initial"),
-    );
-
-    return () => {
-      window.cancelAnimationFrame(frameId);
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  return children(visible, (node) => {
-    panelRef.current = node;
-  });
 }
 
 export function FixedSignalLayer() {

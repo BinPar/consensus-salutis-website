@@ -79,35 +79,37 @@ const steps = [
   },
 ] as const;
 
-const processStages: readonly ProcessStage[] = steps.map((step, index) => ({
-  ...step,
-  start: index === 1 ? 2.5 : index === 3 ? 0.55 : index === 4 ? 1.2 : 0,
-  end:
-    index === 0
-      ? questionSendAt + 2
-      : index === 1
-        ? COMMITTEE_DURATION - 1.6
-        : index === 2
-          ? 20.6
-          : index === 3
-            ? 18.35
-            : FOLLOWUP_DURATION - 2.7,
-  render: (seconds, reduced) =>
-    index === 0 ? (
-      <QuestionScene seconds={seconds} reduced={reduced} />
-    ) : index === 1 ? (
-      <CommitteeScene seconds={seconds} reduced={reduced} />
-    ) : index === 2 ? (
-      <SynthesisScene seconds={seconds} reduced={reduced} />
-    ) : index === 3 ? (
-      <EvidenceScene seconds={seconds} reduced={reduced} />
-    ) : (
-      <FollowupScene seconds={seconds} reduced={reduced} />
-    ),
-}));
+export const clinicalProcessStages: readonly ProcessStage[] = steps.map(
+  (step, index) => ({
+    ...step,
+    start: index === 1 ? 2.5 : index === 3 ? 0.55 : index === 4 ? 1.2 : 0,
+    end:
+      index === 0
+        ? questionSendAt + 2
+        : index === 1
+          ? COMMITTEE_DURATION - 1.6
+          : index === 2
+            ? 20.6
+            : index === 3
+              ? 18.35
+              : FOLLOWUP_DURATION - 2.7,
+    render: (seconds, reduced) =>
+      index === 0 ? (
+        <QuestionScene seconds={seconds} reduced={reduced} />
+      ) : index === 1 ? (
+        <CommitteeScene seconds={seconds} reduced={reduced} />
+      ) : index === 2 ? (
+        <SynthesisScene seconds={seconds} reduced={reduced} />
+      ) : index === 3 ? (
+        <EvidenceScene seconds={seconds} reduced={reduced} />
+      ) : (
+        <FollowupScene seconds={seconds} reduced={reduced} />
+      ),
+  }),
+);
 
 export function ClinicalProcessShowcase() {
-  return <ClinicalProcessPlayer stages={processStages} />;
+  return <ClinicalProcessPlayer stages={clinicalProcessStages} />;
 }
 
 function QuestionScene({
@@ -141,7 +143,7 @@ function QuestionScene({
       >
         <Mark className="size-12" />
         <p className="font-display text-primary-light dark:text-primary-dark mt-4 text-[10px] font-bold tracking-[0.22em] uppercase">
-          Consensus Salutis
+          BinPar
         </p>
         <p className="font-display mt-3 text-2xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
           Consulta clínica

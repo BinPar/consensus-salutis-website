@@ -5,12 +5,16 @@ import { MobileNavigation } from "~/app/_components/mobile-navigation";
 import { ScrollHeaderFrame } from "~/app/_components/scroll-header-frame";
 import { ThemeToggle } from "~/app/_components/theme-toggle";
 
-export const navItems = [
+export const navItems: Array<{
+  href: string;
+  label: string;
+  disabled?: boolean;
+}> = [
+  { href: "/", label: "Inicio" },
   { href: "/plataforma", label: "Plataforma" },
-  { href: "/evidencia", label: "Evidencia" },
-  { href: "/seguridad", label: "Seguridad" },
-  { href: "/casos", label: "Casos" },
+  { href: "#equipo", label: "Equipo", disabled: true },
   { href: "/blog", label: "Blog" },
+  { href: "/contacto", label: "Contacto" },
 ];
 
 export function SiteHeader({
@@ -47,15 +51,26 @@ export function SiteHeader({
           aria-label="Navegación principal"
           className="hidden items-center gap-2 text-xs font-medium text-slate-600 md:flex lg:gap-7 lg:text-sm dark:text-slate-400"
         >
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="font-body font-medium transition hover:text-cyan-800 dark:hover:text-cyan-100"
-            >
-              {item.label}
-            </Link>
-          ))}
+          {navItems.map((item) =>
+            item.disabled ? (
+              <span
+                key={item.href}
+                role="link"
+                aria-disabled="true"
+                className="font-body cursor-not-allowed font-medium opacity-45"
+              >
+                {item.label}
+              </span>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="font-body font-medium transition hover:text-cyan-800 dark:hover:text-cyan-100"
+              >
+                {item.label}
+              </Link>
+            ),
+          )}
         </nav>
         <div className="flex items-center gap-4 justify-self-end lg:gap-6">
           <ThemeToggle />
@@ -65,9 +80,7 @@ export function SiteHeader({
           >
             Solicitar reunión
           </Link>
-          <MobileNavigation
-            items={[{ href: "/", label: "Inicio" }, ...navItems]}
-          />
+          <MobileNavigation items={navItems} />
         </div>
       </div>
       {/* <div

@@ -1,80 +1,18 @@
 import type { Metadata } from "next";
 
-import {
-  CapabilityGrid,
-  ThemeSection,
-  EvidenceFlow,
-  Eyebrow,
-  PageHero,
-  PageShell,
-} from "~/app/_components/site";
+import { PlatformWalkthrough } from "~/app/_components/platform-walkthrough";
+import { PageShell } from "~/app/_components/site";
 
 export const metadata: Metadata = {
   title: "Plataforma",
   description:
-    "Capacidades de BinPar para consulta clínica, ingesta documental y gobierno del conocimiento sanitario.",
+    "De la consulta clínica a la evidencia: descubre cómo BinPar reúne expertos, contrasta aportaciones y ofrece una orientación con fuentes verificables.",
 };
-
-const capabilities = [
-  {
-    title: "Ingesta multiformato",
-    body: "PDF, DOCX, XLSX, PPTX, MD, vídeo, audio y EPUB con extracción automática de contenido relevante.",
-  },
-  {
-    title: "Referencias verificables",
-    body: "Cada respuesta puede enlazar al fragmento o página original que sustenta la información clínica.",
-  },
-  {
-    title: "Ciclo de publicación",
-    body: "Pruebas, preproducción y producción separadas para cargar, validar y publicar conocimiento sin perder control.",
-  },
-  {
-    title: "Tests automáticos",
-    body: "Preguntas clave para comprobar que nuevos contenidos no degradan respuestas críticas.",
-  },
-  {
-    title: "Roles institucionales",
-    body: "Administradores, editores, supervisores y usuarios finales con permisos alineados con gobierno del dato.",
-  },
-  {
-    title: "Dashboard operativo",
-    body: "Uso por centro, evolución de consultas, temas frecuentes y respuestas señaladas por usuarios.",
-  },
-];
 
 export default function PlataformaPage() {
   return (
     <PageShell>
-      <main>
-        <PageHero
-          eyebrow="Plataforma"
-          title="Un sistema operativo para el conocimiento clínico."
-          body="BinPar transforma corpus médico, guías clínicas y documentación propia en una capa de consulta institucional con referencias, roles y procesos de validación."
-        />
-        <ThemeSection>
-          <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
-            <CapabilityGrid items={capabilities} />
-          </div>
-        </ThemeSection>
-        <ThemeSection variant="panel">
-          <div className="mx-auto grid w-full max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[0.9fr_1.1fr]">
-            <div>
-              <Eyebrow>Gobierno del dato</Eyebrow>
-              <h2 className="font-display mt-4 text-3xl font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
-                El conocimiento no solo se consulta. Se gobierna.
-              </h2>
-            </div>
-            <div className="font-body space-y-7 text-base leading-8 text-slate-600 dark:text-slate-400">
-              <p>
-                Las actualizaciones se incorporan en entornos controlados, pasan
-                por revisión, se validan mediante preguntas clave y pueden
-                trasladarse a producción cuando el equipo responsable lo decide.
-              </p>
-              <EvidenceFlow />
-            </div>
-          </div>
-        </ThemeSection>
-      </main>
+      <PlatformWalkthrough />
     </PageShell>
   );
 }

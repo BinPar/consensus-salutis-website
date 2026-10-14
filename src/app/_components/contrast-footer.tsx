@@ -35,15 +35,27 @@ export function Brand({ white = false }: { white?: boolean }) {
 export function ProductLinks({ numbered = false }: { numbered?: boolean }) {
   return (
     <nav aria-label="Producto · Pie de página" className="ft-product-links">
-      {navItems.map((item, index) => (
-        <Link href={item.href} key={item.href}>
-          {numbered && <span className="ft-index">0{index + 1}</span>}
-          <span>{item.label}</span>
-          {numbered && (
-            <ArrowUpRight size={16} strokeWidth={1.8} aria-hidden="true" />
-          )}
-        </Link>
-      ))}
+      {navItems.map((item, index) =>
+        item.disabled ? (
+          <span
+            key={item.href}
+            role="link"
+            aria-disabled="true"
+            className="inline-flex cursor-not-allowed items-center gap-2 opacity-45"
+          >
+            {numbered && <span className="ft-index">0{index + 1}</span>}
+            <span>{item.label}</span>
+          </span>
+        ) : (
+          <Link href={item.href} key={item.href}>
+            {numbered && <span className="ft-index">0{index + 1}</span>}
+            <span>{item.label}</span>
+            {numbered && (
+              <ArrowUpRight size={16} strokeWidth={1.8} aria-hidden="true" />
+            )}
+          </Link>
+        ),
+      )}
     </nav>
   );
 }

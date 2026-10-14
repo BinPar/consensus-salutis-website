@@ -54,15 +54,26 @@ export function ReferenceFooter() {
               <p className="font-display mb-2 font-semibold text-slate-900 dark:text-slate-100">
                 Producto
               </p>
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="font-body block text-slate-600 transition hover:text-cyan-800 dark:text-slate-400 dark:hover:text-cyan-100"
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {navItems.map((item) =>
+                item.disabled ? (
+                  <span
+                    key={item.href}
+                    role="link"
+                    aria-disabled="true"
+                    className="font-body block cursor-not-allowed text-slate-600 opacity-45 dark:text-slate-400"
+                  >
+                    {item.label}
+                  </span>
+                ) : (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="font-body block text-slate-600 transition hover:text-cyan-800 dark:text-slate-400 dark:hover:text-cyan-100"
+                  >
+                    {item.label}
+                  </Link>
+                ),
+              )}
             </div>
             <div className="space-y-1">
               <p className="font-display mb-2 font-semibold text-slate-900 dark:text-slate-100">

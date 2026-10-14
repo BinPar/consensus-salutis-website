@@ -26,6 +26,15 @@
     transparent 100%
   );
 }
+.contact-assistant--page {
+  display: grid;
+  align-items: center;
+  min-height: calc(100svh - 64px);
+  padding-block: 72px;
+}
+.contact-assistant--page .ca-container {
+  width: 100%;
+}
 .dark .contact-assistant::before {
   background: radial-gradient(
     ellipse closest-side at 50% 50%,
