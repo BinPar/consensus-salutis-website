@@ -1,0 +1,373 @@
+.ft-proposal {
+  --ft-heading: #05215e;
+  --ft-text: #54657b;
+  --ft-accent: #006d79;
+  --ft-line: rgb(0 109 121 / 12%);
+  position: relative;
+  isolation: isolate;
+  color: var(--ft-text);
+  background: #fbfdff;
+  border-top: 1px solid var(--ft-line);
+}
+.dark .ft-proposal {
+  --ft-heading: #f8fafc;
+  --ft-text: #a9bacb;
+  --ft-accent: #00bcbb;
+  --ft-line: rgb(0 188 187 / 14%);
+  background: #06111f;
+}
+.ft-container {
+  position: relative;
+  z-index: 1;
+  width: calc(100% - 80px);
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-top: 28px;
+}
+.ft-brand {
+  display: inline-flex;
+  width: fit-content;
+}
+.ft-brand img {
+  width: auto;
+  height: 26px;
+}
+.ft-description {
+  max-width: 320px;
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 20px;
+}
+.ft-eyebrow {
+  color: var(--ft-accent);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.ft-product-links,
+.ft-contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 20px;
+  font-size: 12px;
+  line-height: 20px;
+}
+.ft-contact-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+}
+.ft-contact-links svg {
+  width: 12px;
+  height: 12px;
+}
+.ft-proposal a {
+  transition: color 150ms ease;
+}
+.ft-proposal a:hover {
+  color: var(--ft-accent);
+}
+.ft-proposal a:focus-visible {
+  outline: 2px solid var(--ft-accent);
+  outline-offset: 4px;
+  border-radius: 3px;
+}
+.ft-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: 16px;
+  margin-top: 24px;
+  border-top: 1px solid var(--ft-line);
+  font-size: 10px;
+  line-height: 18px;
+}
+/* Contrast: a compact teal band in the volume section's palette. */
+.ft-proposal.ft-contrast {
+  --ft-heading: #fff;
+  --ft-text: rgb(255 255 255 / 76%);
+  --ft-accent: #fff;
+  --ft-line: rgb(255 255 255 / 14%);
+  background:
+    radial-gradient(ellipse at 82% 20%, rgb(255 255 255 / 9%), transparent 62%),
+    linear-gradient(125deg, #006d79 20%, #006875 65%, #005b68);
+}
+.dark .ft-proposal.ft-contrast {
+  --ft-heading: #f8fafc;
+  --ft-text: #a9bacb;
+  --ft-accent: #00bcbb;
+  --ft-line: rgb(0 188 187 / 14%);
+  background:
+    radial-gradient(ellipse at 82% 20%, rgb(0 188 187 / 9%), transparent 62%),
+    linear-gradient(125deg, #081827 20%, #091b29 65%, #06111f);
+}
+.ft-grid-window {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0);
+  pointer-events: none;
+  opacity: 0.7;
+}
+.ft-grid-window .ft-home-grid {
+  position: fixed;
+  background-image:
+    linear-gradient(rgb(255 255 255 / 4%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 4%) 1px, transparent 1px);
+}
+.dark .ft-grid-window {
+  opacity: 0.35;
+}
+.dark .ft-grid-window .ft-home-grid {
+  background-image:
+    linear-gradient(rgb(125 211 252 / 4.5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(125 211 252 / 4.5%) 1px, transparent 1px);
+}
+.ft-contrast .ft-product-links {
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  gap: 8px 16px;
+  width: fit-content;
+}
+@media (min-width: 1024px) {
+  .ft-contrast .ft-panel-shell {
+    grid-template-columns: 1.2fr 0.9fr 0.9fr;
+  }
+}
+/* Editorial: small numbered links and an open composition. */
+.ft-editorial-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 48px;
+  align-items: center;
+}
+.ft-editorial-layout .ft-contact-links {
+  margin-top: 16px;
+}
+.ft-editorial-layout .ft-product-links {
+  justify-content: flex-end;
+  gap: 12px 24px;
+}
+.ft-editorial-layout .ft-product-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.ft-index {
+  color: var(--ft-accent);
+  font-size: 9px;
+  opacity: 0.65;
+}
+.ft-editorial-layout .ft-product-links svg {
+  display: none;
+}
+/* Horizon: a small centered signature with two rows of links. */
+.ft-proposal.ft-horizon {
+  background: #e8f2f7;
+}
+.dark .ft-proposal.ft-horizon {
+  background: #030916;
+}
+.ft-horizon-heading {
+  text-align: center;
+}
+.ft-horizon-nav {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+.ft-horizon-nav nav {
+  justify-content: center;
+}
+.ft-horizon .ft-bottom {
+  margin-top: 20px;
+}
+/* Panels: subtle column separators instead of large promotional blocks. */
+.ft-proposal.ft-panels {
+  background: #f4f9fc;
+}
+.dark .ft-proposal.ft-panels {
+  background: #030916;
+}
+.ft-legal-band {
+  margin-top: 24px;
+  background: #006d79;
+  color: rgb(255 255 255 / 82%);
+}
+.dark .ft-legal-band {
+  background: #00bcbb;
+  color: rgb(6 17 31 / 84%);
+}
+.ft-legal-band .ft-container {
+  padding-top: 0;
+}
+.ft-legal-band .ft-bottom {
+  margin-top: 0;
+  border-top: 0;
+}
+.ft-legal-band a:hover {
+  color: #fff;
+}
+.dark .ft-legal-band a:hover {
+  color: #06111f;
+}
+.ft-legal-band a:focus-visible {
+  outline-color: currentColor;
+}
+.ft-panel-shell {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr 0.8fr;
+}
+.ft-panel-shell > div {
+  padding-inline: 28px;
+}
+.ft-panel-shell > div:first-child {
+  padding-left: 0;
+}
+.ft-panel-shell > div:last-child {
+  padding-right: 0;
+}
+.ft-panel-shell > div + div {
+  border-left: 1px solid var(--ft-line);
+}
+.ft-panel-contact .ft-contact-links {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+/* Essential: two slim utility rows. */
+.ft-essential .ft-container {
+  padding-top: 24px;
+}
+.ft-essential-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 32px;
+}
+.ft-essential-top .ft-product-links {
+  justify-content: flex-end;
+}
+.ft-essential-contact {
+  margin-top: 16px;
+}
+.ft-essential-contact .ft-contact-links {
+  justify-content: flex-end;
+}
+.ft-essential .ft-bottom {
+  margin-top: 16px;
+}
+@media (max-width: 1023px) {
+  .ft-contrast .ft-product-links {
+    gap: 8px 12px;
+    font-size: 11px;
+  }
+  .ft-panel-shell {
+    grid-template-columns: 0.7fr 1fr 0.9fr;
+  }
+  .ft-panel-shell > div {
+    padding-inline: 20px;
+  }
+}
+@media (max-width: 767px) {
+  .ft-contrast .ft-panel-navigation,
+  .ft-contrast .ft-panel-contact {
+    grid-column: 1 / -1;
+  }
+  .ft-contrast .ft-panel-shell > .ft-panel-contact {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .ft-container {
+    width: calc(100% - 40px);
+    padding-top: 24px;
+  }
+  .ft-brand img {
+    height: 24px;
+  }
+  .ft-editorial-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .ft-editorial-layout .ft-product-links {
+    justify-content: flex-start;
+    gap: 10px 20px;
+  }
+  .ft-editorial-layout .ft-contact-links {
+    gap: 8px 16px;
+  }
+  .ft-panel-shell {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 0;
+  }
+  .ft-panel-brand {
+    grid-column: 1 / -1;
+  }
+  .ft-panel-shell > .ft-panel-brand {
+    padding: 0;
+  }
+  .ft-panel-shell > .ft-panel-navigation {
+    border-left: 0;
+    padding-left: 0;
+  }
+  .ft-panel-shell > .ft-panel-contact {
+    padding-left: 20px;
+  }
+  .ft-essential-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .ft-essential-top .ft-product-links,
+  .ft-essential-contact .ft-contact-links {
+    justify-content: flex-start;
+  }
+  .ft-bottom {
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 20px;
+    padding-block: 14px;
+  }
+}
+@media (max-width: 374px) {
+  .ft-panel-shell {
+    grid-template-columns: 1fr;
+  }
+  .ft-panel-shell > .ft-panel-contact {
+    border-left: 0;
+    padding-left: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ft-proposal a {
+    transition: none;
+  }
+}
+
+/* Original navy palette, shared with Lab. */
+.ft-proposal.ft-contrast[data-footer-palette="original"],
+.dark .ft-proposal.ft-contrast[data-footer-palette="original"] {
+  --ft-heading: #f8fafc;
+  --ft-text: #b5c4d2;
+  --ft-accent: #00bcbb;
+  --ft-line: rgb(0 188 187 / 22%);
+  background:
+    radial-gradient(ellipse at 90% 90%, rgb(0 109 121 / 22%), transparent 60%),
+    #081827;
+}
+
+.ft-proposal.ft-contrast[data-footer-palette="original"]
+  .ft-grid-window
+  .ft-home-grid,
+.dark
+  .ft-proposal.ft-contrast[data-footer-palette="original"]
+  .ft-grid-window
+  .ft-home-grid {
+  background-image:
+    linear-gradient(rgb(0 188 187 / 4.5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(0 188 187 / 4.5%) 1px, transparent 1px);
+}

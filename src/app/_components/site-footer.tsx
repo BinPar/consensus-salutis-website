@@ -3,17 +3,18 @@ import Link from "next/link";
 
 import { navItems } from "~/app/_components/site-header";
 
-export const contactItems = [
-  { href: "/contacto", label: "Solicitar reunión" },
-  {
-    href: "mailto:info@binpar.com?subject=BinPar",
-    label: "info@binpar.com",
-  },
-];
+import { contactItems } from "./site-footer-links";
+import { ContrastFooter } from "./contrast-footer";
+
+export { contactItems } from "./site-footer-links";
+
+export function VerticalFooter() {
+  return <ContrastFooter palette="original" />;
+}
 
 const legalItems = [{ href: "/privacidad", label: "Política de privacidad" }];
 
-export function VerticalFooter() {
+export function ReferenceFooter() {
   return (
     <footer className="relative z-10 border-t border-cyan-800/10 bg-[#e8f2f7] text-slate-600 dark:border-cyan-300/10 dark:bg-[#030916] dark:text-slate-400">
       <div className="mx-auto w-full max-w-7xl px-5 pt-10 sm:px-8 lg:pt-12">

@@ -64,6 +64,9 @@ function Assurance() {
 }
 
 export function VolumeProposal({ direction }: { direction: Proposal }) {
+  if (direction === "contrast-teal-original") {
+    return <VolumeSection palette="original" />;
+  }
   return direction === "contrast-teal" ? (
     <VolumeSection />
   ) : (

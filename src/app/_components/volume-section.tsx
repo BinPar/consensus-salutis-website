@@ -67,9 +67,11 @@ function UpdatingHeading({ id }: { id: string }) {
 export function VolumeSection({
   panelRef,
   visible,
+  palette = "teal",
 }: {
   panelRef?: (node: HTMLElement | null) => void;
   visible?: boolean;
+  palette?: "teal" | "original";
 }) {
   const reducedMotion = useReducedMotion();
   const headingId = useId();
@@ -78,6 +80,7 @@ export function VolumeSection({
       ref={panelRef}
       aria-labelledby={headingId}
       data-home-volume=""
+      data-volume-palette={palette}
       className="vol-banner vol-contrast-teal"
       initial={{ opacity: reducedMotion ? 1 : 0 }}
       animate={

@@ -1,0 +1,22 @@
+.home-blog-surface {
+  --blog-fade-depth: 128px;
+  background: linear-gradient(
+    to bottom,
+    #fff 0%,
+    #fff calc(100% - var(--blog-fade-depth)),
+    rgb(255 255 255 / 90%) calc(100% - var(--blog-fade-depth) * 0.75),
+    rgb(255 255 255 / 50%) calc(100% - var(--blog-fade-depth) * 0.5),
+    rgb(255 255 255 / 10%) calc(100% - var(--blog-fade-depth) * 0.25),
+    transparent 100%
+  );
+}
+
+.dark .home-blog-surface {
+  background: transparent;
+}
+
+@media (max-width: 639px) {
+  .home-blog-surface {
+    --blog-fade-depth: 96px;
+  }
+}

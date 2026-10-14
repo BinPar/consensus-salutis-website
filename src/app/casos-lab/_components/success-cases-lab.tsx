@@ -24,6 +24,8 @@ import { HomeLab } from "./home-lab";
 import type { BlogPost } from "~/lib/blog";
 import { VolumeLab } from "./volume-lab";
 import { ContactLab } from "./contact-lab";
+import { FooterLab } from "./footer-lab";
+import { footerDirections, type FooterDirection } from "./footer-directions";
 import { contactDirections, type ContactDirection } from "./contact-directions";
 import { homeDirections, type HomeDirection } from "./home-directions";
 import { productDirections, type ProductDirection } from "./product-directions";
@@ -32,7 +34,7 @@ import { volumeDirections, type VolumeDirection } from "./volume-directions";
 const control =
   "font-body inline-flex min-h-9 items-center justify-center gap-2 rounded-full border border-cyan-800/15 px-3 text-xs font-medium text-slate-600 transition hover:border-primary-light/35 hover:bg-primary-light/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light dark:border-cyan-300/15 dark:text-slate-300 dark:hover:border-primary-dark/35 dark:hover:bg-primary-dark/5 dark:focus-visible:outline-primary-dark";
 
-type Lab = "cases" | "product" | "home" | "volume" | "contact";
+type Lab = "cases" | "product" | "home" | "volume" | "contact" | "footer";
 
 function scrollToPreview(lab: Lab, behavior: ScrollBehavior = "instant") {
   const section = document.getElementById(`${lab}-preview`);
@@ -55,6 +57,7 @@ export function SuccessCasesLab({
   initialHomeDirection = "corpus",
   initialVolumeDirection = "editorial",
   initialContactDirection = "assistant",
+  initialFooterDirection = "reference",
   blogPosts,
 }: {
   initialDirection: CaseDirection;
@@ -63,6 +66,7 @@ export function SuccessCasesLab({
   initialHomeDirection?: HomeDirection;
   initialVolumeDirection?: VolumeDirection;
   initialContactDirection?: ContactDirection;
+  initialFooterDirection?: FooterDirection;
   blogPosts: BlogPost[];
 }) {
   const [lab, setLab] = useState<Lab>(initialLab);
@@ -79,6 +83,9 @@ export function SuccessCasesLab({
   const [contactDirection, setContactDirection] = useState(
     initialContactDirection,
   );
+  const [footerDirection, setFooterDirection] = useState(
+    initialFooterDirection,
+  );
   const root = useRef<HTMLDivElement>(null);
   const header = useRef<HTMLElement>(null);
   const proposals = useRef<HTMLDivElement>(null);
@@ -89,6 +96,7 @@ export function SuccessCasesLab({
     home: homeDirection,
     volume: volumeDirection,
     contact: contactDirection,
+    footer: footerDirection,
   }[lab];
   const availableDirections = {
     cases: caseDirections,
@@ -96,6 +104,7 @@ export function SuccessCasesLab({
     home: homeDirections,
     volume: volumeDirections,
     contact: contactDirections,
+    footer: footerDirections,
   }[lab];
 
   useEffect(() => {
@@ -114,6 +123,7 @@ export function SuccessCasesLab({
     homeDirection,
     volumeDirection,
     contactDirection,
+    footerDirection,
   ]);
 
   useEffect(() => {
@@ -157,7 +167,9 @@ export function SuccessCasesLab({
               ? "volume"
               : requestedLab === "contact"
                 ? "contact"
-                : "cases",
+                : requestedLab === "footer"
+                  ? "footer"
+                  : "cases",
       );
       setProductDirection(
         productDirections.find(
@@ -176,6 +188,10 @@ export function SuccessCasesLab({
         contactDirections.find(
           (item) => item.id === params.get("contactVariant"),
         )?.id ?? "assistant",
+      );
+      setFooterDirection(
+        footerDirections.find((item) => item.id === params.get("footerVariant"))
+          ?.id ?? "reference",
       );
       setDirection(
         caseDirections.find((item) => item.id === variant)?.id ??
@@ -197,6 +213,7 @@ export function SuccessCasesLab({
     url.searchParams.set("homeVariant", homeDirection);
     url.searchParams.set("volumeVariant", volumeDirection);
     url.searchParams.set("contactVariant", contactDirection);
+    url.searchParams.set("footerVariant", footerDirection);
     url.hash = `${next}-preview`;
     window.history.pushState(null, "", url);
     window.requestAnimationFrame(() => {
@@ -254,6 +271,16 @@ export function SuccessCasesLab({
     window.requestAnimationFrame(() => scrollToPreview("contact"));
   };
 
+  const selectFooter = (next: FooterDirection) => {
+    if (next === footerDirection) return;
+    setFooterDirection(next);
+    const url = new URL(window.location.href);
+    url.searchParams.set("footerVariant", next);
+    url.hash = "footer-preview";
+    window.history.pushState(null, "", url);
+    window.requestAnimationFrame(() => scrollToPreview("footer"));
+  };
+
   const selectProposal = (id: string) => {
     switch (lab) {
       case "cases":
@@ -270,6 +297,9 @@ export function SuccessCasesLab({
         break;
       case "contact":
         selectContact(id as ContactDirection);
+        break;
+      case "footer":
+        selectFooter(id as FooterDirection);
         break;
     }
   };
@@ -308,7 +338,9 @@ export function SuccessCasesLab({
                       ? "Volumen"
                       : lab === "contact"
                         ? "Contacto"
-                        : "Producto"}
+                        : lab === "footer"
+                          ? "Footer"
+                          : "Producto"}
               </p>
             </div>
           </div>
@@ -324,6 +356,7 @@ export function SuccessCasesLab({
               <option value="home">Home</option>
               <option value="volume">Volumen</option>
               <option value="contact">Contacto</option>
+              <option value="footer">Footer</option>
             </select>
           </label>
           <div
@@ -413,6 +446,13 @@ export function SuccessCasesLab({
           direction={volumeDirection}
           context={context}
           replay={replay}
+        />
+      ) : lab === "footer" ? (
+        <FooterLab
+          context={context}
+          replay={replay}
+          direction={footerDirection}
+          contactDirection={contactDirection}
         />
       ) : lab === "contact" ? (
         <ContactLab

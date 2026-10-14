@@ -7,6 +7,7 @@ import { productDirections } from "./_components/product-directions";
 import { homeDirections } from "./_components/home-directions";
 import { volumeDirections } from "./_components/volume-directions";
 import { contactDirections } from "./_components/contact-directions";
+import { footerDirections } from "./_components/footer-directions";
 
 export const metadata: Metadata = {
   title: "Laboratorio visual",
@@ -23,6 +24,7 @@ export default async function CasesLabPage({
     homeVariant?: string;
     volumeVariant?: string;
     contactVariant?: string;
+    footerVariant?: string;
   }>;
 }) {
   if (process.env.NODE_ENV !== "development") notFound();
@@ -33,6 +35,7 @@ export default async function CasesLabPage({
     homeVariant,
     volumeVariant,
     contactVariant,
+    footerVariant,
   } = await searchParams;
   const direction = caseDirections.find((item) => item.id === variant)?.id;
   return (
@@ -48,7 +51,9 @@ export default async function CasesLabPage({
               ? "volume"
               : lab === "contact"
                 ? "contact"
-                : "cases"
+                : lab === "footer"
+                  ? "footer"
+                  : "cases"
       }
       initialProductDirection={
         productDirections.find((item) => item.id === productVariant)?.id ??
@@ -60,6 +65,10 @@ export default async function CasesLabPage({
       initialVolumeDirection={
         volumeDirections.find((item) => item.id === volumeVariant)?.id ??
         "editorial"
+      }
+      initialFooterDirection={
+        footerDirections.find((item) => item.id === footerVariant)?.id ??
+        "reference"
       }
       initialContactDirection={
         contactDirections.find((item) => item.id === contactVariant)?.id ??

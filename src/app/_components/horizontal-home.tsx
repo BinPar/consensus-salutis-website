@@ -24,6 +24,8 @@ import {
 } from "~/app/_components/success-cases/success-cases-surfaces";
 import { ClinicalProcessShowcase } from "~/app/_components/clinical-process-showcase";
 import { ContactForm } from "~/app/_components/contact-form";
+import { ContactAssistant } from "~/app/_components/contact-assistant/contact-assistant";
+import "./home-blog.css";
 import {
   MorphPath,
   Reveal,
@@ -467,7 +469,11 @@ export function VerticalHome({ posts }: { posts: BlogPost[] }) {
 
         <VerticalPanel initiallyVisible={revealedPanels.has(4)}>
           {(visible, panelRef) => (
-            <VolumeSection panelRef={panelRef} visible={visible} />
+            <VolumeSection
+              panelRef={panelRef}
+              visible={visible}
+              palette="original"
+            />
           )}
         </VerticalPanel>
         {/* Sin posts no hay sección: mejor un panel menos que un panel vacío. */}
@@ -485,11 +491,9 @@ export function VerticalHome({ posts }: { posts: BlogPost[] }) {
         ) : null}
         <VerticalPanel initiallyVisible={revealedPanels.has(6)}>
           {(visible, panelRef) => (
-            <ContactPanel
-              layout="vertical"
-              panelRef={panelRef}
-              visible={visible}
-            />
+            <div ref={panelRef}>
+              <ContactAssistant active={visible} />
+            </div>
           )}
         </VerticalPanel>
       </main>
@@ -978,11 +982,7 @@ function BlogPanel({
   posts: BlogPost[];
 }) {
   return (
-    <Panel
-      panelRef={panelRef}
-      layout={layout}
-      className="bg-white dark:bg-transparent"
-    >
+    <Panel panelRef={panelRef} layout={layout} className="home-blog-surface">
       <BlogContent visible={visible} posts={posts} />
     </Panel>
   );
@@ -1254,6 +1254,7 @@ function MobileHome({
       />
 
       <VolumeSection
+        palette="original"
         panelRef={(node) => {
           sectionRefs.current[4] = node;
         }}
@@ -1266,7 +1267,7 @@ function MobileHome({
             sectionRefs.current[5] = node;
           }}
           variant="transparent"
-          className="bg-white dark:bg-transparent"
+          className="home-blog-surface"
         >
           <div className="px-5 sm:px-10">
             <BlogContent compact posts={posts} />
@@ -1274,30 +1275,30 @@ function MobileHome({
         </ThemeSection>
       ) : null}
 
-      <ThemeSection
-        compact
-        ref={(node) => {
+      <MobileContactSection
+        panelRef={(node) => {
           sectionRefs.current[6] = node;
         }}
-        variant="deep"
-      >
-        <div className="relative px-5 sm:px-10">
-          <ProductSignalAccent className="-top-24 -left-18 w-120" />
-          {/* <ContactSignalAccent compact /> */}
-          <ViewportReveal className="relative z-10">
-            <Eyebrow>Contacto</Eyebrow>
-            <h2 className="font-display mt-4 max-w-110 text-3xl font-extrabold tracking-tight text-[#05215e] sm:text-4xl dark:text-slate-50">
-              Hablemos de tu organización sanitaria.
-            </h2>
-            <p className="font-body mt-3.5 max-w-120 text-base leading-7 text-slate-600 sm:mt-5 dark:text-slate-400">
-              Revisamos caso de uso, restricciones de seguridad, requisitos de
-              integración y el nivel de evidencia necesario.
-            </p>
-          </ViewportReveal>
-          <ContactForm className="mt-10" />
-        </div>
-      </ThemeSection>
+      />
     </main>
+  );
+}
+
+function MobileContactSection({
+  panelRef,
+}: {
+  panelRef: (node: HTMLDivElement | null) => void;
+}) {
+  const [viewportRef, visible] = usePassedViewport(0.05, 0.85);
+  return (
+    <div
+      ref={(node) => {
+        viewportRef.current = node;
+        panelRef(node);
+      }}
+    >
+      <ContactAssistant active={visible} />
+    </div>
   );
 }
 
