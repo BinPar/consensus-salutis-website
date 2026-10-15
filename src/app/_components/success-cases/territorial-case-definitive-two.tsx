@@ -1376,7 +1376,11 @@ function DefinitiveMap({
               floating={floating}
             />
           </div>
-          <div aria-label="Instituciones en el mapa" className="static">
+          <div
+            role="group"
+            aria-label="Instituciones en el mapa"
+            className="static"
+          >
             {groups.map((group, index) => {
               const item =
                 group.cases.find(
@@ -1462,6 +1466,7 @@ export function DefinitiveTwoVariant({
         <div data-case-intro="" style={{ containerType: "inline-size" }}>
           <CaseHeading compact singleLine />
           <div
+            role="group"
             className="mt-8 flex flex-wrap gap-2"
             aria-label="Seleccionar institución"
           >
@@ -1485,6 +1490,7 @@ export function DefinitiveTwoVariant({
           data-case-stage-reveal=""
           className="min-w-0"
           aria-hidden={!mapPainted}
+          inert={!mapPainted}
         >
           <DefinitiveMap
             key={mapPainted ? "painted" : "unpainted"}

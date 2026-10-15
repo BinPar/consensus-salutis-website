@@ -9,6 +9,8 @@ import createMDX from "@next/mdx";
 /** @type {import("next").NextConfig} */
 const config = {
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
+  // Keep metadata in the initial <head> for browser-based SEO audits too.
+  htmlLimitedBots: /.*/,
   /*
     Los `.ttf` de Sora que compone la imagen OG se leen con `fs`, y eso el
     tracing no lo ve. Sin esta línea la imagen sale con la fuente del sistema en

@@ -182,7 +182,7 @@
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
-  margin: 4px 0;
+  margin: 5px 0;
 }
 .pp-navigation-item:hover {
   background: color-mix(in srgb, var(--pp-accent) 7%, transparent);
@@ -203,6 +203,9 @@
 .pp-thread[data-active="true"] {
   background: color-mix(in srgb, var(--pp-accent) 12%, transparent);
   color: var(--pp-accent);
+}
+.pp-thread + .pp-thread {
+  margin-top: 4px;
 }
 .pp-thread-link {
   min-width: 0;
