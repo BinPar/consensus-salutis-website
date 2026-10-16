@@ -1,0 +1,342 @@
+/* Guiada is deliberately a single full-width opening, without a directory or
+   profile. The orbit is drawn in JS so its radius follows the available space. */
+:where([data-visual-lab]) :is(.ta-direction-guiada .ta-preview) {
+  max-width: none;
+  padding: 0;
+  animation: none;
+  scroll-margin-top: var(--lab-toolbar-height, 80px);
+}
+:where([data-visual-lab]) :is(.ta-guided) {
+  --guided-reveal: 0;
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  height: max(700px, calc(100svh - var(--lab-toolbar-height, 80px)));
+  max-height: 1100px;
+  overflow: hidden;
+  background: var(--ta-paper);
+}
+:where([data-visual-lab]) :is(.ta-guided-ring) {
+  position: absolute;
+  inset: 0;
+  opacity: var(--guided-reveal);
+  mask-image: linear-gradient(to bottom, #000 65%, transparent 98%);
+  pointer-events: none;
+}
+:where([data-visual-lab]) :is(.ta-guided-card) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(clamp(96px, 8.3vw, 180px) * var(--guided-size, 1));
+  aspect-ratio: 1;
+  margin-left: calc(clamp(96px, 8.3vw, 180px) * var(--guided-size, 1) / -2);
+  margin-top: calc(clamp(96px, 8.3vw, 180px) * var(--guided-size, 1) / -2);
+  will-change: transform;
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+:where([data-visual-lab]) :is(.ta-guided[data-dragging]),
+:where([data-visual-lab]) :is(.ta-guided[data-dragging] .ta-guided-card) {
+  cursor: grabbing;
+}
+:where([data-visual-lab]) :is(.ta-guided-tile) {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 10%;
+  background: var(--ta-panel);
+  transition: scale 0.4s ease;
+}
+:where([data-visual-lab]) :is(.ta-guided-card:hover .ta-guided-tile) {
+  scale: 1.045;
+}
+:where([data-visual-lab]) :is(.ta-guided .ta-photo) {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1;
+}
+:where([data-visual-lab]) :is(.ta-guided .ta-photo-mark) {
+  display: none;
+}
+:where([data-visual-lab]) :is(.ta-guided .ta-guided-portrait) {
+  filter: saturate(0.75);
+}
+:where([data-visual-lab])
+  :is(.ta-guided [data-guided-member="yaiza-vallejo"] .ta-guided-portrait) {
+  transform: scale(1.15);
+  transform-origin: 50% 42%;
+}
+:where([data-visual-lab]) :is(.ta-guided .ta-sheet) {
+  filter: saturate(0.65);
+}
+:where([data-visual-lab]) :is(.dark .ta-guided .ta-sheet) {
+  filter: saturate(0.65) brightness(0.88);
+}
+:where([data-visual-lab]) :is(.ta-guided-caption) {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding-top: 10px;
+  width: 115%;
+  color: var(--ta-muted);
+  font-size: clamp(10px, 0.85vw, 15px);
+  line-height: 1.5;
+  pointer-events: none;
+}
+:where([data-visual-lab]) :is(.ta-guided-caption small) {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.82em;
+}
+:where([data-visual-lab]) :is(.ta-guided-pattern) {
+  width: 100%;
+  height: 100%;
+  color: var(--ta-accent);
+  background: var(--ta-panel);
+}
+:where([data-visual-lab]) :is(.ta-guided-pattern svg) {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  stroke-width: 1;
+  opacity: 0.36;
+}
+:where([data-visual-lab]) :is(.ta-guided-pattern-1) {
+  background: color-mix(in srgb, var(--ta-accent) 12%, var(--ta-paper));
+}
+:where([data-visual-lab]) :is(.ta-guided-pattern-2) {
+  background: color-mix(in srgb, var(--ta-ink) 9%, var(--ta-paper));
+}
+:where([data-visual-lab]) :is(.ta-guided-pattern-3) {
+  background: color-mix(in srgb, var(--ta-accent) 7%, var(--ta-paper));
+}
+:where([data-visual-lab]) :is(.dark .ta-guided-pattern svg) {
+  opacity: 0.3;
+}
+:where([data-visual-lab]) :is(.ta-guided-center) {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(760px, 62%);
+  margin-top: -12px;
+  text-align: center;
+  pointer-events: none;
+}
+:where([data-visual-lab]) :is(.ta-guided-center > *) {
+  pointer-events: auto;
+}
+:where([data-visual-lab]) :is(.ta-guided-center .ta-eyebrow) {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  margin-bottom: 25px;
+}
+:where([data-visual-lab]) :is(.ta-root .ta-guided h1) {
+  margin: 0;
+  font-size: clamp(42px, 4.8vw, 88px);
+  letter-spacing: -0.065em;
+  line-height: 1.13;
+  font-weight: 700;
+  color: var(--ta-ink);
+}
+:where([data-visual-lab]) :is(.ta-guided-description) {
+  margin: 28px 0 0;
+  color: var(--ta-text);
+  font-size: clamp(16px, 1.35vw, 23px);
+  line-height: 1.75;
+  text-wrap: balance;
+}
+:where([data-visual-lab]) :is(.ta-guided-actions) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 36px;
+}
+:where([data-visual-lab]) :is(.ta-guided-actions a) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 46px;
+  padding: 12px 19px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  transition:
+    background 0.2s,
+    box-shadow 0.2s;
+}
+:where([data-visual-lab]) :is(.ta-guided-primary) {
+  background: var(--ta-accent);
+  color: #fff;
+  border: 1px solid var(--ta-accent);
+}
+:where([data-visual-lab]) :is(.dark .ta-guided-primary) {
+  color: #06111f;
+}
+:where([data-visual-lab]) :is(.ta-guided-primary:hover) {
+  background: color-mix(in srgb, var(--ta-accent) 85%, var(--ta-ink));
+}
+:where([data-visual-lab]) :is(.ta-guided-secondary) {
+  color: var(--ta-ink);
+  background: var(--ta-panel);
+  border: 1px solid var(--ta-line);
+}
+:where([data-visual-lab]) :is(.ta-guided-secondary:hover) {
+  background: color-mix(in srgb, var(--ta-accent) 10%, var(--ta-panel));
+}
+:where([data-visual-lab]) :is(.ta-guided-bottom) {
+  position: absolute;
+  z-index: 3;
+  bottom: 26px;
+  left: 40px;
+  right: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  font-size: 10px;
+  color: var(--ta-muted);
+}
+:where([data-visual-lab]) :is(.ta-guided-bottom > span) {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+:where([data-visual-lab]) :is(.ta-guided-bottom i) {
+  width: 5px;
+  height: 5px;
+  background: var(--ta-accent);
+  border-radius: 50%;
+}
+:where([data-visual-lab]) :is(.ta-guided-bottom button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 8px 10px;
+  border: 1px solid var(--ta-line);
+  border-radius: 6px;
+  background: var(--ta-paper);
+  color: var(--ta-muted);
+  cursor: pointer;
+}
+:where([data-visual-lab]) :is(.ta-guided-bottom button:disabled) {
+  cursor: default;
+}
+@media (min-width: 1800px) {
+  :where([data-visual-lab]) :is(.ta-guided-center) {
+    width: min(1000px, 60%);
+  }
+  :where([data-visual-lab]) :is(.ta-guided-center .ta-eyebrow) {
+    font-size: 12px;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-actions a) {
+    font-size: 15px;
+    padding-inline: 23px;
+    min-height: 50px;
+  }
+}
+@media (max-width: 1000px) {
+  :where([data-visual-lab]) :is(.ta-guided-ring-outer) {
+    display: none;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-center) {
+    width: min(600px, 70%);
+  }
+  :where([data-visual-lab]) :is(.ta-root .ta-guided h1) {
+    font-size: clamp(40px, 5.5vw, 55px);
+  }
+  :where([data-visual-lab]) :is(.ta-guided-card) {
+    width: calc(90px * var(--guided-size));
+    margin: calc(-45px * var(--guided-size));
+  }
+  :where([data-visual-lab]) :is(.ta-guided-caption) {
+    font-size: 10px;
+  }
+}
+@media (max-width: 600px) {
+  :where([data-visual-lab]) :is(.ta-guided) {
+    height: max(760px, calc(100svh - var(--lab-toolbar-height, 100px)));
+    max-height: 860px;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-center) {
+    width: calc(100% - 40px);
+    margin-top: -12px;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-center .ta-eyebrow) {
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    margin-bottom: 24px;
+  }
+  :where([data-visual-lab]) :is(.ta-root .ta-guided h1) {
+    font-size: clamp(34px, 9.7vw, 52px);
+    letter-spacing: -0.065em;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-description) {
+    max-width: 330px;
+    margin-top: 24px;
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-desktop-break) {
+    display: none;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-actions) {
+    flex-direction: column;
+    margin-top: 27px;
+    gap: 10px;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-actions a) {
+    min-width: 205px;
+    font-size: 12px;
+    min-height: 44px;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-card) {
+    width: calc(76px * var(--guided-size));
+    margin: calc(-38px * var(--guided-size));
+  }
+  :where([data-visual-lab]) :is(.ta-guided-caption) {
+    display: none;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-ring) {
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      #000 8%,
+      #000 77%,
+      transparent 96%
+    );
+  }
+  :where([data-visual-lab]) :is(.ta-guided-bottom) {
+    left: 20px;
+    right: 20px;
+    bottom: 18px;
+    font-size: 9px;
+    gap: 8px;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-bottom button) {
+    padding: 8px;
+    gap: 6px;
+    font-size: 9px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :where([data-visual-lab]) :is(.ta-guided) {
+    --guided-reveal: 1;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-tile),
+  :where([data-visual-lab]) :is(.ta-guided-actions a) {
+    transition: none;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-card:hover .ta-guided-tile) {
+    scale: 1;
+  }
+}

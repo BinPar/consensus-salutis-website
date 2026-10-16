@@ -1,0 +1,222 @@
+[
+  {
+    "port": 3101,
+    "path": "/",
+    "status": 200
+  },
+  {
+    "port": 3101,
+    "path": "/plataforma",
+    "status": 200
+  },
+  {
+    "port": 3101,
+    "path": "/contacto",
+    "status": 200
+  },
+  {
+    "port": 3101,
+    "path": "/casos-lab",
+    "status": 404
+  },
+  {
+    "port": 3101,
+    "filename": "home-390-light",
+    "matchesProductionWithLab": false
+  },
+  {
+    "port": 3101,
+    "filename": "platform-390-light",
+    "matchesProductionWithLab": false
+  },
+  {
+    "port": 3101,
+    "filename": "contact-390-light",
+    "matchesProductionWithLab": false
+  },
+  {
+    "port": 3101,
+    "filename": "home-390-dark",
+    "matchesProductionWithLab": false
+  },
+  {
+    "port": 3101,
+    "filename": "platform-390-dark",
+    "matchesProductionWithLab": false
+  },
+  {
+    "port": 3101,
+    "filename": "contact-390-dark",
+    "matchesProductionWithLab": false
+  },
+  {
+    "port": 3101,
+    "filename": "home-1280-light",
+    "matchesProductionWithLab": false
+  },
+  {
+    "port": 3101,
+    "filename": "platform-1280-light",
+    "matchesProductionWithLab": false
+  },
+  {
+    "port": 3101,
+    "filename": "contact-1280-light",
+    "matchesProductionWithLab": false
+  },
+  {
+    "port": 3101,
+    "filename": "home-1280-dark",
+    "matchesProductionWithLab": false
+  },
+  {
+    "port": 3101,
+    "filename": "platform-1280-dark",
+    "matchesProductionWithLab": false
+  },
+  {
+    "port": 3101,
+    "filename": "contact-1280-dark",
+    "matchesProductionWithLab": false
+  },
+  {
+    "port": 3101,
+    "filename": "home-1440-light",
+    "matchesProductionWithLab": false
+  },
+  {
+    "port": 3101,
+    "filename": "platform-1440-light",
+    "matchesProductionWithLab": false
+  },
+  {
+    "port": 3101,
+    "filename": "contact-1440-light",
+    "matchesProductionWithLab": false
+  },
+  {
+    "port": 3101,
+    "filename": "home-1440-dark",
+    "matchesProductionWithLab": false
+  },
+  {
+    "port": 3101,
+    "filename": "platform-1440-dark",
+    "matchesProductionWithLab": false
+  },
+  {
+    "port": 3101,
+    "filename": "contact-1440-dark",
+    "matchesProductionWithLab": false
+  },
+  {
+    "port": 3102,
+    "path": "/",
+    "status": 200
+  },
+  {
+    "port": 3102,
+    "path": "/plataforma",
+    "status": 200
+  },
+  {
+    "port": 3102,
+    "path": "/contacto",
+    "status": 200
+  },
+  {
+    "port": 3102,
+    "path": "/casos-lab",
+    "status": 404
+  },
+  {
+    "port": 3102,
+    "filename": "home-390-light",
+    "matchesProductionWithLab": true
+  },
+  {
+    "port": 3102,
+    "filename": "platform-390-light",
+    "matchesProductionWithLab": true
+  },
+  {
+    "port": 3102,
+    "filename": "contact-390-light",
+    "matchesProductionWithLab": true
+  },
+  {
+    "port": 3102,
+    "filename": "home-390-dark",
+    "matchesProductionWithLab": true
+  },
+  {
+    "port": 3102,
+    "filename": "platform-390-dark",
+    "matchesProductionWithLab": true
+  },
+  {
+    "port": 3102,
+    "filename": "contact-390-dark",
+    "matchesProductionWithLab": true
+  },
+  {
+    "port": 3102,
+    "filename": "home-1280-light",
+    "matchesProductionWithLab": true
+  },
+  {
+    "port": 3102,
+    "filename": "platform-1280-light",
+    "matchesProductionWithLab": true
+  },
+  {
+    "port": 3102,
+    "filename": "contact-1280-light",
+    "matchesProductionWithLab": true
+  },
+  {
+    "port": 3102,
+    "filename": "home-1280-dark",
+    "matchesProductionWithLab": true
+  },
+  {
+    "port": 3102,
+    "filename": "platform-1280-dark",
+    "matchesProductionWithLab": true
+  },
+  {
+    "port": 3102,
+    "filename": "contact-1280-dark",
+    "matchesProductionWithLab": true
+  },
+  {
+    "port": 3102,
+    "filename": "home-1440-light",
+    "matchesProductionWithLab": true
+  },
+  {
+    "port": 3102,
+    "filename": "platform-1440-light",
+    "matchesProductionWithLab": true
+  },
+  {
+    "port": 3102,
+    "filename": "contact-1440-light",
+    "matchesProductionWithLab": true
+  },
+  {
+    "port": 3102,
+    "filename": "home-1440-dark",
+    "matchesProductionWithLab": true
+  },
+  {
+    "port": 3102,
+    "filename": "platform-1440-dark",
+    "matchesProductionWithLab": true
+  },
+  {
+    "port": 3102,
+    "filename": "contact-1440-dark",
+    "matchesProductionWithLab": true
+  }
+]

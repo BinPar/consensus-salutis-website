@@ -11,6 +11,24 @@ export default tseslint.config(
   },
   ...compat.extends("next/core-web-vitals"),
   {
+    files: ["src/**/*.{ts,tsx,js,jsx}"],
+    ignores: ["src/app/casos-lab/**"],
+    rules: {
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: [
+            {
+              group: ["**/casos-lab", "**/casos-lab/**"],
+              message:
+                "La web no puede importar código del laboratorio. La dependencia solo puede ir del laboratorio hacia componentes compartidos.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
     files: ["**/*.ts", "**/*.tsx"],
     extends: [
       ...tseslint.configs.recommended,

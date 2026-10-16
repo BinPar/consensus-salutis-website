@@ -1,0 +1,19 @@
+{
+  "ownedRoots": ["src/app/casos-lab", "public/lab"],
+  "externalCleanup": [
+    {
+      "file": "src/app/sitemap.ts",
+      "action": "Remove only /casos-lab from PRIVATE_PATH_PREFIXES"
+    }
+  ],
+  "retainedGuards": [
+    "eslint.config.js",
+    "src/lib/__tests__/lab-isolation.test.ts"
+  ],
+  "productionComponents": "Shared components consumed by the lab remain owned by production and must not be removed.",
+  "obsoleteExclusiveLocations": [
+    "public/img/team-astra",
+    "design/team-astra",
+    "design/team-sol61"
+  ]
+}

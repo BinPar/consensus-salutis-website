@@ -42,7 +42,7 @@
 .home-entry-content .home-cover-explore {
   display: inline-flex;
   align-items: center;
-  gap: 24px;
+  gap: 10px;
   margin-top: 32px;
   padding: 13px 22px;
   border: 1px solid transparent;

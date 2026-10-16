@@ -1,15 +1,15 @@
 import { getBlogPosts } from "~/lib/blog";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { SuccessCasesLab } from "./_components/success-cases-lab";
-import { caseDirections } from "./_components/case-directions";
-import { productDirections } from "./_components/product-directions";
-import { homeDirections } from "./_components/home-directions";
-import { volumeDirections } from "./_components/volume-directions";
-import { contactDirections } from "./_components/contact-directions";
-import { footerDirections } from "./_components/footer-directions";
-import { teamDirections } from "./_components/team-directions";
-import { parseTeamSol61State } from "./_components/team-sol61-state";
+import { SuccessCasesLab } from "./_shared/success-cases-lab";
+import { caseDirections } from "./_features/cases/case-directions";
+import { productDirections } from "./_features/product/product-directions";
+import { homeDirections } from "./_features/home/home-directions";
+import { volumeDirections } from "./_features/volume/volume-directions";
+import { contactDirections } from "./_features/contact/contact-directions";
+import { footerDirections } from "./_features/footer/footer-directions";
+import { teamDirections } from "./_features/team-astra/team-directions";
+import { parseTeamSol61State } from "./_features/team-sol61/team-sol61-state";
 
 export const metadata: Metadata = {
   title: "Laboratorio visual",

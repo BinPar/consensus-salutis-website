@@ -1,0 +1,26 @@
+[
+  {
+    "touch": false,
+    "ring": "inner",
+    "dragAngle": 0.2777210558344006,
+    "firstInertia": 0.1038593993831381,
+    "secondInertia": 0.06295099165161833,
+    "dimensionsPreserved": true
+  },
+  {
+    "touch": false,
+    "ring": "outer",
+    "dragAngle": 0.28000109672349116,
+    "firstInertia": 0.1038151378238562,
+    "secondInertia": 0.06279403735061528,
+    "dimensionsPreserved": true
+  },
+  {
+    "touch": true,
+    "ring": "inner",
+    "dragAngle": 0.2542465395253304,
+    "firstInertia": 0.07734694221214268,
+    "secondInertia": 0.06016424566337897,
+    "dimensionsPreserved": true
+  }
+]

@@ -1358,6 +1358,8 @@ function DefinitiveMap({
         }
       >
         <Registration className="inset-3" />
+        {/* Geography spans x=22.2…523.6 in the 600-unit canvas. Offset the
+            canvas by 4.5% to center its visible footprint with its callouts. */}
         <div
           ref={canvas}
           data-definitive-map-canvas=""
@@ -1366,7 +1368,7 @@ function DefinitiveMap({
               ? { aspectRatio: `600 / ${calloutFrameHeight(floating)}` }
               : undefined
           }
-          className={`relative aspect-[600/540] sm:absolute sm:top-1/2 sm:aspect-[600/440] sm:w-full sm:max-w-[641.584px] sm:-translate-x-1/2 sm:-translate-y-1/2 ${compactLayout ? "sm:left-1/2 lg:max-w-[690px]" : "sm:left-[54.5%] lg:max-w-[772.277px]"}`}
+          className={`relative aspect-[600/540] sm:absolute sm:top-1/2 sm:left-[54.5%] sm:aspect-[600/440] sm:w-full sm:max-w-[641.584px] sm:-translate-x-1/2 sm:-translate-y-1/2 ${compactLayout ? "lg:max-w-none" : "lg:max-w-[772.277px]"}`}
         >
           <div className="absolute inset-x-0 top-0 aspect-[600/440]">
             <TerritorialMap

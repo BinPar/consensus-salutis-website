@@ -761,7 +761,10 @@ export function HeroPanel({
             <Heading
               className={`font-display max-w-4xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${section ? "mt-5 text-4xl leading-tight xl:text-5xl" : "mt-6 text-6xl xl:text-6xl"}`}
             >
-              Conocimiento clínico orquestado por IA.
+              Conocimiento clínico{" "}
+              <span className="text-primary-light dark:text-primary-dark">
+                orquestado por IA.
+              </span>
             </Heading>
           </Reveal>
           <Reveal visible={visible} delay={0.2}>
@@ -1136,7 +1139,10 @@ export function MobileHeroContent({
           <Heading
             className={`font-display mt-3.5 max-w-xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${section ? "text-3xl sm:mt-5 sm:text-4xl" : "text-4xl sm:mt-6 sm:text-5xl"}`}
           >
-            Conocimiento clínico orquestado por IA.
+            Conocimiento clínico{" "}
+            <span className="text-primary-light dark:text-primary-dark">
+              orquestado por IA.
+            </span>
           </Heading>
           <p className="font-body mt-3.5 max-w-xl text-base leading-7 text-slate-700 sm:mt-7 sm:text-lg sm:leading-8 dark:text-slate-300">
             BinPar convierte guías, protocolos y corpus médico en respuestas
