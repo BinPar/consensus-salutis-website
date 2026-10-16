@@ -8,6 +8,8 @@ import { homeDirections } from "./_components/home-directions";
 import { volumeDirections } from "./_components/volume-directions";
 import { contactDirections } from "./_components/contact-directions";
 import { footerDirections } from "./_components/footer-directions";
+import { teamDirections } from "./_components/team-directions";
+import { parseTeamSol61State } from "./_components/team-sol61-state";
 
 export const metadata: Metadata = {
   title: "Laboratorio visual",
@@ -25,6 +27,11 @@ export default async function CasesLabPage({
     volumeVariant?: string;
     contactVariant?: string;
     footerVariant?: string;
+    teamVariant?: string;
+    member?: string;
+    teamSol61Variant?: string;
+    teamSol61View?: string;
+    teamSol61Member?: string;
   }>;
 }) {
   if (process.env.NODE_ENV !== "development") notFound();
@@ -36,8 +43,20 @@ export default async function CasesLabPage({
     volumeVariant,
     contactVariant,
     footerVariant,
+    teamVariant,
+    member,
+    teamSol61Variant,
+    teamSol61View,
+    teamSol61Member,
   } = await searchParams;
   const direction = caseDirections.find((item) => item.id === variant)?.id;
+  const teamSol61State = parseTeamSol61State(
+    new URLSearchParams({
+      teamSol61Variant: teamSol61Variant ?? "",
+      teamSol61View: teamSol61View ?? "",
+      teamSol61Member: teamSol61Member ?? "",
+    }),
+  );
   return (
     <SuccessCasesLab
       blogPosts={getBlogPosts().slice(0, 4)}
@@ -53,7 +72,11 @@ export default async function CasesLabPage({
                 ? "contact"
                 : lab === "footer"
                   ? "footer"
-                  : "cases"
+                  : lab === "team"
+                    ? "team"
+                    : lab === "team-sol6-1"
+                      ? "team-sol6-1"
+                      : "cases"
       }
       initialProductDirection={
         productDirections.find((item) => item.id === productVariant)?.id ??
@@ -74,6 +97,13 @@ export default async function CasesLabPage({
         contactDirections.find((item) => item.id === contactVariant)?.id ??
         "assistant"
       }
+      initialTeamDirection={
+        teamDirections.find((item) => item.id === teamVariant)?.id ?? "indice"
+      }
+      initialTeamMember={member}
+      initialTeamSol61Direction={teamSol61State.direction}
+      initialTeamSol61View={teamSol61State.view}
+      initialTeamSol61Member={teamSol61State.member}
     />
   );
 }

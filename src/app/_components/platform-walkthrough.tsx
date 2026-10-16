@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { clinicalProcessStages } from "./clinical-process-showcase";
 import type { ProcessStage } from "./clinical-process-player";
 import { Eyebrow } from "./eyebrow";
+import { SectionNavigation } from "./section-navigation";
 import { PlatformPreview } from "./platform-preview/platform-preview";
 import { ProductSignalLeft } from "./product-signal-left";
 import { HomePaintPanel } from "./home-paint-panel";
@@ -28,6 +29,13 @@ const stageIds = [
   "fuentes",
   "seguimiento",
 ];
+const platformSections = [
+  { id: "plataforma", label: "La plataforma" },
+  { id: "consulta", label: "Consulta" },
+  { id: "contraste", label: "Contraste" },
+  { id: "fuentes", label: "Fuentes" },
+  { id: "seguimiento", label: "Seguimiento" },
+];
 const buttonClass =
   "bg-primary-light/10 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark hover:bg-primary-light/15 dark:hover:bg-primary-dark/15 grid size-8 place-items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-700";
 
@@ -35,13 +43,17 @@ export function PlatformWalkthrough() {
   return (
     <div className="relative isolate bg-[#fbfdff] dark:bg-[#06111f]">
       <HomeMotionBackground />
-      <main className="relative z-10">
+      <SectionNavigation sections={platformSections} />
+      <main className="section-navigation-layout relative z-10">
         <HomePaintPanel>
           {(painted, panelRef) => (
             <section
+              id="plataforma"
+              tabIndex={-1}
+              data-section-anchor
               ref={panelRef}
               data-platform-painted={painted}
-              className="relative z-10 overflow-hidden px-5 pt-36 pb-16 [clip-path:inset(0)] sm:px-8 sm:pt-44 sm:pb-20 lg:px-10"
+              className="section-navigation-inset relative z-10 overflow-hidden px-5 pt-36 pb-16 [clip-path:inset(0)] sm:px-8 sm:pt-44 sm:pb-20 lg:px-10"
             >
               <div
                 aria-hidden="true"
@@ -106,9 +118,11 @@ export function PlatformWalkthrough() {
                   ref={panelRef}
                   data-platform-painted={painted}
                   id={stageIds[index]}
+                  tabIndex={-1}
+                  data-section-anchor
                   aria-labelledby={`platform-stage-${stage.number}`}
                   data-platform-stage={stage.number}
-                  className="relative scroll-mt-20 px-5 py-14 sm:px-8 sm:py-20 lg:px-10 lg:py-24"
+                  className="section-navigation-inset relative px-5 py-14 sm:px-8 sm:py-20 lg:px-10 lg:py-24"
                 >
                   {reverse ? (
                     <div
@@ -182,9 +196,12 @@ export function PlatformWalkthrough() {
         <HomePaintPanel>
           {(painted, panelRef) => (
             <section
+              id="demostracion"
+              tabIndex={-1}
+              data-section-anchor
               ref={panelRef}
               data-platform-painted={painted}
-              className="relative px-5 py-20 sm:px-8 lg:px-10"
+              className="section-navigation-inset relative px-5 py-20 sm:px-8 lg:px-10"
             >
               <div
                 aria-hidden="true"

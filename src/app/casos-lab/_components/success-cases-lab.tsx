@@ -25,6 +25,14 @@ import type { BlogPost } from "~/lib/blog";
 import { VolumeLab } from "./volume-lab";
 import { ContactLab } from "./contact-lab";
 import { FooterLab } from "./footer-lab";
+import { TeamLab } from "./team-lab";
+import { TeamSol61Lab } from "./team-sol61-lab";
+import { parseTeamSol61State, type TeamSol61View } from "./team-sol61-state";
+import {
+  teamSol61Directions,
+  type TeamSol61Direction,
+} from "./team-sol61-directions";
+import { teamDirections, type TeamDirection } from "./team-directions";
 import { footerDirections, type FooterDirection } from "./footer-directions";
 import { contactDirections, type ContactDirection } from "./contact-directions";
 import { homeDirections, type HomeDirection } from "./home-directions";
@@ -34,17 +42,32 @@ import { volumeDirections, type VolumeDirection } from "./volume-directions";
 const control =
   "font-body inline-flex min-h-9 items-center justify-center gap-2 rounded-full border border-cyan-800/15 px-3 text-xs font-medium text-slate-600 transition hover:border-primary-light/35 hover:bg-primary-light/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light dark:border-cyan-300/15 dark:text-slate-300 dark:hover:border-primary-dark/35 dark:hover:bg-primary-dark/5 dark:focus-visible:outline-primary-dark";
 
-type Lab = "cases" | "product" | "home" | "volume" | "contact" | "footer";
+type Lab =
+  | "cases"
+  | "product"
+  | "home"
+  | "volume"
+  | "contact"
+  | "footer"
+  | "team"
+  | "team-sol6-1";
 
 function scrollToPreview(lab: Lab, behavior: ScrollBehavior = "instant") {
   const section = document.getElementById(`${lab}-preview`);
   const toolbar = document.querySelector("[data-cases-lab-header]");
+  const extraToolbar =
+    lab === "team-sol6-1"
+      ? (document
+          .querySelector("[data-team-sol61-toolbar]")
+          ?.getBoundingClientRect().height ?? 0)
+      : 0;
   if (!section || !toolbar) return;
   window.scrollTo({
     top:
       window.scrollY +
       section.getBoundingClientRect().top -
       toolbar.getBoundingClientRect().height -
+      extraToolbar -
       24,
     behavior,
   });
@@ -58,6 +81,11 @@ export function SuccessCasesLab({
   initialVolumeDirection = "editorial",
   initialContactDirection = "assistant",
   initialFooterDirection = "reference",
+  initialTeamDirection = "indice",
+  initialTeamMember,
+  initialTeamSol61Direction = "editorial",
+  initialTeamSol61View = "team",
+  initialTeamSol61Member = "adrian-rodriguez",
   blogPosts,
 }: {
   initialDirection: CaseDirection;
@@ -67,6 +95,11 @@ export function SuccessCasesLab({
   initialVolumeDirection?: VolumeDirection;
   initialContactDirection?: ContactDirection;
   initialFooterDirection?: FooterDirection;
+  initialTeamDirection?: TeamDirection;
+  initialTeamMember?: string;
+  initialTeamSol61Direction?: TeamSol61Direction;
+  initialTeamSol61View?: TeamSol61View;
+  initialTeamSol61Member?: string;
   blogPosts: BlogPost[];
 }) {
   const [lab, setLab] = useState<Lab>(initialLab);
@@ -86,6 +119,10 @@ export function SuccessCasesLab({
   const [footerDirection, setFooterDirection] = useState(
     initialFooterDirection,
   );
+  const [teamDirection, setTeamDirection] = useState(initialTeamDirection);
+  const [teamSol61Direction, setTeamSol61Direction] = useState(
+    initialTeamSol61Direction,
+  );
   const root = useRef<HTMLDivElement>(null);
   const header = useRef<HTMLElement>(null);
   const proposals = useRef<HTMLDivElement>(null);
@@ -97,6 +134,8 @@ export function SuccessCasesLab({
     volume: volumeDirection,
     contact: contactDirection,
     footer: footerDirection,
+    team: teamDirection,
+    "team-sol6-1": teamSol61Direction,
   }[lab];
   const availableDirections = {
     cases: caseDirections,
@@ -105,6 +144,8 @@ export function SuccessCasesLab({
     volume: volumeDirections,
     contact: contactDirections,
     footer: footerDirections,
+    team: teamDirections,
+    "team-sol6-1": teamSol61Directions,
   }[lab];
 
   useEffect(() => {
@@ -124,6 +165,8 @@ export function SuccessCasesLab({
     volumeDirection,
     contactDirection,
     footerDirection,
+    teamDirection,
+    teamSol61Direction,
   ]);
 
   useEffect(() => {
@@ -169,7 +212,11 @@ export function SuccessCasesLab({
                 ? "contact"
                 : requestedLab === "footer"
                   ? "footer"
-                  : "cases",
+                  : requestedLab === "team"
+                    ? "team"
+                    : requestedLab === "team-sol6-1"
+                      ? "team-sol6-1"
+                      : "cases",
       );
       setProductDirection(
         productDirections.find(
@@ -193,6 +240,11 @@ export function SuccessCasesLab({
         footerDirections.find((item) => item.id === params.get("footerVariant"))
           ?.id ?? "reference",
       );
+      setTeamDirection(
+        teamDirections.find((item) => item.id === params.get("teamVariant"))
+          ?.id ?? "indice",
+      );
+      setTeamSol61Direction(parseTeamSol61State(params).direction);
       setDirection(
         caseDirections.find((item) => item.id === variant)?.id ??
           "trace-balanced",
@@ -214,6 +266,8 @@ export function SuccessCasesLab({
     url.searchParams.set("volumeVariant", volumeDirection);
     url.searchParams.set("contactVariant", contactDirection);
     url.searchParams.set("footerVariant", footerDirection);
+    url.searchParams.set("teamVariant", teamDirection);
+    url.searchParams.set("teamSol61Variant", teamSol61Direction);
     url.hash = `${next}-preview`;
     window.history.pushState(null, "", url);
     window.requestAnimationFrame(() => {
@@ -281,6 +335,26 @@ export function SuccessCasesLab({
     window.requestAnimationFrame(() => scrollToPreview("footer"));
   };
 
+  const selectTeam = (next: TeamDirection) => {
+    if (next === teamDirection) return;
+    setTeamDirection(next);
+    const url = new URL(window.location.href);
+    url.searchParams.set("teamVariant", next);
+    url.hash = "team-preview";
+    window.history.pushState(null, "", url);
+    window.requestAnimationFrame(() => scrollToPreview("team"));
+  };
+
+  const selectTeamSol61 = (next: TeamSol61Direction) => {
+    if (next === teamSol61Direction) return;
+    setTeamSol61Direction(next);
+    const url = new URL(window.location.href);
+    url.searchParams.set("teamSol61Variant", next);
+    url.hash = "team-sol6-1-preview";
+    window.history.pushState(null, "", url);
+    window.requestAnimationFrame(() => scrollToPreview("team-sol6-1"));
+  };
+
   const selectProposal = (id: string) => {
     switch (lab) {
       case "cases":
@@ -301,6 +375,12 @@ export function SuccessCasesLab({
       case "footer":
         selectFooter(id as FooterDirection);
         break;
+      case "team":
+        selectTeam(id as TeamDirection);
+        break;
+      case "team-sol6-1":
+        selectTeamSol61(id as TeamSol61Direction);
+        break;
     }
   };
 
@@ -313,6 +393,7 @@ export function SuccessCasesLab({
       <header
         ref={header}
         data-cases-lab-header=""
+        data-team-astra={lab === "team" ? "" : undefined}
         className="sticky top-0 z-40 [scrollbar-width:none] overflow-x-auto border-b border-cyan-800/10 bg-[#fbfdff]/95 backdrop-blur-xl dark:border-cyan-300/10 dark:bg-[#06111f]/95 [&::-webkit-scrollbar]:hidden"
       >
         <div className="mx-auto flex max-w-[1440px] min-w-[520px] items-center gap-3 px-3 py-4 sm:gap-5 sm:px-10">
@@ -340,7 +421,11 @@ export function SuccessCasesLab({
                         ? "Contacto"
                         : lab === "footer"
                           ? "Footer"
-                          : "Producto"}
+                          : lab === "team"
+                            ? "Team Astra"
+                            : lab === "team-sol6-1"
+                              ? "Team sol6.1"
+                              : "Producto"}
               </p>
             </div>
           </div>
@@ -357,6 +442,8 @@ export function SuccessCasesLab({
               <option value="volume">Volumen</option>
               <option value="contact">Contacto</option>
               <option value="footer">Footer</option>
+              <option value="team">Team Astra</option>
+              <option value="team-sol6-1">Team sol6.1</option>
             </select>
           </label>
           <div
@@ -453,6 +540,21 @@ export function SuccessCasesLab({
           replay={replay}
           direction={footerDirection}
           contactDirection={contactDirection}
+        />
+      ) : lab === "team" ? (
+        <TeamLab
+          context={context}
+          replay={replay}
+          direction={teamDirection}
+          initialMember={initialTeamMember}
+        />
+      ) : lab === "team-sol6-1" ? (
+        <TeamSol61Lab
+          context={context}
+          replay={replay}
+          direction={teamSol61Direction}
+          initialView={initialTeamSol61View}
+          initialMember={initialTeamSol61Member}
         />
       ) : lab === "contact" ? (
         <ContactLab

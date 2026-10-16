@@ -3,11 +3,19 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import { BlogArticleCard } from "~/app/_components/blog-article-card";
 import { VolumeSection } from "~/app/_components/volume-section";
 import { HomeCover } from "~/app/_components/home-cover";
+import { SectionNavigation } from "~/app/_components/section-navigation";
 import { ProductStrataSection } from "~/app/_components/product-strata/product-strata-section";
 import { ProductSignalLeft } from "~/app/_components/product-signal-left";
 import {
@@ -104,6 +112,14 @@ const panels = [
 const mobilePanelOrder = [0, 1, 2, 3, 4, 5, 6] as const;
 /* La home enseña los cuatro últimos; el resto vive en `/blog`. */
 const HOME_POSTS = 4;
+
+const homeSections = [
+  { id: "home-introduction", label: "Presentación" },
+  { id: "casos-de-exito", label: "Casos de éxito" },
+  { id: "proceso", label: "Cómo funciona" },
+  { id: "arquitectura", label: "Arquitectura" },
+  { id: "lecturas", label: "Blog" },
+];
 
 type DesktopLayout = "horizontal" | "vertical";
 type PanelHeight = "natural" | "viewport";
@@ -403,6 +419,13 @@ export function HorizontalHome({ posts }: { posts: BlogPost[] }) {
 }
 
 export function VerticalHome({ posts }: { posts: BlogPost[] }) {
+  const sections = useMemo(
+    () =>
+      homeSections.filter(
+        (section) => section.id !== "lecturas" || posts.length > 0,
+      ),
+    [posts.length],
+  );
   const [revealedPanels, setRevealedPanels] = useState<Set<number>>(
     () => new Set([0]),
   );
@@ -425,7 +448,8 @@ export function VerticalHome({ posts }: { posts: BlogPost[] }) {
 
   return (
     <>
-      <main className="relative z-10 hidden lg:block">
+      <SectionNavigation sections={sections} deferUntilContent />
+      <main className="section-navigation-layout relative z-10 hidden lg:block">
         <div className="relative [clip-path:inset(0)]">
           <FixedSignalLayer />
           <HomeCover targetId="home-introduction" />
@@ -441,58 +465,92 @@ export function VerticalHome({ posts }: { posts: BlogPost[] }) {
               />
             )}
           </VerticalPanel>
-          <VerticalPanel initiallyVisible={revealedPanels.has(1)}>
-            {(visible, panelRef) => (
-              <SuccessCasesPanel
-                layout="vertical"
-                continueBackground
-                panelRef={panelRef}
-                visible={visible}
-              />
-            )}
-          </VerticalPanel>
-          <section className="relative px-10 py-14">
+          <div
+            id="casos-de-exito"
+            tabIndex={-1}
+            className="section-navigation-region"
+          >
+            <VerticalPanel initiallyVisible={revealedPanels.has(1)}>
+              {(visible, panelRef) => (
+                <SuccessCasesPanel
+                  layout="vertical"
+                  continueBackground
+                  panelRef={panelRef}
+                  visible={visible}
+                />
+              )}
+            </VerticalPanel>
+          </div>
+          <section
+            id="proceso"
+            tabIndex={-1}
+            data-section-anchor
+            className="section-navigation-inset relative px-10 py-14"
+          >
             <ProcessBackground fadeToProduct />
             <div className="relative z-30 mx-auto w-full max-w-7xl">
               <ClinicalProcessShowcase />
             </div>
           </section>
         </div>
-        <VerticalPanel initiallyVisible={revealedPanels.has(3)}>
-          {(visible, panelRef) => (
-            <ArchitecturePanel
-              layout="vertical"
-              panelRef={panelRef}
-              visible={visible}
-            />
-          )}
-        </VerticalPanel>
-
-        <VerticalPanel initiallyVisible={revealedPanels.has(4)}>
-          {(visible, panelRef) => (
-            <VolumeSection
-              panelRef={panelRef}
-              visible={visible}
-              palette="original"
-            />
-          )}
-        </VerticalPanel>
-        {/* Sin posts no hay sección: mejor un panel menos que un panel vacío. */}
-        {posts.length > 0 ? (
-          <VerticalPanel initiallyVisible={revealedPanels.has(5)}>
+        <div
+          id="arquitectura"
+          tabIndex={-1}
+          className="section-navigation-region"
+        >
+          <VerticalPanel initiallyVisible={revealedPanels.has(3)}>
             {(visible, panelRef) => (
-              <BlogPanel
+              <ArchitecturePanel
                 layout="vertical"
                 panelRef={panelRef}
                 visible={visible}
-                posts={posts}
               />
             )}
           </VerticalPanel>
+        </div>
+
+        <div
+          id="conocimiento"
+          tabIndex={-1}
+          className="section-navigation-region"
+        >
+          <VerticalPanel initiallyVisible={revealedPanels.has(4)}>
+            {(visible, panelRef) => (
+              <VolumeSection
+                panelRef={panelRef}
+                visible={visible}
+                palette="original"
+              />
+            )}
+          </VerticalPanel>
+        </div>
+        {/* Sin posts no hay sección: mejor un panel menos que un panel vacío. */}
+        {posts.length > 0 ? (
+          <div
+            id="lecturas"
+            tabIndex={-1}
+            className="section-navigation-region"
+          >
+            <VerticalPanel initiallyVisible={revealedPanels.has(5)}>
+              {(visible, panelRef) => (
+                <BlogPanel
+                  layout="vertical"
+                  panelRef={panelRef}
+                  visible={visible}
+                  posts={posts}
+                />
+              )}
+            </VerticalPanel>
+          </div>
         ) : null}
         <VerticalPanel initiallyVisible={revealedPanels.has(6)}>
           {(visible, panelRef) => (
-            <div ref={panelRef}>
+            <div
+              ref={panelRef}
+              id="contacto"
+              tabIndex={-1}
+              className="section-navigation-region"
+            >
               <ContactAssistant active={visible} />
             </div>
           )}
@@ -641,8 +699,10 @@ function Panel({
   return (
     <section
       id={id}
+      tabIndex={id ? -1 : undefined}
+      data-section-anchor={id ? "" : undefined}
       ref={panelRef}
-      className={`relative overflow-hidden ${layoutClassName} ${className}`}
+      className={`relative overflow-hidden ${layout === "vertical" ? "section-navigation-inset" : ""} ${layoutClassName} ${className}`}
     >
       {fadeBottom && <IntroductionBottomFade />}
       <div className="relative z-10 mx-auto w-full max-w-7xl">{children}</div>

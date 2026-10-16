@@ -81,6 +81,9 @@ export function VolumeSection({
       aria-labelledby={headingId}
       data-home-volume=""
       data-volume-palette={palette}
+      data-section-navigation-surface={
+        palette === "original" ? "dark" : undefined
+      }
       className="vol-banner vol-contrast-teal"
       initial={{ opacity: reducedMotion ? 1 : 0 }}
       animate={

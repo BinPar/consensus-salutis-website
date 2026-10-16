@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default function ContactoPage() {
   return (
     <PageShell>
-      <main className="relative isolate bg-[#fbfdff] dark:bg-[#06111f]">
+      <main className="section-navigation-layout relative isolate bg-[#fbfdff] dark:bg-[#06111f]">
         <HomeMotionBackground />
         <ContactPageContent />
       </main>
