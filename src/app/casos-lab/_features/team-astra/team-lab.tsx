@@ -23,6 +23,17 @@ import {
 } from "./astra-team-data";
 import "./team-astra.css";
 import { TeamGuiadaHero } from "./team-guiada-hero";
+import { TeamGuiada02Hero } from "./team-guiada-02-hero";
+import { TeamGuiada02Ceo } from "./team-guiada-02-ceo";
+import { TeamGuiada03Hero } from "./team-guiada-03-hero";
+import { TeamGuiada03Ceo } from "./team-guiada-03-ceo";
+import { TeamGuiada03Gallery } from "./team-guiada-03-gallery";
+import { TeamGuiadaGalleryExploration } from "./team-guiada-gallery-explorations";
+import { guided03Members } from "./team-guiada-03-data";
+import {
+  RealTeamPortrait,
+  realTeamPortraits,
+} from "../../_shared/team-portraits";
 
 type Navigate = (slug?: string) => void;
 const firstMember = teamMembers[0]!;
@@ -49,6 +60,7 @@ function Portrait({
   const col = person.portrait % 2;
   const row = Math.floor((person.portrait % 4) / 2);
   const sheet = Math.floor(person.portrait / 4) + 1;
+  const realPortrait = realTeamPortraits[person.slug];
   return (
     <div className={`ta-photo ${className}`}>
       {failed ? (
@@ -59,6 +71,13 @@ function Portrait({
             .slice(0, 2)
             .join("")}
         </span>
+      ) : realPortrait ? (
+        <RealTeamPortrait
+          slug={person.slug}
+          name={person.name}
+          priority={priority}
+          onError={() => setFailed(true)}
+        />
       ) : (
         <Image
           src={`/lab/team-astra/portraits-${sheet}.webp`}
@@ -72,9 +91,11 @@ function Portrait({
           style={{ left: `${-col * 100}%`, top: `${-row * 100}%` }}
         />
       )}
-      <span className="ta-photo-mark" aria-hidden="true">
-        Estudio visual
-      </span>
+      {!realPortrait && (
+        <span className="ta-photo-mark" aria-hidden="true">
+          Estudio visual
+        </span>
+      )}
     </div>
   );
 }
@@ -172,7 +193,7 @@ function Filters({
 function DirectoryHeader({
   direction,
 }: {
-  direction: Exclude<TeamDirection, "guiada">;
+  direction: Exclude<TeamDirection, "guiada" | "guiada-02" | "guiada-03" | "guiada-04" | "guiada-05" | "guiada-06">;
 }) {
   const headings = {
     encuadre: (
@@ -891,64 +912,108 @@ export function TeamLab({
       className={`ta-root ta-direction-${direction}`}
       aria-label="Team Astra"
     >
-      {direction !== "guiada" && (
-        <>
-          <div className="ta-lab-note">
-            <span className="ta-lab-name">
-              Team Astra{" "}
-              <span>
-                / {selected.number} {selected.label}
+      {direction !== "guiada" &&
+        direction !== "guiada-02" &&
+        direction !== "guiada-03" &&
+        direction !== "guiada-04" &&
+        direction !== "guiada-05" &&
+        direction !== "guiada-06" && (
+          <>
+            <div className="ta-lab-note">
+              <span className="ta-lab-name">
+                Team Astra{" "}
+                <span>
+                  / {selected.number} {selected.label}
+                </span>
               </span>
-            </span>
-            <span>
-              Retratos ficticios de referencia · Personas y biografías reales
-            </span>
-            {context && (
-              <details>
-                <summary>
-                  Sobre esta dirección <Plus size={13} aria-hidden="true" />
-                </summary>
-                <p>
-                  {selected.description} Inspiración:{" "}
-                  <a href={selected.url} target="_blank" rel="noreferrer">
-                    {selected.reference} <Arrow />
-                  </a>
-                  . Fotografía conceptual generada para explorar la dirección de
-                  arte; no representa el aspecto de los miembros del equipo.
-                </p>
-              </details>
-            )}
-          </div>
-          <div className="ta-site-bar">
-            <Link href="/" aria-label="BinPar, inicio">
-              <Image
-                src="/logos/binpar-brand/binpar-logo-light.svg"
-                alt="BinPar"
-                width={130}
-                height={40}
-                className="dark:hidden"
-              />
-              <Image
-                src="/logos/binpar-brand/binpar-logo-dark.svg"
-                alt="BinPar"
-                width={130}
-                height={40}
-                className="hidden dark:block"
-              />
-            </Link>
-            <span>Personas que hacen posible la tecnología.</span>
-            <Link href="/contacto" className="ta-text-link">
-              Hablemos <Arrow />
-            </Link>
-          </div>
-        </>
-      )}
+              <span>
+                Fotografías del equipo · Referencias donde falta la foto real
+              </span>
+              {context && (
+                <details>
+                  <summary>
+                    Sobre esta dirección <Plus size={13} aria-hidden="true" />
+                  </summary>
+                  <p>
+                    {selected.description} Inspiración:{" "}
+                    <a href={selected.url} target="_blank" rel="noreferrer">
+                      {selected.reference} <Arrow />
+                    </a>
+                    . Se utilizan las fotografías reales disponibles. Los
+                    retratos pendientes y las escenas son referencias
+                    conceptuales.
+                  </p>
+                </details>
+              )}
+            </div>
+            <div className="ta-site-bar">
+              <Link href="/" aria-label="BinPar, inicio">
+                <Image
+                  src="/logos/binpar-brand/binpar-logo-light.svg"
+                  alt="BinPar"
+                  width={130}
+                  height={40}
+                  className="dark:hidden"
+                />
+                <Image
+                  src="/logos/binpar-brand/binpar-logo-dark.svg"
+                  alt="BinPar"
+                  width={130}
+                  height={40}
+                  className="hidden dark:block"
+                />
+              </Link>
+              <span>Personas que hacen posible la tecnología.</span>
+              <Link href="/contacto" className="ta-text-link">
+                Hablemos <Arrow />
+              </Link>
+            </div>
+          </>
+        )}
       <section
         id="team-preview"
         className="ta-preview"
         key={`${direction}-${replay}`}
       >
-        {direction === "guiada" ? (
+        {direction === "guiada-04" || direction === "guiada-05" || direction === "guiada-06" ? (
+          <>
+            <TeamGuiada03Hero
+              portraits={guided03Members.map((member) => (
+                <Portrait key={member.slug} person={member} priority />
+              ))}
+            />
+            <TeamGuiada03Ceo />
+            <TeamGuiadaGalleryExploration
+              variant={direction}
+              portraits={guided03Members.map((member) => (
+                <Portrait key={member.slug} person={member} />
+              ))}
+            />
+          </>
+        ) : direction === "guiada-03" ? (
+          <>
+            <TeamGuiada03Hero
+              portraits={guided03Members.map((member) => (
+                <Portrait key={member.slug} person={member} priority />
+              ))}
+            />
+            <TeamGuiada03Ceo />
+            <TeamGuiada03Gallery
+              portraits={guided03Members.map((member) => (
+                <Portrait key={member.slug} person={member} />
+              ))}
+            />
+          </>
+        ) : direction === "guiada-02" ? (
+          <>
+            <TeamGuiada02Hero
+              portraits={teamMembers.map((member) => (
+                <Portrait key={member.slug} person={member} priority />
+              ))}
+            />
+            <TeamGuiada02Ceo />
+          </>
+        ) : direction === "guiada" ? (
           <TeamGuiadaHero
             portraits={teamMembers.map((member) => (
               <Portrait key={member.slug} person={member} priority />
@@ -1002,27 +1067,32 @@ export function TeamLab({
             )}
           </>
         )}
-        {direction !== "guiada" && (
-          <footer className="ta-contact">
-            <div>
-              <Eyebrow>La próxima conversación</Eyebrow>
-              <h2>Conozcámonos.</h2>
-              <p>
-                Cuéntanos qué quieres construir.
+        {direction !== "guiada" &&
+          direction !== "guiada-02" &&
+          direction !== "guiada-03" &&
+          direction !== "guiada-04" &&
+          direction !== "guiada-05" &&
+          direction !== "guiada-06" && (
+            <footer className="ta-contact">
+              <div>
+                <Eyebrow>La próxima conversación</Eyebrow>
+                <h2>Conozcámonos.</h2>
+                <p>
+                  Cuéntanos qué quieres construir.
+                  <br />
+                  Empecemos por escucharte.
+                </p>
+              </div>
+              <Link href="/contacto">
+                Hablar con el equipo <Arrow />
+              </Link>
+              <span className="ta-contact-signature">
+                BinPar
                 <br />
-                Empecemos por escucharte.
-              </p>
-            </div>
-            <Link href="/contacto">
-              Hablar con el equipo <Arrow />
-            </Link>
-            <span className="ta-contact-signature">
-              BinPar
-              <br />
-              <small>Personas. Ideas. Tecnología.</small>
-            </span>
-          </footer>
-        )}
+                <small>Personas. Ideas. Tecnología.</small>
+              </span>
+            </footer>
+          )}
       </section>
     </main>
   );

@@ -1,0 +1,46 @@
+[
+  {
+    "variant": "guiada",
+    "hover": false,
+    "member": "alberto-blanco",
+    "position": "relative",
+    "radius": "10%",
+    "overflow": "hidden",
+    "clippedAtCorner": true,
+    "visibleAtCentre": true,
+    "contained": true
+  },
+  {
+    "variant": "guiada",
+    "hover": true,
+    "member": "alberto-blanco",
+    "position": "relative",
+    "radius": "10%",
+    "overflow": "hidden",
+    "clippedAtCorner": true,
+    "visibleAtCentre": true,
+    "contained": true
+  },
+  {
+    "variant": "guiada-02",
+    "hover": false,
+    "member": "guillermo-hernandez",
+    "position": "relative",
+    "radius": "10%",
+    "overflow": "hidden",
+    "clippedAtCorner": true,
+    "visibleAtCentre": true,
+    "contained": true
+  },
+  {
+    "variant": "guiada-02",
+    "hover": true,
+    "member": "guillermo-hernandez",
+    "position": "relative",
+    "radius": "10%",
+    "overflow": "hidden",
+    "clippedAtCorner": true,
+    "visibleAtCentre": true,
+    "contained": true
+  }
+]

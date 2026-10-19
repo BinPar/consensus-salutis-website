@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowUpRight, Pause, Play } from "lucide-react";
 import {
   useEffect,
@@ -13,12 +12,10 @@ import {
 import { teamMembers } from "./astra-team-data";
 import "./team-guiada.css";
 
-const guidedPortraits: Readonly<Record<string, string>> = {
-  "guillermo-hernandez": "/lab/team-astra/guiada/guillermo-hernandez.jpg",
-  "jimmy-montano": "/lab/team-astra/guiada/jimmy-montano.jpg",
-  "nicolas-arianoutsos": "/lab/team-astra/guiada/nicolas-arianoutsos.jpg",
-  "yaiza-vallejo": "/lab/team-astra/guiada/yaiza-vallejo.jpg",
-};
+import {
+  RealTeamPortrait,
+  realTeamPortraits,
+} from "../../_shared/team-portraits";
 
 const disciplines = [
   "Ideas que conectan",
@@ -39,7 +36,8 @@ const disciplines = [
   "Mirar más allá",
 ];
 const sizes = [1, 0.92, 1.06, 0.96, 1, 1.04, 0.92, 1];
-const innerPortraitSlots = [0, 2, 4, 5, 7, 9, 11, 12];
+const innerPortraitSlots = [0, 1, 2, 4, 5, 6, 7, 9, 10, 11, 13];
+const outerPortraitSlots = [1, 2, 3, 5, 6, 7, 9, 10, 11, 13, 14, 15];
 const rings = [
   { id: "inner", slots: Array.from({ length: 14 }, (_, index) => index) },
   { id: "outer", slots: Array.from({ length: 16 }, (_, index) => index) },
@@ -60,9 +58,10 @@ function useGuidedOrbit(paused: boolean) {
   const stage = useRef<HTMLElement>(null);
   const pausedRef = useRef(paused);
   const [reducedMotion, setReducedMotion] = useState(false);
-  const [memberIndices, setMemberIndices] = useState<Record<string, number>>(
-    {},
-  );
+  const [memberIndices, setMemberIndices] = useState<Record<
+    string,
+    number
+  > | null>(null);
   useEffect(() => {
     pausedRef.current = paused;
   }, [paused]);
@@ -81,27 +80,24 @@ function useGuidedOrbit(paused: boolean) {
       memberKey: card.dataset.guidedMemberKey,
       turn: 0,
     }));
-    // Each ring owns a shuffled bag. Exhaust it before reshuffling, and never
-    // assign a person who is still present in another position on that ring.
-    const bags = {
-      inner: shuffledMemberIndices(),
-      outer: shuffledMemberIndices(),
-    };
+    // One shared pool keeps each person on at most one card. More positions
+    // can host portraits than there are people: move a hidden portrait into
+    // an entering position, leaving a decorative tile behind offscreen.
+    const portraitCards = orbitCards.filter((item) => item.memberKey);
+    const initialMembers = shuffledMemberIndices();
     const assignments: Record<string, number> = {};
-    const takeNextMember = (outer: boolean) => {
-      const ring = outer ? "outer" : "inner";
-      if (!bags[ring].length) bags[ring] = shuffledMemberIndices();
-      const active = new Set(
-        orbitCards
-          .filter((item) => item.outer === outer && item.memberKey)
-          .map((item) => assignments[item.memberKey!]),
-      );
-      const available = bags[ring].findIndex((index) => !active.has(index));
-      return bags[ring].splice(available, 1)[0]!;
-    };
-    orbitCards.forEach(({ outer, memberKey }) => {
-      if (memberKey) assignments[memberKey] = takeNextMember(outer);
+    portraitCards.forEach(({ memberKey }, index) => {
+      const member = initialMembers[index];
+      if (member !== undefined) assignments[memberKey!] = member;
     });
+    const pending = { inner: [] as number[], outer: [] as number[] };
+    function refillPending(outer: boolean) {
+      const ring = outer ? "outer" : "inner";
+      if (pending[ring].length) return;
+      pending[ring] = shuffledMemberIndices();
+    }
+    refillPending(false);
+    refillPending(true);
     setMemberIndices({ ...assignments });
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
     let reduced = preference.matches;
@@ -109,13 +105,12 @@ function useGuidedOrbit(paused: boolean) {
     let previous = 0;
     let elapsed = 0;
     let phase = 0;
-    const manual = {
-      inner: { angle: 0, velocity: 0 },
-      outer: { angle: 0, velocity: 0 },
-    };
+    // Keep offsets when switching the dragged ring to avoid position jumps.
+    const manual = { angles: { inner: 0, outer: 0 }, velocity: 0 };
+    let drivingRing: keyof typeof manual.angles = "inner";
     let drag: {
       pointerId: number;
-      ring: keyof typeof manual;
+      ring: keyof typeof manual.angles;
       angle: number;
       time: number;
     } | null = null;
@@ -126,14 +121,24 @@ function useGuidedOrbit(paused: boolean) {
     let width = element.clientWidth;
     let height = element.clientHeight;
     let ringClearance = 0;
+    let footprintWidth = 0;
+    let footprintHeight = 0;
     let previousScroll = window.scrollY;
+    let exposedMembers = new Set<string>();
+    const pendingRecycles = new Set<string>();
     setReducedMotion(reduced);
+
+    function advanceManual(delta: number) {
+      const followingRing = drivingRing === "inner" ? "outer" : "inner";
+      manual.angles[drivingRing] += delta;
+      manual.angles[followingRing] -= delta * 0.5;
+    }
 
     function measureClearance() {
       // The entire upright card (including its caption) must fit between
       // tracks, even when the rings line up diagonally or a tile is hovered.
-      let footprintWidth = 0;
-      let footprintHeight = 0;
+      footprintWidth = 0;
+      footprintHeight = 0;
       cards.forEach((card) => {
         const caption = card.querySelector<HTMLElement>(".ta-guided-caption");
         footprintWidth = Math.max(
@@ -155,7 +160,9 @@ function useGuidedOrbit(paused: boolean) {
       const enter = reduced
         ? 1
         : 1 - Math.pow(1 - Math.min(elapsed / 1.6, 1), 3);
-      const changedMembers: Record<string, number> = {};
+      const hidden = new Set<string>();
+      const outside = new Set<string>();
+      const recycling: typeof portraitCards = [];
       orbitCards.forEach((orbitCard) => {
         const { card, outer, slot, count, memberKey } = orbitCard;
         const radius = outer
@@ -165,10 +172,10 @@ function useGuidedOrbit(paused: boolean) {
           (slot / count) * Math.PI * 2 +
           (outer ? 0.08 : Math.PI / count) +
           phase * (outer ? 1 / 10 : -1 / 12) +
-          manual[outer ? "outer" : "inner"].angle;
+          manual.angles[outer ? "outer" : "inner"];
         const rx = mobile ? width * 0.86 : radius;
         const ry = mobile ? height * 0.43 : radius;
-        const spread = 0.9 + enter * 0.1;
+        const spread = 0.8 + enter * 0.2;
         const x = Math.sin(angle) * rx * spread;
         const y = Math.cos(angle) * ry * spread;
         card.style.transform = `translate3d(${x.toFixed(2)}px,${y.toFixed(2)}px,0)`;
@@ -178,21 +185,106 @@ function useGuidedOrbit(paused: boolean) {
           const turn = Math.floor(angle / (Math.PI * 2));
           if (turn !== orbitCard.turn) {
             orbitCard.turn = turn;
-            assignments[memberKey] = takeNextMember(outer);
-            changedMembers[memberKey] = assignments[memberKey]!;
+            pendingRecycles.add(memberKey);
           }
+          if (pendingRecycles.has(memberKey)) recycling.push(orbitCard);
           const seamOpacity = Math.max(
             0,
             Math.min(1, (0.985 - Math.cos(angle)) / 0.065),
           );
           card.style.opacity = String(seamOpacity);
+          // Include the caption and hover enlargement in the hidden bounds.
+          // The outer ring is not displayed at tablet/mobile widths.
+          const half = footprintWidth / 2;
+          const left = width / 2 + x - half;
+          const top = height / 2 + y - half;
+          if (
+            (outer && width <= 1000) ||
+            left > width + 32 ||
+            left + half * 2.3 < -32 ||
+            top > height + 32 ||
+            top + footprintHeight < -32
+          )
+            outside.add(memberKey);
+          if (outside.has(memberKey) || seamOpacity === 0)
+            hidden.add(memberKey);
+          // Count a person as seen only once their portrait reaches the clear
+          // part of the view, not when it is assigned to a hidden position.
+          const member = assignments[memberKey];
+          if (
+            member !== undefined &&
+            !(outer && width <= 1000) &&
+            seamOpacity > 0.4 &&
+            left >= 0 &&
+            left + footprintWidth <= width &&
+            top >= height * 0.18 &&
+            top + footprintWidth <= height * 0.8
+          ) {
+            const ring = outer ? "outer" : "inner";
+            pending[ring] = pending[ring].filter((index) => index !== member);
+          }
         }
       });
-      if (Object.keys(changedMembers).length)
-        setMemberIndices((previousMembers) => ({
-          ...previousMembers,
-          ...changedMembers,
-        }));
+      // Reserve portraits for incoming cards before recycling hidden ones.
+      // If all people are already visible, keep the entering tile decorative
+      // until it leaves again; never change its content while it is on screen.
+      const entering = portraitCards.filter(
+        ({ memberKey }) =>
+          memberKey &&
+          !outside.has(memberKey) &&
+          (!exposedMembers.has(memberKey) || hidden.has(memberKey)) &&
+          assignments[memberKey] === undefined,
+      );
+      const exchanged = new Set<string>();
+      for (const orbitCard of [...entering, ...recycling]) {
+        const { memberKey, outer } = orbitCard;
+        const isEntering = entering.includes(orbitCard);
+        if (
+          !memberKey ||
+          (!isEntering && !hidden.has(memberKey)) ||
+          exchanged.has(memberKey)
+        )
+          continue;
+        const ring = outer ? "outer" : "inner";
+        refillPending(outer);
+        const candidates = isEntering
+          ? [...pending[ring], ...shuffledMemberIndices()]
+          : pending[ring];
+        const next = candidates.find((index) => {
+          const owner = portraitCards.find(
+            (item) => assignments[item.memberKey!] === index,
+          );
+          return (
+            !owner ||
+            (owner.memberKey !== memberKey &&
+              (isEntering || owner.outer !== outer) &&
+              (isEntering ? outside : hidden).has(owner.memberKey!) &&
+              !exchanged.has(owner.memberKey!))
+          );
+        });
+        // Wait for another hidden crossing if no safe exchange is available.
+        if (next === undefined) continue;
+        const partner = portraitCards.find(
+          (item) => assignments[item.memberKey!] === next,
+        );
+        const outgoing = assignments[memberKey];
+        assignments[memberKey] = next;
+        exchanged.add(memberKey);
+        if (partner) {
+          if (outgoing === undefined) delete assignments[partner.memberKey!];
+          else {
+            assignments[partner.memberKey!] = outgoing;
+          }
+          exchanged.add(partner.memberKey!);
+        }
+      }
+      exposedMembers = new Set(
+        portraitCards
+          .filter(({ memberKey }) => !outside.has(memberKey!))
+          .map(({ memberKey }) => memberKey!),
+      );
+      if (exchanged.size) setMemberIndices({ ...assignments });
+      exchanged.forEach((key) => pendingRecycles.delete(key));
       element?.style.setProperty(
         "--guided-reveal",
         String(reduced ? 1 : Math.min(elapsed / 0.7, 1)),
@@ -203,18 +295,17 @@ function useGuidedOrbit(paused: boolean) {
       const dt = previous ? Math.min((now - previous) / 1000, 0.05) : 0;
       previous = now;
       elapsed += dt;
-      const target = pausedRef.current || hovered || drag ? 0 : 1;
-      speed += (target - speed) * (1 - Math.exp(-dt * 8));
+      const target = pausedRef.current || drag ? 0 : hovered ? 0.12 : 1;
+      speed += (target - speed) * (1 - Math.exp(-dt * 5));
       if (pausedRef.current) speed = 0;
       impulse *= Math.exp(-dt * 5);
       phase += dt * speed * (1 + impulse);
-      for (const [ring, motion] of Object.entries(manual)) {
-        if (pausedRef.current || reduced) motion.velocity = 0;
-        if (drag?.ring === ring) continue;
+      if (pausedRef.current || reduced) manual.velocity = 0;
+      if (!drag) {
         const decay = Math.exp(-dt * 3.2);
-        motion.angle += (motion.velocity * (1 - decay)) / 3.2;
-        motion.velocity *= decay;
-        if (Math.abs(motion.velocity) < 0.008) motion.velocity = 0;
+        advanceManual((manual.velocity * (1 - decay)) / 3.2);
+        manual.velocity *= decay;
+        if (Math.abs(manual.velocity) < 0.008) manual.velocity = 0;
       }
       paint();
       if (visible && !document.hidden && !reduced)
@@ -246,7 +337,8 @@ function useGuidedOrbit(paused: boolean) {
       const ring = card?.dataset.guidedRing;
       if (ring !== "inner" && ring !== "outer") return;
       event.preventDefault();
-      manual[ring].velocity = 0;
+      drivingRing = ring;
+      manual.velocity = 0;
       speed = 0;
       impulse = 0;
       drag = {
@@ -269,24 +361,23 @@ function useGuidedOrbit(paused: boolean) {
       // Bound angular jumps, including when the pointer crosses the centre.
       const delta = Math.max(-0.14, Math.min(0.14, difference));
       const dt = Math.max((event.timeStamp - drag.time) / 1000, 0.008);
-      const motion = manual[drag.ring];
-      motion.angle += delta;
+      advanceManual(delta);
       const velocity = Math.max(-2.5, Math.min(2.5, delta / dt));
-      motion.velocity += (velocity - motion.velocity) * 0.55;
+      manual.velocity += (velocity - manual.velocity) * 0.55;
       drag.angle = angle;
       drag.time = event.timeStamp;
       paint();
     }
     function endDrag(event?: PointerEvent) {
       if (!drag || (event && event.pointerId !== drag.pointerId)) return;
-      const { pointerId, ring, time } = drag;
+      const { pointerId, time } = drag;
       if (
         event?.type !== "pointerup" ||
         reduced ||
         pausedRef.current ||
         event.timeStamp - time > 100
       )
-        manual[ring].velocity = 0;
+        manual.velocity = 0;
       drag = null;
       hovered = false;
       delete element!.dataset.dragging;
@@ -300,7 +391,7 @@ function useGuidedOrbit(paused: boolean) {
     const onVisibility = () => {
       if (document.hidden) {
         endDrag();
-        manual.inner.velocity = manual.outer.velocity = 0;
+        manual.velocity = 0;
       }
       resume();
     };
@@ -317,7 +408,7 @@ function useGuidedOrbit(paused: boolean) {
     });
     const onPreference = () => {
       endDrag();
-      manual.inner.velocity = manual.outer.velocity = 0;
+      manual.velocity = 0;
       reduced = preference.matches;
       setReducedMotion(reduced);
       resume();
@@ -443,19 +534,24 @@ export function TeamGuiadaHero({ portraits }: { portraits: ReactNode[] }) {
           aria-hidden="true"
         >
           {slots.map((slot) => {
-            // Eight portrait positions per ring cycle through the full team.
-            const isPortrait =
-              ringIndex === 0
-                ? innerPortraitSlots.includes(slot)
-                : slot % 2 === 1;
+            // Roughly three portrait opportunities per decorative position.
+            // A shared pool fills visible positions first, without duplicates.
+            const portraitSlots =
+              ringIndex === 0 ? innerPortraitSlots : outerPortraitSlots;
+            const canShowPortrait = portraitSlots.includes(slot);
             const memberKey = `${ring}-${slot}`;
             const basePersonIndex =
-              ringIndex === 0
-                ? Math.max(0, innerPortraitSlots.indexOf(slot))
-                : Math.floor(slot / 2) + 8;
-            const personIndex = memberIndices[memberKey] ?? basePersonIndex;
-            const person = teamMembers[personIndex]!;
-            const portrait = guidedPortraits[person.slug];
+              portraitSlots.indexOf(slot) +
+              (ringIndex === 0 ? 0 : innerPortraitSlots.length);
+            const personIndex =
+              memberIndices === null
+                ? canShowPortrait && basePersonIndex < teamMembers.length
+                  ? basePersonIndex
+                  : undefined
+                : memberIndices[memberKey];
+            const isPortrait = canShowPortrait && personIndex !== undefined;
+            const person = teamMembers[personIndex ?? 0]!;
+            const portrait = realTeamPortraits[person.slug];
             const patternIndex = Math.floor(slot / 2) + ringIndex * 8;
             return (
               <div
@@ -465,7 +561,7 @@ export function TeamGuiadaHero({ portraits }: { portraits: ReactNode[] }) {
                 data-guided-ring={ring}
                 data-guided-slot={slot}
                 data-guided-count={slots.length}
-                data-guided-member-key={isPortrait ? memberKey : undefined}
+                data-guided-member-key={canShowPortrait ? memberKey : undefined}
                 data-guided-member={isPortrait ? person.slug : undefined}
                 style={
                   {
@@ -478,14 +574,11 @@ export function TeamGuiadaHero({ portraits }: { portraits: ReactNode[] }) {
                 <div className="ta-guided-tile">
                   {isPortrait ? (
                     portrait ? (
-                      <Image
-                        src={portrait}
-                        alt={person.name}
-                        width={1254}
-                        height={1254}
+                      <RealTeamPortrait
+                        slug={person.slug}
+                        name={person.name}
                         sizes="180px"
                         className="ta-photo ta-guided-portrait"
-                        style={{ objectFit: "cover" }}
                       />
                     ) : (
                       portraits[personIndex]
@@ -507,18 +600,21 @@ export function TeamGuiadaHero({ portraits }: { portraits: ReactNode[] }) {
       ))}
       <div className="ta-guided-center">
         <p className="ta-eyebrow">Team Astra · Las personas de BinPar</p>
-        <h1 id="ta-guided-title" data-astra-heading tabIndex={-1}>
+        <h1
+          id="ta-guided-title"
+          className="font-display"
+          data-astra-heading
+          tabIndex={-1}
+        >
           Todo empieza
           <br />
-          con las personas.
+          <span className="ta-guided-title-accent">con las personas.</span>
         </h1>
-        <p className="ta-guided-description">
-          Distintas miradas. Una misma curiosidad.
-          <br className="ta-guided-desktop-break" /> Somos el equipo que
-          convierte tus ideas
-          <br className="ta-guided-desktop-break" /> en tecnología que importa.
+        <p className="ta-guided-description font-body">
+          Distintas miradas. Una misma curiosidad. Trabajamos para acercar el
+          conocimiento médico a quienes lo necesitan.
         </p>
-        <div className="ta-guided-actions">
+        <div className="ta-guided-actions font-body">
           <Link href="/contacto" className="ta-guided-primary">
             Hablemos de tu idea{" "}
             <ArrowUpRight size={17} strokeWidth={1.8} aria-hidden="true" />

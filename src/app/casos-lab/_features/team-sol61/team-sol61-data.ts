@@ -23,7 +23,7 @@ export type TeamSol61Member = {
 };
 
 // Professional adaptations of the public biographies in the local source snapshot.
-// Conceptual photographs illustrate the prototype; they do not identify these people.
+// Shared supplied photographs replace the conceptual portraits when available.
 const editorial: Record<
   string,
   { intro: string; paragraphs: string[]; focus: string }

@@ -19,6 +19,10 @@ import {
 } from "./team-sol61-data";
 import type { TeamSol61Direction } from "./team-sol61-directions";
 import { teamSol61Href } from "./team-sol61-state";
+import {
+  RealTeamPortrait,
+  realTeamPortraits,
+} from "../../_shared/team-portraits";
 
 export type MemberNavigation = (
   event: MouseEvent<HTMLAnchorElement>,
@@ -49,24 +53,32 @@ export function Portrait({
   return (
     <span className={`ts-portrait ${className}`} aria-hidden="true">
       <span className="ts-portrait-crop">
-        <Image
-          src={`/lab/team-sol61/portraits-${sheet}.webp`}
-          alt=""
-          width={1254}
-          height={1254}
-          priority={priority}
-          sizes="(max-width: 640px) 180vw, 1200px"
-          style={{
-            position: "absolute",
-            width: "200%",
-            height: "200%",
-            maxWidth: "none",
-            left: column ? "-100%" : "0",
-            top: row ? "-100%" : "0",
-            right: "auto",
-            bottom: "auto",
-          }}
-        />
+        {realTeamPortraits[member.slug] ? (
+          <RealTeamPortrait
+            slug={member.slug}
+            name={member.name}
+            priority={priority}
+          />
+        ) : (
+          <Image
+            src={`/lab/team-sol61/portraits-${sheet}.webp`}
+            alt=""
+            width={1254}
+            height={1254}
+            priority={priority}
+            sizes="(max-width: 640px) 180vw, 1200px"
+            style={{
+              position: "absolute",
+              width: "200%",
+              height: "200%",
+              maxWidth: "none",
+              left: column ? "-100%" : "0",
+              top: row ? "-100%" : "0",
+              right: "auto",
+              bottom: "auto",
+            }}
+          />
+        )}
       </span>
     </span>
   );

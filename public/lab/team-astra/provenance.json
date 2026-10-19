@@ -2,7 +2,7 @@
   "createdAt": "2026-10-15",
   "purpose": "Team Astra — exploración de dirección de arte en el laboratorio local",
   "creator": "OpenAI Imagegen",
-  "identity": "Los retratos generados enumerados en assets son referencias ficticias. Guiada sustituye cuatro de ellos por imágenes aportadas por el usuario, documentadas en guiada/provenance.json.",
+  "identity": "Los retratos generados enumerados en assets son referencias ficticias. Las variantes de Team Astra y Team Sol6.1 sustituyen once de ellos por imágenes aportadas por el usuario, documentadas en ../team-portraits/provenance.json.",
   "assets": {
     "portraits-1.webp": "Cuatro retratos de referencia, cuadrícula 2 × 2, índices 0–3",
     "portraits-2.webp": "Cuatro retratos de referencia, cuadrícula 2 × 2, índices 4–7",

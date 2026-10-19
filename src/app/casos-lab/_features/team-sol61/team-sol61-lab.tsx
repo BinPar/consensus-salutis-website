@@ -227,7 +227,7 @@ export function TeamSol61Lab({
           </select>
         </div>
         <p className="ts-lab-note">
-          Fotografía conceptual · Estudio de dirección gráfica
+          Fotografías del equipo y referencias · Estudio de dirección gráfica
         </p>
       </div>
       {context && (
@@ -267,9 +267,9 @@ export function TeamSol61Lab({
             </div>
             <div>
               <p>
-                Los retratos y las escenas muestran personas ficticias para
-                estudiar la dirección fotográfica; no son fotografías reales del
-                equipo de BinPar.
+                Se utilizan las fotografías reales disponibles del equipo de
+                BinPar. Los retratos pendientes y las escenas son referencias
+                conceptuales para estudiar la dirección fotográfica.
               </p>
               <p>
                 Los nombres, cargos y fechas proceden de las{" "}
