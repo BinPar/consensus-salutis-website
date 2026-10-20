@@ -1,0 +1,275 @@
+/* Mezcla reuses the guided presentation and Prisma's unchanged gallery geometry. */
+:where([data-visual-lab]) :is(.tn-mezcla) {
+  --mezcla-gutter: calc(var(--spacing) * 5);
+}
+
+/* Same px-5 / sm:px-10 and max-w-7xl as VerticalHome, including
+   the shared navigation allowance from section-navigation-layout at xl. */
+:where([data-visual-lab])
+  :is(
+    .tn-mezcla .ta-guided-03-ceo-inner,
+    .tn-mezcla .tn-container,
+    .tn-mezcla .ta-guided-03-bottom
+  ) {
+  width: calc(100% - var(--mezcla-gutter) * 2);
+  max-width: var(--section-content-max, var(--container-7xl));
+  margin-inline: auto;
+}
+
+:where([data-visual-lab]) :is(.tn-mezcla .ta-guided-03-bottom) {
+  inset-inline: 0;
+}
+
+@media (min-width: 640px) {
+  :where([data-visual-lab]) :is(.tn-mezcla) {
+    --mezcla-gutter: calc(var(--spacing) * 10);
+  }
+}
+
+:where([data-visual-lab]) :is(.tn-mezcla .ta-guided-03-ceo) {
+  padding: 56px 0 64px;
+}
+
+:where([data-visual-lab]) :is(.tn-mezcla .ta-guided-03-ceo-inner) {
+  grid-template-columns: 320px minmax(0, 1fr);
+}
+
+:where([data-visual-lab]) :is(.tn-mezcla .ta-guided-03-ceo-photo) {
+  width: 100%;
+}
+
+@media (min-width: 768px) and (max-width: 1100px) {
+  :where([data-visual-lab]) :is(.tn-mezcla .ta-guided-03-ceo-inner) {
+    grid-template-columns: 240px minmax(0, 1fr);
+    gap: 40px;
+  }
+}
+
+@media (max-width: 767px) {
+  :where([data-visual-lab]) :is(.tn-mezcla .ta-guided-03-ceo) {
+    padding-block: 40px;
+  }
+
+  :where([data-visual-lab]) :is(.tn-mezcla .ta-guided-03-ceo-inner) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  :where([data-visual-lab]) :is(.tn-mezcla .ta-guided-03-ceo-photo) {
+    width: min(220px, 100%);
+  }
+}
+
+/* Let the orbit outlive the hero inside a shared, horizontally clipped scene. */
+:where([data-visual-lab]) :is(.tn-mezcla-intro .ta-guided-03-ceo) {
+  padding-bottom: 45px;
+}
+
+:where([data-visual-lab])
+  :is(
+    .tn-mezcla:is(
+        [data-team-direction="mezcla"],
+        [data-team-direction="mezcla-3"]
+      )
+      .tn-prisma-gallery
+  ) {
+  padding-top: 45px;
+}
+
+:where([data-visual-lab])
+  :is(
+    .tn-mezcla:is(
+        [data-team-direction="mezcla"],
+        [data-team-direction="mezcla-3"]
+      )
+      .tn-prisma-members
+      figcaption
+  ) {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 36px 14px 12px;
+  opacity: 1;
+  border-radius: 0 0 8px 8px;
+  background: linear-gradient(transparent, rgb(3 17 29 / 42%));
+  text-shadow: 0 1px 3px rgb(3 17 29 / 25%);
+}
+
+:where([data-visual-lab])
+  :is(
+    .tn-mezcla:is(
+        [data-team-direction="mezcla"],
+        [data-team-direction="mezcla-3"]
+      )
+      .tn-prisma-members
+      figcaption
+      h3
+  ) {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: clamp(11px, 0.85vw, 13px);
+  font-weight: 500;
+  line-height: 20px;
+  color: rgb(255 255 255 / 90%);
+}
+
+:where([data-visual-lab])
+  :is(
+    .tn-mezcla:is(
+        [data-team-direction="mezcla"],
+        [data-team-direction="mezcla-3"]
+      )
+      .tn-prisma-members
+      figcaption
+      p
+  ) {
+  flex-shrink: 0;
+  margin: 0;
+  white-space: nowrap;
+  font-size: clamp(10px, 0.75vw, 12px);
+  line-height: 20px;
+  color: rgb(255 255 255 / 75%);
+  text-align: right;
+}
+
+@media (max-width: 767px) {
+  :where([data-visual-lab])
+    :is(
+      .tn-mezcla:is(
+          [data-team-direction="mezcla"],
+          [data-team-direction="mezcla-3"]
+        )
+        .tn-prisma-members
+        figcaption
+    ) {
+    gap: 6px;
+    padding: 28px 10px 10px;
+  }
+}
+
+:where([data-visual-lab]) :is(.tn-mezcla-intro) {
+  --mezcla-orbit-tail: 96px;
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background: var(--ta-paper);
+}
+
+:where([data-visual-lab]) :is(.tn-mezcla-intro .ta-guided-03) {
+  overflow: visible;
+}
+
+:where([data-visual-lab]) :is(.tn-mezcla-home-grid) {
+  position: fixed;
+  inset: 0;
+}
+
+:where([data-visual-lab])
+  :is(.tn-mezcla[data-team-direction="mezcla-3"] .tn-prisma-gallery) {
+  position: relative;
+  isolation: isolate;
+}
+
+:where([data-visual-lab]) :is(.tn-mezcla-gallery-background) {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: #deedf3;
+}
+
+:where([data-visual-lab]) :is(.dark .tn-mezcla-gallery-background) {
+  background: #030916;
+}
+
+:where([data-visual-lab]) :is(#mezcla-3-ceo) {
+  scroll-margin-top: var(--lab-toolbar-height, 80px);
+}
+
+:where([data-visual-lab])
+  :is(.tn-mezcla[data-team-direction="mezcla-3"] .ta-guided-03-portrait) {
+  opacity: 1;
+  filter: saturate(0.4);
+}
+
+:where([data-visual-lab]) :is(.tn-mezcla-grid-window) {
+  position: absolute;
+  inset: 0;
+  bottom: calc(-1 * var(--mezcla-orbit-tail));
+  pointer-events: none;
+  clip-path: inset(0);
+  /* Fade the grid itself, leaving the orbit portraits unobscured. */
+  mask-image:
+    radial-gradient(
+      ellipse 42% 46% at 50% 46%,
+      transparent 25%,
+      rgb(0 0 0 / 35%) 48%,
+      #000 75%
+    ),
+    linear-gradient(to bottom, transparent 5%, #000 24%, #000 65%, transparent);
+  mask-composite: intersect;
+}
+
+:where([data-visual-lab]) :is(.tn-mezcla-intro .ta-guided-03-ring) {
+  bottom: calc(-1 * var(--mezcla-orbit-tail));
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 calc((100% - var(--mezcla-orbit-tail)) * 0.18),
+    #000 calc((100% - var(--mezcla-orbit-tail)) * 0.65),
+    transparent
+  );
+}
+
+:where([data-visual-lab]) :is(.tn-mezcla-intro .ta-guided-03-card) {
+  top: calc((100% - var(--mezcla-orbit-tail)) / 2);
+}
+
+:where([data-visual-lab]) :is(.tn-mezcla-intro .ta-guided-03-ceo) {
+  position: relative;
+  z-index: 1;
+  padding-top: 96px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    var(--ta-paper) var(--mezcla-ceo-fade, 80px)
+  );
+}
+
+:where([data-visual-lab])
+  :is(.tn-mezcla[data-team-direction="mezcla-3"] .tn-mezcla-intro) {
+  --mezcla-ceo-fade: 160px;
+}
+
+@media (max-width: 767px) {
+  :where([data-visual-lab]) :is(.tn-mezcla-intro) {
+    --mezcla-orbit-tail: 64px;
+  }
+
+  :where([data-visual-lab]) :is(.tn-mezcla-intro .ta-guided-03-ceo) {
+    padding-top: 64px;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      var(--ta-paper) var(--mezcla-ceo-fade, 56px)
+    );
+  }
+
+  :where([data-visual-lab])
+    :is(.tn-mezcla[data-team-direction="mezcla-3"] .tn-mezcla-intro) {
+    --mezcla-ceo-fade: 112px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :where([data-visual-lab]) :is(.tn-mezcla-intro) {
+    --mezcla-orbit-tail: 0px;
+  }
+
+  :where([data-visual-lab]) :is(.tn-mezcla-intro .ta-guided-03-ceo) {
+    padding-top: 56px;
+    background: var(--ta-paper);
+  }
+}

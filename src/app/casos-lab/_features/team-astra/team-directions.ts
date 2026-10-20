@@ -98,6 +98,60 @@ export const teamDirections = [
     reference: "BinPar · Grid compacto",
     url: "/casos-lab?lab=team&teamVariant=guiada-06",
   },
+  {
+    id: "prisma",
+    number: "12",
+    label: "Prisma",
+    description:
+      "Un abanico fotográfico que se despliega con profundidad y un directorio editorial con introducción lateral.",
+    reference: "BinPar · Prisma",
+    url: "/casos-lab?lab=team&teamVariant=prisma",
+  },
+  {
+    id: "prisma-2",
+    number: "15",
+    label: "Prisma 2",
+    description:
+      "El retrato del CEO acompaña el scroll hasta abrir la galería del equipo.",
+    reference: "BinPar · Prisma 2",
+    url: "/casos-lab?lab=team&teamVariant=prisma-2",
+  },
+  {
+    id: "mezcla",
+    number: "16",
+    label: "Mezcla",
+    description:
+      "La portada orbital de Guiada 3, un perfil compacto del CEO y la galería editorial de Prisma.",
+    reference: "BinPar · Mezcla",
+    url: "/casos-lab?lab=team&teamVariant=mezcla",
+  },
+  {
+    id: "mezcla-3",
+    number: "18",
+    label: "Mezcla 3",
+    description:
+      "Copia exacta de Mezcla como punto de partida para una nueva variante.",
+    reference: "BinPar · Mezcla 3",
+    url: "/casos-lab?lab=team&teamVariant=mezcla-3",
+  },
+  {
+    id: "umbral",
+    number: "13",
+    label: "Umbral",
+    description:
+      "Una portada fotográfica a sangre con encuadres fluidos, un relato del CEO y una galería de retratos cuadrados.",
+    reference: "BinPar · Umbral",
+    url: "/casos-lab?lab=team&teamVariant=umbral",
+  },
+  {
+    id: "nexo",
+    number: "14",
+    label: "Nexo",
+    description:
+      "Una apertura orgánica sobre un mosaico del equipo y una galería abierta organizada por disciplinas.",
+    reference: "BinPar · Nexo",
+    url: "/casos-lab?lab=team&teamVariant=nexo",
+  },
 ] as const;
 
 export type TeamDirection = (typeof teamDirections)[number]["id"];

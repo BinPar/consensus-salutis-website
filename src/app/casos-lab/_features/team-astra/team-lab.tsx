@@ -31,6 +31,11 @@ import { TeamGuiada03Gallery } from "./team-guiada-03-gallery";
 import { TeamGuiadaGalleryExploration } from "./team-guiada-gallery-explorations";
 import { guided03Members } from "./team-guiada-03-data";
 import {
+  TeamNewDirections,
+  isNewTeamDirection,
+  type NewTeamDirection,
+} from "./team-new-directions";
+import {
   RealTeamPortrait,
   realTeamPortraits,
 } from "../../_shared/team-portraits";
@@ -193,7 +198,10 @@ function Filters({
 function DirectoryHeader({
   direction,
 }: {
-  direction: Exclude<TeamDirection, "guiada" | "guiada-02" | "guiada-03" | "guiada-04" | "guiada-05" | "guiada-06">;
+  direction: Exclude<
+    TeamDirection,
+    "guiada" | "guiada-02" | "guiada-03" | "guiada-04" | "guiada-05" | "guiada-06" | NewTeamDirection
+  >;
 }) {
   const headings = {
     encuadre: (
@@ -912,7 +920,8 @@ export function TeamLab({
       className={`ta-root ta-direction-${direction}`}
       aria-label="Team Astra"
     >
-      {direction !== "guiada" &&
+      {!isNewTeamDirection(direction) &&
+        direction !== "guiada" &&
         direction !== "guiada-02" &&
         direction !== "guiada-03" &&
         direction !== "guiada-04" &&
@@ -975,7 +984,11 @@ export function TeamLab({
         className="ta-preview"
         key={`${direction}-${replay}`}
       >
-        {direction === "guiada-04" || direction === "guiada-05" || direction === "guiada-06" ? (
+        {isNewTeamDirection(direction) ? (
+          <TeamNewDirections direction={direction} />
+        ) : direction === "guiada-04" ||
+          direction === "guiada-05" ||
+          direction === "guiada-06" ? (
           <>
             <TeamGuiada03Hero
               portraits={guided03Members.map((member) => (
@@ -1067,7 +1080,8 @@ export function TeamLab({
             )}
           </>
         )}
-        {direction !== "guiada" &&
+        {!isNewTeamDirection(direction) &&
+          direction !== "guiada" &&
           direction !== "guiada-02" &&
           direction !== "guiada-03" &&
           direction !== "guiada-04" &&

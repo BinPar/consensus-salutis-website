@@ -5,11 +5,12 @@ import { useProductEntrance } from "~/app/_components/product-strata/product-str
 import { RealTeamPortrait } from "../../_shared/team-portraits";
 import "./team-guiada-03-ceo.css";
 
-export function TeamGuiada03Ceo() {
+export function TeamGuiada03Ceo({ id }: { id?: string }) {
   const { ref, painted, reduced } = useProductEntrance();
 
   return (
     <section
+      id={id}
       ref={ref}
       className="ta-guided-03-ceo"
       aria-labelledby="ta-guided-03-ceo-title"
@@ -43,7 +44,7 @@ export function TeamGuiada03Ceo() {
           <p className="ta-eyebrow">La persona detrás de la idea</p>
           <h2
             id="ta-guided-03-ceo-title"
-            className="font-display font-extrabold tracking-tight text-4xl leading-tight xl:text-5xl"
+            className="font-display text-4xl leading-tight font-extrabold tracking-tight xl:text-5xl"
           >
             Ignacio Ferro Picón
             <br />

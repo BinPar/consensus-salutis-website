@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowUpRight, Pause, Play } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Pause, Play } from "lucide-react";
 import {
   useEffect,
   useRef,
@@ -10,6 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { guided03Members as teamMembers } from "./team-guiada-03-data";
+import { HomeGrid } from "~/app/_components/motion-system";
 import "./team-guiada-03.css";
 
 import {
@@ -56,7 +57,7 @@ function shuffledMemberIndices() {
 
 // Original implementation inspired by the reference's two counter-rotating
 // rings. Transforms move the cards; their contents always remain upright.
-function useGuidedOrbit(paused: boolean) {
+function useGuidedOrbit(paused: boolean, extendedOrbit: boolean) {
   const stage = useRef<HTMLElement>(null);
   const pausedRef = useRef(paused);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -126,20 +127,43 @@ function useGuidedOrbit(paused: boolean) {
     let footprintHeight = 0;
     let scrollDepth = 0;
     let targetScrollDepth = 0;
+    const scrollFactor = extendedOrbit ? 0.16 : ringScrollFactor;
+    let exitProgress = 0;
+    let targetExitProgress = 0;
+    let orbitTail = 0;
     let exposedMembers = new Set<string>();
     const pendingRecycles = new Set<string>();
     setReducedMotion(reduced);
 
     function measureScrollDepth() {
-      // Keep the hero's height and the following section in normal document flow.
-      targetScrollDepth = Math.max(
-        0,
-        Math.min(
-          height,
-          (width <= 600 ? 20 : 36) / ringScrollFactor,
-          -element!.getBoundingClientRect().top,
-        ),
-      );
+      orbitTail = extendedOrbit
+        ? parseFloat(
+            getComputedStyle(element!).getPropertyValue("--mezcla-orbit-tail"),
+          ) || 0
+        : 0;
+      // Both sections stay in normal flow while the rings travel into the fade.
+      const depth = Math.max(0, -element!.getBoundingClientRect().top);
+      const maxOffset = width <= 600 ? 28 : 48;
+      // Begin expanding before the hero is mostly out of view.
+      const exit = extendedOrbit
+        ? Math.max(
+            0,
+            Math.min(1, (depth - height * 0.4) / (height * 0.6 + orbitTail)),
+          )
+        : 0;
+      targetExitProgress = exit * exit * (3 - 2 * exit);
+      // Ease into a small maximum displacement instead of pinning the orbit.
+      targetScrollDepth = extendedOrbit
+        ? (maxOffset / scrollFactor) *
+          (1 - Math.exp((-depth * scrollFactor) / maxOffset))
+        : Math.max(
+            0,
+            Math.min(
+              height,
+              (width <= 600 ? 20 : 36) / ringScrollFactor,
+              depth,
+            ),
+          );
     }
 
     function advanceManual(delta: number) {
@@ -191,12 +215,12 @@ function useGuidedOrbit(paused: boolean) {
           manual.angles[outer ? "outer" : "inner"];
         const rx = mobile ? width * 0.86 : radius;
         const ry = mobile ? height * 0.43 : radius;
-        const spread = 0.8 + enter * 0.2;
+        const spread = (0.8 + enter * 0.2) * (1 + exitProgress * 0.16);
         const x = Math.sin(angle) * rx * spread;
         // Both rings share a scroll offset so the spacing between them is kept.
-        const y =
-          Math.cos(angle) * ry * spread + scrollDepth * ringScrollFactor;
-        card.style.transform = `translate3d(${x.toFixed(2)}px,${y.toFixed(2)}px,0)`;
+        const y = Math.cos(angle) * ry * spread + scrollDepth * scrollFactor;
+        // Scale the whole tile, including its portrait, as the orbit dissolves.
+        card.style.transform = `translate3d(${x.toFixed(2)}px,${y.toFixed(2)}px,0) scale(${(1 + exitProgress * 0.22).toFixed(4)})`;
         if (memberKey) {
           // Recycle each portrait at the bottom of its orbit, under the fade.
           // Slot count, card dimensions, radii and angular spacing stay fixed.
@@ -220,7 +244,7 @@ function useGuidedOrbit(paused: boolean) {
             (outer && width <= 1000) ||
             left > width + 32 ||
             left + half * 2.3 < -32 ||
-            top > height + 32 ||
+            top > height + orbitTail + 32 ||
             top + footprintHeight < -32
           )
             outside.add(memberKey);
@@ -305,7 +329,7 @@ function useGuidedOrbit(paused: boolean) {
       exchanged.forEach((key) => pendingRecycles.delete(key));
       element?.style.setProperty(
         "--guided-reveal",
-        String(reduced ? 1 : Math.min(elapsed / 0.7, 1)),
+        String(reduced ? 1 : Math.min(elapsed / 0.7, 1) * (1 - exitProgress)),
       );
     }
     function tick(now: number) {
@@ -313,10 +337,15 @@ function useGuidedOrbit(paused: boolean) {
       const dt = previous ? Math.min((now - previous) / 1000, 0.05) : 0;
       previous = now;
       elapsed += dt;
-      if (reduced) scrollDepth = 0;
-      else if (!pausedRef.current && !drag)
+      if (reduced) {
+        scrollDepth = 0;
+        exitProgress = 0;
+      } else if (!pausedRef.current && !drag) {
         scrollDepth +=
           (targetScrollDepth - scrollDepth) * (1 - Math.exp(-dt * 6));
+        exitProgress +=
+          (targetExitProgress - exitProgress) * (1 - Math.exp(-dt * 8));
+      }
       const target = pausedRef.current || drag ? 0 : hovered ? 0.12 : 1;
       speed += (target - speed) * (1 - Math.exp(-dt * 5));
       if (pausedRef.current) speed = 0;
@@ -344,7 +373,7 @@ function useGuidedOrbit(paused: boolean) {
       const rect = element!.getBoundingClientRect();
       const x = event.clientX - rect.left - width / 2;
       const y =
-        event.clientY - rect.top - height / 2 - scrollDepth * ringScrollFactor;
+        event.clientY - rect.top - height / 2 - scrollDepth * scrollFactor;
       // Normalize the mobile ellipse so dragging follows the same orbit.
       return Math.atan2(
         width <= 600 ? x / (width * 0.86) : x,
@@ -432,7 +461,10 @@ function useGuidedOrbit(paused: boolean) {
       endDrag();
       manual.velocity = 0;
       reduced = preference.matches;
-      if (reduced) scrollDepth = 0;
+      if (reduced) {
+        scrollDepth = 0;
+        exitProgress = 0;
+      }
       measureScrollDepth();
       setReducedMotion(reduced);
       resume();
@@ -459,8 +491,10 @@ function useGuidedOrbit(paused: boolean) {
     measureClearance();
     measureScrollDepth();
     scrollDepth = reduced ? 0 : targetScrollDepth;
+    exitProgress = reduced ? 0 : targetExitProgress;
     paint();
-    observer.observe(element);
+    // Continue animating while the extended rings are still on screen.
+    observer.observe(extendedOrbit ? element.parentElement! : element);
     resize.observe(element);
     preference.addEventListener("change", onPreference);
     document.addEventListener("visibilitychange", onVisibility);
@@ -484,7 +518,7 @@ function useGuidedOrbit(paused: boolean) {
         card.removeEventListener("pointerleave", onLeave);
       });
     };
-  }, []);
+  }, [extendedOrbit]);
   return { stage, reducedMotion, memberIndices };
 }
 
@@ -540,9 +574,20 @@ function Pattern({ index }: { index: number }) {
   );
 }
 
-export function TeamGuiada03Hero({ portraits }: { portraits: ReactNode[] }) {
+export function TeamGuiada03Hero({
+  portraits,
+  extendedOrbit = false,
+  homeGrid = false,
+}: {
+  portraits: ReactNode[];
+  extendedOrbit?: boolean;
+  homeGrid?: boolean;
+}) {
   const [paused, setPaused] = useState(false);
-  const { stage, reducedMotion, memberIndices } = useGuidedOrbit(paused);
+  const { stage, reducedMotion, memberIndices } = useGuidedOrbit(
+    paused,
+    extendedOrbit,
+  );
   return (
     <section
       ref={stage}
@@ -550,6 +595,11 @@ export function TeamGuiada03Hero({ portraits }: { portraits: ReactNode[] }) {
       aria-labelledby="ta-guided-03-title"
       data-motion={paused || reducedMotion ? "paused" : "playing"}
     >
+      {homeGrid && (
+        <div className="tn-mezcla-grid-window" aria-hidden="true">
+          <HomeGrid className="tn-mezcla-home-grid" />
+        </div>
+      )}
       {rings.map(({ id: ring, slots }, ringIndex) => (
         <div
           key={ring}
@@ -622,10 +672,12 @@ export function TeamGuiada03Hero({ portraits }: { portraits: ReactNode[] }) {
         </div>
       ))}
       <div className="ta-guided-03-center">
-        <p className="ta-eyebrow">Team Astra · Las personas de BinPar</p>
+        <p className="ta-eyebrow">
+          {homeGrid ? "BinPar Team" : "Team Astra · Las personas de BinPar"}
+        </p>
         <h1
           id="ta-guided-03-title"
-          className="font-display font-extrabold tracking-tight text-4xl leading-tight xl:text-5xl"
+          className="font-display text-4xl leading-tight font-extrabold tracking-tight xl:text-5xl"
           data-astra-heading
           tabIndex={-1}
         >
@@ -638,14 +690,35 @@ export function TeamGuiada03Hero({ portraits }: { portraits: ReactNode[] }) {
           conocimiento médico a quienes lo necesitan.
         </p>
         <div className="ta-guided-03-actions font-body">
-          <Link href="/contacto" className="ta-guided-03-primary">
-            Hablemos de tu idea{" "}
-            <ArrowUpRight size={17} strokeWidth={1.8} aria-hidden="true" />
-          </Link>
-          <Link href="/" className="ta-guided-03-secondary">
-            Conoce BinPar{" "}
-            <ArrowUpRight size={17} strokeWidth={1.8} aria-hidden="true" />
-          </Link>
+          {homeGrid ? (
+            <a
+              href="#mezcla-3-ceo"
+              className="ta-guided-03-primary"
+              onClick={(event) => {
+                const destination = document.getElementById("mezcla-3-ceo");
+                if (!destination) return;
+                event.preventDefault();
+                destination.scrollIntoView({
+                  behavior: reducedMotion ? "instant" : "smooth",
+                  block: "start",
+                });
+              }}
+            >
+              Conoce al equipo
+              <ArrowDown size={17} strokeWidth={1.8} aria-hidden="true" />
+            </a>
+          ) : (
+            <>
+              <Link href="/contacto" className="ta-guided-03-primary">
+                Hablemos de tu idea{" "}
+                <ArrowUpRight size={17} strokeWidth={1.8} aria-hidden="true" />
+              </Link>
+              <Link href="/" className="ta-guided-03-secondary">
+                Conoce BinPar{" "}
+                <ArrowUpRight size={17} strokeWidth={1.8} aria-hidden="true" />
+              </Link>
+            </>
+          )}
         </div>
       </div>
       <div className="ta-guided-03-bottom">

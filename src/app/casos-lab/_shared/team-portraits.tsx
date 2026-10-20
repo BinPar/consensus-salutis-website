@@ -34,6 +34,7 @@ export function RealTeamPortrait({
   name,
   className = "",
   priority = false,
+  unoptimized = false,
   sizes = "(max-width: 640px) 100vw, 600px",
   onError,
 }: {
@@ -41,6 +42,7 @@ export function RealTeamPortrait({
   name: string;
   className?: string;
   priority?: boolean;
+  unoptimized?: boolean;
   sizes?: string;
   onError?: () => void;
 }) {
@@ -54,6 +56,7 @@ export function RealTeamPortrait({
       width={1254}
       height={1254}
       priority={priority}
+      unoptimized={unoptimized}
       sizes={sizes}
       onError={onError}
       data-team-portrait={slug}
