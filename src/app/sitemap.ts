@@ -18,6 +18,7 @@ import { getSiteUrl } from "~/lib/site";
 export const PUBLIC_ROUTES = [
   { path: "/", priority: 1 },
   { path: "/plataforma", priority: 0.9 },
+  { path: "/equipo", priority: 0.7 },
   { path: "/evaluador", priority: 0.8 },
   /*
     `/about` y `/contact` no están: son redirecciones a `/plataforma` y

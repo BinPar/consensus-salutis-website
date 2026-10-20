@@ -12,7 +12,7 @@ export const navItems: Array<{
 }> = [
   { href: "/", label: "Inicio" },
   { href: "/plataforma", label: "Plataforma" },
-  { href: "#equipo", label: "Equipo", disabled: true },
+  { href: "/equipo", label: "Equipo" },
   { href: "/blog", label: "Blog" },
   { href: "/contacto", label: "Contacto" },
 ];

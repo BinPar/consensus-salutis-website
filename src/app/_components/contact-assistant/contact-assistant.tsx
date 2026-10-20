@@ -107,7 +107,8 @@ export function ContactAssistant({
       : step === 1
         ? `${greetingName}, déjanos tu correo electrónico para continuar la conversación. Nuestro equipo te escribirá para conocer mejor tu caso y valorar el siguiente paso.`
         : `${greetingName}, cuéntanos qué te gustaría explorar con BinPar y qué necesita tu organización. Así podremos preparar una conversación centrada en tu caso.`;
-  const inputReady = Boolean(reduced) || finishedReply === reply;
+  // Keep the initial server/client state identical when reduced motion is set.
+  const inputReady = entered && (Boolean(reduced) || finishedReply === reply);
   const replyComplete = useCallback(() => setFinishedReply(reply), [reply]);
 
   useEffect(() => {
