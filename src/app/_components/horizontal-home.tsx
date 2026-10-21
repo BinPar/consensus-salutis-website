@@ -995,21 +995,18 @@ export function BlogContent({
   const show = reducedMotion ? true : (visible ?? inViewport);
   const homePosts = posts.slice(0, HOME_POSTS);
   const heading = (
-    <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+    <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
       <div>
-        <Eyebrow>Lecturas clínicas</Eyebrow>
-        <h2
-          className={`font-display mt-4 max-w-4xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${
-            compact ? "text-3xl sm:text-4xl" : "text-5xl"
-          }`}
-        >
-          Últimos artículos
+        <p className="font-display text-primary-light dark:text-primary-dark text-[10px] font-bold tracking-[0.22em] uppercase">
+          Lecturas clínicas
+        </p>
+        <h2 className="font-display mt-3 text-4xl font-extrabold tracking-tight text-[#05215e] xl:text-5xl dark:text-slate-50">
+          Últimos{" "}
+          <span className="text-primary-light dark:text-primary-dark">
+            artículos
+          </span>
         </h2>
-        <p
-          className={`font-body mt-5 max-w-3xl text-slate-600 dark:text-slate-400 ${
-            compact ? "text-base leading-7" : "text-lg leading-8"
-          }`}
-        >
+        <p className="font-body mt-4 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base sm:leading-7 dark:text-slate-400">
           Lecturas recientes sobre IA médica, tendencias sanitarias y nuevas
           formas de transformar la asistencia al paciente en el sistema de
           salud.
@@ -1017,10 +1014,10 @@ export function BlogContent({
       </div>
       <Link
         href="/blog"
-        className="font-body bg-primary-light shadow-big-blocks dark:bg-primary-dark dark:hover:bg-primary-dark-lighter inline-flex h-10 shrink-0 items-center justify-center gap-2 self-start rounded-full px-6 text-sm font-semibold text-white transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#087a85] sm:self-end dark:text-[#03111d] dark:shadow-[0_0_24px_rgba(0,188,187,0.18)]"
+        className="font-body text-primary-light dark:text-primary-dark hover:bg-primary-light/5 dark:hover:bg-primary-dark/10 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark inline-flex min-h-10 shrink-0 items-center gap-3 self-start rounded-full border border-cyan-800/20 px-5 text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 sm:self-end dark:border-cyan-300/20"
       >
         Ver todos
-        <ArrowRight aria-hidden="true" className="size-4" strokeWidth={1.8} />
+        <ArrowRight aria-hidden="true" className="size-3.5" strokeWidth={1.8} />
       </Link>
     </div>
   );
@@ -1047,7 +1044,7 @@ export function BlogContent({
       )}
 
       <div
-        className={`mt-8 grid gap-4 ${
+        className={`mt-8 grid items-stretch gap-x-6 gap-y-9 ${
           compact ? "sm:grid-cols-2" : "lg:grid-cols-3 xl:grid-cols-4"
         }`}
       >
@@ -1069,6 +1066,10 @@ export function BlogContent({
           </motion.div>
         ))}
       </div>
+      <div
+        aria-hidden="true"
+        className="mt-10 border-t border-cyan-800/10 dark:border-cyan-300/10"
+      />
     </motion.section>
   );
 }
