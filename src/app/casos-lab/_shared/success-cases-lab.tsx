@@ -1,5 +1,11 @@
 "use client";
 
+import { BlogImagesLab } from "../_features/blog-images/blog-images-lab";
+import {
+  blogImagesDirections,
+  parseBlogImagesDirection,
+  type BlogImagesDirection,
+} from "../_features/blog-images/blog-images-directions";
 import Link from "next/link";
 import { ArrowDown, ArrowLeft, Check, Layers2, RotateCcw } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
@@ -24,6 +30,12 @@ import {
 } from "../_features/cases/case-directions";
 import { ProductLab } from "../_features/product/product-lab";
 import { HomeLab } from "../_features/home/home-lab";
+import { BlogCardsLab } from "../_features/blog-cards/blog-cards-lab";
+import {
+  blogCardsDirections,
+  parseBlogCardsDirection,
+  type BlogCardsDirection,
+} from "../_features/blog-cards/blog-cards-directions";
 import type { BlogPost } from "~/lib/blog";
 import { VolumeLab } from "../_features/volume/volume-lab";
 import { ContactLab } from "../_features/contact/contact-lab";
@@ -74,6 +86,8 @@ type Lab =
   | "contact"
   | "footer"
   | "team"
+  | "blog-images"
+  | "blog-cards"
   | "team-sol6-1";
 
 function scrollToPreview(lab: Lab, behavior: ScrollBehavior = "instant") {
@@ -110,6 +124,8 @@ export function SuccessCasesLab({
   initialTeamSol61Direction = "editorial",
   initialTeamSol61View = "team",
   initialTeamSol61Member = "adrian-rodriguez",
+  initialBlogImagesDirection = "compare",
+  initialBlogCardsDirection = "open",
   blogPosts,
 }: {
   initialDirection: CaseDirection;
@@ -124,9 +140,17 @@ export function SuccessCasesLab({
   initialTeamSol61Direction?: TeamSol61Direction;
   initialTeamSol61View?: TeamSol61View;
   initialTeamSol61Member?: string;
+  initialBlogImagesDirection?: BlogImagesDirection;
+  initialBlogCardsDirection?: BlogCardsDirection;
   blogPosts: BlogPost[];
 }) {
+  const [blogImagesDirection, setBlogImagesDirection] = useState(
+    initialBlogImagesDirection,
+  );
   const [lab, setLab] = useState<Lab>(initialLab);
+  const [blogCardsDirection, setBlogCardsDirection] = useState(
+    initialBlogCardsDirection,
+  );
   const [direction, setDirection] = useState(initialDirection);
   const [productDirection, setProductDirection] = useState(
     initialProductDirection,
@@ -160,6 +184,8 @@ export function SuccessCasesLab({
     footer: footerDirection,
     team: teamDirection,
     "team-sol6-1": teamSol61Direction,
+    "blog-cards": blogCardsDirection,
+    "blog-images": blogImagesDirection,
   }[lab];
   const availableDirections = {
     cases: caseDirections,
@@ -170,6 +196,8 @@ export function SuccessCasesLab({
     footer: footerDirections,
     team: teamDirections,
     "team-sol6-1": teamSol61Directions,
+    "blog-cards": blogCardsDirections,
+    "blog-images": blogImagesDirections,
   }[lab];
 
   useEffect(() => {
@@ -191,6 +219,8 @@ export function SuccessCasesLab({
     footerDirection,
     teamDirection,
     teamSol61Direction,
+    blogCardsDirection,
+    blogImagesDirection,
   ]);
 
   useEffect(() => {
@@ -225,6 +255,12 @@ export function SuccessCasesLab({
       const params = new URL(window.location.href).searchParams;
       const variant = params.get("variant");
       const requestedLab = params.get("lab");
+      setBlogImagesDirection(
+        parseBlogImagesDirection(params.get("blogImagesVariant")),
+      );
+      setBlogCardsDirection(
+        parseBlogCardsDirection(params.get("blogCardsVariant")),
+      );
       setLab(
         requestedLab === "home"
           ? "home"
@@ -240,7 +276,11 @@ export function SuccessCasesLab({
                     ? "team"
                     : requestedLab === "team-sol6-1"
                       ? "team-sol6-1"
-                      : "cases",
+                      : requestedLab === "blog-cards"
+                        ? "blog-cards"
+                        : requestedLab === "blog-images"
+                          ? "blog-images"
+                          : "cases",
       );
       setProductDirection(
         productDirections.find(
@@ -292,6 +332,8 @@ export function SuccessCasesLab({
     url.searchParams.set("footerVariant", footerDirection);
     url.searchParams.set("teamVariant", teamDirection);
     url.searchParams.set("teamSol61Variant", teamSol61Direction);
+    url.searchParams.set("blogCardsVariant", blogCardsDirection);
+    url.searchParams.set("blogImagesVariant", blogImagesDirection);
     url.hash = `${next}-preview`;
     window.history.pushState(null, "", url);
     window.requestAnimationFrame(() => {
@@ -381,6 +423,28 @@ export function SuccessCasesLab({
 
   const selectProposal = (id: string) => {
     switch (lab) {
+      case "blog-images": {
+        const next = parseBlogImagesDirection(id);
+        if (next === blogImagesDirection) return;
+        setBlogImagesDirection(next);
+        const url = new URL(window.location.href);
+        url.searchParams.set("blogImagesVariant", next);
+        url.hash = "blog-images-preview";
+        window.history.pushState(null, "", url);
+        window.requestAnimationFrame(() => scrollToPreview("blog-images"));
+        break;
+      }
+      case "blog-cards": {
+        const next = parseBlogCardsDirection(id);
+        if (next === blogCardsDirection) return;
+        setBlogCardsDirection(next);
+        const url = new URL(window.location.href);
+        url.searchParams.set("blogCardsVariant", next);
+        url.hash = "blog-cards-preview";
+        window.history.pushState(null, "", url);
+        window.requestAnimationFrame(() => scrollToPreview("blog-cards"));
+        break;
+      }
       case "cases":
         select(id as CaseDirection);
         break;
@@ -450,7 +514,11 @@ export function SuccessCasesLab({
                             ? "Team Astra"
                             : lab === "team-sol6-1"
                               ? "Team sol6.1"
-                              : "Producto"}
+                              : lab === "blog-cards"
+                                ? "Fichas blog"
+                                : lab === "blog-images"
+                                  ? "Imágenes blog"
+                                  : "Producto"}
               </p>
             </div>
           </div>
@@ -469,6 +537,8 @@ export function SuccessCasesLab({
               <option value="footer">Footer</option>
               <option value="team">Team Astra</option>
               <option value="team-sol6-1">Team sol6.1</option>
+              <option value="blog-cards">Fichas blog</option>
+              <option value="blog-images">Imágenes blog</option>
             </select>
           </label>
           <div
@@ -507,39 +577,52 @@ export function SuccessCasesLab({
             >
               <ArrowDown size={14} strokeWidth={1.5} />
             </button>
-            <button
-              type="button"
-              onClick={() => {
-                setContext(!context);
-                window.requestAnimationFrame(() => scrollToPreview(lab));
-              }}
-              aria-pressed={context}
-              className={control}
-              title="Ver la propuesta en la secuencia de la home"
-            >
-              {context ? (
-                <Check size={14} strokeWidth={1.5} />
-              ) : (
-                <Layers2 size={14} strokeWidth={1.5} />
-              )}
-              <span className="hidden lg:inline">Contexto</span>
-              <span className="sr-only lg:hidden">Vista de contexto</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setReplay((value) => value + 1)}
-              className={control}
-              title="Repetir entrada"
-              aria-label="Repetir animación de entrada"
-            >
-              <RotateCcw size={14} strokeWidth={1.5} />
-            </button>
+            {lab !== "blog-images" && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setContext(!context);
+                    window.requestAnimationFrame(() => scrollToPreview(lab));
+                  }}
+                  aria-pressed={context}
+                  className={control}
+                  title="Ver la propuesta en la secuencia de la home"
+                >
+                  {context ? (
+                    <Check size={14} strokeWidth={1.5} />
+                  ) : (
+                    <Layers2 size={14} strokeWidth={1.5} />
+                  )}
+                  <span className="hidden lg:inline">Contexto</span>
+                  <span className="sr-only lg:hidden">Vista de contexto</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setReplay((value) => value + 1)}
+                  className={control}
+                  title="Repetir entrada"
+                  aria-label="Repetir animación de entrada"
+                >
+                  <RotateCcw size={14} strokeWidth={1.5} />
+                </button>
+              </>
+            )}
             <ThemeToggle />
           </div>
         </div>
       </header>
 
-      {lab === "home" ? (
+      {lab === "blog-images" ? (
+        <BlogImagesLab direction={blogImagesDirection} />
+      ) : lab === "blog-cards" ? (
+        <BlogCardsLab
+          direction={blogCardsDirection}
+          context={context}
+          replay={replay}
+          posts={blogPosts}
+        />
+      ) : lab === "home" ? (
         <HomeLab
           direction={homeDirection}
           context={context}

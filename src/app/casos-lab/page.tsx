@@ -10,6 +10,9 @@ import { contactDirections } from "./_features/contact/contact-directions";
 import { footerDirections } from "./_features/footer/footer-directions";
 import { teamDirections } from "./_features/team-astra/team-directions";
 import { parseTeamSol61State } from "./_features/team-sol61/team-sol61-state";
+import { parseBlogCardsDirection } from "./_features/blog-cards/blog-cards-directions";
+
+import { parseBlogImagesDirection } from "./_features/blog-images/blog-images-directions";
 
 export const metadata: Metadata = {
   title: "Laboratorio visual",
@@ -32,6 +35,8 @@ export default async function CasesLabPage({
     teamSol61Variant?: string;
     teamSol61View?: string;
     teamSol61Member?: string;
+    blogCardsVariant?: string;
+    blogImagesVariant?: string;
   }>;
 }) {
   if (process.env.NODE_ENV !== "development") notFound();
@@ -48,6 +53,8 @@ export default async function CasesLabPage({
     teamSol61Variant,
     teamSol61View,
     teamSol61Member,
+    blogCardsVariant,
+    blogImagesVariant,
   } = await searchParams;
   const direction = caseDirections.find((item) => item.id === variant)?.id;
   const teamSol61State = parseTeamSol61State(
@@ -76,7 +83,11 @@ export default async function CasesLabPage({
                     ? "team"
                     : lab === "team-sol6-1"
                       ? "team-sol6-1"
-                      : "cases"
+                      : lab === "blog-cards"
+                        ? "blog-cards"
+                        : lab === "blog-images"
+                          ? "blog-images"
+                          : "cases"
       }
       initialProductDirection={
         productDirections.find((item) => item.id === productVariant)?.id ??
@@ -104,6 +115,8 @@ export default async function CasesLabPage({
       initialTeamSol61Direction={teamSol61State.direction}
       initialTeamSol61View={teamSol61State.view}
       initialTeamSol61Member={teamSol61State.member}
+      initialBlogImagesDirection={parseBlogImagesDirection(blogImagesVariant)}
+      initialBlogCardsDirection={parseBlogCardsDirection(blogCardsVariant)}
     />
   );
 }
