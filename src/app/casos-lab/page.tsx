@@ -1,4 +1,4 @@
-import { getBlogPosts } from "~/lib/blog";
+import { getBlogPosts, getBlogTags } from "~/lib/blog";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SuccessCasesLab } from "./_shared/success-cases-lab";
@@ -13,6 +13,7 @@ import { parseTeamSol61State } from "./_features/team-sol61/team-sol61-state";
 import { parseBlogCardsDirection } from "./_features/blog-cards/blog-cards-directions";
 
 import { parseBlogImagesDirection } from "./_features/blog-images/blog-images-directions";
+import { parseBlogPageDirection } from "./_features/blog-page/blog-page-directions";
 
 export const metadata: Metadata = {
   title: "Laboratorio visual",
@@ -37,6 +38,7 @@ export default async function CasesLabPage({
     teamSol61Member?: string;
     blogCardsVariant?: string;
     blogImagesVariant?: string;
+    blogPageVariant?: string;
   }>;
 }) {
   if (process.env.NODE_ENV !== "development") notFound();
@@ -55,8 +57,10 @@ export default async function CasesLabPage({
     teamSol61Member,
     blogCardsVariant,
     blogImagesVariant,
+    blogPageVariant,
   } = await searchParams;
   const direction = caseDirections.find((item) => item.id === variant)?.id;
+  const blogPosts = getBlogPosts();
   const teamSol61State = parseTeamSol61State(
     new URLSearchParams({
       teamSol61Variant: teamSol61Variant ?? "",
@@ -66,7 +70,10 @@ export default async function CasesLabPage({
   );
   return (
     <SuccessCasesLab
-      blogPosts={getBlogPosts().slice(0, 4)}
+      blogPosts={blogPosts.slice(0, 4)}
+      blogPagePosts={blogPosts}
+      blogPageTags={getBlogTags(blogPosts)}
+      initialBlogPageDirection={parseBlogPageDirection(blogPageVariant)}
       initialDirection={direction ?? "trace-balanced"}
       initialLab={
         lab === "home"
@@ -87,7 +94,9 @@ export default async function CasesLabPage({
                         ? "blog-cards"
                         : lab === "blog-images"
                           ? "blog-images"
-                          : "cases"
+                          : lab === "blog-page"
+                            ? "blog-page"
+                            : "cases"
       }
       initialProductDirection={
         productDirections.find((item) => item.id === productVariant)?.id ??

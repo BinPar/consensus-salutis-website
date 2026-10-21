@@ -1,5 +1,11 @@
 "use client";
 
+import { BlogPageLab } from "../_features/blog-page/blog-page-lab";
+import {
+  blogPageDirections,
+  parseBlogPageDirection,
+  type BlogPageDirection,
+} from "../_features/blog-page/blog-page-directions";
 import { BlogImagesLab } from "../_features/blog-images/blog-images-lab";
 import {
   blogImagesDirections,
@@ -36,7 +42,7 @@ import {
   parseBlogCardsDirection,
   type BlogCardsDirection,
 } from "../_features/blog-cards/blog-cards-directions";
-import type { BlogPost } from "~/lib/blog";
+import type { BlogPost, BlogTag } from "~/lib/blog";
 import { VolumeLab } from "../_features/volume/volume-lab";
 import { ContactLab } from "../_features/contact/contact-lab";
 import { FooterLab } from "../_features/footer/footer-lab";
@@ -86,6 +92,7 @@ type Lab =
   | "contact"
   | "footer"
   | "team"
+  | "blog-page"
   | "blog-images"
   | "blog-cards"
   | "team-sol6-1";
@@ -126,7 +133,10 @@ export function SuccessCasesLab({
   initialTeamSol61Member = "adrian-rodriguez",
   initialBlogImagesDirection = "compare",
   initialBlogCardsDirection = "open",
+  initialBlogPageDirection = "base",
   blogPosts,
+  blogPagePosts,
+  blogPageTags,
 }: {
   initialDirection: CaseDirection;
   initialLab?: Lab;
@@ -142,8 +152,14 @@ export function SuccessCasesLab({
   initialTeamSol61Member?: string;
   initialBlogImagesDirection?: BlogImagesDirection;
   initialBlogCardsDirection?: BlogCardsDirection;
+  initialBlogPageDirection?: BlogPageDirection;
   blogPosts: BlogPost[];
+  blogPagePosts: BlogPost[];
+  blogPageTags: BlogTag[];
 }) {
+  const [blogPageDirection, setBlogPageDirection] = useState(
+    initialBlogPageDirection,
+  );
   const [blogImagesDirection, setBlogImagesDirection] = useState(
     initialBlogImagesDirection,
   );
@@ -186,6 +202,7 @@ export function SuccessCasesLab({
     "team-sol6-1": teamSol61Direction,
     "blog-cards": blogCardsDirection,
     "blog-images": blogImagesDirection,
+    "blog-page": blogPageDirection,
   }[lab];
   const availableDirections = {
     cases: caseDirections,
@@ -198,6 +215,7 @@ export function SuccessCasesLab({
     "team-sol6-1": teamSol61Directions,
     "blog-cards": blogCardsDirections,
     "blog-images": blogImagesDirections,
+    "blog-page": blogPageDirections,
   }[lab];
 
   useEffect(() => {
@@ -221,6 +239,7 @@ export function SuccessCasesLab({
     teamSol61Direction,
     blogCardsDirection,
     blogImagesDirection,
+    blogPageDirection,
   ]);
 
   useEffect(() => {
@@ -255,6 +274,7 @@ export function SuccessCasesLab({
       const params = new URL(window.location.href).searchParams;
       const variant = params.get("variant");
       const requestedLab = params.get("lab");
+      setBlogPageDirection(parseBlogPageDirection(params.get("blogPageVariant")));
       setBlogImagesDirection(
         parseBlogImagesDirection(params.get("blogImagesVariant")),
       );
@@ -280,7 +300,9 @@ export function SuccessCasesLab({
                         ? "blog-cards"
                         : requestedLab === "blog-images"
                           ? "blog-images"
-                          : "cases",
+                          : requestedLab === "blog-page"
+                            ? "blog-page"
+                            : "cases",
       );
       setProductDirection(
         productDirections.find(
@@ -334,6 +356,7 @@ export function SuccessCasesLab({
     url.searchParams.set("teamSol61Variant", teamSol61Direction);
     url.searchParams.set("blogCardsVariant", blogCardsDirection);
     url.searchParams.set("blogImagesVariant", blogImagesDirection);
+    url.searchParams.set("blogPageVariant", blogPageDirection);
     url.hash = `${next}-preview`;
     window.history.pushState(null, "", url);
     window.requestAnimationFrame(() => {
@@ -423,6 +446,17 @@ export function SuccessCasesLab({
 
   const selectProposal = (id: string) => {
     switch (lab) {
+      case "blog-page": {
+        const next = parseBlogPageDirection(id);
+        if (next === blogPageDirection) return;
+        setBlogPageDirection(next);
+        const url = new URL(window.location.href);
+        url.searchParams.set("blogPageVariant", next);
+        url.hash = "blog-page-preview";
+        window.history.pushState(null, "", url);
+        window.requestAnimationFrame(() => scrollToPreview("blog-page"));
+        break;
+      }
       case "blog-images": {
         const next = parseBlogImagesDirection(id);
         if (next === blogImagesDirection) return;
@@ -478,7 +512,9 @@ export function SuccessCasesLab({
       data-visual-lab=""
       className="relative isolate min-h-screen bg-[#fbfdff] dark:bg-[#06111f]"
     >
-      {(lab !== "cases" || context) && <HomeMotionBackground />}
+      {lab !== "blog-page" && (lab !== "cases" || context) && (
+        <HomeMotionBackground />
+      )}
       <header
         ref={header}
         data-cases-lab-header=""
@@ -518,7 +554,9 @@ export function SuccessCasesLab({
                                 ? "Fichas blog"
                                 : lab === "blog-images"
                                   ? "Imágenes blog"
-                                  : "Producto"}
+                                  : lab === "blog-page"
+                                    ? "Página de blog"
+                                    : "Producto"}
               </p>
             </div>
           </div>
@@ -539,6 +577,7 @@ export function SuccessCasesLab({
               <option value="team-sol6-1">Team sol6.1</option>
               <option value="blog-cards">Fichas blog</option>
               <option value="blog-images">Imágenes blog</option>
+              <option value="blog-page">Página de blog</option>
             </select>
           </label>
           <div
@@ -577,7 +616,7 @@ export function SuccessCasesLab({
             >
               <ArrowDown size={14} strokeWidth={1.5} />
             </button>
-            {lab !== "blog-images" && (
+            {lab !== "blog-images" && lab !== "blog-page" && (
               <>
                 <button
                   type="button"
@@ -613,7 +652,13 @@ export function SuccessCasesLab({
         </div>
       </header>
 
-      {lab === "blog-images" ? (
+      {lab === "blog-page" ? (
+        <BlogPageLab
+          posts={blogPagePosts}
+          tags={blogPageTags}
+          direction={blogPageDirection}
+        />
+      ) : lab === "blog-images" ? (
         <BlogImagesLab direction={blogImagesDirection} />
       ) : lab === "blog-cards" ? (
         <BlogCardsLab

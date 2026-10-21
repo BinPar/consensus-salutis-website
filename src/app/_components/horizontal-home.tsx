@@ -997,16 +997,22 @@ export function BlogContent({
   const heading = (
     <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
       <div>
-        <p className="font-display text-primary-light dark:text-primary-dark text-[10px] font-bold tracking-[0.22em] uppercase">
-          Lecturas clínicas
-        </p>
-        <h2 className="font-display mt-3 text-4xl font-extrabold tracking-tight text-[#05215e] xl:text-5xl dark:text-slate-50">
+        <Eyebrow>Lecturas clínicas</Eyebrow>
+        <h2
+          className={`font-display mt-4 max-w-4xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${
+            compact ? "text-3xl sm:text-4xl" : "text-5xl"
+          }`}
+        >
           Últimos{" "}
           <span className="text-primary-light dark:text-primary-dark">
             artículos
           </span>
         </h2>
-        <p className="font-body mt-4 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base sm:leading-7 dark:text-slate-400">
+        <p
+          className={`font-body mt-5 max-w-3xl text-slate-600 dark:text-slate-400 ${
+            compact ? "text-base leading-7" : "text-lg leading-8"
+          }`}
+        >
           Lecturas recientes sobre IA médica, tendencias sanitarias y nuevas
           formas de transformar la asistencia al paciente en el sistema de
           salud.
