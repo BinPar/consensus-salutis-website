@@ -8,12 +8,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import {
-  BlogGrid,
-  BlogIndexShell,
-  BlogTagFilter,
-} from "~/app/_components/blog-index";
-import { Eyebrow, PageShell } from "~/app/_components/site";
+import { BlogIndexView } from "~/app/_components/blog/blog-index-view";
+import { PageShell } from "~/app/_components/site";
 import {
   getBlogPosts,
   getBlogPostsByTag,
@@ -70,23 +66,15 @@ export default async function BlogTagPage({ params }: TagPageProps) {
 
   return (
     <PageShell>
-      <BlogIndexShell>
-        <div className="max-w-4xl">
-          <Eyebrow>Lecturas clínicas</Eyebrow>
-          <h1 className="font-display mt-5 text-4xl font-extrabold tracking-tight text-[#05215e] sm:text-5xl dark:text-slate-50">
-            {entry.label}
-          </h1>
-          <p className="font-body mt-6 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-400">
-            {taggedPosts.length === 1
-              ? "Un artículo con esta etiqueta."
-              : `${taggedPosts.length} artículos con esta etiqueta.`}
-          </p>
-        </div>
-
-        <BlogTagFilter tags={tags} activeTag={entry.tag} />
-
-        <BlogGrid posts={taggedPosts} />
-      </BlogIndexShell>
+      <BlogIndexView
+        posts={taggedPosts}
+        allPosts={posts}
+        tags={tags}
+        initialVisiblePosts={taggedPosts}
+        initialPage={1}
+        initialTotalPages={1}
+        activeTag={entry.tag}
+      />
     </PageShell>
   );
 }

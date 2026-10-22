@@ -1,8 +1,11 @@
+"use client";
+
 // Copia local de blog-index.tsx: modificar esta referencia no cambia /blog.
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useLayoutEffect, useRef, useState } from "react";
 
 import { BlogPageAnimatedGrid } from "./blog-page-animated-grid";
+import { BlogPageTagSelect } from "./blog-page-tag-select";
 import { ProductSignalLeft } from "~/app/_components/product-signal-left";
 import {
   HomeMotionBackground,
@@ -10,14 +13,15 @@ import {
 } from "~/app/_components/motion-system";
 import type { BlogPost, BlogTag } from "~/lib/blog";
 
-export const BLOG_POSTS_PER_PAGE = 12;
-
 /** Fondo y encuadre del índice. Misma receta que el hero de la home. */
 export function BlogIndexShell({ children }: { children: React.ReactNode }) {
   return (
-    <main id="blog-page-preview" className="relative isolate bg-[#fbfdff] dark:bg-[#06111f]">
+    <main
+      id="blog-page-preview"
+      className="relative isolate bg-[#fbfdff] dark:bg-[#06111f]"
+    >
       <HomeMotionBackground />
-      <section className="relative isolate z-10 overflow-hidden">
+      <section className="relative isolate z-10 overflow-clip">
         <div className="pointer-events-none fixed inset-0 -right-50 z-0">
           <SignalField
             className="-top-48 h-[calc(100%+12rem)]"
@@ -36,7 +40,10 @@ export function BlogIndexShell({ children }: { children: React.ReactNode }) {
 
 export function BlogGrid({ posts }: { posts: BlogPost[] }) {
   return (
-    <BlogPageAnimatedGrid key={posts.map((post) => post.slug).join(",")} posts={posts} />
+    <BlogPageAnimatedGrid
+      key={posts.map((post) => post.slug).join(",")}
+      posts={posts}
+    />
   );
 }
 
@@ -48,49 +55,103 @@ export function BlogGrid({ posts }: { posts: BlogPost[] }) {
  */
 export function BlogTagFilter({
   tags,
+  totalCount,
   activeTag,
   onSelect,
 }: {
   tags: BlogTag[];
+  totalCount: number;
   activeTag?: string;
   onSelect: (tag: string | undefined) => void;
 }) {
+  const scrollRef = useRef<HTMLElement>(null);
+  const [edges, setEdges] = useState({ left: false, right: false });
+
+  useLayoutEffect(() => {
+    const element = scrollRef.current;
+    if (!element) return;
+    const measure = () => {
+      const maxScroll = element.scrollWidth - element.clientWidth;
+      const left = element.scrollLeft > 1;
+      const right = maxScroll - element.scrollLeft > 1;
+      setEdges((previous) =>
+        previous.left === left && previous.right === right
+          ? previous
+          : { left, right },
+      );
+    };
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(element);
+    element.addEventListener("scroll", measure, { passive: true });
+    document.fonts.addEventListener("loadingdone", measure);
+    return () => {
+      observer.disconnect();
+      element.removeEventListener("scroll", measure);
+      document.fonts.removeEventListener("loadingdone", measure);
+    };
+  }, [tags]);
+
   if (tags.length === 0) return null;
 
+  const edgeMask =
+    edges.left || edges.right
+      ? `linear-gradient(to right, ${edges.left ? "transparent, #000 32px" : "#000"}, ${edges.right ? "#000 calc(100% - 32px), transparent" : "#000"})`
+      : undefined;
+
   const entries = [
-    { tag: undefined, label: "Todos", href: "/blog" },
+    { tag: undefined, label: "Todos", href: "/blog", count: totalCount },
     ...tags.map((entry) => ({
       tag: entry.tag,
       label: entry.label,
+      count: entry.count,
       href: `/blog/tag/${entry.tag}`,
     })),
   ];
 
   return (
-    <nav
-      aria-label="Filtro por etiqueta"
-      className="mt-10 flex flex-wrap gap-2"
-    >
-      {entries.map((entry) => {
-        const active = entry.tag === activeTag;
+    <>
+      <BlogPageTagSelect
+        entries={entries}
+        activeTag={activeTag}
+        onSelect={onSelect}
+      />
+      <nav
+        ref={scrollRef}
+        aria-label="Filtro por etiqueta"
+        data-scroll-left={edges.left}
+        data-scroll-right={edges.right}
+        style={{ maskImage: edgeMask, WebkitMaskImage: edgeMask }}
+        className="mt-10 hidden max-w-full [scrollbar-width:thin] flex-nowrap gap-2 overflow-x-auto overscroll-x-contain py-1 min-[1025px]:flex"
+      >
+        {entries.map((entry) => {
+          const active = entry.tag === activeTag;
 
-        return (
-          <button
-            type="button"
-            key={entry.href}
-            onClick={() => onSelect(entry.tag)}
-            aria-current={active ? "page" : undefined}
-            className={`font-body inline-flex h-8 items-center rounded-full border px-4 text-xs font-semibold transition-all duration-150 ${
-              active
-                ? "border-primary-light bg-primary-light shadow-big-blocks dark:border-primary-dark dark:bg-primary-dark text-white dark:text-[#03111d]"
-                : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 bg-white/80 text-slate-600 hover:text-cyan-800 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:text-slate-400 dark:hover:text-cyan-100"
-            }`}
-          >
-            {entry.label}
-          </button>
-        );
-      })}
-    </nav>
+          return (
+            <button
+              type="button"
+              key={entry.href}
+              onClick={() => onSelect(entry.tag)}
+              aria-current={active ? "page" : undefined}
+              aria-label={`${entry.label}: ${entry.count} ${entry.count === 1 ? "artículo" : "artículos"}`}
+              className={`font-body inline-flex h-[32px] shrink-0 items-center gap-2 rounded-full border pr-1.5 pl-4 text-xs font-semibold whitespace-nowrap transition-all duration-150 ${
+                active
+                  ? "border-primary-light bg-primary-light shadow-big-blocks dark:border-primary-dark dark:bg-primary-dark text-white dark:text-[#03111d]"
+                  : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 bg-white/80 text-slate-600 hover:text-cyan-800 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:text-slate-400 dark:hover:text-cyan-100"
+              }`}
+            >
+              {entry.label}
+              <span
+                aria-hidden="true"
+                className={`inline-flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full px-1 text-[10px] leading-none font-semibold tabular-nums ${active ? "bg-white/20 text-white dark:bg-[#03111d]/10 dark:text-[#03111d]" : "bg-primary-light/10 text-primary-light dark:bg-primary-dark/15 dark:text-primary-dark"}`}
+              >
+                {entry.count}
+              </span>
+            </button>
+          );
+        })}
+      </nav>
+    </>
   );
 }
 
@@ -125,76 +186,5 @@ export function BlogEmptyState({
         {action.label}
       </Link>
     </div>
-  );
-}
-
-export function BlogPagination({
-  currentPage,
-  totalPages,
-  onPageChange,
-}: {
-  currentPage: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
-}) {
-  if (totalPages <= 1) return null;
-
-  const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
-  const previousPage = Math.max(currentPage - 1, 1);
-  const nextPage = Math.min(currentPage + 1, totalPages);
-
-  return (
-    <nav
-      aria-label="Paginación del blog"
-      className="mt-12 flex items-center justify-center gap-2"
-    >
-      <button
-        type="button"
-        onClick={() => onPageChange(previousPage)}
-        disabled={currentPage === 1}
-        className={`grid size-10 place-items-center rounded-full border text-slate-600 transition dark:text-slate-400 ${
-          currentPage === 1
-            ? "border-primary-light/60 pointer-events-none bg-white/60 opacity-45 dark:border-cyan-300/10 dark:bg-white/3"
-            : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 bg-white/80 hover:text-cyan-800 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:hover:text-cyan-100"
-        }`}
-      >
-        <ChevronLeft aria-hidden="true" className="size-4" strokeWidth={1.8} />
-        <span className="sr-only">Página anterior</span>
-      </button>
-
-      {pages.map((page) => {
-        const active = page === currentPage;
-
-        return (
-          <button
-            type="button"
-            key={page}
-            onClick={() => onPageChange(page)}
-            aria-current={active ? "page" : undefined}
-            className={`font-body grid size-10 place-items-center rounded-full border text-sm font-semibold transition ${
-              active
-                ? "border-primary-light bg-primary-light shadow-big-blocks dark:border-primary-dark dark:bg-primary-dark text-white dark:text-[#03111d]"
-                : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 bg-white/80 text-slate-600 hover:text-cyan-800 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:text-slate-400 dark:hover:text-cyan-100"
-            }`}
-          >
-            {page}
-          </button>
-        );
-      })}
-
-      <button
-        type="button"
-        onClick={() => onPageChange(nextPage)}
-        disabled={currentPage === totalPages}
-        className={`grid size-10 place-items-center rounded-full border text-slate-600 transition dark:text-slate-400 ${
-          currentPage === totalPages
-            ? "border-primary-light/60 pointer-events-none bg-white/60 opacity-45 dark:border-cyan-300/10 dark:bg-white/3"
-            : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 bg-white/80 hover:text-cyan-800 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:hover:text-cyan-100"
-        }`}
-      >
-        <ChevronRight aria-hidden="true" className="size-4" strokeWidth={1.8} />
-        <span className="sr-only">Página siguiente</span>
-      </button>
-    </nav>
   );
 }

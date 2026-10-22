@@ -8,18 +8,35 @@ import type { BlogPost, BlogTag } from "~/lib/blog";
 import type { BlogPageDirection } from "./blog-page-directions";
 import { BlogPageVariants } from "./blog-page-variants";
 import { BlogPageReveal } from "./blog-page-reveal";
+import { BlogPageSort, type BlogSort } from "./blog-page-sort";
+import { BlogPageSearch } from "./blog-page-search";
+import {
+  BlogPageViewToggle,
+  type BlogGalleryView,
+} from "./blog-page-view-toggle";
+import { BlogPageArticleList } from "./blog-page-article-list";
+import {
+  BLOG_POSTS_PER_PAGE,
+  BlogPagination,
+  type BlogPageSize,
+} from "./blog-page-pagination";
 import {
   createBlogPageSamples,
   getBlogPageSampleTags,
 } from "./blog-page-samples";
 import {
-  BLOG_POSTS_PER_PAGE,
   BlogEmptyState,
   BlogGrid,
   BlogIndexShell,
-  BlogPagination,
   BlogTagFilter,
 } from "./blog-page-reference-index";
+
+const normalizeSearch = (text: string) =>
+  text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLocaleLowerCase("es")
+    .trim();
 
 export function BlogPageLab({
   posts: realPosts,
@@ -38,19 +55,38 @@ export function BlogPageLab({
   const dialogTitle = useId();
   const [activeTag, setActiveTag] = useState<string>();
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState<BlogPageSize>(BLOG_POSTS_PER_PAGE);
+  const [sort, setSort] = useState<BlogSort>("newest");
+  const [query, setQuery] = useState("");
+  const [view, setView] = useState<BlogGalleryView>("grid");
+  const articleNumbers = new Map(
+    posts.map((post, index) => [post.slug, index + 1]),
+  );
   const tag = tags.find((entry) => entry.tag === activeTag);
-  const filteredPosts = tag
-    ? posts.filter((post) => post.tags.includes(tag.tag))
-    : posts;
-  // Como en producción: el índice se pagina; las etiquetas muestran su conjunto completo.
-  const totalPages = Math.max(1, Math.ceil(posts.length / BLOG_POSTS_PER_PAGE));
+  const searchTerm = normalizeSearch(query);
+  const filteredPosts = posts.filter(
+    (post) =>
+      (!tag || post.tags.includes(tag.tag)) &&
+      (!searchTerm ||
+        normalizeSearch(
+          [post.title, post.excerpt, ...post.tagLabels].join(" "),
+        ).includes(searchTerm)),
+  );
+  const sortedPosts = [...filteredPosts].sort((a, b) => {
+    if (sort === "title")
+      return a.title.localeCompare(b.title, "es", { sensitivity: "base" });
+    const byDate =
+      sort === "oldest"
+        ? a.date.localeCompare(b.date)
+        : b.date.localeCompare(a.date);
+    return byDate || a.slug.localeCompare(b.slug, "es");
+  });
+  const totalPages = Math.max(1, Math.ceil(filteredPosts.length / pageSize));
   const currentPage = Math.min(page, totalPages);
-  const visiblePosts = tag
-    ? filteredPosts
-    : posts.slice(
-        (currentPage - 1) * BLOG_POSTS_PER_PAGE,
-        currentPage * BLOG_POSTS_PER_PAGE,
-      );
+  const visiblePosts = sortedPosts.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize,
+  );
 
   const title = tag?.label ?? "Nuestro blog";
   const description = tag
@@ -61,6 +97,7 @@ export function BlogPageLab({
   const filters = (
     <BlogTagFilter
       tags={tags}
+      totalCount={posts.length}
       activeTag={activeTag}
       onSelect={(nextTag) => {
         setActiveTag(nextTag);
@@ -68,9 +105,37 @@ export function BlogPageLab({
       }}
     />
   );
+  const sorting = (
+    <BlogPageSort
+      value={sort}
+      onChange={(value) => {
+        setSort(value);
+        setPage(1);
+      }}
+    />
+  );
+  const search = (
+    <BlogPageSearch
+      value={query}
+      onChange={(value) => {
+        setQuery(value);
+        setPage(1);
+      }}
+    />
+  );
+  const viewToggle = <BlogPageViewToggle value={view} onChange={setView} />;
   const gallery =
     posts.length === 0 ? (
       <BlogEmptyState />
+    ) : filteredPosts.length === 0 ? (
+      <div role="status" className="font-body py-16 text-center">
+        <p className="text-base font-medium text-[#05215e] dark:text-slate-100">
+          No se han encontrado artículos.
+        </p>
+        <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
+          Prueba con otra búsqueda o cambia la etiqueta seleccionada.
+        </p>
+      </div>
     ) : (
       <div
         onClickCapture={(event) => {
@@ -83,16 +148,27 @@ export function BlogPageLab({
           dialog.current?.showModal();
         }}
       >
-        <BlogGrid posts={visiblePosts} />
-        {!tag && totalPages > 1 && (
-          <BlogPageReveal>
-            <BlogPagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setPage}
-            />
-          </BlogPageReveal>
+        {view === "grid" ? (
+          <BlogGrid posts={visiblePosts} />
+        ) : (
+          <BlogPageArticleList
+            key={visiblePosts.map((post) => post.slug).join(",")}
+            posts={visiblePosts}
+            numbers={articleNumbers}
+          />
         )}
+        <BlogPageReveal>
+          <BlogPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            pageSize={pageSize}
+            onPageChange={setPage}
+            onPageSizeChange={(size) => {
+              setPageSize(size);
+              setPage(1);
+            }}
+          />
+        </BlogPageReveal>
       </div>
     );
 
@@ -115,7 +191,20 @@ export function BlogPageLab({
             </p>
           </BlogPageReveal>
 
-          <BlogPageReveal>{filters}</BlogPageReveal>
+          <BlogPageReveal className="sticky top-[var(--lab-toolbar-height,80px)] z-30 mt-10 ml-auto flex w-full max-w-[640px] flex-nowrap items-center justify-end gap-2 border-b border-cyan-800/15 bg-[#fbfdff]/95 py-2 backdrop-blur-xl md:gap-4 dark:border-cyan-300/15 dark:bg-[#06111f]/95">
+            <div className="w-[160px] min-w-0 shrink min-[1025px]:w-auto min-[1025px]:flex-1 [&>div]:mt-0 [&>nav]:mt-0">
+              {filters}
+            </div>
+            <span
+              aria-hidden="true"
+              className="h-6 w-px shrink-0 bg-cyan-800/20 dark:bg-cyan-300/20"
+            />
+            {sorting}
+            <div className="flex shrink-0 items-center justify-end gap-2 md:gap-4">
+              {viewToggle}
+              {search}
+            </div>
+          </BlogPageReveal>
           {gallery}
         </BlogIndexShell>
       ) : (
@@ -124,6 +213,9 @@ export function BlogPageLab({
           posts={realPosts}
           tags={realTags}
           filters={filters}
+          sorting={sorting}
+          search={search}
+          viewToggle={viewToggle}
           gallery={gallery}
           count={filteredPosts.length}
           activeTagLabel={tag?.label}

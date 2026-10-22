@@ -1,7 +1,7 @@
 import type { BlogPost, BlogTag } from "~/lib/blog";
 
-type SampleTag = "evaluacion" | "trazabilidad" | "gobierno-del-conocimiento";
-type Sample = readonly [string, string, string, number, SampleTag];
+type SampleTag = keyof typeof labels;
+type Sample = readonly [string, string, string, number, ...SampleTag[]];
 
 // Contenido ficticio para composición. Nunca entra en el loader de producción.
 const samples: readonly Sample[] = [
@@ -11,6 +11,7 @@ const samples: readonly Sample[] = [
     "El recorrido de la evidencia y las referencias que permiten revisar una respuesta y recuperar el contexto de su fuente.",
     6,
     "trazabilidad",
+    "evidencia-cientifica",
   ],
   [
     "conocimiento-cambia",
@@ -18,6 +19,7 @@ const samples: readonly Sample[] = [
     "Cómo incorporar nuevas fuentes a los flujos de trabajo sanitarios y mantener el conocimiento actualizado y revisable.",
     4,
     "gobierno-del-conocimiento",
+    "actualizacion-de-fuentes",
   ],
   [
     "ia-hospital",
@@ -25,6 +27,8 @@ const samples: readonly Sample[] = [
     "Integración, contexto y revisión profesional para conectar la inteligencia artificial con las necesidades del trabajo asistencial.",
     5,
     "evaluacion",
+    "ia-medica",
+    "interoperabilidad",
   ],
   [
     "leer-evidencia",
@@ -32,6 +36,7 @@ const samples: readonly Sample[] = [
     "No todas las referencias aportan lo mismo. Una aproximación a su vigencia, su alcance y su relación con la consulta clínica.",
     7,
     "trazabilidad",
+    "evidencia-cientifica",
   ],
   [
     "protocolos-vivos",
@@ -39,6 +44,7 @@ const samples: readonly Sample[] = [
     "Del documento compartido al conocimiento que se puede consultar, contrastar y revisar en el día a día de una institución.",
     5,
     "gobierno-del-conocimiento",
+    "protocolos",
   ],
   [
     "contexto-clinico",
@@ -46,6 +52,7 @@ const samples: readonly Sample[] = [
     "Qué información ayuda a formular una consulta y por qué los matices importan al interpretar una respuesta en la práctica clínica.",
     4,
     "evaluacion",
+    "practica-clinica",
   ],
   [
     "actualizar-fuentes",
@@ -53,6 +60,7 @@ const samples: readonly Sample[] = [
     "La revisión de contenidos requiere criterios compartidos, responsables claros y una forma de seguir los cambios a lo largo del tiempo.",
     6,
     "gobierno-del-conocimiento",
+    "actualizacion-de-fuentes",
   ],
   [
     "incertidumbre",
@@ -60,6 +68,8 @@ const samples: readonly Sample[] = [
     "Exploramos formas de presentar límites y matices para que una respuesta pueda ser valorada con criterio profesional.",
     8,
     "evaluacion",
+    "seguridad-del-paciente",
+    "ia-medica",
   ],
   [
     "referencias-contexto",
@@ -67,6 +77,7 @@ const samples: readonly Sample[] = [
     "Una cita resulta más útil cuando permite comprender qué respalda, de dónde procede y cómo llegar al contenido original.",
     3,
     "trazabilidad",
+    "evidencia-cientifica",
   ],
   [
     "consulta-seguimiento",
@@ -74,6 +85,8 @@ const samples: readonly Sample[] = [
     "El valor de recuperar preguntas anteriores y mantener el hilo de una conversación sin perder de vista las fuentes consultadas.",
     5,
     "trazabilidad",
+    "practica-clinica",
+    "experiencia-de-usuario",
   ],
   [
     "preguntas-utiles",
@@ -81,6 +94,7 @@ const samples: readonly Sample[] = [
     "Más allá de una demostración: criterios de uso, revisión de respuestas y necesidades del equipo para orientar una evaluación.",
     7,
     "evaluacion",
+    "ia-medica",
   ],
   [
     "conocimiento-compartido",
@@ -88,6 +102,8 @@ const samples: readonly Sample[] = [
     "Cómo pensar la organización de guías y protocolos para que distintos profesionales puedan trabajar con una base de referencia común.",
     6,
     "gobierno-del-conocimiento",
+    "protocolos",
+    "interoperabilidad",
   ],
   [
     "fuentes-discrepan",
@@ -95,6 +111,8 @@ const samples: readonly Sample[] = [
     "Identificar diferencias, revisar fechas y recuperar el contexto de una recomendación ayuda a comprender los puntos de desacuerdo.",
     5,
     "trazabilidad",
+    "evidencia-cientifica",
+    "seguridad-del-paciente",
   ],
   [
     "revision-profesional",
@@ -102,6 +120,8 @@ const samples: readonly Sample[] = [
     "Una mirada a los momentos en los que la intervención del equipo aporta criterio y permite mejorar la experiencia de consulta.",
     4,
     "evaluacion",
+    "seguridad-del-paciente",
+    "experiencia-de-usuario",
   ],
   [
     "ciclo-conocimiento",
@@ -109,6 +129,7 @@ const samples: readonly Sample[] = [
     "La calidad de una base documental depende tanto de sus fuentes como de los procesos que permiten mantenerla a lo largo del tiempo.",
     9,
     "gobierno-del-conocimiento",
+    "actualizacion-de-fuentes",
   ],
   [
     "tecnologia-cotidiana",
@@ -116,14 +137,25 @@ const samples: readonly Sample[] = [
     "Qué observar en una prueba de uso para entender si una herramienta encaja en los tiempos, los hábitos y las tareas de un equipo sanitario.",
     6,
     "evaluacion",
+    "innovacion-sanitaria",
+    "practica-clinica",
   ],
 ];
 
-const labels: Record<SampleTag, string> = {
+const labels = {
   evaluacion: "Evaluación",
   trazabilidad: "Trazabilidad",
   "gobierno-del-conocimiento": "Gobierno del conocimiento",
-};
+  "ia-medica": "IA médica",
+  "practica-clinica": "Práctica clínica",
+  "evidencia-cientifica": "Evidencia científica",
+  interoperabilidad: "Interoperabilidad",
+  protocolos: "Protocolos",
+  "seguridad-del-paciente": "Seguridad del paciente",
+  "experiencia-de-usuario": "Experiencia de usuario",
+  "innovacion-sanitaria": "Innovación sanitaria",
+  "actualizacion-de-fuentes": "Actualización de fuentes",
+} as const;
 
 export function createBlogPageSamples(reference?: BlogPost): BlogPost[] {
   if (!reference) return [];
@@ -133,7 +165,7 @@ export function createBlogPageSamples(reference?: BlogPost): BlogPost[] {
     year: "numeric",
     timeZone: "UTC",
   });
-  return samples.map(([key, title, excerpt, readMinutes, tag], index) => {
+  return samples.map(([key, title, excerpt, readMinutes, ...tags], index) => {
     const slug = `lab-blog-page-${key}`;
     const date = new Date(`${reference.date}T00:00:00Z`);
     date.setUTCDate(date.getUTCDate() - index - 1);
@@ -147,8 +179,8 @@ export function createBlogPageSamples(reference?: BlogPost): BlogPost[] {
       createdAtLabel: dateFormat.format(date).replaceAll(".", ""),
       updatedAt: null,
       updatedAtLabel: null,
-      tags: [tag],
-      tagLabels: [labels[tag]],
+      tags,
+      tagLabels: tags.map((tag) => labels[tag]),
       image: null,
       imageAlt: null,
       readMinutes,

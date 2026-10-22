@@ -146,7 +146,7 @@ export function BlogPageFeaturedArticle({
         aria-label={`Leer artículo: ${post.title}`}
         inert={!complete}
         data-blog-article-mock=""
-        className="group shadow-big-blocks @container focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark relative isolate block h-[430px] overflow-hidden rounded-3xl border border-cyan-800/15 bg-white/80 backdrop-blur-sm focus-visible:outline-2 focus-visible:outline-offset-4 dark:border-cyan-300/15 dark:bg-[#06111f]"
+        className="group shadow-big-blocks @container focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark relative isolate block min-h-[430px] overflow-hidden rounded-3xl border border-cyan-800/15 bg-white/80 backdrop-blur-sm focus-visible:outline-2 focus-visible:outline-offset-4 dark:border-cyan-300/15 dark:bg-[#06111f]"
       >
         <div
           ref={gridRef}
@@ -189,7 +189,7 @@ export function BlogPageFeaturedArticle({
         <article
           aria-label="Último artículo del blog"
           inert={!answering}
-          className={`absolute inset-x-0 top-0 bottom-21 overflow-y-auto overscroll-contain px-5 pt-5 transition-opacity duration-300 motion-reduce:transition-none ${answering ? "opacity-100" : "opacity-0"}`}
+          className={`relative px-5 pt-5 pb-20 transition-opacity duration-300 motion-reduce:transition-none ${answering ? "opacity-100" : "opacity-0"}`}
         >
           <motion.div
             initial={
@@ -246,7 +246,7 @@ export function BlogPageFeaturedArticle({
             </p>
             <span
               aria-hidden="true"
-              className="text-primary-light dark:text-primary-dark inline-flex size-8 shrink-0 items-center justify-center rounded-full transition-colors group-hover:bg-cyan-800/5 group-focus-visible:bg-cyan-800/5 dark:group-hover:bg-cyan-300/10 dark:group-focus-visible:bg-cyan-300/10"
+              className="text-primary-light dark:text-primary-dark inline-flex size-6 shrink-0 items-center justify-center rounded-full transition-colors group-hover:bg-cyan-800/5 group-focus-visible:bg-cyan-800/5 dark:group-hover:bg-cyan-300/10 dark:group-focus-visible:bg-cyan-300/10"
             >
               <ArrowUpRight size={18} strokeWidth={1.8} aria-hidden="true" />
             </span>

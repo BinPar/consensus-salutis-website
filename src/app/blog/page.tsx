@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
 
-import {
-  BLOG_POSTS_PER_PAGE,
-  BlogEmptyState,
-  BlogGrid,
-  BlogIndexShell,
-  BlogPagination,
-  BlogTagFilter,
-} from "~/app/_components/blog-index";
-import { Eyebrow, PageShell } from "~/app/_components/site";
+import { BLOG_POSTS_PER_PAGE } from "~/app/_components/blog-index";
+import { BlogIndexView } from "~/app/_components/blog/blog-index-view";
+import { PageShell } from "~/app/_components/site";
 import { getBlogPosts, getBlogTags } from "~/lib/blog";
 
 export const metadata: Metadata = {
@@ -46,30 +40,14 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
   return (
     <PageShell>
-      <BlogIndexShell>
-        <div className="max-w-4xl">
-          <Eyebrow>Lecturas clínicas</Eyebrow>
-          <h1 className="font-display mt-5 text-5xl font-extrabold tracking-tight text-[#05215e] sm:text-6xl dark:text-slate-50">
-            Nuestro blog
-          </h1>
-          <p className="font-body mt-6 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-400">
-            Lecturas recientes sobre IA médica, tendencias sanitarias y nuevas
-            formas de transformar la asistencia al paciente en el sistema de
-            salud.
-          </p>
-        </div>
-
-        <BlogTagFilter tags={tags} />
-
-        {posts.length === 0 ? (
-          <BlogEmptyState />
-        ) : (
-          <>
-            <BlogGrid posts={visiblePosts} />
-            <BlogPagination currentPage={currentPage} totalPages={totalPages} />
-          </>
-        )}
-      </BlogIndexShell>
+      <BlogIndexView
+        posts={posts}
+        allPosts={posts}
+        tags={tags}
+        initialVisiblePosts={visiblePosts}
+        initialPage={currentPage}
+        initialTotalPages={totalPages}
+      />
     </PageShell>
   );
 }
