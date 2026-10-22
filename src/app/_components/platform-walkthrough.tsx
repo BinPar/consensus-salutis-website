@@ -80,6 +80,9 @@ export function PlatformWalkthrough() {
               <div className="relative z-10 mx-auto w-full max-w-7xl">
                 <div className="relative mx-auto mb-16 max-w-3xl text-center lg:mb-24">
                   <Reveal visible={painted}>
+                    <p className="font-display mb-6 text-xs leading-4 font-bold tracking-[0.22em] text-balance text-primary-light uppercase dark:text-primary-dark">
+                      Nuestra plataforma
+                    </p>
                     <h1 className="font-display text-[32px] leading-[1.08] font-extrabold tracking-tight text-[#05215e] sm:text-[40px] lg:text-[54px] dark:text-slate-50">
                       De la consulta clínica
                       <br />

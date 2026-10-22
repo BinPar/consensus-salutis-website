@@ -1,0 +1,352 @@
+/* New galleries only. The opening and CEO sections reuse Guiada 3 unchanged. */
+:where([data-visual-lab])
+  :is(
+    .ta-direction-guiada-04 .ta-preview,
+    .ta-direction-guiada-05 .ta-preview,
+    .ta-direction-guiada-06 .ta-preview
+  ) {
+  max-width: none;
+  padding: 0;
+  animation: none;
+  scroll-margin-top: var(--lab-toolbar-height, 80px);
+}
+
+:where([data-visual-lab]) :is(.ta-gallery-exploration) {
+  padding: 64px 32px 96px;
+  background: var(--ta-paper);
+}
+
+:where([data-visual-lab]) :is(.ta-gallery-exploration-inner) {
+  max-width: 1280px;
+  margin-inline: auto;
+}
+
+:where([data-visual-lab]) :is(.ta-gallery-exploration-heading) {
+  max-width: 760px;
+  margin: 0 auto 64px;
+  text-align: center;
+}
+
+/* Home utilities, including their XL breakpoint, take precedence over lab defaults. */
+:where([data-visual-lab]) :is(.ta-root .ta-gallery-exploration-heading h2) {
+  margin: 0;
+  font-family: revert-layer;
+  font-size: revert-layer;
+  font-weight: revert-layer;
+  letter-spacing: revert-layer;
+  line-height: revert-layer;
+  color: var(--ta-ink);
+}
+
+:where([data-visual-lab]) :is(.ta-gallery-exploration-heading h2 span) {
+  color: var(--ta-accent);
+}
+
+:where([data-visual-lab]) :is(.ta-gallery-exploration-heading > p) {
+  max-width: 560px;
+  margin: 28px auto 0;
+  color: var(--color-slate-600);
+  font-size: 18px;
+  line-height: 32px;
+  text-wrap: pretty;
+}
+
+:where([data-visual-lab]) :is(.dark .ta-gallery-exploration-heading > p) {
+  color: var(--color-slate-400);
+}
+
+:where([data-visual-lab]) :is(.ta-gallery-exploration-grid) {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+:where([data-visual-lab]) :is(.ta-gallery-exploration-card) {
+  min-width: 0;
+}
+
+:where([data-visual-lab]) :is(.ta-gallery-exploration-card figure) {
+  position: relative;
+  margin: 0;
+}
+
+:where([data-visual-lab]) :is(.ta-gallery-exploration-photo) {
+  position: relative;
+  overflow: hidden;
+  background: var(--ta-panel);
+  isolation: isolate;
+}
+
+:where([data-visual-lab]) :is(.ta-gallery-exploration-photo .ta-photo) {
+  position: absolute;
+  height: 100%;
+  border-radius: 0;
+}
+
+:where([data-visual-lab]) :is(.ta-root .ta-gallery-exploration-card h3) {
+  margin: 0;
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: normal;
+  overflow-wrap: anywhere;
+}
+
+:where([data-visual-lab]) :is(.ta-gallery-exploration-card figcaption p) {
+  margin: 4px 0 0;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+/* 04 — Equal portraits overlap like an editorial spread, separated by a paper edge. */
+:where([data-visual-lab]) :is(.ta-direction-guiada-04 .ta-guided-03-ceo-photo) {
+  aspect-ratio: 4 / 5;
+  border-radius: 0;
+}
+
+:where([data-visual-lab]) :is(.ta-guiada-04-gallery .ta-gallery-exploration-grid) {
+  --portrait-overlap: 24px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: start;
+  gap: 64px 0;
+  padding-right: var(--portrait-overlap);
+}
+
+:where([data-visual-lab]) :is(.ta-guiada-04-gallery .ta-gallery-exploration-card) {
+  position: relative;
+  z-index: var(--gallery-column);
+  width: calc(100% + var(--portrait-overlap));
+  margin-top: 0;
+}
+
+:where([data-visual-lab]) :is(.ta-guiada-04-gallery .ta-gallery-exploration-card:nth-child(even)) {
+  margin-top: 32px;
+}
+
+:where([data-visual-lab])
+  :is(.ta-guiada-04-gallery .ta-gallery-exploration-photo) {
+  aspect-ratio: 4 / 5;
+  border-radius: 0;
+  box-shadow: 0 0 0 8px var(--ta-paper);
+}
+
+:where([data-visual-lab]) :is(.ta-guiada-04-gallery .ta-photo) {
+  inset: 0 auto auto -12.5%;
+  width: 125%;
+}
+
+:where([data-visual-lab]) :is(.ta-guiada-04-gallery figcaption) {
+  position: relative;
+  margin-top: 32px;
+  padding: 18px calc(var(--portrait-overlap) + 8px) 0 0;
+  background: var(--ta-paper);
+  color: var(--ta-ink);
+}
+
+:where([data-visual-lab]) :is(.ta-guiada-04-gallery .ta-gallery-exploration-card:nth-child(even) figcaption) {
+  margin-top: 0;
+}
+
+:where([data-visual-lab]) :is(.ta-root .ta-guiada-04-gallery h3) {
+  color: var(--ta-ink);
+}
+
+:where([data-visual-lab]) :is(.ta-guiada-04-gallery figcaption p) {
+  color: var(--ta-muted);
+}
+
+/* 05 — The circular treatment continues through all three sections. */
+:where([data-visual-lab]) :is(
+  .ta-direction-guiada-05 .ta-guided-03-ceo-photo,
+  .ta-direction-guiada-05 .ta-guided-03-tile
+) {
+  border-radius: 50%;
+  outline: 1px solid var(--ta-line);
+  outline-offset: 6px;
+}
+
+:where([data-visual-lab]) :is(.ta-direction-guiada-05 .ta-guided-03-caption) {
+  text-align: center;
+}
+
+/* Circular portraits with captions on an open surface. */
+:where([data-visual-lab]) :is(.ta-guiada-05-gallery) {
+  background: linear-gradient(
+    var(--ta-paper),
+    color-mix(in srgb, var(--ta-panel) 45%, var(--ta-paper)) 45%,
+    var(--ta-paper)
+  );
+}
+
+:where([data-visual-lab])
+  :is(.ta-guiada-05-gallery .ta-gallery-exploration-inner) {
+  max-width: 1120px;
+}
+
+:where([data-visual-lab])
+  :is(.ta-guiada-05-gallery .ta-gallery-exploration-grid) {
+  gap: 48px 28px;
+}
+
+:where([data-visual-lab])
+  :is(.ta-guiada-05-gallery .ta-gallery-exploration-photo) {
+  aspect-ratio: 1;
+  border-radius: 50%;
+  outline: 1px solid var(--ta-line);
+  outline-offset: 6px;
+}
+
+:where([data-visual-lab]) :is(.ta-guiada-05-gallery .ta-photo) {
+  inset: 0;
+  width: 100%;
+}
+
+:where([data-visual-lab]) :is(.ta-guiada-05-gallery figcaption) {
+  padding-top: 24px;
+  text-align: center;
+  color: var(--ta-ink);
+}
+
+:where([data-visual-lab]) :is(.ta-guiada-05-gallery figcaption p) {
+  color: var(--ta-muted);
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  :where([data-visual-lab]) :is(.ta-gallery-exploration-grid) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  :where([data-visual-lab]) :is(.ta-guiada-04-gallery .ta-gallery-exploration-grid) {
+    --portrait-overlap: 18px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: 48px;
+  }
+}
+
+@media (max-width: 639px) {
+  :where([data-visual-lab]) :is(.ta-gallery-exploration) {
+    padding: 40px 24px 64px;
+  }
+  :where([data-visual-lab]) :is(.ta-gallery-exploration-heading) {
+    margin-bottom: 40px;
+  }
+  :where([data-visual-lab]) :is(.ta-gallery-exploration-heading > p) {
+    margin-top: 24px;
+    font-size: 16px;
+    line-height: 28px;
+  }
+  :where([data-visual-lab]) :is(.ta-gallery-exploration-grid) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  :where([data-visual-lab]) :is(.ta-root .ta-gallery-exploration-card h3) {
+    font-size: 14px;
+    line-height: 21px;
+  }
+  :where([data-visual-lab]) :is(.ta-gallery-exploration-card figcaption p) {
+    font-size: 12px;
+    line-height: 20px;
+  }
+  :where([data-visual-lab]) :is(.ta-guiada-04-gallery .ta-gallery-exploration-grid) {
+    --portrait-overlap: 0px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px 16px;
+  }
+  :where([data-visual-lab]) :is(.ta-guiada-04-gallery .ta-gallery-exploration-card, .ta-guiada-04-gallery .ta-gallery-exploration-card:nth-child(even)) {
+    margin-top: 0;
+  }
+  :where([data-visual-lab]) :is(.ta-guiada-04-gallery figcaption) {
+    margin-top: 0;
+    padding: 14px 0 0;
+  }
+  :where([data-visual-lab])
+    :is(.ta-guiada-05-gallery .ta-gallery-exploration-grid) {
+    gap: 32px 24px;
+  }
+  :where([data-visual-lab]) :is(.ta-guiada-05-gallery figcaption) {
+    padding-top: 20px;
+  }
+}
+
+/* 06 — A compact, aligned grid with five portraits across on desktop. */
+:where([data-visual-lab]) :is(.ta-guiada-06-gallery) {
+  padding-inline: 0;
+}
+
+:where([data-visual-lab]) :is(.ta-guiada-06-gallery .ta-gallery-exploration-inner) {
+  max-width: 1920px;
+}
+
+:where([data-visual-lab]) :is(.ta-guiada-06-gallery .ta-gallery-exploration-heading) {
+  padding-inline: 24px;
+}
+
+:where([data-visual-lab]) :is(.ta-direction-guiada-06 .ta-guided-03-ceo-photo) {
+  aspect-ratio: 4 / 5;
+  border-radius: 0;
+}
+
+:where([data-visual-lab]) :is(.ta-guiada-06-gallery .ta-gallery-exploration-grid) {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 4px;
+}
+
+:where([data-visual-lab]) :is(.ta-guiada-06-gallery .ta-gallery-exploration-photo) {
+  aspect-ratio: 4 / 5;
+}
+
+:where([data-visual-lab]) :is(.ta-guiada-06-gallery .ta-photo) {
+  inset: 0 auto auto -12.5%;
+  width: 125%;
+}
+
+:where([data-visual-lab]) :is(.ta-guiada-06-gallery figcaption) {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 1;
+  padding: 48px 18px 18px;
+  color: #fff;
+  text-shadow: 0 1px 4px rgb(3 17 29 / 45%);
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+  pointer-events: none;
+}
+
+:where([data-visual-lab]) :is(.ta-guiada-06-gallery figure:hover figcaption, .ta-guiada-06-gallery figure:focus-visible figcaption) {
+  opacity: 1;
+}
+
+:where([data-visual-lab]) :is(.ta-guiada-06-gallery figure:focus-visible) {
+  outline: 2px solid var(--ta-accent);
+  outline-offset: -2px;
+}
+
+:where([data-visual-lab]) :is(.ta-root .ta-guiada-06-gallery h3) {
+  color: #fff;
+}
+
+:where([data-visual-lab]) :is(.ta-guiada-06-gallery figcaption p) {
+  color: #e2e8f0;
+}
+
+@media (max-width: 1023px) {
+  :where([data-visual-lab]) :is(.ta-guiada-06-gallery .ta-gallery-exploration-grid) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px;
+  }
+}
+
+@media (max-width: 639px) {
+  :where([data-visual-lab]) :is(.ta-guiada-06-gallery figcaption) {
+    padding: 36px 10px 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :where([data-visual-lab]) :is(.ta-guiada-06-gallery figcaption) {
+    transition: none;
+  }
+}

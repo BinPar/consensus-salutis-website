@@ -1,0 +1,110 @@
+[
+  {
+    "name": "home-390-light",
+    "matchingDimensions": true,
+    "differentPixelsPercent": 0,
+    "metricsIdentical": true
+  },
+  {
+    "name": "platform-390-light",
+    "matchingDimensions": true,
+    "differentPixelsPercent": 0,
+    "metricsIdentical": true
+  },
+  {
+    "name": "contact-390-light",
+    "matchingDimensions": true,
+    "differentPixelsPercent": 0,
+    "metricsIdentical": true
+  },
+  {
+    "name": "home-390-dark",
+    "matchingDimensions": true,
+    "differentPixelsPercent": 0.0004482696790389098,
+    "metricsIdentical": true
+  },
+  {
+    "name": "platform-390-dark",
+    "matchingDimensions": true,
+    "differentPixelsPercent": 0,
+    "metricsIdentical": true
+  },
+  {
+    "name": "contact-390-dark",
+    "matchingDimensions": true,
+    "differentPixelsPercent": 0,
+    "metricsIdentical": true
+  },
+  {
+    "name": "home-1280-light",
+    "matchingDimensions": true,
+    "differentPixelsPercent": 0,
+    "metricsIdentical": true
+  },
+  {
+    "name": "platform-1280-light",
+    "matchingDimensions": true,
+    "differentPixelsPercent": 0,
+    "metricsIdentical": true
+  },
+  {
+    "name": "contact-1280-light",
+    "matchingDimensions": true,
+    "differentPixelsPercent": 0,
+    "metricsIdentical": true
+  },
+  {
+    "name": "home-1280-dark",
+    "matchingDimensions": true,
+    "differentPixelsPercent": 0,
+    "metricsIdentical": true
+  },
+  {
+    "name": "platform-1280-dark",
+    "matchingDimensions": true,
+    "differentPixelsPercent": 0,
+    "metricsIdentical": true
+  },
+  {
+    "name": "contact-1280-dark",
+    "matchingDimensions": true,
+    "differentPixelsPercent": 0,
+    "metricsIdentical": true
+  },
+  {
+    "name": "home-1440-light",
+    "matchingDimensions": true,
+    "differentPixelsPercent": 0,
+    "metricsIdentical": true
+  },
+  {
+    "name": "platform-1440-light",
+    "matchingDimensions": true,
+    "differentPixelsPercent": 0,
+    "metricsIdentical": true
+  },
+  {
+    "name": "contact-1440-light",
+    "matchingDimensions": true,
+    "differentPixelsPercent": 0,
+    "metricsIdentical": true
+  },
+  {
+    "name": "home-1440-dark",
+    "matchingDimensions": true,
+    "differentPixelsPercent": 0,
+    "metricsIdentical": true
+  },
+  {
+    "name": "platform-1440-dark",
+    "matchingDimensions": true,
+    "differentPixelsPercent": 0,
+    "metricsIdentical": true
+  },
+  {
+    "name": "contact-1440-dark",
+    "matchingDimensions": true,
+    "differentPixelsPercent": 0,
+    "metricsIdentical": true
+  }
+]

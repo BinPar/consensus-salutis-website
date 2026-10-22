@@ -27,7 +27,7 @@ export function ContactDetails({
       data-section-anchor
       data-contact-details-painted={visible}
       aria-labelledby="contact-details-heading"
-      className="section-navigation-inset relative border-t border-cyan-800/10 bg-[#e8f2f7]/80 dark:border-cyan-300/10 dark:bg-[#081827]/80"
+      className="relative border-t border-cyan-800/10 bg-[#e8f2f7]/80 dark:border-cyan-300/10 dark:bg-[#081827]/80"
     >
       <Reveal visible={visible} className="grid w-full lg:grid-cols-2">
         <div className="px-5 py-14 sm:px-10 sm:py-18 lg:pr-16 lg:pl-[max(40px,calc((100vw-1280px)/2))]">

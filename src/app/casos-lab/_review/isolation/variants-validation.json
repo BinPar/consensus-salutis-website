@@ -1,0 +1,450 @@
+[
+  {
+    "lab": "cases",
+    "variant": "01 Equilibrio",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "cases",
+    "variant": "02 Nitidez",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "cases",
+    "variant": "03 Identidad",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "cases",
+    "variant": "04 Guía",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "cases",
+    "variant": "05 Ficha",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "cases",
+    "variant": "06 Definitiva",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "cases",
+    "variant": "07 Definitiva 2",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "cases",
+    "variant": "— Referencia",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "home",
+    "variant": "01 Corpus",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "home",
+    "variant": "02 Evidencia",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "home",
+    "variant": "03 Aura",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "home",
+    "variant": "04 Interferencia",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "home",
+    "variant": "05 Prisma",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "home",
+    "variant": "06 Prisma · Isotipo",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "home",
+    "variant": "07 Prisma · Centro",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "home",
+    "variant": "08 Prisma · Color",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "home",
+    "variant": "09 Aura · Ondas",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "home",
+    "variant": "10 Aura · Partículas",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "product",
+    "variant": "01 Convergencia",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "product",
+    "variant": "02 Estratos",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "product",
+    "variant": "03 Estratos 2",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "product",
+    "variant": "04 Estratos 03",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "product",
+    "variant": "05 Campo orbital",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "product",
+    "variant": "06 De fragmentos a sistema",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "product",
+    "variant": "07 Plano vivo",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "volume",
+    "variant": "00 Referencia",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "volume",
+    "variant": "01 Filete",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "volume",
+    "variant": "02 Marco",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "volume",
+    "variant": "03 Banda",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "volume",
+    "variant": "04 Actualización",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "volume",
+    "variant": "05 Contraste original",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "volume",
+    "variant": "06 Contraste hielo",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "volume",
+    "variant": "07 Contraste blanco",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "volume",
+    "variant": "08 Contraste panel",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "volume",
+    "variant": "09 Contraste turquesa",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "volume",
+    "variant": "10 Turquesa · paleta original",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "contact",
+    "variant": "00 Referencia",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "contact",
+    "variant": "01 Asistente",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "footer",
+    "variant": "00 Referencia",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "footer",
+    "variant": "01 Contraste",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "footer",
+    "variant": "02 Editorial",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "footer",
+    "variant": "03 Horizonte",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "footer",
+    "variant": "04 Paneles",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "footer",
+    "variant": "05 Esencial",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "footer",
+    "variant": "06 Contraste original",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "team",
+    "variant": "01 Encuadre",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "team",
+    "variant": "02 Atlas",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "team",
+    "variant": "03 Índice",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "team",
+    "variant": "04 Mesa",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "team",
+    "variant": "05 Secuencia",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "team",
+    "variant": "06 Guiada",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "team-sol6-1",
+    "variant": "01 Editorial",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "team-sol6-1",
+    "variant": "02 Índice",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "team-sol6-1",
+    "variant": "03 Trama",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "team-sol6-1",
+    "variant": "04 Capítulos",
+    "contexts": [
+      false,
+      true
+    ]
+  },
+  {
+    "lab": "team-sol6-1",
+    "variant": "05 Foco",
+    "contexts": [
+      false,
+      true
+    ]
+  }
+]

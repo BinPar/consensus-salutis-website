@@ -1,0 +1,62 @@
+{
+  "source": "Fotografías reales aportadas por el usuario para las variantes de equipo del laboratorio.",
+  "scope": "Todas las variantes y fichas de Team Astra y Team Sol6.1",
+  "assets": {
+    "pablo-emilio.jpg": {
+      "member": "pablo-emilio",
+      "originalFilename": "pablo.jpg"
+    },
+    "marcos-gonzalez.jpg": {
+      "member": "marcos-gonzalez",
+      "originalFilename": "marcos.jpg"
+    },
+    "jeronimo-ekerdt.jpg": {
+      "member": "jeronimo-ekerdt",
+      "originalFilename": "jeronimo.jpg"
+    },
+    "adrian-rodriguez.jpg": {
+      "member": "adrian-rodriguez",
+      "originalFilename": "adrian.jpg"
+    },
+    "alberto-blanco.jpg": {
+      "member": "alberto-blanco",
+      "originalFilename": "alberto.jpg"
+    },
+    "guillermo-hernandez.jpg": {
+      "member": "guillermo-hernandez",
+      "originalFilename": "guille.jpg"
+    },
+    "jimmy-montano.jpg": {
+      "member": "jimmy-montano",
+      "originalFilename": "jimmy.jpg"
+    },
+    "nicolas-arianoutsos.jpg": {
+      "member": "nicolas-arianoutsos",
+      "originalFilename": "nicolas.jpg"
+    },
+    "yaiza-vallejo.jpg": {
+      "member": "yaiza-vallejo",
+      "originalFilename": "yaiza.jpg"
+    },
+    "cristian-alvarez.jpg": {
+      "member": "cristian-alvarez",
+      "originalFilename": "cristian.jpg"
+    },
+    "ignacio-ferro.jpg": {
+      "member": "ignacio-ferro",
+      "originalFilename": "ignacio.jpg"
+    },
+    "beatriz-ortega.jpg": {
+      "member": "beatriz-ortega",
+      "originalFilename": "beatriz.jpg"
+    },
+    "carolina-carcamo.jpg": {
+      "member": "carolina-carcamo",
+      "originalFilename": "carolina.jpg"
+    },
+    "fabian-padilla.jpg": {
+      "member": "fabian-padilla",
+      "originalFilename": "fabian.jpg"
+    }
+  }
+}

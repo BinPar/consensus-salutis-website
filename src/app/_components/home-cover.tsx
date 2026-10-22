@@ -2,7 +2,7 @@
 
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import Image from "next/image";
 import { BrandIsotypeReveal } from "./brand-isotype-reveal";
 import { BrandIsotypeParticles } from "./brand-isotype-particles";
@@ -73,8 +73,8 @@ export function HomeCoverContent({
         médico con la práctica clínica.
       </p>
       <button type="button" className="home-cover-explore" onClick={onExplore}>
-        Descubrir la plataforma
-        <ArrowUpRight size={17} strokeWidth={1.5} />
+        Descubrir
+        <ArrowDown size={17} strokeWidth={1.5} aria-hidden="true" />
       </button>
     </motion.div>
   );

@@ -1,0 +1,375 @@
+/* Guiada 3 opens with a full-width orbit. Subsequent sections are siblings of
+   the hero so its JS geometry follows only the opening's available space. */
+:where([data-visual-lab]) :is(.ta-direction-guiada-03 .ta-preview) {
+  max-width: none;
+  padding: 0;
+  animation: none;
+  scroll-margin-top: var(--lab-toolbar-height, 80px);
+}
+:where([data-visual-lab]) :is(.ta-guided-03) {
+  --guided-reveal: 0;
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  height: max(700px, calc(100svh - var(--lab-toolbar-height, 80px)));
+  max-height: 1100px;
+  overflow: hidden;
+  background: var(--ta-paper);
+}
+:where([data-visual-lab]) :is(.ta-guided-03-ring) {
+  position: absolute;
+  inset: 0;
+  opacity: var(--guided-reveal);
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 18%,
+    #000 65%,
+    transparent 98%
+  );
+  pointer-events: none;
+}
+:where([data-visual-lab]) :is(.ta-guided-03-card) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: calc(clamp(96px, 8.3vw, 180px) * var(--guided-size, 1));
+  aspect-ratio: 1;
+  margin-left: calc(clamp(96px, 8.3vw, 180px) * var(--guided-size, 1) / -2);
+  margin-top: calc(clamp(96px, 8.3vw, 180px) * var(--guided-size, 1) / -2);
+  will-change: transform;
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+:where([data-visual-lab]) :is(.ta-guided-03[data-dragging]),
+:where([data-visual-lab]) :is(.ta-guided-03[data-dragging] .ta-guided-03-card) {
+  cursor: grabbing;
+}
+:where([data-visual-lab]) :is(.ta-guided-03-tile) {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 10%;
+  background: var(--ta-panel);
+  transition: scale 0.4s ease;
+}
+:where([data-visual-lab]) :is(.ta-guided-03-card:hover .ta-guided-03-tile) {
+  scale: 1.045;
+}
+:where([data-visual-lab]) :is(.ta-guided-03 .ta-photo) {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1;
+}
+:where([data-visual-lab]) :is(.ta-guided-03 .ta-photo-mark) {
+  display: none;
+}
+:where([data-visual-lab]) :is(.ta-guided-03 .ta-guided-03-portrait) {
+  filter: saturate(0.75);
+}
+:where([data-visual-lab])
+  :is(
+    .ta-guided-03 [data-guided-member="yaiza-vallejo"] .ta-guided-03-portrait
+  ) {
+  transform: scale(1.15);
+  transform-origin: 50% 42%;
+}
+:where([data-visual-lab])
+  :is(
+    .ta-guided-03 [data-guided-member="carolina-carcamo"] .ta-guided-03-portrait
+  ) {
+  transform: scale(1.08);
+  transform-origin: 50% 15%;
+}
+:where([data-visual-lab])
+  :is(
+    .ta-guided-03 [data-guided-member="fabian-padilla"] .ta-guided-03-portrait
+  ) {
+  transform: scale(1.08);
+  transform-origin: 50% 30%;
+}
+:where([data-visual-lab]) :is(.ta-guided-03 .ta-sheet) {
+  filter: saturate(0.65);
+}
+:where([data-visual-lab]) :is(.dark .ta-guided-03 .ta-sheet) {
+  filter: saturate(0.65) brightness(0.88);
+}
+:where([data-visual-lab]) :is(.ta-guided-03-caption) {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  padding-top: 10px;
+  width: 115%;
+  color: var(--ta-muted);
+  font-size: clamp(10px, 0.85vw, 15px);
+  line-height: 1.5;
+  pointer-events: none;
+}
+:where([data-visual-lab]) :is(.ta-guided-03-caption small) {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.82em;
+}
+:where([data-visual-lab]) :is(.ta-guided-03-pattern) {
+  width: 100%;
+  height: 100%;
+  color: var(--ta-accent);
+  background: var(--ta-panel);
+}
+:where([data-visual-lab]) :is(.ta-guided-03-pattern svg) {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  stroke-width: 1;
+  opacity: 0.36;
+}
+:where([data-visual-lab]) :is(.ta-guided-03-pattern-1) {
+  background: color-mix(in srgb, var(--ta-accent) 12%, var(--ta-paper));
+}
+:where([data-visual-lab]) :is(.ta-guided-03-pattern-2) {
+  background: color-mix(in srgb, var(--ta-ink) 9%, var(--ta-paper));
+}
+:where([data-visual-lab]) :is(.ta-guided-03-pattern-3) {
+  background: color-mix(in srgb, var(--ta-accent) 7%, var(--ta-paper));
+}
+:where([data-visual-lab]) :is(.dark .ta-guided-03-pattern svg) {
+  opacity: 0.3;
+}
+:where([data-visual-lab]) :is(.ta-guided-03-center) {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(760px, 62%);
+  margin-top: -12px;
+  text-align: center;
+  pointer-events: none;
+}
+:where([data-visual-lab]) :is(.ta-guided-03-center > *) {
+  pointer-events: auto;
+}
+:where([data-visual-lab]) :is(.ta-guided-03-center .ta-eyebrow) {
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.22em;
+  margin-bottom: 24px;
+  text-wrap: balance;
+}
+:where([data-visual-lab]) :is(.ta-root .ta-guided-03 h1) {
+  margin: 0;
+  color: var(--ta-ink);
+}
+/* Let the home utilities override the laboratory's unlayered heading defaults. */
+:where([data-visual-lab]) :is(
+  .ta-root .ta-guided-03 h1,
+  .ta-root .ta-guided-03-ceo-content h2,
+  .ta-root .ta-guided-03-gallery-heading h2
+) {
+  font-family: revert-layer;
+  font-size: revert-layer;
+  font-weight: revert-layer;
+  letter-spacing: revert-layer;
+  line-height: revert-layer;
+}
+:where([data-visual-lab]) :is(.ta-guided-03-description) {
+  max-width: 560px;
+  margin: 28px 0 0;
+  color: #475569;
+  font-size: 18px;
+  line-height: 32px;
+  text-wrap: pretty;
+}
+:where([data-visual-lab]) :is(.ta-guided-03-title-accent) {
+  color: var(--ta-accent);
+}
+:where([data-visual-lab]) :is(.dark .ta-guided-03-description) {
+  color: #94a3b8;
+}
+:where([data-visual-lab]) :is(.dark .ta-root .ta-guided-03 h1) {
+  color: #f8fafc;
+}
+:where([data-visual-lab]) :is(.ta-guided-03-actions) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+:where([data-visual-lab]) :is(.ta-guided-03-actions a) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 8px 20px;
+  border-radius: 999px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+:where([data-visual-lab]) :is(.ta-guided-03-primary) {
+  background: var(--ta-accent);
+  color: #fff;
+  border: 1px solid transparent;
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 10%),
+    0 2px 4px -2px rgb(0 0 0 / 10%);
+}
+:where([data-visual-lab]) :is(.dark .ta-guided-03-primary) {
+  color: #04111e;
+  box-shadow: 0 0 34px rgb(45 212 191 / 26%);
+}
+:where([data-visual-lab]) :is(.ta-guided-03-primary:hover) {
+  background: #155e75;
+}
+:where([data-visual-lab]) :is(.dark .ta-guided-03-primary:hover) {
+  background: #71fffe;
+}
+:where([data-visual-lab]) :is(.ta-guided-03-secondary) {
+  color: #155e75;
+  background: rgb(255 255 255 / 65%);
+  border: 1px solid rgb(0 109 121 / 25%);
+  backdrop-filter: blur(8px);
+}
+:where([data-visual-lab]) :is(.ta-guided-03-secondary:hover) {
+  background: #ecfeff;
+  border-color: rgb(0 109 121 / 45%);
+}
+:where([data-visual-lab]) :is(.dark .ta-guided-03-secondary) {
+  color: #ecfeff;
+  background: rgb(255 255 255 / 3%);
+  border-color: rgb(103 232 249 / 30%);
+}
+:where([data-visual-lab]) :is(.dark .ta-guided-03-secondary:hover) {
+  background: rgb(103 232 249 / 10%);
+  border-color: rgb(165 243 252 / 50%);
+}
+:where([data-visual-lab]) :is(.ta-guided-03-bottom) {
+  position: absolute;
+  z-index: 3;
+  bottom: 26px;
+  left: 40px;
+  right: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  font-size: 10px;
+  color: var(--ta-muted);
+}
+:where([data-visual-lab]) :is(.ta-guided-03-bottom > span) {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+:where([data-visual-lab]) :is(.ta-guided-03-bottom i) {
+  width: 5px;
+  height: 5px;
+  background: var(--ta-accent);
+  border-radius: 50%;
+}
+:where([data-visual-lab]) :is(.ta-guided-03-bottom button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 8px 10px;
+  border: 1px solid var(--ta-line);
+  border-radius: 6px;
+  background: var(--ta-paper);
+  color: var(--ta-muted);
+  cursor: pointer;
+}
+:where([data-visual-lab]) :is(.ta-guided-03-bottom button:disabled) {
+  cursor: default;
+}
+@media (max-width: 767px) {
+  :where([data-visual-lab]) :is(.ta-guided-03-description) {
+    margin-top: 24px;
+  }
+}
+@media (max-width: 1000px) {
+  :where([data-visual-lab]) :is(.ta-guided-03-ring-outer) {
+    display: none;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-03-center) {
+    width: min(600px, 70%);
+  }
+  :where([data-visual-lab]) :is(.ta-guided-03-card) {
+    width: calc(90px * var(--guided-size));
+    margin: calc(-45px * var(--guided-size));
+  }
+  :where([data-visual-lab]) :is(.ta-guided-03-caption) {
+    font-size: 10px;
+  }
+}
+@media (max-width: 600px) {
+  :where([data-visual-lab]) :is(.ta-guided-03) {
+    height: max(760px, calc(100svh - var(--lab-toolbar-height, 100px)));
+    max-height: 860px;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-03-center) {
+    width: calc(100% - 40px);
+    margin-top: -12px;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-03-actions) {
+    flex-direction: column;
+    margin-top: 27px;
+    gap: 10px;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-03-actions a) {
+    min-width: 205px;
+    min-height: 44px;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-03-card) {
+    width: calc(76px * var(--guided-size));
+    margin: calc(-38px * var(--guided-size));
+  }
+  :where([data-visual-lab]) :is(.ta-guided-03-caption) {
+    display: none;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-03-ring) {
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      #000 12%,
+      #000 77%,
+      transparent 96%
+    );
+  }
+  :where([data-visual-lab]) :is(.ta-guided-03-bottom) {
+    left: 20px;
+    right: 20px;
+    bottom: 18px;
+    font-size: 9px;
+    gap: 8px;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-03-bottom button) {
+    padding: 8px;
+    gap: 6px;
+    font-size: 9px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :where([data-visual-lab]) :is(.ta-guided-03) {
+    --guided-reveal: 1;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-03-tile),
+  :where([data-visual-lab]) :is(.ta-guided-03-actions a) {
+    transition: none;
+  }
+  :where([data-visual-lab]) :is(.ta-guided-03-card:hover .ta-guided-03-tile) {
+    scale: 1;
+  }
+}

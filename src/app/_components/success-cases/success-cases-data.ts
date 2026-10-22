@@ -41,5 +41,5 @@ export const institutionalCases: readonly InstitutionalCase[] = [
 
 export const casesIntro = {
   title: "IA médica que ya forma parte del sistema sanitario.",
-  body: "Organizaciones sanitarias que incorporan inteligencia artificial para facilitar el acceso al conocimiento clínico fiable, acompañar la atención asistencial y reforzar la mejora continua.",
+  body: "Organizaciones sanitarias que ya incorporan nuestra inteligencia artificial para facilitar el acceso al conocimiento clínico fiable, acompañar la atención asistencial y reforzar la mejora continua.",
 };

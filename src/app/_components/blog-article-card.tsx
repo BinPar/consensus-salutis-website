@@ -1,4 +1,3 @@
-import { Calendar, Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -7,60 +6,44 @@ import type { BlogPost } from "~/lib/blog";
 
 export function BlogArticleCard({
   article,
-  compact = false,
 }: {
   article: BlogPost;
   compact?: boolean;
 }) {
   return (
-    <Link href={article.href} className="group block h-full">
-      <article className="shadow-big-blocks hover:border-primary-light/30 flex h-full flex-col overflow-hidden rounded-2xl border border-cyan-800/15 bg-white/80 backdrop-blur-xs transition-all duration-150 hover:-translate-y-2 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)]">
-        <div className="relative aspect-[1.6] overflow-hidden border-b border-cyan-800/10 bg-[#deedf3]/70 dark:border-cyan-300/10 dark:bg-[#06111f]">
-          {article.image ? (
-            <Image
-              src={article.image}
-              alt=""
-              width={800}
-              height={533}
-              className="h-full w-full object-cover transition-transform duration-150 group-hover:scale-105"
-            />
-          ) : (
-            <BlogCover
-              slug={article.slug}
-              className="transition-transform duration-150 group-hover:scale-105"
-            />
-          )}
+    <Link
+      href={article.href}
+      className="group focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark block h-full rounded-2xl transition-[translate] duration-300 ease-out hover:-translate-y-1.5 focus-visible:-translate-y-1.5 focus-visible:outline-2 focus-visible:outline-offset-4 motion-reduce:translate-none! motion-reduce:transition-none"
+    >
+      <article className="flex h-full min-w-0 flex-col rounded-2xl">
+        <div className="relative aspect-[1.85] overflow-hidden rounded-2xl bg-[#e5f1f4] dark:bg-[#102231]">
+          <div className="absolute inset-0 transition-transform duration-500 ease-out group-focus-within:scale-[1.03] group-hover:scale-[1.03] motion-reduce:scale-100! motion-reduce:transition-none">
+            {article.image ? (
+              <Image
+                src={article.image}
+                alt=""
+                width={800}
+                height={533}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <BlogCover slug={article.slug} />
+            )}
+          </div>
         </div>
-        <div
-          className={
-            compact
-              ? "flex flex-1 flex-col p-5 pt-4"
-              : "flex flex-1 flex-col p-5 pt-4.5! xl:p-6"
-          }
-        >
-          <h2 className="font-display font-body line-clamp-2 text-base text-[#05215e] dark:text-slate-100">
+        <div className="flex flex-1 flex-col pt-5">
+          <h2 className="font-display min-h-[2.7em] text-lg leading-[1.35] font-semibold tracking-tight text-[#05215e] lg:max-xl:min-h-[4.05em] dark:text-slate-50">
             {article.title}
           </h2>
-          <p className="font-body mt-3 line-clamp-3 text-sm text-slate-600 dark:text-slate-400">
+          <p className="font-body mt-2.5 line-clamp-3 min-h-[4.95em] text-[13px] leading-[1.65] text-slate-600 dark:text-slate-400">
             {article.excerpt}
           </p>
-          <div className="mt-auto flex flex-wrap items-center justify-between gap-x-4 gap-y-2 pt-4.5 text-xs font-medium text-slate-500 dark:text-slate-400">
-            <span className="inline-flex items-center gap-1.5">
-              <Calendar
-                aria-hidden="true"
-                className="size-3.5 text-slate-500 dark:text-slate-400"
-                strokeWidth={1.8}
-              />
-              {article.createdAtLabel}
+          <div className="font-body mt-auto flex flex-wrap items-center gap-x-2 pt-4 text-[11px] leading-5 text-slate-500 dark:text-slate-400">
+            <span>{article.createdAtLabel}</span>
+            <span aria-hidden="true" className="opacity-50">
+              ·
             </span>
-            <span className="inline-flex items-center gap-1.5">
-              <Clock
-                aria-hidden="true"
-                className="size-3.5 text-slate-500 dark:text-slate-400"
-                strokeWidth={1.8}
-              />
-              {article.readTime}
-            </span>
+            <span>{article.readTime}</span>
           </div>
         </div>
       </article>

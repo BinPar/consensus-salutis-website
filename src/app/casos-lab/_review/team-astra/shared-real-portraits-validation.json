@@ -1,0 +1,432 @@
+{
+  "realMembers": [
+    "adrian-rodriguez",
+    "alberto-blanco",
+    "guillermo-hernandez",
+    "jimmy-montano",
+    "nicolas-arianoutsos",
+    "yaiza-vallejo",
+    "cristian-alvarez",
+    "ignacio-ferro",
+    "beatriz-ortega",
+    "carolina-carcamo",
+    "fabian-padilla"
+  ],
+  "checks": [
+    {
+      "family": "astra",
+      "variant": "encuadre",
+      "member": "team",
+      "width": 1440,
+      "realPortraits": 11,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "atlas",
+      "member": "team",
+      "width": 1440,
+      "realPortraits": 11,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "indice",
+      "member": "team",
+      "width": 1440,
+      "realPortraits": 12,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "mesa",
+      "member": "team",
+      "width": 1440,
+      "realPortraits": 11,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "secuencia",
+      "member": "team",
+      "width": 1440,
+      "realPortraits": 11,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "guiada",
+      "member": "team",
+      "width": 1440,
+      "realPortraits": 11,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "guiada-02",
+      "member": "team",
+      "width": 1440,
+      "realPortraits": 11,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "editorial",
+      "member": "team",
+      "width": 1440,
+      "realPortraits": 13,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "index",
+      "member": "team",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "weave",
+      "member": "team",
+      "width": 1440,
+      "realPortraits": 16,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "chapters",
+      "member": "team",
+      "width": 1440,
+      "realPortraits": 11,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "focus",
+      "member": "team",
+      "width": 1440,
+      "realPortraits": 12,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "encuadre",
+      "member": "carolina-carcamo",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "atlas",
+      "member": "carolina-carcamo",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "indice",
+      "member": "carolina-carcamo",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "mesa",
+      "member": "carolina-carcamo",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "secuencia",
+      "member": "carolina-carcamo",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "editorial",
+      "member": "carolina-carcamo",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "index",
+      "member": "carolina-carcamo",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "weave",
+      "member": "carolina-carcamo",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "chapters",
+      "member": "carolina-carcamo",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "focus",
+      "member": "carolina-carcamo",
+      "width": 1440,
+      "realPortraits": 12,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "encuadre",
+      "member": "adrian-rodriguez",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "editorial",
+      "member": "adrian-rodriguez",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "encuadre",
+      "member": "alberto-blanco",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "editorial",
+      "member": "alberto-blanco",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "encuadre",
+      "member": "guillermo-hernandez",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "editorial",
+      "member": "guillermo-hernandez",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "encuadre",
+      "member": "jimmy-montano",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "editorial",
+      "member": "jimmy-montano",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "encuadre",
+      "member": "nicolas-arianoutsos",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "editorial",
+      "member": "nicolas-arianoutsos",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "encuadre",
+      "member": "yaiza-vallejo",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "editorial",
+      "member": "yaiza-vallejo",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "encuadre",
+      "member": "cristian-alvarez",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "editorial",
+      "member": "cristian-alvarez",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "encuadre",
+      "member": "ignacio-ferro",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "editorial",
+      "member": "ignacio-ferro",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "encuadre",
+      "member": "beatriz-ortega",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "editorial",
+      "member": "beatriz-ortega",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "encuadre",
+      "member": "fabian-padilla",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "editorial",
+      "member": "fabian-padilla",
+      "width": 1440,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "encuadre",
+      "member": "team",
+      "width": 390,
+      "realPortraits": 11,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "astra",
+      "variant": "encuadre",
+      "member": "carolina-carcamo",
+      "width": 390,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "editorial",
+      "member": "team",
+      "width": 390,
+      "realPortraits": 13,
+      "validSources": true,
+      "saturationAndFraming": true
+    },
+    {
+      "family": "sol",
+      "variant": "editorial",
+      "member": "carolina-carcamo",
+      "width": 390,
+      "realPortraits": 1,
+      "validSources": true,
+      "saturationAndFraming": true
+    }
+  ],
+  "errors": []
+}

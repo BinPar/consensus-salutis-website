@@ -1,0 +1,76 @@
+{
+  "date": "2026-10-19",
+  "followingSpeedRatio": 0.5,
+  "checks": [
+    {
+      "touch": false,
+      "ring": "inner",
+      "direction": 1,
+      "otherDrag": -0.13853493150945695,
+      "otherInertia": -0.05149348657532685,
+      "dragAngle": 0.278789019085722,
+      "firstInertia": 0.10299447841790231,
+      "secondInertia": 0.07094653393362736,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": false,
+      "ring": "inner",
+      "direction": -1,
+      "otherDrag": 0.1359418882845865,
+      "otherInertia": 0.051015747472830025,
+      "dragAngle": -0.2718821153784626,
+      "firstInertia": -0.09669292527811502,
+      "secondInertia": -0.07138249098516786,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": false,
+      "ring": "outer",
+      "direction": 1,
+      "otherDrag": -0.15653915448799616,
+      "otherInertia": -0.05123331318214036,
+      "dragAngle": 0.28473213970207145,
+      "firstInertia": 0.10243732255749449,
+      "secondInertia": 0.0705219895319732,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": false,
+      "ring": "outer",
+      "direction": -1,
+      "otherDrag": 0.13596410526819216,
+      "otherInertia": 0.05286101822411195,
+      "dragAngle": -0.27193568791300937,
+      "firstInertia": -0.10572346939422295,
+      "secondInertia": -0.07007238064634508,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": true,
+      "ring": "inner",
+      "direction": 1,
+      "otherDrag": 0,
+      "otherInertia": 0,
+      "dragAngle": 0.27862575036486836,
+      "firstInertia": 0.08191640382354283,
+      "secondInertia": 0.06304922196182894,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": true,
+      "ring": "inner",
+      "direction": -1,
+      "otherDrag": 0,
+      "otherInertia": 0,
+      "dragAngle": -0.26666167332480095,
+      "firstInertia": -0.09242842102200012,
+      "secondInertia": -0.08102229540987753,
+      "dimensionsPreserved": true
+    }
+  ],
+  "note": "Contrarrotación a media velocidad comprobada desde ambos anillos en escritorio, en ambos sentidos y durante la inercia. En móvil el anillo exterior permanece oculto por el diseño existente; se comprueba el arrastre táctil del interior.",
+  "pause": true,
+  "reducedMotionControl": true,
+  "pageErrors": []
+}

@@ -92,12 +92,12 @@
     --index-line: rgb(0 109 121 / 16%);
     position: fixed;
     z-index: 35;
-    inset-inline-end: 24px;
+    inset-inline-end: 16px;
     top: 50%;
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
-    width: 156px;
+    width: 128px;
     max-height: calc(100svh - 160px);
     opacity: 0;
     visibility: hidden;
@@ -154,7 +154,7 @@
     padding: 6px 18px 6px 4px;
     border-radius: 6px;
     color: var(--index-text);
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1.5;
     font-weight: 600;
     text-align: end;
@@ -198,16 +198,15 @@
     pointer-events: none;
   }
 
-  /* Reserve a right gutter inside each band, keeping backgrounds full width. */
-  .section-navigation-layout .section-navigation-inset,
-  .section-navigation-layout .section-navigation-region > section {
-    padding-inline-start: 80px;
-    padding-inline-end: 208px;
+  /* Keep the original centered grid on wide screens. When space is tighter,
+     reserve the same 160px on both sides for the visible navigation. */
+  .section-navigation-layout {
+    --section-content-max: min(1280px, calc(100vw - 320px));
   }
 
-  .section-navigation-layout .section-navigation-region > .vol-banner {
-    padding-inline-start: 40px;
-    padding-inline-end: 168px;
+  .section-navigation-layout .max-w-7xl,
+  .section-navigation-layout .vol-banner.vol-contrast-teal .vol-container {
+    max-width: var(--section-content-max);
   }
 }
 
