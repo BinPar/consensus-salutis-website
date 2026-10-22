@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { TeamMember } from "./team-data";
 
 const framing: Readonly<Record<string, string>> = {
+  "cristian-alvarez": "[transform:scale(1.12)] origin-[50%_24%]",
   "marcos-gonzalez": "[transform:scale(1.22)] origin-[50%_24%]",
   "jeronimo-ekerdt": "[transform:scale(1.22)] origin-[50%_25%]",
   "yaiza-vallejo": "[transform:scale(1.15)] origin-[50%_42%]",

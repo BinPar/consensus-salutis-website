@@ -1,16 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
-import { Calendar, Clock, ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
-
-import { BlogCover } from "~/app/_components/blog-cover";
-import { ProductSignalLeft } from "~/app/_components/product-signal-left";
-import { Eyebrow, PageShell } from "~/app/_components/site";
-import {
-  HomeMotionBackground,
-  SignalField,
-} from "~/app/_components/motion-system";
+import { PageShell } from "~/app/_components/site";
+import { BlogArticleView } from "~/app/_components/blog/blog-article-view";
 import { getBlogPostBySlug, getBlogPosts, type BlogPost } from "~/lib/blog";
 import { absoluteUrl } from "~/lib/site";
 
@@ -19,23 +10,6 @@ type ArticlePageProps = {
     slug: string;
   }>;
 };
-
-const articleBodyClassName = [
-  "font-body mx-auto text-base leading-7 text-slate-700 dark:text-slate-300",
-  "[&>*:first-child]:mt-0",
-  "[&>p]:mt-4 [&>p]:text-justify [&>p]:leading-[26px] [&>p]:text-slate-700 dark:[&>p]:text-slate-300",
-  "[&>h1]:mt-0 [&>h1]:font-display [&>h1]:text-3xl [&>h1]:font-extrabold [&>h1]:tracking-tight [&>h1]:text-[#05215e] dark:[&>h1]:text-slate-50",
-  "[&>h2]:mt-9 [&>h2]:font-display [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:tracking-tight [&>h2]:text-[#05215e] dark:[&>h2]:text-slate-50",
-  "[&>h3]:mt-7 [&>h3]:font-display [&>h3]:text-xl [&>h3]:font-semibold [&>h3]:text-[#05215e] dark:[&>h3]:text-slate-100",
-  "[&>h4]:mt-5 [&>h4]:font-display [&>h4]:text-lg [&>h4]:font-semibold [&>h4]:text-primary-light dark:[&>h4]:text-primary-dark",
-  "[&>ul]:my-4 [&>ul]:list-disc [&>ul]:space-y-1.5 [&>ul]:pl-6",
-  "[&>ol]:my-4 [&>ol]:list-decimal [&>ol]:space-y-1.5 [&>ol]:pl-6",
-  "[&>blockquote]:my-6 [&>blockquote]:rounded-xl [&>blockquote]:border [&>blockquote]:border-primary-light/60 [&>blockquote]:border-l-5 [&>blockquote]:border-primary-light [&>blockquote]:bg-primary-light/8 [&>blockquote]:py-3 [&>blockquote]:pr-5 [&>blockquote]:pl-5 [&>blockquote]:text-base [&>blockquote]:leading-7 [&>blockquote]:font-medium [&>blockquote]:text-[#05215e] dark:[&>blockquote]:border-primary-dark dark:[&>blockquote]:bg-primary-dark/8 dark:[&>blockquote]:text-slate-100",
-  "[&>img]:my-7 [&>img]:w-full [&>img]:rounded-xl [&>img]:border [&>img]:border-cyan-800/10 [&>img]:shadow-big-blocks dark:[&>img]:border-cyan-300/15",
-  "[&>hr]:my-8 [&>hr]:border-cyan-800/15 dark:[&>hr]:border-cyan-300/15",
-  "[&_a]:font-semibold [&_a]:text-primary-light [&_a]:underline-offset-4 hover:[&_a]:underline dark:[&_a]:text-primary-dark",
-  "[&_strong]:font-semibold [&_strong]:text-[#05215e] dark:[&_strong]:text-slate-100",
-].join(" ");
 
 export function generateStaticParams() {
   return getBlogPosts().map((post) => ({ slug: post.slug }));
@@ -137,116 +111,10 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
   return (
     <PageShell>
-      <main className="relative isolate bg-[#fbfdff] dark:bg-[#06111f]">
-        <ArticleJsonLd post={post} />
-        <HomeMotionBackground />
-        <article className="relative isolate z-10 overflow-hidden">
-          <div className="pointer-events-none fixed inset-0 -right-50 z-0">
-            <SignalField
-              className="-top-48 h-[calc(100%+12rem)]"
-              intensity="hero"
-              opacity={0.72}
-            />
-          </div>
-          <ProductSignalLeft className="fixed -bottom-80 -left-155 w-250 rotate-20" />
-
-          <div className="relative z-10 mx-auto w-full px-5 pt-32 pb-20 sm:px-8 lg:pt-36 lg:pb-24">
-            <div className="mx-auto max-w-4xl">
-              <div className="px-5 sm:px-8">
-                <Link
-                  href="/blog"
-                  className="font-body bg-primary-light shadow-big-blocks dark:bg-primary-dark dark:hover:bg-primary-dark-lighter inline-flex h-10 shrink-0 items-center justify-center gap-2 self-start rounded-full px-6 text-sm font-semibold text-white transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#087a85] sm:self-end dark:text-[#03111d] dark:shadow-[0_0_24px_rgba(0,188,187,0.18)]"
-                >
-                  <ArrowLeft
-                    aria-hidden="true"
-                    className="size-4"
-                    strokeWidth={1.8}
-                  />
-                  Volver
-                </Link>
-
-                <header className="mt-10">
-                  <Eyebrow>Lecturas clínicas</Eyebrow>
-                  <h1 className="font-display mt-5 max-w-3xl text-4xl font-extrabold tracking-tight text-[#05215e] sm:text-5xl lg:text-6xl dark:text-slate-50">
-                    {post.title}
-                  </h1>
-                  <p className="font-body mt-6 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-400">
-                    {post.excerpt}
-                  </p>
-                  <p className="font-body mt-7 text-sm text-slate-600 dark:text-slate-400">
-                    <span className="font-semibold text-[#05215e] dark:text-slate-100">
-                      {post.author.name}
-                    </span>
-                    <span className="text-slate-500 dark:text-slate-500">
-                      {" · "}
-                      {post.author.role}
-                    </span>
-                  </p>
-                  <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-medium text-slate-500 dark:text-slate-400">
-                    <span className="inline-flex items-center gap-2">
-                      <Calendar
-                        aria-hidden="true"
-                        className="size-4"
-                        strokeWidth={1.8}
-                      />
-                      {post.createdAtLabel}
-                    </span>
-                    <span className="inline-flex items-center gap-2">
-                      <Clock
-                        aria-hidden="true"
-                        className="size-4"
-                        strokeWidth={1.8}
-                      />
-                      {post.readTime}
-                    </span>
-                    {post.updatedAtLabel ? (
-                      <span>Actualizado el {post.updatedAtLabel}</span>
-                    ) : null}
-                  </div>
-                  <nav
-                    aria-label="Etiquetas del artículo"
-                    className="mt-6 flex flex-wrap gap-2"
-                  >
-                    {post.tags.map((tag, position) => (
-                      <Link
-                        key={tag}
-                        href={`/blog/tag/${tag}`}
-                        className="font-body hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 inline-flex h-8 items-center rounded-full border bg-white/80 px-4 text-xs font-semibold text-slate-600 transition-all duration-150 hover:text-cyan-800 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:text-slate-400 dark:hover:text-cyan-100"
-                      >
-                        {post.tagLabels[position] ?? tag}
-                      </Link>
-                    ))}
-                  </nav>
-                </header>
-              </div>
-              <div className="px-5 sm:px-8">
-                <div className="shadow-big-blocks relative mt-12 overflow-hidden rounded-2xl border border-cyan-800/15 bg-white/70 dark:border-cyan-300/20 dark:bg-[#152230e6]/80">
-                  {post.image ? (
-                    <Image
-                      src={post.image}
-                      alt={post.imageAlt ?? ""}
-                      width={1600}
-                      height={700}
-                      priority
-                      className="aspect-16/7 w-full object-cover"
-                    />
-                  ) : (
-                    <div className="aspect-16/7 w-full">
-                      <BlogCover slug={post.slug} />
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="mt-10 rounded-2xl px-5 pb-6 backdrop-blur-xs sm:px-8 sm:pb-7">
-                <div className={articleBodyClassName}>
-                  <PostBody />
-                </div>
-              </div>
-            </div>
-          </div>
-        </article>
-      </main>
+      <ArticleJsonLd post={post} />
+      <BlogArticleView post={post} posts={getBlogPosts()}>
+        <PostBody />
+      </BlogArticleView>
     </PageShell>
   );
 }

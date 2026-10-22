@@ -1,5 +1,4 @@
-.section-navigation,
-.social-follow {
+.section-navigation {
   display: none;
 }
 
@@ -15,77 +14,6 @@
 }
 
 @media (min-width: 1280px) {
-  .social-follow {
-    --social-text: #64748b;
-    --social-accent: #006d79;
-    position: fixed;
-    z-index: 35;
-    inset-inline-start: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: block;
-    width: 32px;
-    padding-block: 6px;
-    border-radius: 6px;
-    color: var(--social-text);
-    opacity: 0;
-    visibility: hidden;
-    transition:
-      opacity 180ms ease-out,
-      visibility 180ms,
-      color 150ms ease-out;
-  }
-
-  .dark .social-follow {
-    --social-text: #a9bacb;
-    --social-accent: #00bcbb;
-  }
-
-  .social-follow[data-visible="true"] {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .social-follow:hover {
-    color: var(--social-accent);
-  }
-
-  .social-follow:focus-visible {
-    outline: 2px solid var(--social-accent);
-    outline-offset: 4px;
-  }
-
-  .social-follow-content {
-    display: grid;
-    justify-items: center;
-    gap: 14px;
-  }
-
-  .social-follow-content svg {
-    display: block;
-  }
-
-  .social-follow-label {
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    font-size: 15px;
-    line-height: 1;
-    font-weight: 600;
-  }
-
-  .social-follow-contrast {
-    position: absolute;
-    inset: 0;
-    padding: inherit;
-    color: #f8fafc;
-    clip-path: inset(100% 0 0 0);
-    pointer-events: none;
-  }
-
-  .social-follow:hover .social-follow-contrast {
-    color: #00bcbb;
-  }
-
   .section-navigation {
     --index-accent: #006d79;
     --index-text: #64748b;
@@ -212,7 +140,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .section-navigation,
-  .social-follow,
   .section-navigation-link {
     transition: none;
   }

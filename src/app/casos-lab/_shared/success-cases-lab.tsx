@@ -1,6 +1,12 @@
 "use client";
 
 import { BlogPageLab } from "../_features/blog-page/blog-page-lab";
+import { ArticleLab } from "../_features/article/article-lab";
+import {
+  articleDirections,
+  parseArticleDirection,
+  type ArticleDirection,
+} from "../_features/article/article-directions";
 import {
   blogPageDirections,
   parseBlogPageDirection,
@@ -15,6 +21,7 @@ import {
 import Link from "next/link";
 import { ArrowDown, ArrowLeft, Check, Layers2, RotateCcw } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import type { ReactNode } from "react";
 import { ThemeToggle } from "~/app/_components/theme-toggle";
 import { Mark } from "~/app/_components/clinical-process-visuals";
 import { ClinicalProcessShowcase } from "~/app/_components/clinical-process-showcase";
@@ -93,6 +100,7 @@ type Lab =
   | "footer"
   | "team"
   | "blog-page"
+  | "article"
   | "blog-images"
   | "blog-cards"
   | "team-sol6-1";
@@ -134,9 +142,12 @@ export function SuccessCasesLab({
   initialBlogImagesDirection = "compare",
   initialBlogCardsDirection = "open",
   initialBlogPageDirection = "base",
+  initialArticleDirection = "reference",
   blogPosts,
   blogPagePosts,
   blogPageTags,
+  articlePost,
+  articleBody,
 }: {
   initialDirection: CaseDirection;
   initialLab?: Lab;
@@ -153,10 +164,16 @@ export function SuccessCasesLab({
   initialBlogImagesDirection?: BlogImagesDirection;
   initialBlogCardsDirection?: BlogCardsDirection;
   initialBlogPageDirection?: BlogPageDirection;
+  initialArticleDirection?: ArticleDirection;
   blogPosts: BlogPost[];
   blogPagePosts: BlogPost[];
   blogPageTags: BlogTag[];
+  articlePost?: BlogPost;
+  articleBody?: ReactNode;
 }) {
+  const [articleDirection, setArticleDirection] = useState(
+    initialArticleDirection,
+  );
   const [blogPageDirection, setBlogPageDirection] = useState(
     initialBlogPageDirection,
   );
@@ -203,6 +220,7 @@ export function SuccessCasesLab({
     "blog-cards": blogCardsDirection,
     "blog-images": blogImagesDirection,
     "blog-page": blogPageDirection,
+    article: articleDirection,
   }[lab];
   const availableDirections = {
     cases: caseDirections,
@@ -216,6 +234,7 @@ export function SuccessCasesLab({
     "blog-cards": blogCardsDirections,
     "blog-images": blogImagesDirections,
     "blog-page": blogPageDirections,
+    article: articleDirections,
   }[lab];
 
   useEffect(() => {
@@ -240,6 +259,7 @@ export function SuccessCasesLab({
     blogCardsDirection,
     blogImagesDirection,
     blogPageDirection,
+    articleDirection,
   ]);
 
   useEffect(() => {
@@ -274,7 +294,10 @@ export function SuccessCasesLab({
       const params = new URL(window.location.href).searchParams;
       const variant = params.get("variant");
       const requestedLab = params.get("lab");
-      setBlogPageDirection(parseBlogPageDirection(params.get("blogPageVariant")));
+      setArticleDirection(parseArticleDirection(params.get("articleVariant")));
+      setBlogPageDirection(
+        parseBlogPageDirection(params.get("blogPageVariant")),
+      );
       setBlogImagesDirection(
         parseBlogImagesDirection(params.get("blogImagesVariant")),
       );
@@ -302,7 +325,9 @@ export function SuccessCasesLab({
                           ? "blog-images"
                           : requestedLab === "blog-page"
                             ? "blog-page"
-                            : "cases",
+                            : requestedLab === "article"
+                              ? "article"
+                              : "cases",
       );
       setProductDirection(
         productDirections.find(
@@ -357,6 +382,7 @@ export function SuccessCasesLab({
     url.searchParams.set("blogCardsVariant", blogCardsDirection);
     url.searchParams.set("blogImagesVariant", blogImagesDirection);
     url.searchParams.set("blogPageVariant", blogPageDirection);
+    url.searchParams.set("articleVariant", articleDirection);
     url.hash = `${next}-preview`;
     window.history.pushState(null, "", url);
     window.requestAnimationFrame(() => {
@@ -446,6 +472,17 @@ export function SuccessCasesLab({
 
   const selectProposal = (id: string) => {
     switch (lab) {
+      case "article": {
+        const next = parseArticleDirection(id);
+        if (next === articleDirection) return;
+        setArticleDirection(next);
+        const url = new URL(window.location.href);
+        url.searchParams.set("articleVariant", next);
+        url.hash = "article-preview";
+        window.history.pushState(null, "", url);
+        window.requestAnimationFrame(() => scrollToPreview("article"));
+        break;
+      }
       case "blog-page": {
         const next = parseBlogPageDirection(id);
         if (next === blogPageDirection) return;
@@ -512,9 +549,9 @@ export function SuccessCasesLab({
       data-visual-lab=""
       className="relative isolate min-h-screen bg-[#fbfdff] dark:bg-[#06111f]"
     >
-      {lab !== "blog-page" && (lab !== "cases" || context) && (
-        <HomeMotionBackground />
-      )}
+      {lab !== "blog-page" &&
+        lab !== "article" &&
+        (lab !== "cases" || context) && <HomeMotionBackground />}
       <header
         ref={header}
         data-cases-lab-header=""
@@ -556,7 +593,9 @@ export function SuccessCasesLab({
                                   ? "Imágenes blog"
                                   : lab === "blog-page"
                                     ? "Página de blog"
-                                    : "Producto"}
+                                    : lab === "article"
+                                      ? "Article"
+                                      : "Producto"}
               </p>
             </div>
           </div>
@@ -578,6 +617,7 @@ export function SuccessCasesLab({
               <option value="blog-cards">Fichas blog</option>
               <option value="blog-images">Imágenes blog</option>
               <option value="blog-page">Página de blog</option>
+              <option value="article">Article</option>
             </select>
           </label>
           <div
@@ -616,43 +656,53 @@ export function SuccessCasesLab({
             >
               <ArrowDown size={14} strokeWidth={1.5} />
             </button>
-            {lab !== "blog-images" && lab !== "blog-page" && (
-              <>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setContext(!context);
-                    window.requestAnimationFrame(() => scrollToPreview(lab));
-                  }}
-                  aria-pressed={context}
-                  className={control}
-                  title="Ver la propuesta en la secuencia de la home"
-                >
-                  {context ? (
-                    <Check size={14} strokeWidth={1.5} />
-                  ) : (
-                    <Layers2 size={14} strokeWidth={1.5} />
-                  )}
-                  <span className="hidden lg:inline">Contexto</span>
-                  <span className="sr-only lg:hidden">Vista de contexto</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setReplay((value) => value + 1)}
-                  className={control}
-                  title="Repetir entrada"
-                  aria-label="Repetir animación de entrada"
-                >
-                  <RotateCcw size={14} strokeWidth={1.5} />
-                </button>
-              </>
-            )}
+            {lab !== "blog-images" &&
+              lab !== "blog-page" &&
+              lab !== "article" && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setContext(!context);
+                      window.requestAnimationFrame(() => scrollToPreview(lab));
+                    }}
+                    aria-pressed={context}
+                    className={control}
+                    title="Ver la propuesta en la secuencia de la home"
+                  >
+                    {context ? (
+                      <Check size={14} strokeWidth={1.5} />
+                    ) : (
+                      <Layers2 size={14} strokeWidth={1.5} />
+                    )}
+                    <span className="hidden lg:inline">Contexto</span>
+                    <span className="sr-only lg:hidden">Vista de contexto</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setReplay((value) => value + 1)}
+                    className={control}
+                    title="Repetir entrada"
+                    aria-label="Repetir animación de entrada"
+                  >
+                    <RotateCcw size={14} strokeWidth={1.5} />
+                  </button>
+                </>
+              )}
             <ThemeToggle />
           </div>
         </div>
       </header>
 
-      {lab === "blog-page" ? (
+      {lab === "article" ? (
+        <ArticleLab
+          post={articlePost}
+          posts={blogPagePosts}
+          direction={articleDirection}
+        >
+          {articleBody}
+        </ArticleLab>
+      ) : lab === "blog-page" ? (
         <BlogPageLab
           posts={blogPagePosts}
           tags={blogPageTags}

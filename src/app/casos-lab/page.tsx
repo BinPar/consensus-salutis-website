@@ -1,6 +1,7 @@
 import { getBlogPosts, getBlogTags } from "~/lib/blog";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import type { ComponentType, ReactNode } from "react";
 import { SuccessCasesLab } from "./_shared/success-cases-lab";
 import { caseDirections } from "./_features/cases/case-directions";
 import { productDirections } from "./_features/product/product-directions";
@@ -14,6 +15,7 @@ import { parseBlogCardsDirection } from "./_features/blog-cards/blog-cards-direc
 
 import { parseBlogImagesDirection } from "./_features/blog-images/blog-images-directions";
 import { parseBlogPageDirection } from "./_features/blog-page/blog-page-directions";
+import { parseArticleDirection } from "./_features/article/article-directions";
 
 export const metadata: Metadata = {
   title: "Laboratorio visual",
@@ -39,6 +41,7 @@ export default async function CasesLabPage({
     blogCardsVariant?: string;
     blogImagesVariant?: string;
     blogPageVariant?: string;
+    articleVariant?: string;
   }>;
 }) {
   if (process.env.NODE_ENV !== "development") notFound();
@@ -58,9 +61,22 @@ export default async function CasesLabPage({
     blogCardsVariant,
     blogImagesVariant,
     blogPageVariant,
+    articleVariant,
   } = await searchParams;
   const direction = caseDirections.find((item) => item.id === variant)?.id;
   const blogPosts = getBlogPosts();
+  const articlePost =
+    blogPosts.find(
+      (post) =>
+        post.slug === "como-medir-la-fiabilidad-de-una-respuesta-clinica",
+    ) ?? blogPosts[0];
+  let articleBody: ReactNode = null;
+  if (articlePost) {
+    const { default: PostBody } = (await import(
+      `../../content/blog/${articlePost.slug}.mdx`
+    )) as { default: ComponentType };
+    articleBody = <PostBody />;
+  }
   const teamSol61State = parseTeamSol61State(
     new URLSearchParams({
       teamSol61Variant: teamSol61Variant ?? "",
@@ -70,6 +86,9 @@ export default async function CasesLabPage({
   );
   return (
     <SuccessCasesLab
+      articlePost={articlePost}
+      articleBody={articleBody}
+      initialArticleDirection={parseArticleDirection(articleVariant)}
       blogPosts={blogPosts.slice(0, 4)}
       blogPagePosts={blogPosts}
       blogPageTags={getBlogTags(blogPosts)}
@@ -96,7 +115,9 @@ export default async function CasesLabPage({
                           ? "blog-images"
                           : lab === "blog-page"
                             ? "blog-page"
-                            : "cases"
+                            : lab === "article"
+                              ? "article"
+                              : "cases"
       }
       initialProductDirection={
         productDirections.find((item) => item.id === productVariant)?.id ??

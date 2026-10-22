@@ -23,6 +23,7 @@ export const realTeamPortraits: Readonly<Record<string, string>> = {
 };
 
 const framing: Readonly<Record<string, { scale: number; origin: string }>> = {
+  "cristian-alvarez": { scale: 1.12, origin: "50% 24%" },
   "marcos-gonzalez": { scale: 1.22, origin: "50% 24%" },
   "jeronimo-ekerdt": { scale: 1.22, origin: "50% 25%" },
   "yaiza-vallejo": { scale: 1.15, origin: "50% 42%" },
