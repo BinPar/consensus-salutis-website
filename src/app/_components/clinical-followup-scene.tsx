@@ -4,28 +4,28 @@ import { ArrowUp, Paperclip } from "lucide-react";
 import { useLayoutEffect, useRef, useState } from "react";
 import { EvidenceScene } from "./clinical-evidence-scene";
 import { processFollowup as followup } from "./clinical-process-data";
+import {
+  processFollowupParagraphs,
+  processFollowupReferences,
+  sceneReferenceForAnchor,
+} from "./clinical-scene-references";
 import { typingDuration, writtenCharacters } from "./clinical-process-typing";
 
 function reveal(time: number, start: number, duration: number) {
   const t = Math.max(0, Math.min(1, (time - start) / duration));
   return t * t * (3 - 2 * t);
 }
-const capturedParagraphs = followup.finalOpinion.split("\n\n");
-// Three verbatim excerpts of the captured follow-up, keeping its citation numbers.
-const replyParagraphs = [
-  capturedParagraphs[0]!.split(". ")[0]! + ".",
-  capturedParagraphs[3]!.split(" En un fracaso")[0]!,
-  capturedParagraphs[4]!,
-].map((paragraph) =>
+// Three verbatim excerpts, linked to the same bibliography as the preceding answer.
+const replyParagraphs = processFollowupParagraphs.map((paragraph) =>
   paragraph
     .split(/(⟦[^⟧]+⟧)/g)
     .filter(Boolean)
     .map((text) => {
       if (!text.startsWith("⟦")) return { text, citation: false };
-      const number =
-        followup.citations.findIndex(
-          (citation) => citation.anchor === text.slice(1, -1),
-        ) + 1;
+      const number = sceneReferenceForAnchor(
+        text.slice(1, -1),
+        processFollowupReferences,
+      )!.order;
       return { text: `[${number}]`, citation: true };
     }),
 );
@@ -76,6 +76,7 @@ export function FollowupScene({
       <EvidenceScene
         seconds={0}
         reduced={reduced}
+        references={responding ? processFollowupReferences : undefined}
         continuation={{
           sourceVisibility: 0,
           scroll: reveal(time, sentAt, 0.6),

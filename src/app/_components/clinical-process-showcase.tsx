@@ -108,8 +108,17 @@ export const clinicalProcessStages: readonly ProcessStage[] = steps.map(
   }),
 );
 
-export function ClinicalProcessShowcase() {
-  return <ClinicalProcessPlayer stages={clinicalProcessStages} />;
+export function ClinicalProcessShowcase({
+  homePresentation = false,
+}: {
+  homePresentation?: boolean;
+}) {
+  return (
+    <ClinicalProcessPlayer
+      stages={clinicalProcessStages}
+      homePresentation={homePresentation}
+    />
+  );
 }
 
 function QuestionScene({

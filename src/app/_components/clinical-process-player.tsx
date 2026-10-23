@@ -29,12 +29,16 @@ const ease = (value: number) => {
 
 const stageTitleClass =
   "font-display mt-3.5 max-w-xl text-4xl font-extrabold tracking-tight text-[#05215e] sm:mt-6 sm:text-5xl dark:text-slate-50";
+const homeStageTitleClass =
+  "font-display mt-3.5 max-w-xl text-3xl font-extrabold tracking-tight text-[#05215e] sm:mt-6 sm:text-4xl lg:text-5xl dark:text-slate-50";
 
 /** The five consultation stages share one playback clock. */
 export function ClinicalProcessPlayer({
   stages,
+  homePresentation = false,
 }: {
   stages: readonly ProcessStage[];
+  homePresentation?: boolean;
 }) {
   const titleId = useId();
   const frame = useRef<HTMLDivElement>(null);
@@ -73,18 +77,18 @@ export function ClinicalProcessPlayer({
       const compact = document.documentElement.clientWidth < 640;
       const compactWidth =
         Math.floor((document.documentElement.clientWidth - 8) / 44) * 44;
-      offsetX = compact
-        ? (available - compactWidth) / 2
-        : originX + Math.round((left - originX) / 44) * 44 - left;
+      if (!homePresentation) {
+        offsetX = compact
+          ? (available - compactWidth) / 2
+          : originX + Math.round((left - originX) / 44) * 44 - left;
+        element.style.left = `${offsetX}px`;
+        element.style.width = `${compact ? compactWidth : available - offsetX}px`;
+      }
       offsetY = originY + Math.round((top - originY) / 44) * 44 - top;
-      element.style.left = `${offsetX}px`;
       element.style.top = `${offsetY}px`;
       element
         .closest<HTMLElement>("[data-process-showcase]")
         ?.style.setProperty("--process-frame-offset-y", `${offsetY}px`);
-      // Keep the left edge on-grid and use the remaining column exactly:
-      // rounding the width to 44px left a visible gutter at the page's right edge.
-      element.style.width = `${compact ? compactWidth : available - offsetX}px`;
       const grid = element.querySelector<HTMLElement>("[data-mock-grid]");
       if (grid) {
         grid.style.backgroundAttachment = "fixed";
@@ -115,7 +119,7 @@ export function ClinicalProcessPlayer({
         .closest<HTMLElement>("[data-process-showcase]")
         ?.style.removeProperty("--process-frame-offset-y");
     };
-  }, []);
+  }, [homePresentation]);
 
   useEffect(() => {
     let previousScrollY = window.scrollY;
@@ -261,8 +265,16 @@ export function ClinicalProcessPlayer({
                 <p className="text-primary-light font-display dark:text-primary-dark mb-3 text-xs font-bold tracking-[0.22em] uppercase">
                   {item.number} / 05
                 </p>
-                <h3 className={stageTitleClass}>{item.title}</h3>
-                <p className="font-body mt-5 max-w-5xl text-lg leading-8 text-slate-600 dark:text-slate-400">
+                <h3
+                  className={
+                    homePresentation ? homeStageTitleClass : stageTitleClass
+                  }
+                >
+                  {item.title}
+                </h3>
+                <p
+                  className={`font-body mt-5 max-w-5xl text-slate-600 dark:text-slate-400 ${homePresentation ? "text-base leading-7 sm:text-lg sm:leading-8" : "text-lg leading-8"}`}
+                >
                   {item.body}
                 </p>
                 <p className="text-primary-light font-display dark:text-primary-dark mt-4 text-xs font-bold tracking-[0.22em] uppercase">
@@ -293,7 +305,7 @@ export function ClinicalProcessPlayer({
             data-playing={
               painted && visible && tabVisible && !paused && !reduced
             }
-            className="shadow-big-blocks @container relative isolate h-[482px] overflow-hidden rounded-3xl border border-cyan-800/15 bg-white/80 backdrop-blur-sm dark:border-cyan-300/15 dark:bg-[#06111f]"
+            className={`shadow-big-blocks @container relative isolate h-[482px] overflow-hidden rounded-3xl border border-cyan-800/15 bg-white/80 backdrop-blur-sm dark:border-cyan-300/15 dark:bg-[#06111f] ${homePresentation ? "w-full" : ""}`}
           >
             <div
               aria-hidden="true"

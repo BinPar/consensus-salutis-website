@@ -7,6 +7,12 @@ import {
   initialTabs,
   openSourceTab,
 } from "./preview-data";
+import {
+  initialAnswer,
+  followupAnswer,
+  initialReferences,
+  followupReferences,
+} from "./preview-consultation-content";
 
 describe("preview document tabs", () => {
   it("selects another passage without duplicating its source document", () => {
@@ -41,4 +47,55 @@ describe("preview document tabs", () => {
       }
     }
   });
+});
+
+describe("contenido actualizado de las dos consultas", () => {
+  it.each([
+    {
+      id: "valoracion",
+      answer: initialAnswer,
+      references: initialReferences,
+      numbers: [1, 2, 3, 1, 1, 3, 1, 4, 5, 1, 6, 7, 1, 8, 1, 3],
+    },
+    {
+      id: "seguimiento",
+      answer: followupAnswer,
+      references: followupReferences,
+      numbers: [1, 1, 2, 1, 3, 4, 5, 1, 6, 6, 6, 7, 8, 9, 1],
+    },
+  ])(
+    "conserva el texto y la correspondencia de cada cita en $id",
+    ({ id, answer, references, numbers }) => {
+      const message = initialConversations
+        .find((conversation) => conversation.id === id)!
+        .messages.at(-1)!;
+      const cited: number[] = [];
+      const decoded = message.text.replace(
+        /⟦([^⟧]+)⟧/g,
+        (_, anchor: string) => {
+          const citation = message.citations.find(
+            (entry) => entry.anchor === anchor,
+          )!;
+          cited.push(citation.order);
+          return `[${citation.order}]`;
+        },
+      );
+      const expected = answer.replace(
+        /\[(\d+(?:,\s*\d+)*)\]/g,
+        (_, group: string) =>
+          group
+            .split(",")
+            .map((number) => `[${number.trim()}]`)
+            .join(" "),
+      );
+      expect(decoded).toBe(expected);
+      expect(cited).toEqual(numbers);
+      expect(message.citations.map((citation) => citation.title)).toEqual(
+        references.map((reference) => reference.title),
+      );
+      expect(message.citations.map((citation) => citation.order)).toEqual([
+        ...new Set(cited),
+      ]);
+    },
+  );
 });

@@ -1072,10 +1072,11 @@ export function PlatformPreview() {
                           <button
                             type="button"
                             key={c.anchor}
+                            className="items-start! text-left"
                             onClick={(e) => openCitation(c, e.currentTarget)}
                           >
-                            <span>{c.order}</span>
-                            {c.source}
+                            <span className="shrink-0">{c.order}</span>
+                            {c.title}
                           </button>
                         ))}
                     </section>
@@ -1223,7 +1224,7 @@ export function PlatformPreview() {
                             type="button"
                             role="tab"
                             aria-selected={tab.key === sourceTabs.activeKey}
-                            title={tab.key}
+                            title={tab.citation.title}
                             onClick={() => {
                               setSourceTabs((current) => ({
                                 ...current,
@@ -1237,12 +1238,12 @@ export function PlatformPreview() {
                               strokeWidth={1.8}
                               aria-hidden="true"
                             />
-                            <span>{tab.key} · 5707...</span>
+                            <span>{tab.citation.title}</span>
                           </button>
                           <button
                             type="button"
                             className="pp-tab-close"
-                            aria-label={"Cerrar " + tab.key}
+                            aria-label={"Cerrar " + tab.citation.title}
                             onClick={() => {
                               const next = closeSourceTab(sourceTabs, tab.key);
                               if (!next.tabs.length) closeSource();
@@ -1267,9 +1268,7 @@ export function PlatformPreview() {
                   <header className="pp-source-heading">
                     <div>
                       <p>Fuente de consulta</p>
-                      <h2 title={currentSource.source}>
-                        {currentSource.source}
-                      </h2>
+                      <h2 title={currentSource.title}>{currentSource.title}</h2>
                     </div>
                     <button
                       type="button"

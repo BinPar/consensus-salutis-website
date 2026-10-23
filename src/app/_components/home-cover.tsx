@@ -69,7 +69,7 @@ export function HomeCoverContent({
         <span>Respuestas clínicas trazables.</span>
       </h1>
       <p className="home-cover-description font-body text-lg leading-8 text-slate-600 dark:text-slate-400">
-        BinPar la IA médica institucional que conecta guías, protocolos y corpus
+        BinPar, la IA médica institucional que conecta guías, protocolos y corpus
         médico con la práctica clínica.
       </p>
       <button type="button" className="home-cover-explore" onClick={onExplore}>

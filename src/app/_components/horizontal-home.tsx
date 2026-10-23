@@ -489,7 +489,7 @@ export function VerticalHome({ posts }: { posts: BlogPost[] }) {
           >
             <ProcessBackground fadeToProduct />
             <div className="relative z-30 mx-auto w-full max-w-7xl">
-              <ClinicalProcessShowcase />
+              <ClinicalProcessShowcase homePresentation />
             </div>
           </section>
         </div>
@@ -1010,7 +1010,9 @@ export function BlogContent({
         </h2>
         <p
           className={`font-body mt-5 max-w-3xl text-slate-600 dark:text-slate-400 ${
-            compact ? "text-base leading-7" : "text-lg leading-8"
+            compact
+              ? "text-base leading-7 sm:text-lg sm:leading-8"
+              : "text-lg leading-8"
           }`}
         >
           Lecturas recientes sobre IA médica, tendencias sanitarias y nuevas
@@ -1244,7 +1246,7 @@ function MobileHome({
         <section className="relative px-5 pt-10 pb-12 sm:px-10 sm:pt-14 sm:pb-18">
           <ProcessBackground fadeToProduct />
           <div className="relative z-30 mx-auto w-full max-w-7xl">
-            <ClinicalProcessShowcase />
+            <ClinicalProcessShowcase homePresentation />
           </div>
         </section>
       </div>

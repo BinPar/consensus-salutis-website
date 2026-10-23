@@ -189,7 +189,7 @@ export function useStrataScene({
     (values) => Number(values[0]) + drift(Number(values[1]), 2),
   );
   const layerYs = [topY, middleY, bottomY];
-  const order = [0, 2, 1];
+  const order = [0, 1, 2];
   const selected = order[turn]!;
   useEffect(() => {
     const transition = {

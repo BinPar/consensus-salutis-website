@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { isNavigationItemActive } from "./site-navigation";
 
 export function MobileNavigation({
   items,
@@ -119,14 +120,20 @@ export function MobileNavigation({
                     </span>
                   );
                 }
-                const active = pathname === item.href;
+                const active = isNavigationItemActive(pathname, item.href);
 
                 return (
                   <Link
                     ref={index === 0 ? firstLinkRef : undefined}
                     key={item.href}
                     href={item.href}
-                    aria-current={active ? "page" : undefined}
+                    aria-current={
+                      active
+                        ? pathname === item.href
+                          ? "page"
+                          : "location"
+                        : undefined
+                    }
                     className={`relative block border-b border-cyan-800/12 py-3 text-sm font-semibold transition dark:border-cyan-300/12 ${
                       active
                         ? "text-primary-light dark:text-primary-dark"

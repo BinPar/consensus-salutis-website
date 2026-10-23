@@ -4,11 +4,18 @@ import {
   processResult,
 } from "../clinical-process-data";
 import { evidenceDocumentContext } from "../evidence-document-context";
+import {
+  initialAnswer,
+  followupAnswer,
+  initialReferences,
+  followupReferences,
+} from "./preview-consultation-content";
 
 export type PreviewCitation = {
   anchor: string;
   order: number;
   source: string;
+  title: string;
   quote: string | null;
   expert?: string;
 };
@@ -33,16 +40,47 @@ export function cleanQuote(text: string) {
     .replace(/\*|#/g, "")
     .trim();
 }
-const citations: readonly PreviewCitation[] = processResult.citations.map(
-  (c) => ({ ...c, quote: cleanQuote(c.quote) }),
-);
-const followupCitations: readonly PreviewCitation[] =
-  processFollowup.citations.map((c, index) => ({
+export const documentCitations: readonly PreviewCitation[] =
+  processResult.citations.map((c) => ({
     ...c,
+    title: c.source,
+    quote: cleanQuote(c.quote),
+  }));
+const citations: readonly PreviewCitation[] = initialReferences.map(
+  (reference, index) => ({
+    ...reference,
     order: index + 1,
     quote:
-      citations.find((original) => original.anchor === c.anchor)?.quote ?? null,
-  }));
+      documentCitations.find((c) => c.anchor === reference.anchor)?.quote ??
+      null,
+  }),
+);
+const followupCitations: readonly PreviewCitation[] = followupReferences.map(
+  (reference, index) => ({
+    ...reference,
+    anchor: `preview-followup-${index + 1}`,
+    order: index + 1,
+    quote: citations.find((c) => c.title === reference.title)?.quote ?? null,
+  }),
+);
+
+// Adaptación de contenido al formato de citas que ya utiliza la maqueta.
+function withCitationAnchors(
+  text: string,
+  references: readonly PreviewCitation[],
+) {
+  return text.replace(/\[(\d+(?:,\s*\d+)*)\]/g, (_, group: string) =>
+    group
+      .split(",")
+      .map((number) => {
+        const citation = references.find((c) => c.order === Number(number));
+        if (!citation)
+          throw new Error(`Referencia de maqueta desconocida: ${number}`);
+        return `⟦${citation.anchor}⟧`;
+      })
+      .join(" "),
+  );
+}
 const consultation: PreviewMessage = {
   role: "user",
   text: processConsultation.question,
@@ -50,7 +88,7 @@ const consultation: PreviewMessage = {
 };
 const reply: PreviewMessage = {
   role: "assistant",
-  text: processResult.finalOpinion,
+  text: withCitationAnchors(initialAnswer, citations),
   citations,
 };
 export const initialConversations: readonly PreviewConversation[] = [
@@ -70,7 +108,7 @@ export const initialConversations: readonly PreviewConversation[] = [
       { role: "user", text: processFollowup.question, citations: [] },
       {
         role: "assistant",
-        text: processFollowup.finalOpinion,
+        text: withCitationAnchors(followupAnswer, followupCitations),
         citations: followupCitations,
       },
     ],
@@ -127,4 +165,3 @@ export const renalContext = {
   ],
 };
 export const drugContext = evidenceDocumentContext;
-export const documentCitations = citations;

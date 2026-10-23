@@ -32,8 +32,6 @@ const eyebrow =
 const heading =
   "font-display text-4xl font-extrabold tracking-tight text-[#05215e] sm:text-5xl lg:text-6xl dark:text-slate-50";
 
-const prose = "font-body text-lg leading-8 text-slate-600 dark:text-slate-400";
-
 const focus =
   "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark";
 
@@ -1201,12 +1199,9 @@ function CaseHeading({
     <>
       <p className={eyebrow}>Casos de éxito</p>
       <h2
-        className={`${heading} mt-5 ${compact ? "lg:text-[52px]" : ""}`}
-        style={
-          singleLine ? { fontSize: "clamp(1.5rem, 10cqw, 3.25rem)" } : undefined
-        }
+        className={`${singleLine ? "font-display text-3xl font-extrabold tracking-tight text-[#05215e] sm:text-4xl lg:[font-size:clamp(1.5rem,10cqw,3.25rem)] lg:leading-none dark:text-slate-50" : heading} mt-5 ${compact && !singleLine ? "lg:text-[52px]" : ""}`}
       >
-        <span className={singleLine ? "whitespace-nowrap" : undefined}>
+        <span className={singleLine ? "lg:whitespace-nowrap" : undefined}>
           El futuro de la salud.
         </span>
         <br />
@@ -1214,7 +1209,7 @@ function CaseHeading({
           Ya está aquí.
         </span>
       </h2>
-      <p className={`${prose} mt-6 max-w-lg text-base sm:text-lg`}>
+      <p className="font-body mt-6 max-w-lg text-base leading-7 text-slate-600 sm:text-lg sm:leading-8 dark:text-slate-400">
         {casesIntro.body}
       </p>
     </>
@@ -1234,6 +1229,7 @@ function DefinitiveMap({
   const groups = useMemo(() => groupMappedCases(cases), [cases]);
   const canvas = useRef<HTMLDivElement>(null);
   const elapsed = useMotionValue(0);
+  const fittedMobileHeight = useMotionValue(0);
   const reduced = !!useReducedMotion();
   const pushes = useMemo(
     () =>
@@ -1301,6 +1297,42 @@ function DefinitiveMap({
     observer.observe(element);
     return () => observer.disconnect();
   }, []);
+  useLayoutEffect(() => {
+    const element = canvas.current;
+    if (!mobile || !element) return;
+    const cards = [
+      ...element.querySelectorAll<HTMLElement>("[data-map-case-card]"),
+    ];
+    let frame = 0;
+    const measure = () => {
+      frame = 0;
+      const bounds = element.getBoundingClientRect();
+      const mapHeight = (bounds.width * definitiveMapHeight) / 600;
+      const bottom = Math.max(
+        mapHeight,
+        ...cards.map(
+          (card) => card.getBoundingClientRect().bottom - bounds.top + 8,
+        ),
+      );
+      fittedMobileHeight.set(Math.ceil(bottom));
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(measure);
+    };
+    const resize = new ResizeObserver(schedule);
+    resize.observe(element);
+    const movement = new MutationObserver(schedule);
+    for (const card of cards) {
+      resize.observe(card);
+      movement.observe(card, { attributes: true, attributeFilter: ["style"] });
+    }
+    measure();
+    return () => {
+      cancelAnimationFrame(frame);
+      resize.disconnect();
+      movement.disconnect();
+    };
+  }, [mobile, scale, groups, fittedMobileHeight]);
   useEffect(() => {
     if (!motionEnabled || reduced) return;
     let frame = 0;
@@ -1360,15 +1392,11 @@ function DefinitiveMap({
         <Registration className="inset-3" />
         {/* Geography spans x=22.2…523.6 in the 600-unit canvas. Offset the
             canvas by 4.5% to center its visible footprint with its callouts. */}
-        <div
+        <motion.div
           ref={canvas}
           data-definitive-map-canvas=""
-          style={
-            mobile
-              ? { aspectRatio: `600 / ${calloutFrameHeight(floating)}` }
-              : undefined
-          }
-          className={`relative aspect-[600/540] sm:absolute sm:top-1/2 sm:left-[54.5%] sm:aspect-[600/440] sm:w-full sm:max-w-[641.584px] sm:-translate-x-1/2 sm:-translate-y-1/2 ${compactLayout ? "lg:max-w-none" : "lg:max-w-[772.277px]"}`}
+          style={{ height: mobile ? fittedMobileHeight : "auto" }}
+          className={`relative aspect-[600/440] w-full sm:absolute sm:top-1/2 sm:left-[54.5%] sm:max-w-[641.584px] sm:-translate-x-1/2 sm:-translate-y-1/2 ${compactLayout ? "lg:max-w-none" : "lg:max-w-[772.277px]"}`}
         >
           <div className="absolute inset-x-0 top-0 aspect-[600/440]">
             <TerritorialMap
@@ -1421,7 +1449,7 @@ function DefinitiveMap({
               );
             })}
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

@@ -17,6 +17,11 @@ import {
   type ReactNode,
 } from "react";
 import { processResult as result } from "./clinical-process-data";
+import {
+  processSceneReferences,
+  sceneReferenceForAnchor,
+  type SceneReference,
+} from "./clinical-scene-references";
 import { evidenceDocumentContext as sourceText } from "./evidence-document-context";
 import { ProcessChatVeil } from "./clinical-process-visuals";
 import {
@@ -25,8 +30,8 @@ import {
 } from "./clinical-process-typing";
 
 const evidence = result.evidence;
-// Verbatim passages from the captured answer; its middle is outside this
-// framing. Retain the original numbering of the references shown here.
+const evidenceReference = sceneReferenceForAnchor(evidence.anchor)!;
+// Verbatim passages from the captured answer, linked to the scene bibliography.
 const paragraphs = processAnswerParagraphs;
 const tokens = paragraphs.map((paragraph) =>
   paragraph
@@ -34,9 +39,7 @@ const tokens = paragraphs.map((paragraph) =>
     .filter(Boolean)
     .map((part) => {
       if (part.startsWith("⟦")) {
-        const citation = result.citations.find(
-          (citation) => citation.anchor === part.slice(1, -1),
-        )!;
+        const citation = sceneReferenceForAnchor(part.slice(1, -1))!;
         return {
           text: `[${citation.order}]`,
           citation: citation.order,
@@ -53,9 +56,6 @@ const tokens = paragraphs.map((paragraph) =>
 const answerLength = tokens
   .flat()
   .reduce((sum, token) => sum + token.text.length, 0);
-const shownReferences = result.citations.filter((citation) =>
-  tokens.flat().some((token) => token.citation === citation.order),
-);
 const quotedText = evidence.quote.replace(/\*/g, "").replace(/\.$/, "");
 function readingTop(element: HTMLElement, reply: HTMLElement) {
   const claim = reply.querySelector<HTMLElement>("[data-evidence-claim]");
@@ -109,9 +109,11 @@ export function EvidenceScene({
   seconds,
   reduced,
   continuation,
+  references = processSceneReferences,
 }: {
   seconds: number;
   reduced: boolean;
+  references?: readonly SceneReference[];
   continuation?: {
     sourceVisibility: number;
     messages?: ReactNode;
@@ -237,7 +239,7 @@ export function EvidenceScene({
   useLayoutEffect(() => {
     const root = scene.current;
     const citation = response.current?.querySelector<HTMLElement>(
-      `[data-evidence-citation="${evidence.referenceIndex}"]`,
+      `[data-evidence-citation="${evidenceReference.order}"]`,
     );
     if (!root || !citation) return;
     const bounds = root.getBoundingClientRect();
@@ -327,9 +329,13 @@ export function EvidenceScene({
                             <span
                               key={tokenIndex}
                               data-evidence-citation={token.citation}
+                              data-evidence-selected={
+                                token.citation === evidenceReference.order ||
+                                undefined
+                              }
                               className="text-primary-light dark:text-primary-dark relative inline-flex rounded-sm px-0.5 align-super text-[10px] leading-none font-semibold"
                               style={
-                                token.citation === evidence.referenceIndex
+                                token.citation === evidenceReference.order
                                   ? {
                                       backgroundColor: `color-mix(in srgb, currentColor ${selected * 15}%, transparent)`,
                                     }
@@ -337,7 +343,7 @@ export function EvidenceScene({
                               }
                             >
                               {token.text}
-                              {token.citation === evidence.referenceIndex && (
+                              {token.citation === evidenceReference.order && (
                                 <span
                                   aria-hidden="true"
                                   className="evidence-click pointer-events-none absolute top-1/2 left-1/2 size-11 rounded-full bg-current"
@@ -385,9 +391,9 @@ export function EvidenceScene({
                 Bibliografía
               </p>
               <ol className="mt-3 space-y-2">
-                {shownReferences.map((citation, index) => (
+                {references.map((citation, index) => (
                   <li
-                    key={citation.anchor}
+                    key={citation.order}
                     className="flex items-start gap-2.5"
                     style={{
                       opacity: reveal(time, 6 + index * 0.06, 0.3, reduced),
@@ -398,9 +404,9 @@ export function EvidenceScene({
                     </span>
                     <span
                       className="min-w-0 flex-1 truncate pt-0.5 text-xs leading-5 text-slate-600 dark:text-slate-400"
-                      title={citation.source}
+                      title={citation.title}
                     >
-                      {citation.source}.
+                      {citation.title}.
                     </span>
                   </li>
                 ))}
@@ -456,7 +462,7 @@ export function EvidenceScene({
                 className="-mt-1 shrink-0"
               />
               <span className="-mt-1 min-w-0 flex-1 truncate text-[11px] font-semibold">
-                {evidence.source}
+                {evidenceReference.title}
               </span>
               <X
                 size={20}
@@ -474,7 +480,7 @@ export function EvidenceScene({
                 Fuente de consulta
               </p>
               <p className="font-display mt-0.5 truncate text-sm font-semibold text-[#05215e] dark:text-slate-100">
-                {evidence.source}
+                {evidenceReference.title}
               </p>
             </div>
             <span className="flex shrink-0 items-center gap-1.5 rounded-full px-1.5 text-[11px] font-semibold text-slate-600 dark:text-slate-300">
@@ -633,7 +639,7 @@ export function EvidenceScene({
             transparent
           );
         }
-        [data-evidence-citation="5"] {
+        [data-evidence-selected="true"] {
           transition: background-color 80ms linear;
         }
         .evidence-pointer,
@@ -656,7 +662,7 @@ export function EvidenceScene({
           .evidence-highlight,
           .evidence-pointer,
           .evidence-click,
-          [data-evidence-citation="5"],
+          [data-evidence-selected="true"],
           .evidence-document,
           .evidence-document-content,
           [data-evidence-bibliography],

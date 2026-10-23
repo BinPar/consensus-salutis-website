@@ -4,6 +4,8 @@ import Image from "next/image";
 import { MobileNavigation } from "~/app/_components/mobile-navigation";
 import { ScrollHeaderFrame } from "~/app/_components/scroll-header-frame";
 import { ThemeToggle } from "~/app/_components/theme-toggle";
+import { LanguageSelector } from "~/app/_components/language-selector";
+import { SiteNavigation } from "~/app/_components/site-navigation";
 
 export const navItems: Array<{
   href: string;
@@ -24,7 +26,7 @@ export function SiteHeader({
 }) {
   return (
     <ScrollHeaderFrame deferUntilCover={deferUntilCover}>
-      <div className="mx-auto grid h-16 w-full max-w-425 grid-cols-[1fr_auto] items-center md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+      <div className="mx-auto grid h-16 w-full max-w-425 grid-cols-[1fr_auto] items-center md:grid-cols-[auto_minmax(0,1fr)_auto] lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
         <Link
           href="/"
           className="flex w-fit items-center gap-3"
@@ -47,32 +49,9 @@ export function SiteHeader({
             className="hidden h-6 w-auto sm:h-8 dark:block"
           />
         </Link>
-        <nav
-          aria-label="Navegación principal"
-          className="hidden items-center gap-2 text-xs font-medium text-slate-600 md:flex lg:gap-7 lg:text-sm dark:text-slate-400"
-        >
-          {navItems.map((item) =>
-            item.disabled ? (
-              <span
-                key={item.href}
-                role="link"
-                aria-disabled="true"
-                className="font-body cursor-not-allowed font-medium opacity-45"
-              >
-                {item.label}
-              </span>
-            ) : (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="font-body font-medium transition hover:text-cyan-800 dark:hover:text-cyan-100"
-              >
-                {item.label}
-              </Link>
-            ),
-          )}
-        </nav>
-        <div className="flex items-center gap-4 justify-self-end lg:gap-6">
+        <SiteNavigation items={navItems} />
+        <div className="flex items-center gap-2 justify-self-end sm:gap-3 lg:gap-4">
+          <LanguageSelector />
           <ThemeToggle />
           <Link
             href="/contacto"

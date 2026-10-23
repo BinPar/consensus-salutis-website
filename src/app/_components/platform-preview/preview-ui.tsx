@@ -177,7 +177,7 @@ export function PreviewInline({
           type="button"
           key={i}
           className="pp-citation"
-          aria-label={"Ver fuente " + citation.order + ": " + citation.source}
+          aria-label={"Ver fuente " + citation.order + ": " + citation.title}
           onClick={(e) => onCitation(citation, e.currentTarget)}
         >
           [{citation.order}]
