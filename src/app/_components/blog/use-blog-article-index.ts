@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { useMotionValue } from "framer-motion";
 
 export type ArticleHeading = { id: string; title: string; level: 2 | 3 };
 
@@ -9,6 +10,7 @@ export function useArticleIndex(slug: string) {
   const bodyRef = useRef<HTMLDivElement>(null);
   const [headings, setHeadings] = useState<ArticleHeading[]>([]);
   const [activeId, setActiveId] = useState("");
+  const readingProgress = useMotionValue(0);
 
   useEffect(() => {
     const body = bodyRef.current;
@@ -44,26 +46,42 @@ export function useArticleIndex(slug: string) {
     let frame = 0;
     const measure = () => {
       frame = 0;
-      const edge = 64 + 40; // El header de producción mide 64 px.
-      let current = elements[0]?.id ?? "";
-      for (const element of elements) {
-        if (element.getBoundingClientRect().top > edge) break;
-        current = element.id;
-      }
-      // El último apartado puede no alcanzar el borde superior al acabar la página.
-      if (
-        window.scrollY > 0 &&
-        window.scrollY + window.innerHeight >=
-          document.documentElement.scrollHeight - 2
+      const maxScroll = Math.max(
+        0,
+        document.documentElement.scrollHeight - window.innerHeight,
+      );
+      const stops = elements.map((element) =>
+        Math.max(
+          0,
+          Math.min(
+            maxScroll,
+            window.scrollY + element.getBoundingClientRect().top - 96,
+          ),
+        ),
+      );
+      let current = 0;
+      while (
+        current < elements.length - 1 &&
+        window.scrollY >= stops[current + 1]! - 0.5
       ) {
-        current = elements.at(-1)?.id ?? current;
+        current++;
       }
-      setActiveId(current);
+      let next = Math.min(current + 1, elements.length - 1);
+      // Los últimos apartados pueden compartir el mismo destino alcanzable.
+      while (next < elements.length - 1 && stops[next + 1] === stops[next])
+        next++;
+      const start = stops[current] ?? 0;
+      const distance = (stops[next] ?? start) - start;
+      const progress =
+        distance > 0
+          ? Math.max(0, Math.min(1, (window.scrollY - start) / distance))
+          : 0;
+      readingProgress.set(current + Math.max(0, next - current) * progress);
+      setActiveId(elements[current]?.id ?? "");
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(measure);
     };
-    measure();
     const observer = new ResizeObserver(schedule);
     observer.observe(body);
     window.addEventListener("scroll", schedule, { passive: true });
@@ -73,6 +91,7 @@ export function useArticleIndex(slug: string) {
       (element) => `#${element.id}` === window.location.hash,
     );
     if (linked) linked.scrollIntoView({ block: "start", behavior: "instant" });
+    measure();
     return () => {
       cancelAnimationFrame(frame);
       observer.disconnect();
@@ -80,7 +99,7 @@ export function useArticleIndex(slug: string) {
       window.removeEventListener("resize", schedule);
       document.fonts.removeEventListener("loadingdone", schedule);
     };
-  }, [slug]);
+  }, [slug, readingProgress]);
 
   const navigate = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
     if (
@@ -96,6 +115,7 @@ export function useArticleIndex(slug: string) {
     );
     if (!target) return;
     event.preventDefault();
+    // La marca sigue el scroll real, sin adelantarse al destino del clic.
     target.scrollIntoView({
       behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
         ? "instant"
@@ -106,8 +126,7 @@ export function useArticleIndex(slug: string) {
     const url = new URL(window.location.href);
     url.hash = id;
     window.history.replaceState(window.history.state, "", url);
-    setActiveId(id);
   };
 
-  return { bodyRef, headings, activeId, navigate };
+  return { bodyRef, headings, activeId, readingProgress, navigate };
 }

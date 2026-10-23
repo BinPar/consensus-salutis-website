@@ -2,7 +2,13 @@
 
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
+import {
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+} from "framer-motion";
 import {
   articleBodyClassName,
   articleLabelClassName as label,
@@ -12,6 +18,48 @@ import { useArticleIndex } from "./use-blog-article-index";
 type Index = ReturnType<typeof useArticleIndex>;
 
 function ArticleIndex({ index }: { index: Index }) {
+  const listRef = useRef<HTMLOListElement>(null);
+  const reducedMotion = useReducedMotion();
+  const indicatorY = useMotionValue(7);
+  const smoothIndicatorY = useSpring(indicatorY, {
+    stiffness: 400,
+    damping: 38,
+    mass: 0.5,
+  });
+
+  useEffect(() => {
+    const list = listRef.current;
+    if (!list) return;
+    let initialized = false;
+    const update = () => {
+      if (!list.getBoundingClientRect().width) return;
+      const links = [...list.querySelectorAll("a")];
+      const progress = index.readingProgress.get();
+      const current = Math.min(Math.floor(progress), links.length - 1);
+      const from = links[current];
+      const to = links[current + 1] ?? from;
+      if (!from || !to) return;
+      const start = from.offsetTop + from.offsetHeight / 2 - 11;
+      const end = to.offsetTop + to.offsetHeight / 2 - 11;
+      const position = start + (end - start) * (progress - current);
+      if (!initialized) {
+        indicatorY.jump(position);
+        smoothIndicatorY.jump(position);
+        initialized = true;
+      } else indicatorY.set(position);
+    };
+    update();
+    const unsubscribe = index.readingProgress.on("change", update);
+    const observer = new ResizeObserver(update);
+    observer.observe(list);
+    document.fonts.addEventListener("loadingdone", update);
+    return () => {
+      unsubscribe();
+      observer.disconnect();
+      document.fonts.removeEventListener("loadingdone", update);
+    };
+  }, [index.headings, index.readingProgress, indicatorY, smoothIndicatorY]);
+
   if (!index.headings.length) return null;
   return (
     <nav
@@ -19,32 +67,34 @@ function ArticleIndex({ index }: { index: Index }) {
       data-article-toc=""
       className="font-body"
     >
-      <ol className="before:bg-primary-light/16 dark:before:bg-primary-dark/20 relative before:absolute before:inset-y-0 before:left-[3px] before:w-px">
-        {index.headings.map((heading) => {
-          const active = heading.id === index.activeId;
-          return (
-            <li key={heading.id}>
-              <a
-                href={`#${heading.id}`}
-                aria-current={active ? "location" : undefined}
-                title={heading.title}
-                onClick={(event) => index.navigate(event, heading.id)}
-                className={`focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark relative flex min-h-9 items-center rounded-md py-1.5 pr-1 text-xs leading-[1.5] transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 motion-reduce:transition-none ${heading.level === 3 ? "pl-7" : "pl-5"} ${active ? "text-primary-light dark:text-primary-dark font-bold" : "hover:text-primary-light dark:hover:text-primary-dark font-semibold text-slate-500 dark:text-[#a9bacb]"}`}
-              >
-                {active && (
-                  <span
-                    aria-hidden="true"
-                    className="bg-primary-light dark:bg-primary-dark pointer-events-none absolute top-1/2 left-[2px] h-[22px] w-[3px] -translate-y-1/2 rounded-full"
-                  />
-                )}
-                <span className="line-clamp-1 min-w-0 flex-1">
-                  {heading.title}
-                </span>
-              </a>
-            </li>
-          );
-        })}
-      </ol>
+      <div className="before:bg-primary-light/16 dark:before:bg-primary-dark/20 relative before:absolute before:inset-y-0 before:left-[3px] before:w-px">
+        <ol ref={listRef}>
+          {index.headings.map((heading) => {
+            const active = heading.id === index.activeId;
+            return (
+              <li key={heading.id}>
+                <a
+                  href={`#${heading.id}`}
+                  aria-current={active ? "location" : undefined}
+                  title={heading.title}
+                  onClick={(event) => index.navigate(event, heading.id)}
+                  className={`focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark relative flex min-h-9 items-center rounded-md py-1.5 pr-1 text-xs leading-[1.5] transition-colors duration-150 focus-visible:outline-2 focus-visible:-outline-offset-2 motion-reduce:transition-none ${heading.level === 3 ? "pl-7" : "pl-5"} ${active ? "text-primary-light dark:text-primary-dark font-bold" : "hover:text-primary-light dark:hover:text-primary-dark font-semibold text-slate-500 dark:text-[#a9bacb]"}`}
+                >
+                  <span className="line-clamp-1 min-w-0 flex-1">
+                    {heading.title}
+                  </span>
+                </a>
+              </li>
+            );
+          })}
+        </ol>
+        <motion.span
+          data-article-toc-marker=""
+          aria-hidden="true"
+          className="bg-primary-light dark:bg-primary-dark pointer-events-none absolute top-0 left-[2px] h-[22px] w-[3px] rounded-full"
+          style={{ y: reducedMotion ? indicatorY : smoothIndicatorY }}
+        />
+      </div>
     </nav>
   );
 }

@@ -51,7 +51,7 @@ function ArticleMetadata({ post }: { post: BlogPost }) {
         {post.tags.map((tag, index) => (
           <Link
             key={tag}
-            href={`/blog/tag/${tag}`}
+            href={`/blog/tag/${tag}#blog-page-gallery`}
             className="font-body border-primary-light/20 hover:border-primary-light/50 hover:text-primary-light dark:hover:text-primary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark dark:hover:border-primary-dark/50 inline-flex min-h-6 max-w-full items-center rounded-full border bg-white/50 px-2.5 py-0.5 text-[10px] leading-4 font-medium text-slate-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-cyan-300/15 dark:bg-[#152230]/50 dark:text-slate-300"
           >
             {post.tagLabels[index] ?? tag}

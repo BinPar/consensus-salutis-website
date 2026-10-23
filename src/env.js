@@ -16,7 +16,7 @@ export const env = createEnv({
       .transform((value) => value === "true"),
     RESEND_API_KEY: z.string().optional(),
     CONTACT_FROM_EMAIL: z.string().optional(),
-    CONTACT_TO_EMAIL: z.string().email().default("adrian@binpar.com"),
+    CONTACT_TO_EMAIL: z.string().email().default("info@binpar.com"),
     /**
      * Firma de la cookie de sesión del evaluador de idoneidad. Requerido: sin
      * él no se puede atar un navegador a su evaluación, ni sostener la regla de

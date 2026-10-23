@@ -63,6 +63,7 @@ export function ContactAssistant({
   const [paintCycle, setPaintCycle] = useState(0);
   const [introReady, setIntroReady] = useState(false);
   const [finishedReply, setFinishedReply] = useState<string | null>(null);
+  const [revealedSteps, setRevealedSteps] = useState<number[]>([]);
   const [tabVisible, setTabVisible] = useState(true);
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>(emptyAnswers);
@@ -106,16 +107,23 @@ export function ContactAssistant({
       ? "¿Quieres explorar BinPar para tu organización? Déjanos tus datos y cuéntanos qué necesitas. Nuestro equipo se pondrá en contacto contigo."
       : step === 1
         ? `${greetingName}, déjanos tu correo electrónico para continuar la conversación. Nuestro equipo te escribirá para conocer mejor tu caso y valorar el siguiente paso.`
-        : `${greetingName}, cuéntanos qué te gustaría explorar con BinPar y qué necesita tu organización. Así podremos preparar una conversación centrada en tu caso.`;
+        : `${greetingName}, te responderemos en ${answers.email}.\nCuéntanos qué te gustaría explorar con BinPar y qué necesita tu organización para que podamos preparar una conversación centrada en tu caso.`;
   // Keep the initial server/client state identical when reduced motion is set.
-  const inputReady = entered && (Boolean(reduced) || finishedReply === reply);
-  const replyComplete = useCallback(() => setFinishedReply(reply), [reply]);
+  const immediateReply = revealedSteps.includes(step);
+  const inputReady =
+    entered && (Boolean(reduced) || immediateReply || finishedReply === reply);
+  const replyComplete = useCallback(() => {
+    setFinishedReply(reply);
+    setRevealedSteps((previous) =>
+      previous.includes(step) ? previous : [...previous, step],
+    );
+  }, [reply, step]);
 
   useEffect(() => {
     if (!inputReady || !focusAfterStep.current) return;
     inputRef.current?.focus({ preventScroll: true });
     focusAfterStep.current = false;
-  }, [inputReady]);
+  }, [inputReady, step]);
 
   function focusInput(element: HTMLInputElement | HTMLTextAreaElement | null) {
     inputRef.current = element;
@@ -200,6 +208,7 @@ export function ContactAssistant({
 
   function reset() {
     setFinishedReply(null);
+    setRevealedSteps([]);
     focusAfterStep.current = true;
     setAnswers(emptyAnswers);
     setPrivacy(false);
@@ -212,7 +221,7 @@ export function ContactAssistant({
       ref={root}
       className={
         layout === "page"
-          ? "contact-assistant contact-assistant--page"
+          ? "contact-assistant contact-assistant--page items-start! pt-[max(3rem,calc(50svh-14rem))]! md:pt-[max(4.5rem,calc(50svh-12rem))]!"
           : "contact-assistant"
       }
       aria-labelledby={`${id}-heading`}
@@ -296,6 +305,8 @@ export function ContactAssistant({
               <TypedReply
                 key={`${paintCycle}-${step}-${reply}`}
                 text={reply}
+                emphasis={step === 2 ? answers.email : undefined}
+                immediate={immediateReply}
                 enabled={introReady || Boolean(reduced)}
                 onComplete={replyComplete}
               />
@@ -462,10 +473,14 @@ export function ContactAssistant({
 
 function TypedReply({
   text,
+  emphasis,
+  immediate = false,
   enabled = true,
   onComplete,
 }: {
   text: string;
+  emphasis?: string;
+  immediate?: boolean;
   enabled?: boolean;
   onComplete: () => void;
 }) {
@@ -480,10 +495,13 @@ function TypedReply({
 
   useLayoutEffect(() => {
     const element = root.current;
-    const node = measureRef.current?.firstChild;
-    if (!element || !node) return;
+    const paragraph = measureRef.current;
+    if (!element || !paragraph) return;
     const measure = () => {
       if (!element.getBoundingClientRect().width) return;
+      const walker = document.createTreeWalker(paragraph, NodeFilter.SHOW_TEXT);
+      let node = walker.nextNode();
+      let offset = 0;
       const range = document.createRange();
       const next: { text: string; start: number }[] = [];
       let start = 0;
@@ -498,8 +516,14 @@ function TypedReply({
           });
       };
       for (let index = 0; index < text.length; index++) {
-        range.setStart(node, index);
-        range.setEnd(node, index + 1);
+        while (node && offset >= (node.textContent?.length ?? 0)) {
+          node = walker.nextNode();
+          offset = 0;
+        }
+        if (!node) break;
+        range.setStart(node, offset);
+        range.setEnd(node, offset + 1);
+        offset++;
         const rect = range.getBoundingClientRect();
         if (top !== undefined && Math.abs(rect.top - top) > 1) {
           addLine(index);
@@ -520,7 +544,7 @@ function TypedReply({
       observer.disconnect();
       document.fonts.removeEventListener("loadingdone", measure);
     };
-  }, [text]);
+  }, [text, emphasis]);
 
   useEffect(() => {
     const update = () => setTabVisible(!document.hidden);
@@ -535,6 +559,7 @@ function TypedReply({
       !inView ||
       !tabVisible ||
       reduced ||
+      immediate ||
       cursor.current >= text.length
     )
       return;
@@ -551,16 +576,31 @@ function TypedReply({
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [enabled, inView, tabVisible, reduced, text]);
+  }, [enabled, inView, tabVisible, reduced, immediate, text]);
 
   useEffect(() => {
-    if (enabled && (reduced || length >= text.length)) onComplete();
-  }, [enabled, reduced, length, text.length, onComplete]);
+    if (enabled && (reduced || immediate || length >= text.length))
+      onComplete();
+  }, [enabled, reduced, immediate, length, text.length, onComplete]);
 
-  const shown = reduced ? text.length : length;
+  const shown = reduced || immediate ? text.length : length;
   const caretLine = lines.findIndex(
     (line) => shown <= line.start + line.text.length,
   );
+  const emphasisStart = emphasis ? text.indexOf(emphasis) : -1;
+  function renderText(value: string, start = 0) {
+    if (!emphasis || emphasisStart < 0) return value;
+    const from = Math.max(0, emphasisStart - start);
+    const to = Math.min(value.length, emphasisStart + emphasis.length - start);
+    if (from >= to) return value;
+    return (
+      <>
+        {value.slice(0, from)}
+        <strong className="font-bold">{value.slice(from, to)}</strong>
+        {value.slice(to)}
+      </>
+    );
+  }
   return (
     <div
       ref={root}
@@ -569,18 +609,23 @@ function TypedReply({
     >
       <p
         ref={measureRef}
-        className="ca-dialogue-measure font-body"
+        className="ca-dialogue-measure font-body whitespace-pre-line"
         aria-hidden="true"
       >
-        {text}
+        {renderText(text)}
       </p>
       <p className="ca-dialogue-text font-body" aria-hidden="true">
         {lines.map((line, index) => (
           <span key={line.start} className="ca-dialogue-line">
             <span className="ca-dialogue-line-shell">
-              <span className="ca-dialogue-line-full">{line.text}</span>
+              <span className="ca-dialogue-line-full">
+                {renderText(line.text, line.start)}
+              </span>
               <span className="ca-dialogue-line-written">
-                {line.text.slice(0, Math.max(0, shown - line.start))}
+                {renderText(
+                  line.text.slice(0, Math.max(0, shown - line.start)),
+                  line.start,
+                )}
                 {shown < text.length && index === caretLine && (
                   <span className="ca-typing-caret" />
                 )}

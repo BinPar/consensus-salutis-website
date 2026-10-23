@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  ArrowUpRight,
-  Mail,
-  MapPin,
-  MessagesSquare,
-  type LucideIcon,
-} from "lucide-react";
+import { ArrowUpRight, Mail, MapPin, type LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { Reveal } from "~/app/_components/motion-system";
 import { Eyebrow } from "~/app/_components/eyebrow";
@@ -61,23 +55,11 @@ export function ContactDetails({
             </ContactDetailRow>
             <ContactDetailRow icon={Mail}>
               <a
-                href="mailto:ignite@binpar.com"
+                href="mailto:info@binpar.com"
                 className="text-primary-light dark:text-primary-dark inline-flex items-center gap-2 text-base font-semibold underline-offset-4 hover:underline"
               >
-                ignite@binpar.com
+                info@binpar.com
                 <ArrowUpRight size={16} strokeWidth={1.8} aria-hidden="true" />
-              </a>
-            </ContactDetailRow>
-            <ContactDetailRow icon={MessagesSquare}>
-              <a
-                href="https://discord.gg/2sqWmnbGh3"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary-light dark:text-primary-dark inline-flex items-center gap-2 text-base font-semibold underline-offset-4 hover:underline"
-              >
-                Canal de soporte
-                <ArrowUpRight size={16} strokeWidth={1.8} aria-hidden="true" />
-                <span className="sr-only"> (se abre en una pestaña nueva)</span>
               </a>
             </ContactDetailRow>
           </address>
