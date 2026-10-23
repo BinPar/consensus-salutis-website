@@ -5,8 +5,11 @@ import { useState } from "react";
 import { SelectMenu } from "./select-menu";
 
 const languages = [
-  { value: "es", label: "Español", lang: "es" },
-  { value: "en", label: "English", lang: "en" },
+  { value: "es", label: "Castellano", lang: "es" },
+  { value: "ca", label: "Catalán", lang: "ca" },
+  { value: "gl", label: "Gallego", lang: "gl" },
+  { value: "eu", label: "Euskera", lang: "eu" },
+  { value: "en", label: "Inglés", lang: "en" },
 ] as const;
 
 /** Control de presentación; la selección no modifica el contenido ni la ruta. */
