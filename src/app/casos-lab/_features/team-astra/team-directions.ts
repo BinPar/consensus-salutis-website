@@ -135,6 +135,15 @@ export const teamDirections = [
     url: "/casos-lab?lab=team&teamVariant=mezcla-3",
   },
   {
+    id: "mezcla-4",
+    number: "19",
+    label: "Mezcla 4",
+    description:
+      "La portada y galería de Mezcla 3, con una sección editorial sobre la idea que impulsa BinPar, sin retrato del CEO.",
+    reference: "BinPar · Mezcla 4",
+    url: "/casos-lab?lab=team&teamVariant=mezcla-4",
+  },
+  {
     id: "umbral",
     number: "13",
     label: "Umbral",

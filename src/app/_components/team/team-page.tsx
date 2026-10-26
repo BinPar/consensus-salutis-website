@@ -1,5 +1,5 @@
 import { SectionNavigation } from "~/app/_components/section-navigation";
-import { TeamCeo } from "./team-ceo";
+import { TeamIdea } from "./team-idea";
 import { TeamContact } from "./team-contact";
 import { TeamGallery } from "./team-gallery";
 import { TeamOrbitHero } from "./team-orbit-hero";
@@ -17,7 +17,7 @@ export function TeamPage() {
       <main className="relative z-1 overflow-clip bg-(--team-paper) pt-16 [font-family:var(--font-plus-jakarta-sans),sans-serif] text-(--team-ink) [--team-accent:#006d79] [--team-ink:#05215e] [--team-line:rgb(0_109_121/19%)] [--team-muted:#526b7c] [--team-panel:#e8f2f7] [--team-paper:#fbfdff] dark:[--team-accent:#00bcbb] dark:[--team-ink:#f1f5f9] dark:[--team-line:rgb(103_232_249/20%)] dark:[--team-muted:#a3b7c8] dark:[--team-panel:#0b2030] dark:[--team-paper:#06111f]">
         <div className="relative isolate overflow-clip bg-(--team-paper) [--team-ceo-fade:160px] [--team-orbit-tail:96px] motion-reduce:[--team-orbit-tail:0px] [@media(width<=767px)]:[--team-ceo-fade:112px] [@media(width<=767px)]:[--team-orbit-tail:64px] [@media(width<=767px)]:motion-reduce:[--team-orbit-tail:0px]">
           <TeamOrbitHero />
-          <TeamCeo />
+          <TeamIdea />
         </div>
         <TeamGallery />
         <TeamContact />

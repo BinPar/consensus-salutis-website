@@ -12,6 +12,7 @@ import { PrismaScene, UmbralScene, NexoScene } from "./team-hero-scenes";
 import { PrismaScrollBridge } from "./team-prisma-scroll";
 import { TeamGuiada03Hero } from "./team-guiada-03-hero";
 import { TeamGuiada03Ceo } from "./team-guiada-03-ceo";
+import { TeamMezcla4Idea } from "./team-mezcla-4-idea";
 import { guided03Members } from "./team-guiada-03-data";
 import "./team-mezcla.css";
 import "~/app/_components/section-navigation.css";
@@ -21,6 +22,7 @@ export type NewTeamDirection =
   | "prisma-2"
   | "mezcla"
   | "mezcla-3"
+  | "mezcla-4"
   | "umbral"
   | "nexo";
 export function isNewTeamDirection(value: string): value is NewTeamDirection {
@@ -29,6 +31,7 @@ export function isNewTeamDirection(value: string): value is NewTeamDirection {
     value === "prisma-2" ||
     value === "mezcla" ||
     value === "mezcla-3" ||
+    value === "mezcla-4" ||
     value === "umbral" ||
     value === "nexo"
   );
@@ -389,13 +392,14 @@ function PrismaGallery({
 }) {
   const direction =
     variant ?? (mezcla ? "mezcla" : bridge ? "prisma-2" : "prisma");
+  const enhancedMezcla = direction === "mezcla-3" || direction === "mezcla-4";
   const Intro = bridge ? "div" : Reveal;
   const galleryRef = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
   const backgroundOpacity = useMotionValue(0);
   useEffect(() => {
     const gallery = galleryRef.current;
-    if (direction !== "mezcla-3" || !gallery) return;
+    if (!enhancedMezcla || !gallery) return;
     const directory = gallery.querySelector<HTMLElement>(
       ".tn-prisma-directory",
     );
@@ -434,7 +438,7 @@ function PrismaGallery({
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
     };
-  }, [direction, reducedMotion, backgroundOpacity]);
+  }, [enhancedMezcla, reducedMotion, backgroundOpacity]);
   return (
     <section
       ref={galleryRef}
@@ -442,7 +446,7 @@ function PrismaGallery({
       className="tn-gallery tn-prisma-gallery"
       aria-labelledby={`${direction}-gallery-title`}
     >
-      {direction === "mezcla-3" && (
+      {enhancedMezcla && (
         <motion.div
           aria-hidden="true"
           className="tn-mezcla-gallery-background"
@@ -639,17 +643,22 @@ export function TeamNewDirections({
 }: {
   direction: NewTeamDirection;
 }) {
+  const enhancedMezcla = direction === "mezcla-3" || direction === "mezcla-4";
+  const mezcla = direction === "mezcla" || enhancedMezcla;
   return (
     <div
-      className={`ta-new tn-${direction}${direction === "mezcla" || direction === "mezcla-3" ? "section-navigation-layout tn-mezcla" : ""}`}
+      className={`ta-new tn-${direction}${mezcla ? " section-navigation-layout tn-mezcla" : ""}`}
       data-team-direction={direction}
     >
-      {direction === "mezcla" || direction === "mezcla-3" ? (
+      {mezcla ? (
         <>
           <div className="tn-mezcla-intro">
             <TeamGuiada03Hero
               extendedOrbit
-              homeGrid={direction === "mezcla-3"}
+              homeGrid={enhancedMezcla}
+              ceoAnchor={
+                direction === "mezcla-4" ? "mezcla-4-idea" : `${direction}-ceo`
+              }
               portraits={guided03Members.map((person) => (
                 <RealTeamPortrait
                   key={person.slug}
@@ -660,9 +669,13 @@ export function TeamNewDirections({
                 />
               ))}
             />
-            <TeamGuiada03Ceo
-              id={direction === "mezcla-3" ? "mezcla-3-ceo" : undefined}
-            />
+            {direction === "mezcla-4" ? (
+              <TeamMezcla4Idea />
+            ) : (
+              <TeamGuiada03Ceo
+                id={enhancedMezcla ? `${direction}-ceo` : undefined}
+              />
+            )}
           </div>
           <PrismaGallery mezcla variant={direction} />
         </>

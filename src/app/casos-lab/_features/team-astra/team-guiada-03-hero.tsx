@@ -578,10 +578,12 @@ export function TeamGuiada03Hero({
   portraits,
   extendedOrbit = false,
   homeGrid = false,
+  ceoAnchor = "mezcla-3-ceo",
 }: {
   portraits: ReactNode[];
   extendedOrbit?: boolean;
   homeGrid?: boolean;
+  ceoAnchor?: string;
 }) {
   const [paused, setPaused] = useState(false);
   const { stage, reducedMotion, memberIndices } = useGuidedOrbit(
@@ -692,10 +694,10 @@ export function TeamGuiada03Hero({
         <div className="ta-guided-03-actions font-body">
           {homeGrid ? (
             <a
-              href="#mezcla-3-ceo"
+              href={`#${ceoAnchor}`}
               className="ta-guided-03-primary"
               onClick={(event) => {
-                const destination = document.getElementById("mezcla-3-ceo");
+                const destination = document.getElementById(ceoAnchor);
                 if (!destination) return;
                 event.preventDefault();
                 destination.scrollIntoView({

@@ -36,6 +36,7 @@ Guiada 02 añade después del hero una sección editorial sobre Ignacio Ferro (`
 ### Prisma, Umbral y Nexo
 
 - **Mezcla 3** (`mezcla-3`, 18): copia exacta de la variante Mezcla actual, con la misma portada orbital, paralaje, expansión y desvanecido, perfil del CEO, separación de 90 px y galería con nombres y cargos siempre visibles.
+- **Mezcla 4** (`mezcla-4`, 19): parte de Mezcla 3 y conserva su portada orbital y galería. Sustituye el perfil del CEO por un bloque sobre la idea que impulsa BinPar, sin fotografía, en `team-mezcla-4-idea.tsx` y su CSS exclusivo. Antetítulo, titular y relato forman una composición centrada dentro del contenedor de la web; el cuerpo conserva la escala tipográfica compartida y limita su ancho de lectura a 880 px. Conserva la transición de las órbitas y enlaza desde la portada a `#mezcla-4-idea`. Todos los cambios permanecen dentro del laboratorio.
 
 - **Mezcla** (`mezcla`): portada orbital de Guiada 3 y presentación del CEO con retrato compacto de 320 px (240 px en tablet). CEO, galería y controles de la portada comparten los contenedores de la home: `px-5 sm:px-10`, `max-w-7xl` y, desde 1280 px, el límite de navegación `--section-content-max` de `section-navigation-layout`. Reutiliza la galería de Prisma (15 personas, tres columnas en escritorio, gap de 4 px y radio de 8 px), con el texto lateral «Las personas detrás de BinPar». Conserva las entradas independientes, sin transición compartida entre CEO y galería.
 

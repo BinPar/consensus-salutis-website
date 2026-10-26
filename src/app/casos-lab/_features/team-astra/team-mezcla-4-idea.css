@@ -1,0 +1,36 @@
+/* Mezcla 4 only: one editorial column within the shared page container. */
+:where([data-visual-lab]) :is(.tn-mezcla-4 .tm4-idea) {
+  scroll-margin-top: var(--lab-toolbar-height, 80px);
+}
+
+:where([data-visual-lab]) :is(.tn-mezcla-4 .tm4-idea-inner) {
+  display: block;
+  text-align: center;
+}
+
+:where([data-visual-lab]) :is(.tn-mezcla-4 .tm4-idea-copy) {
+  display: grid;
+  gap: 16px;
+  max-width: 880px;
+  margin-top: 28px;
+  margin-inline: auto;
+  color: var(--color-slate-600);
+  font-size: 18px;
+  line-height: 32px;
+  text-wrap: pretty;
+}
+
+:where([data-visual-lab]) :is(.dark .tn-mezcla-4 .tm4-idea-copy) {
+  color: var(--color-slate-400);
+}
+
+:where([data-visual-lab]) :is(.tn-mezcla-4 .tm4-idea-copy p) {
+  margin: 0;
+}
+
+@media (max-width: 767px) {
+  :where([data-visual-lab]) :is(.tn-mezcla-4 .tm4-idea-copy) {
+    font-size: 16px;
+    line-height: 28px;
+  }
+}

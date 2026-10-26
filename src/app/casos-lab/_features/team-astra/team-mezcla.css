@@ -68,7 +68,7 @@
   :is(
     .tn-mezcla:is(
         [data-team-direction="mezcla"],
-        [data-team-direction="mezcla-3"]
+        :is([data-team-direction="mezcla-3"], [data-team-direction="mezcla-4"])
       )
       .tn-prisma-gallery
   ) {
@@ -79,7 +79,7 @@
   :is(
     .tn-mezcla:is(
         [data-team-direction="mezcla"],
-        [data-team-direction="mezcla-3"]
+        :is([data-team-direction="mezcla-3"], [data-team-direction="mezcla-4"])
       )
       .tn-prisma-members
       figcaption
@@ -99,7 +99,7 @@
   :is(
     .tn-mezcla:is(
         [data-team-direction="mezcla"],
-        [data-team-direction="mezcla-3"]
+        :is([data-team-direction="mezcla-3"], [data-team-direction="mezcla-4"])
       )
       .tn-prisma-members
       figcaption
@@ -119,7 +119,7 @@
   :is(
     .tn-mezcla:is(
         [data-team-direction="mezcla"],
-        [data-team-direction="mezcla-3"]
+        :is([data-team-direction="mezcla-3"], [data-team-direction="mezcla-4"])
       )
       .tn-prisma-members
       figcaption
@@ -139,7 +139,10 @@
     :is(
       .tn-mezcla:is(
           [data-team-direction="mezcla"],
-          [data-team-direction="mezcla-3"]
+          :is(
+            [data-team-direction="mezcla-3"],
+            [data-team-direction="mezcla-4"]
+          )
         )
         .tn-prisma-members
         figcaption
@@ -167,7 +170,13 @@
 }
 
 :where([data-visual-lab])
-  :is(.tn-mezcla[data-team-direction="mezcla-3"] .tn-prisma-gallery) {
+  :is(
+    .tn-mezcla:is(
+        [data-team-direction="mezcla-3"],
+        [data-team-direction="mezcla-4"]
+      )
+      .tn-prisma-gallery
+  ) {
   position: relative;
   isolation: isolate;
 }
@@ -184,12 +193,18 @@
   background: #030916;
 }
 
-:where([data-visual-lab]) :is(#mezcla-3-ceo) {
+:where([data-visual-lab]) :is(#mezcla-3-ceo, #mezcla-4-ceo) {
   scroll-margin-top: var(--lab-toolbar-height, 80px);
 }
 
 :where([data-visual-lab])
-  :is(.tn-mezcla[data-team-direction="mezcla-3"] .ta-guided-03-portrait) {
+  :is(
+    .tn-mezcla:is(
+        [data-team-direction="mezcla-3"],
+        [data-team-direction="mezcla-4"]
+      )
+      .ta-guided-03-portrait
+  ) {
   opacity: 1;
   filter: saturate(0.4);
 }
@@ -239,7 +254,13 @@
 }
 
 :where([data-visual-lab])
-  :is(.tn-mezcla[data-team-direction="mezcla-3"] .tn-mezcla-intro) {
+  :is(
+    .tn-mezcla:is(
+        [data-team-direction="mezcla-3"],
+        [data-team-direction="mezcla-4"]
+      )
+      .tn-mezcla-intro
+  ) {
   --mezcla-ceo-fade: 160px;
 }
 
@@ -258,7 +279,13 @@
   }
 
   :where([data-visual-lab])
-    :is(.tn-mezcla[data-team-direction="mezcla-3"] .tn-mezcla-intro) {
+    :is(
+      .tn-mezcla:is(
+          [data-team-direction="mezcla-3"],
+          [data-team-direction="mezcla-4"]
+        )
+        .tn-mezcla-intro
+    ) {
     --mezcla-ceo-fade: 112px;
   }
 }
