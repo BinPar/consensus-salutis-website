@@ -11,7 +11,7 @@
     0 4px 16px rgb(0 109 121 / 6%);
 }
 .pp-frame[data-theme="dark"] {
-  border-color: rgb(0 188 187 / 15%);
+  border-color: color-mix(in srgb, var(--color-primary-dark) 15%, transparent);
   background: #06111f;
   box-shadow: 0 24px 80px rgb(0 0 0 / 28%);
 }
@@ -46,13 +46,13 @@
   --pp-card: #152230;
   --pp-white: #152230;
   --pp-panel: #081827;
-  --pp-accent: #00bcbb;
+  --pp-accent: var(--color-primary-dark);
   --pp-accent-text: #03111d;
   --pp-heading: #f8fafc;
   --pp-text: #cbd5e1;
   --pp-muted: #94a3b8;
-  --pp-border: rgb(0 188 187 / 15%);
-  --pp-grid: rgb(125 211 252 / 4.5%);
+  --pp-border: color-mix(in srgb, var(--color-primary-dark) 15%, transparent);
+  --pp-grid: color-mix(in srgb, var(--color-primary-dark) 4.5%, transparent);
   --pp-highlight: rgb(246 255 83 / 32%);
   color-scheme: dark;
 }

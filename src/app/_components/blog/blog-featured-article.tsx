@@ -157,12 +157,12 @@ export function BlogFeaturedArticle({
         aria-label={`Leer artículo: ${post.title}`}
         inert={!complete}
         data-blog-article-mock=""
-        className="group shadow-big-blocks focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark @container relative isolate block min-h-[430px] overflow-hidden rounded-3xl border border-cyan-800/15 bg-white/80 backdrop-blur-sm focus-visible:outline-2 focus-visible:outline-offset-4 dark:border-cyan-300/15 dark:bg-[#06111f]"
+        className="group shadow-big-blocks focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark @container relative isolate block min-h-[430px] overflow-hidden rounded-3xl border border-cyan-800/15 bg-white/80 backdrop-blur-sm focus-visible:outline-2 focus-visible:outline-offset-4 dark:border-primary-dark/15 dark:bg-[#06111f]"
       >
         <div
           ref={gridRef}
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(rgba(8,145,178,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(8,145,178,0.1)_1px,transparent_1px)] bg-size-[44px_44px] dark:bg-[linear-gradient(rgba(125,211,252,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(125,211,252,0.045)_1px,transparent_1px)]"
+          className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(rgba(8,145,178,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(8,145,178,0.1)_1px,transparent_1px)] bg-size-[44px_44px] dark:bg-[linear-gradient(color-mix(in_srgb,var(--color-primary-dark)_4.5%,transparent)_1px,transparent_1px),linear-gradient(90deg,color-mix(in_srgb,var(--color-primary-dark)_4.5%,transparent)_1px,transparent_1px)]"
         />
         <div
           aria-hidden="true"
@@ -257,7 +257,7 @@ export function BlogFeaturedArticle({
             </p>
             <span
               aria-hidden="true"
-              className="text-primary-light dark:text-primary-dark inline-flex size-6 shrink-0 items-center justify-center rounded-full transition-colors group-hover:bg-cyan-800/5 group-focus-visible:bg-cyan-800/5 dark:group-hover:bg-cyan-300/10 dark:group-focus-visible:bg-cyan-300/10"
+              className="text-primary-light dark:text-primary-dark inline-flex size-6 shrink-0 items-center justify-center rounded-full transition-colors group-hover:bg-cyan-800/5 group-focus-visible:bg-cyan-800/5 dark:group-hover:bg-primary-dark/10 dark:group-focus-visible:bg-primary-dark/10"
             >
               <ArrowUpRight size={18} strokeWidth={1.8} aria-hidden="true" />
             </span>
@@ -272,8 +272,8 @@ export function BlogFeaturedArticle({
             translate: centered ? "0 0" : "0 -100%",
           }}
         >
-          <div className="font-body shadow-big-blocks grid min-h-11 grid-cols-[44px_minmax(0,1fr)_44px] overflow-hidden rounded-[28px] border border-cyan-800/15 bg-white/85 text-[13px] leading-5.5 backdrop-blur-md dark:border-cyan-300/15 dark:bg-[#152230]/90 dark:shadow-[0_0_32px_rgba(0,188,187,0.12)]">
-            <span className="grid size-7 place-items-center place-self-center rounded-full border border-cyan-800/15 text-slate-500 dark:border-cyan-300/15 dark:text-slate-400">
+          <div className="font-body shadow-big-blocks grid min-h-11 grid-cols-[44px_minmax(0,1fr)_44px] overflow-hidden rounded-[28px] border border-cyan-800/15 bg-white/85 text-[13px] leading-5.5 backdrop-blur-md dark:border-primary-dark/15 dark:bg-[#152230]/90 dark:shadow-[0_0_32px_color-mix(in_srgb,var(--color-primary-dark)_12%,transparent)]">
+            <span className="grid size-7 place-items-center place-self-center rounded-full border border-cyan-800/15 text-slate-500 dark:border-primary-dark/15 dark:text-slate-400">
               <Paperclip className="size-3.5" strokeWidth={1.8} />
             </span>
             <span className="min-w-0 self-center truncate py-2 text-slate-500 dark:text-slate-400">

@@ -35,7 +35,7 @@ function paginationItems(page: number, total: number): (number | string)[] {
 const buttonClass =
   "font-body inline-flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-full text-sm font-semibold shadow-none transition-all duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-light disabled:pointer-events-none disabled:opacity-50 motion-reduce:transform-none dark:focus-visible:outline-primary-dark";
 const outlineClass =
-  "border border-primary-light/25 bg-white/65 text-cyan-800 backdrop-blur-sm hover:border-primary-light/45 hover:bg-cyan-50 dark:border-cyan-300/30 dark:bg-white/[0.03] dark:text-cyan-50 dark:hover:border-cyan-200/50 dark:hover:bg-cyan-300/10";
+  "border border-primary-light/25 bg-white/65 text-cyan-800 backdrop-blur-sm hover:border-primary-light/45 hover:bg-cyan-50 dark:border-primary-dark/30 dark:bg-white/[0.03] dark:text-slate-100 dark:hover:border-primary-dark/50 dark:hover:bg-primary-dark/10";
 
 function PageControl({
   href,
@@ -177,7 +177,7 @@ export function BlogPagination({
   return (
     <nav
       aria-label="Paginación del blog"
-      className="font-body mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-cyan-800/10 pt-3 dark:border-cyan-300/10"
+      className="font-body mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-cyan-800/10 pt-3 dark:border-primary-dark/10"
     >
       <div
         className="flex max-w-full min-w-0 flex-wrap items-center gap-1"
@@ -201,7 +201,7 @@ export function BlogPagination({
             <PageControl
               key={item}
               href={pageHref?.(item)}
-              className={`${buttonClass} ${item === currentPage ? "bg-primary-light dark:bg-primary-dark dark:hover:bg-primary-dark-lighter text-white hover:-translate-y-0.5 hover:bg-[#087a85] dark:text-[#03111d]" : outlineClass}`}
+              className={`${buttonClass} ${item === currentPage ? "bg-primary-light dark:bg-primary-dark dark:hover:bg-primary-dark/85 text-white hover:-translate-y-0.5 hover:bg-[#087a85] dark:text-[#03111d]" : outlineClass}`}
               onSelect={() => onPageChange(item)}
               label={
                 item === currentPage
@@ -256,7 +256,7 @@ export function BlogPagination({
                 setOpen(true);
               }
             }}
-            className="font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark border-primary-light/60 hover:border-primary-light/35 dark:hover:border-primary-dark flex h-[32px] w-full cursor-pointer items-center justify-between gap-2 rounded-full border bg-white/80 px-3 text-xs font-medium text-slate-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 dark:border-cyan-300/20 dark:bg-[#152230]/90 dark:text-slate-300"
+            className="font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark border-primary-light/60 hover:border-primary-light/35 dark:hover:border-primary-dark flex h-[32px] w-full cursor-pointer items-center justify-between gap-2 rounded-full border bg-white/80 px-3 text-xs font-medium text-slate-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 dark:border-primary-dark/20 dark:bg-[#152230]/90 dark:text-slate-300"
           >
             {sizeLabel}
             <ChevronDown
@@ -273,7 +273,7 @@ export function BlogPagination({
               role="listbox"
               aria-label="Resultados por página"
               onKeyDown={handleMenuKey}
-              className="shadow-big-blocks absolute right-0 bottom-full z-40 mb-2 w-24 rounded-xl border border-cyan-800/15 bg-white/95 p-1.5 backdrop-blur-md dark:border-cyan-300/20 dark:bg-[#102231]/95"
+              className="shadow-big-blocks absolute right-0 bottom-full z-40 mb-2 w-24 rounded-xl border border-cyan-800/15 bg-white/95 p-1.5 backdrop-blur-md dark:border-primary-dark/20 dark:bg-[#102231]/95"
             >
               {options.map((size) => (
                 <button
@@ -286,7 +286,7 @@ export function BlogPagination({
                     onPageSizeChange(size);
                     close();
                   }}
-                  className={`font-body focus-visible:ring-primary-light/35 dark:focus-visible:ring-primary-dark/35 flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-left text-xs font-medium transition-colors hover:bg-cyan-800/5 focus-visible:bg-cyan-800/5 focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-inset dark:hover:bg-cyan-300/10 dark:focus-visible:bg-cyan-300/10 ${pageSize === size ? "bg-primary-light/5 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark" : "text-slate-600 dark:text-slate-300"}`}
+                  className={`font-body focus-visible:ring-primary-light/35 dark:focus-visible:ring-primary-dark/35 flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-left text-xs font-medium transition-colors hover:bg-cyan-800/5 focus-visible:bg-cyan-800/5 focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-inset dark:hover:bg-primary-dark/10 dark:focus-visible:bg-primary-dark/10 ${pageSize === size ? "bg-primary-light/5 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark" : "text-slate-600 dark:text-slate-300"}`}
                 >
                   {size === "all" ? "Todos" : size}
                   {pageSize === size && (

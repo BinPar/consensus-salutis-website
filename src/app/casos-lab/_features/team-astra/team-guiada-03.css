@@ -233,7 +233,7 @@
   background: #155e75;
 }
 :where([data-visual-lab]) :is(.dark .ta-guided-03-primary:hover) {
-  background: #71fffe;
+  background: color-mix(in srgb, var(--color-primary-dark) 85%, transparent);
 }
 :where([data-visual-lab]) :is(.ta-guided-03-secondary) {
   color: #155e75;

@@ -15,9 +15,10 @@
   text-align: left;
 }
 .dark .cm-composer {
-  border-color: rgb(0 188 187 / 15%);
+  border-color: color-mix(in srgb, var(--color-primary-dark) 15%, transparent);
   background: rgb(21 34 48 / 90%);
-  box-shadow: 0 0 32px rgb(0 188 187 / 12%);
+  box-shadow: 0 0 32px
+    color-mix(in srgb, var(--color-primary-dark) 12%, transparent);
 }
 .cm-composer[data-expanded="true"] {
   height: calc(var(--cm-height, 44px) + 58px);
@@ -132,13 +133,13 @@
 }
 .dark .cm-send {
   color: #06111f;
-  background: #00bcbb;
+  background: var(--color-primary-dark);
 }
 .dark .cm-send:hover {
-  background: #71fffe;
+  background: color-mix(in srgb, var(--color-primary-dark) 85%, transparent);
 }
 .dark .cm-message-icon {
-  border-color: rgb(0 188 187 / 15%);
+  border-color: color-mix(in srgb, var(--color-primary-dark) 15%, transparent);
   color: #94a3b8;
 }
 .cm-expand {
@@ -162,8 +163,8 @@
   color: #94a3b8;
 }
 .dark .cm-expand:hover {
-  color: #00bcbb;
-  background: rgb(0 188 187 / 10%);
+  color: var(--color-primary-dark);
+  background: color-mix(in srgb, var(--color-primary-dark) 10%, transparent);
 }
 .cm-send:focus-visible,
 .cm-expand:focus-visible {
@@ -172,7 +173,7 @@
 }
 .dark .cm-send:focus-visible,
 .dark .cm-expand:focus-visible {
-  outline-color: #00bcbb;
+  outline-color: var(--color-primary-dark);
 }
 .cm-scroll-fade {
   position: absolute;

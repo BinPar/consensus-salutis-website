@@ -381,7 +381,7 @@ export function EvidenceScene({
             </div>
             <section
               data-evidence-bibliography=""
-              className="mt-3 border-t border-cyan-800/15 pt-3 pb-2 dark:border-cyan-300/15"
+              className="mt-3 border-t border-cyan-800/15 pt-3 pb-2 dark:border-primary-dark/15"
               style={{
                 opacity: bibliography,
                 visibility: bibliography > 0 ? "visible" : "hidden",
@@ -399,7 +399,7 @@ export function EvidenceScene({
                       opacity: reveal(time, 6 + index * 0.06, 0.3, reduced),
                     }}
                   >
-                    <span className="font-display border-primary-light/20 bg-primary-light/8 text-primary-light dark:border-primary-dark/25 dark:bg-primary-dark/10 dark:text-primary-dark-lighter grid size-6 shrink-0 place-items-center rounded-md border text-[10px] font-semibold">
+                    <span className="font-display border-primary-light/20 bg-primary-light/8 text-primary-light dark:border-primary-dark/25 dark:bg-primary-dark/10 dark:text-primary-dark grid size-6 shrink-0 place-items-center rounded-md border text-[10px] font-semibold">
                       {citation.order}
                     </span>
                     <span
@@ -428,9 +428,9 @@ export function EvidenceScene({
             {continuation?.composer ?? (
               <div
                 data-process-composer=""
-                className="shadow-big-blocks relative grid h-[52px] grid-cols-[56px_minmax(0,1fr)_56px] items-center overflow-hidden rounded-[28px] border border-cyan-800/15 bg-white/85 backdrop-blur-md dark:border-cyan-300/15 dark:bg-[#152230e6]/90"
+                className="shadow-big-blocks relative grid h-[52px] grid-cols-[56px_minmax(0,1fr)_56px] items-center overflow-hidden rounded-[28px] border border-cyan-800/15 bg-white/85 backdrop-blur-md dark:border-primary-dark/15 dark:bg-[#152230e6]/90"
               >
-                <span className="grid size-9 place-items-center place-self-center rounded-full border border-cyan-800/15 text-slate-500 dark:border-cyan-300/15 dark:text-slate-400">
+                <span className="grid size-9 place-items-center place-self-center rounded-full border border-cyan-800/15 text-slate-500 dark:border-primary-dark/15 dark:text-slate-400">
                   <Paperclip size={20} strokeWidth={1.1} />
                 </span>
                 <span className="min-w-0 truncate text-sm leading-6 text-slate-500 dark:text-slate-400">
@@ -447,14 +447,14 @@ export function EvidenceScene({
         </div>
         <div
           data-process-source-viewer=""
-          className="evidence-source flex min-w-0 flex-col overflow-hidden border-cyan-800/15 bg-white dark:border-cyan-300/15 dark:bg-[#152230]"
+          className="evidence-source flex min-w-0 flex-col overflow-hidden border-cyan-800/15 bg-white dark:border-primary-dark/15 dark:bg-[#152230]"
           style={{
             width: sourceWidth || undefined,
             opacity: source,
             pointerEvents: source === 1 ? "auto" : "none",
           }}
         >
-          <div className="evidence-tabs flex h-11 shrink-0 items-end border-b border-cyan-800/10 bg-[#e8f2f7]/30 px-2 pt-1 dark:border-cyan-300/15 dark:bg-[#06111f]/45">
+          <div className="evidence-tabs flex h-11 shrink-0 items-end border-b border-cyan-800/10 bg-[#e8f2f7]/30 px-2 pt-1 dark:border-primary-dark/15 dark:bg-[#06111f]/45">
             <div className="evidence-tab relative -mb-px flex h-10 max-w-56 min-w-0 flex-1 items-center gap-1.5 rounded-t-md border border-b-0 bg-white px-2.5 text-[#05215e] dark:bg-[#152230] dark:text-slate-100">
               <FileText
                 size={20}
@@ -474,7 +474,7 @@ export function EvidenceScene({
               <X size={20} strokeWidth={1.1} />
             </span>
           </div>
-          <header className="flex min-w-0 shrink-0 items-center gap-2 border-b border-cyan-800/10 bg-white px-4 py-3 dark:border-cyan-300/15 dark:bg-[#152230]">
+          <header className="flex min-w-0 shrink-0 items-center gap-2 border-b border-cyan-800/10 bg-white px-4 py-3 dark:border-primary-dark/15 dark:bg-[#152230]">
             <div className="min-w-0 flex-1">
               <p className="font-display text-primary-light dark:text-primary-dark text-[9px] font-bold tracking-[0.16em] uppercase">
                 Fuente de consulta

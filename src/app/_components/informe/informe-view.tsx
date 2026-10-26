@@ -125,10 +125,10 @@ const TITULAR_POR_NIVEL: Record<PublicReport["nivel"], string> = {
 };
 
 const CARD =
-  "rounded-2xl border border-cyan-800/15 bg-white/80 shadow-big-blocks backdrop-blur-xs dark:border-cyan-300/15 dark:bg-[#152230e6]/90";
+  "rounded-2xl border border-cyan-800/15 bg-white/80 shadow-big-blocks backdrop-blur-xs dark:border-primary-dark/15 dark:bg-[#152230e6]/90";
 
 const FICHA =
-  "rounded-xl border border-cyan-800/10 bg-white px-3.5 py-2.5 text-[13.5px] leading-snug font-semibold text-slate-800 dark:border-cyan-300/12 dark:bg-[#0b1a2b] dark:text-slate-100";
+  "rounded-xl border border-cyan-800/10 bg-white px-3.5 py-2.5 text-[13.5px] leading-snug font-semibold text-slate-800 dark:border-primary-dark/12 dark:bg-[#0b1a2b] dark:text-slate-100";
 
 const ROTULO = "font-display text-[11px] font-bold tracking-[0.14em] uppercase";
 
@@ -175,14 +175,14 @@ export function InformeView({
   return (
     <div className="relative isolate bg-[#fbfdff] dark:bg-[#06111f]">
       {/* ── Banda 1: el suelo del hero del sitio ──────────────────────────── */}
-      <section className="relative isolate overflow-hidden border-b border-cyan-800/10 dark:border-cyan-300/15">
+      <section className="relative isolate overflow-hidden border-b border-cyan-800/10 dark:border-primary-dark/15">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.1),transparent_35%,rgba(13,148,136,0.08)_72%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.12),transparent_35%,rgba(20,184,166,0.08)_72%,transparent)]"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.1),transparent_35%,rgba(13,148,136,0.08)_72%,transparent)] dark:bg-[linear-gradient(120deg,color-mix(in_srgb,var(--color-primary-dark)_12%,transparent),transparent_35%,color-mix(in_srgb,var(--color-primary-dark)_8%,transparent)_72%,transparent)]"
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(8,145,178,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(8,145,178,0.1)_1px,transparent_1px)] bg-size-[44px_44px] dark:bg-[linear-gradient(rgba(125,211,252,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(125,211,252,0.045)_1px,transparent_1px)]"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(8,145,178,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(8,145,178,0.1)_1px,transparent_1px)] bg-size-[44px_44px] dark:bg-[linear-gradient(color-mix(in_srgb,var(--color-primary-dark)_4.5%,transparent)_1px,transparent_1px),linear-gradient(90deg,color-mix(in_srgb,var(--color-primary-dark)_4.5%,transparent)_1px,transparent_1px)]"
         />
         <SignalField
           className="-top-24 h-[calc(100%+6rem)]"
@@ -268,7 +268,7 @@ export function InformeView({
               que mantiene la plataforma, en un día laborable:{" "}
               <a
                 href={`mailto:${report.canalSoporte}`}
-                className="text-primary-light dark:text-primary-dark dark:hover:text-primary-dark-lighter underline underline-offset-4 transition hover:text-cyan-800"
+                className="text-primary-light dark:text-primary-dark dark:hover:text-primary-dark underline underline-offset-4 transition hover:text-cyan-800"
               >
                 {report.canalSoporte}
               </a>
@@ -281,7 +281,7 @@ export function InformeView({
       {estructurado && report.encaje !== undefined ? (
         <>
           {/* ── Banda 2: panel — qué podemos hacer ────────────────────────── */}
-          <section className="relative z-10 border-b border-cyan-800/10 bg-[#e8f2f7] px-5 py-13 sm:px-8 dark:border-cyan-300/15 dark:bg-[#081827]">
+          <section className="relative z-10 border-b border-cyan-800/10 bg-[#e8f2f7] px-5 py-13 sm:px-8 dark:border-primary-dark/15 dark:bg-[#081827]">
             <div className="mx-auto w-full max-w-6xl">
               <h2 className={H2}>Qué podemos hacer</h2>
               <p className={LEDE}>
@@ -386,7 +386,7 @@ export function InformeView({
                     {report.pasos.length > 0 && (
                       <span
                         aria-hidden="true"
-                        className="w-0.5 bg-cyan-800/15 dark:bg-cyan-300/15"
+                        className="w-0.5 bg-cyan-800/15 dark:bg-primary-dark/15"
                       />
                     )}
                   </div>
@@ -415,7 +415,7 @@ export function InformeView({
                         {!ultimo && (
                           <span
                             aria-hidden="true"
-                            className="w-0.5 bg-cyan-800/15 dark:bg-cyan-300/15"
+                            className="w-0.5 bg-cyan-800/15 dark:bg-primary-dark/15"
                           />
                         )}
                       </div>
@@ -445,7 +445,7 @@ export function InformeView({
                   </p>
                 )}
 
-                <p className="font-body mt-6.5 max-w-2xl border-t border-cyan-800/10 pt-4.5 text-[14.5px] leading-relaxed text-slate-600 dark:border-cyan-300/12 dark:text-slate-400">
+                <p className="font-body mt-6.5 max-w-2xl border-t border-cyan-800/10 pt-4.5 text-[14.5px] leading-relaxed text-slate-600 dark:border-primary-dark/12 dark:text-slate-400">
                   <strong className={FUERTE}>
                     Este plan no lo hacéis solos.
                   </strong>{" "}
@@ -458,7 +458,7 @@ export function InformeView({
           </section>
 
           {/* ── Banda 4: panel — el semáforo, al final y como evidencia ───── */}
-          <section className="relative z-10 border-t border-cyan-800/10 bg-[#e8f2f7] px-5 py-13 sm:px-8 dark:border-cyan-300/15 dark:bg-[#081827]">
+          <section className="relative z-10 border-t border-cyan-800/10 bg-[#e8f2f7] px-5 py-13 sm:px-8 dark:border-primary-dark/15 dark:bg-[#081827]">
             <div className="mx-auto w-full max-w-6xl">
               <h2 className={H2}>De dónde sale el nivel</h2>
               <p className={LEDE}>
@@ -470,7 +470,7 @@ export function InformeView({
                 {report.dims.map((dim) => (
                   <li
                     key={dim.dimension}
-                    className="grid grid-cols-[12px_minmax(0,1fr)] gap-3 border-b border-cyan-800/10 py-4 dark:border-cyan-300/12"
+                    className="grid grid-cols-[12px_minmax(0,1fr)] gap-3 border-b border-cyan-800/10 py-4 dark:border-primary-dark/12"
                   >
                     <span
                       aria-hidden="true"
@@ -507,7 +507,7 @@ export function InformeView({
       )}
 
       {/* ── Pie del informe: banda profunda ───────────────────────────────── */}
-      <section className="relative z-10 border-t border-cyan-800/10 bg-[#deedf3] px-5 py-9 sm:px-8 dark:border-cyan-300/15 dark:bg-[#030916]">
+      <section className="relative z-10 border-t border-cyan-800/10 bg-[#deedf3] px-5 py-9 sm:px-8 dark:border-primary-dark/15 dark:bg-[#030916]">
         <div className="mx-auto w-full max-w-6xl">
           <p className="font-body max-w-3xl text-[13px] leading-6 text-slate-500 dark:text-slate-400">
             Primera valoración automatizada a partir de la entrevista. La

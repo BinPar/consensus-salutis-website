@@ -87,7 +87,7 @@
   color: #03111d;
 }
 :where([data-visual-lab]) :is(.dark .tn-button:hover) {
-  background: #71fffe;
+  background: color-mix(in srgb, var(--color-primary-dark) 85%, transparent);
 }
 :where([data-visual-lab]) :is(.tn-link) {
   color: var(--ta-accent);

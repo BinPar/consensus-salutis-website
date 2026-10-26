@@ -49,8 +49,8 @@ export function BlogCardArt({
           <stop offset="1" stopColor="#023d58" />
         </linearGradient>
         <radialGradient id={`${id}-glow`}>
-          <stop stopColor="#71fffe" stopOpacity={dark ? ".22" : ".45"} />
-          <stop offset="1" stopColor="#71fffe" stopOpacity="0" />
+          <stop stopColor="var(--color-primary-dark)" stopOpacity={dark ? ".22" : ".45"} />
+          <stop offset="1" stopColor="var(--color-primary-dark)" stopOpacity="0" />
         </radialGradient>
         <radialGradient id={`${id}-sphere`} cx=".32" cy=".23" r=".85">
           <stop stopColor="#c7fff6" />

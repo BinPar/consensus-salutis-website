@@ -26,7 +26,7 @@ opacity fades in the foreground. Nothing bounces; almost nothing translates.
 1. **HomeMotionBackground** — fixed, `z-0`: solid `bg-white dark:bg-[#06111f]`
    + a static square grid of 1px lines, `44px` cell:
    `linear-gradient(rgba(8,145,178,0.1) 1px, transparent 1px)` both axes
-   (dark: `rgba(125,211,252,0.045)`). Page heroes use a 40px variant at
+   (dark: `color-mix(in srgb, var(--color-primary-dark) 4.5%, transparent)`). Page heroes use a 40px variant at
    `0.07` alpha.
 2. **SignalField** — the signature layer: three flowing gradient "signal" lines
    plus two nested organic blobs that morph continuously.
@@ -51,8 +51,9 @@ opacity fades in the foreground. Nothing bounces; almost nothing translates.
   dark:fill-[#06111f]`) to "punch a hole" in the lines; gradient-filled and
   stroked copies layer on top (opacities 0.45/0.35/0.62/0.44).
 - Fill gradient stops: `rgb(8 145 178)` 0.24 → `rgb(20 184 166)` 0.11 →
-  `rgb(246 255 83)` 0.16 (dark overrides alphas to 0.16/0.10/0.04 via
-  `dark:[stop-opacity:…]`).
+  `rgb(246 255 83)` 0.16 in light mode. Dark mode overrides every stop color
+  to `var(--color-primary-dark)` and alphas to 0.16/0.10/0.04 via
+  `dark:[stop-color:var(--color-primary-dark)]` and `dark:[stop-opacity:…]`.
 - Lime radial glow overlay: `radial-gradient(ellipse at 82% 24%,
   rgba(246,255,83,0.13), transparent 38%)` (dark 0.035).
 - **Intensities**: `ambient` (opacity 0.72, morph 32s, offset x60),
@@ -66,8 +67,8 @@ opacity fades in the foreground. Nothing bounces; almost nothing translates.
 
 384×384 viewBox clusters of 2–3 morphing paths, 5–6 keyframes, ~10s linear
 loops (offset copy at 1.09–1.37×). Light fills: cyan `rgb(8 145 178)` → teal →
-lime, alphas 0.1–0.34; dark fills: turquoise `rgb(0 188 187)` → teal → sky
-`rgb(125 211 252)`. Container opacity `opacity-80 dark:opacity-45`. Always
+lime, alphas 0.1–0.34; dark fills use `var(--color-primary-dark)` at
+varying opacity. Container opacity `opacity-80 dark:opacity-45`. Always
 `aria-hidden="true" pointer-events-none`.
 
 ## Reveal system (foreground content)

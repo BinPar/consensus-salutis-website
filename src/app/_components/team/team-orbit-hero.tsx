@@ -113,7 +113,7 @@ export function TeamOrbitHero() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 -bottom-(--team-orbit-tail) [mask-image:radial-gradient(ellipse_42%_46%_at_50%_46%,transparent_25%,rgb(0_0_0/35%)_48%,#000_75%),linear-gradient(to_bottom,transparent_5%,#000_24%,#000_65%,transparent)] [mask-composite:intersect] [clip-path:inset(0)]"
       >
-        <div className="fixed inset-0 bg-[linear-gradient(rgba(8,145,178,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(8,145,178,0.1)_1px,transparent_1px)] bg-size-[44px_44px] [background-position:var(--home-grid-position,0px_0px)] dark:bg-[linear-gradient(rgba(125,211,252,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(125,211,252,0.045)_1px,transparent_1px)]" />
+        <div className="fixed inset-0 bg-[linear-gradient(rgba(8,145,178,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(8,145,178,0.1)_1px,transparent_1px)] bg-size-[44px_44px] [background-position:var(--home-grid-position,0px_0px)] dark:bg-[linear-gradient(color-mix(in_srgb,var(--color-primary-dark)_4.5%,transparent)_1px,transparent_1px),linear-gradient(90deg,color-mix(in_srgb,var(--color-primary-dark)_4.5%,transparent)_1px,transparent_1px)]" />
       </div>
       {rings.map(({ id: ring, slots }, ringIndex) => (
         <div
@@ -222,7 +222,7 @@ export function TeamOrbitHero() {
                 block: "start",
               });
             }}
-            className="inline-flex min-h-10 items-center justify-center gap-2.5 rounded-[999px] border border-transparent bg-(--team-accent) px-5 py-2 text-sm leading-5 font-semibold text-white shadow-[0_4px_6px_-1px_rgb(0_0_0/10%),0_2px_4px_-2px_rgb(0_0_0/10%)] transition-[background,border-color,box-shadow] duration-200 hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-[5px] focus-visible:outline-(--team-accent) motion-reduce:transition-none dark:text-[#04111e] dark:shadow-[0_0_34px_rgb(45_212_191/26%)] dark:hover:bg-[#71fffe] [@media(width<=600px)]:min-h-11 [@media(width<=600px)]:min-w-[205px]"
+            className="inline-flex min-h-10 items-center justify-center gap-2.5 rounded-[999px] border border-transparent bg-(--team-accent) px-5 py-2 text-sm leading-5 font-semibold text-white shadow-[0_4px_6px_-1px_rgb(0_0_0/10%),0_2px_4px_-2px_rgb(0_0_0/10%)] transition-[background,border-color,box-shadow] duration-200 hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-[5px] focus-visible:outline-(--team-accent) motion-reduce:transition-none dark:text-[#04111e] dark:shadow-[0_0_34px_color-mix(in_srgb,var(--color-primary-dark)_26%,transparent)] dark:hover:bg-primary-dark/85 [@media(width<=600px)]:min-h-11 [@media(width<=600px)]:min-w-[205px]"
           >
             Conoce al equipo
             <ArrowDown size={17} strokeWidth={1.8} aria-hidden="true" />

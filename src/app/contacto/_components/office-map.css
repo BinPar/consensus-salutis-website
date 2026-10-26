@@ -7,9 +7,9 @@
   overflow: hidden;
 }
 .dark .office-map {
-  --map-accent: #00bcbb;
+  --map-accent: var(--color-primary-dark);
   --map-surface: #081827;
-  --map-line: rgb(0 188 187 / 25%);
+  --map-line: color-mix(in srgb, var(--color-primary-dark) 25%, transparent);
   --map-text: #f8fafc;
   background: #081827;
 }

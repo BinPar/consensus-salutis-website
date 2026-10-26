@@ -29,7 +29,7 @@ function renderInline(text: string, keyPrefix: string): ReactNode[] {
         return (
           <code
             key={key}
-            className="rounded-sm bg-cyan-800/8 px-1 py-0.5 text-[0.9em] dark:bg-cyan-300/10"
+            className="rounded-sm bg-cyan-800/8 px-1 py-0.5 text-[0.9em] dark:bg-primary-dark/10"
           >
             {chunk.text}
           </code>

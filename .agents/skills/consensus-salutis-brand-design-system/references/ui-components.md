@@ -13,14 +13,14 @@
 rounded-full bg-primary-light px-5 py-2 min-h-10 text-center text-sm font-semibold
 text-white shadow-md transition hover:bg-cyan-800
 dark:bg-primary-dark dark:text-[#04111e]
-dark:shadow-[0_0_34px_rgba(45,212,191,0.26)] dark:hover:bg-primary-dark-lighter
+dark:shadow-[0_0_34px_color-mix(in_srgb,var(--color-primary-dark)_26%,transparent)] dark:hover:bg-primary-dark/85
 ```
 
 Variant with icon + lift (blog "Ver todos", "Volver"): `inline-flex h-10 items-center
 gap-2 rounded-full bg-primary-light px-6 text-sm font-semibold text-white
 shadow-big-blocks transition-all duration-150 hover:-translate-y-0.5
 hover:bg-[#087a85] dark:bg-primary-dark dark:text-[#03111d]
-dark:shadow-[0_0_24px_rgba(0,188,187,0.18)] dark:hover:bg-primary-dark-lighter`
+dark:shadow-[0_0_24px_color-mix(in_srgb,var(--color-primary-dark)_18%,transparent)] dark:hover:bg-primary-dark/85`
 with lucide `ArrowRight`/`ArrowLeft` at `size-4`, `strokeWidth={1.8}`.
 
 ### Secondary / ghost
@@ -29,8 +29,8 @@ with lucide `ArrowRight`/`ArrowLeft` at `size-4`, `strokeWidth={1.8}`.
 rounded-full border border-primary-light/25 bg-white/65 px-5 py-2 min-h-10
 text-center text-sm font-semibold text-cyan-800 backdrop-blur-sm transition
 hover:border-primary-light/45 hover:bg-cyan-50
-dark:border-cyan-300/30 dark:bg-white/3 dark:text-cyan-50
-dark:hover:border-cyan-200/50 dark:hover:bg-cyan-300/10
+dark:border-primary-dark/30 dark:bg-white/3 dark:text-slate-100
+dark:hover:border-primary-dark/50 dark:hover:bg-primary-dark/10
 ```
 
 ### Yellow contrast CTA ("Solicitar reunión" in the header)
@@ -65,12 +65,12 @@ ghost ("Probar plataforma" → `/plataforma`), stacked `flex-col gap-3 sm:flex-r
 
 ```
 rounded-2xl border border-cyan-800/15 bg-white/80 shadow-big-blocks backdrop-blur-xs
-dark:border-cyan-300/20 dark:bg-[#152230e6]/90
-dark:shadow-[0_0_18px_rgba(103,232,249,0.08)]
+dark:border-primary-dark/20 dark:bg-[#152230e6]/90
+dark:shadow-[0_0_18px_color-mix(in_srgb,var(--color-primary-dark)_8%,transparent)]
 ```
 
 - Metric card: `p-3 sm:p-6`; value `font-display text-xl sm:text-3xl font-semibold
-  text-cyan-800 dark:text-primary-dark-lighter`; label `text-xs sm:text-sm
+  text-cyan-800 dark:text-primary-dark`; label `text-xs sm:text-sm
   text-slate-600 dark:text-slate-400`.
 - Blog card: see `blog-patterns.md`.
 - Hover (interactive cards): `transition-all duration-150 hover:-translate-y-2
@@ -79,13 +79,13 @@ dark:shadow-[0_0_18px_rgba(103,232,249,0.08)]
 ### Deep panel (chat mock, contact form)
 
 `rounded-3xl border border-cyan-800/20 bg-white/80–90 shadow-big-blocks
-backdrop-blur-xs dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-2xl
+backdrop-blur-xs dark:border-primary-dark/20 dark:bg-[#152230e6]/90 dark:shadow-2xl
 dark:shadow-cyan-950/30`.
 
 ### Capability card
 
 `rounded-md border border-cyan-800/10 bg-white/80 p-6 shadow-lg shadow-slate-900/5
-dark:border-cyan-300/10 dark:bg-[#081a2b]/82` — title `font-display text-lg
+dark:border-primary-dark/10 dark:bg-[#081a2b]/82` — title `font-display text-lg
 font-semibold text-[#05215e] dark:text-slate-50`, body `mt-3 text-sm leading-6`.
 
 ## Header
@@ -94,7 +94,7 @@ font-semibold text-[#05215e] dark:text-slate-50`, body `mt-3 text-sm leading-6`.
   + `.header-scroll-backdrop` (bg opacity ∝ scroll over 96px).
 - Inner bar: `mx-auto flex h-16 w-full max-w-425 items-center justify-between`.
 - Nav links: `font-body text-xs lg:text-sm font-medium text-slate-600
-  hover:text-cyan-800 dark:text-slate-400 dark:hover:text-cyan-100`, gap
+  hover:text-cyan-800 dark:text-slate-400 dark:hover:text-primary-dark`, gap
   `lg:gap-7`, hidden below `md`.
 - Right cluster: `ThemeToggle` + yellow CTA + `MobileNavigation` burger.
 
@@ -102,8 +102,8 @@ font-semibold text-[#05215e] dark:text-slate-50`, body `mt-3 text-sm leading-6`.
 
 `grid size-9 place-items-center rounded-full border border-primary-light/20
 bg-white/30 text-slate-700 hover:border-primary-light/40 hover:bg-cyan-50
-hover:text-cyan-800 dark:border-cyan-300/20 dark:bg-primary-dark/8
-dark:text-primary-dark-lighter dark:hover:bg-cyan-300/15` — moon icon in light,
+hover:text-cyan-800 dark:border-primary-dark/20 dark:bg-primary-dark/8
+dark:text-primary-dark dark:hover:bg-primary-dark/15` — moon icon in light,
 sun in dark. See `light-dark-mode.md` for behavior.
 
 ## Mobile navigation
@@ -142,15 +142,15 @@ font-body w-full rounded-lg border border-cyan-800/15 bg-white/60 px-4 py-3
 text-sm text-slate-900 outline-none transition placeholder:text-slate-500
 focus:border-primary-light/55 focus:bg-white focus:ring-2 focus:ring-primary-light/10
 disabled:cursor-not-allowed disabled:opacity-60
-dark:border-cyan-300/10 dark:bg-[#04111e]/68 dark:text-slate-100
-dark:focus:border-cyan-300/55 dark:focus:bg-[#061a2a] dark:focus:ring-cyan-300/10
+dark:border-primary-dark/10 dark:bg-[#04111e]/68 dark:text-slate-100
+dark:focus:border-primary-dark/55 dark:focus:bg-[#061a2a] dark:focus:ring-primary-dark/10
 ```
 
 - Labels: `mb-2 block font-body text-sm font-medium text-slate-900
   dark:text-slate-100` with `*` marker.
 - Errors: `text-xs text-rose-700 dark:text-rose-300` under the field; general
   message in `aria-live="polite"` region.
-- Checkbox: `size-4 accent-primary-light dark:accent-cyan-300`; privacy link
+- Checkbox: `size-4 accent-primary-light dark:accent-primary-dark`; privacy link
   `text-primary-light underline underline-offset-4 dark:text-secondary-dark`.
 - Submit: full-width primary pill; busy state `disabled:cursor-wait
   disabled:opacity-60` + "Enviando...".
@@ -174,8 +174,8 @@ Self-running, non-interactive (`pointer-events-none select-none`) chat demo in a
 
 - **Header bar** (`h-14 border-b bg-white/40 dark:bg-white/3`): brand logo left;
   right status `Entorno seguro` — `text-[10px] font-medium text-teal-700
-  dark:text-teal-200` with a pulsing dot `size-1.5 rounded-full bg-teal-300
-  shadow-[0_0_10px_rgba(94,234,212,0.7)]`.
+  dark:text-primary-dark` with a pulsing dot `size-1.5 rounded-full bg-teal-300
+  dark:bg-primary-dark dark:shadow-[0_0_10px_color-mix(in_srgb,var(--color-primary-dark)_70%,transparent)]`.
 - **User bubble**: right-aligned `ml-auto max-w-[88%] rounded-xl rounded-br-sm
   border border-slate-300/80 bg-white/50 dark:border-slate-600/30
   dark:bg-slate-700/35`.
@@ -206,8 +206,8 @@ style. No filled icon sets.
 
 Step node: `grid size-10 place-items-center rounded-full border
 border-primary-light bg-white/80 font-display text-xs font-semibold text-cyan-800
-shadow-sm backdrop-blur-sm dark:border-cyan-300 dark:bg-[#06111f]
-dark:text-primary-dark-lighter dark:shadow-[0_0_18px_rgba(103,232,249,0.18)]`
+shadow-sm backdrop-blur-sm dark:border-primary-dark dark:bg-[#06111f]
+dark:text-primary-dark dark:shadow-[0_0_18px_color-mix(in_srgb,var(--color-primary-dark)_18%,transparent)]`
 (compact `size-8 text-[10px]`). Connected by animated 1px accent lines
 (horizontal `scaleX` on desktop grid, vertical `scaleY` on mobile timeline over a
 static `bg-cyan-600/15` track). Each milestone: node → `font-display` title →

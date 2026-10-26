@@ -60,11 +60,11 @@ const SUPPORT_EMAIL = "info@binpar.com";
 
 /** Tarjeta de cristal del sistema: el mismo recipiente que métricas y blog. */
 const glassCard =
-  "rounded-2xl border border-cyan-800/15 bg-white/80 p-6 shadow-big-blocks backdrop-blur-xs dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)]";
+  "rounded-2xl border border-cyan-800/15 bg-white/80 p-6 shadow-big-blocks backdrop-blur-xs dark:border-primary-dark/20 dark:bg-[#152230e6]/90 dark:shadow-[0_0_18px_color-mix(in_srgb,var(--color-primary-dark)_8%,transparent)]";
 
 /** Botón fantasma del sistema, en su versión de bloque con dos líneas de texto. */
 const ghostCard =
-  "border-primary-light/25 font-body hover:border-primary-light/45 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark rounded-xl border bg-white/65 backdrop-blur-sm transition hover:bg-cyan-50 focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-cyan-300/30 dark:bg-white/3 dark:hover:border-cyan-200/50 dark:hover:bg-cyan-300/10";
+  "border-primary-light/25 font-body hover:border-primary-light/45 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark rounded-xl border bg-white/65 backdrop-blur-sm transition hover:bg-cyan-50 focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-primary-dark/30 dark:bg-white/3 dark:hover:border-primary-dark/50 dark:hover:bg-primary-dark/10";
 
 export default async function EvaluadorPage() {
   /*
@@ -98,7 +98,7 @@ export default async function EvaluadorPage() {
           de siempre: cada píxel de aquí arriba empuja el campo de email hacia
           abajo, y ese campo no puede quedar fuera de la primera pantalla.
         */}
-        <section className="relative isolate z-10 overflow-hidden border-b border-cyan-800/10 dark:border-cyan-300/10">
+        <section className="relative isolate z-10 overflow-hidden border-b border-cyan-800/10 dark:border-primary-dark/10">
           <div className="pointer-events-none absolute inset-0 -right-50 z-0">
             <SignalField
               className="-top-48 h-[calc(100%+12rem)]"
@@ -124,7 +124,7 @@ export default async function EvaluadorPage() {
                   className={`${ghostCard} mt-6 flex max-w-xl items-center gap-3 px-4 py-3`}
                 >
                   <span className="min-w-0 flex-1">
-                    <span className="font-body block text-sm font-semibold text-cyan-800 dark:text-cyan-50">
+                    <span className="font-body block text-sm font-semibold text-cyan-800 dark:text-slate-100">
                       Tienes una evaluación en curso
                     </span>
                     <span className="font-body mt-0.5 block text-xs leading-5 text-slate-600 dark:text-slate-400">
@@ -147,7 +147,7 @@ export default async function EvaluadorPage() {
               a través del texto, y tres recipientes independientes competían
               con la tarjeta del formulario de al lado en vez de acompañarla.
             */}
-            <ol className="font-body shadow-big-blocks order-last overflow-hidden rounded-2xl border border-cyan-800/15 bg-white/80 text-sm text-slate-600 backdrop-blur-xs lg:order-none lg:col-start-1 lg:row-start-2 lg:mt-2 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:text-slate-400 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)]">
+            <ol className="font-body shadow-big-blocks order-last overflow-hidden rounded-2xl border border-cyan-800/15 bg-white/80 text-sm text-slate-600 backdrop-blur-xs lg:order-none lg:col-start-1 lg:row-start-2 lg:mt-2 dark:border-primary-dark/20 dark:bg-[#152230e6]/90 dark:text-slate-400 dark:shadow-[0_0_18px_color-mix(in_srgb,var(--color-primary-dark)_8%,transparent)]">
               {[
                 ["01", "Identificación", "Los datos de esta ficha."],
                 ["02", "Entrevista guiada", "Preguntas según tu institución."],
@@ -159,7 +159,7 @@ export default async function EvaluadorPage() {
               ].map(([step, title, detail]) => (
                 <li
                   key={step}
-                  className="grid grid-cols-[2.5rem_1fr] items-baseline gap-3 border-b border-cyan-800/10 px-5 py-4 last:border-b-0 dark:border-cyan-300/10"
+                  className="grid grid-cols-[2.5rem_1fr] items-baseline gap-3 border-b border-cyan-800/10 px-5 py-4 last:border-b-0 dark:border-primary-dark/10"
                 >
                   <span className="font-display text-primary-light dark:text-primary-dark text-sm font-bold">
                     {step}
@@ -213,7 +213,7 @@ export default async function EvaluadorPage() {
                 </p>
                 <a
                   href={`mailto:${SUPPORT_EMAIL}?subject=Soporte%20evaluador%20BinPar`}
-                  className="font-body text-primary-light dark:text-secondary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark mt-4 inline-flex items-center gap-2 rounded-sm text-sm font-semibold underline underline-offset-4 hover:text-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 dark:hover:text-cyan-200"
+                  className="font-body text-primary-light dark:text-secondary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark mt-4 inline-flex items-center gap-2 rounded-sm text-sm font-semibold underline underline-offset-4 hover:text-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 dark:hover:text-primary-dark"
                 >
                   <Mail
                     aria-hidden="true"
@@ -226,7 +226,7 @@ export default async function EvaluadorPage() {
                   Si prefieres hablarlo,{" "}
                   <Link
                     href="/contacto"
-                    className="text-primary-light dark:text-secondary-dark underline underline-offset-4 hover:text-cyan-800 dark:hover:text-cyan-200"
+                    className="text-primary-light dark:text-secondary-dark underline underline-offset-4 hover:text-cyan-800 dark:hover:text-primary-dark"
                   >
                     solicita una reunión
                   </Link>
@@ -260,7 +260,7 @@ export default async function EvaluadorPage() {
                 </p>
                 <div className="mt-5 grid gap-3 sm:grid-cols-2">
                   <Link href="/espacio" className={`${ghostCard} px-5 py-4`}>
-                    <span className="block text-sm font-semibold text-cyan-800 dark:text-cyan-50">
+                    <span className="block text-sm font-semibold text-cyan-800 dark:text-slate-100">
                       Acceder a mi espacio de evaluación
                     </span>
                     <span className="mt-1 block text-xs leading-5 text-slate-600 dark:text-slate-400">
@@ -271,7 +271,7 @@ export default async function EvaluadorPage() {
                     href={env.NEXT_PUBLIC_PLATFORM_SIGN_IN_URL}
                     className={`${ghostCard} px-5 py-4`}
                   >
-                    <span className="block text-sm font-semibold text-cyan-800 dark:text-cyan-50">
+                    <span className="block text-sm font-semibold text-cyan-800 dark:text-slate-100">
                       Entrar a la plataforma
                     </span>
                     <span className="mt-1 block text-xs leading-5 text-slate-600 dark:text-slate-400">
@@ -305,7 +305,7 @@ export default async function EvaluadorPage() {
                 salud de pacientes en ningún momento. El detalle está en la{" "}
                 <Link
                   href="/privacidad"
-                  className="text-primary-light dark:text-secondary-dark underline underline-offset-4 hover:text-cyan-800 dark:hover:text-cyan-200"
+                  className="text-primary-light dark:text-secondary-dark underline underline-offset-4 hover:text-cyan-800 dark:hover:text-primary-dark"
                 >
                   Política de Privacidad
                 </Link>

@@ -16,7 +16,7 @@ const legalItems = [{ href: "/privacidad", label: "Política de privacidad" }];
 
 export function ReferenceFooter() {
   return (
-    <footer className="relative z-10 border-t border-cyan-800/10 bg-[#e8f2f7] text-slate-600 dark:border-cyan-300/10 dark:bg-[#030916] dark:text-slate-400">
+    <footer className="relative z-10 border-t border-cyan-800/10 bg-[#e8f2f7] text-slate-600 dark:border-primary-dark/10 dark:bg-[#030916] dark:text-slate-400">
       <div className="mx-auto w-full max-w-7xl px-5 pt-10 sm:px-8 lg:pt-12">
         <div className="grid gap-10 md:grid-cols-[1.25fr_0.75fr]">
           <div>
@@ -68,7 +68,7 @@ export function ReferenceFooter() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="font-body block text-slate-600 transition hover:text-cyan-800 dark:text-slate-400 dark:hover:text-cyan-100"
+                    className="font-body block text-slate-600 transition hover:text-cyan-800 dark:text-slate-400 dark:hover:text-primary-dark"
                   >
                     {item.label}
                   </Link>
@@ -84,7 +84,7 @@ export function ReferenceFooter() {
                   <a
                     key={item.href}
                     href={item.href}
-                    className="font-body block text-slate-600 transition hover:text-cyan-800 dark:text-slate-400 dark:hover:text-cyan-100"
+                    className="font-body block text-slate-600 transition hover:text-cyan-800 dark:text-slate-400 dark:hover:text-primary-dark"
                   >
                     {item.label}
                   </a>
@@ -92,7 +92,7 @@ export function ReferenceFooter() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="font-body block text-slate-600 transition hover:text-cyan-800 dark:text-slate-400 dark:hover:text-cyan-100"
+                    className="font-body block text-slate-600 transition hover:text-cyan-800 dark:text-slate-400 dark:hover:text-primary-dark"
                   >
                     {item.label}
                   </Link>
@@ -106,7 +106,7 @@ export function ReferenceFooter() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="font-body block text-slate-600 transition hover:text-cyan-800 dark:text-slate-400 dark:hover:text-cyan-100"
+                    className="font-body block text-slate-600 transition hover:text-cyan-800 dark:text-slate-400 dark:hover:text-primary-dark"
                   >
                     {item.label}
                   </Link>
@@ -116,7 +116,7 @@ export function ReferenceFooter() {
           </nav>
         </div>
 
-        <div className="mt-8 flex flex-col gap-5 border-t border-cyan-800/10 py-5 text-xs text-slate-600 sm:flex-row sm:items-center sm:justify-between dark:border-cyan-300/10 dark:text-slate-500">
+        <div className="mt-8 flex flex-col gap-5 border-t border-cyan-800/10 py-5 text-xs text-slate-600 sm:flex-row sm:items-center sm:justify-between dark:border-primary-dark/10 dark:text-slate-500">
           <div className="flex items-center gap-3">
             <Image
               src="/logos/binpar-brand/binpar-logo-light.svg"

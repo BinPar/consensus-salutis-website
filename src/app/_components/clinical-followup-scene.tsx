@@ -163,7 +163,7 @@ function FollowupComposer({ text, typing }: { text: string; typing: boolean }) {
     <div
       data-process-composer=""
       data-expanded={expanded}
-      className={`font-body shadow-big-blocks relative grid min-h-[52px] grid-cols-[56px_minmax(0,1fr)_56px] border border-cyan-800/15 bg-white/85 text-sm leading-6 backdrop-blur-md dark:border-cyan-300/15 dark:bg-[#152230e6]/90 ${expanded ? "rounded-3xl" : "rounded-[28px]"}`}
+      className={`font-body shadow-big-blocks relative grid min-h-[52px] grid-cols-[56px_minmax(0,1fr)_56px] border border-cyan-800/15 bg-white/85 text-sm leading-6 backdrop-blur-md dark:border-primary-dark/15 dark:bg-[#152230e6]/90 ${expanded ? "rounded-3xl" : "rounded-[28px]"}`}
     >
       <span
         ref={mirror}
@@ -173,7 +173,7 @@ function FollowupComposer({ text, typing }: { text: string; typing: boolean }) {
         {typing && <span className="inline-block h-3 w-px" />}
       </span>
       <span
-        className={`grid size-9 place-items-center place-self-center rounded-full border border-cyan-800/15 text-slate-500 dark:border-cyan-300/15 dark:text-slate-400 ${expanded ? "col-start-1 row-start-2 my-2.5" : "col-start-1 row-start-1"}`}
+        className={`grid size-9 place-items-center place-self-center rounded-full border border-cyan-800/15 text-slate-500 dark:border-primary-dark/15 dark:text-slate-400 ${expanded ? "col-start-1 row-start-2 my-2.5" : "col-start-1 row-start-1"}`}
       >
         <Paperclip size={20} strokeWidth={1.1} />
       </span>

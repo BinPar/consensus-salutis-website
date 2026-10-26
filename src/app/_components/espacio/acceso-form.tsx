@@ -90,7 +90,7 @@ export function AccesoForm({ className = "" }: { className?: string }) {
   if (status === "success") {
     return (
       <div
-        className={`min-w-0 rounded-3xl border border-cyan-800/20 bg-white/75 p-7 shadow-2xl shadow-slate-900/10 backdrop-blur-sm dark:border-cyan-300/20 dark:bg-white/3 dark:shadow-cyan-950/30 ${className}`}
+        className={`min-w-0 rounded-3xl border border-cyan-800/20 bg-white/75 p-7 shadow-2xl shadow-slate-900/10 backdrop-blur-sm dark:border-primary-dark/20 dark:bg-white/3 dark:shadow-cyan-950/30 ${className}`}
         role="status"
       >
         <Eyebrow>Solicitud enviada</Eyebrow>
@@ -106,7 +106,7 @@ export function AccesoForm({ className = "" }: { className?: string }) {
 
   return (
     <form
-      className={`shadow-big-blocks min-w-0 space-y-5 rounded-3xl border border-cyan-800/20 bg-white/80 p-7 backdrop-blur-sm dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30 ${className}`}
+      className={`shadow-big-blocks min-w-0 space-y-5 rounded-3xl border border-cyan-800/20 bg-white/80 p-7 backdrop-blur-sm dark:border-primary-dark/20 dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30 ${className}`}
       onSubmit={handleSubmit}
       noValidate
     >
@@ -132,7 +132,7 @@ export function AccesoForm({ className = "" }: { className?: string }) {
             if (fieldError !== null) setFieldError(null);
             if (message !== null) setMessage(null);
           }}
-          className="font-body focus:border-primary-light/55 focus:ring-primary-light/10 w-full rounded-lg border border-cyan-800/15 bg-white/60 px-4 py-3 text-sm text-slate-900 transition outline-none placeholder:text-slate-500 focus:bg-white focus:ring-2 disabled:cursor-not-allowed disabled:opacity-60 dark:border-cyan-300/10 dark:bg-[#04111e]/68 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-cyan-300/55 dark:focus:bg-[#061a2a] dark:focus:ring-cyan-300/10"
+          className="font-body focus:border-primary-light/55 focus:ring-primary-light/10 w-full rounded-lg border border-cyan-800/15 bg-white/60 px-4 py-3 text-sm text-slate-900 transition outline-none placeholder:text-slate-500 focus:bg-white focus:ring-2 disabled:cursor-not-allowed disabled:opacity-60 dark:border-primary-dark/10 dark:bg-[#04111e]/68 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-primary-dark/55 dark:focus:bg-[#061a2a] dark:focus:ring-primary-dark/10"
         />
         {fieldError !== null ? (
           <p className="font-body mt-1.5 text-xs text-rose-700 dark:text-rose-300">
@@ -166,7 +166,7 @@ export function AccesoForm({ className = "" }: { className?: string }) {
       <button
         type="submit"
         disabled={busy}
-        className="font-body bg-primary-light dark:bg-primary-dark dark:hover:bg-primary-dark-lighter flex min-h-10 w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold text-white transition hover:bg-cyan-800 disabled:cursor-wait disabled:opacity-60 dark:text-[#04111e]"
+        className="font-body bg-primary-light dark:bg-primary-dark dark:hover:bg-primary-dark/85 flex min-h-10 w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold text-white transition hover:bg-cyan-800 disabled:cursor-wait disabled:opacity-60 dark:text-[#04111e]"
       >
         {busy ? "Enviando..." : "Enviarme un enlace de acceso"}
       </button>

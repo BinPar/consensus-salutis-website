@@ -90,7 +90,7 @@ export function BlogTagFilter({
             className={`font-body inline-flex h-8 items-center rounded-full border px-4 text-xs font-semibold transition-all duration-150 ${
               active
                 ? "border-primary-light bg-primary-light shadow-big-blocks dark:border-primary-dark dark:bg-primary-dark text-white dark:text-[#03111d]"
-                : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 bg-white/80 text-slate-600 hover:text-cyan-800 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:text-slate-400 dark:hover:text-cyan-100"
+                : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 bg-white/80 text-slate-600 hover:text-cyan-800 dark:border-primary-dark/20 dark:bg-[#152230e6]/90 dark:text-slate-400 dark:hover:text-primary-dark"
             }`}
           >
             {entry.label}
@@ -118,7 +118,7 @@ export function BlogEmptyState({
   action?: { href: string; label: string };
 }) {
   return (
-    <div className="shadow-big-blocks mt-14 rounded-2xl border border-cyan-800/15 bg-white/80 px-6 py-14 text-center backdrop-blur-xs sm:px-10 dark:border-cyan-300/20 dark:bg-[#152230e6]/90">
+    <div className="shadow-big-blocks mt-14 rounded-2xl border border-cyan-800/15 bg-white/80 px-6 py-14 text-center backdrop-blur-xs sm:px-10 dark:border-primary-dark/20 dark:bg-[#152230e6]/90">
       <p className="font-display text-xl font-semibold text-[#05215e] dark:text-slate-100">
         {title}
       </p>
@@ -127,7 +127,7 @@ export function BlogEmptyState({
       </p>
       <Link
         href={action.href}
-        className="font-body bg-primary-light shadow-big-blocks dark:bg-primary-dark dark:hover:bg-primary-dark-lighter mt-8 inline-flex h-10 items-center justify-center rounded-full px-6 text-sm font-semibold text-white transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#087a85] dark:text-[#03111d] dark:shadow-[0_0_24px_rgba(0,188,187,0.18)]"
+        className="font-body bg-primary-light shadow-big-blocks dark:bg-primary-dark dark:hover:bg-primary-dark/85 mt-8 inline-flex h-10 items-center justify-center rounded-full px-6 text-sm font-semibold text-white transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#087a85] dark:text-[#03111d] dark:shadow-[0_0_24px_color-mix(in_srgb,var(--color-primary-dark)_18%,transparent)]"
       >
         {action.label}
       </Link>
@@ -158,8 +158,8 @@ export function BlogPagination({
         aria-disabled={currentPage === 1}
         className={`grid size-10 place-items-center rounded-full border text-slate-600 transition dark:text-slate-400 ${
           currentPage === 1
-            ? "border-primary-light/60 pointer-events-none bg-white/60 opacity-45 dark:border-cyan-300/10 dark:bg-white/3"
-            : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 bg-white/80 hover:text-cyan-800 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:hover:text-cyan-100"
+            ? "border-primary-light/60 pointer-events-none bg-white/60 opacity-45 dark:border-primary-dark/10 dark:bg-white/3"
+            : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 bg-white/80 hover:text-cyan-800 dark:border-primary-dark/20 dark:bg-[#152230e6]/90 dark:hover:text-primary-dark"
         }`}
       >
         <ChevronLeft aria-hidden="true" className="size-4" strokeWidth={1.8} />
@@ -177,7 +177,7 @@ export function BlogPagination({
             className={`font-body grid size-10 place-items-center rounded-full border text-sm font-semibold transition ${
               active
                 ? "border-primary-light bg-primary-light shadow-big-blocks dark:border-primary-dark dark:bg-primary-dark text-white dark:text-[#03111d]"
-                : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 bg-white/80 text-slate-600 hover:text-cyan-800 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:text-slate-400 dark:hover:text-cyan-100"
+                : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 bg-white/80 text-slate-600 hover:text-cyan-800 dark:border-primary-dark/20 dark:bg-[#152230e6]/90 dark:text-slate-400 dark:hover:text-primary-dark"
             }`}
           >
             {page}
@@ -190,8 +190,8 @@ export function BlogPagination({
         aria-disabled={currentPage === totalPages}
         className={`grid size-10 place-items-center rounded-full border text-slate-600 transition dark:text-slate-400 ${
           currentPage === totalPages
-            ? "border-primary-light/60 pointer-events-none bg-white/60 opacity-45 dark:border-cyan-300/10 dark:bg-white/3"
-            : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 bg-white/80 hover:text-cyan-800 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:hover:text-cyan-100"
+            ? "border-primary-light/60 pointer-events-none bg-white/60 opacity-45 dark:border-primary-dark/10 dark:bg-white/3"
+            : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 bg-white/80 hover:text-cyan-800 dark:border-primary-dark/20 dark:bg-[#152230e6]/90 dark:hover:text-primary-dark"
         }`}
       >
         <ChevronRight aria-hidden="true" className="size-4" strokeWidth={1.8} />

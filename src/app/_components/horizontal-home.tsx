@@ -302,7 +302,7 @@ export function HorizontalHome({ posts }: { posts: BlogPost[] }) {
   return (
     <>
       <main className="relative z-10 hidden min-h-0 flex-1 lg:block">
-        <section className="relative h-full overflow-hidden border-b border-cyan-800/10 dark:border-cyan-300/10">
+        <section className="relative h-full overflow-hidden border-b border-cyan-800/10 dark:border-primary-dark/10">
           <div
             ref={railRef}
             tabIndex={0}
@@ -1022,7 +1022,7 @@ export function BlogContent({
       </div>
       <Link
         href="/blog"
-        className="font-body text-primary-light dark:text-primary-dark hover:bg-primary-light/5 dark:hover:bg-primary-dark/10 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark inline-flex min-h-10 shrink-0 items-center gap-3 self-start rounded-full border border-cyan-800/20 px-5 text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 sm:self-end dark:border-cyan-300/20"
+        className="font-body text-primary-light dark:text-primary-dark hover:bg-primary-light/5 dark:hover:bg-primary-dark/10 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark inline-flex min-h-10 shrink-0 items-center gap-3 self-start rounded-full border border-cyan-800/20 px-5 text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 sm:self-end dark:border-primary-dark/20"
       >
         Ver todos
         <ArrowRight aria-hidden="true" className="size-3.5" strokeWidth={1.8} />
@@ -1076,7 +1076,7 @@ export function BlogContent({
       </div>
       <div
         aria-hidden="true"
-        className="mt-10 border-t border-cyan-800/10 dark:border-cyan-300/10"
+        className="mt-10 border-t border-cyan-800/10 dark:border-primary-dark/10"
       />
     </motion.section>
   );
@@ -1138,7 +1138,7 @@ export function MobileHeroContent({
   const [heroRef, visible] = usePassedViewport(0.05, 0.85);
   return (
     <>
-      <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.03),rgba(244,249,252,0.38)_10%,rgba(13,148,136,0.02)_60%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.01),rgba(6,17,31,0.42)_20%,rgba(20,184,166,0.01)_80%,transparent)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.03),rgba(244,249,252,0.38)_10%,rgba(13,148,136,0.02)_60%,transparent)] dark:bg-[linear-gradient(120deg,color-mix(in_srgb,var(--color-primary-dark)_1%,transparent),rgba(6,17,31,0.42)_20%,color-mix(in_srgb,var(--color-primary-dark)_1%,transparent)_80%,transparent)]" />
       <div ref={heroRef}>
         <Reveal
           visible={visible}
@@ -1230,7 +1230,7 @@ function MobileHome({
           ref={(node) => {
             sectionRefs.current[0] = node;
           }}
-          className={`relative overflow-hidden border-b border-cyan-800/10 px-5 pt-14 pb-8 sm:px-10 sm:pt-18 sm:pb-10 dark:border-cyan-300/10 ${withCover ? "scroll-mt-20" : ""}`}
+          className={`relative overflow-hidden border-b border-cyan-800/10 px-5 pt-14 pb-8 sm:px-10 sm:pt-18 sm:pb-10 dark:border-primary-dark/10 ${withCover ? "scroll-mt-20" : ""}`}
         >
           <MobileHeroContent presentation={withCover ? "section" : "hero"} />
           {withCover && <IntroductionBottomFade />}
@@ -1404,14 +1404,14 @@ function MobileProcessMilestone({
       }}
     >
       <div className="relative flex justify-center">
-        <span className="border-primary-light dark:text-primary-dark-lighter relative z-10 grid size-10 place-items-center rounded-full border bg-white/50 text-xs font-semibold text-cyan-800 shadow-sm backdrop-blur-sm dark:border-cyan-300 dark:bg-[#06111f] dark:shadow-[0_0_18px_rgba(103,232,249,0.18)]">
+        <span className="border-primary-light dark:text-primary-dark relative z-10 grid size-10 place-items-center rounded-full border bg-white/50 text-xs font-semibold text-cyan-800 shadow-sm backdrop-blur-sm dark:border-primary-dark dark:bg-[#06111f] dark:shadow-[0_0_18px_color-mix(in_srgb,var(--color-primary-dark)_18%,transparent)]">
           {item.step}
         </span>
         {!last ? (
           <>
             <span
               aria-hidden="true"
-              className="absolute top-10 bottom-0 left-1/2 w-px -translate-x-1/2 bg-cyan-600/15 dark:bg-cyan-200/15"
+              className="absolute top-10 bottom-0 left-1/2 w-px -translate-x-1/2 bg-cyan-600/15 dark:bg-primary-dark/15"
             />
             <motion.span
               aria-hidden="true"
@@ -1483,7 +1483,7 @@ function ProcessMilestone({
       {desktop && connector ? (
         <motion.span
           aria-hidden="true"
-          className={`border-primary-light absolute z-0 origin-left border-t dark:border-cyan-300 ${
+          className={`border-primary-light absolute z-0 origin-left border-t dark:border-primary-dark ${
             compact
               ? "top-4 left-4 w-[calc(100%+2.5rem)]"
               : "top-5 left-5 w-[calc(100%+3.5rem)]"
@@ -1502,7 +1502,7 @@ function ProcessMilestone({
         />
       ) : null}
       <span
-        className={`border-primary-light font-display dark:text-primary-dark-lighter relative z-10 grid shrink-0 place-items-center rounded-full border bg-white/80 font-semibold text-cyan-800 shadow-sm backdrop-blur-sm dark:border-cyan-300 dark:bg-[#06111f] dark:shadow-[0_0_18px_rgba(103,232,249,0.18)] ${
+        className={`border-primary-light font-display dark:text-primary-dark relative z-10 grid shrink-0 place-items-center rounded-full border bg-white/80 font-semibold text-cyan-800 shadow-sm backdrop-blur-sm dark:border-primary-dark dark:bg-[#06111f] dark:shadow-[0_0_18px_color-mix(in_srgb,var(--color-primary-dark)_18%,transparent)] ${
           compact ? "size-8 text-[10px]" : "size-10 text-xs"
         } ${desktop ? "" : "absolute top-0 -left-12"}`}
       >
@@ -1556,7 +1556,7 @@ export function StaggeredMetricGrid({
       {metrics.map((metric, index) => (
         <motion.div
           key={metric.label}
-          className="shadow-big-blocks flex flex-col items-center rounded-2xl border border-cyan-800/20 bg-white/80 p-3 backdrop-blur-xs sm:block sm:p-6 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-[0_0_18px_rgba(103,232,249,0.08)] dark:backdrop-blur-sm"
+          className="shadow-big-blocks flex flex-col items-center rounded-2xl border border-cyan-800/20 bg-white/80 p-3 backdrop-blur-xs sm:block sm:p-6 dark:border-primary-dark/20 dark:bg-[#152230e6]/90 dark:shadow-[0_0_18px_color-mix(in_srgb,var(--color-primary-dark)_8%,transparent)] dark:backdrop-blur-sm"
           variants={{
             hidden: { opacity: reducedMotion ? 1 : 0 },
             visible: {
@@ -1636,7 +1636,7 @@ function AnimatedMetricValue({
   return (
     <p
       // aria-label={formattedValue}
-      className="font-display dark:text-primary-dark-lighter text-xl font-semibold text-cyan-800 sm:text-3xl"
+      className="font-display dark:text-primary-dark text-xl font-semibold text-cyan-800 sm:text-3xl"
     >
       <span aria-hidden="true">
         {prefix}

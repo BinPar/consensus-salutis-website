@@ -84,8 +84,8 @@ const articleBodyClassName = [
   "[&>ul]:my-4 [&>ul]:list-disc [&>ul]:space-y-1.5 [&>ul]:pl-6",
   "[&>ol]:my-4 [&>ol]:list-decimal [&>ol]:space-y-1.5 [&>ol]:pl-6",
   "[&>blockquote]:my-6 [&>blockquote]:rounded-xl [&>blockquote]:border [&>blockquote]:border-primary-light/60 [&>blockquote]:border-l-5 [&>blockquote]:border-primary-light [&>blockquote]:bg-primary-light/8 [&>blockquote]:py-3 [&>blockquote]:pr-5 [&>blockquote]:pl-5 [&>blockquote]:text-base [&>blockquote]:leading-7 [&>blockquote]:font-medium [&>blockquote]:text-[#05215e] dark:[&>blockquote]:border-primary-dark dark:[&>blockquote]:bg-primary-dark/8 dark:[&>blockquote]:text-slate-100",
-  "[&>img]:my-7 [&>img]:w-full [&>img]:rounded-xl [&>img]:border [&>img]:border-cyan-800/10 [&>img]:shadow-big-blocks dark:[&>img]:border-cyan-300/15",
-  "[&>hr]:my-8 [&>hr]:border-cyan-800/15 dark:[&>hr]:border-cyan-300/15",
+  "[&>img]:my-7 [&>img]:w-full [&>img]:rounded-xl [&>img]:border [&>img]:border-cyan-800/10 [&>img]:shadow-big-blocks dark:[&>img]:border-primary-dark/15",
+  "[&>hr]:my-8 [&>hr]:border-cyan-800/15 dark:[&>hr]:border-primary-dark/15",
   "[&_a]:font-semibold [&_a]:text-primary-light [&_a]:underline-offset-4 hover:[&_a]:underline dark:[&_a]:text-primary-dark",
   "[&_strong]:font-semibold [&_strong]:text-[#05215e] dark:[&_strong]:text-slate-100",
 ].join(" ");

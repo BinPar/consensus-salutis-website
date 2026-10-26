@@ -28,8 +28,8 @@ Slugs are kebab-case Spanish. Content is MDX under `src/app/blog/_articles/`.
   <article className="flex h-full flex-col overflow-hidden rounded-2xl border
     border-cyan-800/15 bg-white/80 shadow-big-blocks backdrop-blur-xs
     transition-all duration-150 hover:-translate-y-2 hover:border-primary-light/30
-    dark:border-cyan-300/20 dark:bg-[#152230e6]/90
-    dark:shadow-[0_0_18px_rgba(103,232,249,0.08)]">
+    dark:border-primary-dark/20 dark:bg-[#152230e6]/90
+    dark:shadow-[0_0_18px_color-mix(in_srgb,var(--color-primary-dark)_8%,transparent)]">
     {/* image: aspect-[1.6], border-b, bg-[#deedf3]/70 dark:bg-[#06111f],
         object-cover, group-hover:scale-105 duration-150 */}
     {/* body: p-5 pt-4 (xl:p-6) flex-1 flex-col */}

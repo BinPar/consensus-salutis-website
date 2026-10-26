@@ -35,9 +35,13 @@
   }
 
   .dark .section-navigation {
-    --index-accent: #00bcbb;
+    --index-accent: var(--color-primary-dark);
     --index-text: #a9bacb;
-    --index-line: rgb(0 188 187 / 20%);
+    --index-line: color-mix(
+      in srgb,
+      var(--color-primary-dark) 20%,
+      transparent
+    );
   }
 
   .section-navigation[data-visible="true"] {
@@ -58,9 +62,13 @@
   }
 
   .section-navigation-contrast {
-    --index-accent: #00bcbb;
+    --index-accent: var(--color-primary-dark);
     --index-text: #f8fafc;
-    --index-line: rgb(0 188 187 / 20%);
+    --index-line: color-mix(
+      in srgb,
+      var(--color-primary-dark) 20%,
+      transparent
+    );
     position: absolute;
     inset: 0;
     clip-path: inset(100% 0 0 0);

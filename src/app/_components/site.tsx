@@ -15,11 +15,11 @@ import {
 
 export function HomeFooterBand() {
   return (
-    <footer className="relative z-40 shrink-0 border-t border-cyan-800/10 bg-[#edf6f9]/92 text-slate-600 backdrop-blur-md dark:border-cyan-300/15 dark:bg-[#030b17]/92 dark:text-slate-400">
+    <footer className="relative z-40 shrink-0 border-t border-cyan-800/10 bg-[#edf6f9]/92 text-slate-600 backdrop-blur-md dark:border-primary-dark/15 dark:bg-[#030b17]/92 dark:text-slate-400">
       <div className="mx-auto flex min-h-12 w-full max-w-425 items-center justify-between gap-3 px-5 sm:px-8 lg:h-12">
         <Link
           href="/"
-          className="text-[9px] font-semibold tracking-[0.16em] text-slate-700 uppercase transition hover:text-cyan-800 dark:text-slate-100 dark:hover:text-cyan-100"
+          className="text-[9px] font-semibold tracking-[0.16em] text-slate-700 uppercase transition hover:text-cyan-800 dark:text-slate-100 dark:hover:text-primary-dark"
         >
           © BinPar all rights reserved
         </Link>
@@ -75,13 +75,13 @@ export function CTAGroup() {
     <div className="flex flex-col gap-3 sm:flex-row">
       <Link
         href="/contacto"
-        className="bg-primary-light font-body dark:bg-primary-dark dark:hover:bg-primary-dark-lighter min-h-10 rounded-full px-5 py-2 text-center text-sm font-semibold text-white shadow-md transition hover:bg-cyan-800 dark:text-[#04111e] dark:shadow-[0_0_34px_rgba(45,212,191,0.26)]"
+        className="bg-primary-light font-body dark:bg-primary-dark dark:hover:bg-primary-dark/85 min-h-10 rounded-full px-5 py-2 text-center text-sm font-semibold text-white shadow-md transition hover:bg-cyan-800 dark:text-[#04111e] dark:shadow-[0_0_34px_color-mix(in_srgb,var(--color-primary-dark)_26%,transparent)]"
       >
         Solicitar reunión
       </Link>
       <Link
         href="/plataforma"
-        className="border-primary-light/25 font-body hover:border-primary-light/45 min-h-10 rounded-full border bg-white/65 px-5 py-2 text-center text-sm font-semibold text-cyan-800 backdrop-blur-sm transition hover:bg-cyan-50 dark:border-cyan-300/30 dark:bg-white/3 dark:text-cyan-50 dark:hover:border-cyan-200/50 dark:hover:bg-cyan-300/10"
+        className="border-primary-light/25 font-body hover:border-primary-light/45 min-h-10 rounded-full border bg-white/65 px-5 py-2 text-center text-sm font-semibold text-cyan-800 backdrop-blur-sm transition hover:bg-cyan-50 dark:border-primary-dark/30 dark:bg-white/3 dark:text-slate-100 dark:hover:border-primary-dark/50 dark:hover:bg-primary-dark/10"
       >
         Probar plataforma
       </Link>
@@ -99,9 +99,9 @@ export function MetricGrid({
       {metrics.map((metric) => (
         <MotionSurface
           key={metric.label}
-          className="rounded-2xl border border-cyan-800/10 bg-white/75 p-6 shadow-sm backdrop-blur-sm dark:border-cyan-300/20 dark:bg-white/3 dark:shadow-none"
+          className="rounded-2xl border border-cyan-800/10 bg-white/75 p-6 shadow-sm backdrop-blur-sm dark:border-primary-dark/20 dark:bg-white/3 dark:shadow-none"
         >
-          <p className="dark:text-primary-dark-lighter text-3xl font-semibold text-cyan-800">
+          <p className="dark:text-primary-dark text-3xl font-semibold text-cyan-800">
             {metric.value}
           </p>
           <p className="font-body mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">
@@ -136,7 +136,7 @@ export function EvidenceFlow() {
       ].map(([step, title, detail]) => (
         <MotionSurface
           key={step}
-          className="grid grid-cols-[3rem_1fr] gap-4 rounded-md border border-cyan-800/10 bg-white/70 p-4 dark:border-cyan-300/10 dark:bg-white/[0.035]"
+          className="grid grid-cols-[3rem_1fr] gap-4 rounded-md border border-cyan-800/10 bg-white/70 p-4 dark:border-primary-dark/10 dark:bg-white/[0.035]"
         >
           <span className="text-primary-light dark:text-primary-dark text-sm font-semibold">
             {step}
@@ -165,7 +165,7 @@ export function CapabilityGrid({
       {items.map((item) => (
         <MotionSurface
           key={item.title}
-          className="rounded-md border border-cyan-800/10 bg-white/80 p-6 shadow-lg shadow-slate-900/5 dark:border-cyan-300/10 dark:bg-[#081a2b]/82 dark:shadow-[#020817]/20"
+          className="rounded-md border border-cyan-800/10 bg-white/80 p-6 shadow-lg shadow-slate-900/5 dark:border-primary-dark/10 dark:bg-[#081a2b]/82 dark:shadow-[#020817]/20"
         >
           <h3 className="font-display text-lg font-semibold text-[#05215e] dark:text-slate-50">
             {item.title}
@@ -193,9 +193,9 @@ export const ThemeSection = forwardRef<
 ) {
   const variantClassName =
     variant === "panel"
-      ? "relative overflow-hidden border-y border-cyan-800/10 bg-[linear-gradient(135deg,rgba(222,237,243,0.74),rgba(237,246,249,0.34))] dark:border-cyan-300/10 dark:bg-[linear-gradient(135deg,rgba(3,9,22,0.74),rgba(8,24,39,0.48))] lg:bg-[#e8f2f7] lg:dark:bg-[#081827]"
+      ? "relative overflow-hidden border-y border-cyan-800/10 bg-[linear-gradient(135deg,rgba(222,237,243,0.74),rgba(237,246,249,0.34))] dark:border-primary-dark/10 dark:bg-[linear-gradient(135deg,rgba(3,9,22,0.74),rgba(8,24,39,0.48))] lg:bg-[#e8f2f7] lg:dark:bg-[#081827]"
       : variant === "deep"
-        ? "relative overflow-hidden border-y border-cyan-800/10 bg-[linear-gradient(135deg,rgba(222,237,243,0.82),rgba(237,246,249,0.42))] dark:border-cyan-300/10 dark:bg-[linear-gradient(135deg,rgba(3,9,22,0.82),rgba(3,9,22,0.54))] lg:bg-[#deedf3] lg:dark:bg-[#030916]"
+        ? "relative overflow-hidden border-y border-cyan-800/10 bg-[linear-gradient(135deg,rgba(222,237,243,0.82),rgba(237,246,249,0.42))] dark:border-primary-dark/10 dark:bg-[linear-gradient(135deg,rgba(3,9,22,0.82),rgba(3,9,22,0.54))] lg:bg-[#deedf3] lg:dark:bg-[#030916]"
         : variant === "transparent"
           ? "relative overflow-hidden bg-transparent"
           : "relative overflow-hidden bg-linear-to-br from-[#deedf3]/80 to-[#edf6f9]/30 dark:from-[#030916]/70 dark:to-[#030916]/30 lg:bg-[#f4f9fc] lg:dark:bg-[#06111f]";
@@ -220,9 +220,9 @@ export function PageHero({
   body: string;
 }) {
   return (
-    <section className="relative overflow-hidden border-b border-cyan-800/10 bg-[#fbfdff] dark:border-cyan-300/10 dark:bg-[#06111f]">
-      <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.1),transparent_35%,rgba(13,148,136,0.08)_72%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.1),transparent_35%,rgba(20,184,166,0.08)_72%,transparent)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(8,145,178,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(8,145,178,0.07)_1px,transparent_1px)] bg-size-[40px_40px] dark:bg-[linear-gradient(rgba(125,211,252,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(125,211,252,0.04)_1px,transparent_1px)]" />
+    <section className="relative overflow-hidden border-b border-cyan-800/10 bg-[#fbfdff] dark:border-primary-dark/10 dark:bg-[#06111f]">
+      <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.1),transparent_35%,rgba(13,148,136,0.08)_72%,transparent)] dark:bg-[linear-gradient(120deg,color-mix(in_srgb,var(--color-primary-dark)_10%,transparent),transparent_35%,color-mix(in_srgb,var(--color-primary-dark)_8%,transparent)_72%,transparent)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(8,145,178,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(8,145,178,0.07)_1px,transparent_1px)] bg-size-[40px_40px] dark:bg-[linear-gradient(color-mix(in_srgb,var(--color-primary-dark)_4%,transparent)_1px,transparent_1px),linear-gradient(90deg,color-mix(in_srgb,var(--color-primary-dark)_4%,transparent)_1px,transparent_1px)]" />
       <SignalField intensity="hero" />
       <div className="relative mx-auto w-full max-w-7xl px-5 py-20 sm:px-8 lg:py-24">
         <Eyebrow>{eyebrow}</Eyebrow>

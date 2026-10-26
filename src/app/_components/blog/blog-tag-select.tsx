@@ -114,7 +114,7 @@ export function BlogTagSelect({
             setOpen(true);
           }
         }}
-        className="font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark border-primary-light/60 hover:border-primary-light/35 dark:hover:border-primary-dark flex h-[32px] w-full cursor-pointer items-center justify-between gap-2 rounded-full border bg-white/80 px-3 text-xs font-medium text-slate-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 dark:border-cyan-300/20 dark:bg-[#152230]/90 dark:text-slate-300"
+        className="font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark border-primary-light/60 hover:border-primary-light/35 dark:hover:border-primary-dark flex h-[32px] w-full cursor-pointer items-center justify-between gap-2 rounded-full border bg-white/80 px-3 text-xs font-medium text-slate-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 dark:border-primary-dark/20 dark:bg-[#152230]/90 dark:text-slate-300"
       >
         <span className="min-w-0 truncate">{selected.label}</span>
         <span
@@ -137,7 +137,7 @@ export function BlogTagSelect({
           role="listbox"
           aria-label="Filtrar por etiqueta"
           onKeyDown={handleKey}
-          className="shadow-big-blocks absolute top-full left-0 z-40 mt-1 max-h-72 w-max max-w-[calc(100vw-40px)] min-w-full overflow-y-auto overscroll-contain rounded-xl border border-cyan-800/15 bg-white/95 p-1.5 backdrop-blur-md dark:border-cyan-300/20 dark:bg-[#102231]/95"
+          className="shadow-big-blocks absolute top-full left-0 z-40 mt-1 max-h-72 w-max max-w-[calc(100vw-40px)] min-w-full overflow-y-auto overscroll-contain rounded-xl border border-cyan-800/15 bg-white/95 p-1.5 backdrop-blur-md dark:border-primary-dark/20 dark:bg-[#102231]/95"
         >
           {entries.map((entry) => {
             const active = entry.tag === activeTag;
@@ -152,7 +152,7 @@ export function BlogTagSelect({
                   onSelect(entry.tag);
                   close();
                 }}
-                className={`font-body focus-visible:ring-primary-light/35 dark:focus-visible:ring-primary-dark/35 flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-left text-xs font-medium transition-colors hover:bg-cyan-800/5 focus-visible:bg-cyan-800/5 focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-inset dark:hover:bg-cyan-300/10 dark:focus-visible:bg-cyan-300/10 ${active ? "bg-primary-light/5 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark" : "text-slate-600 dark:text-slate-300"}`}
+                className={`font-body focus-visible:ring-primary-light/35 dark:focus-visible:ring-primary-dark/35 flex w-full cursor-pointer items-center gap-3 rounded-lg px-3 py-2.5 text-left text-xs font-medium transition-colors hover:bg-cyan-800/5 focus-visible:bg-cyan-800/5 focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-inset dark:hover:bg-primary-dark/10 dark:focus-visible:bg-primary-dark/10 ${active ? "bg-primary-light/5 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark" : "text-slate-600 dark:text-slate-300"}`}
               >
                 <span className="min-w-0 flex-1">{entry.label}</span>
                 <span className="bg-primary-light/10 text-primary-light dark:bg-primary-dark/15 dark:text-primary-dark inline-flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full px-1 text-[10px] leading-none font-semibold tabular-nums">

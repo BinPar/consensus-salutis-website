@@ -78,7 +78,7 @@ export default async function AccesoTokenPage({
       <main className="relative isolate bg-[#fbfdff] dark:bg-[#06111f]">
         <HomeMotionBackground />
         <div className="relative z-10 mx-auto w-full max-w-2xl px-5 pt-32 pb-24 sm:px-8">
-          <div className="shadow-big-blocks rounded-3xl border border-cyan-800/20 bg-white/80 p-7 backdrop-blur-sm dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30">
+          <div className="shadow-big-blocks rounded-3xl border border-cyan-800/20 bg-white/80 p-7 backdrop-blur-sm dark:border-primary-dark/20 dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30">
             <Eyebrow>Espacio de cliente</Eyebrow>
 
             {bienFormado ? (
@@ -103,7 +103,7 @@ export default async function AccesoTokenPage({
                   <input type="hidden" name="token" value={token} />
                   <button
                     type="submit"
-                    className="font-body bg-primary-light dark:bg-primary-dark dark:hover:bg-primary-dark-lighter flex min-h-11 w-full items-center justify-center gap-2.5 rounded-full px-5 py-3 text-sm font-semibold text-white transition hover:bg-cyan-800 dark:text-[#04111e]"
+                    className="font-body bg-primary-light dark:bg-primary-dark dark:hover:bg-primary-dark/85 flex min-h-11 w-full items-center justify-center gap-2.5 rounded-full px-5 py-3 text-sm font-semibold text-white transition hover:bg-cyan-800 dark:text-[#04111e]"
                   >
                     <MailCheck
                       aria-hidden="true"
@@ -132,7 +132,7 @@ export default async function AccesoTokenPage({
                 </p>
                 <Link
                   href="/espacio"
-                  className="border-primary-light/25 font-body hover:border-primary-light/45 mt-7 inline-flex min-h-10 items-center rounded-full border bg-white/65 px-5 text-sm font-semibold text-cyan-800 backdrop-blur-sm transition hover:bg-cyan-50 dark:border-cyan-300/30 dark:bg-white/3 dark:text-cyan-50 dark:hover:border-cyan-200/50 dark:hover:bg-cyan-300/10"
+                  className="border-primary-light/25 font-body hover:border-primary-light/45 mt-7 inline-flex min-h-10 items-center rounded-full border bg-white/65 px-5 text-sm font-semibold text-cyan-800 backdrop-blur-sm transition hover:bg-cyan-50 dark:border-primary-dark/30 dark:bg-white/3 dark:text-slate-100 dark:hover:border-primary-dark/50 dark:hover:bg-primary-dark/10"
                 >
                   Pedir un enlace nuevo
                 </Link>

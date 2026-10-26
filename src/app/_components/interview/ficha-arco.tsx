@@ -77,7 +77,7 @@ export function FichaArco({
           r="42"
           fill="none"
           strokeWidth="6"
-          className="stroke-cyan-800/18 dark:stroke-cyan-300/18"
+          className="stroke-cyan-800/18 dark:stroke-primary-dark/18"
         />
         <circle
           cx="50"

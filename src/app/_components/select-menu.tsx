@@ -24,7 +24,7 @@ export function SelectMenu<Value extends string>({
   options,
   label,
   className = "w-36 min-w-0 shrink",
-  triggerClassName = "font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark border-primary-light/60 hover:border-primary-light/35 dark:hover:border-primary-dark flex h-[32px] w-full cursor-pointer items-center justify-between gap-2 rounded-full border bg-white/80 px-3 text-xs font-medium text-slate-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 dark:border-cyan-300/20 dark:bg-[#152230]/90 dark:text-slate-300",
+  triggerClassName = "font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark border-primary-light/60 hover:border-primary-light/35 dark:hover:border-primary-dark flex h-[32px] w-full cursor-pointer items-center justify-between gap-2 rounded-full border bg-white/80 px-3 text-xs font-medium text-slate-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 dark:border-primary-dark/20 dark:bg-[#152230]/90 dark:text-slate-300",
   triggerContent,
   menuClassName = "w-48",
 }: {
@@ -143,7 +143,7 @@ export function SelectMenu<Value extends string>({
           role="menu"
           aria-label={label}
           onKeyDown={handleMenuKey}
-          className={`shadow-big-blocks absolute top-full right-0 mt-2 rounded-xl border border-cyan-800/15 bg-white/95 p-1.5 backdrop-blur-md dark:border-cyan-300/20 dark:bg-[#102231]/95 ${menuClassName}`}
+          className={`shadow-big-blocks absolute top-full right-0 mt-2 rounded-xl border border-cyan-800/15 bg-white/95 p-1.5 backdrop-blur-md dark:border-primary-dark/20 dark:bg-[#102231]/95 ${menuClassName}`}
         >
           {options.map((option) => (
             <button
@@ -157,7 +157,7 @@ export function SelectMenu<Value extends string>({
                 onChange(option.value);
                 close();
               }}
-              className={`font-body focus-visible:ring-primary-light/35 dark:focus-visible:ring-primary-dark/35 flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-left text-xs font-medium transition-colors hover:bg-cyan-800/5 focus-visible:bg-cyan-800/5 focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-inset dark:hover:bg-cyan-300/10 dark:focus-visible:bg-cyan-300/10 ${value === option.value ? "bg-primary-light/5 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark" : "text-slate-600 dark:text-slate-300"}`}
+              className={`font-body focus-visible:ring-primary-light/35 dark:focus-visible:ring-primary-dark/35 flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-left text-xs font-medium transition-colors hover:bg-cyan-800/5 focus-visible:bg-cyan-800/5 focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-inset dark:hover:bg-primary-dark/10 dark:focus-visible:bg-primary-dark/10 ${value === option.value ? "bg-primary-light/5 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark" : "text-slate-600 dark:text-slate-300"}`}
             >
               {option.label}
               {value === option.value && (

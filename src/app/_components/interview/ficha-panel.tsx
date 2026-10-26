@@ -106,7 +106,7 @@ export function FichaPanel({
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <div className="shrink-0 border-b border-cyan-800/12 px-5 py-4 dark:border-cyan-300/12">
+      <div className="shrink-0 border-b border-cyan-800/12 px-5 py-4 dark:border-primary-dark/12">
         <p className="text-primary-light font-display dark:text-primary-dark text-[10px] font-bold tracking-[0.18em] uppercase">
           Lo que hemos entendido
         </p>
@@ -114,7 +114,7 @@ export function FichaPanel({
 
       <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 py-4">
         {/* El arco, con la frase suave del avance al lado. */}
-        <div className="grid grid-cols-[auto_1fr] items-center gap-3.5 border-b border-cyan-800/12 pb-3.5 dark:border-cyan-300/12">
+        <div className="grid grid-cols-[auto_1fr] items-center gap-3.5 border-b border-cyan-800/12 pb-3.5 dark:border-primary-dark/12">
           <FichaArco cerrados={cerrados} actual={actual} cerrada={cerrada} />
           <div className="min-w-0">
             <p className="font-display text-[12.5px] leading-tight font-bold text-[#05215e] dark:text-slate-50">
@@ -162,7 +162,7 @@ export function FichaPanel({
                     className={`rounded-[11px] border px-2.5 py-2.5 ${
                       highlighted.has(cifra.path)
                         ? "border-primary-light/40 dark:border-primary-dark/40 bg-primary-light/8 dark:bg-primary-dark/10"
-                        : "border-cyan-800/15 bg-white/70 dark:border-cyan-300/15 dark:bg-white/4"
+                        : "border-cyan-800/15 bg-white/70 dark:border-primary-dark/15 dark:bg-white/4"
                     } ${reducedMotion ? "" : "transition-colors duration-700"}`}
                   >
                     <span className="text-primary-light font-display dark:text-primary-dark block text-[19px] leading-none font-bold tabular-nums">
@@ -227,7 +227,7 @@ export function FichaPanel({
         lado — es el mismo campo en el que se está contestando.
       */}
       {readOnly ? null : (
-        <div className="shrink-0 border-t border-cyan-800/12 px-5 py-3 dark:border-cyan-300/12">
+        <div className="shrink-0 border-t border-cyan-800/12 px-5 py-3 dark:border-primary-dark/12">
           <p className="font-body text-[10.5px] leading-snug text-slate-500 dark:text-slate-400">
             ¿Algo no encaja? Dímelo y lo corrijo.
           </p>

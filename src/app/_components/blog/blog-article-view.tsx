@@ -40,7 +40,7 @@ function ArticleMetadata({ post }: { post: BlogPost }) {
         </p>
       )}
       <p
-        className={`${label} mt-5 hidden border-t border-cyan-800/15 pt-5 lg:block dark:border-cyan-300/15`}
+        className={`${label} mt-5 hidden border-t border-cyan-800/15 pt-5 lg:block dark:border-primary-dark/15`}
       >
         Temas
       </p>
@@ -52,7 +52,7 @@ function ArticleMetadata({ post }: { post: BlogPost }) {
           <Link
             key={tag}
             href={`/blog/tag/${tag}#blog-page-gallery`}
-            className="font-body border-primary-light/20 hover:border-primary-light/50 hover:text-primary-light dark:hover:text-primary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark dark:hover:border-primary-dark/50 inline-flex min-h-6 max-w-full items-center rounded-full border bg-white/50 px-2.5 py-0.5 text-[10px] leading-4 font-medium text-slate-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-cyan-300/15 dark:bg-[#152230]/50 dark:text-slate-300"
+            className="font-body border-primary-light/20 hover:border-primary-light/50 hover:text-primary-light dark:hover:text-primary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark dark:hover:border-primary-dark/50 inline-flex min-h-6 max-w-full items-center rounded-full border bg-white/50 px-2.5 py-0.5 text-[10px] leading-4 font-medium text-slate-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-primary-dark/15 dark:bg-[#152230]/50 dark:text-slate-300"
           >
             {post.tagLabels[index] ?? tag}
           </Link>
@@ -67,7 +67,7 @@ function RelatedArticles({ posts }: { posts: BlogPost[] }) {
   return (
     <section
       aria-label="Artículos relacionados"
-      className="border-t border-cyan-800/15 pt-5 dark:border-cyan-300/15"
+      className="border-t border-cyan-800/15 pt-5 dark:border-primary-dark/15"
     >
       <h2 className={label}>Quizá te interese</h2>
       <ul className="mt-3 divide-y divide-cyan-800/10 dark:divide-cyan-300/10">
@@ -172,7 +172,7 @@ export function BlogArticleView({
           key={post.slug}
           slug={post.slug}
           cover={
-            <div className="shadow-big-blocks relative overflow-hidden rounded-2xl border border-cyan-800/15 bg-white/70 dark:border-cyan-300/20 dark:bg-[#152230]/80">
+            <div className="shadow-big-blocks relative overflow-hidden rounded-2xl border border-cyan-800/15 bg-white/70 dark:border-primary-dark/20 dark:bg-[#152230]/80">
               {post.image ? (
                 <Image
                   src={post.image}

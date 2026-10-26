@@ -878,7 +878,7 @@ function FloatingCaseCard({
         <span className="font-body mt-3 block text-[11px] leading-[18px] text-slate-600 sm:text-xs dark:text-slate-300">
           {item.organization}
         </span>
-        <span className="font-body mt-3 block border-t border-cyan-800/10 pt-3 text-[11px] leading-4 text-slate-500 dark:border-cyan-300/10 dark:text-slate-400">
+        <span className="font-body mt-3 block border-t border-cyan-800/10 pt-3 text-[11px] leading-4 text-slate-500 dark:border-primary-dark/10 dark:text-slate-400">
           Conocimiento clínico fiable al servicio de la atención asistencial.
         </span>
       </motion.span>
@@ -1439,7 +1439,7 @@ function DefinitiveMap({
                   aria-pressed={selected}
                   aria-label={`${item.name}, ${item.territory}, ${item.organization}`}
                   data-map-case-card={item.id}
-                  className={`${focus} definitive-two-case-card absolute rounded-xl border bg-white/95 text-left shadow-[0_8px_24px_-18px_rgba(0,109,121,.25)] backdrop-blur-sm transition-colors dark:bg-[#102330]/95 ${selected ? "border-primary-light/35 dark:border-primary-dark/40" : "hover:border-primary-light/35 dark:hover:border-primary-dark/40 border-cyan-800/15 dark:border-cyan-300/20"}`}
+                  className={`${focus} definitive-two-case-card absolute rounded-xl border bg-white/95 text-left shadow-[0_8px_24px_-18px_rgba(0,109,121,.25)] backdrop-blur-sm transition-colors dark:bg-[#102330]/95 ${selected ? "border-primary-light/35 dark:border-primary-dark/40" : "hover:border-primary-light/35 dark:hover:border-primary-dark/40 border-cyan-800/15 dark:border-primary-dark/20"}`}
                   style={{
                     top: position.top * scale,
                     left: `${(position.left / 600) * 100}%`,
@@ -1508,7 +1508,7 @@ export function DefinitiveTwoVariant({
                 type="button"
                 onClick={() => selection.select(item.id)}
                 aria-pressed={selection.active?.id === item.id}
-                className={`${focus} font-body min-h-10 rounded-full border px-4 text-xs font-semibold transition-colors ${selection.active?.id === item.id ? "border-primary-light bg-primary-light dark:border-primary-dark dark:bg-primary-dark text-white dark:text-[#06111f]" : "border-cyan-800/15 text-slate-600 hover:bg-cyan-800/5 dark:border-cyan-300/15 dark:text-slate-300 dark:hover:bg-cyan-300/5"}`}
+                className={`${focus} font-body min-h-10 rounded-full border px-4 text-xs font-semibold transition-colors ${selection.active?.id === item.id ? "border-primary-light bg-primary-light dark:border-primary-dark dark:bg-primary-dark text-white dark:text-[#06111f]" : "border-cyan-800/15 text-slate-600 hover:bg-cyan-800/5 dark:border-primary-dark/15 dark:text-slate-300 dark:hover:bg-primary-dark/5"}`}
               >
                 <span className="mr-2 opacity-60">{count(index + 1)}</span>
                 {item.name}

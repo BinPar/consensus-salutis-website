@@ -21,7 +21,7 @@ export function ContactDetails({
       data-section-anchor
       data-contact-details-painted={visible}
       aria-labelledby="contact-details-heading"
-      className="relative border-t border-cyan-800/10 bg-[#e8f2f7]/80 dark:border-cyan-300/10 dark:bg-[#081827]/80"
+      className="relative border-t border-cyan-800/10 bg-[#e8f2f7]/80 dark:border-primary-dark/10 dark:bg-[#081827]/80"
     >
       <Reveal visible={visible} className="grid w-full lg:grid-cols-2">
         <div className="px-5 py-14 sm:px-10 sm:py-18 lg:pr-16 lg:pl-[max(40px,calc((100vw-var(--section-content-max,1280px))/2))]">
@@ -36,7 +36,7 @@ export function ContactDetails({
             Escríbenos o consulta cómo llegar a nuestras oficinas.
           </p>
 
-          <address className="font-body mt-7 max-w-md divide-y divide-cyan-800/12 border-y border-cyan-800/12 text-sm leading-6 text-slate-600 not-italic dark:divide-cyan-300/12 dark:border-cyan-300/12 dark:text-slate-400">
+          <address className="font-body mt-7 max-w-md divide-y divide-cyan-800/12 border-y border-cyan-800/12 text-sm leading-6 text-slate-600 not-italic dark:divide-cyan-300/12 dark:border-primary-dark/12 dark:text-slate-400">
             <ContactDetailRow icon={MapPin}>
               <p>
                 Paseo de la Castellana, 43, 4.ª planta · 121. Chamberí, 28046

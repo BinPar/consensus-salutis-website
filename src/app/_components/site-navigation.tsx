@@ -46,7 +46,7 @@ export function SiteNavigation({
                   : "location"
                 : undefined
             }
-            className={`font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark relative rounded-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 ${active ? "text-primary-light dark:text-primary-dark font-semibold" : "font-medium hover:text-cyan-800 dark:hover:text-cyan-100"}`}
+            className={`font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark relative rounded-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 ${active ? "text-primary-light dark:text-primary-dark font-semibold" : "font-medium hover:text-cyan-800 dark:hover:text-primary-dark"}`}
           >
             {item.label}
             {active && (

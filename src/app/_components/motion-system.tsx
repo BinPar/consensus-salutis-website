@@ -294,7 +294,7 @@ export function HomeGrid({
       aria-hidden="true"
       data-home-grid={home ? "" : undefined}
       style={{ backgroundPosition: "var(--home-grid-position, 0px 0px)" }}
-      className={`pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(8,145,178,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(8,145,178,0.1)_1px,transparent_1px)] bg-size-[44px_44px] dark:bg-[linear-gradient(rgba(125,211,252,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(125,211,252,0.045)_1px,transparent_1px)] ${className}`}
+      className={`pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(8,145,178,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(8,145,178,0.1)_1px,transparent_1px)] bg-size-[44px_44px] dark:bg-[linear-gradient(color-mix(in_srgb,var(--color-primary-dark)_4.5%,transparent)_1px,transparent_1px),linear-gradient(90deg,color-mix(in_srgb,var(--color-primary-dark)_4.5%,transparent)_1px,transparent_1px)] ${className}`}
     />
   );
 }
@@ -305,7 +305,7 @@ export function HomeMotionBackground() {
       aria-hidden="true"
       className="pointer-events-none fixed inset-0 z-0 overflow-hidden bg-white dark:bg-[#06111f]"
     >
-      {/* <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.1),transparent_30%,rgba(13,148,136,0.08)_72%,transparent)] dark:bg-[linear-gradient(120deg,rgba(34,211,238,0.12),transparent_30%,rgba(20,184,166,0.08)_72%,transparent)]" /> */}
+      {/* <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.1),transparent_30%,rgba(13,148,136,0.08)_72%,transparent)] dark:bg-[linear-gradient(120deg,color-mix(in_srgb,var(--color-primary-dark)_12%,transparent),transparent_30%,color-mix(in_srgb,var(--color-primary-dark)_8%,transparent)_72%,transparent)]" /> */}
       <HomeGrid home />
     </div>
   );
@@ -400,18 +400,18 @@ export function SignalField({
           </linearGradient>
           <linearGradient id={fillId} x1="300" y1="0" x2="1100" y2="850">
             <stop
-              className="dark:[stop-opacity:0.16]"
+              className="dark:[stop-color:var(--color-primary-dark)] dark:[stop-opacity:0.16]"
               stopColor="rgb(8 145 178)"
               stopOpacity="0.24"
             />
             <stop
-              className="dark:[stop-opacity:0.10]"
+              className="dark:[stop-color:var(--color-primary-dark)] dark:[stop-opacity:0.10]"
               offset="0.52"
               stopColor="rgb(20 184 166)"
               stopOpacity="0.11"
             />
             <stop
-              className="dark:[stop-opacity:0.04]"
+              className="dark:[stop-color:var(--color-primary-dark)] dark:[stop-opacity:0.04]"
               offset="1"
               stopColor="rgb(246 255 83)"
               stopOpacity="0.16"

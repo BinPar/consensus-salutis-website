@@ -1060,7 +1060,7 @@ export function InterviewScreen({
       */}
       <section
         aria-label="Entrevista de evaluación"
-        className="shadow-big-blocks flex h-[calc(100dvh-11rem)] min-w-0 flex-col overflow-hidden rounded-3xl border border-cyan-800/20 bg-white/85 backdrop-blur-sm lg:h-[calc(100dvh-8rem)] dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30"
+        className="shadow-big-blocks flex h-[calc(100dvh-11rem)] min-w-0 flex-col overflow-hidden rounded-3xl border border-cyan-800/20 bg-white/85 backdrop-blur-sm lg:h-[calc(100dvh-8rem)] dark:border-primary-dark/20 dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30"
       >
         <InterviewHeader institucion={institucion} />
 
@@ -1147,7 +1147,7 @@ export function InterviewScreen({
           ) : null}
         </div>
 
-        <div className="shrink-0 border-t border-cyan-800/15 bg-white/50 px-5 py-4 sm:px-7 dark:border-cyan-300/15 dark:bg-white/3">
+        <div className="shrink-0 border-t border-cyan-800/15 bg-white/50 px-5 py-4 sm:px-7 dark:border-primary-dark/15 dark:bg-white/3">
           {redactedNotice ? (
             <Notice
               tone="info"
@@ -1214,7 +1214,7 @@ export function InterviewScreen({
 
       {/* Panel de la ficha: columna fija en escritorio, hoja a pantalla en móvil. */}
       <aside className="hidden min-w-0 lg:block">
-        <div className="shadow-big-blocks sticky top-20 flex h-[calc(100dvh-8rem)] flex-col overflow-hidden rounded-3xl border border-cyan-800/20 bg-white/85 backdrop-blur-sm dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30">
+        <div className="shadow-big-blocks sticky top-20 flex h-[calc(100dvh-8rem)] flex-col overflow-hidden rounded-3xl border border-cyan-800/20 bg-white/85 backdrop-blur-sm dark:border-primary-dark/20 dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30">
           <FichaPanel
             ficha={ficha}
             highlighted={highlighted}
@@ -1243,7 +1243,7 @@ export function InterviewScreen({
 
 function InterviewHeader({ institucion }: { institucion: string }) {
   return (
-    <div className="flex h-14 shrink-0 items-center justify-between gap-3 border-b border-cyan-800/15 bg-white/40 px-5 sm:px-7 dark:border-cyan-300/15 dark:bg-white/3">
+    <div className="flex h-14 shrink-0 items-center justify-between gap-3 border-b border-cyan-800/15 bg-white/40 px-5 sm:px-7 dark:border-primary-dark/15 dark:bg-white/3">
       <div className="flex min-w-0 items-center gap-3">
         <Image
           src="/logos/binpar-brand/binpar-logo-light.svg"
@@ -1265,7 +1265,7 @@ function InterviewHeader({ institucion }: { institucion: string }) {
             «Hospital de móstoles» se pintaba con la minúscula incluida. Se capitaliza
             por palabra, con las partículas en minúscula.
           */
-          <span className="font-body hidden min-w-0 truncate border-l border-cyan-800/15 pl-3 text-xs text-slate-500 sm:block dark:border-cyan-300/15 dark:text-slate-400">
+          <span className="font-body hidden min-w-0 truncate border-l border-cyan-800/15 pl-3 text-xs text-slate-500 sm:block dark:border-primary-dark/15 dark:text-slate-400">
             {capitalizarInstitucion(institucion)}
           </span>
         ) : null}
@@ -1274,8 +1274,8 @@ function InterviewHeader({ institucion }: { institucion: string }) {
         El punto baja de intensidad: con el resplandor de antes parecía un LED de
         estado —algo que se enciende y se apaga— y lo que dice es una promesa.
       */}
-      <span className="flex shrink-0 items-center gap-1.5 text-[10px] font-medium text-teal-700 dark:text-teal-200">
-        <span className="size-1.5 rounded-full bg-teal-500/70 dark:bg-teal-300/60" />
+      <span className="flex shrink-0 items-center gap-1.5 text-[10px] font-medium text-teal-700 dark:text-primary-dark">
+        <span className="size-1.5 rounded-full bg-teal-500/70 dark:bg-primary-dark/60" />
         Sin datos de paciente
       </span>
     </div>
@@ -1331,7 +1331,7 @@ function OpeningBrief() {
   ];
 
   return (
-    <div className="grid gap-2 border-b border-cyan-800/12 pb-4 dark:border-cyan-300/12">
+    <div className="grid gap-2 border-b border-cyan-800/12 pb-4 dark:border-primary-dark/12">
       {lineas.map((linea, index) => (
         <p
           key={index}
@@ -1576,7 +1576,7 @@ function QuickAnswers({
               disabled={pending}
               onClick={() => onSend(respuesta)}
               aria-keyshortcuts={`Alt+${index + 1} ${index + 1}`}
-              className="font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark hover:text-primary-light dark:hover:text-primary-dark border-primary-light/28 dark:border-primary-dark/34 px-6 py-2 text-[13px] font-semibold text-slate-800 transition not-first:border-l-[1.5px] hover:bg-cyan-800/6 focus-visible:outline-2 focus-visible:-outline-offset-2 disabled:opacity-100 dark:text-slate-100 dark:hover:bg-cyan-300/8"
+              className="font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark hover:text-primary-light dark:hover:text-primary-dark border-primary-light/28 dark:border-primary-dark/34 px-6 py-2 text-[13px] font-semibold text-slate-800 transition not-first:border-l-[1.5px] hover:bg-cyan-800/6 focus-visible:outline-2 focus-visible:-outline-offset-2 disabled:opacity-100 dark:text-slate-100 dark:hover:bg-primary-dark/8"
             >
               {respuesta}
             </button>
@@ -1590,7 +1590,7 @@ function QuickAnswers({
             disabled={pending}
             onClick={() => onSend(respuesta)}
             aria-keyshortcuts={`Alt+${index + 1} ${index + 1}`}
-            className="group font-body focus-visible:outline-primary-light hover:border-primary-light dark:hover:border-primary-dark dark:focus-visible:outline-primary-dark grid w-full grid-cols-[1fr_auto] items-center gap-2.5 rounded-[11px] border border-cyan-800/30 bg-white/70 px-3.5 py-2.5 text-left text-[13px] leading-snug font-medium text-slate-800 transition hover:translate-x-0.5 hover:bg-cyan-800/5 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-100 dark:border-cyan-300/28 dark:bg-white/4 dark:text-slate-100 dark:hover:bg-cyan-300/8"
+            className="group font-body focus-visible:outline-primary-light hover:border-primary-light dark:hover:border-primary-dark dark:focus-visible:outline-primary-dark grid w-full grid-cols-[1fr_auto] items-center gap-2.5 rounded-[11px] border border-cyan-800/30 bg-white/70 px-3.5 py-2.5 text-left text-[13px] leading-snug font-medium text-slate-800 transition hover:translate-x-0.5 hover:bg-cyan-800/5 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-100 dark:border-primary-dark/28 dark:bg-white/4 dark:text-slate-100 dark:hover:bg-primary-dark/8"
           >
             <span className="min-w-0">{respuesta}</span>
             {/*
@@ -1675,7 +1675,7 @@ function MultiAnswers({
             className={`group font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark grid w-full grid-cols-[auto_1fr] items-center gap-2.5 rounded-[11px] border px-3.5 py-2.5 text-left text-[13px] leading-snug font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-100 ${
               marcada
                 ? "border-primary-light dark:border-primary-dark bg-primary-light/8 dark:bg-primary-dark/12 text-slate-900 dark:text-slate-50"
-                : "border-cyan-800/30 bg-white/70 text-slate-800 hover:border-cyan-800/55 hover:bg-cyan-800/5 dark:border-cyan-300/28 dark:bg-white/4 dark:text-slate-100 dark:hover:border-cyan-300/55 dark:hover:bg-cyan-300/8"
+                : "border-cyan-800/30 bg-white/70 text-slate-800 hover:border-cyan-800/55 hover:bg-cyan-800/5 dark:border-primary-dark/28 dark:bg-white/4 dark:text-slate-100 dark:hover:border-primary-dark/55 dark:hover:bg-primary-dark/8"
             }`}
           >
             <span
@@ -1683,7 +1683,7 @@ function MultiAnswers({
               className={`grid size-4 shrink-0 place-items-center rounded-[5px] border transition ${
                 marcada
                   ? "bg-primary-light dark:bg-primary-dark border-transparent text-white dark:text-[#04111e]"
-                  : "border-cyan-800/40 dark:border-cyan-300/40"
+                  : "border-cyan-800/40 dark:border-primary-dark/40"
               }`}
             >
               {marcada ? <Check strokeWidth={3} className="size-2.5" /> : null}
@@ -1702,7 +1702,7 @@ function MultiAnswers({
         type="button"
         disabled={pending || marcadas.length === 0}
         onClick={onContinue}
-        className="bg-primary-light font-body dark:bg-primary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark dark:hover:bg-primary-dark-lighter mt-1.5 inline-flex w-fit items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-semibold text-white transition hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-40 dark:text-[#04111e]"
+        className="bg-primary-light font-body dark:bg-primary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark dark:hover:bg-primary-dark/85 mt-1.5 inline-flex w-fit items-center gap-1.5 rounded-full px-4 py-2 text-[13px] font-semibold text-white transition hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-40 dark:text-[#04111e]"
       >
         Continuar
         <ArrowRight aria-hidden="true" strokeWidth={2.4} className="size-3.5" />
@@ -2007,14 +2007,14 @@ function CalculatingNotice({
           esta es la puerta de salida, y reintentar el cierre es seguro (el
           servidor devuelve el informe si ya estaba hecho).
         */
-        <div className="mt-3.5 flex flex-wrap items-center gap-x-3 gap-y-1.5 border-t border-cyan-800/12 pt-3 dark:border-cyan-300/12">
+        <div className="mt-3.5 flex flex-wrap items-center gap-x-3 gap-y-1.5 border-t border-cyan-800/12 pt-3 dark:border-primary-dark/12">
           <p className="font-body min-w-0 flex-1 text-[12px] leading-snug text-slate-500 dark:text-slate-400">
             Está tardando más de lo normal.
           </p>
           <button
             type="button"
             onClick={onRetry}
-            className="font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark border-primary-light/40 text-primary-light dark:border-primary-dark/40 dark:text-primary-dark inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold transition hover:bg-cyan-800/8 focus-visible:outline-2 focus-visible:outline-offset-2 dark:hover:bg-cyan-300/8"
+            className="font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark border-primary-light/40 text-primary-light dark:border-primary-dark/40 dark:text-primary-dark inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold transition hover:bg-cyan-800/8 focus-visible:outline-2 focus-visible:outline-offset-2 dark:hover:bg-primary-dark/8"
           >
             <RotateCcw aria-hidden="true" strokeWidth={2} className="size-3" />
             Reintentar
@@ -2030,10 +2030,10 @@ function ThreadSkeleton() {
     <div className="grid gap-4" aria-hidden="true">
       {[0, 1].map((row) => (
         <div key={row} className="flex items-start gap-2.5">
-          <span className="size-6 shrink-0 rounded-full bg-cyan-800/10 dark:bg-cyan-300/10" />
+          <span className="size-6 shrink-0 rounded-full bg-cyan-800/10 dark:bg-primary-dark/10" />
           <div className="grid w-full max-w-lg gap-2">
-            <span className="h-3 w-full rounded-full bg-cyan-800/10 dark:bg-cyan-300/10" />
-            <span className="h-3 w-3/5 rounded-full bg-cyan-800/10 dark:bg-cyan-300/10" />
+            <span className="h-3 w-full rounded-full bg-cyan-800/10 dark:bg-primary-dark/10" />
+            <span className="h-3 w-3/5 rounded-full bg-cyan-800/10 dark:bg-primary-dark/10" />
           </div>
         </div>
       ))}
@@ -2057,7 +2057,7 @@ function Notice({
   const toneClass =
     tone === "error"
       ? "border-rose-600/25 bg-rose-50/80 text-rose-900 dark:border-rose-300/25 dark:bg-rose-400/10 dark:text-rose-100"
-      : "border-cyan-800/20 bg-cyan-50/70 text-cyan-900 dark:border-cyan-300/20 dark:bg-cyan-300/8 dark:text-cyan-50";
+      : "border-cyan-800/20 bg-cyan-50/70 text-cyan-900 dark:border-primary-dark/20 dark:bg-primary-dark/8 dark:text-slate-100";
 
   return (
     <div
@@ -2127,7 +2127,7 @@ function Composer({
 
   return (
     <div>
-      <div className="focus-within:border-primary-light/50 flex items-end gap-2 rounded-2xl border border-cyan-800/20 bg-white px-3 py-2 transition dark:border-cyan-300/20 dark:bg-[#04111e]/80 dark:focus-within:border-cyan-300/50">
+      <div className="focus-within:border-primary-light/50 flex items-end gap-2 rounded-2xl border border-cyan-800/20 bg-white px-3 py-2 transition dark:border-primary-dark/20 dark:bg-[#04111e]/80 dark:focus-within:border-primary-dark/50">
         <label htmlFor="interview-composer" className="sr-only">
           Tu respuesta
         </label>
@@ -2166,7 +2166,7 @@ function Composer({
           onClick={() => onSend(draft)}
           disabled={!canSend}
           aria-label="Enviar respuesta"
-          className="bg-primary-light dark:bg-primary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark dark:hover:bg-primary-dark-lighter grid size-9 shrink-0 place-items-center rounded-full text-white transition hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-40 dark:text-[#04111e]"
+          className="bg-primary-light dark:bg-primary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark dark:hover:bg-primary-dark/85 grid size-9 shrink-0 place-items-center rounded-full text-white transition hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:opacity-40 dark:text-[#04111e]"
         >
           {pending ? (
             <Loader2
@@ -2208,7 +2208,7 @@ function ReportFooter() {
       Si quieres comentarlo,{" "}
       <Link
         href="/contacto"
-        className="text-primary-light dark:text-secondary-dark underline underline-offset-4 hover:text-cyan-800 dark:hover:text-cyan-200"
+        className="text-primary-light dark:text-secondary-dark underline underline-offset-4 hover:text-cyan-800 dark:hover:text-primary-dark"
       >
         solicita una reunión
       </Link>
@@ -2267,11 +2267,11 @@ function MobileFicha({
 
   return (
     <>
-      <div className="sticky bottom-0 z-30 -mx-5 mt-3 border-t border-cyan-800/15 bg-[#fbfdff]/92 px-5 py-2.5 backdrop-blur-md sm:-mx-8 sm:px-8 lg:hidden dark:border-cyan-300/15 dark:bg-[#06111f]/92">
+      <div className="sticky bottom-0 z-30 -mx-5 mt-3 border-t border-cyan-800/15 bg-[#fbfdff]/92 px-5 py-2.5 backdrop-blur-md sm:-mx-8 sm:px-8 lg:hidden dark:border-primary-dark/15 dark:bg-[#06111f]/92">
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark flex w-full items-center gap-3 rounded-xl border border-cyan-800/15 bg-white/65 px-3.5 py-2.5 text-left backdrop-blur-sm transition hover:bg-cyan-50 focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-cyan-300/15 dark:bg-white/4 dark:hover:bg-cyan-300/10"
+          className="focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark flex w-full items-center gap-3 rounded-xl border border-cyan-800/15 bg-white/65 px-3.5 py-2.5 text-left backdrop-blur-sm transition hover:bg-cyan-50 focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-primary-dark/15 dark:bg-white/4 dark:hover:bg-primary-dark/10"
         >
           {/* El arco sustituye al icono de portapapeles: dice algo, y el icono no. */}
           <FichaArco
@@ -2311,7 +2311,7 @@ function MobileFicha({
             transition={{ duration: 0.18 }}
             className="fixed inset-0 z-50 flex flex-col bg-[#fbfdff] lg:hidden dark:bg-[#06111f]"
           >
-            <div className="flex h-14 shrink-0 items-center justify-between border-b border-cyan-800/15 px-5 dark:border-cyan-300/15">
+            <div className="flex h-14 shrink-0 items-center justify-between border-b border-cyan-800/15 px-5 dark:border-primary-dark/15">
               <p className="font-display text-sm font-extrabold text-[#05215e] dark:text-slate-50">
                 Lo que hemos entendido
               </p>
@@ -2319,7 +2319,7 @@ function MobileFicha({
                 type="button"
                 autoFocus
                 onClick={() => setOpen(false)}
-                className="focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark grid size-9 place-items-center rounded-full border border-cyan-800/15 text-slate-600 focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-cyan-300/15 dark:text-slate-300"
+                className="focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark grid size-9 place-items-center rounded-full border border-cyan-800/15 text-slate-600 focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-primary-dark/15 dark:text-slate-300"
                 aria-label="Cerrar la ficha"
               >
                 <X aria-hidden="true" strokeWidth={2} className="size-4" />

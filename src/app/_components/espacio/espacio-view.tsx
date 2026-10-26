@@ -39,7 +39,7 @@ import {
 
 /** El recipiente del sistema. Mismo que la página del informe. */
 const CARD =
-  "shadow-big-blocks rounded-2xl border border-cyan-800/15 bg-white/80 backdrop-blur-xs dark:border-cyan-300/15 dark:bg-[#152230e6]/90";
+  "shadow-big-blocks rounded-2xl border border-cyan-800/15 bg-white/80 backdrop-blur-xs dark:border-primary-dark/15 dark:bg-[#152230e6]/90";
 
 const H2 =
   "font-display text-xl font-bold tracking-tight text-[#05215e] dark:text-slate-50";
@@ -195,7 +195,7 @@ export function EspacioView({
             </p>
             <Link
               href={informe.url}
-              className="border-primary-light/25 font-body hover:border-primary-light/45 mt-5 inline-flex min-h-10 items-center gap-2 rounded-full border bg-white/65 px-5 text-sm font-semibold text-cyan-800 backdrop-blur-sm transition hover:bg-cyan-50 dark:border-cyan-300/30 dark:bg-white/3 dark:text-cyan-50 dark:hover:border-cyan-200/50 dark:hover:bg-cyan-300/10"
+              className="border-primary-light/25 font-body hover:border-primary-light/45 mt-5 inline-flex min-h-10 items-center gap-2 rounded-full border bg-white/65 px-5 text-sm font-semibold text-cyan-800 backdrop-blur-sm transition hover:bg-cyan-50 dark:border-primary-dark/30 dark:bg-white/3 dark:text-slate-100 dark:hover:border-primary-dark/50 dark:hover:bg-primary-dark/10"
             >
               <FileText
                 aria-hidden="true"
@@ -229,7 +229,7 @@ export function EspacioView({
         </p>
         <a
           href={`mailto:${soporte.email}?subject=${asunto}`}
-          className="text-primary-light dark:text-secondary-dark font-body mt-5 inline-flex items-center gap-2 text-sm font-semibold underline underline-offset-4 hover:text-cyan-800 dark:hover:text-cyan-200"
+          className="text-primary-light dark:text-secondary-dark font-body mt-5 inline-flex items-center gap-2 text-sm font-semibold underline underline-offset-4 hover:text-cyan-800 dark:hover:text-primary-dark"
         >
           <LifeBuoy aria-hidden="true" strokeWidth={1.8} className="size-4" />
           {soporte.email}

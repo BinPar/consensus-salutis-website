@@ -20,7 +20,7 @@
 }
 .dark .home-entry-content {
   --cover-ink: #f8fafc;
-  --cover-accent: #00bcbb;
+  --cover-accent: var(--color-primary-dark);
 }
 .home-entry-content .home-cover-title {
   margin: 0;
@@ -65,7 +65,7 @@
   color: #06111f;
 }
 .dark .home-entry-content .home-cover-explore:hover {
-  background: #71fffe;
+  background: color-mix(in srgb, var(--color-primary-dark) 85%, transparent);
 }
 .home-entry-content .home-aura-app-icon {
   display: grid;
@@ -86,7 +86,7 @@
   height: auto;
 }
 .dark .home-entry-content .home-aura-app-icon {
-  border-color: rgba(125, 211, 252, 0.16);
+  border-color: color-mix(in srgb, var(--color-primary-dark) 16%, transparent);
   background: linear-gradient(145deg, #172c3d, #0c1c2b);
   box-shadow:
     0 2px 3px rgba(0, 0, 0, 0.2),
@@ -148,7 +148,7 @@
 }
 .dark .home-entry-content[data-entry-study="true"] .home-aura-app-icon::before {
   background: #102535;
-  border-color: rgba(125, 211, 252, 0.16);
+  border-color: color-mix(in srgb, var(--color-primary-dark) 16%, transparent);
   box-shadow:
     0 2px 3px rgba(0, 0, 0, 0.2),
     0 12px 28px rgba(0, 0, 0, 0.15);
@@ -160,7 +160,7 @@
   color: #006f7b;
 }
 .dark .brand-isotype-reveal {
-  color: #00bcbb;
+  color: var(--color-primary-dark);
 }
 .brand-isotype-guide {
   stroke: currentColor;
@@ -273,7 +273,7 @@
   animation-play-state: var(--entry-motion);
 }
 .dark .brand-particle-final {
-  color: #00bcbb;
+  color: var(--color-primary-dark);
 }
 .home-entry-content[data-entry-animation="particles"] .home-aura-app-icon {
   width: 104px;

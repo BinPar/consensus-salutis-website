@@ -52,7 +52,7 @@ export function BlogSearch({
     >
       <span
         aria-hidden="true"
-        className="border-primary-light/60 pointer-events-none absolute inset-0 z-10 rounded-full border dark:border-cyan-300/20"
+        className="border-primary-light/60 pointer-events-none absolute inset-0 z-10 rounded-full border dark:border-primary-dark/20"
       />
       <button
         ref={trigger}
@@ -64,7 +64,7 @@ export function BlogSearch({
           setOpen(true);
           input.current?.focus();
         }}
-        className="focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark grid size-[32px] shrink-0 cursor-pointer place-items-center rounded-full hover:text-cyan-800 focus-visible:outline-2 focus-visible:-outline-offset-3 dark:hover:text-cyan-100"
+        className="focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark grid size-[32px] shrink-0 cursor-pointer place-items-center rounded-full hover:text-cyan-800 focus-visible:outline-2 focus-visible:-outline-offset-3 dark:hover:text-primary-dark"
       >
         <Search aria-hidden="true" size={15} strokeWidth={1.8} />
       </button>
@@ -84,7 +84,7 @@ export function BlogSearch({
             type="button"
             aria-label="Cerrar y limpiar búsqueda"
             onClick={close}
-            className="focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark grid size-[32px] shrink-0 cursor-pointer place-items-center rounded-full hover:text-cyan-800 focus-visible:outline-2 focus-visible:-outline-offset-3 dark:hover:text-cyan-100"
+            className="focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark grid size-[32px] shrink-0 cursor-pointer place-items-center rounded-full hover:text-cyan-800 focus-visible:outline-2 focus-visible:-outline-offset-3 dark:hover:text-primary-dark"
           >
             <X aria-hidden="true" size={14} strokeWidth={1.8} />
           </button>

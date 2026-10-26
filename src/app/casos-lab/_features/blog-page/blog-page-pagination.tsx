@@ -145,7 +145,7 @@ export function BlogPagination({
             <button
               key={item}
               type="button"
-              className={`${buttonClass} ${item === currentPage ? "bg-primary-light dark:bg-primary-dark dark:hover:bg-primary-dark-lighter text-white hover:-translate-y-0.5 hover:bg-[#087a85] dark:text-[#03111d]" : outlineClass}`}
+              className={`${buttonClass} ${item === currentPage ? "bg-primary-light dark:bg-primary-dark dark:hover:bg-primary-dark/85 text-white hover:-translate-y-0.5 hover:bg-[#087a85] dark:text-[#03111d]" : outlineClass}`}
               onClick={() => onPageChange(item)}
               aria-label={
                 item === currentPage

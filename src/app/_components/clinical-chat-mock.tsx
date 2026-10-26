@@ -330,7 +330,7 @@ export function ClinicalChatMock({
       aria-label="Demostración de BinPar: una consulta clínica, una respuesta con evidencia y sus referencias."
       data-stage={staticDemo ? "static" : stage}
       data-compact={compact}
-      className={`shadow-big-blocks @container pointer-events-none relative isolate overflow-hidden rounded-3xl border border-cyan-800/15 bg-white/80 backdrop-blur-sm select-none dark:border-cyan-300/15 dark:bg-[#06111f] ${compact ? "h-87.5" : "h-110"}`}
+      className={`shadow-big-blocks @container pointer-events-none relative isolate overflow-hidden rounded-3xl border border-cyan-800/15 bg-white/80 backdrop-blur-sm select-none dark:border-primary-dark/15 dark:bg-[#06111f] ${compact ? "h-87.5" : "h-110"}`}
     >
       <div aria-hidden="true" className="flex h-full">
         <motion.div
@@ -341,7 +341,7 @@ export function ClinicalChatMock({
           <div
             ref={gridRef}
             data-mock-grid=""
-            className="absolute inset-0 bg-[linear-gradient(rgba(8,145,178,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(8,145,178,0.1)_1px,transparent_1px)] bg-size-[44px_44px] dark:bg-[linear-gradient(rgba(125,211,252,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(125,211,252,0.045)_1px,transparent_1px)]"
+            className="absolute inset-0 bg-[linear-gradient(rgba(8,145,178,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(8,145,178,0.1)_1px,transparent_1px)] bg-size-[44px_44px] dark:bg-[linear-gradient(color-mix(in_srgb,var(--color-primary-dark)_4.5%,transparent)_1px,transparent_1px),linear-gradient(90deg,color-mix(in_srgb,var(--color-primary-dark)_4.5%,transparent)_1px,transparent_1px)]"
           />
           <div
             className={`absolute inset-0 bg-white mask-[linear-gradient(to_right,transparent,black_18%,black_82%,transparent)] transition-opacity duration-300 motion-reduce:transition-none dark:bg-[#06111f] ${centered ? "opacity-0" : "opacity-100"}`}
@@ -555,7 +555,7 @@ function ProcessingLabel({ label }: { label: string }) {
 function MockReferences({ condensed }: { condensed: boolean }) {
   return (
     <div
-      className={`border-t border-cyan-800/15 dark:border-cyan-300/15 ${condensed ? "pt-2" : "pt-4"}`}
+      className={`border-t border-cyan-800/15 dark:border-primary-dark/15 ${condensed ? "pt-2" : "pt-4"}`}
     >
       <p
         className={`font-display text-primary-light dark:text-primary-dark font-bold tracking-[0.16em] uppercase ${condensed ? "text-[9px]" : "text-[11px]"}`}
@@ -566,7 +566,7 @@ function MockReferences({ condensed }: { condensed: boolean }) {
         {references.map((reference, index) => (
           <li key={reference} className="flex items-start gap-2.5">
             <span
-              className={`font-display border-primary-light/20 bg-primary-light/8 text-primary-light dark:border-primary-dark/25 dark:bg-primary-dark/10 dark:text-primary-dark-lighter grid shrink-0 place-items-center rounded-md border text-[10px] font-semibold ${condensed ? "size-4.5" : "size-5"}`}
+              className={`font-display border-primary-light/20 bg-primary-light/8 text-primary-light dark:border-primary-dark/25 dark:bg-primary-dark/10 dark:text-primary-dark grid shrink-0 place-items-center rounded-md border text-[10px] font-semibold ${condensed ? "size-4.5" : "size-5"}`}
             >
               {index + 1}
             </span>
@@ -616,7 +616,7 @@ function MockComposer({
       ref={composerRef}
       data-mock-composer=""
       data-expanded={expanded}
-      className={`font-body shadow-big-blocks relative mx-auto grid max-w-3xl grid-cols-[44px_minmax(0,1fr)_44px] overflow-hidden border border-cyan-800/15 bg-white/85 backdrop-blur-md dark:border-cyan-300/15 dark:bg-[#152230]/90 dark:shadow-[0_0_32px_rgba(0,188,187,0.12)] ${expanded ? "rounded-[20px]" : "rounded-[28px]"} ${compact ? "min-h-10 text-xs leading-5" : "min-h-11 text-[13px] leading-5.5"}`}
+      className={`font-body shadow-big-blocks relative mx-auto grid max-w-3xl grid-cols-[44px_minmax(0,1fr)_44px] overflow-hidden border border-cyan-800/15 bg-white/85 backdrop-blur-md dark:border-primary-dark/15 dark:bg-[#152230]/90 dark:shadow-[0_0_32px_color-mix(in_srgb,var(--color-primary-dark)_12%,transparent)] ${expanded ? "rounded-[20px]" : "rounded-[28px]"} ${compact ? "min-h-10 text-xs leading-5" : "min-h-11 text-[13px] leading-5.5"}`}
     >
       <span
         ref={mirrorRef}
@@ -627,7 +627,7 @@ function MockComposer({
         {composing && <Caret />}
       </span>
       <span
-        className={`col-start-1 grid size-7 place-items-center place-self-center rounded-full border border-cyan-800/15 text-slate-500 dark:border-cyan-300/15 dark:text-slate-400 ${expanded ? "row-start-2 my-2" : "row-start-1"}`}
+        className={`col-start-1 grid size-7 place-items-center place-self-center rounded-full border border-cyan-800/15 text-slate-500 dark:border-primary-dark/15 dark:text-slate-400 ${expanded ? "row-start-2 my-2" : "row-start-1"}`}
       >
         <Paperclip className="size-3.5" strokeWidth={1.8} />
       </span>

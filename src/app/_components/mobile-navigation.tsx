@@ -62,7 +62,7 @@ export function MobileNavigation({
         aria-expanded={open}
         aria-controls="mobile-navigation-panel"
         onClick={() => setOpen((current) => !current)}
-        className="border-primary-light/20 hover:border-primary-light/40 dark:bg-primary-dark/8 dark:text-primary-dark-lighter relative grid size-9 shrink-0 place-items-center rounded-full border bg-white/70 text-slate-700 shadow-sm transition hover:bg-cyan-50 hover:text-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600 dark:border-cyan-300/20 dark:shadow-none dark:hover:border-cyan-200/45 dark:hover:bg-cyan-300/15 dark:hover:text-white dark:focus-visible:outline-cyan-300"
+        className="border-primary-light/20 hover:border-primary-light/40 dark:bg-primary-dark/8 dark:text-primary-dark relative grid size-9 shrink-0 place-items-center rounded-full border bg-white/70 text-slate-700 shadow-sm transition hover:bg-cyan-50 hover:text-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600 dark:border-primary-dark/20 dark:shadow-none dark:hover:border-primary-dark/45 dark:hover:bg-primary-dark/15 dark:hover:text-primary-dark dark:focus-visible:outline-primary-dark"
       >
         <span className="relative block size-4" aria-hidden="true">
           <motion.span
@@ -88,7 +88,7 @@ export function MobileNavigation({
           <motion.nav
             id="mobile-navigation-panel"
             aria-label="Navegación móvil"
-            className="fixed inset-x-0 top-16 z-50 flex h-[calc(100dvh-4rem)] flex-col border-t border-cyan-800/10 bg-[#f4f9fc] px-5 py-7 shadow-xl sm:px-8 dark:border-cyan-300/10 dark:bg-[#06111f]"
+            className="fixed inset-x-0 top-16 z-50 flex h-[calc(100dvh-4rem)] flex-col border-t border-cyan-800/10 bg-[#f4f9fc] px-5 py-7 shadow-xl sm:px-8 dark:border-primary-dark/10 dark:bg-[#06111f]"
             initial={{
               x: reducedMotion ? 0 : "-100%",
               opacity: reducedMotion ? 1 : 0,
@@ -106,7 +106,7 @@ export function MobileNavigation({
             <p className="text-primary-light dark:text-primary-dark text-base font-semibold tracking-[0.18em] uppercase">
               Navegación
             </p>
-            <div className="mt-5 max-w-xl border-t border-cyan-800/12 dark:border-cyan-300/12">
+            <div className="mt-5 max-w-xl border-t border-cyan-800/12 dark:border-primary-dark/12">
               {items.map((item, index) => {
                 if (item.disabled) {
                   return (
@@ -114,7 +114,7 @@ export function MobileNavigation({
                       key={item.href}
                       role="link"
                       aria-disabled="true"
-                      className="block cursor-not-allowed border-b border-cyan-800/12 py-3 text-sm font-semibold text-[#05215e] opacity-45 dark:border-cyan-300/12 dark:text-slate-100"
+                      className="block cursor-not-allowed border-b border-cyan-800/12 py-3 text-sm font-semibold text-[#05215e] opacity-45 dark:border-primary-dark/12 dark:text-slate-100"
                     >
                       {item.label}
                     </span>
@@ -134,10 +134,10 @@ export function MobileNavigation({
                           : "location"
                         : undefined
                     }
-                    className={`relative block border-b border-cyan-800/12 py-3 text-sm font-semibold transition dark:border-cyan-300/12 ${
+                    className={`relative block border-b border-cyan-800/12 py-3 text-sm font-semibold transition dark:border-primary-dark/12 ${
                       active
                         ? "text-primary-light dark:text-primary-dark"
-                        : "text-[#05215e] hover:text-cyan-800 dark:text-slate-100 dark:hover:text-cyan-100"
+                        : "text-[#05215e] hover:text-cyan-800 dark:text-slate-100 dark:hover:text-primary-dark"
                     }`}
                   >
                     {item.label}

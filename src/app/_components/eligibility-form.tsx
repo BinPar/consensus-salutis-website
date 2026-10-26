@@ -19,7 +19,7 @@ import {
 } from "~/lib/eligibility";
 
 const fieldClassName =
-  "font-body w-full rounded-lg border border-cyan-800/15 bg-white/60 px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-500 focus:border-primary-light/55 focus:bg-white focus:ring-2 focus:ring-primary-light/10 disabled:cursor-not-allowed disabled:opacity-60 dark:border-cyan-300/10 dark:bg-[#04111e]/68 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-cyan-300/55 dark:focus:bg-[#061a2a] dark:focus:ring-cyan-300/10";
+  "font-body w-full rounded-lg border border-cyan-800/15 bg-white/60 px-4 py-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-500 focus:border-primary-light/55 focus:bg-white focus:ring-2 focus:ring-primary-light/10 disabled:cursor-not-allowed disabled:opacity-60 dark:border-primary-dark/10 dark:bg-[#04111e]/68 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-primary-dark/55 dark:focus:bg-[#061a2a] dark:focus:ring-primary-dark/10";
 
 /**
  * Recipiente para `<select>`: sin la flecha nativa —que el navegador pinta
@@ -151,7 +151,7 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
   if (status === "success") {
     return (
       <div
-        className={`shadow-big-blocks min-w-0 rounded-3xl border border-cyan-800/20 bg-white/80 p-7 backdrop-blur-sm dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30 ${className}`}
+        className={`shadow-big-blocks min-w-0 rounded-3xl border border-cyan-800/20 bg-white/80 p-7 backdrop-blur-sm dark:border-primary-dark/20 dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30 ${className}`}
         role="status"
       >
         <Eyebrow>Ficha registrada</Eyebrow>
@@ -169,7 +169,7 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
         */}
         <Link
           href="/evaluador/entrevista"
-          className="bg-primary-light/10 hover:bg-primary-light/18 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark dark:bg-primary-dark/10 mt-6 inline-flex rounded-md border border-cyan-800/20 px-4 py-2 text-sm font-semibold text-cyan-800 transition focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-cyan-300/20 dark:text-cyan-50 dark:hover:bg-cyan-300/18"
+          className="bg-primary-light/10 hover:bg-primary-light/18 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark dark:bg-primary-dark/10 mt-6 inline-flex rounded-md border border-cyan-800/20 px-4 py-2 text-sm font-semibold text-cyan-800 transition focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-primary-dark/20 dark:text-slate-100 dark:hover:bg-primary-dark/18"
         >
           Continuar a la entrevista
         </Link>
@@ -179,7 +179,7 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
 
   return (
     <form
-      className={`shadow-big-blocks min-w-0 space-y-5 rounded-3xl border border-cyan-800/20 bg-white/80 p-6 backdrop-blur-sm sm:p-7 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30 ${className}`}
+      className={`shadow-big-blocks min-w-0 space-y-5 rounded-3xl border border-cyan-800/20 bg-white/80 p-6 backdrop-blur-sm sm:p-7 dark:border-primary-dark/20 dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30 ${className}`}
       onSubmit={handleSubmit}
       noValidate
     >
@@ -214,7 +214,7 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
 
       {genericDomain ? (
         <p
-          className="font-body rounded-lg border border-cyan-800/20 bg-cyan-50/70 px-4 py-3 text-xs leading-5 text-cyan-900 dark:border-cyan-300/20 dark:bg-cyan-300/8 dark:text-cyan-50"
+          className="font-body rounded-lg border border-cyan-800/20 bg-cyan-50/70 px-4 py-3 text-xs leading-5 text-cyan-900 dark:border-primary-dark/20 dark:bg-primary-dark/8 dark:text-slate-100"
           role="note"
         >
           Parece una dirección de correo personal. Puedes continuar sin problema
@@ -341,7 +341,7 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
         </FormField>
       </div>
 
-      <div className="rounded-xl border border-cyan-800/15 bg-[#f4f9fc]/70 p-4 dark:border-cyan-300/15 dark:bg-white/3">
+      <div className="rounded-xl border border-cyan-800/15 bg-[#f4f9fc]/70 p-4 dark:border-primary-dark/15 dark:bg-white/3">
         <label className="flex cursor-pointer items-start gap-3 text-sm text-slate-700 dark:text-slate-200">
           <input
             name="consentimiento"
@@ -357,7 +357,7 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
             {RETENTION_STATEMENT} Puedes consultar el detalle en la{" "}
             <Link
               href="/privacidad"
-              className="text-primary-light dark:text-secondary-dark underline underline-offset-4 hover:text-cyan-800 dark:hover:text-cyan-200"
+              className="text-primary-light dark:text-secondary-dark underline underline-offset-4 hover:text-cyan-800 dark:hover:text-primary-dark"
             >
               Política de Privacidad
             </Link>
@@ -396,7 +396,7 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
       <button
         type="submit"
         disabled={busy}
-        className="bg-primary-light font-body dark:bg-primary-dark dark:hover:bg-primary-dark-lighter focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark flex min-h-10 w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-wait disabled:opacity-60 dark:text-[#04111e] dark:shadow-[0_0_34px_rgba(45,212,191,0.26)]"
+        className="bg-primary-light font-body dark:bg-primary-dark dark:hover:bg-primary-dark/85 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark flex min-h-10 w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-wait disabled:opacity-60 dark:text-[#04111e] dark:shadow-[0_0_34px_color-mix(in_srgb,var(--color-primary-dark)_26%,transparent)]"
       >
         {busy ? "Guardando..." : "Comenzar la evaluación"}
       </button>

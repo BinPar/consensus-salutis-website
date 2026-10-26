@@ -97,7 +97,7 @@ export function BlogGallery({
       className="scroll-mt-[calc(var(--blog-header-height,64px)+16px)] bg-[#fbfdff] pb-20 focus:outline-none lg:pb-24 dark:bg-[#06111f]"
     >
       <div className={blogContentWidth}>
-        <BlogReveal className="sticky top-[var(--blog-header-height,64px)] z-30 flex flex-nowrap items-center gap-10 border-b border-cyan-800/15 bg-[#fbfdff]/95 py-2 backdrop-blur-xl dark:border-cyan-300/15 dark:bg-[#06111f]/95">
+        <BlogReveal className="sticky top-[var(--blog-header-height,64px)] z-30 flex flex-nowrap items-center gap-10 border-b border-cyan-800/15 bg-[#fbfdff]/95 py-2 backdrop-blur-xl dark:border-primary-dark/15 dark:bg-[#06111f]/95">
           <p className="font-display hidden shrink-0 text-base font-semibold tracking-tight text-[#05215e] md:block dark:text-slate-100">
             {activeTagLabel ?? "Todos los artículos"}
           </p>
@@ -111,7 +111,7 @@ export function BlogGallery({
             </div>
             <span
               aria-hidden="true"
-              className="h-6 w-px shrink-0 bg-cyan-800/20 dark:bg-cyan-300/20"
+              className="h-6 w-px shrink-0 bg-cyan-800/20 dark:bg-primary-dark/20"
             />
             <BlogSort
               value={sort}

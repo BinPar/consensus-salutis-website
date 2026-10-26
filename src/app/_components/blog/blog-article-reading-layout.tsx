@@ -136,12 +136,12 @@ export function BlogArticleReadingLayout({
           className="sticky top-22 max-h-[calc(100svh-112px)] [scrollbar-width:thin] space-y-5 overflow-y-auto overscroll-contain pr-2 pb-1"
         >
           {metadata}
-          <section className="border-t border-cyan-800/15 pt-5 dark:border-cyan-300/15">
+          <section className="border-t border-cyan-800/15 pt-5 dark:border-primary-dark/15">
             <h2 className={`${label} mb-3`}>En este artículo</h2>
             <ArticleIndex index={index} />
           </section>
           {related}
-          <div className="border-t border-cyan-800/15 pt-5 dark:border-cyan-300/15">
+          <div className="border-t border-cyan-800/15 pt-5 dark:border-primary-dark/15">
             <Link
               href="/blog"
               className="font-body text-primary-light dark:text-primary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark inline-flex items-center gap-2 rounded-full text-xs font-semibold focus-visible:outline-2 focus-visible:outline-offset-4"

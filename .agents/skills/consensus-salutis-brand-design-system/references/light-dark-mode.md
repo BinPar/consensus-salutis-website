@@ -69,7 +69,7 @@ set as `--header-bg-progress` by `ScrollHeaderFrame`):
 
 ```css
 .header-scroll-backdrop {
-  background-color: rgb(255 255 255 / calc(var(--header-bg-progress, 0) * 50%));
+  background-color: rgb(255 255 255 / calc(var(--header-bg-progress, 0) * 80%));
 }
 .dark .header-scroll-backdrop {
   background-color: rgb(6 17 31 / calc(var(--header-bg-progress, 0) * 70%));
@@ -88,23 +88,23 @@ text in light; `#04111e` inset + slate-100 in dark).
 | Page bg | `#f4f9fc` (home `#fbfdff`) | `#06111f` |
 | Deep band | `#deedf3` | `#030916` |
 | Panel band | `#e8f2f7` | `#081827` |
-| Card | `bg-white/70–90` + `shadow-big-blocks` | `bg-[#152230e6]/90` + cyan glow `0 0 18px rgba(103,232,249,.08)` |
+| Card | `bg-white/70–90` + `shadow-big-blocks` | `bg-[#152230e6]/90` + primary-token glow `0 0 18px color-mix(in_srgb,var(--color-primary-dark)_8%,transparent)` |
 | Heading | `#05215e` | `slate-50` |
 | Body | `slate-600`/`slate-700` | `slate-400`/`slate-300` |
-| Border | `cyan-800/10–25` | `cyan-300/10–25` |
-| Primary accent | `#006d79` (hover `cyan-800`) | `#00BCBB` (hover `#71fffe`) |
+| Border | `cyan-800/10–25` | `primary-dark/10–25` |
+| Primary accent | `#006d79` (hover `cyan-800`) | `#00BCBB` (hover `primary-dark/85`) |
 | Primary button text | white | `#03111d`/`#04111e` |
 | Yellow contrast accent | `#ffd230` + `#06111f` text | `#f6ff53` + `#06111f` text |
 | Logo | `consensus-light.svg` | `consensus-dark.svg` |
-| Grid lines | `rgba(8,145,178,0.1)` | `rgba(125,211,252,0.045)` |
-| Decorative blob fills | cyan/teal/lime, alphas ~0.1–0.34 | turquoise/teal/sky, lower alphas |
+| Grid lines | `rgba(8,145,178,0.1)` | `color-mix(in srgb, var(--color-primary-dark) 4.5%, transparent)` |
+| Decorative blob fills | cyan/teal/lime, alphas ~0.1–0.34 | `primary-dark`, varying opacity |
 | Backdrop blur | `backdrop-blur-xs` on cards | often `backdrop-blur-sm` (denser) |
 
 ## Depth model
 
 - **Light mode** = paper + soft teal shadows: depth from `shadow-big-blocks`
   and translucent white fills over the grid background.
-- **Dark mode** = glass + glow: shadows become cyan glows; surfaces are
+- **Dark mode** = glass + glow: shadows use primary dark token glows; surfaces are
   translucent navy (`#152230e6`) with slightly stronger blur.
 
 ## Mode decision

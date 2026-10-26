@@ -36,7 +36,7 @@ export function BlogArticleList({
                   </h2>
                   <span
                     aria-hidden="true"
-                    className="group-hover:border-primary-light/50 dark:group-hover:border-primary-dark/50 hidden min-w-8 flex-1 border-b border-dotted border-cyan-800/25 transition-colors md:block dark:border-cyan-300/20"
+                    className="group-hover:border-primary-light/50 dark:group-hover:border-primary-dark/50 hidden min-w-8 flex-1 border-b border-dotted border-cyan-800/25 transition-colors md:block dark:border-primary-dark/20"
                   />
                 </div>
                 <p className="font-body mt-2 line-clamp-2 max-w-[640px] text-sm leading-6 text-slate-600 sm:text-base dark:text-slate-400">

@@ -55,13 +55,17 @@ export function ProductSignalLeft({ className = "" }: { className?: string }) {
             <stop offset="1" stopColor="rgb(246 255 83)" stopOpacity="0.1" />
           </linearGradient>
           <linearGradient id={darkFillId} x1="52" y1="48" x2="330" y2="318">
-            <stop stopColor="rgb(0 188 187)" stopOpacity="0.34" />
+            <stop stopColor="var(--color-primary-dark)" stopOpacity="0.34" />
             <stop
               offset="0.58"
-              stopColor="rgb(20 184 166)"
+              stopColor="var(--color-primary-dark)"
               stopOpacity="0.24"
             />
-            <stop offset="1" stopColor="rgb(125 211 252)" stopOpacity="0.08" />
+            <stop
+              offset="1"
+              stopColor="var(--color-primary-dark)"
+              stopOpacity="0.08"
+            />
           </linearGradient>
           <linearGradient id={innerFillId} x1="90" y1="72" x2="302" y2="280">
             <stop stopColor="rgb(125 211 252)" stopOpacity="0.32" />

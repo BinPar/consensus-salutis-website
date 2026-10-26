@@ -29,7 +29,7 @@ export function ProcessChatVeil({ opacity = 1 }: { opacity?: number }) {
 export function processBorderClass(active = false) {
   return active
     ? "border-primary-light/35 dark:border-primary-dark/40"
-    : "border-cyan-800/15 dark:border-cyan-300/15";
+    : "border-cyan-800/15 dark:border-primary-dark/15";
 }
 
 export function Mark({ className = "size-10" }: { className?: string }) {

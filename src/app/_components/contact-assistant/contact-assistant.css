@@ -45,10 +45,10 @@
   );
 }
 .dark .contact-assistant {
-  --ca-accent: #00bcbb;
+  --ca-accent: var(--color-primary-dark);
   --ca-heading: #f8fafc;
   --ca-body: #a9bacb;
-  --ca-line: rgb(0 188 187 / 20%);
+  --ca-line: color-mix(in srgb, var(--color-primary-dark) 20%, transparent);
   --ca-surface: rgb(8 24 39 / 90%);
   background: transparent;
 }
@@ -163,7 +163,7 @@
   box-shadow: 0 6px 28px rgb(0 109 121 / 7%);
 }
 .dark .ca-composer:focus-within {
-  border-color: rgb(0 188 187 / 50%);
+  border-color: color-mix(in srgb, var(--color-primary-dark) 50%, transparent);
 }
 .ca-input-icon {
   display: grid;
@@ -224,11 +224,11 @@
   cursor: default;
 }
 .dark .ca-send {
-  background: #00bcbb;
+  background: var(--color-primary-dark);
   color: #06111f;
 }
 .dark .ca-send:hover {
-  background: #71fffe;
+  background: color-mix(in srgb, var(--color-primary-dark) 85%, transparent);
 }
 .ca-send:focus-visible,
 .ca-progress button:focus-visible,

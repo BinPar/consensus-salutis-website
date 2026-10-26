@@ -165,7 +165,7 @@ function AvisoEnlace() {
     >
       <p
         role="status"
-        className="font-body rounded-lg border border-cyan-800/20 bg-cyan-50/70 px-4 py-3 text-xs leading-5 text-cyan-900 dark:border-cyan-300/20 dark:bg-cyan-300/8 dark:text-cyan-50"
+        className="font-body rounded-lg border border-cyan-800/20 bg-cyan-50/70 px-4 py-3 text-xs leading-5 text-cyan-900 dark:border-primary-dark/20 dark:bg-primary-dark/8 dark:text-slate-100"
       >
         <span className="font-semibold">{ENLACE_NO_VALIDO.titulo}.</span> Sigues
         dentro con la sesión que ya tenías. {ENLACE_NO_VALIDO.cuerpo}

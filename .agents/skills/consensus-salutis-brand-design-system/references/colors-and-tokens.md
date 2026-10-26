@@ -29,7 +29,6 @@ CSS for any Consensus Salutis web property:
 @theme {
   --breakpoint-3xl: 2000px;
   --color-primary-dark: #00BCBB;
-  --color-primary-dark-lighter: #71fffe;
   --color-primary-light: #006d79;
   --color-secondary-light: #ffd230;
   --color-secondary-dark: #f6ff53;
@@ -69,7 +68,7 @@ them: `text-primary-light dark:text-primary-dark`.
 | Role | Light mode | Dark mode |
 |------|-----------|-----------|
 | Primary accent (links, eyebrows, numbers, focus) | `primary-light` `#006d79` | `primary-dark` `#00BCBB` |
-| Primary hover / emphasis | `cyan-800` (Tailwind) / `#087a85` | `primary-dark-lighter` `#71fffe` |
+| Primary hover / emphasis | `cyan-800` (Tailwind) / `#087a85` | `primary-dark` (hover `bg-primary-dark/85`) |
 | Secondary / contrast accent (yellow) | `secondary-light` `#ffd230` | `secondary-dark` `#f6ff53` |
 | Text on secondary CTA | `#06111f` | `#06111f` |
 | Text on primary filled button | `#FFFFFF` | `#04111e` / `#03111d` (near-black navy) |
@@ -101,7 +100,7 @@ them: `text-primary-light dark:text-primary-dark`.
 | Secondary body | `slate-600` | `slate-400` |
 | Muted / meta | `slate-500` | `slate-500` |
 | Errors (forms) | `rose-700` | `rose-300` |
-| Success/status accent (chat "Entorno seguro") | `teal-700` | `teal-200` |
+| Success/status accent (chat "Entorno seguro") | `teal-700` | `primary-dark` |
 
 **Heading navy `#05215e`**: the implementation uses `#05215e` for headings (a
 slightly cooler shade of the brand's `#002262`). Use `#05215e` in web UI to match
@@ -109,44 +108,45 @@ production; use `#002262` only in the logo and print/brand assets.
 
 ### Borders
 
-Borders are translucent cyan, never opaque gray:
+Borders use translucent cyan in light mode and the primary dark token with opacity in dark mode:
 
 | Weight | Light | Dark |
 |--------|-------|------|
-| Default | `border-cyan-800/10` | `border-cyan-300/10` |
-| Card | `border-cyan-800/15`–`/20` | `border-cyan-300/15`–`/20` |
-| Strong / active | `border-cyan-800/25`, `border-primary-light` | `border-cyan-300/25`, `border-cyan-300`, `border-primary-dark` |
-| Hover | `border-primary-light/35`–`/45` | `border-cyan-200/45`–`/50` |
+| Default | `border-cyan-800/10` | `border-primary-dark/10` |
+| Card | `border-cyan-800/15`–`/20` | `border-primary-dark/15`–`/20` |
+| Strong / active | `border-cyan-800/25`, `border-primary-light` | `border-primary-dark/25`, `border-primary-dark` |
+| Hover | `border-primary-light/35`–`/45` | `border-primary-dark/45`–`/50` |
 
 ### Shadows & glows
 
 | Token | Value | Use |
 |-------|-------|-----|
 | `shadow-big-blocks` | see `@theme` above (soft teal-tinted double shadow) | Cards, CTAs, panels in light mode (also kept in dark) |
-| Dark card glow | `shadow-[0_0_18px_rgba(103,232,249,0.08)]` | Metric/blog/success cards in dark mode |
-| Dark CTA glow | `shadow-[0_0_34px_rgba(45,212,191,0.26)]` or `shadow-[0_0_24px_rgba(0,188,187,0.18)]` | Primary filled buttons in dark mode |
-| Node glow | `shadow-[0_0_18px_rgba(103,232,249,0.18)]` | Process step circles (dark) |
-| Progress glow | `shadow-[0_0_18px_rgba(34,211,238,0.55)]` | Horizontal progress bar |
+| Dark card glow | `shadow-[0_0_18px_color-mix(in_srgb,var(--color-primary-dark)_8%,transparent)]` | Metric/blog/success cards in dark mode |
+| Dark CTA glow | `shadow-[0_0_34px_color-mix(in_srgb,var(--color-primary-dark)_26%,transparent)]` or `shadow-[0_0_24px_color-mix(in_srgb,var(--color-primary-dark)_18%,transparent)]` | Primary filled buttons in dark mode |
+| Node glow | `shadow-[0_0_18px_color-mix(in_srgb,var(--color-primary-dark)_18%,transparent)]` | Process step circles (dark) |
+| Progress glow | `shadow-[0_0_18px_color-mix(in_srgb,var(--color-primary-dark)_55%,transparent)]` | Horizontal progress bar |
 | Deep panel shadow | `shadow-2xl shadow-slate-900/10` (light) / `shadow-cyan-950/30` (dark) | Chat mock, contact form |
 
 ### Decorative gradient stops (motion/SVG layers)
 
-The SignalField / ProductSignal blobs use this fixed story of stops:
+In light mode the SignalField / ProductSignal blobs retain their cyan, teal
+and low-opacity lime gradient. In dark mode every primary decorative stop
+uses `var(--color-primary-dark)`; depth comes from opacity.
 
-- Cyan `rgb(8 145 178)` (light) / turquoise `rgb(0 188 187)` (dark)
-- Teal `rgb(20 184 166)`
-- Lime `rgb(246 255 83)` (light, low alpha) / sky `rgb(125 211 252)` (dark)
-
-Grid-line color: `rgba(8,145,178,0.07–0.1)` light / `rgba(125,211,252,0.04–0.045)` dark.
+Grid-line color: `rgba(8,145,178,0.07–0.1)` light; dark uses
+`color-mix(in srgb, var(--color-primary-dark) 4.5%, transparent)`
+(4% for the lower-opacity variant).
 Lime radial glow: `radial-gradient(ellipse at 82% 24%, rgba(246,255,83,0.13), transparent 38%)`
 (dark mode drops alpha to `0.035`).
 
 ## Extended usage of Tailwind palettes
 
-Beyond the custom tokens, the site deliberately leans on Tailwind's stock
-`slate` (text/surfaces), `cyan` (borders, hovers: `cyan-800` light / `cyan-100`,
-`cyan-300` dark), `teal` (status), and `rose` (errors). Do not introduce other
-hues.
+Use Tailwind `slate` for neutral text and surfaces, `cyan` for light-mode
+borders and hovers, and `rose` for errors. In dark mode primary accents,
+borders, focus rings, status indicators and glows all derive from
+`--color-primary-dark`; vary opacity, not hue. The secondary yellow token
+remains available for scarce contrast CTAs.
 
 ## Radius scale
 

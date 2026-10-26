@@ -91,7 +91,7 @@ uppercase text-primary-light dark:text-primary-dark`. Stagger 0.18s.
 No card chrome — open composition: logo (`h-10`–`h-12` box, inverted in dark)
 → role label `border-b border-primary-light pt-4 pb-3 font-display text-xs
 font-semibold tracking-[0.13em]–[0.18em] uppercase text-primary-light
-dark:border-cyan-300/20 dark:text-primary-dark` → body `text-sm leading-6
+dark:border-primary-dark/20 dark:text-primary-dark` → body `text-sm leading-6
 text-slate-600 dark:text-slate-400`. Grid `md:grid-cols-3 lg:gap-10`,
 stagger 0.24s.
 

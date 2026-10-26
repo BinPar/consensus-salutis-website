@@ -90,7 +90,7 @@
   color: #06111f;
 }
 :where([data-visual-lab]) :is(.dark .home-cover-explore:hover) {
-  background: #71fffe;
+  background: color-mix(in srgb, var(--color-primary-dark) 85%, transparent);
 }
 :where([data-visual-lab]) :is(.home-cover-explore:focus-visible),
 :where([data-visual-lab]) :is(.home-cover-bottom button:focus-visible) {
