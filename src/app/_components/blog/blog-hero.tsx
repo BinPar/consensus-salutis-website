@@ -99,7 +99,7 @@ function EntranceStage({
       ref={root}
       aria-labelledby="blog-page-title"
       data-blog-entrance="horizon"
-      className="relative isolate flex min-h-[calc(100svh-var(--blog-header-height,64px))] items-center overflow-hidden bg-[#fbfdff] [clip-path:inset(0)] dark:bg-[#06111f]"
+      className="relative isolate flex min-h-[calc(100svh-var(--blog-header-height,64px)+64px)] items-center overflow-hidden bg-[#fbfdff] pt-16 [clip-path:inset(0)] dark:bg-[#06111f]"
     >
       <div
         aria-hidden="true"

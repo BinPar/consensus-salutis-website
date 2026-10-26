@@ -23,7 +23,7 @@ export function BlogTagFilter({
 }) {
   const router = useRouter();
   const onSelect = (tag: string | undefined) =>
-    router.push(tag ? `/blog/tag/${tag}` : "/blog");
+    router.push(`${tag ? `/blog/tag/${tag}` : "/blog"}#blog-page-gallery`);
   const scrollRef = useRef<HTMLElement>(null);
   const [edges, setEdges] = useState({ left: false, right: false });
 
@@ -60,12 +60,17 @@ export function BlogTagFilter({
       : undefined;
 
   const entries = [
-    { tag: undefined, label: "Todos", href: "/blog", count: totalCount },
+    {
+      tag: undefined,
+      label: "Todos",
+      href: "/blog#blog-page-gallery",
+      count: totalCount,
+    },
     ...tags.map((entry) => ({
       tag: entry.tag,
       label: entry.label,
       count: entry.count,
-      href: `/blog/tag/${entry.tag}`,
+      href: `/blog/tag/${entry.tag}#blog-page-gallery`,
     })),
   ];
 
@@ -96,7 +101,7 @@ export function BlogTagFilter({
               className={`font-body inline-flex h-[32px] shrink-0 items-center gap-2 rounded-full border pr-1.5 pl-4 text-xs font-semibold whitespace-nowrap transition-all duration-150 ${
                 active
                   ? "border-primary-light bg-primary-light shadow-big-blocks dark:border-primary-dark dark:bg-primary-dark text-white dark:text-[#03111d]"
-                  : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 bg-white/80 text-slate-600 hover:text-cyan-800 dark:border-cyan-300/20 dark:bg-[#152230e6]/90 dark:text-slate-400 dark:hover:text-cyan-100"
+                  : "hover:border-primary-light/35 dark:hover:border-primary-dark/30 border-primary-light/20 bg-primary-light/5 hover:bg-primary-light/10 text-slate-600 hover:text-cyan-800 dark:border-cyan-300/10 dark:bg-primary-dark/10 dark:hover:bg-primary-dark/15 dark:text-slate-400 dark:hover:text-cyan-100"
               }`}
             >
               {entry.label}
