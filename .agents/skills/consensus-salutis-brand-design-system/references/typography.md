@@ -1,6 +1,6 @@
 # Typography
 
-> Sources: brand manual ("Aspectos técnicos": Plus Jakarta Sans ExtraBold) +
+> Sources: BinPar identity manual (October 2026, typography chapter) +
 > production setup in `src/app/layout.tsx` and `src/styles/globals.css`.
 
 ## Typefaces
@@ -10,10 +10,9 @@
 | **Sora** | Display: headings, eyebrows, step numbers, card titles | 600 (semibold), 700 (bold), 800 (extrabold) | `.font-display` / `--font-sora` |
 | **Plus Jakarta Sans** | Body: paragraphs, buttons, links, forms, nav, meta | 400, 500 (medium), 600 (semibold) | `.font-body`, default `--font-sans` |
 
-The brand manual specifies **Plus Jakarta Sans ExtraBold** for the logotype and
-brand headlines. The website extends this with **Sora** as the display face for
-web headings; both are geometric and pair cleanly. For print/brand assets stick
-to Plus Jakarta Sans; for web UI use Sora display + PJS body as below.
+The brand uses **Sora ExtraBold** for headlines and **Plus Jakarta Sans**
+for body copy. The logotype is a separate brand asset. Use the display/body
+pair below for the website.
 
 Both fonts are loaded via `next/font/google` (SIL OFL, no local files needed):
 
@@ -36,6 +35,10 @@ const sora = Sora({
 `--font-sans` (body default) resolves to Plus Jakarta Sans, so unstyled text is
 already on-brand; `.font-display` opts into Sora.
 
+Register both font classes with Tailwind v4 `@utility` so descendant variants
+such as `[&>h2]:font-display` generate their font-family rule. A class declared
+only inside `@layer utilities` does not register these variants.
+
 ## Hierarchy
 
 | Level | Classes | Notes |
@@ -44,7 +47,7 @@ already on-brand; `.font-display` opts into Sora.
 | Hero H1 (home) | `font-display text-6xl font-extrabold tracking-tight text-navy dark:text-slate-50` | Mobile: `text-4xl sm:text-5xl` |
 | Page H1 | `font-display text-4xl sm:text-5xl font-extrabold tracking-tight` (blog index: `text-5xl sm:text-6xl`) | Same colors as hero |
 | Section H2 | `font-display text-5xl font-extrabold tracking-tight` (desktop panels) / `text-3xl sm:text-4xl` (mobile/compact) | Constrain with `max-w-*` per content |
-| Card / sub H3 | `font-display text-base`–`text-lg font-semibold text-navy dark:text-slate-100` | |
+| Card / component title (H2/H3 as appropriate) | `font-display text-base`–`text-lg font-semibold text-navy dark:text-slate-100` | |
 | Lede paragraph | `font-body text-lg leading-8 text-slate-600 dark:text-slate-400` (hero: `text-xl leading-9 text-slate-700 dark:text-slate-300`) | `max-w-2xl`–`max-w-5xl` |
 | Body | `font-body text-base leading-7 text-slate-700 dark:text-slate-300` | |
 | Card body | `font-body text-sm leading-6 text-slate-600 dark:text-slate-400` | |
@@ -57,6 +60,11 @@ already on-brand; `.font-display` opts into Sora.
 - Headings: always `font-display` + `font-extrabold` (page/section) or
   `font-semibold` (card level) + `tracking-tight`. Heading color uses `text-navy` (`--color-navy`)
   light / `slate-50`–`slate-100` dark — never pure black.
+- Classify headings by role: privacy H1 and its legal section H2, PageHero H1
+  and blog article H2 use Sora ExtraBold (800). Blog card titles and the
+  existing success confirmations in `ContactForm` (H3) / `AccesoForm` (H2) are
+  component titles and retain SemiBold (600). Do not replace every H2 weight
+  globally; preserve the existing article H3/H4 hierarchy.
 - Eyebrows and micro-labels: always UPPERCASE with wide tracking
   (`0.12em`–`0.22em`) in the primary accent color.
 - Body copy: always `font-body`; never use Sora for paragraphs.
@@ -78,7 +86,7 @@ const articleBodyClassName = [
   "[&>*:first-child]:mt-0",
   "[&>p]:mt-4 [&>p]:text-justify [&>p]:leading-[26px] [&>p]:text-slate-700 dark:[&>p]:text-slate-300",
   "[&>h1]:mt-0 [&>h1]:font-display [&>h1]:text-3xl [&>h1]:font-extrabold [&>h1]:tracking-tight [&>h1]:text-navy dark:[&>h1]:text-slate-50",
-  "[&>h2]:mt-9 [&>h2]:font-display [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:tracking-tight [&>h2]:text-navy dark:[&>h2]:text-slate-50",
+  "[&>h2]:mt-9 [&>h2]:font-display [&>h2]:text-2xl [&>h2]:font-extrabold [&>h2]:tracking-tight [&>h2]:text-navy dark:[&>h2]:text-slate-50",
   "[&>h3]:mt-7 [&>h3]:font-display [&>h3]:text-xl [&>h3]:font-semibold [&>h3]:text-navy dark:[&>h3]:text-slate-100",
   "[&>h4]:mt-5 [&>h4]:font-display [&>h4]:text-lg [&>h4]:font-semibold [&>h4]:text-primary-light dark:[&>h4]:text-primary-dark",
   "[&>ul]:my-4 [&>ul]:list-disc [&>ul]:space-y-1.5 [&>ul]:pl-6",

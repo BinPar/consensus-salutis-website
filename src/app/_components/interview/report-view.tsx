@@ -29,7 +29,7 @@ export function ReportView({ report }: { report: InterviewReport }) {
       aria-label="Informe de idoneidad"
       className="border-primary-light/20 dark:border-primary-dark/20 mt-2 rounded-2xl border bg-white/70 p-5 sm:p-7 dark:bg-white/3"
     >
-      <p className="text-primary-light font-display dark:text-primary-dark flex items-center gap-2 text-[11px] font-bold tracking-[0.18em] uppercase">
+      <p className="text-primary-light font-display dark:text-primary-dark flex items-center gap-2 text-[11px] font-bold tracking-[0.22em] uppercase">
         <CircleCheck aria-hidden="true" strokeWidth={1.8} className="size-4" />
         Evaluación completada
       </p>

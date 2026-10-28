@@ -63,7 +63,7 @@ export const pillars = [
 ] as const;
 
 export const micro =
-  "font-display text-[10px] font-semibold uppercase tracking-[.19em] text-primary-light dark:text-primary-dark";
+  "font-display text-[10px] font-bold uppercase tracking-[0.22em] text-primary-light dark:text-primary-dark";
 export const title =
   "font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-navy sm:text-5xl dark:text-slate-50";
 export const body =

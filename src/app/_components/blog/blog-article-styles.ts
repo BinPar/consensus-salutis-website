@@ -3,7 +3,7 @@ export const articleBodyClassName = [
   "[&>*:first-child]:mt-0",
   "[&>p]:mt-4 [&>p]:text-justify [&>p]:leading-[26px] [&>p]:text-slate-700 dark:[&>p]:text-slate-300",
   "[&>h1]:mt-0 [&>h1]:font-display [&>h1]:text-3xl [&>h1]:font-extrabold [&>h1]:tracking-tight [&>h1]:text-navy dark:[&>h1]:text-slate-50",
-  "[&>h2]:mt-9 [&>h2]:font-display [&>h2]:text-2xl [&>h2]:font-bold [&>h2]:tracking-tight [&>h2]:text-navy dark:[&>h2]:text-slate-50",
+  "[&>h2]:mt-9 [&>h2]:font-display [&>h2]:text-2xl [&>h2]:font-extrabold [&>h2]:tracking-tight [&>h2]:text-navy dark:[&>h2]:text-slate-50",
   "[&>h3]:mt-7 [&>h3]:font-display [&>h3]:text-xl [&>h3]:font-semibold [&>h3]:text-navy dark:[&>h3]:text-slate-100",
   "[&>h4]:mt-5 [&>h4]:font-display [&>h4]:text-lg [&>h4]:font-semibold [&>h4]:text-primary-light dark:[&>h4]:text-primary-dark",
   "[&>ul]:my-4 [&>ul]:list-disc [&>ul]:space-y-1.5 [&>ul]:pl-6",
@@ -16,4 +16,4 @@ export const articleBodyClassName = [
 ].join(" ");
 
 export const articleLabelClassName =
-  "font-display text-primary-light dark:text-primary-dark text-[10px] font-bold tracking-[0.18em] uppercase";
+  "font-display text-primary-light dark:text-primary-dark text-[10px] font-bold tracking-[0.22em] uppercase";

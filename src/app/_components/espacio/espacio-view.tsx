@@ -45,7 +45,7 @@ const H2 =
   "font-display text-xl font-bold tracking-tight text-navy dark:text-slate-50";
 const LEDE =
   "font-body mt-2.5 text-[15px] leading-7 text-slate-600 dark:text-slate-400";
-const ROTULO = "font-display text-[11px] font-bold tracking-[0.14em] uppercase";
+const ROTULO = "font-display text-[11px] font-bold tracking-[0.22em] uppercase";
 
 /**
  * Los cuatro tokens del semáforo, escritos como cadenas COMPLETAS.

@@ -178,8 +178,12 @@ vary opacity rather than introducing lighter cyan, mint or teal hues.
 This rule also applies to laboratory variants and examples in these references.
 
 ### Typography
-- Sora extrabold for headings/eyebrows/numbers; Plus Jakarta Sans for
-  everything else. Never Sora for paragraphs.
+- Page titles and section headings use Sora ExtraBold (800), including
+  the shared PageHero, privacy H1/H2 and blog article H2. Card/component titles
+  may use Sora SemiBold (600), including the existing contact/access form
+  confirmations; heading tags alone do not determine weight. Preserve the
+  existing eyebrow/number styles. Plus Jakarta Sans for body copy; never Sora
+  for paragraphs.
 - Eyebrows/micro-labels: UPPERCASE, wide tracking, accent color. Buttons:
   sentence case, `font-semibold text-sm`.
 - Copy is Spanish, institutional and sober ("trazable", "gobernado",

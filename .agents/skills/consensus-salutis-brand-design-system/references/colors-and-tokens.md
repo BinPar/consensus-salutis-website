@@ -44,16 +44,14 @@ CSS for any Consensus Salutis web property:
                 0 2px 6px 2px color-mix(in srgb, var(--color-primary-light), transparent 98%);
 }
 
-@layer utilities {
-  .font-body {
-    font-family:
-      var(--font-plus-jakarta-sans), "Plus Jakarta Sans", ui-sans-serif,
-      system-ui, sans-serif;
-  }
+@utility font-body {
+  font-family:
+    var(--font-plus-jakarta-sans), "Plus Jakarta Sans", ui-sans-serif,
+    system-ui, sans-serif;
+}
 
-  .font-display {
-    font-family: var(--font-sora), "Sora", ui-sans-serif, system-ui, sans-serif;
-  }
+@utility font-display {
+  font-family: var(--font-sora), "Sora", ui-sans-serif, system-ui, sans-serif;
 }
 ```
 

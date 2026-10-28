@@ -158,6 +158,9 @@ dark:focus:border-primary-dark/55 dark:focus:bg-[#061a2a] dark:focus:ring-primar
 - Anti-spam: honeypot field visually hidden + Cloudflare Turnstile
   (`interaction-only`, executed on submit). Success state swaps the whole form
   for a status panel (uppercase accent label + `font-display` heading + body).
+  The existing confirmation titles in `ContactForm` (H3) and `AccesoForm`
+  (H2) are component titles: keep their Sora SemiBold (600). Page/section
+  headings, including legal sections and blog article H2, use ExtraBold (800).
 - Panel: `rounded-3xl … space-y-5 p-7` (compact: `space-y-3 p-5`).
 
 ## Pagination (blog)

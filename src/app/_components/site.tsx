@@ -226,7 +226,7 @@ export function PageHero({
       <SignalField intensity="hero" />
       <div className="relative mx-auto w-full max-w-7xl px-5 py-20 sm:px-8 lg:py-24">
         <Eyebrow>{eyebrow}</Eyebrow>
-        <h1 className="font-display mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-navy sm:text-5xl dark:text-slate-50">
+        <h1 className="font-display mt-5 max-w-4xl text-4xl font-extrabold tracking-tight text-navy sm:text-5xl dark:text-slate-50">
           {title}
         </h1>
         <p className="font-body mt-6 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-400">

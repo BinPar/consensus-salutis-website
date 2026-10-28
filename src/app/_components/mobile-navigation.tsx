@@ -4,6 +4,8 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+
+import { Eyebrow } from "~/app/_components/eyebrow";
 import { isNavigationItemActive } from "./site-navigation";
 
 export function MobileNavigation({
@@ -103,9 +105,7 @@ export function MobileNavigation({
               ease: "easeInOut",
             }}
           >
-            <p className="text-primary-light dark:text-primary-dark text-base font-semibold tracking-[0.18em] uppercase">
-              Navegación
-            </p>
+            <Eyebrow>Navegación</Eyebrow>
             <div className="mt-5 max-w-xl border-t border-cyan-800/12 dark:border-primary-dark/12">
               {items.map((item, index) => {
                 if (item.disabled) {

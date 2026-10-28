@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useId, useRef, useState } from "react";
 
+import { Eyebrow } from "~/app/_components/eyebrow";
 import {
   contactSchema,
   type ContactField,
@@ -147,9 +148,7 @@ export function ContactForm({
         className={`min-w-0 rounded-3xl border border-cyan-800/20 bg-white/75 p-7 shadow-2xl shadow-slate-900/10 backdrop-blur-sm dark:border-primary-dark/20 dark:bg-white/3 dark:shadow-cyan-950/30 ${className}`}
         role="status"
       >
-        <p className="text-primary-light dark:text-primary-dark text-xs font-semibold tracking-[0.18em] uppercase">
-          Mensaje enviado
-        </p>
+        <Eyebrow>Mensaje enviado</Eyebrow>
         <h3 className="font-display mt-4 text-2xl font-semibold text-navy dark:text-slate-50">
           Gracias por contactar.
         </h3>
