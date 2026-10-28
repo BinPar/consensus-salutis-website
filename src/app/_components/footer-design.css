@@ -119,14 +119,6 @@
 .ft-grid-window .ft-home-grid {
   position: fixed;
   background-image:
-    linear-gradient(rgb(255 255 255 / 4%) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(255 255 255 / 4%) 1px, transparent 1px);
-}
-.dark .ft-grid-window {
-  opacity: 0.35;
-}
-.dark .ft-grid-window .ft-home-grid {
-  background-image:
     linear-gradient(
       color-mix(in srgb, var(--color-primary-dark) 4.5%, transparent) 1px,
       transparent 1px
@@ -136,6 +128,9 @@
       color-mix(in srgb, var(--color-primary-dark) 4.5%, transparent) 1px,
       transparent 1px
     );
+}
+.dark .ft-grid-window {
+  opacity: 0.35;
 }
 .ft-contrast .ft-product-links {
   display: grid;

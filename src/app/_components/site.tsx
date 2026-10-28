@@ -8,6 +8,7 @@ import { FooterBandMenu } from "~/app/_components/footer-band-menu";
 import { contactItems, VerticalFooter } from "~/app/_components/site-footer";
 import { navItems, SiteHeader } from "~/app/_components/site-header";
 import {
+  HomeGrid,
   HomeMotionBackground,
   MotionSurface,
   SignalField,
@@ -222,7 +223,7 @@ export function PageHero({
   return (
     <section className="relative overflow-hidden border-b border-cyan-800/10 bg-[#fbfdff] dark:border-primary-dark/10 dark:bg-[#06111f]">
       <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.1),transparent_35%,rgba(13,148,136,0.08)_72%,transparent)] dark:bg-[linear-gradient(120deg,color-mix(in_srgb,var(--color-primary-dark)_10%,transparent),transparent_35%,color-mix(in_srgb,var(--color-primary-dark)_8%,transparent)_72%,transparent)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(8,145,178,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(8,145,178,0.07)_1px,transparent_1px)] bg-size-[40px_40px] dark:bg-[linear-gradient(color-mix(in_srgb,var(--color-primary-dark)_4%,transparent)_1px,transparent_1px),linear-gradient(90deg,color-mix(in_srgb,var(--color-primary-dark)_4%,transparent)_1px,transparent_1px)]" />
+      <HomeGrid />
       <SignalField intensity="hero" />
       <div className="relative mx-auto w-full max-w-7xl px-5 py-20 sm:px-8 lg:py-24">
         <Eyebrow>{eyebrow}</Eyebrow>
