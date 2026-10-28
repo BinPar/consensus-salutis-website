@@ -43,11 +43,12 @@ focus-visible:outline-secondary-dark motion-reduce:transform-none
 dark:bg-secondary-dark
 ```
 
-Yellow is the brand's **contrast color**. On the website it appears in the
-header and mobile-nav CTA, but this recipe applies to any element that must
-stand out above the teal story (key CTAs, highlighted badges/states). Keep it
-scarce so it keeps its emphasis. Text on yellow is always near-black navy
-`#06111f`, both themes.
+On this website this button recipe is reserved for “Solicitar reunión” in
+the header and mobile navigation. Use primary teal/turquoise for all other
+buttons, badges and states, including report and platform access actions.
+Text on this yellow button is near-black navy `#06111f` in both themes.
+The generated blog placeholders and quoted evidence highlights are separate
+exceptions; see [the yellow policy](colors-and-tokens.md#yellow-contrast-color).
 
 ### Small tertiary (form "Enviar otro mensaje")
 
@@ -151,7 +152,7 @@ dark:focus:border-primary-dark/55 dark:focus:bg-[#061a2a] dark:focus:ring-primar
 - Errors: `text-xs text-rose-700 dark:text-rose-300` under the field; general
   message in `aria-live="polite"` region.
 - Checkbox: `size-4 accent-primary-light dark:accent-primary-dark`; privacy link
-  `text-primary-light underline underline-offset-4 dark:text-secondary-dark`.
+  `text-primary-light underline underline-offset-4 dark:text-primary-dark`.
 - Submit: full-width primary pill; busy state `disabled:cursor-wait
   disabled:opacity-60` + "Enviando...".
 - Anti-spam: honeypot field visually hidden + Cloudflare Turnstile
@@ -194,6 +195,14 @@ Self-running, non-interactive (`pointer-events-none select-none`) chat demo in a
 - Sequence: question types (19ms/char) → 3 processing states (850ms each) →
   answer types (26ms/char) → follow-up → references → 4s hold → fade reset.
   With `prefers-reduced-motion`: everything rendered complete, no animation.
+
+## Quoted evidence highlight
+
+The yellow background behind quoted source text is explicitly approved in
+`clinical-evidence-scene.tsx` and `platform-preview/platform-preview.css`.
+Preserve their theme-specific opacity and inherited text color. This permission
+does not extend to ordinary emphasis, links or statuses; see the
+[yellow policy](colors-and-tokens.md#yellow-contrast-color).
 
 ## Icons
 

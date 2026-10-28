@@ -154,7 +154,7 @@ export function EspacioView({
           {muestraAccesoPlataforma(estado) ? (
             <Link
               href={plataformaUrl}
-              className="dark:bg-secondary-dark focus-visible:outline-secondary-dark shadow-big-blocks font-body bg-secondary-light mt-6 inline-flex min-h-11 items-center gap-2.5 rounded-full px-5 text-sm font-bold text-[#06111f] transition hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none"
+              className="dark:bg-primary-dark dark:text-[#03111d] hover:bg-cyan-800 dark:hover:bg-primary-dark/85 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark shadow-big-blocks font-body bg-primary-light mt-6 inline-flex min-h-11 items-center gap-2.5 rounded-full px-5 text-sm font-bold text-white transition hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none"
             >
               <LogIn aria-hidden="true" strokeWidth={1.8} className="size-4" />
               Entrar en la plataforma
@@ -229,7 +229,7 @@ export function EspacioView({
         </p>
         <a
           href={`mailto:${soporte.email}?subject=${asunto}`}
-          className="text-primary-light dark:text-secondary-dark font-body mt-5 inline-flex items-center gap-2 text-sm font-semibold underline underline-offset-4 hover:text-cyan-800 dark:hover:text-primary-dark"
+          className="text-primary-light dark:text-primary-dark font-body mt-5 inline-flex items-center gap-2 text-sm font-semibold underline underline-offset-4 hover:text-cyan-800 dark:hover:text-primary-dark"
         >
           <LifeBuoy aria-hidden="true" strokeWidth={1.8} className="size-4" />
           {soporte.email}

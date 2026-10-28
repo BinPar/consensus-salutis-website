@@ -44,6 +44,15 @@ Slugs are kebab-case Spanish. Content is MDX under `src/app/blog/_articles/`.
 Whole card is the link; hover = lift `-translate-y-2` + accent border + image
 zoom. Meta pinned to the bottom with `mt-auto` for equal-height grids.
 
+## Generated cover exception
+
+The owner permits the existing yellow/lime gradient stop in generated blog card
+placeholders (`BlogCover`, `BlogSceneCover` and their shared geometry in
+`src/lib/blog-cover.ts`). Preserve it when maintaining these covers. Blog links,
+controls, badges and page background decorations use teal/turquoise. See the
+[yellow policy](colors-and-tokens.md#yellow-contrast-color) for all three approved
+website uses.
+
 ## Blog index page
 
 - Shell: `PageShell` (header + VerticalFooter), main `bg-[#fbfdff]

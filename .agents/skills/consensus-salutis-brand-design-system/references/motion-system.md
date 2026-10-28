@@ -51,11 +51,12 @@ opacity fades in the foreground. Nothing bounces; almost nothing translates.
   dark:fill-[#06111f]`) to "punch a hole" in the lines; gradient-filled and
   stroked copies layer on top (opacities 0.45/0.35/0.62/0.44).
 - Fill gradient stops: `rgb(8 145 178)` 0.24 → `rgb(20 184 166)` 0.11 →
-  `rgb(246 255 83)` 0.16 in light mode. Dark mode overrides every stop color
+  `var(--color-primary-light)` 0.16 in light mode. Dark mode overrides every stop color
   to `var(--color-primary-dark)` and alphas to 0.16/0.10/0.04 via
   `dark:[stop-color:var(--color-primary-dark)]` and `dark:[stop-opacity:…]`.
-- Lime radial glow overlay: `radial-gradient(ellipse at 82% 24%,
-  rgba(246,255,83,0.13), transparent 38%)` (dark 0.035).
+- Radial glow overlay: `radial-gradient(ellipse at 82% 24%,
+  color-mix(in srgb, var(--color-primary-light) 13%, transparent), transparent 38%)`;
+  dark uses `var(--color-primary-dark)` at `3.5%`. No yellow in this layer.
 - **Intensities**: `ambient` (opacity 0.72, morph 32s, offset x60),
   `section` (0.78, 32s, x40), `hero` (0.94, **15s**, x20). Home/blog use
   `intensity="hero" opacity={0.72}` inside a fixed full-viewport layer.
@@ -67,7 +68,7 @@ opacity fades in the foreground. Nothing bounces; almost nothing translates.
 
 384×384 viewBox clusters of 2–3 morphing paths, 5–6 keyframes, ~10s linear
 loops (offset copy at 1.09–1.37×). Light fills: cyan `rgb(8 145 178)` → teal →
-lime, alphas 0.1–0.34; dark fills use `var(--color-primary-dark)` at
+`var(--color-primary-light)`, alphas 0.1–0.34; dark fills use `var(--color-primary-dark)` at
 varying opacity. Container opacity `opacity-80 dark:opacity-45`. Always
 `aria-hidden="true" pointer-events-none`.
 
@@ -106,7 +107,7 @@ formatted with `toLocaleString("es-ES")` plus prefix/suffix (`+`, `<`, ` TB`,
 |---------|--------|
 | Buttons with lift | `transition-all duration-150 hover:-translate-y-0.5` |
 | Blog card | `hover:-translate-y-2` + image `group-hover:scale-105` (150ms) |
-| Yellow CTA | `hover:scale-102` (`motion-reduce:transform-none`) |
+| Header/mobile “Solicitar reunión” CTA | `hover:scale-102` (`motion-reduce:transform-none`) |
 | Links / borders | plain `transition` (default 150ms) color/border swaps |
 | Pulsing dots / carets | `animate-pulse`, 160ms stagger between dots |
 | Theme change | 180ms ease-out global color transition (see light-dark-mode.md) |

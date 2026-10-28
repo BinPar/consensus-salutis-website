@@ -13,8 +13,8 @@ The brand manual defines six base tones:
 | Dark Teal | `#006D79` | 0, 109, 121 | Primary accent in **light** mode, isotipo fill |
 | Turquoise | `#00BCBB` | 0, 188, 187 | Primary accent in **dark** mode, isotipo fill (dark) |
 | White | `#FFFFFF` | 255, 255, 255 | Wordmark on dark, base surfaces |
-| Lime Yellow | `#F6FF53` | 246, 255, 83 | Secondary/CTA accent in **dark** mode |
-| Warm Yellow | `#FFD230` | 255, 210, 48 | Secondary/CTA accent in **light** mode |
+| Lime Yellow | `#F6FF53` | 246, 255, 83 | Exceptional contrast in **dark** mode; website uses restricted below |
+| Warm Yellow | `#FFD230` | 255, 210, 48 | Exceptional contrast in **light** mode; website uses restricted below |
 
 ## Website theme tokens (Tailwind v4 `@theme`)
 
@@ -69,11 +69,11 @@ them: `text-primary-light dark:text-primary-dark`.
 |------|-----------|-----------|
 | Primary accent (links, eyebrows, numbers, focus) | `primary-light` `#006d79` | `primary-dark` `#00BCBB` |
 | Primary hover / emphasis | `cyan-800` (Tailwind) / `#087a85` | `primary-dark` (hover `bg-primary-dark/85`) |
-| Secondary / contrast accent (yellow) | `secondary-light` `#ffd230` | `secondary-dark` `#f6ff53` |
+| Yellow (approved exceptions only) | `secondary-light` `#ffd230` | `secondary-dark` `#f6ff53` |
 | Text on secondary CTA | `#06111f` | `#06111f` |
 | Text on primary filled button | `#FFFFFF` | `#04111e` / `#03111d` (near-black navy) |
 
-**Rule**: text on turquoise or yellow fills is ALWAYS near-black navy
+**Rule**: button text on turquoise or yellow fills is ALWAYS near-black navy
 (`#03111d`–`#06111f`) in dark mode and white only on the light-mode teal
 (`#006d79`), which is dark enough for white text.
 
@@ -130,23 +130,27 @@ Borders use translucent cyan in light mode and the primary dark token with opaci
 
 ### Decorative gradient stops (motion/SVG layers)
 
-In light mode the SignalField / ProductSignal blobs retain their cyan, teal
-and low-opacity lime gradient. In dark mode every primary decorative stop
-uses `var(--color-primary-dark)`; depth comes from opacity.
+In light mode the SignalField / ProductSignal blobs use cyan, teal and
+`var(--color-primary-light)` for their gradient stops. In dark mode every
+primary decorative stop uses `var(--color-primary-dark)`; depth comes from
+opacity. These layers contain no yellow. The generated blog cover exception
+is separate from these page decorations.
 
 Grid-line color: `rgba(8,145,178,0.07–0.1)` light; dark uses
 `color-mix(in srgb, var(--color-primary-dark) 4.5%, transparent)`
 (4% for the lower-opacity variant).
-Lime radial glow: `radial-gradient(ellipse at 82% 24%, rgba(246,255,83,0.13), transparent 38%)`
-(dark mode drops alpha to `0.035`).
+Radial glow: `radial-gradient(ellipse at 82% 24%,
+color-mix(in srgb, var(--color-primary-light) 13%, transparent), transparent 38%)`;
+dark mode uses `var(--color-primary-dark)` at `3.5%`.
 
 ## Extended usage of Tailwind palettes
 
 Use Tailwind `slate` for neutral text and surfaces, `cyan` for light-mode
 borders and hovers, and `rose` for errors. In dark mode primary accents,
 borders, focus rings, status indicators and glows all derive from
-`--color-primary-dark`; vary opacity, not hue. The secondary yellow token
-remains available for scarce contrast CTAs.
+`--color-primary-dark`; vary opacity, not hue. Pending states use
+`--semaforo-mid`, mapped to `--color-primary-light` / `--color-primary-dark`.
+Yellow tokens are reserved for the website exceptions below.
 
 ## Radius scale
 
@@ -163,23 +167,31 @@ remains available for scarce contrast CTAs.
 
 In practice the system reads as: ~60% pale ice-blue surfaces (`#f4f9fc`/`#fbfdff`
 light, deep navy `#06111f` dark), ~30% navy/slate text mass, ~10% teal-turquoise
-accent, with **yellow as the contrast color** on top of that story.
+accent. Yellow is exceptional and follows the website restrictions below.
 
 ### Yellow (contrast color)
 
-Yellow (`secondary-light` `#ffd230` / `secondary-dark` `#f6ff53`) is the brand's
-high-emphasis contrast accent. On the current website it only appears in the
-header CTA (plus the subtle lime glow in decorative layers), but it is NOT
-limited to that: use it wherever something must stand out against the
-teal-turquoise story — key CTAs, highlighted values or keywords, active/attention
-states, badges, chart emphasis.
+The BinPar identity manual (version 1.0, October 2026, pp. 17–18 and 21)
+reserves yellow for exceptional priority attention and excludes it from routine
+links, backgrounds, gradients and illustrations. The website owner confirmed
+the following exact uses on 2026-10-28, including the blog and citation exceptions:
 
-Rules for yellow:
+1. **Header/mobile meeting CTA:** “Solicitar reunión” in `site-header.tsx` and
+   `mobile-navigation.tsx`. Use `bg-secondary-light dark:bg-secondary-dark`,
+   with near-black navy text/icons (`#06111f`). Other meeting buttons within
+   page content, report actions and platform access buttons use primary colors.
+2. **Generated blog placeholders:** preserve the existing yellow/lime stop
+   (`BLOG_COVER_LIME` in `src/lib/blog-cover.ts`) in `BlogCover` and shared
+   cover renderings. This is a local exception for those generated illustrations;
+   it does not authorize yellow in blog links, controls or page backgrounds.
+3. **Quoted source text highlight:** preserve the yellow background in
+   `clinical-evidence-scene.tsx` (light 55%, dark 25%, animated by `--highlight`)
+   and `platform-preview/platform-preview.css` (`--pp-highlight`: light 55%,
+   dark 32%). Keep the text color inherited. This exception applies to quoted
+   evidence, not arbitrary keywords, headings or status highlights.
 
-- It reads as contrast because it's scarce — use it for the few elements per
-  screen that deserve maximum emphasis, not as a decorative fill.
-- Text/icons on yellow fills are always near-black navy (`#06111f`).
-- Pair by theme: `#ffd230` when light is active, `#f6ff53` when dark is active
-  (`bg-secondary-light dark:bg-secondary-dark`) — never both in the same
-  theme context.
-- Don't use yellow for body text, borders, or large background areas.
+Use teal `#006d79` / turquoise `#00BCBB` for all other links, CTAs, badges,
+status accents and decorative gradients, or the appropriate neutral/error
+color. Do not introduce yellow through Tailwind yellow/amber/lime palettes
+or equivalent literal colors outside the three approved uses. These website
+exceptions do not broaden the manual's rules for other brand materials.

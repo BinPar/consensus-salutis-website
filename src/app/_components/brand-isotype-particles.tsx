@@ -94,7 +94,7 @@ export function BrandIsotypeParticles({ running }: { running: boolean }) {
         const fadeOut = 1 - Math.max(0, Math.min(1, (t - 1.7) / 0.25));
         ctx.globalAlpha =
           fadeIn * fadeOut * (0.4 + seed(index + 17) * 0.3 + ease * 0.2);
-        ctx.fillStyle = dark ? "#00bcbb" : "#006f7b";
+        ctx.fillStyle = dark ? "#00bcbb" : "var(--color-primary-light)";
         ctx.beginPath();
         ctx.arc(x, y, 0.7 + seed(index + 3) * 0.45, 0, Math.PI * 2);
         ctx.fill();

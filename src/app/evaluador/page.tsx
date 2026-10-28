@@ -213,7 +213,7 @@ export default async function EvaluadorPage() {
                 </p>
                 <a
                   href={`mailto:${SUPPORT_EMAIL}?subject=Soporte%20evaluador%20BinPar`}
-                  className="font-body text-primary-light dark:text-secondary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark mt-4 inline-flex items-center gap-2 rounded-sm text-sm font-semibold underline underline-offset-4 hover:text-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 dark:hover:text-primary-dark"
+                  className="font-body text-primary-light dark:text-primary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark mt-4 inline-flex items-center gap-2 rounded-sm text-sm font-semibold underline underline-offset-4 hover:text-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 dark:hover:text-primary-dark"
                 >
                   <Mail
                     aria-hidden="true"
@@ -226,7 +226,7 @@ export default async function EvaluadorPage() {
                   Si prefieres hablarlo,{" "}
                   <Link
                     href="/contacto"
-                    className="text-primary-light dark:text-secondary-dark underline underline-offset-4 hover:text-cyan-800 dark:hover:text-primary-dark"
+                    className="text-primary-light dark:text-primary-dark underline underline-offset-4 hover:text-cyan-800 dark:hover:text-primary-dark"
                   >
                     solicita una reunión
                   </Link>
@@ -305,7 +305,7 @@ export default async function EvaluadorPage() {
                 salud de pacientes en ningún momento. El detalle está en la{" "}
                 <Link
                   href="/privacidad"
-                  className="text-primary-light dark:text-secondary-dark underline underline-offset-4 hover:text-cyan-800 dark:hover:text-primary-dark"
+                  className="text-primary-light dark:text-primary-dark underline underline-offset-4 hover:text-cyan-800 dark:hover:text-primary-dark"
                 >
                   Política de Privacidad
                 </Link>

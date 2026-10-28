@@ -107,8 +107,8 @@ Plus Jakarta Sans ExtraBold.
    producto → métricas → blog → contacto) → `references/landing-patterns.md`
 2. Alternate white/gradient band section backgrounds; reveal cadence
    0 / 0.1 / 0.2 / 0.3 → `references/motion-system.md`
-3. CTAs: teal primary + ghost pair in-page; yellow pill as the contrast CTA
-   (header on the website — elsewhere, the one element that must pop)
+3. CTAs: teal primary + ghost pair in-page. On this website the yellow button
+   is reserved for “Solicitar reunión” in the header and mobile navigation.
 
 **Blog / Content**
 1. Card, index and article layouts → `references/blog-patterns.md`
@@ -119,8 +119,9 @@ Plus Jakarta Sans ExtraBold.
    deep-navy dark (`#06111f`, white headings, turquoise accent)
 2. Logo variant must match the background → `references/logo-usage.md`
 3. Headlines in Sora ExtraBold (or Plus Jakarta Sans ExtraBold for pure brand
-   assets); one accent story: teal/turquoise, with yellow as the contrast
-   highlight where emphasis is needed
+   assets); use teal/turquoise for emphasis. Follow the manual for any
+   exceptional priority accent; the website exceptions below do not authorize
+   yellow decoration in other media.
 4. Optional texture: the 44px grid + an organic blob shape at low alpha
 
 **Design Token / CSS Generation**
@@ -142,17 +143,26 @@ Plus Jakarta Sans ExtraBold.
 - One accent story: teal `#006d79` (light) / turquoise `#00BCBB` (dark) for
   links, eyebrows, numbers, fills, focus. Light hover uses `cyan-800`; dark hover
   uses the same `primary-dark` hue with opacity, e.g. `dark:hover:bg-primary-dark/85`.
-- Yellow (`#ffd230` light / `#f6ff53` dark) is the **contrast color**: use it
-  for the few elements that must stand out against the teal story (key CTAs,
-  highlights, attention states, badges). On the website it currently appears
-  only in the header CTA, but it is not limited to that — just keep it scarce
-  so it keeps reading as contrast; never body text, borders, or large fills.
-- Text on turquoise/yellow fills is near-black navy (`#03111d`–`#06111f`);
-  white text only on light-mode teal `#006d79`.
+- **Website yellow policy (user-approved, 2026-10-28):** yellow is permitted
+  only in these three uses:
+
+  1. “Solicitar reunión” in the header and mobile navigation.
+  2. Existing generated placeholders for blog cards and their shared covers.
+  3. The background highlight of quoted source text in
+     `clinical-evidence-scene.tsx` and `platform-preview/platform-preview.css`.
+
+  All other links, CTAs, statuses, badges, emphasis and decorative gradients
+  use primary teal/turquoise or the appropriate neutral/error color. The blog
+  and citation exceptions do not extend to page backgrounds or other highlights.
+  See `references/colors-and-tokens.md` for the manual and implementation sources.
+- Text on turquoise or yellow button fills is near-black navy
+  (`#03111d`–`#06111f`); white button text only on light-mode teal `#006d79`.
+  Quoted source text highlights retain the inherited text color.
 - Headings `#05215e` (web) — the manual's `#002262` stays in the logo/print.
 - Borders use translucent cyan in light mode and `primary-dark` with opacity in dark mode; surfaces are translucent white/navy glass.
-- Status accents also use `primary-dark` in dark mode. Keep rose for errors,
-  yellow for scarce contrast CTAs, and slate/navy/white for neutral text and surfaces.
+- Status accents also use `primary-dark` in dark mode. Keep rose for errors
+  and slate/navy/white for neutral text and surfaces. Pending states use the
+  primary color of their theme; preserve their written state labels.
 
 **Dark accent source of truth:** use only `--color-primary-dark` through
 Tailwind `primary-dark` utilities or `var(--color-primary-dark)` in CSS/SVG.
@@ -204,7 +214,7 @@ This rule also applies to laboratory variants and examples in these references.
 | Border | `cyan-800/10–25` | `primary-dark/10–25` |
 | Accent | `#006d79` | `#00BCBB` (hover `primary-dark/85`) |
 | Primary btn text | white | `#03111d` |
-| Yellow contrast accent | `#ffd230` + `#06111f` text | `#f6ff53` + `#06111f` text |
+| Yellow (approved exceptions only) | `#ffd230` + `#06111f` text | `#f6ff53` + `#06111f` text |
 | Logo | `consensus-light.svg` | `consensus-dark.svg` |
 
 → Full details in `references/light-dark-mode.md`
@@ -242,8 +252,8 @@ No binaries needed: **Sora** and **Plus Jakarta Sans** load via
 When reviewing or producing any Consensus Salutis artifact, verify:
 
 - [ ] **Themes**: both light and dark styled? `dark:` pairs on every colored class?
-- [ ] **Accent discipline**: teal/turquoise as the primary accent? Yellow used sparingly as contrast (high-emphasis elements only)?
-- [ ] **Text on fills**: near-black navy on turquoise/yellow — never white in dark mode?
+- [ ] **Accent discipline**: teal/turquoise as the primary accent? On this website, yellow limited to the header/mobile meeting CTA, generated blog placeholders and quoted source text highlights?
+- [ ] **Button text**: near-black navy on turquoise/yellow fills, white on light-mode teal? Quoted source text highlights retain the inherited text color?
 - [ ] **Headings**: Sora `font-extrabold tracking-tight` in `#05215e`/`slate-50`?
 - [ ] **Eyebrow present** above every H1/H2, uppercase, `tracking-[0.22em]`, accent color?
 - [ ] **Body**: Plus Jakarta Sans, `slate-600/700` (light) / `slate-300/400` (dark)?
@@ -306,8 +316,8 @@ theme-boot script + `theme-changing` transition CSS.
 **Expected behavior**: Deep navy `#06111f` (or ice `#f4f9fc`) background with
 the subtle 44px grid and one low-alpha organic blob (turquoise→teal gradient).
 `consensus-dark.svg` (or `-light`) at native proportions. Headline in
-Sora/PJS ExtraBold, white (or `#05215e`), with one key phrase in the accent —
-or in yellow if it needs maximum contrast. Institutional Spanish copy.
+Sora/PJS ExtraBold, white (or `#05215e`), with one key phrase in the
+teal/turquoise accent. Institutional Spanish copy.
 
 ### Example 4: Dashboard in the platform
 
@@ -316,7 +326,9 @@ or in yellow if it needs maximum contrast. Institutional Spanish copy.
 **Expected behavior**: Body `bg-[#f4f9fc] dark:bg-[#06111f]` + grid background.
 Metric cards per `ui-components.md` (glass, `rounded-2xl`, `font-display`
 values in `text-cyan-800 dark:text-primary-dark`, count-up on load).
-Eyebrow + H2 header block. Fixed header with theme toggle and yellow CTA.
+Eyebrow + H2 header block. Fixed header with theme toggle; on this website
+only its “Solicitar reunión” CTA uses yellow. Dashboard actions and states
+use the primary color of their theme.
 Forms/fields with the teal focus ring recipe.
 
 ---

@@ -157,7 +157,7 @@
   width: 56px;
   height: auto;
   overflow: visible;
-  color: #006f7b;
+  color: var(--color-primary-light);
 }
 .dark .brand-isotype-reveal {
   color: var(--color-primary-dark);
@@ -267,7 +267,7 @@
 .brand-particle-final {
   width: 64px;
   height: auto;
-  color: #006f7b;
+  color: var(--color-primary-light);
   opacity: 0;
   animation: aura-isotype-fill 0.25s ease 1.7s both;
   animation-play-state: var(--entry-motion);

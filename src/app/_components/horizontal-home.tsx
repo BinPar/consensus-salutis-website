@@ -622,7 +622,11 @@ export function ProductSignalAccent({
           <linearGradient id={fillId} x1="52" y1="48" x2="330" y2="318">
             <stop stopColor="rgb(8 145 178)" stopOpacity="0.34" />
             <stop offset="0.56" stopColor="rgb(20 184 166)" stopOpacity="0.2" />
-            <stop offset="1" stopColor="rgb(246 255 83)" stopOpacity="0.1" />
+            <stop
+              offset="1"
+              stopColor="var(--color-primary-light)"
+              stopOpacity="0.1"
+            />
           </linearGradient>
           <linearGradient id={darkFillId} x1="52" y1="48" x2="330" y2="318">
             <stop stopColor="rgb(0 188 187)" stopOpacity="0.34" />

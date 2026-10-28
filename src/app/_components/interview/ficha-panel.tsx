@@ -346,7 +346,7 @@ function FragmentSpan({
     return (
       <span
         title="Esto lo hemos deducido. Dímelo si no es así."
-        className="border-b-[1.5px] border-dotted border-amber-600/50 dark:border-yellow-200/50"
+        className="border-b-[1.5px] border-dotted border-primary-light/50 dark:border-primary-dark/50"
       >
         {fragment.text}
       </span>

@@ -29,7 +29,7 @@
  *   aros vacíos hacían que el plan pareciera una lista de casillas sin marcar.
  * - **Cada paso dice qué ponemos nosotros** (`apoyo`): el plan es la primera
  *   fase del proyecto, no deberes para antes de la llamada.
- * - **La CTA amarilla es «Empezar la conversación»** y va delante de copiar el
+ * - **La CTA principal es «Empezar la conversación»** y va delante de copiar el
  *   enlace: el contraste de la marca puesto en no esperar los cinco días.
  *   Copiar el enlace sigue siendo la única compensación por no generar PDF, y
  *   por eso conserva el relleno de acento; no hay botón de imprimir.
@@ -223,11 +223,11 @@ export function InformeView({
             {report.diagnostico}
           </p>
 
-          {/* Dos acciones: la amarilla invita a no esperar los cinco días. */}
+          {/* Dos acciones: la principal invita a no esperar los cinco días. */}
           <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3.5">
             <a
               href={`mailto:${report.canalSoporte}`}
-              className="dark:bg-secondary-dark focus-visible:outline-secondary-dark shadow-big-blocks font-body bg-secondary-light inline-flex min-h-11 items-center gap-2.5 rounded-full px-5 text-sm font-bold text-[#06111f] transition hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none"
+              className="dark:bg-primary-dark dark:text-[#03111d] hover:bg-cyan-800 dark:hover:bg-primary-dark/85 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark shadow-big-blocks font-body bg-primary-light inline-flex min-h-11 items-center gap-2.5 rounded-full px-5 text-sm font-bold text-white transition hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none"
             >
               <ArrowRight
                 aria-hidden="true"

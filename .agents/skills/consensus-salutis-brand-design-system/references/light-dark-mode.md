@@ -94,11 +94,16 @@ text in light; `#04111e` inset + slate-100 in dark).
 | Border | `cyan-800/10–25` | `primary-dark/10–25` |
 | Primary accent | `#006d79` (hover `cyan-800`) | `#00BCBB` (hover `primary-dark/85`) |
 | Primary button text | white | `#03111d`/`#04111e` |
-| Yellow contrast accent | `#ffd230` + `#06111f` text | `#f6ff53` + `#06111f` text |
+| Yellow (approved exceptions only) | `#ffd230` + `#06111f` text | `#f6ff53` + `#06111f` text |
 | Logo | `consensus-light.svg` | `consensus-dark.svg` |
 | Grid lines | `rgba(8,145,178,0.1)` | `color-mix(in srgb, var(--color-primary-dark) 4.5%, transparent)` |
-| Decorative blob fills | cyan/teal/lime, alphas ~0.1–0.34 | `primary-dark`, varying opacity |
+| Decorative blob fills | cyan/teal/`primary-light`, alphas ~0.1–0.34 | `primary-dark`, varying opacity |
 | Backdrop blur | `backdrop-blur-xs` on cards | often `backdrop-blur-sm` (denser) |
+
+Yellow is limited to the header/mobile “Solicitar reunión” CTA, existing
+generated blog placeholders and quoted source text highlights. Links, ordinary
+actions and status accents use the primary color of their theme. See the
+[yellow policy](colors-and-tokens.md#yellow-contrast-color).
 
 ## Depth model
 

@@ -50,7 +50,7 @@ export default function PrivacyPage() {
                 Si completas el{" "}
                 <Link
                   href="/evaluador"
-                  className="text-primary-light dark:text-secondary-dark underline underline-offset-4 hover:text-cyan-800 dark:hover:text-primary-dark"
+                  className="text-primary-light dark:text-primary-dark underline underline-offset-4 hover:text-cyan-800 dark:hover:text-primary-dark"
                 >
                   evaluador de idoneidad
                 </Link>

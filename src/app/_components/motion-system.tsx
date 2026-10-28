@@ -413,7 +413,7 @@ export function SignalField({
             <stop
               className="dark:[stop-color:var(--color-primary-dark)] dark:[stop-opacity:0.04]"
               offset="1"
-              stopColor="rgb(246 255 83)"
+              stopColor="var(--color-primary-light)"
               stopOpacity="0.16"
             />
           </linearGradient>
@@ -471,7 +471,7 @@ export function SignalField({
           />
         </g>
       </svg>
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_82%_24%,rgba(246,255,83,0.13),transparent_38%)] dark:bg-[radial-gradient(ellipse_at_82%_24%,rgba(246,255,83,0.035),transparent_38%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_82%_24%,color-mix(in_srgb,var(--color-primary-light)_13%,transparent),transparent_38%)] dark:bg-[radial-gradient(ellipse_at_82%_24%,color-mix(in_srgb,var(--color-primary-dark)_3.5%,transparent),transparent_38%)]" />
     </div>
   );
 }

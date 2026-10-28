@@ -201,7 +201,7 @@ export function PreviewContactForm({
             He leído y acepto la{" "}
             <Link
               href="/privacidad"
-              className="dark:text-secondary-dark text-primary-light underline underline-offset-4 hover:text-cyan-800 dark:hover:text-cyan-200"
+              className="dark:text-primary-dark text-primary-light underline underline-offset-4 hover:text-cyan-800 dark:hover:text-primary-dark"
             >
               Política de Privacidad
             </Link>
