@@ -36,14 +36,14 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "/favicon.svg?v=3f2ea0207fce",
+        url: "/favicon.svg?v=9481f324eb6c",
         type: "image/svg+xml",
         sizes: "any",
       },
     ],
     shortcut: [
       {
-        url: "/favicon.svg?v=3f2ea0207fce",
+        url: "/favicon.svg?v=9481f324eb6c",
         type: "image/svg+xml",
       },
     ],
