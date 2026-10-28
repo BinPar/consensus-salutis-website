@@ -119,7 +119,7 @@ export function BlogEmptyState({
 }) {
   return (
     <div className="shadow-big-blocks mt-14 rounded-2xl border border-cyan-800/15 bg-white/80 px-6 py-14 text-center backdrop-blur-xs sm:px-10 dark:border-primary-dark/20 dark:bg-[#152230e6]/90">
-      <p className="font-display text-xl font-semibold text-[#05215e] dark:text-slate-100">
+      <p className="font-display text-xl font-semibold text-navy dark:text-slate-100">
         {title}
       </p>
       <p className="font-body mx-auto mt-4 max-w-xl text-base leading-7 text-slate-600 dark:text-slate-400">

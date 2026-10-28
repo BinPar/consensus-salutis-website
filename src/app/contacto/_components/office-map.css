@@ -2,7 +2,7 @@
   --map-accent: #006d79;
   --map-surface: #fbfdff;
   --map-line: rgb(0 109 121 / 18%);
-  --map-text: #05215e;
+  --map-text: var(--color-navy);
   background: #e8f2f7;
   overflow: hidden;
 }

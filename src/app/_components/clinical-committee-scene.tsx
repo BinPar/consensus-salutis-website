@@ -574,7 +574,7 @@ export function CommitteeScene({
                         <span className="text-primary-light dark:text-primary-dark grid size-7 shrink-0 place-items-center">
                           <ProcessIcon icon={icons[i]!} />
                         </span>
-                        <p className="font-display text-center text-[10px] font-semibold text-[#05215e] @min-[480px]:text-left @min-[480px]:text-[13px] dark:text-slate-100">
+                        <p className="font-display text-center text-[10px] font-semibold text-navy @min-[480px]:text-left @min-[480px]:text-[13px] dark:text-slate-100">
                           {expert.name}
                         </p>
                       </div>

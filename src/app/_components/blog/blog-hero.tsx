@@ -40,7 +40,7 @@ function Copy({
       </p>
       <h1
         id="blog-page-title"
-        className="font-display mt-5 max-w-4xl text-[32px] leading-[1.08] font-extrabold tracking-tight text-[#05215e] sm:text-[40px] lg:text-[54px] dark:text-slate-50"
+        className="font-display mt-5 max-w-4xl text-[32px] leading-[1.08] font-extrabold tracking-tight text-navy sm:text-[40px] lg:text-[54px] dark:text-slate-50"
       >
         El conocimiento
         <br />

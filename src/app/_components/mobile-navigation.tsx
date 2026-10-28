@@ -114,7 +114,7 @@ export function MobileNavigation({
                       key={item.href}
                       role="link"
                       aria-disabled="true"
-                      className="block cursor-not-allowed border-b border-cyan-800/12 py-3 text-sm font-semibold text-[#05215e] opacity-45 dark:border-primary-dark/12 dark:text-slate-100"
+                      className="block cursor-not-allowed border-b border-cyan-800/12 py-3 text-sm font-semibold text-navy opacity-45 dark:border-primary-dark/12 dark:text-slate-100"
                     >
                       {item.label}
                     </span>
@@ -137,7 +137,7 @@ export function MobileNavigation({
                     className={`relative block border-b border-cyan-800/12 py-3 text-sm font-semibold transition dark:border-primary-dark/12 ${
                       active
                         ? "text-primary-light dark:text-primary-dark"
-                        : "text-[#05215e] hover:text-cyan-800 dark:text-slate-100 dark:hover:text-primary-dark"
+                        : "text-navy hover:text-cyan-800 dark:text-slate-100 dark:hover:text-primary-dark"
                     }`}
                   >
                     {item.label}

@@ -763,7 +763,7 @@ export function HeroPanel({
           </Reveal>
           <Reveal visible={visible} delay={0.1}>
             <Heading
-              className={`font-display max-w-4xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${section ? "mt-5 text-4xl leading-tight xl:text-5xl" : "mt-6 text-6xl xl:text-6xl"}`}
+              className={`font-display max-w-4xl font-extrabold tracking-tight text-navy dark:text-slate-50 ${section ? "mt-5 text-4xl leading-tight xl:text-5xl" : "mt-6 text-6xl xl:text-6xl"}`}
             >
               Conocimiento clínico{" "}
               <span className="text-primary-light dark:text-primary-dark">
@@ -849,7 +849,7 @@ export function MetricsIntro({
     <>
       <Eyebrow>KPIs operativos</Eyebrow>
       <h2
-        className={`font-display mt-4 max-w-110 font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${
+        className={`font-display mt-4 max-w-110 font-extrabold tracking-tight text-navy dark:text-slate-50 ${
           compact ? "text-3xl sm:text-4xl" : "text-5xl"
         }`}
       >
@@ -882,7 +882,7 @@ export function MetricsIntro({
       </Reveal>
       <Reveal visible={visible} delay={0.1}>
         <h2
-          className={`font-display mt-4 max-w-xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${
+          className={`font-display mt-4 max-w-xl font-extrabold tracking-tight text-navy dark:text-slate-50 ${
             compact ? "text-3xl" : "text-5xl"
           }`}
         >
@@ -946,7 +946,7 @@ function PrimaryCarePanel({
           <Eyebrow>Proceso de consulta</Eyebrow>
         </Reveal>
         <Reveal visible={visible} delay={0.1}>
-          <h2 className="font-display mt-4 max-w-92.5 text-5xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
+          <h2 className="font-display mt-4 max-w-92.5 text-5xl font-extrabold tracking-tight text-navy dark:text-slate-50">
             De la pregunta a la evidencia.
           </h2>
         </Reveal>
@@ -1003,7 +1003,7 @@ export function BlogContent({
       <div>
         <Eyebrow>Lecturas clínicas</Eyebrow>
         <h2
-          className={`font-display mt-4 max-w-4xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${
+          className={`font-display mt-4 max-w-4xl font-extrabold tracking-tight text-navy dark:text-slate-50 ${
             compact ? "text-3xl sm:text-4xl" : "text-5xl"
           }`}
         >
@@ -1111,7 +1111,7 @@ export function ContactPanel({
               <Eyebrow>Siguiente paso</Eyebrow>
             </Reveal>
             <Reveal visible={visible} delay={0.1}>
-              <h2 className="font-display mt-4 max-w-3xl text-5xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
+              <h2 className="font-display mt-4 max-w-3xl text-5xl font-extrabold tracking-tight text-navy dark:text-slate-50">
                 Una conversación seria sobre tu organización sanitaria.
               </h2>
             </Reveal>
@@ -1150,7 +1150,7 @@ export function MobileHeroContent({
         >
           <Eyebrow>IA médica institucional</Eyebrow>
           <Heading
-            className={`font-display mt-3.5 max-w-xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50 ${section ? "text-3xl sm:mt-5 sm:text-4xl" : "text-4xl sm:mt-6 sm:text-5xl"}`}
+            className={`font-display mt-3.5 max-w-xl font-extrabold tracking-tight text-navy dark:text-slate-50 ${section ? "text-3xl sm:mt-5 sm:text-4xl" : "text-4xl sm:mt-6 sm:text-5xl"}`}
           >
             Conocimiento clínico{" "}
             <span className="text-primary-light dark:text-primary-dark">
@@ -1436,7 +1436,7 @@ function MobileProcessMilestone({
         ) : null}
       </div>
       <div className={last ? "pb-0" : "pb-6"}>
-        <h3 className="font-display mt-1 text-base font-semibold text-[#05215e] dark:text-slate-100">
+        <h3 className="font-display mt-1 text-base font-semibold text-navy dark:text-slate-100">
           {item.title}
         </h3>
         <p className="font-body mt-2 min-h-12 text-sm leading-6 text-slate-600 dark:text-slate-400">
@@ -1513,7 +1513,7 @@ function ProcessMilestone({
         {item.step}
       </span>
       <h3
-        className={`${compact ? "mt-3 text-sm" : "mt-4 text-base"} font-display font-body text-[#05215e] dark:text-slate-100`}
+        className={`${compact ? "mt-3 text-sm" : "mt-4 text-base"} font-display font-body text-navy dark:text-slate-100`}
       >
         {item.title}
       </h3>

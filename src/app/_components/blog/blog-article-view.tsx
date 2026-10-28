@@ -78,7 +78,7 @@ function RelatedArticles({ posts }: { posts: BlogPost[] }) {
               className="group focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark block rounded-lg py-3 focus-visible:outline-2 focus-visible:outline-offset-4"
             >
               <span className="flex items-start gap-3">
-                <span className="font-display group-hover:text-primary-light dark:group-hover:text-primary-dark text-[13px] leading-5 font-semibold tracking-tight text-[#05215e] transition-colors dark:text-slate-100">
+                <span className="font-display group-hover:text-primary-light dark:group-hover:text-primary-dark text-[13px] leading-5 font-semibold tracking-tight text-navy transition-colors dark:text-slate-100">
                   {post.title}
                 </span>
                 <ArrowUpRight
@@ -158,7 +158,7 @@ export function BlogArticleView({
               Volver al blog
             </Link>
           </Eyebrow>
-          <h1 className="font-display mt-4 text-[32px] leading-[1.08] font-extrabold tracking-tight text-[#05215e] sm:text-[40px] lg:mt-5 lg:text-[54px] dark:text-slate-50">
+          <h1 className="font-display mt-4 text-[32px] leading-[1.08] font-extrabold tracking-tight text-navy sm:text-[40px] lg:mt-5 lg:text-[54px] dark:text-slate-50">
             {post.title}
           </h1>
           <p className="font-body mt-4 text-base leading-7 text-slate-600 lg:mt-6 lg:text-lg lg:leading-8 dark:text-slate-400">

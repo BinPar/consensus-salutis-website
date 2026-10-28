@@ -1,5 +1,5 @@
 .ft-proposal {
-  --ft-heading: #05215e;
+  --ft-heading: var(--color-navy);
   --ft-text: #54657b;
   --ft-accent: #006d79;
   --ft-line: rgb(0 109 121 / 12%);

@@ -32,7 +32,7 @@ export function BlogArticleCard({
           </div>
         </div>
         <div className="flex flex-1 flex-col pt-5">
-          <h2 className="font-display min-h-[2.7em] text-lg leading-[1.35] font-semibold tracking-tight text-[#05215e] lg:max-xl:min-h-[4.05em] dark:text-slate-50">
+          <h2 className="font-display min-h-[2.7em] text-lg leading-[1.35] font-semibold tracking-tight text-navy lg:max-xl:min-h-[4.05em] dark:text-slate-50">
             {article.title}
           </h2>
           <p className="font-body mt-2.5 line-clamp-3 min-h-[4.95em] text-[13px] leading-[1.65] text-slate-600 dark:text-slate-400">

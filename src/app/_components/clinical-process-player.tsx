@@ -28,9 +28,9 @@ const ease = (value: number) => {
 };
 
 const stageTitleClass =
-  "font-display mt-3.5 max-w-xl text-4xl font-extrabold tracking-tight text-[#05215e] sm:mt-6 sm:text-5xl dark:text-slate-50";
+  "font-display mt-3.5 max-w-xl text-4xl font-extrabold tracking-tight text-navy sm:mt-6 sm:text-5xl dark:text-slate-50";
 const homeStageTitleClass =
-  "font-display mt-3.5 max-w-xl text-3xl font-extrabold tracking-tight text-[#05215e] sm:mt-6 sm:text-4xl lg:text-5xl dark:text-slate-50";
+  "font-display mt-3.5 max-w-xl text-3xl font-extrabold tracking-tight text-navy sm:mt-6 sm:text-4xl lg:text-5xl dark:text-slate-50";
 
 /** The five consultation stages share one playback clock. */
 export function ClinicalProcessPlayer({

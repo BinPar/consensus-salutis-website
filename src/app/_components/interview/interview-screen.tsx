@@ -1921,7 +1921,7 @@ function CalculatingNotice({
           className="text-primary-light dark:text-primary-dark mt-0.5 size-5 shrink-0 animate-spin motion-reduce:animate-none"
         />
         <div className="min-w-0 flex-1">
-          <p className="font-display text-sm font-extrabold text-[#05215e] dark:text-slate-50">
+          <p className="font-display text-sm font-extrabold text-navy dark:text-slate-50">
             Estamos preparando tu informe
           </p>
           <p className="font-body mt-1 text-sm leading-6 text-slate-600 dark:text-slate-400">
@@ -2312,7 +2312,7 @@ function MobileFicha({
             className="fixed inset-0 z-50 flex flex-col bg-[#fbfdff] lg:hidden dark:bg-[#06111f]"
           >
             <div className="flex h-14 shrink-0 items-center justify-between border-b border-cyan-800/15 px-5 dark:border-primary-dark/15">
-              <p className="font-display text-sm font-extrabold text-[#05215e] dark:text-slate-50">
+              <p className="font-display text-sm font-extrabold text-navy dark:text-slate-50">
                 Lo que hemos entendido
               </p>
               <button

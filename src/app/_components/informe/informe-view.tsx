@@ -133,12 +133,12 @@ const FICHA =
 const ROTULO = "font-display text-[11px] font-bold tracking-[0.14em] uppercase";
 
 const H2 =
-  "font-display text-2xl font-bold tracking-tight text-[#05215e] dark:text-slate-50";
+  "font-display text-2xl font-bold tracking-tight text-navy dark:text-slate-50";
 
 const LEDE =
   "font-body mt-2.5 max-w-2xl text-[15px] leading-7 text-slate-600 dark:text-slate-400";
 
-const FUERTE = "font-display font-bold text-[#05215e] dark:text-slate-100";
+const FUERTE = "font-display font-bold text-navy dark:text-slate-100";
 
 /**
  * Los usos fuera de alcance, en prosa y en una línea.
@@ -194,7 +194,7 @@ export function InformeView({
           <div className="flex flex-wrap items-baseline justify-between gap-x-8 gap-y-3">
             <div>
               <Eyebrow>Informe de idoneidad</Eyebrow>
-              <p className="font-display mt-3 text-xl font-bold tracking-tight text-[#05215e] sm:text-2xl dark:text-slate-50">
+              <p className="font-display mt-3 text-xl font-bold tracking-tight text-navy sm:text-2xl dark:text-slate-50">
                 {report.institucion}
               </p>
             </div>
@@ -204,7 +204,7 @@ export function InformeView({
           </div>
 
           {/* La oportunidad, a tamaño de titular. */}
-          <h1 className="font-display mt-7 max-w-[20em] text-3xl font-extrabold tracking-tight text-[#05215e] sm:text-[44px] sm:leading-[1.1] dark:text-slate-50">
+          <h1 className="font-display mt-7 max-w-[20em] text-3xl font-extrabold tracking-tight text-navy sm:text-[44px] sm:leading-[1.1] dark:text-slate-50">
             {titular}
           </h1>
 
@@ -394,7 +394,7 @@ export function InformeView({
                     <p className={`${ROTULO} text-(--semaforo-ok)`}>
                       Desde aquí · hoy
                     </p>
-                    <p className="font-display mt-1.5 text-[17px] font-bold text-[#05215e] dark:text-slate-50">
+                    <p className="font-display mt-1.5 text-[17px] font-bold text-navy dark:text-slate-50">
                       {report.hoyCorto ?? "Lo que ya cumple, cumplido"}
                     </p>
                   </div>

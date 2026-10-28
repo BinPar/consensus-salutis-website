@@ -117,7 +117,7 @@ export function FichaPanel({
         <div className="grid grid-cols-[auto_1fr] items-center gap-3.5 border-b border-cyan-800/12 pb-3.5 dark:border-primary-dark/12">
           <FichaArco cerrados={cerrados} actual={actual} cerrada={cerrada} />
           <div className="min-w-0">
-            <p className="font-display text-[12.5px] leading-tight font-bold text-[#05215e] dark:text-slate-50">
+            <p className="font-display text-[12.5px] leading-tight font-bold text-navy dark:text-slate-50">
               {cerrada
                 ? "Evaluación cerrada"
                 : /*

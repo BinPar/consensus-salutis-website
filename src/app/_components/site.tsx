@@ -167,7 +167,7 @@ export function CapabilityGrid({
           key={item.title}
           className="rounded-md border border-cyan-800/10 bg-white/80 p-6 shadow-lg shadow-slate-900/5 dark:border-primary-dark/10 dark:bg-[#081a2b]/82 dark:shadow-[#020817]/20"
         >
-          <h3 className="font-display text-lg font-semibold text-[#05215e] dark:text-slate-50">
+          <h3 className="font-display text-lg font-semibold text-navy dark:text-slate-50">
             {item.title}
           </h3>
           <p className="font-body mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">
@@ -226,7 +226,7 @@ export function PageHero({
       <SignalField intensity="hero" />
       <div className="relative mx-auto w-full max-w-7xl px-5 py-20 sm:px-8 lg:py-24">
         <Eyebrow>{eyebrow}</Eyebrow>
-        <h1 className="font-display mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-[#05215e] sm:text-5xl dark:text-slate-50">
+        <h1 className="font-display mt-5 max-w-4xl text-4xl font-semibold tracking-tight text-navy sm:text-5xl dark:text-slate-50">
           {title}
         </h1>
         <p className="font-body mt-6 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-400">

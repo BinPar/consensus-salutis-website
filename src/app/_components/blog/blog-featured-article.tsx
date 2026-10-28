@@ -192,7 +192,7 @@ export function BlogFeaturedArticle({
           <p className="font-display text-primary-light dark:text-primary-dark text-[10px] font-bold tracking-[0.22em] uppercase">
             BinPar
           </p>
-          <p className="font-display mt-2 text-lg font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
+          <p className="font-display mt-2 text-lg font-extrabold tracking-tight text-navy dark:text-slate-50">
             Comité clínico
           </p>
         </div>
@@ -232,7 +232,7 @@ export function BlogFeaturedArticle({
               <BlogSceneCover slug={post.slug} />
             )}
           </motion.div>
-          <h2 className="font-display mt-3 text-lg leading-[1.35] font-semibold tracking-tight text-[#05215e] dark:text-slate-50">
+          <h2 className="font-display mt-3 text-lg leading-[1.35] font-semibold tracking-tight text-navy dark:text-slate-50">
             <TypedText
               text={post.title}
               length={titleLength}

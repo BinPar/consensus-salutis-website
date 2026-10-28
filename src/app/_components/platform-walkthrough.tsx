@@ -83,7 +83,7 @@ export function PlatformWalkthrough() {
                     <p className="font-display mb-6 text-xs leading-4 font-bold tracking-[0.22em] text-balance text-primary-light uppercase dark:text-primary-dark">
                       Nuestra plataforma
                     </p>
-                    <h1 className="font-display text-[32px] leading-[1.08] font-extrabold tracking-tight text-[#05215e] sm:text-[40px] lg:text-[54px] dark:text-slate-50">
+                    <h1 className="font-display text-[32px] leading-[1.08] font-extrabold tracking-tight text-navy sm:text-[40px] lg:text-[54px] dark:text-slate-50">
                       De la consulta clínica
                       <br />
                       <span className="text-primary-light dark:text-primary-dark">
@@ -171,7 +171,7 @@ export function PlatformWalkthrough() {
                       <Reveal visible={painted} delay={0.1}>
                         <h2
                           id={`platform-stage-${stage.number}`}
-                          className="font-display mt-5 max-w-xl text-3xl leading-[1.15] font-extrabold tracking-tight text-[#05215e] sm:text-4xl xl:text-5xl dark:text-slate-50"
+                          className="font-display mt-5 max-w-xl text-3xl leading-[1.15] font-extrabold tracking-tight text-navy sm:text-4xl xl:text-5xl dark:text-slate-50"
                         >
                           {stage.title}
                         </h2>
@@ -220,7 +220,7 @@ export function PlatformWalkthrough() {
                     <Eyebrow>Siguiente paso</Eyebrow>
                   </Reveal>
                   <Reveal visible={painted} delay={0.1}>
-                    <h2 className="font-display mt-4 max-w-2xl text-3xl font-extrabold tracking-tight text-[#05215e] sm:text-4xl dark:text-slate-50">
+                    <h2 className="font-display mt-4 max-w-2xl text-3xl font-extrabold tracking-tight text-navy sm:text-4xl dark:text-slate-50">
                       El conocimiento de tu organización, en cada consulta.
                     </h2>
                   </Reveal>

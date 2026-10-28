@@ -89,7 +89,7 @@ text in light; `#04111e` inset + slate-100 in dark).
 | Deep band | `#deedf3` | `#030916` |
 | Panel band | `#e8f2f7` | `#081827` |
 | Card | `bg-white/70–90` + `shadow-big-blocks` | `bg-[#152230e6]/90` + primary-token glow `0 0 18px color-mix(in_srgb,var(--color-primary-dark)_8%,transparent)` |
-| Heading | `#05215e` | `slate-50` |
+| Heading | `navy` | `slate-50` |
 | Body | `slate-600`/`slate-700` | `slate-400`/`slate-300` |
 | Border | `cyan-800/10–25` | `primary-dark/10–25` |
 | Primary accent | `#006d79` (hover `cyan-800`) | `#00BCBB` (hover `primary-dark/85`) |

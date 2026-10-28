@@ -94,7 +94,7 @@ export function AccesoForm({ className = "" }: { className?: string }) {
         role="status"
       >
         <Eyebrow>Solicitud enviada</Eyebrow>
-        <h2 className="font-display mt-4 text-2xl font-semibold text-[#05215e] dark:text-slate-50">
+        <h2 className="font-display mt-4 text-2xl font-semibold text-navy dark:text-slate-50">
           {ACCESO_ENVIADO.titulo}
         </h2>
         <p className="font-body mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">

@@ -28,7 +28,7 @@ export function ContactDetails({
           <Eyebrow>Dónde encontrarnos</Eyebrow>
           <h2
             id="contact-details-heading"
-            className="font-display mt-4 text-3xl font-extrabold tracking-tight text-[#05215e] sm:text-4xl lg:text-5xl dark:text-slate-50"
+            className="font-display mt-4 text-3xl font-extrabold tracking-tight text-navy sm:text-4xl lg:text-5xl dark:text-slate-50"
           >
             Estamos en Madrid.
           </h2>

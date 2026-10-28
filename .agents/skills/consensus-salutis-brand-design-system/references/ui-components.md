@@ -87,7 +87,7 @@ dark:shadow-cyan-950/30`.
 
 `rounded-md border border-cyan-800/10 bg-white/80 p-6 shadow-lg shadow-slate-900/5
 dark:border-primary-dark/10 dark:bg-[#081a2b]/82` — title `font-display text-lg
-font-semibold text-[#05215e] dark:text-slate-50`, body `mt-3 text-sm leading-6`.
+font-semibold text-navy dark:text-slate-50`, body `mt-3 text-sm leading-6`.
 
 ## Header
 

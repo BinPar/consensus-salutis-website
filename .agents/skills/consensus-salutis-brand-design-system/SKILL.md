@@ -41,7 +41,7 @@ answer (see `references/logo-usage.md` for the full philosophy).
 ```json
 {
   "deep-navy":            "#002262",
-  "heading-navy":         "#05215e",
+  "navy":                 "#05215E",
   "primary-light":        "#006d79",
   "primary-dark":         "#00BCBB",
   "secondary-light":      "#ffd230",
@@ -67,7 +67,7 @@ lean on Tailwind `slate`; dark accent borders use `primary-dark` with opacity.
 | Level | Font | Classes |
 |-------|------|---------|
 | Eyebrow | Sora | `font-display text-xs font-bold tracking-[0.22em] uppercase` in accent |
-| H1 hero | Sora | `font-display text-4xl–6xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50` |
+| H1 hero | Sora | `font-display text-4xl–6xl font-extrabold tracking-tight text-navy dark:text-slate-50` |
 | H2 section | Sora | `font-display text-3xl–5xl font-extrabold tracking-tight` |
 | Card title | Sora | `font-display text-base–lg font-semibold` |
 | Lede | Plus Jakarta Sans | `font-body text-lg leading-8 text-slate-600 dark:text-slate-400` |
@@ -158,11 +158,18 @@ Plus Jakarta Sans ExtraBold.
 - Text on turquoise or yellow button fills is near-black navy
   (`#03111d`–`#06111f`); white button text only on light-mode teal `#006d79`.
   Quoted source text highlights retain the inherited text color.
-- Headings `#05215e` (web) — the manual's `#002262` stays in the logo/print.
+- Headings use `text-navy` (`--color-navy`), with their existing dark variants.
+  The `#002262` in legacy Consensus assets is a separate color.
 - Borders use translucent cyan in light mode and `primary-dark` with opacity in dark mode; surfaces are translucent white/navy glass.
 - Status accents also use `primary-dark` in dark mode. Keep rose for errors
   and slate/navy/white for neutral text and surfaces. Pending states use the
   primary color of their theme; preserve their written state labels.
+
+**Navy source of truth:** define `--color-navy: #05215E` once in the website
+`@theme` block. Use Tailwind `text-navy` (including descendant variants) and
+`var(--color-navy)` in CSS. Derive translucent borders/shadows with
+`color-mix(in srgb, var(--color-navy) …%, transparent)`. Local component
+variables may alias the token and retain their existing dark overrides.
 
 **Dark accent source of truth:** use only `--color-primary-dark` through
 Tailwind `primary-dark` utilities or `var(--color-primary-dark)` in CSS/SVG.
@@ -209,7 +216,7 @@ This rule also applies to laboratory variants and examples in these references.
 | Page bg | `#f4f9fc` / home `#fbfdff` | `#06111f` |
 | Bands | `#deedf3` · `#e8f2f7` | `#030916` · `#081827` |
 | Card | `bg-white/80` + `shadow-big-blocks` | `bg-[#152230e6]/90` + primary-token glow |
-| Heading | `#05215e` | `slate-50` |
+| Heading | `navy` | `slate-50` |
 | Body | `slate-600/700` | `slate-400/300` |
 | Border | `cyan-800/10–25` | `primary-dark/10–25` |
 | Accent | `#006d79` | `#00BCBB` (hover `primary-dark/85`) |
@@ -254,7 +261,7 @@ When reviewing or producing any Consensus Salutis artifact, verify:
 - [ ] **Themes**: both light and dark styled? `dark:` pairs on every colored class?
 - [ ] **Accent discipline**: teal/turquoise as the primary accent? On this website, yellow limited to the header/mobile meeting CTA, generated blog placeholders and quoted source text highlights?
 - [ ] **Button text**: near-black navy on turquoise/yellow fills, white on light-mode teal? Quoted source text highlights retain the inherited text color?
-- [ ] **Headings**: Sora `font-extrabold tracking-tight` in `#05215e`/`slate-50`?
+- [ ] **Headings**: Sora `font-extrabold tracking-tight` in `text-navy`/`dark:text-slate-50`?
 - [ ] **Eyebrow present** above every H1/H2, uppercase, `tracking-[0.22em]`, accent color?
 - [ ] **Body**: Plus Jakarta Sans, `slate-600/700` (light) / `slate-300/400` (dark)?
 - [ ] **Borders**: translucent cyan (not gray)? Radius scale (full/3xl/2xl/xl/lg/md)?
@@ -294,7 +301,7 @@ When reviewing or producing any Consensus Salutis artifact, verify:
 **Expected behavior**: A `VerticalPanel`-style section in the vertical home
 flow: alternating background (white or `deedf3→edf6f9` gradient band with dark
 equivalents), `max-w-7xl` container, Eyebrow ("Seguridad") → Sora H2
-`text-5xl font-extrabold text-[#05215e] dark:text-slate-50` → lede → glass
+`text-5xl font-extrabold text-navy dark:text-slate-50` → lede → glass
 cards (`rounded-2xl border-cyan-800/15 bg-white/80 shadow-big-blocks` + dark
 glow variants). Reveals: 0/0.1/0.2 fade cadence, cards staggered ~0.18s,
 reduced-motion safe.
@@ -316,7 +323,7 @@ theme-boot script + `theme-changing` transition CSS.
 **Expected behavior**: Deep navy `#06111f` (or ice `#f4f9fc`) background with
 the subtle 44px grid and one low-alpha organic blob (turquoise→teal gradient).
 `consensus-dark.svg` (or `-light`) at native proportions. Headline in
-Sora/PJS ExtraBold, white (or `#05215e`), with one key phrase in the
+Sora/PJS ExtraBold, white (or the navy token), with one key phrase in the
 teal/turquoise accent. Institutional Spanish copy.
 
 ### Example 4: Dashboard in the platform

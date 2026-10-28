@@ -183,7 +183,7 @@ function AccesoPantalla({
   return (
     <div className="relative z-10 mx-auto w-full max-w-2xl px-5 pt-32 pb-24 sm:px-8">
       <Eyebrow>Espacio de cliente</Eyebrow>
-      <h1 className="font-display mt-4 text-2xl font-extrabold tracking-tight text-[#05215e] sm:text-3xl dark:text-slate-50">
+      <h1 className="font-display mt-4 text-2xl font-extrabold tracking-tight text-navy sm:text-3xl dark:text-slate-50">
         {motivo === "enlace"
           ? ENLACE_NO_VALIDO.titulo
           : "Entra con tu correo institucional"}

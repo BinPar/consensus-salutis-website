@@ -98,7 +98,7 @@ export function BlogGallery({
     >
       <div className={blogContentWidth}>
         <BlogReveal className="sticky top-[var(--blog-header-height,64px)] z-30 flex flex-nowrap items-center gap-10 border-b border-cyan-800/15 bg-[#fbfdff]/95 py-2 backdrop-blur-xl dark:border-primary-dark/15 dark:bg-[#06111f]/95">
-          <p className="font-display hidden shrink-0 text-base font-semibold tracking-tight text-[#05215e] md:block dark:text-slate-100">
+          <p className="font-display hidden shrink-0 text-base font-semibold tracking-tight text-navy md:block dark:text-slate-100">
             {activeTagLabel ?? "Todos los artículos"}
           </p>
           <div className="relative ml-auto flex min-w-0 flex-nowrap items-center justify-end gap-2 min-[1025px]:flex-1">
@@ -136,7 +136,7 @@ export function BlogGallery({
           <BlogEmptyState />
         ) : filteredPosts.length === 0 ? (
           <div role="status" className="font-body py-16 text-center">
-            <p className="text-base font-medium text-[#05215e] dark:text-slate-100">
+            <p className="text-base font-medium text-navy dark:text-slate-100">
               No se han encontrado artículos.
             </p>
             <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">

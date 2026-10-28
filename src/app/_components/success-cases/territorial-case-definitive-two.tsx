@@ -30,7 +30,7 @@ const eyebrow =
   "font-display text-primary-light dark:text-primary-dark text-xs font-bold tracking-[0.22em] uppercase";
 
 const heading =
-  "font-display text-4xl font-extrabold tracking-tight text-[#05215e] sm:text-5xl lg:text-6xl dark:text-slate-50";
+  "font-display text-4xl font-extrabold tracking-tight text-navy sm:text-5xl lg:text-6xl dark:text-slate-50";
 
 const focus =
   "focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark";
@@ -1199,7 +1199,7 @@ function CaseHeading({
     <>
       <p className={eyebrow}>Casos de éxito</p>
       <h2
-        className={`${singleLine ? "font-display text-3xl font-extrabold tracking-tight text-[#05215e] sm:text-4xl lg:[font-size:clamp(1.5rem,10cqw,3.25rem)] lg:leading-none dark:text-slate-50" : heading} mt-5 ${compact && !singleLine ? "lg:text-[52px]" : ""}`}
+        className={`${singleLine ? "font-display text-3xl font-extrabold tracking-tight text-navy sm:text-4xl lg:[font-size:clamp(1.5rem,10cqw,3.25rem)] lg:leading-none dark:text-slate-50" : heading} mt-5 ${compact && !singleLine ? "lg:text-[52px]" : ""}`}
       >
         <span className={singleLine ? "lg:whitespace-nowrap" : undefined}>
           El futuro de la salud.

@@ -22,7 +22,7 @@
   --pp-panel: #f0f7fa;
   --pp-accent: #006d79;
   --pp-accent-text: #fff;
-  --pp-heading: #05215e;
+  --pp-heading: var(--color-navy);
   --pp-text: #334155;
   --pp-muted: #64748b;
   --pp-border: rgb(0 109 121 / 12%);

@@ -31,7 +31,7 @@ export function BlogArticleList({
               </span>
               <div className="min-w-0 self-baseline">
                 <div className="flex items-baseline gap-4">
-                  <h2 className="font-display group-hover:text-primary-light dark:group-hover:text-primary-dark min-w-0 text-base leading-[1.45] font-semibold tracking-tight text-[#05215e] transition-colors sm:text-[19px] dark:text-slate-50">
+                  <h2 className="font-display group-hover:text-primary-light dark:group-hover:text-primary-dark min-w-0 text-base leading-[1.45] font-semibold tracking-tight text-navy transition-colors sm:text-[19px] dark:text-slate-50">
                     {post.title}
                   </h2>
                   <span

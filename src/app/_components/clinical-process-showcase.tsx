@@ -154,7 +154,7 @@ function QuestionScene({
         <p className="font-display text-primary-light dark:text-primary-dark mt-4 text-[10px] font-bold tracking-[0.22em] uppercase">
           BinPar
         </p>
-        <p className="font-display mt-3 text-2xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
+        <p className="font-display mt-3 text-2xl font-extrabold tracking-tight text-navy dark:text-slate-50">
           Consulta clínica
         </p>
       </motion.div>
@@ -163,7 +163,7 @@ function QuestionScene({
         style={{ opacity: sceneReveal(seconds, questionSendAt, 0.35, reduced) }}
       >
         <Mark className="size-6" />
-        <span className="font-display text-sm font-semibold text-[#05215e] dark:text-slate-100">
+        <span className="font-display text-sm font-semibold text-navy dark:text-slate-100">
           BinPar
         </span>
       </div>
@@ -656,7 +656,7 @@ function SynthesisScene({
                     <span className="text-primary-light dark:text-primary-dark grid size-7 shrink-0 place-items-center">
                       <ProcessIcon icon={Icon} />
                     </span>
-                    <p className="font-display text-center text-[10px] font-semibold text-[#05215e] @min-[480px]:text-left @min-[480px]:text-[13px] dark:text-slate-100">
+                    <p className="font-display text-center text-[10px] font-semibold text-navy @min-[480px]:text-left @min-[480px]:text-[13px] dark:text-slate-100">
                       {expert.name}
                     </p>
                   </div>
@@ -721,7 +721,7 @@ function SynthesisScene({
                       <span className="text-primary-light dark:text-primary-dark grid size-7 shrink-0 place-items-center">
                         <ProcessIcon icon={Icon} />
                       </span>
-                      <p className="font-display text-center text-[10px] font-semibold text-[#05215e] @min-[480px]:text-left @min-[480px]:text-[13px] dark:text-slate-100">
+                      <p className="font-display text-center text-[10px] font-semibold text-navy @min-[480px]:text-left @min-[480px]:text-[13px] dark:text-slate-100">
                         {relation.title}
                       </p>
                     </div>
@@ -743,7 +743,7 @@ function SynthesisScene({
               className="absolute inset-x-0 top-0 flex h-14 items-center justify-center @min-[480px]:h-[66px] @min-[760px]:top-1/2 @min-[760px]:-translate-y-1/2 @min-[760px]:justify-start"
             >
               <p
-                className={`${processBorderClass(!reduced && seconds >= 18.6)} font-display relative flex h-full w-[200px] max-w-full items-center gap-2 rounded-2xl border bg-white/95 px-4 py-3 text-[10px] font-semibold text-[#05215e] shadow-[0_8px_24px_rgba(0,109,121,0.10)] @min-[480px]:w-[236px] @min-[480px]:gap-3 @min-[480px]:text-sm @min-[760px]:w-full dark:bg-[#152230] dark:text-slate-50`}
+                className={`${processBorderClass(!reduced && seconds >= 18.6)} font-display relative flex h-full w-[200px] max-w-full items-center gap-2 rounded-2xl border bg-white/95 px-4 py-3 text-[10px] font-semibold text-navy shadow-[0_8px_24px_rgba(0,109,121,0.10)] @min-[480px]:w-[236px] @min-[480px]:gap-3 @min-[480px]:text-sm @min-[760px]:w-full dark:bg-[#152230] dark:text-slate-50`}
                 style={{
                   opacity: emission,
                   transform: reduced

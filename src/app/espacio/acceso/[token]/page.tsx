@@ -83,7 +83,7 @@ export default async function AccesoTokenPage({
 
             {bienFormado ? (
               <>
-                <h1 className="font-display mt-4 text-2xl font-extrabold tracking-tight text-[#05215e] sm:text-3xl dark:text-slate-50">
+                <h1 className="font-display mt-4 text-2xl font-extrabold tracking-tight text-navy sm:text-3xl dark:text-slate-50">
                   Ya casi estás dentro
                 </h1>
                 <p className="font-body mt-4 text-[15px] leading-7 text-slate-600 dark:text-slate-400">
@@ -122,7 +122,7 @@ export default async function AccesoTokenPage({
               </>
             ) : (
               <>
-                <h1 className="font-display mt-4 text-2xl font-extrabold tracking-tight text-[#05215e] sm:text-3xl dark:text-slate-50">
+                <h1 className="font-display mt-4 text-2xl font-extrabold tracking-tight text-navy sm:text-3xl dark:text-slate-50">
                   {ENLACE_NO_VALIDO.titulo}
                 </h1>
                 <p className="font-body mt-4 text-[15px] leading-7 text-slate-600 dark:text-slate-400">

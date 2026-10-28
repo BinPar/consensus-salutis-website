@@ -33,7 +33,7 @@ Slugs are kebab-case Spanish. Content is MDX under `src/app/blog/_articles/`.
     {/* image: aspect-[1.6], border-b, bg-[#deedf3]/70 dark:bg-[#06111f],
         object-cover, group-hover:scale-105 duration-150 */}
     {/* body: p-5 pt-4 (xl:p-6) flex-1 flex-col */}
-    {/*   h2: font-display line-clamp-2 text-base text-[#05215e] dark:text-slate-100 */}
+    {/*   h2: font-display line-clamp-2 text-base text-navy dark:text-slate-100 */}
     {/*   excerpt: mt-3 line-clamp-3 text-sm text-slate-600 dark:text-slate-400 */}
     {/*   meta row: mt-auto pt-4.5 — Calendar + date, Clock + readTime,
           text-xs font-medium text-slate-500, icons size-3.5 strokeWidth 1.8 */}

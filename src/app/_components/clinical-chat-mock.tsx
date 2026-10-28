@@ -402,7 +402,7 @@ export function ClinicalChatMock({
             <p className="font-display text-primary-light dark:text-primary-dark text-[10px] font-bold tracking-[0.22em] uppercase">
               BinPar
             </p>
-            <p className="font-display mt-2 text-lg font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
+            <p className="font-display mt-2 text-lg font-extrabold tracking-tight text-navy dark:text-slate-50">
               Comité clínico
             </p>
           </div>

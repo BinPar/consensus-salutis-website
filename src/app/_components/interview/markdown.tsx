@@ -56,9 +56,9 @@ export function MarkdownInline({ children }: { children: string }) {
 }
 
 const HEADING_CLASS: Record<1 | 2 | 3, string> = {
-  1: "font-display mt-0 text-2xl font-semibold tracking-tight text-[#05215e] sm:text-3xl dark:text-slate-50",
-  2: "font-display mt-8 text-lg font-semibold tracking-tight text-[#05215e] sm:text-xl dark:text-slate-50",
-  3: "font-display mt-6 text-base font-semibold text-[#05215e] dark:text-slate-100",
+  1: "font-display mt-0 text-2xl font-semibold tracking-tight text-navy sm:text-3xl dark:text-slate-50",
+  2: "font-display mt-8 text-lg font-semibold tracking-tight text-navy sm:text-xl dark:text-slate-50",
+  3: "font-display mt-6 text-base font-semibold text-navy dark:text-slate-100",
 };
 
 export function Markdown({ children }: { children: string }) {

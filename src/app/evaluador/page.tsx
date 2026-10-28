@@ -110,7 +110,7 @@ export default async function EvaluadorPage() {
           <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-8 px-5 pt-20 pb-14 sm:px-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-start lg:gap-14 lg:pt-24 lg:pb-16">
             <div className="lg:col-start-1 lg:row-start-1">
               <Eyebrow>Evaluador de idoneidad</Eyebrow>
-              <h1 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-[#05215e] sm:text-4xl lg:text-5xl dark:text-slate-50">
+              <h1 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-navy sm:text-4xl lg:text-5xl dark:text-slate-50">
                 ¿Encaja BinPar en tu institución?
               </h1>
               <p className="font-body mt-4 max-w-xl text-base leading-7 text-slate-600 dark:text-slate-400">
@@ -185,7 +185,7 @@ export default async function EvaluadorPage() {
         <ThemeSection variant="panel" className="z-10">
           <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
             <Eyebrow>Soporte y acceso</Eyebrow>
-            <h2 className="font-display mt-4 max-w-2xl text-3xl font-extrabold tracking-tight text-[#05215e] sm:text-4xl dark:text-slate-50">
+            <h2 className="font-display mt-4 max-w-2xl text-3xl font-extrabold tracking-tight text-navy sm:text-4xl dark:text-slate-50">
               Contacto directo y puerta de entrada si ya trabajas con nosotros.
             </h2>
             <p className="font-body mt-4 max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-400">
@@ -203,7 +203,7 @@ export default async function EvaluadorPage() {
                 />
                 <h3
                   id="soporte"
-                  className="font-display mt-4 text-lg font-semibold text-[#05215e] dark:text-slate-50"
+                  className="font-display mt-4 text-lg font-semibold text-navy dark:text-slate-50"
                 >
                   Soporte
                 </h3>
@@ -250,7 +250,7 @@ export default async function EvaluadorPage() {
                 />
                 <h3
                   id="acceso"
-                  className="font-display mt-4 text-lg font-semibold text-[#05215e] dark:text-slate-50"
+                  className="font-display mt-4 text-lg font-semibold text-navy dark:text-slate-50"
                 >
                   ¿Ya eres cliente?
                 </h3>
@@ -287,7 +287,7 @@ export default async function EvaluadorPage() {
         <ThemeSection variant="transparent" className="z-10">
           <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
             <Eyebrow>Protección de datos</Eyebrow>
-            <h2 className="font-display mt-4 max-w-2xl text-3xl font-extrabold tracking-tight text-[#05215e] sm:text-4xl dark:text-slate-50">
+            <h2 className="font-display mt-4 max-w-2xl text-3xl font-extrabold tracking-tight text-navy sm:text-4xl dark:text-slate-50">
               Qué guardamos, y durante cuánto tiempo.
             </h2>
             <div className={`${glassCard} mt-8 flex max-w-3xl gap-4`}>

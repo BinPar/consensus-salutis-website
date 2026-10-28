@@ -1,7 +1,7 @@
 .contact-assistant {
   position: relative;
   --ca-accent: #006d79;
-  --ca-heading: #05215e;
+  --ca-heading: var(--color-navy);
   --ca-body: #475569;
   --ca-line: rgb(0 109 121 / 16%);
   --ca-surface: rgb(255 255 255 / 88%);

@@ -65,7 +65,7 @@ export const pillars = [
 export const micro =
   "font-display text-[10px] font-semibold uppercase tracking-[.19em] text-primary-light dark:text-primary-dark";
 export const title =
-  "font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-[#05215e] sm:text-5xl dark:text-slate-50";
+  "font-display text-4xl font-extrabold leading-[1.08] tracking-tight text-navy sm:text-5xl dark:text-slate-50";
 export const body =
   "font-body text-base leading-7 text-slate-600 dark:text-slate-400";
 export const sectionBody =
@@ -367,7 +367,7 @@ export function StrataDetails({
               />
             </div>
             <h3
-              className={`font-display mt-8 max-w-sm leading-tight font-bold tracking-tight text-[#05215e] dark:text-slate-50 ${compactLayout ? "text-2xl max-lg:mt-4 max-lg:max-w-none" : "text-3xl sm:text-4xl"}`}
+              className={`font-display mt-8 max-w-sm leading-tight font-bold tracking-tight text-navy dark:text-slate-50 ${compactLayout ? "text-2xl max-lg:mt-4 max-lg:max-w-none" : "text-3xl sm:text-4xl"}`}
             >
               {pillars[index]!.role}
             </h3>

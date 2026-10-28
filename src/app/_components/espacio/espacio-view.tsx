@@ -42,7 +42,7 @@ const CARD =
   "shadow-big-blocks rounded-2xl border border-cyan-800/15 bg-white/80 backdrop-blur-xs dark:border-primary-dark/15 dark:bg-[#152230e6]/90";
 
 const H2 =
-  "font-display text-xl font-bold tracking-tight text-[#05215e] dark:text-slate-50";
+  "font-display text-xl font-bold tracking-tight text-navy dark:text-slate-50";
 const LEDE =
   "font-body mt-2.5 text-[15px] leading-7 text-slate-600 dark:text-slate-400";
 const ROTULO = "font-display text-[11px] font-bold tracking-[0.14em] uppercase";
@@ -117,7 +117,7 @@ export function EspacioView({
       }`}
     >
       <Eyebrow>Espacio de cliente</Eyebrow>
-      <h1 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-[#05215e] sm:text-4xl dark:text-slate-50">
+      <h1 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-navy sm:text-4xl dark:text-slate-50">
         Tu suscripción de AWS Marketplace
       </h1>
 

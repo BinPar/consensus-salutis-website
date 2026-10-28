@@ -155,7 +155,7 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
         role="status"
       >
         <Eyebrow>Ficha registrada</Eyebrow>
-        <h2 className="font-display mt-4 text-2xl font-extrabold tracking-tight text-[#05215e] dark:text-slate-50">
+        <h2 className="font-display mt-4 text-2xl font-extrabold tracking-tight text-navy dark:text-slate-50">
           Empezamos la entrevista.
         </h2>
         <p className="font-body mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">

@@ -198,7 +198,7 @@ export function TeamOrbitHero() {
         <h1
           id="team-title"
           tabIndex={-1}
-          className="font-display m-0 text-4xl leading-tight font-extrabold tracking-tight text-balance text-[#05215e] focus:outline-none xl:text-5xl dark:text-slate-50"
+          className="font-display m-0 text-4xl leading-tight font-extrabold tracking-tight text-balance text-navy focus:outline-none xl:text-5xl dark:text-slate-50"
         >
           Todo empieza
           <br />

@@ -22,7 +22,7 @@ export function SessionNotice({ expired }: { expired: boolean }) {
         <Eyebrow>
           {expired ? "Sesión caducada" : "Evaluación no iniciada"}
         </Eyebrow>
-        <h1 className="font-display mt-4 text-2xl font-extrabold tracking-tight text-[#05215e] sm:text-3xl dark:text-slate-50">
+        <h1 className="font-display mt-4 text-2xl font-extrabold tracking-tight text-navy sm:text-3xl dark:text-slate-50">
           {expired
             ? "Necesitamos que vuelvas a identificarte"
             : "Empieza por identificarte"}

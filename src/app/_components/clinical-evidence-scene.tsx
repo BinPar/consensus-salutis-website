@@ -289,7 +289,7 @@ export function EvidenceScene({
                 className="hidden size-full object-contain dark:block"
               />
             </span>
-            <span className="font-display text-sm font-semibold text-[#05215e] dark:text-slate-100">
+            <span className="font-display text-sm font-semibold text-navy dark:text-slate-100">
               BinPar
             </span>
           </div>
@@ -358,7 +358,7 @@ export function EvidenceScene({
                         return token.strong ? (
                           <strong
                             key={tokenIndex}
-                            className="font-semibold text-[#05215e] dark:text-slate-100"
+                            className="font-semibold text-navy dark:text-slate-100"
                           >
                             {token.text.slice(0, count)}
                           </strong>
@@ -455,7 +455,7 @@ export function EvidenceScene({
           }}
         >
           <div className="evidence-tabs flex h-11 shrink-0 items-end border-b border-cyan-800/10 bg-[#e8f2f7]/30 px-2 pt-1 dark:border-primary-dark/15 dark:bg-[#06111f]/45">
-            <div className="evidence-tab relative -mb-px flex h-10 max-w-56 min-w-0 flex-1 items-center gap-1.5 rounded-t-md border border-b-0 bg-white px-2.5 text-[#05215e] dark:bg-[#152230] dark:text-slate-100">
+            <div className="evidence-tab relative -mb-px flex h-10 max-w-56 min-w-0 flex-1 items-center gap-1.5 rounded-t-md border border-b-0 bg-white px-2.5 text-navy dark:bg-[#152230] dark:text-slate-100">
               <FileText
                 size={20}
                 strokeWidth={1.1}
@@ -479,7 +479,7 @@ export function EvidenceScene({
               <p className="font-display text-primary-light dark:text-primary-dark text-[9px] font-bold tracking-[0.16em] uppercase">
                 Fuente de consulta
               </p>
-              <p className="font-display mt-0.5 truncate text-sm font-semibold text-[#05215e] dark:text-slate-100">
+              <p className="font-display mt-0.5 truncate text-sm font-semibold text-navy dark:text-slate-100">
                 {evidenceReference.title}
               </p>
             </div>
@@ -506,7 +506,7 @@ export function EvidenceScene({
                   <li key={text}>{text}</li>
                 ))}
               </ul>
-              <h3 className="font-display mt-6 mb-3 text-sm font-semibold text-[#05215e] dark:text-slate-100">
+              <h3 className="font-display mt-6 mb-3 text-sm font-semibold text-navy dark:text-slate-100">
                 Dosis de fármacos y riñón
               </h3>
               <p>{sourceText.dosing}</p>
@@ -514,7 +514,7 @@ export function EvidenceScene({
                 <li>Disminuyendo la dosis.</li>
                 <li>Aumentando el intervalo entre las dosis.</li>
               </ul>
-              <h3 className="font-display mt-6 mb-3 text-sm font-semibold text-[#05215e] dark:text-slate-100">
+              <h3 className="font-display mt-6 mb-3 text-sm font-semibold text-navy dark:text-slate-100">
                 Antimicrobianos
               </h3>
               <ul className="my-4 list-disc space-y-3 pl-4">
@@ -535,7 +535,7 @@ export function EvidenceScene({
               </figure>
               <h3
                 ref={documentTarget}
-                className="font-display mt-6 mb-3 text-sm font-semibold text-[#05215e] dark:text-slate-100"
+                className="font-display mt-6 mb-3 text-sm font-semibold text-navy dark:text-slate-100"
               >
                 Antiinflamatorios no esteroideos
               </h3>

@@ -7,7 +7,7 @@
   padding: 128px 32px 112px;
 }
 .home-entry-content {
-  --cover-ink: #05215e;
+  --cover-ink: var(--color-navy);
   --cover-accent: #006d79;
   position: relative;
   z-index: 2;
@@ -73,12 +73,12 @@
   width: 96px;
   height: 96px;
   margin: 0 auto 30px;
-  border: 1px solid rgba(5, 33, 94, 0.08);
+  border: 1px solid color-mix(in srgb, var(--color-navy) 8%, transparent);
   border-radius: 28px;
   background: linear-gradient(145deg, #fff, #f6fafc);
   box-shadow:
-    0 2px 3px rgba(5, 33, 94, 0.08),
-    0 12px 28px rgba(5, 33, 94, 0.07),
+    0 2px 3px color-mix(in srgb, var(--color-navy) 8%, transparent),
+    0 12px 28px color-mix(in srgb, var(--color-navy) 7%, transparent),
     inset 0 1px 0 #fff;
 }
 .home-entry-content .home-aura-app-icon img {
@@ -138,11 +138,11 @@
   inset: -1px;
   z-index: -1;
   border-radius: inherit;
-  border: 1px solid rgba(5, 33, 94, 0.08);
+  border: 1px solid color-mix(in srgb, var(--color-navy) 8%, transparent);
   background: #fff;
   box-shadow:
-    0 2px 3px rgba(5, 33, 94, 0.08),
-    0 12px 28px rgba(5, 33, 94, 0.07);
+    0 2px 3px color-mix(in srgb, var(--color-navy) 8%, transparent),
+    0 12px 28px color-mix(in srgb, var(--color-navy) 7%, transparent);
   animation: aura-entry-fade 1.8s ease both;
   animation-play-state: var(--entry-motion);
 }

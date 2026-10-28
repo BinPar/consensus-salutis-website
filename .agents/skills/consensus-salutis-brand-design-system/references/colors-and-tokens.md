@@ -28,6 +28,7 @@ CSS for any Consensus Salutis web property:
 
 @theme {
   --breakpoint-3xl: 2000px;
+  --color-navy: #05215E;
   --color-primary-dark: #00BCBB;
   --color-primary-light: #006d79;
   --color-secondary-light: #ffd230;
@@ -94,17 +95,21 @@ them: `text-primary-light dark:text-primary-dark`.
 
 | Role | Light | Dark |
 |------|-------|------|
-| Headings (display) | `#05215e` (heading navy) | `slate-50` |
-| Card/subsection headings | `#05215e` | `slate-100` |
+| Headings (display) | `navy` | `slate-50` |
+| Card/subsection headings | `navy` | `slate-100` |
 | Primary body | `slate-700` | `slate-300` |
 | Secondary body | `slate-600` | `slate-400` |
 | Muted / meta | `slate-500` | `slate-500` |
 | Errors (forms) | `rose-700` | `rose-300` |
 | Success/status accent (chat "Entorno seguro") | `teal-700` | `primary-dark` |
 
-**Heading navy `#05215e`**: the implementation uses `#05215e` for headings (a
-slightly cooler shade of the brand's `#002262`). Use `#05215e` in web UI to match
-production; use `#002262` only in the logo and print/brand assets.
+**Navy token:** `--color-navy` is defined once in `src/styles/globals.css`
+and exposed through Tailwind utilities such as `text-navy`, `bg-navy` and
+`border-navy`. Use `var(--color-navy)` for CSS values and local component
+aliases. For translucent colors, use `color-mix(in srgb, var(--color-navy) 8%,
+transparent)` (adjust the percentage to preserve the original opacity). Keep
+existing dark-theme overrides; the token itself is fixed. The `#002262` used
+in legacy Consensus assets is a separate color.
 
 ### Borders
 
