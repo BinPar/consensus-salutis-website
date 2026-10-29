@@ -185,10 +185,11 @@ function band(base: string) {
 // cualquier modo para que la palabra del logotipo sea siempre legible.
 function open(data: SignatureData, base: string) {
   const grid = asset(base, "signature-grid.png");
-  // Retícula de fondo de toda la firma; donde no se carga, la firma queda igual.
+  // Retícula de fondo de toda la firma, centrada y más ancha que cualquier
+  // ventana para que se adapte al ancho; donde no se carga, la firma queda igual.
   // Las retículas van a tamaño real: Gmail descarta background-size.
   // Sin filete separador: no coincidiría con las líneas de la retícula.
-  return `${table("width:100%;")}<tr><td background="${escape(grid)}" style="background-image:url('${escape(grid)}');background-position:right top;background-repeat:no-repeat;">${table("width:100%;")}<tr><td>${table()}<tr><td valign="middle" style="vertical-align:middle;padding-right:16px;">${aside(data, light, base, 72)}</td><td valign="middle" style="vertical-align:middle;">${identity(data, light)}</td></tr></table></td></tr><tr><td style="height:22px;line-height:22px;font-size:0;">&nbsp;</td></tr><tr><td>${details(data, light, base)}</td></tr><tr><td style="padding-top:20px;">${band(base)}</td></tr></table></td></tr></table>`;
+  return `${table("width:100%;")}<tr><td background="${escape(grid)}" style="background-image:url('${escape(grid)}');background-position:center top;background-repeat:no-repeat;">${table("width:100%;")}<tr><td>${table()}<tr><td valign="middle" style="vertical-align:middle;padding-right:16px;">${aside(data, light, base, 72)}</td><td valign="middle" style="vertical-align:middle;">${identity(data, light)}</td></tr></table></td></tr><tr><td style="height:22px;line-height:22px;font-size:0;">&nbsp;</td></tr><tr><td>${details(data, light, base)}</td></tr><tr><td style="padding-top:20px;">${band(base)}</td></tr></table></td></tr></table>`;
 }
 
 export type SignatureVariant = "night" | "open";
