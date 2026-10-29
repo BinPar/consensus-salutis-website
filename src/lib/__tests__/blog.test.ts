@@ -95,6 +95,41 @@ describe("contenido real del blog", () => {
       });
   });
 
+  it("las figuras del cuerpo existen en public/ y llevan alt", () => {
+    // `<img>` JSX o `![alt](src)` Markdown; solo rutas absolutas de public/
+    const jsxImg = /<img\b([^>]*)>/g;
+    const mdImg = /!\[([^\]]*)\]\(([^)\s]+)/g;
+    fileNames.forEach((fileName) => {
+      const source = fs.readFileSync(
+        path.join(BLOG_CONTENT_DIR, fileName),
+        "utf8",
+      );
+      const figures: Array<{ src: string; alt: string }> = [];
+      for (const match of source.matchAll(jsxImg)) {
+        const attrs = match[1] ?? "";
+        figures.push({
+          src: /\bsrc="([^"]*)"/.exec(attrs)?.[1] ?? "",
+          alt: /\balt="([^"]*)"/.exec(attrs)?.[1] ?? "",
+        });
+      }
+      for (const match of source.matchAll(mdImg)) {
+        figures.push({ alt: match[1] ?? "", src: match[2] ?? "" });
+      }
+      figures
+        .filter((figure) => figure.src.startsWith("/"))
+        .forEach((figure) => {
+          expect(
+            figure.alt.trim(),
+            `alt de ${figure.src} en ${fileName}`,
+          ).toBeTruthy();
+          expect(
+            fs.existsSync(path.join(process.cwd(), "public", figure.src)),
+            `${figure.src} (${fileName}) no existe en public/`,
+          ).toBe(true);
+        });
+    });
+  });
+
   it("el orden es por fecha descendente", () => {
     const dates = posts.map((post) => post.date);
 
