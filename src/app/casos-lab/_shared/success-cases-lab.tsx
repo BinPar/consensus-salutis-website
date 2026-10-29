@@ -1,6 +1,12 @@
 "use client";
 
 import { BlogPageLab } from "../_features/blog-page/blog-page-lab";
+import { EmailSignaturesLab } from "../_features/email-signatures/email-signatures-lab";
+import {
+  emailSignaturesDirections,
+  parseEmailSignaturesDirection,
+  type EmailSignaturesDirection,
+} from "../_features/email-signatures/email-signatures-directions";
 import { ArticleLab } from "../_features/article/article-lab";
 import {
   articleDirections,
@@ -103,6 +109,7 @@ type Lab =
   | "article"
   | "blog-images"
   | "blog-cards"
+  | "email-signatures"
   | "team-sol6-1";
 
 function scrollToPreview(lab: Lab, behavior: ScrollBehavior = "instant") {
@@ -143,6 +150,7 @@ export function SuccessCasesLab({
   initialBlogCardsDirection = "open",
   initialBlogPageDirection = "base",
   initialArticleDirection = "reference",
+  initialEmailSignaturesDirection = "night",
   blogPosts,
   blogPagePosts,
   blogPageTags,
@@ -165,6 +173,7 @@ export function SuccessCasesLab({
   initialBlogCardsDirection?: BlogCardsDirection;
   initialBlogPageDirection?: BlogPageDirection;
   initialArticleDirection?: ArticleDirection;
+  initialEmailSignaturesDirection?: EmailSignaturesDirection;
   blogPosts: BlogPost[];
   blogPagePosts: BlogPost[];
   blogPageTags: BlogTag[];
@@ -173,6 +182,9 @@ export function SuccessCasesLab({
 }) {
   const [articleDirection, setArticleDirection] = useState(
     initialArticleDirection,
+  );
+  const [emailSignaturesDirection, setEmailSignaturesDirection] = useState(
+    initialEmailSignaturesDirection,
   );
   const [blogPageDirection, setBlogPageDirection] = useState(
     initialBlogPageDirection,
@@ -221,6 +233,7 @@ export function SuccessCasesLab({
     "blog-images": blogImagesDirection,
     "blog-page": blogPageDirection,
     article: articleDirection,
+    "email-signatures": emailSignaturesDirection,
   }[lab];
   const availableDirections = {
     cases: caseDirections,
@@ -235,6 +248,7 @@ export function SuccessCasesLab({
     "blog-images": blogImagesDirections,
     "blog-page": blogPageDirections,
     article: articleDirections,
+    "email-signatures": emailSignaturesDirections,
   }[lab];
 
   useEffect(() => {
@@ -260,6 +274,7 @@ export function SuccessCasesLab({
     blogImagesDirection,
     blogPageDirection,
     articleDirection,
+    emailSignaturesDirection,
   ]);
 
   useEffect(() => {
@@ -295,6 +310,9 @@ export function SuccessCasesLab({
       const variant = params.get("variant");
       const requestedLab = params.get("lab");
       setArticleDirection(parseArticleDirection(params.get("articleVariant")));
+      setEmailSignaturesDirection(
+        parseEmailSignaturesDirection(params.get("emailSignaturesVariant")),
+      );
       setBlogPageDirection(
         parseBlogPageDirection(params.get("blogPageVariant")),
       );
@@ -327,7 +345,9 @@ export function SuccessCasesLab({
                             ? "blog-page"
                             : requestedLab === "article"
                               ? "article"
-                              : "cases",
+                              : requestedLab === "email-signatures"
+                                ? "email-signatures"
+                                : "cases",
       );
       setProductDirection(
         productDirections.find(
@@ -383,6 +403,7 @@ export function SuccessCasesLab({
     url.searchParams.set("blogImagesVariant", blogImagesDirection);
     url.searchParams.set("blogPageVariant", blogPageDirection);
     url.searchParams.set("articleVariant", articleDirection);
+    url.searchParams.set("emailSignaturesVariant", emailSignaturesDirection);
     url.hash = `${next}-preview`;
     window.history.pushState(null, "", url);
     window.requestAnimationFrame(() => {
@@ -472,6 +493,17 @@ export function SuccessCasesLab({
 
   const selectProposal = (id: string) => {
     switch (lab) {
+      case "email-signatures": {
+        const next = parseEmailSignaturesDirection(id);
+        if (next === emailSignaturesDirection) return;
+        setEmailSignaturesDirection(next);
+        const url = new URL(window.location.href);
+        url.searchParams.set("emailSignaturesVariant", next);
+        url.hash = "email-signatures-preview";
+        window.history.pushState(null, "", url);
+        window.requestAnimationFrame(() => scrollToPreview("email-signatures"));
+        break;
+      }
       case "article": {
         const next = parseArticleDirection(id);
         if (next === articleDirection) return;
@@ -551,6 +583,7 @@ export function SuccessCasesLab({
     >
       {lab !== "blog-page" &&
         lab !== "article" &&
+        lab !== "email-signatures" &&
         (lab !== "cases" || context) && <HomeMotionBackground />}
       <header
         ref={header}
@@ -595,7 +628,9 @@ export function SuccessCasesLab({
                                     ? "Página de blog"
                                     : lab === "article"
                                       ? "Article"
-                                      : "Producto"}
+                                      : lab === "email-signatures"
+                                        ? "Firmas Claude"
+                                        : "Producto"}
               </p>
             </div>
           </div>
@@ -618,6 +653,7 @@ export function SuccessCasesLab({
               <option value="blog-images">Imágenes blog</option>
               <option value="blog-page">Página de blog</option>
               <option value="article">Article</option>
+              <option value="email-signatures">Firmas Claude</option>
             </select>
           </label>
           <div
@@ -658,7 +694,8 @@ export function SuccessCasesLab({
             </button>
             {lab !== "blog-images" &&
               lab !== "blog-page" &&
-              lab !== "article" && (
+              lab !== "article" &&
+              lab !== "email-signatures" && (
                 <>
                   <button
                     type="button"
@@ -694,7 +731,9 @@ export function SuccessCasesLab({
         </div>
       </header>
 
-      {lab === "article" ? (
+      {lab === "email-signatures" ? (
+        <EmailSignaturesLab direction={emailSignaturesDirection} />
+      ) : lab === "article" ? (
         <ArticleLab
           post={articlePost}
           posts={blogPagePosts}

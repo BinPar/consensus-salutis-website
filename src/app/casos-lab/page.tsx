@@ -16,6 +16,7 @@ import { parseBlogCardsDirection } from "./_features/blog-cards/blog-cards-direc
 import { parseBlogImagesDirection } from "./_features/blog-images/blog-images-directions";
 import { parseBlogPageDirection } from "./_features/blog-page/blog-page-directions";
 import { parseArticleDirection } from "./_features/article/article-directions";
+import { parseEmailSignaturesDirection } from "./_features/email-signatures/email-signatures-directions";
 
 export const metadata: Metadata = {
   title: "Laboratorio visual",
@@ -42,6 +43,7 @@ export default async function CasesLabPage({
     blogImagesVariant?: string;
     blogPageVariant?: string;
     articleVariant?: string;
+    emailSignaturesVariant?: string;
   }>;
 }) {
   if (process.env.NODE_ENV !== "development") notFound();
@@ -62,6 +64,7 @@ export default async function CasesLabPage({
     blogImagesVariant,
     blogPageVariant,
     articleVariant,
+    emailSignaturesVariant,
   } = await searchParams;
   const direction = caseDirections.find((item) => item.id === variant)?.id;
   const blogPosts = getBlogPosts();
@@ -89,6 +92,9 @@ export default async function CasesLabPage({
       articlePost={articlePost}
       articleBody={articleBody}
       initialArticleDirection={parseArticleDirection(articleVariant)}
+      initialEmailSignaturesDirection={parseEmailSignaturesDirection(
+        emailSignaturesVariant,
+      )}
       blogPosts={blogPosts.slice(0, 4)}
       blogPagePosts={blogPosts}
       blogPageTags={getBlogTags(blogPosts)}
@@ -117,7 +123,9 @@ export default async function CasesLabPage({
                             ? "blog-page"
                             : lab === "article"
                               ? "article"
-                              : "cases"
+                              : lab === "email-signatures"
+                                ? "email-signatures"
+                                : "cases"
       }
       initialProductDirection={
         productDirections.find((item) => item.id === productVariant)?.id ??
