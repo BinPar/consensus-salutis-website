@@ -172,16 +172,19 @@ function card(data: SignatureData, theme: Theme, base: string) {
   return `${table(`width:100%;background-color:${theme.surface};border:1px solid ${theme.hairline};border-radius:16px;`)}<tr><td bgcolor="${theme.surface}" style="background-color:${theme.surface};border-radius:16px;padding:22px;">${table("width:100%;")}<tr><td>${table()}<tr><td valign="middle" style="vertical-align:middle;padding-right:16px;">${aside(data, theme, base, 72)}</td><td valign="middle" style="vertical-align:middle;">${identity(data, theme)}</td></tr></table></td></tr>${rule(theme.hairline)}<tr><td>${details(data, theme, base)}</td></tr>${rule(theme.hairline)}<tr><td>${image(asset(base, theme.logo), 78, 24, "BinPar")}</td></tr></table></td></tr></table>`;
 }
 
-// Banda del logotipo: azul noche con la retícula de 44 px desvanecida hacia el
-// logotipo y las franjas turquesa. El fondo es una imagen, que ningún cliente
-// recolorea en modo oscuro; donde no se carga, queda el azul noche liso.
+// Banda del logotipo, del filete de marca (binpar-filete.svg) escalado a 48 px
+// de alto. Sus dos extremos son imágenes recortadas del original: a la
+// izquierda la esquina con el logotipo y a la derecha la cinta, que sobresale
+// 5 px por arriba y por abajo. El tramo central es azul noche en HTML, repetido
+// como degradado para que Gmail no lo invierta, y se estira con el ancho.
 function band(base: string) {
-  const grid = asset(base, "band-grid.png");
-  return `${table("width:100%;")}<tr><td bgcolor="${night.surface}" background="${escape(grid)}" style="background-color:${night.surface};background-image:url('${escape(grid)}');background-position:right center;background-repeat:no-repeat;border-radius:12px;">${table("width:100%;")}<tr><td valign="middle" style="vertical-align:middle;padding:0 22px;">${image(asset(base, night.logo), 78, 24, "BinPar")}</td><td align="right" valign="middle" style="vertical-align:middle;padding:0 22px 0 0;width:88px;">${image(asset(base, "band-accent@3x.png"), 88, 56, "")}</td></tr></table></td></tr></table>`;
+  const surface = `background-color:${night.surface};background-image:linear-gradient(${night.surface},${night.surface});`;
+  const edge = "height:5px;line-height:5px;font-size:0;";
+  return `${table("width:100%;")}<tr><td rowspan="3" valign="middle" style="vertical-align:middle;width:120px;">${image(asset(base, "band-left@3x.png"), 120, 58, "BinPar")}</td><td style="${edge}">&nbsp;</td><td rowspan="3" valign="middle" style="vertical-align:middle;width:110px;">${image(asset(base, "band-right@3x.png"), 110, 58, "")}</td></tr><tr><td bgcolor="${night.surface}" style="height:48px;line-height:48px;font-size:0;${surface}">&nbsp;</td></tr><tr><td style="${edge}">&nbsp;</td></tr></table>`;
 }
 
 // Abierta: la misma maquetación sin tarjeta, en el tema claro. El logotipo va
-// en una banda azul noche con franjas turquesa a 30°, que se ve igual en
+// en la banda azul noche del filete de marca, con su cinta turquesa, que se ve igual en
 // cualquier modo para que la palabra del logotipo sea siempre legible.
 function open(data: SignatureData, base: string) {
   const grid = asset(base, "signature-grid.png");
