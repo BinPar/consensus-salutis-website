@@ -579,6 +579,7 @@ export function SuccessCasesLab({
     <div
       ref={root}
       data-visual-lab=""
+      data-email-signatures-lab={lab === "email-signatures" ? "" : undefined}
       className="relative isolate min-h-screen bg-[#fbfdff] dark:bg-[#06111f]"
     >
       {lab !== "blog-page" &&
@@ -629,7 +630,7 @@ export function SuccessCasesLab({
                                     : lab === "article"
                                       ? "Article"
                                       : lab === "email-signatures"
-                                        ? "Firmas Claude"
+                                        ? "Firmas de correo"
                                         : "Producto"}
               </p>
             </div>
@@ -653,7 +654,7 @@ export function SuccessCasesLab({
               <option value="blog-images">Imágenes blog</option>
               <option value="blog-page">Página de blog</option>
               <option value="article">Article</option>
-              <option value="email-signatures">Firmas Claude</option>
+              <option value="email-signatures">Firmas de correo</option>
             </select>
           </label>
           <div
