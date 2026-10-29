@@ -46,7 +46,7 @@ describe("Noche email signature", () => {
     for (const icon of ["mail", "phone", "map-pin", "globe"])
       expect(html).toContain(`icon-${icon}-turquoise@3x.png`);
     expect(contactRows({ ...data, phone: " " }).map((row) => row.icon)).toEqual(
-      ["mail", "map-pin", "globe"],
+      ["mail", "globe", "map-pin"],
     );
   });
 
@@ -55,5 +55,21 @@ describe("Noche email signature", () => {
     expect(html).toContain("ADVERTENCIA | La información contenida");
     expect(html).toContain('href="mailto:Isabel@binpar.com"');
     expect(renderSignatureText(data).split("\n")[0]).toBe("Ana <Prueba> Co");
+  });
+
+  it("Abierta has no card and keeps the logo on a band clients cannot recolor", () => {
+    const html = renderSignature(data, "", "open");
+    expect(html).not.toContain("border-radius:16px;padding:22px;");
+    expect(html).toMatch(
+      /background-color:#06111F;background-image:url\('\/email-signature\/band-grid@2x\.png'\);[^"]*"[^>]*>[^]*logo-dark-24@3x\.png/,
+    );
+    expect(html).toContain("band-accent@3x.png");
+    expect(html).toMatch(
+      /^<table[^>]*><tr><td background="\/email-signature\/signature-grid@2x\.png"/,
+    );
+    expect(html).toContain("icon-mail-tile@3x.png");
+    expect(
+      renderSignature({ ...data, photo: undefined }, "", "open"),
+    ).toContain("tile-dark@3x.png");
   });
 });

@@ -177,7 +177,13 @@ function MailFrame({
   );
 }
 
-function CopyButtons({ data }: { data: SignatureData }) {
+function CopyButtons({
+  data,
+  variant,
+}: {
+  data: SignatureData;
+  variant: EmailSignaturesDirection;
+}) {
   const [copied, setCopied] = useState<"signature" | "html" | null>(null);
   const timer = useRef<number | undefined>(undefined);
   useEffect(() => () => window.clearTimeout(timer.current), []);
@@ -193,7 +199,7 @@ function CopyButtons({ data }: { data: SignatureData }) {
         className={`${pill} bg-primary-light dark:bg-primary-dark text-white hover:opacity-90 dark:text-[#04111e]`}
         onClick={async () => {
           await copyRich(
-            renderSignature(data, publicOrigin),
+            renderSignature(data, publicOrigin, variant),
             renderSignatureText(data),
           );
           done("signature");
@@ -211,7 +217,7 @@ function CopyButtons({ data }: { data: SignatureData }) {
         className={outline}
         onClick={async () => {
           await navigator.clipboard.writeText(
-            renderSignature(data, publicOrigin),
+            renderSignature(data, publicOrigin, variant),
           );
           done("html");
         }}
@@ -241,7 +247,7 @@ export function EmailSignaturesLab({
     ...samples[sample].data,
     photo: photo ? teamPhoto : undefined,
   };
-  const html = renderSignature(data);
+  const html = renderSignature(data, "", direction);
 
   return (
     <main
@@ -297,7 +303,7 @@ export function EmailSignaturesLab({
             </button>
           ))}
         </div>
-        <CopyButtons data={data} />
+        <CopyButtons data={data} variant={direction} />
       </div>
 
       <div className="mt-10 grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
@@ -315,18 +321,10 @@ export function EmailSignaturesLab({
       <p className="font-body mt-2 max-w-3xl text-sm leading-6 text-slate-600 dark:text-slate-400">
         {current.darkMode}
       </p>
-      <div className="mt-6 grid items-start gap-8 md:grid-cols-2 xl:grid-cols-3">
-        <MailFrame
-          label="Respeta los colores"
-          note="Apple Mail, Gmail web"
-          compact
-          scheme="keep"
-        >
-          <Signature html={html} scheme="keep" />
-        </MailFrame>
+      <div className="mt-6 grid items-start gap-8 md:grid-cols-2">
         <MailFrame
           label="Recolorea fondos claros y texto oscuro"
-          note="Outlook, Gmail Android · simulación"
+          note="Outlook, Apple Mail, Gmail Android · simulación"
           compact
           scheme="partial"
         >

@@ -28,10 +28,38 @@ const night = {
   text: "#90A1B9",
   hairline: "#153C4B",
   icon: "turquoise",
+  iconSize: 16,
   tile: "tile-dark@3x.png",
   logo: "logo-dark-24@3x.png",
 };
-type Theme = typeof night;
+// Tema claro de Abierta: sin superficie propia, los clientes en modo oscuro
+// aclaran sus textos y la firma sigue legible.
+// Nombre y datos en slate casi negro y neutro: al invertirlos, los clientes los
+// llevan a casi blanco en lugar de a un azul o un gris apagado.
+const light: Theme = {
+  surface: "#06111F",
+  headline: "#0F172B",
+  accent: "#006D79",
+  text: "#1D293D",
+  hairline: "#D9E7EB",
+  // Iconos en tesela oscura, como el logotipo: no cambian en ningún modo.
+  icon: "tile",
+  iconSize: 24,
+  // Sin foto, siempre la tesela oscura.
+  tile: "tile-dark@3x.png",
+  logo: "logo-dark-24@3x.png",
+};
+type Theme = {
+  surface: string;
+  headline: string;
+  accent: string;
+  text: string;
+  hairline: string;
+  icon: string;
+  iconSize: number;
+  tile: string;
+  logo: string;
+};
 
 export const company = {
   web: "https://binpar.com",
@@ -95,8 +123,8 @@ export function contactRows(data: SignatureData): ContactRow[] {
       href: `tel:${phone.replace(/[^\d+]/g, "")}`,
     });
   rows.push(
-    { icon: "map-pin", label: company.office, href: company.map },
     { icon: "globe", label: "binpar.com", href: company.web },
+    { icon: "map-pin", label: company.office, href: company.map },
   );
   return rows;
 }
@@ -120,10 +148,11 @@ function identity(data: SignatureData, theme: Theme) {
 
 // Cada dato con su icono Lucide (16 px, trazo 1,8) y su enlace.
 function details(data: SignatureData, theme: Theme, base: string) {
+  const gap = theme.iconSize > 16 ? 6 : 9;
   return `${table()}${contactRows(data)
     .map(
       (row, index) =>
-        `<tr><td valign="middle" style="vertical-align:middle;padding-top:${index ? 9 : 0}px;width:16px;">${image(asset(base, `icon-${row.icon}-${theme.icon}@3x.png`), 16, 16, "")}</td><td valign="middle" style="vertical-align:middle;padding:${index ? 9 : 0}px 0 0 10px;word-break:break-word;${type(body, 13, 16, `color:${theme.text};`)}"><a href="${escape(row.href)}" style="color:${theme.text};text-decoration:none;">${escape(row.label)}</a></td></tr>`,
+        `<tr><td valign="middle" style="vertical-align:middle;padding-top:${index ? gap : 0}px;width:${theme.iconSize}px;">${image(asset(base, `icon-${row.icon}-${theme.icon}@3x.png`), theme.iconSize, theme.iconSize, "")}</td><td valign="middle" style="vertical-align:middle;padding:${index ? gap : 0}px 0 0 10px;word-break:break-word;${type(body, 13, 16, `color:${theme.text};`)}"><a href="${escape(row.href)}" style="color:${theme.text};text-decoration:none;">${escape(row.label)}</a></td></tr>`,
     )
     .join("")}</table>`;
 }
@@ -143,8 +172,32 @@ function card(data: SignatureData, theme: Theme, base: string) {
   return `${table(`width:100%;background-color:${theme.surface};border:1px solid ${theme.hairline};border-radius:16px;`)}<tr><td bgcolor="${theme.surface}" style="background-color:${theme.surface};border-radius:16px;padding:22px;">${table("width:100%;")}<tr><td>${table()}<tr><td valign="middle" style="vertical-align:middle;padding-right:16px;">${aside(data, theme, base, 72)}</td><td valign="middle" style="vertical-align:middle;">${identity(data, theme)}</td></tr></table></td></tr>${rule(theme.hairline)}<tr><td>${details(data, theme, base)}</td></tr>${rule(theme.hairline)}<tr><td>${image(asset(base, theme.logo), 78, 24, "BinPar")}</td></tr></table></td></tr></table>`;
 }
 
-export function renderSignature(data: SignatureData, base = "") {
-  return `${card(data, night, base)}${legal()}`;
+// Banda del logotipo: azul noche con la retícula de 44 px desvanecida hacia el
+// logotipo y las franjas turquesa. El fondo es una imagen, que ningún cliente
+// recolorea en modo oscuro; donde no se carga, queda el azul noche liso.
+function band(base: string) {
+  const grid = asset(base, "band-grid@2x.png");
+  return `${table("width:100%;")}<tr><td bgcolor="${night.surface}" background="${escape(grid)}" style="background-color:${night.surface};background-image:url('${escape(grid)}');background-position:right center;background-repeat:no-repeat;background-size:1200px 56px;border-radius:12px;">${table("width:100%;")}<tr><td valign="middle" style="vertical-align:middle;padding:0 22px;">${image(asset(base, night.logo), 78, 24, "BinPar")}</td><td align="right" valign="middle" style="vertical-align:middle;padding:0 22px 0 0;width:88px;">${image(asset(base, "band-accent@3x.png"), 88, 56, "")}</td></tr></table></td></tr></table>`;
+}
+
+// Abierta: la misma maquetación sin tarjeta, en el tema claro. El logotipo va
+// en una banda azul noche con franjas turquesa a 30°, que se ve igual en
+// cualquier modo para que la palabra del logotipo sea siempre legible.
+function open(data: SignatureData, base: string) {
+  const grid = asset(base, "signature-grid@2x.png");
+  // Retícula de fondo de toda la firma; donde no se carga, la firma queda igual.
+  // Sin filete separador: no coincidiría con las líneas de la retícula.
+  return `${table("width:100%;")}<tr><td background="${escape(grid)}" style="background-image:url('${escape(grid)}');background-position:right top;background-repeat:no-repeat;background-size:1200px 360px;">${table("width:100%;")}<tr><td>${table()}<tr><td valign="middle" style="vertical-align:middle;padding-right:16px;">${aside(data, light, base, 72)}</td><td valign="middle" style="vertical-align:middle;">${identity(data, light)}</td></tr></table></td></tr><tr><td style="height:22px;line-height:22px;font-size:0;">&nbsp;</td></tr><tr><td>${details(data, light, base)}</td></tr><tr><td style="padding-top:20px;">${band(base)}</td></tr></table></td></tr></table>`;
+}
+
+export type SignatureVariant = "night" | "open";
+
+export function renderSignature(
+  data: SignatureData,
+  base = "",
+  variant: SignatureVariant = "night",
+) {
+  return `${variant === "open" ? open(data, base) : card(data, night, base)}${legal()}`;
 }
 
 export function renderSignatureText(data: SignatureData) {
