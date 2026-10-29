@@ -61,11 +61,13 @@ describe("Noche email signature", () => {
     const html = renderSignature(data, "", "open");
     expect(html).not.toContain("border-radius:16px;padding:22px;");
     expect(html).toMatch(
-      /background-color:#06111F;background-image:url\('\/email-signature\/band-grid@2x\.png'\);[^"]*"[^>]*>[^]*logo-dark-24@3x\.png/,
+      /background-color:#06111F;background-image:url\('\/email-signature\/band-grid\.png'\);[^"]*"[^>]*>[^]*logo-dark-24@3x\.png/,
     );
     expect(html).toContain("band-accent@3x.png");
+    // Gmail descarta background-size: las retículas van a tamaño real.
+    expect(html).not.toContain("background-size");
     expect(html).toMatch(
-      /^<table[^>]*><tr><td background="\/email-signature\/signature-grid@2x\.png"/,
+      /^<table[^>]*><tr><td background="\/email-signature\/signature-grid\.png"/,
     );
     expect(html).toContain("icon-mail-tile@3x.png");
     expect(

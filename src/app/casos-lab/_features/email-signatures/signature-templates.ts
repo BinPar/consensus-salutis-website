@@ -176,18 +176,19 @@ function card(data: SignatureData, theme: Theme, base: string) {
 // logotipo y las franjas turquesa. El fondo es una imagen, que ningún cliente
 // recolorea en modo oscuro; donde no se carga, queda el azul noche liso.
 function band(base: string) {
-  const grid = asset(base, "band-grid@2x.png");
-  return `${table("width:100%;")}<tr><td bgcolor="${night.surface}" background="${escape(grid)}" style="background-color:${night.surface};background-image:url('${escape(grid)}');background-position:right center;background-repeat:no-repeat;background-size:1200px 56px;border-radius:12px;">${table("width:100%;")}<tr><td valign="middle" style="vertical-align:middle;padding:0 22px;">${image(asset(base, night.logo), 78, 24, "BinPar")}</td><td align="right" valign="middle" style="vertical-align:middle;padding:0 22px 0 0;width:88px;">${image(asset(base, "band-accent@3x.png"), 88, 56, "")}</td></tr></table></td></tr></table>`;
+  const grid = asset(base, "band-grid.png");
+  return `${table("width:100%;")}<tr><td bgcolor="${night.surface}" background="${escape(grid)}" style="background-color:${night.surface};background-image:url('${escape(grid)}');background-position:right center;background-repeat:no-repeat;border-radius:12px;">${table("width:100%;")}<tr><td valign="middle" style="vertical-align:middle;padding:0 22px;">${image(asset(base, night.logo), 78, 24, "BinPar")}</td><td align="right" valign="middle" style="vertical-align:middle;padding:0 22px 0 0;width:88px;">${image(asset(base, "band-accent@3x.png"), 88, 56, "")}</td></tr></table></td></tr></table>`;
 }
 
 // Abierta: la misma maquetación sin tarjeta, en el tema claro. El logotipo va
 // en una banda azul noche con franjas turquesa a 30°, que se ve igual en
 // cualquier modo para que la palabra del logotipo sea siempre legible.
 function open(data: SignatureData, base: string) {
-  const grid = asset(base, "signature-grid@2x.png");
+  const grid = asset(base, "signature-grid.png");
   // Retícula de fondo de toda la firma; donde no se carga, la firma queda igual.
+  // Las retículas van a tamaño real: Gmail descarta background-size.
   // Sin filete separador: no coincidiría con las líneas de la retícula.
-  return `${table("width:100%;")}<tr><td background="${escape(grid)}" style="background-image:url('${escape(grid)}');background-position:right top;background-repeat:no-repeat;background-size:1200px 360px;">${table("width:100%;")}<tr><td>${table()}<tr><td valign="middle" style="vertical-align:middle;padding-right:16px;">${aside(data, light, base, 72)}</td><td valign="middle" style="vertical-align:middle;">${identity(data, light)}</td></tr></table></td></tr><tr><td style="height:22px;line-height:22px;font-size:0;">&nbsp;</td></tr><tr><td>${details(data, light, base)}</td></tr><tr><td style="padding-top:20px;">${band(base)}</td></tr></table></td></tr></table>`;
+  return `${table("width:100%;")}<tr><td background="${escape(grid)}" style="background-image:url('${escape(grid)}');background-position:right top;background-repeat:no-repeat;">${table("width:100%;")}<tr><td>${table()}<tr><td valign="middle" style="vertical-align:middle;padding-right:16px;">${aside(data, light, base, 72)}</td><td valign="middle" style="vertical-align:middle;">${identity(data, light)}</td></tr></table></td></tr><tr><td style="height:22px;line-height:22px;font-size:0;">&nbsp;</td></tr><tr><td>${details(data, light, base)}</td></tr><tr><td style="padding-top:20px;">${band(base)}</td></tr></table></td></tr></table>`;
 }
 
 export type SignatureVariant = "night" | "open";
