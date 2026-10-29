@@ -7,7 +7,7 @@
  * rompería la estabilidad, porque su valor depende del árbol de React.
  */
 
-/* Recetas de `consensus-salutis-brand-design-system`: colors-and-tokens.md. */
+/* Recetas de `binpar-brand-design-system`: references/web/tokens-tailwind.md. */
 export const BLOG_COVER_TEAL = "rgb(8 145 178)";
 export const BLOG_COVER_AQUA = "rgb(20 184 166)";
 export const BLOG_COVER_LIME = "rgb(246 255 83)";

@@ -1,0 +1,170 @@
+<!doctype html>
+<!-- BinPar starter page. For an artifact/single file: inline tokens.css + components.css
+     in <style>, inline the logo SVGs, keep the Google Fonts <link>. -->
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BinPar · Plantilla</title>
+    <link rel="icon" href="../icons/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Sora:wght@600;700;800&display=swap"
+    />
+    <link rel="stylesheet" href="../css/tokens.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <style>
+      body {
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+      .flap {
+        position: fixed;
+        z-index: -1;
+        pointer-events: none;
+      }
+      .flap--large {
+        width: 760px;
+        top: -80px;
+        right: -300px;
+      }
+      .flap--small {
+        width: 420px;
+        bottom: -160px;
+        left: -200px;
+        transform: rotate(20deg);
+      }
+      .flap--dark,
+      .dark .flap--light {
+        display: none;
+      }
+      .dark .flap--dark {
+        display: block;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 20px 24px;
+      }
+      header img {
+        height: 32px;
+      }
+      main {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 72px 24px 96px;
+        display: grid;
+        gap: 56px;
+      }
+      .intro {
+        display: grid;
+        gap: 20px;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 20px;
+      }
+      .row .bp-card {
+        padding: 24px;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+    </style>
+  </head>
+  <body class="bp-page bp-grid">
+    <img class="flap flap--large flap--light" src="../shapes/flap-large-light.svg" alt="" />
+    <img class="flap flap--small flap--light" src="../shapes/flap-small-light.svg" alt="" />
+    <img class="flap flap--large flap--dark" src="../shapes/flap-large-dark.svg" alt="" />
+    <img class="flap flap--small flap--dark" src="../shapes/flap-small-dark.svg" alt="" />
+
+    <header>
+      <span>
+        <img class="bp-logo--light" src="../logos/binpar-logo-light.svg" alt="BinPar" />
+        <img class="bp-logo--dark" src="../logos/binpar-logo-dark.svg" alt="BinPar" />
+      </span>
+      <button class="bp-btn bp-btn--outline bp-btn--sm" type="button" onclick="document.documentElement.classList.toggle('dark')">
+        Cambiar tema
+      </button>
+    </header>
+
+    <main>
+      <section class="intro">
+        <p class="bp-eyebrow">IA médica institucional</p>
+        <h1 class="bp-display">Evidencia clínica,<br /><span class="bp-accent">siempre ordenada.</span></h1>
+        <p class="bp-lede">
+          La plataforma reúne la evidencia clínica disponible y la devuelve ordenada, trazable y lista para decidir en
+          consulta.
+        </p>
+        <div class="actions">
+          <a class="bp-btn bp-btn--primary bp-btn--lg" href="#">Ver la evidencia</a>
+          <a class="bp-btn bp-btn--outline bp-btn--lg" href="#">Conocer la plataforma</a>
+        </div>
+      </section>
+
+      <section class="row">
+        <article class="bp-card">
+          <div class="bp-kpi">
+            <span class="bp-kpi__value">2,4 s</span>
+            <span class="bp-kpi__label">Mediana hasta el primer texto</span>
+          </div>
+        </article>
+        <article class="bp-card">
+          <h3 class="bp-h3">Idoneidad clínica</h3>
+          <p class="bp-secondary">Cada respuesta enlaza el fragmento de la guía que la respalda.</p>
+          <span class="bp-tag bp-tag--brand">Marca</span> <span class="bp-tag">Neutra</span>
+        </article>
+        <article class="bp-card">
+          <h3 class="bp-h3">Buscar en la evidencia</h3>
+          <input class="bp-field" style="width: 100%; box-sizing: border-box; margin-top: 12px" placeholder="Pregunta clínica al comité…" />
+        </article>
+      </section>
+
+      <section class="bp-card bp-chart">
+        <div class="bp-chart__eyebrow">Benchmark · Tiempo de respuesta</div>
+        <div class="bp-chart__title">La consulta responde antes que la media</div>
+        <svg viewBox="0 0 640 200" style="width:100%;max-width:760px" role="img" aria-label="Tiempo de respuesta por organización">
+          <g stroke="var(--bp-chart-grid)" stroke-dasharray="4 4">
+            <line x1="120" x2="120" y1="0" y2="176" /><line x1="220" x2="220" y1="0" y2="176" />
+            <line x1="320" x2="320" y1="0" y2="176" /><line x1="420" x2="420" y1="0" y2="176" />
+            <line x1="520" x2="520" y1="0" y2="176" />
+          </g>
+          <line x1="500" x2="500" y1="0" y2="176" stroke="var(--bp-slate-400)" stroke-dasharray="4 4" />
+          <text x="504" y="10">Media del sector · 3,8 s</text>
+          <g>
+            <text x="112" y="28" text-anchor="end" style="fill: var(--bp-heading); font-weight: 600">Tu organización</text>
+            <rect x="120" y="16" width="240" height="17" rx="4.5" fill="var(--bp-accent)" />
+            <text x="368" y="28" style="fill: var(--bp-heading); font-weight: 600">2,4 s</text>
+            <text x="112" y="68" text-anchor="end">Hospital A</text>
+            <rect x="120" y="56" width="310" height="17" rx="4.5" fill="var(--bp-chart-support)" />
+            <text x="438" y="68">3,1 s</text>
+            <text x="112" y="108" text-anchor="end">Hospital B</text>
+            <rect x="120" y="96" width="360" height="17" rx="4.5" fill="var(--bp-chart-support)" />
+            <text x="488" y="108">3,6 s</text>
+            <text x="112" y="148" text-anchor="end">Hospital C</text>
+            <rect x="120" y="136" width="400" height="17" rx="4.5" fill="var(--bp-chart-support)" />
+            <text x="528" y="148">4,0 s</text>
+          </g>
+          <g text-anchor="middle"><text x="120" y="194">0 s</text><text x="220" y="194">1 s</text><text x="320" y="194">2 s</text><text x="420" y="194">3 s</text><text x="520" y="194">4 s</text></g>
+        </svg>
+      </section>
+
+      <section class="actions">
+        <span class="bp-btn bp-btn--primary">Principal</span>
+        <span class="bp-btn bp-btn--secondary">Secundario</span>
+        <span class="bp-btn bp-btn--outline">Contorno</span>
+        <span class="bp-btn bp-btn--ghost">Fantasma</span>
+        <span class="bp-btn bp-btn--link">Enlace</span>
+        <span class="bp-btn bp-btn--contrast">Solicitar reunión</span>
+      </section>
+    </main>
+  </body>
+</html>

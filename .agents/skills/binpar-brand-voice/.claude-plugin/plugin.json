@@ -1,0 +1,9 @@
+{
+  "name": "binpar-brand-voice",
+  "description": "BinPar brand voice and writing style guide (es-ES): clinical sobriety, impersonal narrator and corporate register, naming, no personified AI, clinical and regulatory red lines, disclosure boundary, headline composition, format guidance (proposals, reports, PDFs, decks, emails, UI text, blog) and a review mode with severities.",
+  "version": "1.0.0",
+  "author": {
+    "name": "BinPar"
+  },
+  "keywords": ["binpar", "brand", "voice", "copywriting", "tone", "clinical", "spanish"]
+}

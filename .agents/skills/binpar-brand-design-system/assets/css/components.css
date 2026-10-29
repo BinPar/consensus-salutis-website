@@ -1,0 +1,374 @@
+/* BinPar base styles and components. Requires tokens.css first.
+   Fonts: Google Fonts (see SKILL.md) or fonts.css for local files. */
+
+.bp-page {
+  margin: 0;
+  background: var(--bp-bg);
+  color: var(--bp-text);
+  font-family: var(--bp-font-body);
+  font-size: 16px;
+  line-height: 28px;
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "tnum" 0;
+}
+
+/* Technical grid: 44px cells, 1px lines, always faded with a mask (manual p.30, p.40). */
+.bp-grid {
+  position: relative;
+  isolation: isolate;
+}
+.bp-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--bp-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--bp-grid-line) 1px, transparent 1px);
+  background-size: var(--bp-grid-cell) var(--bp-grid-cell);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 30%, transparent 80%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 35%, #000 30%, transparent 80%);
+}
+.bp-grid--linear::before {
+  -webkit-mask-image: linear-gradient(to bottom, #000, transparent 85%);
+  mask-image: linear-gradient(to bottom, #000, transparent 85%);
+}
+
+/* Text block: eyebrow → headline (one or two tones) → lede (manual p.27). */
+.bp-eyebrow {
+  margin: 0;
+  font-family: var(--bp-font-display);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  letter-spacing: var(--bp-tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--bp-accent);
+}
+.bp-display,
+.bp-h1,
+.bp-h2 {
+  margin: 0;
+  font-family: var(--bp-font-display);
+  font-weight: 800;
+  letter-spacing: var(--bp-tracking-display);
+  color: var(--bp-heading);
+  text-wrap: balance;
+}
+.bp-display {
+  font-size: 54px;
+  line-height: 60px;
+}
+.bp-h1 {
+  font-size: 48px;
+  line-height: 52px;
+}
+.bp-h2 {
+  font-size: 36px;
+  line-height: 42px;
+}
+/* Second idea of a two-tone headline. Never a third tone. */
+.bp-accent {
+  color: var(--bp-heading-accent);
+}
+.bp-h3 {
+  margin: 0;
+  font-family: var(--bp-font-display);
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 600;
+  color: var(--bp-heading);
+}
+.bp-lede {
+  margin: 0;
+  max-width: var(--bp-measure);
+  font-size: 18px;
+  line-height: 32px;
+  color: var(--bp-text);
+}
+.bp-secondary {
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--bp-text-muted);
+}
+:where(.bp-page) strong,
+.bp-strong {
+  font-weight: 600;
+  color: var(--bp-text-strong);
+}
+:where(.bp-page) a:not(.bp-btn),
+.bp-link {
+  color: var(--bp-accent);
+  font-weight: 600;
+  text-decoration: none;
+  text-underline-offset: 4px;
+}
+:where(.bp-page) a:not(.bp-btn):hover,
+.bp-link:hover {
+  text-decoration: underline;
+}
+.bp-num {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 767px) {
+  .bp-display {
+    font-size: 36px;
+    line-height: 42px;
+  }
+  .bp-h1 {
+    font-size: 32px;
+    line-height: 38px;
+  }
+  .bp-h2 {
+    font-size: 28px;
+    line-height: 34px;
+  }
+}
+
+/* Surfaces (manual p.33) */
+.bp-card {
+  background: var(--bp-surface);
+  border: 1px solid var(--bp-border);
+  border-radius: var(--bp-radius-card);
+  box-shadow: var(--bp-shadow);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.bp-panel {
+  background: var(--bp-surface);
+  border: 1px solid var(--bp-border);
+  border-radius: var(--bp-radius-panel);
+  box-shadow: var(--bp-shadow);
+}
+.bp-field {
+  font: 500 14px/20px var(--bp-font-body);
+  color: var(--bp-text-strong);
+  background: var(--bp-field);
+  border: 1px solid var(--bp-border);
+  border-radius: var(--bp-radius-field);
+  padding: 10px 14px;
+  outline: none;
+  transition: border-color var(--bp-duration) var(--bp-ease-standard), background var(--bp-duration) var(--bp-ease-standard);
+}
+.bp-field::placeholder {
+  color: var(--bp-text-muted);
+}
+.bp-field:focus-visible {
+  border-color: var(--bp-accent);
+  background: var(--bp-surface-solid);
+}
+.bp-field:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Buttons: pills, Plus Jakarta Sans SemiBold, 32/40/44px (manual p.35). */
+.bp-btn {
+  --h: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: var(--h);
+  padding: 0 calc(var(--h) / 2);
+  border: 1px solid transparent;
+  border-radius: var(--bp-radius-pill);
+  font: 600 14px/20px var(--bp-font-body);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--bp-duration) var(--bp-ease-standard),
+    border-color var(--bp-duration) var(--bp-ease-standard),
+    color var(--bp-duration) var(--bp-ease-standard),
+    transform var(--bp-duration) var(--bp-ease-standard);
+}
+.bp-btn svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.8;
+}
+.bp-btn--sm {
+  --h: 32px;
+  font-size: 13px;
+}
+.bp-btn--lg {
+  --h: 44px;
+}
+.bp-btn:focus-visible {
+  outline: 2px solid var(--bp-accent);
+  outline-offset: 2px;
+}
+.bp-btn:disabled,
+.bp-btn[aria-disabled="true"] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.bp-btn--primary {
+  background: var(--bp-accent);
+  color: var(--bp-on-accent);
+}
+.bp-btn--primary:hover {
+  background: var(--bp-accent-hover);
+  transform: translateY(-2px);
+}
+.bp-btn--secondary {
+  background: var(--bp-accent-soft);
+  color: var(--bp-accent);
+}
+.bp-btn--secondary:hover {
+  background: color-mix(in srgb, var(--bp-accent) 18%, transparent);
+}
+.bp-btn--outline {
+  background: transparent;
+  border-color: var(--bp-border-strong);
+  color: var(--bp-accent);
+}
+.bp-btn--outline:hover {
+  border-color: var(--bp-accent);
+  background: var(--bp-accent-soft);
+}
+.bp-btn--ghost {
+  background: transparent;
+  color: var(--bp-text);
+}
+.bp-btn--ghost:hover {
+  background: var(--bp-accent-soft);
+  color: var(--bp-accent);
+}
+.bp-btn--link {
+  background: transparent;
+  color: var(--bp-accent);
+  padding: 0 4px;
+}
+.bp-btn--link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+/* Yellow: one per composition, only for the decisive action (manual p.18). */
+.bp-btn--contrast {
+  background: var(--bp-attention);
+  color: var(--bp-on-attention);
+}
+.bp-btn--contrast:hover {
+  transform: translateY(-2px);
+}
+
+/* Tags */
+.bp-tag {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 10px;
+  border-radius: var(--bp-radius-pill);
+  font: 600 11px/1 var(--bp-font-body);
+  border: 1px solid var(--bp-border);
+  color: var(--bp-text);
+  background: transparent;
+}
+.bp-tag--brand {
+  color: var(--bp-accent);
+  background: var(--bp-accent-soft);
+  border-color: transparent;
+}
+.bp-tag--error {
+  color: var(--bp-danger);
+  background: var(--bp-danger-soft);
+  border-color: transparent;
+}
+.bp-tag--contrast {
+  color: var(--bp-on-attention);
+  background: var(--bp-attention);
+  border-color: transparent;
+}
+
+/* Key figure: prefer one big number over a chart (manual p.38). */
+.bp-kpi {
+  display: grid;
+  gap: 4px;
+}
+.bp-kpi__value {
+  font-family: var(--bp-font-display);
+  font-size: 40px;
+  line-height: 44px;
+  font-weight: 800;
+  letter-spacing: var(--bp-tracking-display);
+  color: var(--bp-heading);
+  font-variant-numeric: tabular-nums;
+}
+.bp-kpi__label {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--bp-text-muted);
+}
+
+/* Charts (manual p.37-39): card frame, Sora header, faint dashed grid, tabular figures. */
+.bp-chart {
+  padding: 20px 24px;
+}
+.bp-chart__eyebrow {
+  font: 700 10px/14px var(--bp-font-display);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--bp-accent);
+}
+.bp-chart__title {
+  margin: 4px 0 16px;
+  font: 600 17px/24px var(--bp-font-display);
+  color: var(--bp-heading);
+}
+.bp-chart svg text {
+  font-family: var(--bp-font-body);
+  font-size: 11px;
+  fill: var(--bp-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* App tile: the only container for the isotype (manual p.06, p.12). */
+.bp-tile {
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+  border-radius: var(--bp-radius-tile);
+  background: linear-gradient(145deg, #ffffff, #f6fafc);
+  border: 1px solid rgb(5 33 94 / 8%);
+  box-shadow: 0 2px 3px rgb(5 33 94 / 8%), 0 12px 28px rgb(5 33 94 / 7%);
+  color: var(--bp-teal);
+}
+.bp-tile > svg,
+.bp-tile > img {
+  width: 58%;
+  height: auto;
+}
+.dark .bp-tile,
+[data-theme="dark"] .bp-tile {
+  background: linear-gradient(145deg, #172c3d, #0c1c2b);
+  border-color: rgb(125 211 252 / 16%);
+  box-shadow: 0 2px 3px rgb(0 0 0 / 20%), 0 12px 28px rgb(0 0 0 / 15%);
+  color: var(--bp-turquoise);
+}
+
+/* Theme-paired logo: render both <img>s, show one. */
+.bp-logo--dark {
+  display: none;
+}
+.dark .bp-logo--light,
+[data-theme="dark"] .bp-logo--light {
+  display: none;
+}
+.dark .bp-logo--dark,
+[data-theme="dark"] .bp-logo--dark {
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bp-page *,
+  .bp-page *::before,
+  .bp-page *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
