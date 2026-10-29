@@ -172,15 +172,19 @@ function card(data: SignatureData, theme: Theme, base: string) {
   return `${table(`width:100%;background-color:${theme.surface};border:1px solid ${theme.hairline};border-radius:16px;`)}<tr><td bgcolor="${theme.surface}" style="background-color:${theme.surface};border-radius:16px;padding:22px;">${table("width:100%;")}<tr><td>${table()}<tr><td valign="middle" style="vertical-align:middle;padding-right:16px;">${aside(data, theme, base, 72)}</td><td valign="middle" style="vertical-align:middle;">${identity(data, theme)}</td></tr></table></td></tr>${rule(theme.hairline)}<tr><td>${details(data, theme, base)}</td></tr>${rule(theme.hairline)}<tr><td>${image(asset(base, theme.logo), 78, 24, "BinPar")}</td></tr></table></td></tr></table>`;
 }
 
-// Banda del logotipo, del filete de marca (binpar-filete.svg) escalado a 48 px
+// Banda del logotipo, del filete de marca (binpar-filete2.svg) escalado a 48 px
 // de alto. Sus dos extremos son imágenes recortadas del original: a la
 // izquierda la esquina con el logotipo y a la derecha la cinta, que sobresale
 // 5 px por arriba y por abajo. El tramo central es azul noche en HTML, repetido
 // como degradado para que Gmail no lo invierta, y se estira con el ancho.
 function band(base: string) {
   const surface = `background-color:${night.surface};background-image:linear-gradient(${night.surface},${night.surface});`;
-  const edge = "height:5px;line-height:5px;font-size:0;";
-  return `${table("width:100%;")}<tr><td rowspan="3" valign="middle" style="vertical-align:middle;width:120px;">${image(asset(base, "band-left@3x.png"), 120, 58, "BinPar")}</td><td style="${edge}">&nbsp;</td><td rowspan="3" valign="middle" style="vertical-align:middle;width:110px;">${image(asset(base, "band-right@3x.png"), 110, 58, "")}</td></tr><tr><td bgcolor="${night.surface}" style="height:48px;line-height:48px;font-size:0;${surface}">&nbsp;</td></tr><tr><td style="${edge}">&nbsp;</td></tr></table>`;
+  // Borde blanco al 20 % de 1 px por fuera de la banda, como en los extremos.
+  // Va como degradado y no como border, para que Gmail no lo invierta.
+  const ring = "rgba(255,255,255,0.2)";
+  const edge = (line: string) =>
+    `height:5px;line-height:5px;font-size:0;background-image:linear-gradient(${line});`;
+  return `${table("width:100%;")}<tr><td rowspan="3" valign="middle" style="vertical-align:middle;width:121px;">${image(asset(base, "band-left-v2@3x.png"), 121, 58, "BinPar")}</td><td style="${edge(`transparent 4px,${ring} 4px`)}">&nbsp;</td><td rowspan="3" valign="middle" style="vertical-align:middle;width:111px;">${image(asset(base, "band-right-v2@3x.png"), 111, 58, "")}</td></tr><tr><td bgcolor="${night.surface}" style="height:48px;line-height:48px;font-size:0;${surface}">&nbsp;</td></tr><tr><td style="${edge(`${ring} 1px,transparent 1px`)}">&nbsp;</td></tr></table>`;
 }
 
 // Abierta: la misma maquetación sin tarjeta, en el tema claro. El logotipo va

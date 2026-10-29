@@ -60,11 +60,11 @@ describe("Noche email signature", () => {
   it("Abierta has no card and keeps the logo on a band clients cannot recolor", () => {
     const html = renderSignature(data, "", "open");
     expect(html).not.toContain("border-radius:16px;padding:22px;");
-    expect(html).toContain("band-left@3x.png");
+    expect(html).toContain("band-left-v2@3x.png");
     expect(html).toMatch(
       /bgcolor="#06111F" style="[^"]*background-color:#06111F;background-image:linear-gradient\(#06111F,#06111F\);/,
     );
-    expect(html).toContain("band-right@3x.png");
+    expect(html).toContain("band-right-v2@3x.png");
     // Gmail descarta background-size: las retículas van a tamaño real.
     expect(html).not.toContain("background-size");
     expect(html).toMatch(
