@@ -8,22 +8,22 @@ import { teamContentWidth } from "./team-layout";
 import { useTeamOrbit } from "./use-team-orbit";
 
 const disciplines = [
-  "Ideas que conectan",
-  "Diseño de producto",
-  "Ingeniería de software",
-  "Curiosidad compartida",
-  "Estrategia digital",
-  "Inteligencia artificial",
-  "Aprender haciendo",
-  "Cuidar los detalles",
-  "Pensar en equipo",
-  "Nuevas perspectivas",
-  "Tecnología con sentido",
-  "Crear y mejorar",
-  "Escuchar primero",
-  "Resolver juntos",
-  "Conocimiento compartido",
-  "Mirar más allá",
+  "Conocimiento clínico",
+  "Guías clínicas",
+  "Protocolos institucionales",
+  "Corpus médico",
+  "Consulta clínica",
+  "Búsqueda documental",
+  "Contraste de fuentes",
+  "Evidencia visible",
+  "Respuestas trazables",
+  "Referencias bibliográficas",
+  "Contexto clínico",
+  "Historial de consultas",
+  "Conocimiento institucional",
+  "Revisión documental",
+  "Actualización de contenidos",
+  "Criterio profesional",
 ];
 const sizes = [1, 0.92, 1.06, 0.96, 1, 1.04, 0.92, 1];
 const innerPortraitSlots = [0, 1, 2, 4, 5, 6, 7, 9, 10, 11, 13];
