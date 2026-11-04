@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 import { MailGenerator } from "~/app/_components/mail-generator/mail-generator";
+import { SIGNATURE_ASSET_ORIGIN } from "~/app/_components/mail-generator/signature-assets";
 import { PageShell } from "~/app/_components/site";
-import { PRODUCTION_SITE_URL } from "~/lib/site";
 
 export const metadata: Metadata = {
   title: "Generador de firmas de correo",
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function MailGeneratorPage() {
   return (
     <PageShell>
-      <MailGenerator assetOrigin={PRODUCTION_SITE_URL} variant="open" />
+      <MailGenerator assetOrigin={SIGNATURE_ASSET_ORIGIN} variant="open" />
     </PageShell>
   );
 }
