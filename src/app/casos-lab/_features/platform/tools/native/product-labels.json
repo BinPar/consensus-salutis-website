@@ -1,0 +1,151 @@
+{
+  "chatCitations.viewer": {
+    "relation": {
+      "supports": "Respalda",
+      "verbatim": "Cita literal",
+      "derivedFrom": "Fuente de síntesis",
+      "contradicts": "Actualiza lo anterior",
+      "previousUpdate": "Actualización anterior"
+    },
+    "panelLabel": "Panel de fuentes de consulta",
+    "openDocuments": "Documentos abiertos",
+    "closeTab": "Cerrar {title}",
+    "closePanel": "Cerrar panel de fuentes de consulta",
+    "citedSource": "Fuente citada",
+    "noProvenance": {
+      "eyebrow": "Procedencia no disponible",
+      "title": "Esta unidad no tiene fuentes documentales",
+      "description": "La respuesta conserva la unidad citada, pero no hay referencias documentales asociadas."
+    },
+    "priorToUpdate": "Anterior a la actualización",
+    "priorToUpdateNotice": "{label}: una fuente posterior actualizó parte de esta unidad, así que este pasaje puede recoger un dato ya sustituido.",
+    "documentProvenance": "Procedencia documental",
+    "section": "Apartado: {section}",
+    "provenanceSources": "Fuentes de procedencia",
+    "documentState": {
+      "noFile": "La fuente conserva sus metadatos, pero no tiene un documento asociado.",
+      "withdrawn": "El documento se retiró del corpus. La respuesta conserva el texto que citó.",
+      "unavailable": "El documento asociado a esta cita ya no está disponible.",
+      "sourceUnavailable": "Fuente no disponible",
+      "documentUnavailable": "Documento no disponible",
+      "fallbackAvailable": "Alternativa disponible",
+      "prepared": "Documento preparado",
+      "noViewer": "El documento está identificado, pero este formato todavía no dispone de visor integrado."
+    },
+    "chapter": "Capítulo: {title}",
+    "page": "Página {page}",
+    "fragment": "Fragmento: {fragment}",
+    "selectedClaim": "Afirmación seleccionada",
+    "quoteHeading": "Locator.quote · {label}",
+    "quote": {
+      "priorToUpdate": "Pasaje anterior a la actualización",
+      "supports": "Pasaje de respaldo",
+      "verbatim": "Cita literal",
+      "derivedFrom": "Pasaje de procedencia",
+      "contradicts": "Pasaje que actualiza el dato"
+    },
+    "unit": {
+      "unavailableEyebrow": "Unidad citada no disponible",
+      "cannotRecover": "No se puede recuperar ⟦{anchor}⟧",
+      "duplicateAnchor": "Esta consulta es anterior al snapshot histórico y el anchor está duplicado en el corpus actual.",
+      "missingUnit": "Esta consulta es anterior al snapshot histórico y la unidad ya no existe en el corpus actual.",
+      "cited": "Unidad citada",
+      "expertCorpus": "{expert} · Corpus v{version}",
+      "keptWithAnswer": "Conservada con la respuesta",
+      "current": "Unidad actual",
+      "legacyNotice": "Consulta anterior al snapshot histórico: se muestra la versión actual del corpus y puede diferir de la que leyó el experto."
+    },
+    "error": {
+      "title": "No se puede abrir esta evidencia",
+      "description": "La cita puede haber dejado de estar disponible o tu acceso a la conversación puede haber cambiado.",
+      "backToChat": "Volver al chat"
+    },
+    "fileKindDocument": "Documento",
+    "pageCount": "{count, plural, one {# página} other {# páginas}}"
+  },
+  "chatCitations.pdf": {
+    "highlight": {
+      "none": {
+        "label": "Página localizada",
+        "description": "La referencia conserva la página, pero no un resaltado geométrico."
+      },
+      "literal": {
+        "label": "Coincidencia literal",
+        "description": "La caja procede de una coincidencia exacta en la capa de texto del PDF."
+      },
+      "figure": {
+        "label": "Figura localizada",
+        "description": "El resaltado delimita una figura completa, no un pasaje de texto."
+      },
+      "approximate": {
+        "label": "Pasaje aproximado",
+        "description": "La caja se obtuvo mediante una localización no literal."
+      },
+      "approximatePartial": {
+        "label": "Pasaje aproximado · cobertura parcial",
+        "description": "La caja solo cubre parcialmente el pasaje localizado."
+      },
+      "legacy": {
+        "label": "Resaltado heredado",
+        "description": "La caja está persistida, pero la consulta no conserva cómo se obtuvo."
+      }
+    },
+    "provenance": {
+      "verified": {
+        "label": "Texto verificado",
+        "description": "La cita coincide en orden y contexto con un pasaje de la capa de texto del PDF original."
+      },
+      "reconciled": {
+        "label": "Texto corregido con el PDF",
+        "description": "El OCR discrepaba del PDF en algún dato y la conversión lo corrigió contrastándolo con la capa de texto original."
+      },
+      "ocr": {
+        "label": "Texto sin verificar",
+        "description": "El pasaje procede del OCR y la capa de texto del PDF no lo cubre (una figura, o una tabla que no se puede extraer): ni se confirma ni se contradice."
+      },
+      "ocrUnverified": {
+        "label": "Texto sin verificar (página escaneada)",
+        "description": "La página no tiene capa de texto, así que la transcripción del OCR no se ha podido contrastar con nada."
+      },
+      "flagged": {
+        "label": "Texto en revisión",
+        "description": "La capa de texto del PDF dice algo distinto en algún dato de esta cita y la discrepancia no se pudo resolver: no es una cita verbatim del documento."
+      }
+    },
+    "invalidPage": "La referencia no conserva una página válida. El visor no puede elegir una página sin inventar la procedencia.",
+    "generatedFrom": "Vista PDF generada desde .{format}",
+    "documentLabel": "Documento fuente {title}",
+    "availableVersion": "Versión disponible",
+    "originalSource": "Fuente original",
+    "section": "Apartado: {section}",
+    "generatedPagination": "La paginación es la del PDF generado y puede no coincidir con la del original.",
+    "pageOf": "Página {current} de {total}",
+    "pageOfGenerated": "Página {current} de {total} (vista PDF generada)",
+    "zoomOut": "Reducir la escala",
+    "zoomLabel": "Escala del documento",
+    "zoomPercent": "{percent} por ciento",
+    "zoomIn": "Aumentar la escala",
+    "fit": "Ajustar",
+    "dragToMove": "Arrastra para mover la página",
+    "pageLabel": "Página {page} del PDF fuente",
+    "srSummary": "Documento PDF de {total} páginas. El pasaje citado está en la página {page}.",
+    "pageLoadFailedDetail": "No se ha podido cargar la página.",
+    "pageShort": "Página {page}",
+    "pageLoadFailed": "No se pudo cargar la página {page}",
+    "pageCount": "{count, plural, one {# página} other {# páginas}}",
+    "originalFailed": "No se pudo obtener el original",
+    "downloadOriginal": "Descargar el documento original",
+    "original": "Original"
+  },
+  "chatThread.markdown": {
+    "citedSource": "Fuente citada",
+    "bibliographicSource": "Fuente bibliográfica",
+    "openSource": "Abrir fuente: {title}",
+    "openClaimSources": "Abrir las fuentes de esta afirmación",
+    "openHighlightedSources": "Abrir las fuentes de la afirmación resaltada",
+    "bibliography": "Bibliografía",
+    "openNumberedSource": "Abrir fuente {number}: {text}",
+    "taskDone": "Completado",
+    "taskPending": "Pendiente"
+  }
+}

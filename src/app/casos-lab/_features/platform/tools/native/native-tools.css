@@ -1,0 +1,334 @@
+:where([data-visual-lab]) .vfp-heading {
+  margin-bottom: 54px;
+}
+:where([data-visual-lab]) .vfp-heading > div {
+  display: grid;
+  gap: 26px;
+  align-items: end;
+  margin-top: 20px;
+}
+:where([data-visual-lab]) .vfp-heading h2 {
+  color: var(--vlt-heading);
+  font-family: var(--font-sora), sans-serif;
+  font-size: clamp(32px, 3.3vw, 46px);
+  font-weight: 800;
+  line-height: 1.16;
+  letter-spacing: -0.03em;
+}
+:where([data-visual-lab]) .vfp-heading h2 span {
+  color: var(--vlt-accent);
+}
+:where([data-visual-lab]) .vfp-heading > div > p {
+  max-width: 435px;
+  padding-bottom: 3px;
+  font-size: 16px;
+  line-height: 1.85;
+}
+:where([data-visual-lab]) .vfp-section-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 22px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--vlt-border);
+}
+:where([data-visual-lab]) .vfp-section-label > span:first-child {
+  color: var(--vlt-accent);
+  font-size: 11px;
+}
+:where([data-visual-lab]) .vfp-section-label h3 {
+  color: var(--vlt-heading);
+  font-size: 14px;
+  font-weight: 600;
+}
+:where([data-visual-lab]) .vfp-section-label > span:last-child {
+  margin-left: auto;
+  color: var(--vlt-muted);
+  font-size: 11px;
+}
+:where([data-visual-lab]) .vfp-catalog {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 42px 32px;
+}
+:where([data-visual-lab]) .vfp-catalog-article {
+  min-width: 0;
+}
+:where([data-visual-lab]) .vfp-article-copy {
+  display: flex;
+  gap: 15px;
+  min-height: 105px;
+  padding-bottom: 23px;
+}
+:where([data-visual-lab]) .vfp-number {
+  padding-top: 4px;
+  color: var(--vlt-accent);
+  font-size: 11px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+:where([data-visual-lab]) .vfp-article-copy h4 {
+  color: var(--vlt-heading);
+  font-family: var(--font-sora), sans-serif;
+  font-size: 18px;
+  line-height: 1.6;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+:where([data-visual-lab]) .vfp-article-copy p {
+  max-width: 450px;
+  margin-top: 6px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+:where([data-visual-lab]) .vfp-disclosures {
+  border-top: 1px solid var(--vlt-border);
+}
+:where([data-visual-lab]) .vfp-disclosure {
+  border-bottom: 1px solid var(--vlt-border);
+}
+:where([data-visual-lab]) .vfp-disclosure > h4 > button {
+  display: flex;
+  align-items: center;
+  gap: 23px;
+  width: 100%;
+  min-height: 86px;
+  text-align: left;
+  color: var(--vlt-heading);
+}
+:where([data-visual-lab]) .vfp-disclosure > h4 > button > span:nth-child(2) {
+  font-family: var(--font-sora), sans-serif;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+:where([data-visual-lab]) .vfp-disclosure-toggle {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin-left: auto;
+  border: 1px solid var(--vlt-border);
+  border-radius: 50%;
+  color: var(--vlt-accent);
+}
+:where([data-visual-lab])
+  .vfp-disclosure[data-open="true"]
+  > h4
+  > button
+  > span:nth-child(2) {
+  color: var(--vlt-accent);
+}
+:where([data-visual-lab]) .vfp-disclosure-body {
+  display: grid;
+  align-items: center;
+  gap: 26px;
+  padding: 0 0 32px;
+}
+:where([data-visual-lab]) .vfp-disclosure-body > div:first-child > p {
+  max-width: 350px;
+  margin-top: 15px;
+  font-size: 13px;
+  line-height: 1.85;
+}
+:where([data-visual-lab])
+  .vfp-disclosure-body
+  > div:first-child
+  > .vfp-tool-description {
+  margin-top: 0;
+  color: var(--vlt-heading);
+  font-size: 18px;
+  line-height: 1.7;
+}
+:where([data-visual-lab]) .vfp-read-note {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 25px;
+  color: var(--vlt-muted);
+  font-size: 11px;
+}
+:where([data-visual-lab]) .vfp-read-note > svg {
+  transform: rotate(-90deg);
+}
+
+/* Native canvas: actual product pixels, scaled as a single unit. No changes to
+   the presentation classes copied from the product are made by the layout. */
+:where([data-visual-lab]) .vfp-product-viewport {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  min-width: 0;
+  overflow: hidden;
+  aspect-ratio: 560 / 480;
+  border: 1px solid var(--vlt-border);
+  border-radius: 16px;
+  background: #f4f9fc;
+}
+:where([data-visual-lab]) .vfp-product-native {
+  --color-heading-navy: #05215e;
+  --color-primary-light: #006d79;
+  --color-primary-dark: #00bcbb;
+  --color-primary-dark-lighter: #00bcbb;
+  --color-cyan-800: #006d79;
+  --shadow-big-blocks:
+    0 4px 30px 0 color-mix(in srgb, var(--color-primary-light), transparent 90%),
+    0 2px 6px 2px
+      color-mix(in srgb, var(--color-primary-light), transparent 98%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 560px;
+  height: 480px;
+  transform-origin: top left;
+  overflow: hidden;
+  background: #f4f9fc;
+  color: #45556c;
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
+/* Complete catalogue examples fit within the 350px illustration viewport. */
+:where([data-visual-lab]) [data-native-tools="catalog"] .vfp-product-viewport {
+  height: 350px;
+  aspect-ratio: auto;
+  background: var(--vlt-canvas);
+}
+:where([data-visual-lab]) [data-native-tools="catalog"] .vfp-product-native {
+  --vfp-chat-background: #f4f9fc;
+  --vfp-chat-grid: color-mix(
+    in srgb,
+    var(--color-primary-light) 8%,
+    transparent
+  );
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+:where([data-visual-lab]) [data-native-tools="catalog"] .vfp-product-content {
+  position: relative;
+  z-index: 1;
+  width: 560px;
+  min-width: 560px;
+  flex-shrink: 0;
+}
+/* ChatSkin's brand-grid and the inverse of chat-thread-screen's reading mask. */
+:where([data-visual-lab])
+  .vfp-product-native[data-product-surface="chat"]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--vfp-chat-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--vfp-chat-grid) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+:where([data-visual-lab])
+  .vfp-product-native[data-product-surface="chat"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--vfp-chat-background);
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 28%,
+    black 50%,
+    transparent
+  );
+}
+/* CitationViewer's desktop surface: rail-light/30, rail-dark/85, blur-md. */
+:where([data-visual-lab]) .vfp-product-native[data-product-surface="source"] {
+  background: rgb(232 242 247 / 30%);
+  backdrop-filter: blur(12px);
+}
+:where([data-visual-lab]) :is(.dark .vfp-product-native) {
+  --color-cyan-300: #00bcbb;
+  background: #06111f;
+  color: #90a1b9;
+}
+:where([data-visual-lab])
+  :is(.dark [data-native-tools="catalog"] .vfp-product-native) {
+  --vfp-chat-background: #06111f;
+  --vfp-chat-grid: color-mix(
+    in srgb,
+    var(--color-primary-dark) 8%,
+    transparent
+  );
+}
+:where([data-visual-lab])
+  :is(.dark .vfp-product-native[data-product-surface="source"]) {
+  background: rgb(8 24 39 / 85%);
+}
+:where([data-visual-lab]) .vfp-product-native .text-heading-navy {
+  color: #05215e;
+}
+:where([data-visual-lab]) :is(.dark .vfp-product-native) .dark\:text-slate-50 {
+  color: #f8fafc;
+}
+:where([data-visual-lab]) :is(.dark .vfp-product-native) .dark\:text-slate-100 {
+  color: #f1f5f9;
+}
+:where([data-visual-lab])
+  :is(.dark .vfp-product-native)
+  .dark\:bg-surface-dark {
+  background: #152230;
+}
+:where([data-visual-lab])
+  :is(.dark .vfp-product-native)
+  .dark\:bg-surface-dark\/70 {
+  background: rgb(21 34 48 / 70%);
+}
+:where([data-visual-lab])
+  :is(.dark .vfp-product-native)
+  .dark\:bg-surface-dark\/80 {
+  background: rgb(21 34 48 / 80%);
+}
+:where([data-visual-lab])
+  :is(.dark .vfp-product-native)
+  .dark\:text-primary-dark-lighter {
+  color: #00bcbb;
+}
+@media (min-width: 768px) {
+  :where([data-visual-lab]) .vfp-catalog {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  :where([data-visual-lab]) .vfp-heading > div {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 55px;
+  }
+  :where([data-visual-lab]) .vfp-disclosure-body {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 60px;
+    padding-left: 38px;
+  }
+}
+@media (max-width: 639px) {
+  :where([data-visual-lab]) .vfp-heading {
+    margin-bottom: 34px;
+  }
+  :where([data-visual-lab]) .vfp-heading h2 {
+    font-size: 32px;
+  }
+  :where([data-visual-lab]) .vfp-heading > div > p {
+    font-size: 14px;
+  }
+  :where([data-visual-lab]) .vfp-disclosure > h4 > button {
+    gap: 14px;
+    min-height: 76px;
+  }
+  :where([data-visual-lab]) .vfp-disclosure > h4 > button > span:nth-child(2) {
+    font-size: 15px;
+  }
+  :where([data-visual-lab]) .vfp-article-copy {
+    min-height: 0;
+  }
+  :where([data-visual-lab]) .vfp-disclosure-toggle {
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+  }
+}

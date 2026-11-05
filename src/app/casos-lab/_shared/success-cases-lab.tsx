@@ -48,6 +48,12 @@ import {
   type CaseDirection,
 } from "../_features/cases/case-directions";
 import { ProductLab } from "../_features/product/product-lab";
+import { PlatformLab } from "../_features/platform/platform-lab";
+import {
+  platformDirections,
+  parsePlatformDirection,
+  type PlatformDirection,
+} from "../_features/platform/platform-directions";
 import { HomeLab } from "../_features/home/home-lab";
 import { BlogCardsLab } from "../_features/blog-cards/blog-cards-lab";
 import {
@@ -99,6 +105,7 @@ const control =
 
 type Lab =
   | "cases"
+  | "platform"
   | "product"
   | "home"
   | "volume"
@@ -113,7 +120,9 @@ type Lab =
   | "team-sol6-1";
 
 function scrollToPreview(lab: Lab, behavior: ScrollBehavior = "instant") {
-  const section = document.getElementById(`${lab}-preview`);
+  const section =
+    (lab === "platform" ? document.getElementById("platform-tools") : null) ??
+    document.getElementById(`${lab}-preview`);
   const toolbar = document.querySelector("[data-cases-lab-header]");
   const extraToolbar =
     lab === "team-sol6-1"
@@ -136,6 +145,7 @@ function scrollToPreview(lab: Lab, behavior: ScrollBehavior = "instant") {
 export function SuccessCasesLab({
   initialDirection,
   initialLab = "cases",
+  initialPlatformDirection = "reference",
   initialProductDirection = "convergence",
   initialHomeDirection = "corpus",
   initialVolumeDirection = "editorial",
@@ -159,6 +169,7 @@ export function SuccessCasesLab({
 }: {
   initialDirection: CaseDirection;
   initialLab?: Lab;
+  initialPlatformDirection?: PlatformDirection;
   initialProductDirection?: ProductDirection;
   initialHomeDirection?: HomeDirection;
   initialVolumeDirection?: VolumeDirection;
@@ -193,6 +204,9 @@ export function SuccessCasesLab({
     initialBlogImagesDirection,
   );
   const [lab, setLab] = useState<Lab>(initialLab);
+  const [platformDirection, setPlatformDirection] = useState(
+    initialPlatformDirection,
+  );
   const [blogCardsDirection, setBlogCardsDirection] = useState(
     initialBlogCardsDirection,
   );
@@ -221,6 +235,7 @@ export function SuccessCasesLab({
   const proposals = useRef<HTMLDivElement>(null);
   const current = caseDirections.find((item) => item.id === direction)!;
   const activeDirection = {
+    platform: platformDirection,
     cases: direction,
     product: productDirection,
     home: homeDirection,
@@ -236,6 +251,7 @@ export function SuccessCasesLab({
     "email-signatures": emailSignaturesDirection,
   }[lab];
   const availableDirections = {
+    platform: platformDirections,
     cases: caseDirections,
     product: productDirections,
     home: homeDirections,
@@ -262,6 +278,7 @@ export function SuccessCasesLab({
     });
   }, [
     lab,
+    platformDirection,
     direction,
     productDirection,
     homeDirection,
@@ -278,7 +295,11 @@ export function SuccessCasesLab({
   ]);
 
   useEffect(() => {
-    if (window.location.hash !== `#${initialLab}-preview`) return;
+    if (
+      window.location.hash !== `#${initialLab}-preview` &&
+      !(initialLab === "platform" && window.location.hash === "#platform-tools")
+    )
+      return;
     let cancelled = false;
     void document.fonts.ready.then(() => {
       window.requestAnimationFrame(() => {
@@ -309,6 +330,9 @@ export function SuccessCasesLab({
       const params = new URL(window.location.href).searchParams;
       const variant = params.get("variant");
       const requestedLab = params.get("lab");
+      setPlatformDirection(
+        parsePlatformDirection(params.get("platformVariant")),
+      );
       setArticleDirection(parseArticleDirection(params.get("articleVariant")));
       setEmailSignaturesDirection(
         parseEmailSignaturesDirection(params.get("emailSignaturesVariant")),
@@ -323,31 +347,33 @@ export function SuccessCasesLab({
         parseBlogCardsDirection(params.get("blogCardsVariant")),
       );
       setLab(
-        requestedLab === "home"
-          ? "home"
-          : requestedLab === "product"
-            ? "product"
-            : requestedLab === "volume"
-              ? "volume"
-              : requestedLab === "contact"
-                ? "contact"
-                : requestedLab === "footer"
-                  ? "footer"
-                  : requestedLab === "team"
-                    ? "team"
-                    : requestedLab === "team-sol6-1"
-                      ? "team-sol6-1"
-                      : requestedLab === "blog-cards"
-                        ? "blog-cards"
-                        : requestedLab === "blog-images"
-                          ? "blog-images"
-                          : requestedLab === "blog-page"
-                            ? "blog-page"
-                            : requestedLab === "article"
-                              ? "article"
-                              : requestedLab === "email-signatures"
-                                ? "email-signatures"
-                                : "cases",
+        requestedLab === "platform"
+          ? "platform"
+          : requestedLab === "home"
+            ? "home"
+            : requestedLab === "product"
+              ? "product"
+              : requestedLab === "volume"
+                ? "volume"
+                : requestedLab === "contact"
+                  ? "contact"
+                  : requestedLab === "footer"
+                    ? "footer"
+                    : requestedLab === "team"
+                      ? "team"
+                      : requestedLab === "team-sol6-1"
+                        ? "team-sol6-1"
+                        : requestedLab === "blog-cards"
+                          ? "blog-cards"
+                          : requestedLab === "blog-images"
+                            ? "blog-images"
+                            : requestedLab === "blog-page"
+                              ? "blog-page"
+                              : requestedLab === "article"
+                                ? "article"
+                                : requestedLab === "email-signatures"
+                                  ? "email-signatures"
+                                  : "cases",
       );
       setProductDirection(
         productDirections.find(
@@ -393,6 +419,7 @@ export function SuccessCasesLab({
     if (next === "cases") url.searchParams.delete("lab");
     else url.searchParams.set("lab", next);
     url.searchParams.set("productVariant", productDirection);
+    url.searchParams.set("platformVariant", platformDirection);
     url.searchParams.set("homeVariant", homeDirection);
     url.searchParams.set("volumeVariant", volumeDirection);
     url.searchParams.set("contactVariant", contactDirection);
@@ -493,6 +520,17 @@ export function SuccessCasesLab({
 
   const selectProposal = (id: string) => {
     switch (lab) {
+      case "platform": {
+        const next = parsePlatformDirection(id);
+        if (next === platformDirection) return;
+        setPlatformDirection(next);
+        const url = new URL(window.location.href);
+        url.searchParams.set("platformVariant", next);
+        url.hash = next === "reference" ? "platform-preview" : "platform-tools";
+        window.history.pushState(null, "", url);
+        window.requestAnimationFrame(() => scrollToPreview("platform"));
+        break;
+      }
       case "email-signatures": {
         const next = parseEmailSignaturesDirection(id);
         if (next === emailSignaturesDirection) return;
@@ -609,29 +647,31 @@ export function SuccessCasesLab({
               <p className="font-body mt-0.5 text-[10px] text-slate-500 dark:text-slate-400">
                 {lab === "cases"
                   ? "Casos · Composición"
-                  : lab === "home"
-                    ? "Home"
-                    : lab === "volume"
-                      ? "Volumen"
-                      : lab === "contact"
-                        ? "Contacto"
-                        : lab === "footer"
-                          ? "Footer"
-                          : lab === "team"
-                            ? "Team Astra"
-                            : lab === "team-sol6-1"
-                              ? "Team sol6.1"
-                              : lab === "blog-cards"
-                                ? "Fichas blog"
-                                : lab === "blog-images"
-                                  ? "Imágenes blog"
-                                  : lab === "blog-page"
-                                    ? "Página de blog"
-                                    : lab === "article"
-                                      ? "Article"
-                                      : lab === "email-signatures"
-                                        ? "Firmas de correo"
-                                        : "Producto"}
+                  : lab === "platform"
+                    ? "Plataforma"
+                    : lab === "home"
+                      ? "Home"
+                      : lab === "volume"
+                        ? "Volumen"
+                        : lab === "contact"
+                          ? "Contacto"
+                          : lab === "footer"
+                            ? "Footer"
+                            : lab === "team"
+                              ? "Team Astra"
+                              : lab === "team-sol6-1"
+                                ? "Team sol6.1"
+                                : lab === "blog-cards"
+                                  ? "Fichas blog"
+                                  : lab === "blog-images"
+                                    ? "Imágenes blog"
+                                    : lab === "blog-page"
+                                      ? "Página de blog"
+                                      : lab === "article"
+                                        ? "Article"
+                                        : lab === "email-signatures"
+                                          ? "Firmas de correo"
+                                          : "Producto"}
               </p>
             </div>
           </div>
@@ -644,6 +684,7 @@ export function SuccessCasesLab({
             >
               <option value="cases">Casos</option>
               <option value="product">Producto</option>
+              <option value="platform">Plataforma</option>
               <option value="home">Home</option>
               <option value="volume">Volumen</option>
               <option value="contact">Contacto</option>
@@ -694,6 +735,7 @@ export function SuccessCasesLab({
               <ArrowDown size={14} strokeWidth={1.5} />
             </button>
             {lab !== "blog-images" &&
+              lab !== "platform" &&
               lab !== "blog-page" &&
               lab !== "article" &&
               lab !== "email-signatures" && (
@@ -732,7 +774,9 @@ export function SuccessCasesLab({
         </div>
       </header>
 
-      {lab === "email-signatures" ? (
+      {lab === "platform" ? (
+        <PlatformLab direction={platformDirection} />
+      ) : lab === "email-signatures" ? (
         <EmailSignaturesLab direction={emailSignaturesDirection} />
       ) : lab === "article" ? (
         <ArticleLab
