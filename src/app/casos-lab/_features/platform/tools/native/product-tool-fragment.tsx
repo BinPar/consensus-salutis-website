@@ -190,7 +190,7 @@ function UpdatesFragment({ compact = false }: { compact?: boolean }) {
   );
 }
 
-function PdfFragment({
+export function PdfFragment({
   verified,
   compact = false,
 }: {
@@ -294,6 +294,7 @@ function PdfFragment({
                 />
                 <span
                   ref={selectedPassage}
+                  data-source-highlight="literal"
                   className="border-primary-light bg-primary-light/12 dark:border-primary-dark dark:bg-primary-dark/18 pointer-events-none absolute border-2 shadow-[0_0_0_1px_rgb(0_109_121/12%)]"
                   style={{
                     left: "44%",

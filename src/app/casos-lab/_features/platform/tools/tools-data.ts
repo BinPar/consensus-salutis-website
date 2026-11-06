@@ -85,6 +85,25 @@ export const evidenceTools = [
 
 export type EvidenceTool = (typeof evidenceTools)[number];
 export type EvidenceToolId = EvidenceTool["id"];
+
+// Catalogue copy: two short sentences per tool (around 30–35 words).
+export const catalogToolDescriptions: Record<EvidenceToolId, string> = {
+  citations:
+    "Cada afirmación incluye una cita que enlaza con el pasaje que la respalda. Al abrirla, la fuente se consulta en el panel lateral sin perder de vista la respuesta.",
+  bibliography:
+    "Al final de cada respuesta se reúnen los documentos utilizados como fuente. La lista permite revisar las referencias y abrir cada documento para consultar el contenido citado.",
+  preserved:
+    "El fragmento utilizado como evidencia queda guardado junto con la respuesta. Aunque el documento se retire del corpus, se conserva el texto citado para revisar en qué se basó aquella respuesta.",
+  viewer:
+    "La cita abre el PDF original en la página referenciada, con el pasaje resaltado cuando se ha localizado. El visor permite leer el texto que lo rodea y revisar su contexto.",
+  verified:
+    "El indicador muestra si el pasaje coincide con el PDF original, no se ha podido verificar o requiere revisión. Permite distinguir la coincidencia del texto de su localización en la página.",
+  provenance:
+    "La referencia identifica el documento de origen y, cuando están disponibles, el capítulo, el apartado y la página. Estos datos permiten localizar el contenido citado y consultar su procedencia.",
+  updates:
+    "Un aviso señala cuándo el pasaje citado contiene información sustituida por una fuente posterior. La respuesta conserva la evidencia original y permite distinguirla del contenido actualizado al revisar la consulta.",
+};
+
 export type EvidenceFilter = "all" | "answer" | "document";
 
 export const evidenceFilters: { id: EvidenceFilter; label: string }[] = [

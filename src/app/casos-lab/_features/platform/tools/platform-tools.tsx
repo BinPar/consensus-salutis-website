@@ -381,7 +381,9 @@ export function PlatformTools({
       aria-label="Herramientas de la plataforma · Evidencia visible"
     >
       <div className="vlt-section-inner">
-        {direction === "catalog" || direction === "disclosure" ? (
+        {direction === "catalog" ||
+        direction === "catalog-2" ||
+        direction === "disclosure" ? (
           <NativeTools direction={direction} />
         ) : direction === "explorer" ? (
           <ToolsExplorer />

@@ -5,6 +5,7 @@ export const platformDirections = [
   { id: "journey", number: "04", label: "Recorrido" },
   { id: "catalog", number: "05", label: "Catálogo" },
   { id: "disclosure", number: "06", label: "Desplegable" },
+  { id: "catalog-2", number: "07", label: "Catálogo 2" },
 ] as const;
 
 export type PlatformDirection = (typeof platformDirections)[number]["id"];

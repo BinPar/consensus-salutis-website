@@ -18,6 +18,7 @@ import { parseBlogPageDirection } from "./_features/blog-page/blog-page-directio
 import { parseArticleDirection } from "./_features/article/article-directions";
 import { parseEmailSignaturesDirection } from "./_features/email-signatures/email-signatures-directions";
 import { parsePlatformDirection } from "./_features/platform/platform-directions";
+import { parsePlatformClaudeDirection } from "./_features/platform-claude/platform-claude-directions";
 
 export const metadata: Metadata = {
   title: "Laboratorio visual",
@@ -32,6 +33,7 @@ export default async function CasesLabPage({
     lab?: string;
     productVariant?: string;
     platformVariant?: string;
+    platformClaudeVariant?: string;
     homeVariant?: string;
     volumeVariant?: string;
     contactVariant?: string;
@@ -54,6 +56,7 @@ export default async function CasesLabPage({
     lab,
     productVariant,
     platformVariant,
+    platformClaudeVariant,
     homeVariant,
     volumeVariant,
     contactVariant,
@@ -93,6 +96,9 @@ export default async function CasesLabPage({
   return (
     <SuccessCasesLab
       initialPlatformDirection={parsePlatformDirection(platformVariant)}
+      initialPlatformClaudeDirection={parsePlatformClaudeDirection(
+        platformClaudeVariant,
+      )}
       articlePost={articlePost}
       articleBody={articleBody}
       initialArticleDirection={parseArticleDirection(articleVariant)}
@@ -107,31 +113,33 @@ export default async function CasesLabPage({
       initialLab={
         lab === "platform"
           ? "platform"
-          : lab === "home"
-            ? "home"
-            : lab === "product"
-              ? "product"
-              : lab === "volume"
-                ? "volume"
-                : lab === "contact"
-                  ? "contact"
-                  : lab === "footer"
-                    ? "footer"
-                    : lab === "team"
-                      ? "team"
-                      : lab === "team-sol6-1"
-                        ? "team-sol6-1"
-                        : lab === "blog-cards"
-                          ? "blog-cards"
-                          : lab === "blog-images"
-                            ? "blog-images"
-                            : lab === "blog-page"
-                              ? "blog-page"
-                              : lab === "article"
-                                ? "article"
-                                : lab === "email-signatures"
-                                  ? "email-signatures"
-                                  : "cases"
+          : lab === "platform-claude"
+            ? "platform-claude"
+            : lab === "home"
+              ? "home"
+              : lab === "product"
+                ? "product"
+                : lab === "volume"
+                  ? "volume"
+                  : lab === "contact"
+                    ? "contact"
+                    : lab === "footer"
+                      ? "footer"
+                      : lab === "team"
+                        ? "team"
+                        : lab === "team-sol6-1"
+                          ? "team-sol6-1"
+                          : lab === "blog-cards"
+                            ? "blog-cards"
+                            : lab === "blog-images"
+                              ? "blog-images"
+                              : lab === "blog-page"
+                                ? "blog-page"
+                                : lab === "article"
+                                  ? "article"
+                                  : lab === "email-signatures"
+                                    ? "email-signatures"
+                                    : "cases"
       }
       initialProductDirection={
         productDirections.find((item) => item.id === productVariant)?.id ??

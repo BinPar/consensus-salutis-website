@@ -2,9 +2,16 @@
 
 import { useState } from "react";
 import { ArrowDown, Minus, Plus } from "lucide-react";
-import { evidenceTools, type EvidenceToolId } from "../tools-data";
+import {
+  catalogToolDescriptions,
+  evidenceTools,
+  type EvidenceToolId,
+} from "../tools-data";
 import { ProductToolFragment } from "./product-tool-fragment";
+import { CatalogProductScene } from "./catalog-product-scene";
+import { CatalogTwo } from "./catalog-two";
 import "./native-tools.css";
+import "./catalog-2.css";
 
 function Heading() {
   return (
@@ -38,9 +45,10 @@ function Introduction() {
 export function NativeTools({
   direction,
 }: {
-  direction: "catalog" | "disclosure";
+  direction: "catalog" | "catalog-2" | "disclosure";
 }) {
   const [expanded, setExpanded] = useState<EvidenceToolId | null>("citations");
+  if (direction === "catalog-2") return <CatalogTwo />;
   return (
     <div className="vfp-layout" data-native-tools={direction}>
       <Heading />
@@ -53,10 +61,10 @@ export function NativeTools({
                 <span className="vfp-number">{tool.number}</span>
                 <div>
                   <h4>{tool.title}</h4>
-                  <p>{tool.description}</p>
+                  <p>{catalogToolDescriptions[tool.id]}</p>
                 </div>
               </div>
-              <ProductToolFragment tool={tool.id} appearance="catalog" />
+              <CatalogProductScene tool={tool.id} />
             </article>
           ))}
         </div>

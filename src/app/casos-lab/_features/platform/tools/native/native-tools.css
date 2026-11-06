@@ -52,7 +52,15 @@
   gap: 42px 32px;
 }
 :where([data-visual-lab]) .vfp-catalog-article {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
+}
+:where([data-visual-lab]) .vfp-catalog-article > .vfp-article-copy {
+  flex: 1;
+}
+:where([data-visual-lab]) .vfp-catalog-article > .vfp-product-viewport {
+  flex-shrink: 0;
 }
 :where([data-visual-lab]) .vfp-article-copy {
   display: flex;
@@ -291,6 +299,243 @@
   :is(.dark .vfp-product-native)
   .dark\:text-primary-dark-lighter {
   color: #00bcbb;
+}
+/* Catalogue: one 560 × 360 product frame for all seven tools. The scale does
+   not depend on the amount of text or on the type of component being shown. */
+:where([data-visual-lab])
+  [data-native-tools="catalog"]
+  .vfp-catalog-scene-native {
+  display: block;
+  top: 50%;
+  left: 50%;
+  width: 560px;
+  height: 360px;
+  transform-origin: center;
+}
+:where([data-visual-lab]) .vfp-scene-chat-body {
+  position: relative;
+  z-index: 1;
+  padding: 28px 28px 24px;
+}
+:where([data-visual-lab]) .vfp-scene-source-panel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+:where([data-visual-lab]) .vfp-scene-source-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+:where([data-visual-lab]) .vfp-scene-panel-inset {
+  padding: 20px;
+}
+/* CitationViewer's document tabs, including the native concave corners. */
+:where([data-visual-lab]) .vfp-source-tabs {
+  --citation-tab-border: color-mix(in oklab, var(--color-cyan-800) 10%, #fff);
+  border-color: var(--citation-tab-border);
+  background: rgb(232 242 247 / 30%);
+}
+:where([data-visual-lab]) :is(.dark .vfp-source-tabs) {
+  --citation-tab-border: color-mix(
+    in oklab,
+    var(--color-cyan-300) 20%,
+    #152230
+  );
+  background: rgb(6 17 31 / 45%);
+}
+:where([data-visual-lab]) .vfp-source-tab[data-active="true"] {
+  --citation-tab-surface: #fff;
+  border-color: var(--citation-tab-border);
+}
+:where([data-visual-lab]) :is(.dark .vfp-source-tab[data-active="true"]) {
+  --citation-tab-surface: #152230;
+}
+:where([data-visual-lab]) .vfp-source-tab[data-active="true"]::before,
+:where([data-visual-lab]) .vfp-source-tab[data-active="true"]::after {
+  position: absolute;
+  bottom: 0;
+  width: 0.5rem;
+  height: 0.5rem;
+  pointer-events: none;
+  content: "";
+}
+:where([data-visual-lab]) .vfp-source-tab[data-active="true"]::before {
+  left: -0.5rem;
+  background: radial-gradient(
+    circle at top left,
+    transparent 0.4375rem,
+    var(--citation-tab-border) 0.4375rem,
+    var(--citation-tab-border) 0.5rem,
+    var(--citation-tab-surface) 0.5rem
+  );
+}
+:where([data-visual-lab]) .vfp-source-tab[data-active="true"]::after {
+  right: -0.5rem;
+  background: radial-gradient(
+    circle at top right,
+    transparent 0.4375rem,
+    var(--citation-tab-border) 0.4375rem,
+    var(--citation-tab-border) 0.5rem,
+    var(--citation-tab-surface) 0.5rem
+  );
+}
+/* Miniatures use PlatformScene's frame and EvidenceScene's visual grammar. */
+:where([data-visual-lab]) .vfp-scene-figure {
+  margin: 0;
+  min-width: 0;
+  flex-shrink: 0;
+}
+:where([data-visual-lab]) [data-native-tools="catalog"] .vfp-catalog-scene {
+  border-radius: 24px;
+  background: rgb(255 255 255 / 80%);
+  box-shadow:
+    0 4px 30px 0 rgb(0 109 121 / 10%),
+    0 2px 6px 2px rgb(0 109 121 / 2%);
+  backdrop-filter: blur(4px);
+}
+:where([data-visual-lab])
+  :is(.dark [data-native-tools="catalog"] .vfp-catalog-scene) {
+  background: #06111f;
+}
+:where([data-visual-lab]) .vfp-catalog-scene .vfp-catalog-scene-native {
+  --vfp-scene-grid: rgb(8 145 178 / 10%);
+  background: transparent;
+  backdrop-filter: none;
+}
+:where([data-visual-lab])
+  :is(.dark .vfp-catalog-scene .vfp-catalog-scene-native) {
+  --vfp-scene-grid: color-mix(
+    in srgb,
+    var(--color-primary-dark) 4.5%,
+    transparent
+  );
+  background: transparent;
+}
+:where([data-visual-lab]) .vfp-catalog-scene .vfp-catalog-scene-native::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--vfp-scene-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--vfp-scene-grid) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+:where([data-visual-lab])
+  .vfp-catalog-scene
+  .vfp-product-native[data-product-surface="chat"]::after {
+  display: none;
+}
+:where([data-visual-lab]) .vfp-scene-brand,
+:where([data-visual-lab]) .vfp-scene-composer {
+  z-index: 1;
+}
+:where([data-visual-lab]) .vfp-citation-workspace {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  height: 100%;
+  grid-template-columns: minmax(
+      0,
+      calc(100% - var(--vfp-citation-panel, 0) * 62%)
+    ) minmax(0, 1fr);
+}
+:where([data-visual-lab]) .vfp-citation-chat {
+  position: relative;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+}
+:where([data-visual-lab]) .vfp-citation-source-slot {
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+  border-left: 1px solid var(--vlt-border);
+}
+:where([data-visual-lab]) .vfp-citation-source-slot > .vfp-scene-source-panel {
+  width: 347.2px;
+}
+:where([data-visual-lab]) .vfp-catalog-scene .vfp-scene-chat-body {
+  position: absolute;
+  inset: 56px 0 76px;
+  padding: 0 20px;
+  overflow: hidden;
+}
+:where([data-visual-lab]) .vfp-catalog-scene .vfp-scene-source-panel {
+  background: #fff;
+}
+:where([data-visual-lab])
+  :is(.dark .vfp-catalog-scene .vfp-scene-source-panel) {
+  background: #152230;
+}
+:where([data-visual-lab]) .vfp-catalog-scene .vfp-scene-source-body {
+  opacity: var(--vfp-scene-content, 1);
+  transform: translateY(calc((1 - var(--vfp-scene-content, 1)) * 6px));
+}
+:where([data-visual-lab]) .vfp-catalog-scene [data-slot="badge"],
+:where([data-visual-lab]) .vfp-catalog-scene [data-pdf-text-provenance],
+:where([data-visual-lab]) .vfp-catalog-scene [data-scene-update-notice] {
+  opacity: var(--vfp-scene-detail, 1);
+}
+:where([data-visual-lab]) .vfp-catalog-scene [data-source-highlight] {
+  opacity: var(--vfp-scene-highlight, 1);
+}
+:where([data-visual-lab]) .vfp-scene-playback {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 34px;
+  margin-top: 10px;
+  color: var(--vlt-muted);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+:where([data-visual-lab]) .vfp-scene-playback > span:first-child {
+  flex-shrink: 0;
+}
+:where([data-visual-lab]) .vfp-scene-progress {
+  display: block;
+  flex: 1;
+  height: 2px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--vlt-border);
+}
+:where([data-visual-lab]) .vfp-scene-progress > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: left;
+  background: var(--vlt-accent);
+}
+:where([data-visual-lab]) .vfp-scene-playback > div {
+  display: flex;
+  gap: 4px;
+}
+:where([data-visual-lab]) .vfp-scene-playback button {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: var(--vlt-accent);
+  background: var(--vlt-wash);
+}
+:where([data-visual-lab]) .vfp-scene-playback button:disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+@media (prefers-reduced-motion: reduce) {
+  :where([data-visual-lab]) .vfp-scene-pointer {
+    display: none;
+  }
 }
 @media (min-width: 768px) {
   :where([data-visual-lab]) .vfp-catalog {

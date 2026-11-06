@@ -54,6 +54,12 @@ import {
   parsePlatformDirection,
   type PlatformDirection,
 } from "../_features/platform/platform-directions";
+import { PlatformClaudeLab } from "../_features/platform-claude/platform-claude-lab";
+import {
+  platformClaudeDirections,
+  parsePlatformClaudeDirection,
+  type PlatformClaudeDirection,
+} from "../_features/platform-claude/platform-claude-directions";
 import { HomeLab } from "../_features/home/home-lab";
 import { BlogCardsLab } from "../_features/blog-cards/blog-cards-lab";
 import {
@@ -106,6 +112,7 @@ const control =
 type Lab =
   | "cases"
   | "platform"
+  | "platform-claude"
   | "product"
   | "home"
   | "volume"
@@ -122,6 +129,9 @@ type Lab =
 function scrollToPreview(lab: Lab, behavior: ScrollBehavior = "instant") {
   const section =
     (lab === "platform" ? document.getElementById("platform-tools") : null) ??
+    (lab === "platform-claude"
+      ? document.getElementById("platform-claude-features")
+      : null) ??
     document.getElementById(`${lab}-preview`);
   const toolbar = document.querySelector("[data-cases-lab-header]");
   const extraToolbar =
@@ -146,6 +156,7 @@ export function SuccessCasesLab({
   initialDirection,
   initialLab = "cases",
   initialPlatformDirection = "reference",
+  initialPlatformClaudeDirection = "reference",
   initialProductDirection = "convergence",
   initialHomeDirection = "corpus",
   initialVolumeDirection = "editorial",
@@ -170,6 +181,7 @@ export function SuccessCasesLab({
   initialDirection: CaseDirection;
   initialLab?: Lab;
   initialPlatformDirection?: PlatformDirection;
+  initialPlatformClaudeDirection?: PlatformClaudeDirection;
   initialProductDirection?: ProductDirection;
   initialHomeDirection?: HomeDirection;
   initialVolumeDirection?: VolumeDirection;
@@ -207,6 +219,9 @@ export function SuccessCasesLab({
   const [platformDirection, setPlatformDirection] = useState(
     initialPlatformDirection,
   );
+  const [platformClaudeDirection, setPlatformClaudeDirection] = useState(
+    initialPlatformClaudeDirection,
+  );
   const [blogCardsDirection, setBlogCardsDirection] = useState(
     initialBlogCardsDirection,
   );
@@ -236,6 +251,7 @@ export function SuccessCasesLab({
   const current = caseDirections.find((item) => item.id === direction)!;
   const activeDirection = {
     platform: platformDirection,
+    "platform-claude": platformClaudeDirection,
     cases: direction,
     product: productDirection,
     home: homeDirection,
@@ -252,6 +268,7 @@ export function SuccessCasesLab({
   }[lab];
   const availableDirections = {
     platform: platformDirections,
+    "platform-claude": platformClaudeDirections,
     cases: caseDirections,
     product: productDirections,
     home: homeDirections,
@@ -279,6 +296,7 @@ export function SuccessCasesLab({
   }, [
     lab,
     platformDirection,
+    platformClaudeDirection,
     direction,
     productDirection,
     homeDirection,
@@ -297,7 +315,13 @@ export function SuccessCasesLab({
   useEffect(() => {
     if (
       window.location.hash !== `#${initialLab}-preview` &&
-      !(initialLab === "platform" && window.location.hash === "#platform-tools")
+      !(
+        initialLab === "platform" && window.location.hash === "#platform-tools"
+      ) &&
+      !(
+        initialLab === "platform-claude" &&
+        window.location.hash === "#platform-claude-features"
+      )
     )
       return;
     let cancelled = false;
@@ -333,6 +357,9 @@ export function SuccessCasesLab({
       setPlatformDirection(
         parsePlatformDirection(params.get("platformVariant")),
       );
+      setPlatformClaudeDirection(
+        parsePlatformClaudeDirection(params.get("platformClaudeVariant")),
+      );
       setArticleDirection(parseArticleDirection(params.get("articleVariant")));
       setEmailSignaturesDirection(
         parseEmailSignaturesDirection(params.get("emailSignaturesVariant")),
@@ -349,31 +376,33 @@ export function SuccessCasesLab({
       setLab(
         requestedLab === "platform"
           ? "platform"
-          : requestedLab === "home"
-            ? "home"
-            : requestedLab === "product"
-              ? "product"
-              : requestedLab === "volume"
-                ? "volume"
-                : requestedLab === "contact"
-                  ? "contact"
-                  : requestedLab === "footer"
-                    ? "footer"
-                    : requestedLab === "team"
-                      ? "team"
-                      : requestedLab === "team-sol6-1"
-                        ? "team-sol6-1"
-                        : requestedLab === "blog-cards"
-                          ? "blog-cards"
-                          : requestedLab === "blog-images"
-                            ? "blog-images"
-                            : requestedLab === "blog-page"
-                              ? "blog-page"
-                              : requestedLab === "article"
-                                ? "article"
-                                : requestedLab === "email-signatures"
-                                  ? "email-signatures"
-                                  : "cases",
+          : requestedLab === "platform-claude"
+            ? "platform-claude"
+            : requestedLab === "home"
+              ? "home"
+              : requestedLab === "product"
+                ? "product"
+                : requestedLab === "volume"
+                  ? "volume"
+                  : requestedLab === "contact"
+                    ? "contact"
+                    : requestedLab === "footer"
+                      ? "footer"
+                      : requestedLab === "team"
+                        ? "team"
+                        : requestedLab === "team-sol6-1"
+                          ? "team-sol6-1"
+                          : requestedLab === "blog-cards"
+                            ? "blog-cards"
+                            : requestedLab === "blog-images"
+                              ? "blog-images"
+                              : requestedLab === "blog-page"
+                                ? "blog-page"
+                                : requestedLab === "article"
+                                  ? "article"
+                                  : requestedLab === "email-signatures"
+                                    ? "email-signatures"
+                                    : "cases",
       );
       setProductDirection(
         productDirections.find(
@@ -420,6 +449,7 @@ export function SuccessCasesLab({
     else url.searchParams.set("lab", next);
     url.searchParams.set("productVariant", productDirection);
     url.searchParams.set("platformVariant", platformDirection);
+    url.searchParams.set("platformClaudeVariant", platformClaudeDirection);
     url.searchParams.set("homeVariant", homeDirection);
     url.searchParams.set("volumeVariant", volumeDirection);
     url.searchParams.set("contactVariant", contactDirection);
@@ -529,6 +559,20 @@ export function SuccessCasesLab({
         url.hash = next === "reference" ? "platform-preview" : "platform-tools";
         window.history.pushState(null, "", url);
         window.requestAnimationFrame(() => scrollToPreview("platform"));
+        break;
+      }
+      case "platform-claude": {
+        const next = parsePlatformClaudeDirection(id);
+        if (next === platformClaudeDirection) return;
+        setPlatformClaudeDirection(next);
+        const url = new URL(window.location.href);
+        url.searchParams.set("platformClaudeVariant", next);
+        url.hash =
+          next === "reference"
+            ? "platform-claude-preview"
+            : "platform-claude-features";
+        window.history.pushState(null, "", url);
+        window.requestAnimationFrame(() => scrollToPreview("platform-claude"));
         break;
       }
       case "email-signatures": {
@@ -649,29 +693,31 @@ export function SuccessCasesLab({
                   ? "Casos · Composición"
                   : lab === "platform"
                     ? "Plataforma"
-                    : lab === "home"
-                      ? "Home"
-                      : lab === "volume"
-                        ? "Volumen"
-                        : lab === "contact"
-                          ? "Contacto"
-                          : lab === "footer"
-                            ? "Footer"
-                            : lab === "team"
-                              ? "Team Astra"
-                              : lab === "team-sol6-1"
-                                ? "Team sol6.1"
-                                : lab === "blog-cards"
-                                  ? "Fichas blog"
-                                  : lab === "blog-images"
-                                    ? "Imágenes blog"
-                                    : lab === "blog-page"
-                                      ? "Página de blog"
-                                      : lab === "article"
-                                        ? "Article"
-                                        : lab === "email-signatures"
-                                          ? "Firmas de correo"
-                                          : "Producto"}
+                    : lab === "platform-claude"
+                      ? "Plataforma Claude"
+                      : lab === "home"
+                        ? "Home"
+                        : lab === "volume"
+                          ? "Volumen"
+                          : lab === "contact"
+                            ? "Contacto"
+                            : lab === "footer"
+                              ? "Footer"
+                              : lab === "team"
+                                ? "Team Astra"
+                                : lab === "team-sol6-1"
+                                  ? "Team sol6.1"
+                                  : lab === "blog-cards"
+                                    ? "Fichas blog"
+                                    : lab === "blog-images"
+                                      ? "Imágenes blog"
+                                      : lab === "blog-page"
+                                        ? "Página de blog"
+                                        : lab === "article"
+                                          ? "Article"
+                                          : lab === "email-signatures"
+                                            ? "Firmas de correo"
+                                            : "Producto"}
               </p>
             </div>
           </div>
@@ -685,6 +731,7 @@ export function SuccessCasesLab({
               <option value="cases">Casos</option>
               <option value="product">Producto</option>
               <option value="platform">Plataforma</option>
+              <option value="platform-claude">Plataforma Claude</option>
               <option value="home">Home</option>
               <option value="volume">Volumen</option>
               <option value="contact">Contacto</option>
@@ -736,6 +783,7 @@ export function SuccessCasesLab({
             </button>
             {lab !== "blog-images" &&
               lab !== "platform" &&
+              lab !== "platform-claude" &&
               lab !== "blog-page" &&
               lab !== "article" &&
               lab !== "email-signatures" && (
@@ -776,6 +824,8 @@ export function SuccessCasesLab({
 
       {lab === "platform" ? (
         <PlatformLab direction={platformDirection} />
+      ) : lab === "platform-claude" ? (
+        <PlatformClaudeLab direction={platformClaudeDirection} />
       ) : lab === "email-signatures" ? (
         <EmailSignaturesLab direction={emailSignaturesDirection} />
       ) : lab === "article" ? (
