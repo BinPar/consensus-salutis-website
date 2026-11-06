@@ -163,8 +163,8 @@ benchmarks"*, *"Cómo definir preguntas de control para validar conocimiento mé
 
 **When:** something shipped and the organisation needs to know it exists.
 
-**The typified exception.** Here the third person of BinPar governs, the product may open the
-piece, and one CTA is allowed at the close.
+**The typified exception.** Here BinPar (or *nosotros*) may open the piece, and one CTA is
+allowed at the close.
 
 **Structure and budget (500-800 words):**
 
@@ -192,6 +192,14 @@ información"*, *"No espere más"*, *"Descubre cómo"*.
 ---
 
 ## Structural conventions for all archetypes
+
+- **Narrator**: conversational (`voice-and-narrator.md` §3). *nosotros* for the team's method
+  and measurements ("hemos medido 24 documentos"), *tú* sparingly to hand the reader a
+  decision, impersonal sentences for analysis. One address throughout. The product placement
+  rules still apply; the team narrating its method is not placement.
+- **Derived pieces**: each article can yield a LinkedIn post (`formats.md` §11) and an explainer
+  or social video (`formats.md` §10). They reuse the article's strongest finding, its sources
+  and its limits, never a stronger claim.
 
 - **H1 = the frontmatter `title`**, matching the filename slug. It renders as the article's
   display headline, so it ends with a period (`language-rules.md` §5); the slug drops it. The

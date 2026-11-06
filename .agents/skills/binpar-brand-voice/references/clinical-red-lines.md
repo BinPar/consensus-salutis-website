@@ -25,7 +25,7 @@ what the corpus says; the clinician applies it.
 | Off-brand | On-brand |
 |---|---|
 | "El sistema recomienda ajustar la dosis en insuficiencia renal." | "La respuesta enlaza el epígrafe de la guía que trata el ajuste de dosis en insuficiencia renal." |
-| "Ante una sospecha de infarto, la plataforma indica el protocolo a seguir." | "La consulta devuelve el protocolo de código infarto vigente en el centro, con la versión publicada y su fuente." |
+| "Ante una sospecha de infarto, la plataforma indica el protocolo a seguir." | "La consulta devuelve el protocolo de Código Infarto vigente en el centro, con la versión publicada y su fuente." |
 | "Orienta el diagnóstico diferencial." | "Reúne, de las fuentes priorizadas por la organización, el material que el profesional necesita para su propio diagnóstico diferencial." |
 
 ### Clinical examples in articles
@@ -134,6 +134,12 @@ Positioning is done by **contrast of approach**, described in the abstract:
 
 The second row is also the brand's genuine thesis, taken from the functional documents: value
 lives in the curated corpus. It is safe to say publicly because it names no one.
+
+**One exception: a comparison the client commissioned.** In a report, deck or video addressed
+to one client, about a test that client asked for against its current tool, that tool may be
+named (the October 2026 CatSalut test video names the incumbent chat). Conditions: the same
+questions and the same blind judgement for both, the method stated, every figure with *n* and
+date, and the piece is not published or reused for another client. Public copy never names it.
 
 ## 5. Fear: commercial vs clinical
 

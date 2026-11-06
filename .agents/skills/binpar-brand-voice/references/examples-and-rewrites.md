@@ -58,40 +58,25 @@ Rule: `language-rules.md` §5.
 
 ---
 
-## 3. Second person
+## 3. Conversational voice: what changed and what did not
 
-**Before**, the website's contact assistant and platform walkthrough:
+Until October 2026 this skill rewrote *"Hablemos de tu organización."* into impersonal copy.
+The November 2026 website made the conversational voice the rule (`voice-and-narrator.md` §3):
+that line, *"¿Encaja BinPar en tu institución?"* and *"Escríbenos y te responde el equipo de
+BinPar."* are now models. What still fails is conversational copy with nothing to check.
 
-> "Hablemos de tu organización."
-> "¿Qué te gustaría explorar con BinPar?"
-> "Hemos recibido tu consulta. Nuestro equipo te responderá en …"
-> "Explora la interfaz, los paneles y tu área de usuario con una consulta de ejemplo."
-> "Exploremos cómo integrar tus guías, protocolos y corpus médico en un entorno de consulta
-> gobernado."
+| Draft | Codes | On-brand |
+|---|---|---|
+| "¿Quieres explorar BinPar para tu organización? Déjanos tus datos y cuéntanos qué necesitas." | M1 | "Cuéntanos qué servicio, qué documentos y qué plazo tienes en mente. Te respondemos en un día laborable." |
+| "Nos apasiona transformar la atención sanitaria con IA." | M5, M8 | "Llevamos más de quince años desarrollando software sanitario, y cada respuesta de la plataforma puede enlazar su fuente." |
+| "¿Y si tu equipo pudiera olvidarse de buscar en las guías?" | M4 | "Si tu equipo consulta varias guías por turno, la pregunta es cuánto tarda en localizar el epígrafe vigente y si puede enseñarlo después." |
+| "Selecciona tu cargo" next to "Introduzca su institución" | M4 | "Selecciona tu cargo" / "Escribe el nombre de tu institución" |
+| Chat: "Hemos revisado tu pregunta y creemos que…" | H6 | "Respuesta con cuatro fuentes de Nefrología y Cardiología." |
 
-**Diagnosis:** MEDIUM (M4, M5). *tu*, *te*, *explora* plus *hablemos*, *nuestro equipo*,
-*exploremos*. The site uses *tú* throughout its conversational contact assistant and the
-platform page: an observed exception there, not a new rule. New public copy stays impersonal.
-The email that answers the lead afterwards is corporate register and may address the person
-(`formats.md` §5).
-
-**After:**
-
-> "Una conversación sobre la organización sanitaria"
-> "Caso de uso o necesidad de la organización"
-> "Consulta recibida. La respuesta llegará a …"
-> "Una consulta de ejemplo recorre la interfaz, los paneles y el área de usuario."
-> "La primera reunión revisa cómo integrar las guías, los protocolos y el corpus médico de la
-> organización en un entorno de consulta gobernado."
-
-**Former model**, an earlier contact panel: *"Revisamos caso de uso,
-restricciones de seguridad, requisitos de integración y el nivel de evidencia necesario."* Four
-concrete anchors, no filler, one *revisamos* too many. Its rewrite is still the model: *"La
-primera reunión revisa el caso de uso, las restricciones de seguridad, los requisitos de
-integración y el nivel de evidencia necesario."*
-
-**Note:** contact and form sections are the hardest place to hold the impersonal narrator. The
-move is to make the *meeting* or the *message* the subject, not the reader.
+**Former model, still a model:** *"Revisamos caso de uso, restricciones de seguridad, requisitos
+de integración y el nivel de evidencia necesario."* Four anchors, and its *revisamos* is now
+the voice. Only the articles were missing: *"Revisamos contigo el caso de uso, las
+restricciones de seguridad, los requisitos de integración y el nivel de evidencia necesario."*
 
 ---
 
@@ -158,7 +143,7 @@ website's clinical process showcase keep the human and the document as subjects:
 formula una duda clínica en lenguaje natural"*, *"La respuesta reúne la orientación clínica y
 permite consultar las fuentes que respaldan sus conclusiones"*. The former step copy (*"El
 sistema recupera"*, *"contrasta las fuentes recuperadas"*, *"sintetiza una respuesta operativa y
-enlaza el fragmento"*) survives only in the legacy horizontal home and is still a model.
+enlaza el fragmento"*) survives in the home's process section and is still a model.
 
 The current defect is the same showcase's committee scene: an *orquestador* that "construye una
 orientación conjunta" and experts quoted in the first person. It is listed in §12 and is never a
@@ -280,6 +265,8 @@ sentence sets up the piece's distinction.
 
 ## 12. Known debt in the current site copy
 
+Audited against the website of 6 November 2026 (`develop` at `1566996`).
+
 The website copy is the tone of record for the name, the claims and the product vocabulary.
 Where it breaks a rule of this skill, the rule wins for new copy and the fragment is listed here.
 Never quote these fragments as models. In review mode, flag them with their codes (add *deuda
@@ -288,16 +275,20 @@ table. Remove a row once the site is fixed.
 
 | # | Fragment (verbatim) | Where | Codes | Suggested rewrite |
 |---|---|---|---|---|
-| 1 | "El sistema selecciona los agentes expertos adecuados y consulta sus corpus médicos, adaptados a la organización y la especialidad." | Process showcase, step 02 | H7 | "El comité de expertos reúne las especialidades que la consulta necesita, y cada una se consulta sobre su propio corpus médico, adaptado a la organización." |
-| 2 | "El orquestador reúne las aportaciones de los expertos, contrasta sus matices y límites y construye una orientación conjunta para la consulta." Node label "Orquestador" | Process showcase, step 03 and its diagram | H7 | "La síntesis del comité reúne las aportaciones de cada especialidad, contrasta sus matices y límites y conserva la procedencia de cada una." Label: "Síntesis del comité" |
-| 3 | "Conocimiento clínico orquestado por IA." | Home hero headline | M7 | "Conocimiento clínico consultable. Trazable hasta su fuente." |
-| 4 | "no asumiría que el edema es exclusivamente renal" | Committee scene, expert quote | H6, H9 | Attribute to the specialty and its source, never an expert's first person: "Nefrología señala, con su fuente, el límite de atribuir el edema solo a la causa renal" |
-| 5 | A described patient ("Paciente de 68 años con diabetes tipo 2…") taken to "Revisar AINE, IECA/ARA-II y diuréticos por riesgo renal e hiperpotasemia." | Committee scene cards | H1 | Keep the demo at question-and-document level: the cards name the cited epígrafe, not the action. "Epígrafe citado: AINE en insuficiencia renal" |
-| 6 | "El futuro de la salud. Ya está aquí." | Success cases headline | M8, M9, M1 | "IA médica que ya forma parte del sistema sanitario." (the organisations on the map are its anchor) |
-| 7 | "BinPar la IA médica institucional que conecta guías, protocolos y corpus médico con la práctica clínica." | Home cover lede | L11 | "BinPar es la IA médica institucional que conecta guías, protocolos y corpus médico con la práctica clínica." |
-| 8 | "Hablemos de tu organización.", "¿Cómo te llamas?", "Explora la interfaz…", "Exploremos cómo integrar tus guías…" | Contact assistant, platform walkthrough | M4, M5 | §3 |
-| 9 | "Estamos en Madrid." / "Escríbenos o consulta cómo llegar a nuestras oficinas." | Contact page details | M5, M4 | "Oficinas en Madrid." / "Dirección, correo de contacto y cómo llegar" |
-| 10 | "BINPAR / SISTEMA INTEGRADO" typed in caps | Architecture graphic label (also reproduced in the identity manual's geometry page) | M15 | Source string "BinPar / Sistema integrado" with CSS `uppercase` |
+| 1 | "El sistema selecciona los agentes expertos adecuados y consulta sus corpus médicos, adaptados a la organización y la especialidad." | `/plataforma` walkthrough, step 02 | H7 | "El comité de expertos reúne las especialidades que la consulta necesita, y cada una se consulta sobre su propio corpus médico, adaptado a la organización." |
+| 2 | "El orquestador reúne las aportaciones de los expertos, contrasta sus matices y límites y construye una orientación conjunta para la consulta." Node label "Orquestador" | `/plataforma` walkthrough, step 03 and its diagram | H7 | "La síntesis del comité reúne las aportaciones de cada especialidad, contrasta sus matices y límites y conserva la procedencia de cada una." Label: "Síntesis del comité" |
+| 3 | "Conocimiento clínico orquestado por IA." | Home cover headline | M7 | "Conocimiento clínico consultable. Trazable hasta su fuente." |
+| 4 | "no asumiría que el edema es exclusivamente renal" | `/plataforma` committee scene, expert quote | H6, H9 | Attribute to the specialty and its source, never an expert's first person: "Nefrología señala, con su fuente, el límite de atribuir el edema solo a la causa renal" |
+| 5 | A described patient ("Paciente de 68 años con diabetes tipo 2…") taken to "Revisar función renal, potasio y diuresis." | `/plataforma` committee scene cards | H1 | Keep the demo at question-and-document level: the cards name the cited epígrafe, not the action. "Epígrafe citado: AINE en insuficiencia renal" |
+| 6 | "El futuro de la salud. Ya está aquí." | Home, success cases headline | M8, M9, M1 | "IA médica que ya forma parte del sistema sanitario." (the organisations on the map are its anchor) |
+| 7 | "Pensando…" | `/plataforma` evidence and follow-up scenes; product chat and editor ("thinking": "Pensando") | H6 | "Recuperando fuentes…", "Sintetizando la respuesta…" |
+| 8 | "Una capa de IA seria, auditable y preparada para operar dentro de un sistema sanitario." | Home cover lede, second sentence | M1 | "Cada respuesta puede enlazar el fragmento que la sustenta, y cada cambio del corpus pasa por un editor antes de publicarse." |
+| 9 | "Organizaciones sanitarias que ya incorporan nuestra inteligencia artificial para facilitar el acceso al conocimiento clínico fiable, acompañar la atención asistencial y reforzar la mejora continua." | Home, success cases lede | M1 | "Servicios de salud que ya consultan sus guías y protocolos con BinPar, con la fuente de cada respuesta a la vista." |
+| 10 | "descubre cómo BinPar reúne expertos, contrasta aportaciones y ofrece una orientación con fuentes verificables" | `/plataforma` meta description | H9 | "De la consulta clínica a la evidencia: cómo el comité reúne las especialidades necesarias, contrasta sus aportaciones y enlaza cada conclusión con su fuente." |
+| 11 | "KPIs operativos", "Feedback + pruebas automáticas" | Home volume band eyebrow; process step 05 label | M14 | "Indicadores operativos", "Valoración profesional + pruebas automáticas" |
+| 12 | "Volumen datos y actualización continua." | Home volume band headline | L11 | "Volumen de datos y actualización continua." |
+| 13 | "Tech Ninja" | `/equipo`, job title | M8 | The person's actual title, e.g. "Tech Lead" (`formats.md` §12) |
+| 14 | "BINPAR / SISTEMA INTEGRADO" typed in caps | Product strata graphic label (also in the identity manual's geometry page) | M15 | Source string "BinPar / Sistema integrado" with CSS `uppercase` |
 
 Rows 4 and 5: the scenes replay a real captured consultation, so the answer text is product
 output and outside this skill. The debt is the framing: an expert quoted in the first person, and
