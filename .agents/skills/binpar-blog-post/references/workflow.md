@@ -102,7 +102,7 @@ Una auditoría correcta devuelve **al menos** estos hallazgos:
 | alta | Personificación de la IA | «interpreta la pregunta y decide qué guía aplicar» (en `excerpt`) |
 | alta | Filtración por encima del nivel funcional | «anchors con CRC-8 sobre un contador global en Convex» |
 | alta | Eficacia clínica sin fuente | «reducen los errores de prescripción un 30%» |
-| media | Segunda persona y CTA en arquetipo `mecanismo` | «¿Quieres verlo en tu servicio? Pide una demo» |
+| media | Pregunta de folleto y CTA en arquetipo `mecanismo` | «¿Quieres verlo en tu servicio? Pide una demo» |
 | media | Tag fuera de la frontera de divulgación | `"RAG"` |
 | baja | Falta el punto final en `title` (titular display) | «El sistema que entiende la consulta clínica» |
 

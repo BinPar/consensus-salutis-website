@@ -37,7 +37,7 @@ propuestas, documentos y presentaciones.
 ## Antes de nada: las dos dependencias de voz
 
 1. **`binpar-brand-voice`** — la voz de marca. Cárgala **entera**
-   antes de escribir o auditar una sola frase: narrador impersonal, prohibición
+   antes de escribir o auditar una sola frase: narrador conversacional, prohibición
    de personificar la IA, léxico acuñado, líneas rojas clínicas, frontera de
    divulgación funcional y presupuesto por arquetipo.
    Preflight: mira si la skill está disponible en la sesión. Si **no** lo está,
@@ -61,7 +61,7 @@ Fuente de verdad: `binpar-brand-voice`. Esto es solo el suelo
 | **Ni sello regulatorio ni producto sanitario.** Nunca insinuar marcado CE, MDR, certificación sanitaria o conformidad con el AI Act | alta |
 | **Frontera de divulgación funcional.** Vetados en texto público: Convex, AI SDK, CRC, checksum, anchor, delta, VFS, nombres de tabla, slots de modelo, proveedores y versiones de modelo | alta |
 | **Ni comparativas con competidores ni con modelos por nombre.** El posicionamiento se hace por contraste de enfoque | media |
-| **Narrador impersonal.** Sin «tú» ni «usted»; «los equipos clínicos», «las organizaciones sanitarias». El producto aparece como máximo un par de veces en el cuerpo, nunca en la apertura ni cerrando como venta. Excepción: arquetipo `nota-de-producto` | media |
+| **Narrador conversacional.** «Nosotros» para lo que el equipo midió o hace («hemos medido 24 documentos»), «tú» con moderación para poner una decisión en manos de quien lee, frases impersonales para el análisis. Nunca «usted», nunca «creemos» ni «nos apasiona», y el sistema nunca habla como «nosotros». El producto aparece como máximo un par de veces en el cuerpo, nunca en la apertura ni cerrando como venta; contar el método del equipo no cuenta como aparición. Excepción: arquetipo `nota-de-producto` | media |
 | **Léxico acuñado**, reutilizado en vez de sinónimos improvisados: consenso verificable, evidencia visible, gobierno del conocimiento clínico, preguntas de control, corpus vivo, umbral de revisión. Vetados: copiloto, asistente virtual, agente, cerebro clínico | media |
 | **`title` es titular display: termina en punto**, como en el manual de identidad. Los `##` y `###` van sin punto. Nunca en mayúsculas ni con exclamación | baja |
 | **Sin emojis.** Em dash con moderación; paréntesis para los apartes | baja |
