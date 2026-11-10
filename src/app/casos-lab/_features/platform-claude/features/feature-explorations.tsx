@@ -845,3 +845,56 @@ export function JourneyLayout({
     </div>
   );
 }
+
+/*
+ * 12 · Recorrido 5: a plainer composition. Each group opens with its heading
+ * (eyebrow, two-tone title and lead) and its scenes follow in a grid, three
+ * per row on desktop, in the reading order of its steps.
+ */
+export function GroupGridLayout() {
+  return (
+    <div className="grid gap-32 lg:gap-44">
+      {Object.values(journeyGroups).map((group) => {
+        const items = group.steps
+          .flatMap((step) => step.features)
+          .map((id) => allFeatures.find((feature) => feature.mock === id)!);
+        return (
+          <section
+            key={group.title}
+            aria-labelledby={`group-grid-${group.number}`}
+          >
+            <header className="max-w-3xl">
+              <p className={eyebrow}>Funcionalidades</p>
+              <h2
+                id={`group-grid-${group.number}`}
+                className="font-display text-navy mt-5 text-3xl leading-[1.1] font-extrabold tracking-tight sm:text-4xl xl:text-5xl dark:text-slate-50"
+              >
+                {group.heading[0]}{" "}
+                <span className="text-primary-light dark:text-primary-dark">
+                  {group.heading[1]}
+                </span>
+              </h2>
+              <p className="font-body mt-6 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg dark:text-slate-400">
+                {group.lead}
+              </p>
+            </header>
+            <div className="mt-12 grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
+              {items.map((feature) => (
+                <figure key={feature.number} className="m-0 flex flex-col">
+                  <EvidenceScene
+                    feature={feature.mock}
+                    label={`${feature.title}. ${feature.description}`}
+                    alignGrid
+                  />
+                  <figcaption className="mt-3 px-1">
+                    <FeatureCopy feature={feature} numbered={false} />
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </section>
+        );
+      })}
+    </div>
+  );
+}

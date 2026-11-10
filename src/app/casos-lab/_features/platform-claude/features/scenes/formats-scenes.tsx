@@ -1,19 +1,6 @@
 "use client";
 
-import {
-  ChevronDown,
-  Download,
-  FileImage,
-  FileText,
-  Image as ImageIcon,
-  Maximize2,
-  Minus,
-  Plus,
-  RotateCcw,
-  Workflow,
-  X,
-  type LucideIcon,
-} from "lucide-react";
+import { AudioLines, Download, FileImage, Maximize2 } from "lucide-react";
 import type { CSSProperties, ReactNode } from "react";
 import {
   ProcessChatVeil,
@@ -29,6 +16,12 @@ import {
 import type { FormatFeatureId } from "../features-data";
 import { Pointer, centre, pointerStyle } from "./consultation-scenes";
 import {
+  PlatformTabs,
+  ZoomControls,
+  zoomControl,
+  type PlatformTab,
+} from "./platform-ui";
+import {
   Answer,
   Caret,
   ChatHeader,
@@ -37,9 +30,11 @@ import {
   SceneCard,
   answerLength,
   bodyText,
+  curvePath,
   eyebrow,
   sourceTitle,
   useBoxes,
+  verticalCurve,
   type SceneDefinition,
   type SceneProps,
 } from "./evidence-scenes";
@@ -59,6 +54,11 @@ const enter = (value: number, distance = 8): CSSProperties => ({
 });
 
 /** Typed text with a caret while it is being written. */
+const press = (time: number, at: number) => {
+  const t = (time - at) / 0.35;
+  return t > 0 && t < 1 ? Math.sin(t * Math.PI) : 0;
+};
+
 function Typed({ text, written }: { text: string; written: number }) {
   return (
     <>
@@ -68,24 +68,26 @@ function Typed({ text, written }: { text: string; written: number }) {
   );
 }
 
-/* Decision tree of the scheme, drawn in a 320 × 150 box. */
+/*
+ * Decision tree of the scheme, in the look of the chat's diagrams (Mermaid):
+ * square nodes with a pale fill and a thin border, a diamond for the
+ * decision, solid orthogonal connectors with rounded elbows and filled
+ * arrowheads, and plain edge labels over the line. Drawn in a 320 × 150 box.
+ */
 const TREE = { width: 320, height: 150 };
-const treeTitle = "Uso de AINE en la ERC";
-const treeRoot = "Aclaramiento de creatinina";
+const treeRoot = "¿Aclaramiento de creatinina < 30 mL/min?";
 const treeBranches = [
   {
-    label: "< 30 mL/min",
+    label: "Sí",
     result: "AINE contraindicados",
-    x: 80,
-    d: "M 160 40 C 160 72, 80 72, 80 104",
-    labelAt: { x: 112, y: 70 },
+    x: 70,
+    d: "M 76 40 H 74 Q 70 40 70 44 V 101",
   },
   {
-    label: "≥ 30 mL/min",
+    label: "No",
     result: "Evitar AINE; solo si son imprescindibles",
-    x: 240,
-    d: "M 160 40 C 160 72, 240 72, 240 104",
-    labelAt: { x: 208, y: 70 },
+    x: 250,
+    d: "M 244 40 H 246 Q 250 40 250 44 V 101",
   },
 ] as const;
 
@@ -93,6 +95,9 @@ const treeBranches = [
 const treeRoute = treeBranches.map(
   (branch) => `${treeRoot} → ${branch.label}: ${branch.result}`,
 );
+
+const diagramNode =
+  "font-body absolute flex items-center justify-center border border-[#3f7c88]/80 bg-[#e9f1f5] px-2 text-center text-[11px] leading-[14px] text-navy dark:border-primary-dark/50 dark:bg-[#152230] dark:text-slate-100";
 
 function DecisionTree({
   time,
@@ -106,8 +111,6 @@ function DecisionTree({
   scale?: number;
 }) {
   const root = sceneReveal(time, start, 0.35, reduced);
-  const node =
-    "font-display text-navy absolute flex -translate-x-1/2 items-center justify-center rounded-lg border bg-white px-2 text-center text-[11px] leading-[15px] font-semibold dark:bg-[#152230] dark:text-slate-100";
   return (
     <div
       className="relative mx-auto"
@@ -122,26 +125,46 @@ function DecisionTree({
         }}
       >
         <svg
-          className="text-primary-light dark:text-primary-dark pointer-events-none absolute inset-0 size-full"
+          className="pointer-events-none absolute inset-0 size-full text-[#2f6b77] dark:text-[#7fd3dc]"
           aria-hidden="true"
         >
-          {treeBranches.map((branch, index) => (
-            <Connector
-              key={branch.label}
-              d={branch.d}
-              active
-              draw={drawProgress(
-                time,
-                start + 0.4 + index * 0.15,
-                0.5,
-                reduced,
-              )}
-            />
-          ))}
+          {/* Decision diamond. */}
+          <polygon
+            points="160,0 244,40 160,80 76,40"
+            className="fill-[#e9f1f5] stroke-[#3f7c88]/80 dark:fill-[#152230] dark:stroke-[#7fd3dc]/50"
+            strokeWidth="1"
+            style={{ opacity: root }}
+          />
+          {treeBranches.map((branch, index) => {
+            const draw = drawProgress(
+              time,
+              start + 0.4 + index * 0.15,
+              0.5,
+              reduced,
+            );
+            return (
+              <g key={branch.label}>
+                <path
+                  d={branch.d}
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.2"
+                  pathLength="1"
+                  strokeDasharray="1 1"
+                  strokeDashoffset={1 - draw}
+                />
+                <path
+                  d={`M ${branch.x - 4} 100 L ${branch.x + 4} 100 L ${branch.x} 106 Z`}
+                  fill="currentColor"
+                  style={{ opacity: draw >= 0.98 ? 1 : 0 }}
+                />
+              </g>
+            );
+          })}
         </svg>
         <div
-          className={`${node} border-primary-light/40 bg-primary-light/8 dark:border-primary-dark/40 dark:bg-primary-dark/10 top-1 h-9 w-[184px]`}
-          style={{ left: TREE.width / 2, opacity: root }}
+          className="font-body text-navy absolute top-0 left-[102px] flex h-20 w-[116px] items-center justify-center text-center text-[11px] leading-[14px] dark:text-slate-100"
+          style={{ opacity: root }}
         >
           {treeRoot}
         </div>
@@ -160,20 +183,17 @@ function DecisionTree({
           );
           return (
             <div key={branch.label}>
+              {/* Edge label written over the line, as Mermaid does. */}
               <span
-                className="font-body text-primary-light dark:text-primary-dark absolute -translate-x-1/2 -translate-y-1/2 rounded-full bg-white px-1.5 text-[10px] leading-4 font-semibold whitespace-nowrap dark:bg-[#06111f]"
-                style={{
-                  left: branch.labelAt.x,
-                  top: branch.labelAt.y,
-                  opacity: label,
-                }}
+                className="font-body text-navy absolute -translate-x-1/2 text-[11px] leading-[14px] dark:text-slate-100"
+                style={{ left: branch.x, top: 64, opacity: label }}
               >
                 {branch.label}
               </span>
               <div
-                className={`${node} dark:border-primary-dark/15 top-[104px] h-10 w-[150px] border-cyan-800/15`}
+                className={`${diagramNode} top-[106px] h-10 w-[130px]`}
                 style={{
-                  left: branch.x,
+                  left: branch.x - 65,
                   opacity: leaf,
                   transform: `translateY(${6 * (1 - leaf)}px)`,
                 }}
@@ -188,19 +208,10 @@ function DecisionTree({
   );
 }
 
-/** Expand control of the chat media (MediaExpandButton). */
-function ExpandButton({ label = "Ampliar" }: { label?: string }) {
-  return (
-    <span
-      title={label}
-      className="dark:border-primary-dark/15 absolute top-2 right-2 grid size-7 place-items-center rounded-full border border-cyan-800/15 bg-white/90 text-slate-600 dark:bg-[#152230]/90 dark:text-slate-300"
-    >
-      <Maximize2 size={14} strokeWidth={1.4} />
-    </span>
-  );
-}
-
-/** Scheme card of the chat (chat-diagram): canvas, expand and its sources. */
+/**
+ * Scheme card of the chat (chat-diagram): a framed white canvas, its sources
+ * below. The whole canvas opens the panel; there is no visible expand icon.
+ */
 function SchemeCard({
   children,
   sources,
@@ -217,16 +228,12 @@ function SchemeCard({
       className="dark:border-primary-dark/20 relative m-0 rounded-2xl border border-cyan-800/15 bg-white/80 p-2.5 dark:bg-[#152230]/90"
       style={style}
     >
-      <div className="relative rounded-xl bg-white p-2 dark:bg-[#06111f]">
-        <p className="font-display text-navy text-center text-[11px] font-semibold dark:text-slate-100">
-          {treeTitle}
-        </p>
+      <div className="relative rounded-xl bg-white p-2.5 dark:bg-[#06111f]">
         {children}
-        <ExpandButton />
       </div>
       {sources !== undefined && (
         <div
-          className="mt-1.5 flex gap-1"
+          className="mt-2 flex gap-1"
           style={{ opacity: sources }}
           aria-label="Fuentes del esquema"
         >
@@ -370,6 +377,7 @@ function AfferentFigure({
 /* 16 · Figuras del corpus: the guideline figure, beside the text it explains. */
 const figureParagraph = processFollowup.finalOpinion.split("\n\n")[5]!;
 const figureLength = answerLength(figureParagraph);
+const figureCaption = "Efecto de los AINE sobre la arteriola aferente.";
 const FIGURE_TYPING = 0.3;
 const figureShown = FIGURE_TYPING + typingDuration(figureLength) + 0.25;
 const figureConstrict = figureShown + 0.6;
@@ -390,116 +398,24 @@ function FiguresScene({ time, reduced }: SceneProps) {
         <p className="mb-3">
           <Answer text={figureParagraph} written={written} />
         </p>
-        <figure className="m-0" style={enter(shown)}>
-          <div className="dark:border-primary-dark/15 relative rounded-xl border border-cyan-800/15 bg-white p-2 dark:bg-[#06111f]">
+        {/* resource-figure: framed image, caption with a top rule. */}
+        <figure
+          className="dark:border-primary-dark/20 shadow-big-blocks m-0 overflow-hidden rounded-xl border border-cyan-800/15 bg-white/80 dark:bg-[#152230]/90"
+          style={enter(shown)}
+        >
+          <div className="flex items-center justify-center bg-white/80 p-2 dark:bg-[#0b1a29]/75">
             <AfferentFigure
               constrict={constrict}
               pulse={pulse}
-              className="h-[118px] w-full"
+              className="h-[104px] w-full"
             />
-            <ExpandButton label="Ampliar imagen" />
           </div>
-          <figcaption className="font-body mt-1.5 text-[11px] leading-4 text-slate-500 dark:text-slate-400">
-            Figura · {sourceTitle}
+          <figcaption className="dark:border-primary-dark/10 font-body border-t border-cyan-800/10 px-3 py-1.5 text-[11px] leading-[18px] text-slate-600 dark:text-slate-400">
+            {figureCaption}
           </figcaption>
         </figure>
       </div>
     </div>
-  );
-}
-
-/** Side panel with tabs, as in the source viewer of the evidence scenes. */
-type PanelTab = { icon: LucideIcon; title: string };
-function TabbedPanel({
-  tabs,
-  active,
-  tabRef,
-  tabStyle,
-  children,
-}: {
-  tabs: PanelTab[];
-  active: number;
-  tabRef?: (index: number) => (element: HTMLElement | null) => void;
-  tabStyle?: (index: number) => CSSProperties;
-  children: ReactNode;
-}) {
-  return (
-    <div className="flex h-full min-w-0 flex-col overflow-hidden bg-white dark:bg-[#152230]">
-      <div className="vpe-tabs dark:border-primary-dark/15 flex h-11 shrink-0 items-end gap-1 border-b border-cyan-800/10 bg-[#e8f2f7]/30 px-2 pt-1 dark:bg-[#06111f]/45">
-        {tabs.map((tab, index) => {
-          const current = index === active;
-          return (
-            <div
-              key={tab.title}
-              ref={tabRef?.(index)}
-              style={tabStyle?.(index)}
-              className={`relative -mb-px flex h-10 min-w-0 items-center gap-1.5 rounded-t-md border border-b-0 px-2.5 ${tabs.length > 1 ? "max-w-[150px] flex-1" : "max-w-60 flex-1"} ${current ? "vpe-tab text-navy bg-white dark:bg-[#152230] dark:text-slate-100" : "border-transparent text-slate-500 dark:text-slate-400"}`}
-            >
-              <tab.icon
-                size={18}
-                strokeWidth={1.1}
-                className="-mt-1 shrink-0"
-              />
-              <span className="font-body -mt-1 min-w-0 flex-1 truncate text-[11px] font-semibold">
-                {tab.title}
-              </span>
-              {current && (
-                <X
-                  size={16}
-                  strokeWidth={1.1}
-                  className="-mt-1 shrink-0 text-slate-400"
-                />
-              )}
-            </div>
-          );
-        })}
-        <span className="mb-1 ml-auto grid size-8 shrink-0 place-items-center text-slate-600 dark:text-slate-300">
-          <X size={20} strokeWidth={1.1} />
-        </span>
-      </div>
-      {children}
-    </div>
-  );
-}
-
-/** Zoom controls and download of the scheme panel (diagram-panel). */
-function SchemeToolbar({
-  downloadRef,
-  preparing,
-  pressed,
-}: {
-  downloadRef?: (element: HTMLElement | null) => void;
-  preparing: boolean;
-  pressed: number;
-}) {
-  const control =
-    "dark:border-primary-dark/20 grid size-8 place-items-center rounded-full border border-cyan-800/20 text-slate-600 dark:text-slate-300";
-  return (
-    <header className="dark:border-primary-dark/15 flex shrink-0 items-center justify-between gap-2 border-b border-cyan-800/15 px-3 py-2.5">
-      <div className="flex items-center gap-1.5">
-        <span className={control}>
-          <Minus size={14} strokeWidth={1.8} />
-        </span>
-        <span className="font-body min-w-10 text-center text-xs text-slate-600 tabular-nums dark:text-slate-300">
-          100 %
-        </span>
-        <span className={control}>
-          <Plus size={14} strokeWidth={1.8} />
-        </span>
-        <span className="dark:border-primary-dark/20 font-body inline-flex h-8 items-center gap-1.5 rounded-full border border-cyan-800/20 px-2.5 text-xs text-slate-600 dark:text-slate-300">
-          <RotateCcw size={14} strokeWidth={1.8} />
-          Restablecer
-        </span>
-      </div>
-      <span
-        ref={downloadRef}
-        className={`font-body text-primary-light dark:text-primary-dark dark:border-primary-dark/20 inline-flex h-8 items-center gap-1.5 rounded-full border border-cyan-800/20 px-3 text-xs transition-colors duration-200 ${pressed > 0 ? "bg-primary-light/10 dark:bg-primary-dark/10" : ""}`}
-        style={{ transform: `scale(${1 - pressed * 0.06})` }}
-      >
-        <Download size={14} strokeWidth={1.8} />
-        {preparing ? "Preparando imagen…" : "Descargar imagen"}
-      </span>
-    </header>
   );
 }
 
@@ -511,7 +427,7 @@ const downloadReady = downloadClick + 1;
 function DownloadScene({ time, reduced }: SceneProps) {
   const { root, target, boxes } = useBoxes(1);
   const button = centre(boxes[0]);
-  const press = (time - downloadClick) / 0.35;
+  const pressed = press(time, downloadClick);
   const preparing = !reduced && time >= downloadClick && time < downloadReady;
   const saved = sceneReveal(time, downloadReady, 0.4, reduced);
   const pointer = pointerStyle(
@@ -526,25 +442,29 @@ function DownloadScene({ time, reduced }: SceneProps) {
       (1 - sceneReveal(time, downloadReady + 0.2, 0.3, reduced)),
   );
   return (
-    <div ref={root} className="relative h-full">
-      <TabbedPanel tabs={[{ icon: Workflow, title: "Esquema 1" }]} active={0}>
-        <SchemeToolbar
-          downloadRef={target(0)}
-          preparing={preparing}
-          pressed={press > 0 && press < 1 ? Math.sin(press * Math.PI) : 0}
-        />
-        <div className="relative flex-1 px-3 pt-3">
-          <p className="font-display text-navy mb-1.5 text-center text-xs font-semibold dark:text-slate-100">
-            {treeTitle}
-          </p>
-          <DecisionTree
-            time={time}
-            start={0.2}
-            reduced={reduced}
-            scale={0.72}
-          />
-        </div>
-      </TabbedPanel>
+    <div
+      ref={root}
+      className="relative flex h-full flex-col bg-white dark:bg-[#152230]"
+    >
+      <PlatformTabs
+        tabs={[{ kind: "diagram", title: "Esquema 1" }]}
+        active={0}
+      />
+      {/* diagram-panel: zoom controls and «Descargar imagen». */}
+      <ZoomControls>
+        <span
+          ref={target(0)}
+          className={`${zoomControl} px-2.5 ${pressed > 0 ? "bg-primary-light/10 dark:bg-primary-dark/10" : ""}`}
+          style={{ transform: `scale(${1 - pressed * 0.06})` }}
+        >
+          <Download size={14} strokeWidth={1.8} />
+          {preparing ? "Preparando imagen…" : "Descargar imagen"}
+        </span>
+      </ZoomControls>
+      <div className="relative flex-1 px-3 pt-4">
+        <DecisionTree time={time} start={0.2} reduced={reduced} />
+      </div>
+      {/* The browser's download of the PNG: a representation, outside the UI. */}
       <div className="absolute inset-x-6 bottom-4" style={enter(saved, 12)}>
         <SceneCard
           icon={FileImage}
@@ -611,7 +531,7 @@ function TablesScene({ time, reduced }: SceneProps) {
   });
   const table = sceneReveal(time, tableStart, 0.35, reduced);
   const head =
-    "font-display text-navy px-3 py-2 text-left text-[11px] font-semibold dark:text-slate-100";
+    "font-body h-8 px-2 text-left align-middle text-[11px] font-normal text-slate-600 dark:text-slate-400";
   return (
     <div className="relative h-full">
       <ProcessChatVeil />
@@ -621,30 +541,30 @@ function TablesScene({ time, reduced }: SceneProps) {
           <Typed text={tableIntro} written={intro} />
         </p>
         <div
-          className="dark:border-primary-dark/15 overflow-hidden rounded-xl border border-cyan-800/15 bg-white/90 dark:bg-[#152230]/90"
+          className="dark:border-primary-dark/15 overflow-hidden rounded border border-cyan-800/15"
           style={{ opacity: table }}
         >
           <table className="w-full table-fixed border-collapse">
-            <thead className="bg-primary-light/6 dark:bg-primary-dark/8">
+            <thead>
               <tr className="dark:border-primary-dark/15 border-b border-cyan-800/15">
-                <th className={`${head} w-[118px]`}>Fármaco</th>
+                <th className={`${head} w-[104px]`}>Fármaco</th>
                 <th className={head}>En la ERC</th>
               </tr>
             </thead>
-            <tbody className="font-body text-xs leading-[18px] text-slate-600 dark:text-slate-300">
+            <tbody className="font-body text-xs leading-[18px] text-slate-900 dark:text-slate-100">
               {tableRows.map((row, index) => {
                 const drug = cells[index * 2]!;
                 const note = cells[index * 2 + 1]!;
                 return (
                   <tr
                     key={row.drug}
-                    className="dark:border-primary-dark/10 border-b border-cyan-800/10 align-top last:border-b-0"
+                    className="dark:border-primary-dark/10 border-b border-cyan-800/10 align-middle last:border-b-0"
                   >
-                    <td className="text-navy px-3 py-2 font-semibold dark:text-slate-100">
+                    <td className="p-2">
                       {row.drug.slice(0, drug.count)}
                       {drug.typing && <Caret />}
                     </td>
-                    <td className="px-3 py-2">
+                    <td className="p-2">
                       {row.note.slice(0, note.count)}
                       {note.typing && <Caret />}
                       {note.cited && (
@@ -664,91 +584,87 @@ function TablesScene({ time, reduced }: SceneProps) {
   );
 }
 
-/* 19 · Recorrido en texto: the scheme read as a list of steps. */
-const TEXTALT_POINTER = 1.4;
-const textaltClick = TEXTALT_POINTER + 1;
-const textaltOpen = textaltClick + 0.15;
-const textaltTyping = textaltOpen + 0.35;
+/*
+ * 19 · Recorrido en texto: a representation, not a visible control. Every
+ * scheme carries its route as text for screen readers (DiagramAccessibleText);
+ * the scene shows the scheme and what the reader announces.
+ */
+const TEXTALT_READ = 1.6;
 const textaltLength = treeRoute.reduce((sum, line) => sum + line.length, 0);
-const textaltEnd = textaltTyping + typingDuration(textaltLength);
+const textaltEnd = TEXTALT_READ + 0.4 + typingDuration(textaltLength);
 
 function TextAltScene({ time, reduced }: SceneProps) {
-  const { root, target, boxes } = useBoxes(1);
-  const toggle = centre(boxes[0]);
-  const open = sceneReveal(time, textaltOpen, 0.35, reduced);
-  let budget = writtenCharacters(time, textaltTyping, textaltLength, reduced);
-  const pointer = pointerStyle(
-    [
-      { at: TEXTALT_POINTER, point: { x: toggle.x + 110, y: toggle.y - 60 } },
-      { at: textaltClick - 0.2, point: { x: toggle.x - 30, y: toggle.y } },
-    ],
+  const { root, target, boxes } = useBoxes(2);
+  const curve =
+    boxes.length === 2 ? verticalCurve(boxes[0]!, boxes[1]!) : undefined;
+  const reader = sceneReveal(time, TEXTALT_READ, 0.35, reduced);
+  let budget = writtenCharacters(
     time,
+    TEXTALT_READ + 0.4,
+    textaltLength,
     reduced,
-    [textaltClick - 0.15],
-    sceneReveal(time, TEXTALT_POINTER, 0.3, reduced) *
-      (1 - sceneReveal(time, textaltOpen + 0.5, 0.3, reduced)),
   );
   return (
     <div
       ref={root}
-      className="relative flex h-full flex-col justify-center px-6"
+      className="relative flex h-full flex-col justify-center gap-5 px-8 py-6"
     >
-      <ProcessChatVeil />
-      <SchemeCard
-        footer={
-          <>
-            <span
-              ref={target(0)}
-              className="font-body text-primary-light dark:text-primary-dark mt-2.5 inline-flex items-center gap-1 rounded-md text-xs font-semibold"
-            >
-              <ChevronDown
-                size={14}
-                strokeWidth={1.8}
-                style={{ transform: `rotate(${-90 + 90 * open}deg)` }}
-              />
-              Ver recorrido en texto
-            </span>
-            <div className="grid" style={{ gridTemplateRows: `${open}fr` }}>
-              <ol className="font-body min-h-0 list-none space-y-1.5 overflow-hidden pt-2 text-xs leading-[18px] text-slate-600 dark:text-slate-300">
-                {treeRoute.map((line) => {
-                  const count = Math.min(budget, line.length);
-                  budget = Math.max(0, budget - line.length);
-                  return (
-                    <li
-                      key={line}
-                      className="border-primary-light/40 dark:border-primary-dark/40 min-h-9 border-l-2 pl-2.5"
-                    >
-                      <Typed text={line} written={count} />
-                    </li>
-                  );
-                })}
-              </ol>
-            </div>
-          </>
-        }
+      <svg
+        className="text-primary-light dark:text-primary-dark pointer-events-none absolute inset-0 size-full"
+        aria-hidden="true"
       >
-        <DecisionTree time={time} start={0.2} reduced={reduced} scale={0.72} />
-      </SchemeCard>
-      <Pointer style={pointer} />
+        {curve && (
+          <Connector
+            d={curvePath(curve)}
+            active
+            draw={drawProgress(time, TEXTALT_READ - 0.5, 0.5, reduced)}
+          />
+        )}
+      </svg>
+      <div ref={target(0)} className="mx-auto w-[230px]">
+        <SchemeCard>
+          <DecisionTree
+            time={time}
+            start={0.2}
+            reduced={reduced}
+            scale={0.58}
+          />
+        </SchemeCard>
+      </div>
+      <div ref={target(1)} style={enter(reader)}>
+        <SceneCard
+          icon={AudioLines}
+          label="Lector de pantalla"
+          title="Recorrido en texto del esquema"
+          active={reader > 0.5 && budget < textaltLength}
+        >
+          <ol className="font-body mt-2 list-none space-y-1 text-[11px] leading-4 text-slate-600 dark:text-slate-300">
+            {treeRoute.map((line) => {
+              const count = Math.min(budget, line.length);
+              budget = Math.max(0, budget - line.length);
+              return (
+                <li key={line} className="min-h-8">
+                  <Typed text={line} written={count} />
+                </li>
+              );
+            })}
+          </ol>
+        </SceneCard>
+      </div>
     </div>
   );
 }
 
-/* 20 · Panel lateral: source, scheme and figure open as tabs. */
-const panelTabs: PanelTab[] = [
-  { icon: FileText, title: sourceTitle },
-  { icon: Workflow, title: "Esquema 1" },
-  { icon: ImageIcon, title: "Imagen" },
+/* 20 · Panel lateral: source, scheme and figure open as tabs (citation-viewer). */
+const panelTabs: PlatformTab[] = [
+  { kind: "document", title: sourceTitle },
+  { kind: "diagram", title: "Esquema 1" },
+  { kind: "image", title: figureCaption },
 ];
 const PANEL_SCHEME = 1.3;
 const PANEL_IMAGE = 2.9;
 const PANEL_POINTER = 4.3;
 const panelBack = PANEL_POINTER + 1;
-const panelHeaders = [
-  { label: "Fuente de consulta", title: sourceTitle },
-  { label: "Esquema", title: treeTitle },
-  { label: "Imagen", title: "AINE y arteriola aferente" },
-] as const;
 
 function PanelScene({ time, reduced }: SceneProps) {
   const { root, target, boxes } = useBoxes(3);
@@ -767,11 +683,11 @@ function PanelScene({ time, reduced }: SceneProps) {
     sceneReveal(time, PANEL_SCHEME - 0.2, 0.3, reduced),
     sceneReveal(time, PANEL_IMAGE - 0.2, 0.3, reduced),
   ];
-  const first = centre(boxes[1]);
+  const tab = centre(boxes[1]);
   const pointer = pointerStyle(
     [
-      { at: PANEL_POINTER, point: { x: first.x + 150, y: first.y + 130 } },
-      { at: panelBack - 0.2, point: first },
+      { at: PANEL_POINTER, point: { x: tab.x + 150, y: tab.y + 130 } },
+      { at: panelBack - 0.2, point: tab },
     ],
     time,
     reduced,
@@ -784,8 +700,11 @@ function PanelScene({ time, reduced }: SceneProps) {
     transition: reduced ? undefined : "opacity 250ms ease-out",
   });
   return (
-    <div ref={root} className="relative h-full">
-      <TabbedPanel
+    <div
+      ref={root}
+      className="relative flex h-full flex-col bg-white dark:bg-[#152230]"
+    >
+      <PlatformTabs
         tabs={panelTabs}
         active={active}
         tabRef={target}
@@ -793,28 +712,46 @@ function PanelScene({ time, reduced }: SceneProps) {
           opacity: opened[index],
           transform: `translateY(${6 * (1 - opened[index]!)}px)`,
         })}
-      >
-        <header className="dark:border-primary-dark/15 shrink-0 border-b border-cyan-800/10 px-4 py-3">
-          <p className={eyebrow}>{panelHeaders[active].label}</p>
-          <p className="font-display text-navy mt-0.5 truncate text-sm font-semibold dark:text-slate-100">
-            {panelHeaders[active].title}
-          </p>
-        </header>
-        <div className="relative min-h-0 flex-1">
-          <div
-            className="font-body absolute inset-0 overflow-hidden px-5 pt-4 text-[13px] leading-6 text-slate-700 dark:text-slate-300"
-            style={layer(0)}
-          >
+      />
+      <div className="relative min-h-0 flex-1">
+        {/* Document: the source header and the passage. */}
+        <div className="absolute inset-0 flex flex-col" style={layer(0)}>
+          <header className="dark:border-primary-dark/15 flex shrink-0 items-center gap-2 border-b border-cyan-800/10 px-4 py-3">
+            <div className="min-w-0 flex-1">
+              <p className={eyebrow}>Fuente de consulta</p>
+              <p className="font-display text-navy mt-0.5 truncate text-sm font-semibold dark:text-slate-100">
+                {sourceTitle}
+              </p>
+            </div>
+            <span className="font-body flex shrink-0 items-center gap-1.5 px-1.5 text-[11px] font-semibold text-slate-600 dark:text-slate-300">
+              <Maximize2 size={14} strokeWidth={1.8} />
+              Ver documento completo
+            </span>
+          </header>
+          <div className="font-body min-h-0 flex-1 overflow-hidden px-5 pt-4 text-[13px] leading-6 text-slate-700 dark:text-slate-300">
             <Passage />
           </div>
-          <div className="absolute inset-0 px-3 pt-6" style={layer(1)}>
+        </div>
+        {/* Scheme: zoom controls with the download, then the canvas. */}
+        <div className="absolute inset-0 flex flex-col" style={layer(1)}>
+          <ZoomControls>
+            <span className={`${zoomControl} px-2.5`}>
+              <Download size={14} strokeWidth={1.8} />
+              Descargar imagen
+            </span>
+          </ZoomControls>
+          <div className="px-3 pt-4">
             <DecisionTree time={time} start={PANEL_SCHEME} reduced={reduced} />
           </div>
-          <div className="absolute inset-0 px-6 pt-5" style={layer(2)}>
+        </div>
+        {/* Image: zoom controls, then the figure. */}
+        <div className="absolute inset-0 flex flex-col" style={layer(2)}>
+          <ZoomControls />
+          <div className="px-4 pt-6">
             <AfferentFigure className="h-[150px] w-full" />
           </div>
         </div>
-      </TabbedPanel>
+      </div>
       <Pointer style={pointer} />
     </div>
   );

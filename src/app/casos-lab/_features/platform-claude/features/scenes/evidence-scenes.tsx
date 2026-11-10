@@ -7,13 +7,11 @@ import {
   FileCheck2,
   FileText,
   FileX2,
-  History,
   Layers,
   ListTree,
   Maximize2,
   MousePointer2,
   Paperclip,
-  X,
   type LucideIcon,
 } from "lucide-react";
 import {
@@ -47,6 +45,7 @@ import {
 } from "~/app/_components/clinical-scene-references";
 import { evidenceDocumentContext as sourceText } from "~/app/_components/evidence-document-context";
 import type { EvidenceFeatureId } from "../features-data";
+import { PlatformTabs } from "./platform-ui";
 import "./evidence-scenes.css";
 
 /*
@@ -287,22 +286,10 @@ function SourcePanel({
 }) {
   return (
     <div className="dark:border-primary-dark/15 flex h-full min-w-0 flex-col overflow-hidden bg-white dark:bg-[#152230]">
-      <div className="vpe-tabs dark:border-primary-dark/15 flex h-11 shrink-0 items-end border-b border-cyan-800/10 bg-[#e8f2f7]/30 px-2 pt-1 dark:bg-[#06111f]/45">
-        <div className="vpe-tab text-navy relative -mb-px flex h-10 max-w-60 min-w-0 flex-1 items-center gap-1.5 rounded-t-md border border-b-0 bg-white px-2.5 dark:bg-[#152230] dark:text-slate-100">
-          <FileText size={20} strokeWidth={1.1} className="-mt-1 shrink-0" />
-          <span className="font-body -mt-1 min-w-0 flex-1 truncate text-[11px] font-semibold">
-            {sourceTitle}
-          </span>
-          <X
-            size={20}
-            strokeWidth={1.1}
-            className="-mt-1 shrink-0 text-slate-400"
-          />
-        </div>
-        <span className="mb-1 ml-auto grid size-8 shrink-0 place-items-center text-slate-600 dark:text-slate-300">
-          <X size={20} strokeWidth={1.1} />
-        </span>
-      </div>
+      <PlatformTabs
+        tabs={[{ kind: "document", title: sourceTitle }]}
+        active={0}
+      />
       <header className="dark:border-primary-dark/15 flex min-w-0 shrink-0 items-center gap-2 border-b border-cyan-800/10 bg-white px-4 py-3 dark:bg-[#152230]">
         <div className="min-w-0 flex-1">
           <p className={eyebrow}>Fuente de consulta</p>
@@ -311,7 +298,7 @@ function SourcePanel({
           </p>
         </div>
         <span className="font-body flex shrink-0 items-center gap-1.5 rounded-full px-1.5 text-[11px] font-semibold text-slate-600 dark:text-slate-300">
-          <Maximize2 size={20} strokeWidth={1.1} />
+          <Maximize2 size={14} strokeWidth={1.8} />
           <span>Ver documento completo</span>
         </span>
       </header>
@@ -598,21 +585,14 @@ function UpdatesScene({ time, reduced }: SceneProps) {
           style={{ gridTemplateRows: `${notice}fr` }}
         >
           <p
-            className="font-body bg-primary-light/5 dark:bg-primary-dark/5 dark:border-primary-dark/15 relative flex min-h-0 items-start gap-2.5 border-b border-cyan-800/10 px-4 py-2.5 text-xs leading-5 text-slate-700 dark:text-slate-200"
+            className="font-body bg-primary-light/5 dark:bg-primary-dark/5 dark:border-primary-dark/15 relative min-h-0 border-b border-cyan-800/15 px-4 py-2 text-xs leading-5 text-slate-700 dark:text-slate-200"
             style={{ opacity: notice }}
           >
             <PulseLayer value={alerting ? pulseProgress(time, 1.5, 1) : 0} />
-            <History
-              size={20}
-              strokeWidth={1.1}
-              className="text-primary-light dark:text-primary-dark relative mt-px shrink-0"
-              aria-hidden="true"
-            />
             <span className="relative">
-              <span className="text-navy font-semibold dark:text-slate-50">
-                Anterior a la actualización:
-              </span>{" "}
-              una fuente posterior actualizó parte de este pasaje.
+              Anterior a la actualización: una fuente posterior actualizó parte
+              de esta unidad, así que este pasaje puede recoger un dato ya
+              sustituido.
             </span>
           </p>
         </div>

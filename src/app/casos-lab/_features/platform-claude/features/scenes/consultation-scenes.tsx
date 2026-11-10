@@ -13,7 +13,13 @@ import {
   Waves,
   X,
 } from "lucide-react";
-import type { CSSProperties, ReactNode } from "react";
+import {
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 import {
   FlowDot,
   Mark,
@@ -80,7 +86,7 @@ function UserBubble({
   return (
     <div
       style={style}
-      className={`bg-primary-light dark:bg-primary-dark font-body ml-auto w-fit ${className} rounded-2xl rounded-br-md px-4 py-2.5 text-[13px] leading-[22px] text-white dark:text-[#04111e]`}
+      className={`bg-primary-light dark:bg-primary-dark font-body ml-auto w-fit ${className} shadow-big-blocks rounded-2xl rounded-br-md px-4 py-2.5 text-[13px] leading-[22px] text-white dark:text-[#04111e]`}
     >
       {children}
     </div>
@@ -141,11 +147,10 @@ function ExpandedComposer({
   placeholder = "Pregunta clínica al comité...",
   typing = false,
   ready = false,
-  attachments,
-  attachmentsOpen = 0,
   mode,
   modeRef,
-  dropping = 0,
+  modeOpen = false,
+  dropping = false,
   sendPulse = 0,
   className = "",
 }: {
@@ -153,30 +158,19 @@ function ExpandedComposer({
   placeholder?: string;
   typing?: boolean;
   ready?: boolean;
-  attachments?: ReactNode;
-  attachmentsOpen?: number;
   mode?: string;
   modeRef?: (element: HTMLElement | null) => void;
-  /** Drop target highlight, 0 to 1. */
-  dropping?: number;
+  /** Mode menu open: the trigger keeps its hover state and flips the chevron. */
+  modeOpen?: boolean;
+  /** Drop target highlight (chat-composer: ring while a file is over it). */
+  dropping?: boolean;
   sendPulse?: number;
   className?: string;
 }) {
   return (
     <div
-      className={`shadow-big-blocks relative overflow-hidden rounded-[22px] border bg-white/85 backdrop-blur-md transition-colors duration-200 dark:bg-[#152230e6]/90 ${dropping > 0.5 ? "border-primary-light/45 dark:border-primary-dark/45 border-dashed" : "dark:border-primary-dark/15 border-cyan-800/15"} ${className}`}
+      className={`shadow-big-blocks dark:border-primary-dark/15 relative overflow-hidden rounded-3xl border border-cyan-800/15 bg-white/85 backdrop-blur-md dark:bg-[#152230e6]/90 ${dropping ? "ring-primary-light/60 dark:ring-primary-dark/60 ring-2" : ""} ${className}`}
     >
-      <PulseLayer value={dropping * 0.6} />
-      {attachments && (
-        <div
-          className="relative grid"
-          style={{ gridTemplateRows: `${attachmentsOpen}fr` }}
-        >
-          <div className="min-h-0 overflow-hidden">
-            <div className="flex gap-2 px-3 pt-3">{attachments}</div>
-          </div>
-        </div>
-      )}
       <div className="font-body relative min-h-6 px-4 pt-3 text-sm leading-6 break-words text-slate-700 dark:text-slate-200">
         {text || (
           <span className="text-slate-500 dark:text-slate-400">
@@ -189,17 +183,22 @@ function ExpandedComposer({
         <span className="dark:border-primary-dark/15 grid size-9 place-items-center rounded-full border border-cyan-800/15 text-slate-500 dark:text-slate-400">
           <Paperclip size={20} strokeWidth={1.1} />
         </span>
+        {/* Trigger of chat-mode-picker, beside the send key (gap-1). */}
         {mode && (
           <span
             ref={modeRef}
-            className="font-body ml-auto inline-flex h-9 items-center gap-1 rounded-full px-3 text-xs font-medium text-slate-600 dark:text-slate-300"
+            className={`font-body ml-auto inline-flex h-9 max-w-36 items-center gap-1 rounded-full px-3 text-xs font-medium transition-colors duration-150 ${modeOpen ? "bg-primary-light/10 dark:bg-primary-dark/10 text-cyan-800 dark:text-cyan-100" : "text-slate-600 dark:text-slate-300"}`}
           >
-            {mode}
-            <ChevronDown size={14} strokeWidth={1.4} />
+            <span className="truncate">{mode}</span>
+            <ChevronDown
+              size={14}
+              strokeWidth={2}
+              className={`shrink-0 transition-transform duration-150 ${modeOpen ? "rotate-180" : ""}`}
+            />
           </span>
         )}
         <span
-          className={`bg-primary-light dark:bg-primary-dark relative grid size-9 place-items-center rounded-full text-white transition-opacity duration-200 dark:text-[#04111e] ${mode ? "" : "ml-auto"} ${ready ? "opacity-100" : "opacity-45"}`}
+          className={`bg-primary-light dark:bg-primary-dark relative grid size-9 place-items-center rounded-full text-white transition-opacity duration-200 dark:text-[#04111e] ${mode ? "-ml-0.5" : "ml-auto"} ${ready ? "opacity-100" : "opacity-45"}`}
           style={{ transform: `scale(${1 - sendPulse * 0.1})` }}
         >
           <ArrowUp size={20} strokeWidth={1.1} />
@@ -258,25 +257,16 @@ const clarifyQuestion =
   "¿Cuál es el filtrado glomerular estimado más reciente (mL/min/1,73 m²)?";
 const clarifyOptions = ["Menos de 30", "Entre 30 y 59", "60 o más"] as const;
 const CLARIFY_CARD = 0.5;
-const CLARIFY_TYPING = CLARIFY_CARD + 0.4;
-const clarifyTyped = CLARIFY_TYPING + typingDuration(clarifyQuestion.length);
-const clarifyOptionsAt = clarifyTyped + 0.2;
-const clarifyPointer = clarifyOptionsAt + 0.7;
-const clarifyClick = clarifyPointer + 1.1;
-const clarifyAnswered = clarifyClick + 0.5;
+// The card arrives whole, as the chat renders it (asked-question-card).
+const clarifyPointer = CLARIFY_CARD + 1.4;
+const clarifyClick = clarifyPointer + 1.2;
+const clarifyAnswered = clarifyClick + 0.2;
 
 function ClarifyScene({ time, reduced }: SceneProps) {
-  const { root, target, boxes } = useBoxes(2);
+  const { root, target, boxes } = useBoxes(1);
   const card = sceneReveal(time, CLARIFY_CARD, 0.4, reduced);
-  const written = writtenCharacters(
-    time,
-    CLARIFY_TYPING,
-    clarifyQuestion.length,
-    reduced,
-  );
   const chosen = reduced || time >= clarifyClick;
-  const answered = sceneReveal(time, clarifyAnswered, 0.35, reduced);
-  const choice = centre(boxes[1]);
+  const choice = centre(boxes[0]);
   const pointer = pointerStyle(
     [
       { at: clarifyPointer, point: { x: choice.x - 70, y: choice.y + 46 } },
@@ -286,7 +276,7 @@ function ClarifyScene({ time, reduced }: SceneProps) {
     reduced,
     [clarifyClick - 0.2],
     sceneReveal(time, clarifyPointer, 0.3, reduced) *
-      (1 - sceneReveal(time, clarifyAnswered + 0.3, 0.3, reduced)),
+      (1 - sceneReveal(time, clarifyAnswered + 0.4, 0.3, reduced)),
   );
   return (
     <div ref={root} className="relative h-full">
@@ -294,36 +284,26 @@ function ClarifyScene({ time, reduced }: SceneProps) {
       <ChatHeader />
       <div className="relative space-y-4 px-6">
         <UserBubble>¿Puede mantener el ibuprofeno a dosis bajas?</UserBubble>
+        {/* asked-question-card, framed. */}
         <section
-          ref={target(0)}
-          className={`${processCardClass} ${processBorderClass(!chosen && card > 0.5)} relative px-4 py-3.5`}
+          className="dark:border-primary-dark/15 relative grid gap-2.5 rounded-2xl border border-cyan-800/15 bg-white/75 px-4 py-3.5 backdrop-blur-sm dark:bg-[#152230]/72"
           style={enter(card)}
         >
           <p className="font-display text-primary-light dark:text-primary-dark inline-flex items-center gap-1.5 text-[9px] font-bold tracking-[0.16em] uppercase">
             <MessageCircleQuestionMark size={14} strokeWidth={1.4} />
             Pregunta del comité
           </p>
-          <p className="font-display text-navy mt-2 min-h-11 text-[13px] leading-[22px] font-semibold dark:text-slate-100">
-            {clarifyQuestion.slice(0, written)}
-            {written > 0 && written < clarifyQuestion.length && <Caret />}
-          </p>
-          <ul className="mt-3 flex flex-wrap gap-2">
+          <h3 className="font-display text-navy text-[13px] leading-[22px] font-semibold dark:text-slate-100">
+            {clarifyQuestion}
+          </h3>
+          <ul className="flex flex-wrap gap-2">
             {clarifyOptions.map((option, index) => {
               const selected = index === 0 && chosen;
               return (
                 <li
                   key={option}
-                  ref={index === 0 ? target(1) : undefined}
-                  style={{
-                    opacity:
-                      sceneReveal(
-                        time,
-                        clarifyOptionsAt + index * 0.12,
-                        0.3,
-                        reduced,
-                      ) * (chosen && !selected ? 0.55 : 1),
-                  }}
-                  className={`font-body inline-flex h-8 items-center gap-1.5 rounded-full border px-3.5 text-xs font-medium transition-colors duration-200 ${selected ? "border-primary-light/45 bg-primary-light/10 text-primary-light dark:border-primary-dark/45 dark:bg-primary-dark/12 dark:text-primary-dark" : "dark:border-primary-dark/15 border-cyan-800/15 text-slate-700 dark:text-slate-200"}`}
+                  ref={index === 0 ? target(0) : undefined}
+                  className={`font-body inline-flex h-8 items-center gap-1.5 rounded-full border px-3.5 text-xs font-medium transition-colors duration-150 ${selected ? "bg-primary-light dark:bg-primary-dark border-transparent text-white dark:text-[#04111e]" : "border-primary-light/40 text-primary-light dark:border-primary-dark/40 dark:text-primary-dark"} ${chosen && !selected ? "opacity-60" : ""}`}
                 >
                   {selected && <Check size={14} strokeWidth={1.8} />}
                   {option}
@@ -331,14 +311,6 @@ function ClarifyScene({ time, reduced }: SceneProps) {
               );
             })}
           </ul>
-          <div
-            className="grid"
-            style={{ gridTemplateRows: `${answered}fr`, opacity: answered }}
-          >
-            <p className="font-body min-h-0 overflow-hidden pt-2.5 text-xs leading-5 text-slate-600 dark:text-slate-300">
-              Respuesta: menos de 30 mL/min/1,73 m²
-            </p>
-          </div>
         </section>
       </div>
       <Pointer style={pointer} />
@@ -370,14 +342,30 @@ function FollowupScene({ time, reduced }: SceneProps) {
     followupLength,
     reduced,
   );
+  // As in the chat, the thread starts at the top and only scrolls, following
+  // the answer, once it no longer fits above the composer.
+  const viewport = useRef<HTMLDivElement>(null);
+  const thread = useRef<HTMLDivElement>(null);
+  const [scroll, setScroll] = useState(0);
+  useLayoutEffect(() => {
+    const outer = viewport.current;
+    const inner = thread.current;
+    if (!outer || !inner) return;
+    const next = Math.max(0, inner.offsetHeight - outer.clientHeight);
+    setScroll((current) => (current === next ? current : next));
+  }, [sent, written]);
   return (
     <div className="relative h-full">
       <ProcessChatVeil />
       <ChatHeader />
-      {/* The thread grows from the bottom; earlier turns scroll away. */}
-      <div className="absolute inset-x-0 top-14 bottom-[84px] mask-[linear-gradient(to_bottom,transparent,black_28px)] px-6">
+      <div
+        ref={viewport}
+        className={`absolute inset-x-0 top-14 bottom-[84px] overflow-hidden px-6 ${scroll > 0 ? "mask-[linear-gradient(to_bottom,transparent,black_28px)]" : ""}`}
+      >
         <div
-          className={`flex h-full flex-col justify-end gap-3 overflow-hidden ${bodyText}`}
+          ref={thread}
+          className={`flex flex-col gap-3 ${bodyText}`}
+          style={{ transform: `translateY(${-scroll}px)` }}
         >
           <p className="shrink-0 opacity-70">
             <Answer text={claimParagraph} />
@@ -602,16 +590,29 @@ function CommitteeScene({ time, reduced }: SceneProps) {
 /* 12 · Modos de respuesta: the picker beside the send key (chat-mode-picker). */
 const modesQuestion =
   "¿Qué ajustes de la medicación conviene revisar en este paciente?";
+// Default modes and descriptions of the platform (ui builtIn labels).
 const modes = [
-  { name: "Estándar", description: "Rápido" },
-  { name: "Precisión", description: "Más exhaustivo" },
+  {
+    name: "Estándar",
+    description: "Respuesta ágil para la consulta habitual.",
+  },
+  {
+    name: "Precisión",
+    description: "Más exhaustivo para casos complejos; tarda algo más.",
+  },
 ] as const;
+// chat-mode-picker: 288px menu, right-aligned with the trigger, 8px above it.
+const MODES_MENU_WIDTH = 288;
+const MODES_MENU_GAP = 8;
 const MODES_TYPING = 0.4;
 const modesTyped = MODES_TYPING + typingDuration(modesQuestion.length);
 const modesPointer = modesTyped + 0.3;
 const modesOpen = modesPointer + 1;
-const modesPick = modesOpen + 1.1;
-const modesClosed = modesPick + 0.45;
+// The menu stays open long enough to read both modes: the pointer rests on
+// the trigger, glides to «Precisión», hovers it and only then picks it.
+const modesRead = modesOpen + 1.1;
+const modesPick = modesRead + 1.6;
+const modesClosed = modesPick + 0.3;
 
 function ModesScene({ time, reduced }: SceneProps) {
   const { root, target, boxes } = useBoxes(2);
@@ -622,16 +623,17 @@ function ModesScene({ time, reduced }: SceneProps) {
     reduced,
   );
   const picked = reduced || time >= modesPick;
-  const menu = reduced
-    ? 0
-    : sceneReveal(time, modesOpen, 0.2, false) *
-      (1 - sceneReveal(time, modesClosed, 0.2, false));
+  // The real menu opens and closes without a transition.
+  const open = !reduced && time >= modesOpen && time < modesClosed;
+  const triggerBox = boxes[0];
   const trigger = centre(boxes[0]);
   const option = centre(boxes[1]);
   const pointer = pointerStyle(
     [
       { at: modesPointer, point: { x: trigger.x - 90, y: trigger.y - 70 } },
       { at: modesOpen - 0.2, point: trigger },
+      { at: modesRead, point: trigger },
+      { at: modesPick - 0.6, point: { x: option.x + 40, y: option.y } },
       { at: modesPick - 0.2, point: { x: option.x + 40, y: option.y } },
     ],
     time,
@@ -654,48 +656,52 @@ function ModesScene({ time, reduced }: SceneProps) {
           ready={written > 0}
           mode={picked ? "Precisión" : "Estándar"}
           modeRef={target(0)}
+          modeOpen={open}
         />
-        {/* Mode menu, opened above the trigger. */}
-        <div
-          role="presentation"
-          className="shadow-big-blocks dark:border-primary-dark/15 absolute right-10 bottom-[52px] z-30 grid w-52 gap-0.5 rounded-2xl border border-cyan-800/15 bg-white/95 p-1.5 backdrop-blur-md dark:bg-[#152230]/95"
-          style={{
-            opacity: menu,
-            transform: `translateY(${-8 * menu}px)`,
-            visibility: menu > 0 ? "visible" : "hidden",
-          }}
-        >
-          <p className="font-display px-3 pt-1.5 pb-1 text-[9px] font-semibold tracking-[0.14em] text-slate-500 uppercase dark:text-slate-400">
-            Modo de respuesta
-          </p>
-          {modes.map((mode, index) => {
-            const selected = picked ? index === 1 : index === 0;
-            const hovered = index === 1 && !reduced && time >= modesPick - 0.5;
-            return (
-              <div
-                key={mode.name}
-                ref={index === 1 ? target(1) : undefined}
-                className={`grid grid-cols-[minmax(0,1fr)_16px] items-start gap-2 rounded-xl px-3 py-2 ${hovered ? "bg-primary-light/8 dark:bg-primary-dark/10" : ""}`}
-              >
-                <span className="grid min-w-0 gap-0.5">
-                  <span className="font-body text-navy text-sm font-medium dark:text-slate-50">
-                    {mode.name}
-                  </span>
-                  <span className="font-body text-xs leading-5 text-slate-500 dark:text-slate-400">
-                    {mode.description}
-                  </span>
+      </div>
+      {/* Menu of chat-mode-picker. Mounted always so it can be measured. */}
+      <div
+        role="presentation"
+        className="shadow-big-blocks dark:border-primary-dark/15 absolute z-30 grid gap-0.5 rounded-2xl border border-cyan-800/15 bg-white/95 p-1.5 backdrop-blur-md dark:bg-[#152230]/95"
+        style={{
+          width: MODES_MENU_WIDTH,
+          left: triggerBox ? triggerBox.x + triggerBox.w - MODES_MENU_WIDTH : 0,
+          // Anchored by its bottom, not with a transform: the pointer measures
+          // the options by layout, which ignores transforms.
+          bottom: triggerBox
+            ? `calc(100% - ${triggerBox.y - MODES_MENU_GAP}px)`
+            : 0,
+          visibility: open ? "visible" : "hidden",
+        }}
+      >
+        {modes.map((mode, index) => {
+          // The menu opens with the current mode checked; the pick moves it.
+          const selected = picked ? index === 1 : index === 0;
+          const hovered = index === 1 && !reduced && time >= modesPick - 0.7;
+          return (
+            <div
+              key={mode.name}
+              ref={index === 1 ? target(1) : undefined}
+              className={`grid grid-cols-[minmax(0,1fr)_16px] items-start gap-2 rounded-xl px-3 py-2 text-left transition-colors duration-100 ${hovered ? "bg-primary-light/8 dark:bg-primary-dark/10" : ""}`}
+            >
+              <span className="grid min-w-0 gap-0.5">
+                <span className="font-body text-navy text-sm font-medium dark:text-slate-50">
+                  {mode.name}
                 </span>
-                {selected && (
-                  <Check
-                    size={16}
-                    strokeWidth={1.8}
-                    className="text-primary-light dark:text-primary-dark mt-0.5"
-                  />
-                )}
-              </div>
-            );
-          })}
-        </div>
+                <span className="font-body text-xs leading-5 text-slate-500 dark:text-slate-400">
+                  {mode.description}
+                </span>
+              </span>
+              {selected && (
+                <Check
+                  size={16}
+                  strokeWidth={2}
+                  className="text-primary-light dark:text-primary-dark mt-0.5"
+                />
+              )}
+            </div>
+          );
+        })}
       </div>
       <Pointer style={pointer} />
     </div>
@@ -840,16 +846,17 @@ function ImagesScene({ time, reduced }: SceneProps) {
   const travel = reduced ? 1 : drawProgress(time, IMAGE_DRAG, 1.2, false);
   const dropped = reduced || time >= IMAGE_DROP;
   const over = !reduced && time >= IMAGE_DRAG + 0.8 && time < IMAGE_DROP;
-  const attachments = sceneReveal(time, IMAGE_DROP, 0.35, reduced);
+  const attached = sceneReveal(time, IMAGE_DROP, 0.35, reduced);
   const written = writtenCharacters(
     time,
     IMAGE_TYPING,
     imageQuestion.length,
     reduced,
   );
-  // Artboard coordinates: from the upper right towards the composer.
-  const start = { x: 236, y: 70 };
-  const end = { x: 60, y: 196 };
+  // Artboard coordinates: from the upper right onto the composer, the drop
+  // target; once dropped, the chip appears above it.
+  const start = { x: 236, y: 64 };
+  const end = { x: 150, y: 232 };
   const x = start.x + (end.x - start.x) * travel;
   const y = start.y + (end.y - start.y) * travel;
   return (
@@ -857,29 +864,28 @@ function ImagesScene({ time, reduced }: SceneProps) {
       <ProcessChatVeil />
       <ChatHeader />
       <div className="absolute inset-x-6 bottom-5">
+        {/* Attachments sit above the composer, as in chat-composer. */}
+        <div
+          className="grid"
+          style={{ gridTemplateRows: `${attached}fr`, opacity: attached }}
+        >
+          <ul className="min-h-0 overflow-hidden">
+            <li className="dark:border-primary-dark/15 shadow-big-blocks mb-2 flex w-fit max-w-56 items-center gap-2 rounded-2xl border border-cyan-800/15 bg-white/85 py-1 pr-1.5 pl-1 backdrop-blur-md dark:bg-[#152230]/80">
+              <EcgStrip className="text-primary-light dark:text-primary-dark size-10 shrink-0 rounded-xl bg-white dark:bg-[#06111f]" />
+              <span className="font-body min-w-0 flex-1 truncate text-xs text-slate-700 dark:text-slate-200">
+                {imageName}
+              </span>
+              <span className="grid size-6 shrink-0 place-items-center rounded-full text-slate-500 dark:text-slate-400">
+                <X size={14} strokeWidth={1.8} aria-hidden="true" />
+              </span>
+            </li>
+          </ul>
+        </div>
         <ExpandedComposer
           text={imageQuestion.slice(0, written)}
           typing={written > 0 && written < imageQuestion.length}
           ready={dropped}
-          dropping={over ? 1 : 0}
-          attachmentsOpen={attachments}
-          attachments={
-            <div
-              className="dark:border-primary-dark/15 relative flex items-center gap-2.5 rounded-xl border border-cyan-800/15 bg-white p-1.5 pr-2 dark:bg-[#152230]"
-              style={{ opacity: attachments }}
-            >
-              <EcgStrip className="text-primary-light dark:text-primary-dark h-10 w-14 rounded-md bg-white dark:bg-[#06111f]" />
-              <span className="font-body text-navy max-w-36 truncate text-xs font-medium dark:text-slate-100">
-                {imageName}
-              </span>
-              <X
-                size={16}
-                strokeWidth={1.4}
-                className="text-slate-400"
-                aria-hidden="true"
-              />
-            </div>
-          }
+          dropping={over}
         />
       </div>
       {!dropped && (
@@ -888,7 +894,7 @@ function ImagesScene({ time, reduced }: SceneProps) {
           style={{
             opacity:
               lift * (1 - sceneReveal(time, IMAGE_DROP - 0.2, 0.2, reduced)),
-            transform: `translate(${x}px, ${y}px) scale(${1 - 0.25 * travel}) rotate(${-3 * (1 - travel)}deg)`,
+            transform: `translate(${x}px, ${y}px) scale(${1 - 0.4 * travel}) rotate(${-3 * (1 - travel)}deg)`,
             transformOrigin: "0 0",
           }}
         >

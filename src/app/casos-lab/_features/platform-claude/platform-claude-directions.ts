@@ -10,6 +10,7 @@ export const platformClaudeDirections = [
   { id: "journey-2", number: "09", label: "Recorrido 2" },
   { id: "journey-3", number: "10", label: "Recorrido 3" },
   { id: "journey-4", number: "11", label: "Recorrido 4" },
+  { id: "journey-5", number: "12", label: "Recorrido 5" },
 ] as const;
 
 export type PlatformClaudeDirection =

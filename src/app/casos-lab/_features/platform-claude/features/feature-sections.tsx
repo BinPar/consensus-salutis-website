@@ -16,6 +16,7 @@ import {
   BellowsLayout,
   GuidedLayout,
   IndexLayout,
+  GroupGridLayout,
   JourneyLayout,
   journeyGroups,
 } from "./feature-explorations";
@@ -292,7 +293,9 @@ export function PlatformFeatures({ layout }: { layout: FeatureLayout }) {
       className="section-navigation-inset relative z-10 px-5 py-24 sm:px-8 lg:px-10 lg:py-32"
     >
       <div className="mx-auto w-full max-w-7xl">
-        {layout !== "journey" && layout !== "journey-4" && <SectionHeading />}
+        {layout !== "journey" &&
+          layout !== "journey-4" &&
+          layout !== "journey-5" && <SectionHeading />}
         {layout === "grid" ? (
           <GridLayout />
         ) : layout === "rail" ? (
@@ -305,6 +308,8 @@ export function PlatformFeatures({ layout }: { layout: FeatureLayout }) {
           <BellowsLayout />
         ) : layout === "index" ? (
           <IndexLayout />
+        ) : layout === "journey-5" ? (
+          <GroupGridLayout />
         ) : layout === "journey" ? (
           // 08 · Recorrido: each group repeats the composition, one after another.
           <>

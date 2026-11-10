@@ -187,7 +187,7 @@ export const platformFeatureGroups: PlatformFeatureGroup[] = [
         title: "Modos de respuesta",
         description: "Rapidez o profundidad, en cada pregunta.",
         detail:
-          "El modo se elige junto al campo de consulta: una respuesta ágil para una duda concreta o una revisión más exhaustiva para un caso complejo.",
+          "Cada organización define sus modos de respuesta; cuando hay más de uno, el profesional elige junto al campo de consulta entre una respuesta ágil y una revisión más exhaustiva.",
         mock: "modes",
       },
       {
@@ -361,7 +361,7 @@ export const platformFeatureGroups: PlatformFeatureGroup[] = [
         title: "Comités configurables",
         description: "Expertos y modos definidos por organización.",
         detail:
-          "Cada organización elige qué especialidades forman su comité y qué modos de respuesta ofrece a sus profesionales.",
+          "Cada organización configura los modos de respuesta de su comité y marca uno por defecto; con más de uno, el profesional elige entre ellos en el chat.",
         mock: "committees",
       },
       {

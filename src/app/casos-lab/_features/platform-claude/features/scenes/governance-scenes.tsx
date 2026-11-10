@@ -2,16 +2,21 @@
 
 import {
   ArrowUp,
+  Clock3,
+  Layers3,
+  Bot,
   Building2,
+  ChevronDown,
   Check,
   FileX2,
   GitCommitVertical,
   Layers,
   Lock,
   Paperclip,
-  ThumbsDown,
-  ThumbsUp,
+  Plus,
+  Star,
   TriangleAlert,
+  X,
   type LucideIcon,
 } from "lucide-react";
 import type { CSSProperties, ReactNode } from "react";
@@ -33,6 +38,12 @@ import {
 import type { GovernanceFeatureId } from "../features-data";
 import { Pointer, centre, pointerStyle } from "./consultation-scenes";
 import {
+  PlatformButton,
+  PlatformDialog,
+  PlatformField,
+  ResponseActions,
+} from "./platform-ui";
+import {
   Answer,
   Caret,
   ChatHeader,
@@ -45,7 +56,6 @@ import {
   curvePath,
   curvePoint,
   eyebrow,
-  sourceTitle,
   useBoxes,
   verticalCurve,
   type SceneDefinition,
@@ -105,19 +115,6 @@ function PanelHeading({
   );
 }
 
-function Toggle({ on }: { on: boolean }) {
-  return (
-    <span
-      className={`relative inline-flex h-[18px] w-8 shrink-0 rounded-full transition-colors duration-200 ${on ? "bg-primary-light dark:bg-primary-dark" : "bg-slate-300 dark:bg-slate-600"}`}
-    >
-      <span
-        className="absolute top-0.5 left-0.5 size-3.5 rounded-full bg-white shadow-sm transition-transform duration-200"
-        style={{ transform: `translateX(${on ? 14 : 0}px)` }}
-      />
-    </span>
-  );
-}
-
 /* 29 · Corpus por organización: own protocols over the common base. */
 const CORPUS_BASE = 0.5;
 const CORPUS_OWN = 2.2;
@@ -170,7 +167,7 @@ function CorpusScene({ time, reduced }: SceneProps) {
       >
         <div
           ref={target(0)}
-          className={`${processBorderClass(done)} relative flex h-[58px] w-[248px] items-center gap-3 rounded-2xl border bg-white/95 px-4 shadow-[0_8px_24px_rgba(0,109,121,0.10)] dark:bg-[#152230]`}
+          className={`${processBorderClass(done)} relative flex h-[58px] w-fit min-w-[236px] items-center gap-3 rounded-2xl border bg-white/95 pr-5 pl-4 shadow-[0_8px_24px_rgba(0,109,121,0.10)] dark:bg-[#152230]`}
         >
           <PulseLayer value={pulseAt(time, corpusDone, reduced)} />
           <Mark className="relative size-7" />
@@ -195,21 +192,21 @@ function CorpusScene({ time, reduced }: SceneProps) {
               style={enter(sceneReveal(time, CORPUS_BASE, 0.35, reduced))}
             >
               <p className="font-body mt-2 text-xs leading-[18px] text-slate-600 dark:text-slate-300">
-                Guías y manuales que heredan todas las organizaciones.
+                Heredada por todas las organizaciones.
               </p>
             </SceneCard>
           </div>
           <div ref={target(2)}>
             <SceneCard
               icon={Building2}
-              label="Protocolos del área"
+              label="Del área"
               title="18 documentos"
               active
               pulse={pulseAt(time, CORPUS_OWN + 0.3, reduced)}
               style={enter(sceneReveal(time, CORPUS_OWN, 0.35, reduced))}
             >
               <p className="font-body mt-2 text-xs leading-[18px] text-slate-600 dark:text-slate-300">
-                Aportados en este nodo y visibles solo para el área.
+                Solo visibles para el área.
               </p>
             </SceneCard>
           </div>
@@ -227,55 +224,40 @@ function CorpusScene({ time, reduced }: SceneProps) {
   );
 }
 
-/* 30 · Biblioteca de documentos: type, approval, experts and a summary. */
+/*
+ * 30 · Biblioteca de documentos: the editor's library (library-card,
+ * library-cover). Each document is an A4 cover with its type stripe, its
+ * title, publisher and year, the approval date, the node chip (dashed when
+ * inherited) and the experts it feeds.
+ */
 const libraryTabs = ["Todos", "Guía", "Protocolo", "Libro", "Del centro"];
 const libraryDocs = [
   {
     title: "Protocolo de analgesia del área",
-    type: "Protocolo",
-    meta: "Aprobado el 3 nov. 2026",
-    experts: 2,
+    publisher: organization,
+    meta: "Área Sanitaria Norte · 2026",
+    date: "Aprobado el 3 nov. 2026",
+    node: organization,
+    inherited: false,
+    stripe: "#00a7a6",
+    experts: ["FA", "NE"],
   },
   {
-    title: sourceTitle,
-    type: "Libro",
-    meta: "Base común",
-    experts: 3,
+    title: "Manual ProMIR · Nefrología",
+    publisher: "ProMIR",
+    meta: "ProMIR · 2025",
+    date: "Aprobado el 12 sept. 2026",
+    node: "Base común",
     inherited: true,
-  },
-  {
-    title: "Guía de práctica clínica de ERC",
-    type: "Guía",
-    meta: "Aprobado el 21 oct. 2026",
-    experts: 2,
+    stripe: "#62748e",
+    experts: ["CA", "FA", "NE"],
   },
 ] as const;
-const librarySummary =
-  "Pautas de analgesia en la ERC: evitar AINE y ajustar los opioides según el filtrado.";
-const LIBRARY_OPEN = 1.6;
-const libraryTyping = LIBRARY_OPEN + 0.4;
-
-function DocCover() {
-  return (
-    <span className="dark:border-primary-dark/20 flex h-8 w-6 shrink-0 flex-col gap-[3px] rounded-[3px] border border-cyan-800/20 bg-white px-1 pt-1.5 dark:bg-[#06111f]">
-      <span className="bg-primary-light/40 dark:bg-primary-dark/40 h-px w-full" />
-      <span className="h-px w-full bg-slate-300 dark:bg-slate-600" />
-      <span className="h-px w-3/4 bg-slate-300 dark:bg-slate-600" />
-      <span className="h-px w-full bg-slate-300 dark:bg-slate-600" />
-    </span>
-  );
-}
+const LIBRARY_DOCS = 0.5;
 
 function LibraryScene({ time, reduced }: SceneProps) {
-  const open = sceneReveal(time, LIBRARY_OPEN, 0.4, reduced);
-  const written = writtenCharacters(
-    time,
-    libraryTyping,
-    librarySummary.length,
-    reduced,
-  );
   return (
-    <div className="relative flex h-full flex-col px-5 pt-4">
+    <div className="relative flex h-full flex-col bg-[#f7fbfd] px-5 pt-4 dark:bg-[#0b1a29]">
       <PanelHeading
         label="Corpus"
         title="Biblioteca"
@@ -287,295 +269,373 @@ function LibraryScene({ time, reduced }: SceneProps) {
         }
       />
       <div
-        className="dark:border-primary-dark/15 mt-3 flex gap-4 border-b border-cyan-800/12"
+        className="mt-2 flex gap-1"
         style={{ opacity: sceneReveal(time, 0.3, 0.3, reduced) }}
       >
         {libraryTabs.map((tab, index) => (
           <span
             key={tab}
-            className={`font-body -mb-px pb-2 text-[11px] ${index === 0 ? "border-primary-light text-navy dark:border-primary-dark border-b-2 font-semibold dark:text-slate-100" : "text-slate-500 dark:text-slate-400"}`}
+            className={`font-body rounded-full px-2.5 py-1 text-[10px] font-semibold ${index === 0 ? "bg-primary-light dark:bg-primary-dark text-white dark:text-[#06111f]" : "text-slate-600 dark:text-slate-300"}`}
           >
             {tab}
           </span>
         ))}
       </div>
-      <ul className="mt-2.5 space-y-1.5">
+      <div className="mt-2.5 grid grid-cols-2 gap-5">
         {libraryDocs.map((doc, index) => (
-          <li
+          <div
             key={doc.title}
-            className={`${processCardClass} ${processBorderClass(index === 0 && open > 0.5)} relative px-3 py-1.5 ${"inherited" in doc ? "border-dashed" : ""}`}
-            style={enter(sceneReveal(time, 0.5 + index * 0.2, 0.3, reduced))}
+            className="flex min-w-0 flex-col"
+            style={enter(
+              sceneReveal(time, LIBRARY_DOCS + index * 0.25, 0.35, reduced),
+            )}
           >
-            <div className="flex items-center gap-3">
-              <DocCover />
-              <div className="min-w-0 flex-1">
-                <p className="font-display text-navy truncate text-[13px] font-semibold dark:text-slate-100">
+            {/* Cover with the type stripe. */}
+            <div className="dark:border-primary-dark/15 shadow-big-blocks relative aspect-[2/1] overflow-hidden rounded-[8px] border border-cyan-800/16 bg-white dark:bg-[#06111f]">
+              <span
+                className="absolute inset-y-0 left-0 w-1"
+                style={{ backgroundColor: doc.stripe }}
+              />
+              <div className="flex h-full flex-col gap-1 bg-[#deedf3]/50 px-3 pt-3.5 pb-2 pl-4 dark:bg-[#06111f]">
+                <span className="font-display text-navy/80 truncate text-[8px] font-bold tracking-[0.18em] uppercase dark:text-slate-300">
+                  {doc.publisher}
+                </span>
+                <span className="font-display text-navy line-clamp-3 text-[13px] leading-[1.15] font-extrabold dark:text-slate-50">
                   {doc.title}
-                </p>
-                <p className="font-body mt-0.5 flex items-center gap-2 text-[11px] leading-4 text-slate-500 dark:text-slate-400">
-                  <span className="bg-primary-light/10 text-primary-light dark:bg-primary-dark/12 dark:text-primary-dark rounded-full px-1.5 font-semibold">
-                    {doc.type}
-                  </span>
-                  {doc.meta}
-                </p>
+                </span>
               </div>
-              <span className="font-body shrink-0 text-[11px] text-slate-500 dark:text-slate-400">
-                {doc.experts} expertos
+            </div>
+            <p className="font-body text-navy mt-2 line-clamp-2 text-xs leading-[1.3] font-bold dark:text-slate-50">
+              {doc.title}
+            </p>
+            <p className="font-body mt-0.5 truncate text-[10.5px] text-slate-500 dark:text-slate-400">
+              {doc.meta}
+            </p>
+            <p className="font-body text-navy mt-0.5 flex items-center gap-1 text-[10.5px] dark:text-slate-200">
+              <Clock3
+                size={11}
+                strokeWidth={2}
+                className="shrink-0 text-slate-500"
+              />
+              <span className="truncate">{doc.date}</span>
+            </p>
+            <div className="mt-2 flex items-center justify-between gap-2">
+              <span
+                className={`font-body inline-flex min-w-0 items-center gap-1 truncate rounded-full py-0.5 pr-2 pl-1.5 text-[10px] font-semibold ${doc.inherited ? "border border-dashed border-cyan-800/30 text-slate-600 dark:border-cyan-300/26 dark:text-slate-400" : "bg-primary-light/10 text-primary-light dark:bg-primary-dark/12 dark:text-primary-dark"}`}
+              >
+                <Layers3 size={11} strokeWidth={2} className="shrink-0" />
+                <span className="truncate">{doc.node}</span>
+              </span>
+              <span className="flex shrink-0">
+                {doc.experts.map((initials, expert) => (
+                  <span
+                    key={initials}
+                    className={`font-display text-navy inline-flex size-6 items-center justify-center rounded-full border-2 border-[#f7fbfd] bg-[#e8f2f7] text-[8px] font-bold dark:border-[#0b1a29] dark:bg-[#152230] dark:text-slate-100 ${expert > 0 ? "-ml-1.5" : ""}`}
+                  >
+                    {initials}
+                  </span>
+                ))}
               </span>
             </div>
-            {index === 0 && (
-              <div className="grid" style={{ gridTemplateRows: `${open}fr` }}>
-                <div className="min-h-0 overflow-hidden">
-                  <p className="font-body min-h-9 pt-2 text-xs leading-[18px] text-slate-600 dark:text-slate-300">
-                    <span className="text-navy font-semibold dark:text-slate-100">
-                      Qué aporta:{" "}
-                    </span>
-                    <Typed text={librarySummary} written={written} />
-                  </p>
-                </div>
-              </div>
-            )}
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
 
-/* 31 · Comités configurables: experts and modes chosen by the organization. */
-const committeeExperts = [
-  "Cardiología",
-  "Farmacología",
-  "Nefrología",
-  "Urgencias",
-] as const;
-const committeeModes = [
+/*
+ * 31 · Comités configurables: the «Agentes» block of a chatbot in the
+ * administration (chatbot-modes-panel). With modes on, the organization adds
+ * «Precisión» next to «Estándar» and the chat starts offering the picker.
+ * Agent and model columns are left out: they name internal pieces.
+ */
+const adminModes = [
   {
     name: "Estándar",
     description: "Respuesta ágil para la consulta habitual.",
+    isDefault: true,
   },
   {
     name: "Precisión",
     description: "Más exhaustivo para casos complejos; tarda algo más.",
+    isDefault: false,
   },
 ] as const;
 const COMMITTEES_POINTER = 0.9;
-const committeesExpert = COMMITTEES_POINTER + 1;
-const committeesMode = committeesExpert + 1.3;
+const committeesOpen = COMMITTEES_POINTER + 1;
+const committeesPick = committeesOpen + 1;
+const committeesAdded = committeesPick + 0.15;
+
+function ActionButton({ icon: Icon }: { icon: LucideIcon }) {
+  return (
+    <span className="bg-primary-light dark:bg-primary-dark grid size-7 shrink-0 place-items-center rounded-full text-white dark:text-[#04111e]">
+      <Icon size={13} strokeWidth={2} />
+    </span>
+  );
+}
 
 function CommitteesScene({ time, reduced }: SceneProps) {
   const { root, target, boxes } = useBoxes(2);
-  const expertOn = reduced || time >= committeesExpert;
-  const modeOn = reduced || time >= committeesMode;
+  const open = !reduced && time >= committeesOpen && time < committeesPick;
+  const added = sceneReveal(time, committeesAdded, 0.35, reduced);
+  const two = reduced || time >= committeesAdded;
   const pointer = pointerStyle(
     [
-      { at: COMMITTEES_POINTER, point: { x: 210, y: 300 } },
-      { at: committeesExpert - 0.2, point: centre(boxes[0]) },
-      { at: committeesMode - 0.2, point: centre(boxes[1]) },
+      { at: COMMITTEES_POINTER, point: { x: 260, y: 150 } },
+      { at: committeesOpen - 0.2, point: centre(boxes[0]) },
+      { at: committeesPick - 0.2, point: centre(boxes[1]) },
     ],
     time,
     reduced,
-    [committeesExpert - 0.15, committeesMode - 0.15],
+    [committeesOpen - 0.15, committeesPick - 0.15],
     sceneReveal(time, COMMITTEES_POINTER, 0.3, reduced) *
-      (1 - sceneReveal(time, committeesMode + 0.4, 0.3, reduced)),
+      (1 - sceneReveal(time, committeesAdded + 0.4, 0.3, reduced)),
   );
-  const section =
-    "font-display mt-3 mb-2 text-[9px] font-semibold tracking-[0.14em] text-slate-500 uppercase dark:text-slate-400";
+  const cell = "px-3 py-1.5 align-top";
+  const head =
+    "font-body px-3 py-1.5 text-left text-[11px] font-normal text-slate-500 dark:text-slate-400";
+  const row = (mode: (typeof adminModes)[number]) => (
+    <>
+      <td className={cell}>
+        <span className="text-navy block truncate text-[13px] font-medium dark:text-slate-50">
+          {mode.name}
+        </span>
+        <span className="block truncate text-[11px] leading-4 text-slate-500 dark:text-slate-400">
+          {mode.description}
+        </span>
+      </td>
+      <td className={cell}>
+        {mode.isDefault && (
+          <span className="dark:border-primary-dark/20 text-navy inline-flex rounded-full border border-cyan-800/15 px-2 py-0.5 text-[11px] font-medium whitespace-nowrap dark:text-slate-100">
+            Por defecto
+          </span>
+        )}
+      </td>
+      <td className={cell}>
+        <span className="flex justify-end gap-1.5">
+          {!mode.isDefault && <ActionButton icon={Star} />}
+          <ActionButton icon={X} />
+        </span>
+      </td>
+    </>
+  );
   return (
-    <div ref={root} className="relative flex h-full flex-col px-5 pt-5">
-      <PanelHeading
-        label={organization}
-        title="Comité clínico"
+    <div ref={root} className="relative flex h-full flex-col px-5 pt-4">
+      <div
+        className="flex items-start justify-between gap-3"
         style={enter(sceneReveal(time, 0.1, 0.35, reduced))}
-      />
-      <p className={section}>Expertos</p>
-      <div className="grid grid-cols-2 gap-2">
-        {committeeExperts.map((expert, index) => {
-          const on = index < 3 || expertOn;
-          return (
-            <div
-              key={expert}
-              className={`${processCardClass} ${processBorderClass(index === 3 && expertOn)} relative flex h-10 items-center justify-between gap-2 px-3`}
-              style={enter(sceneReveal(time, 0.3 + index * 0.1, 0.3, reduced))}
-            >
-              <PulseLayer
-                value={
-                  index === 3 ? pulseAt(time, committeesExpert, reduced) : 0
-                }
-              />
-              <span
-                className={`font-body relative text-[13px] font-semibold ${on ? "text-navy dark:text-slate-100" : "text-slate-400"}`}
-              >
-                {expert}
-              </span>
-              <span
-                ref={index === 3 ? target(0) : undefined}
-                className="relative"
-              >
-                <Toggle on={on} />
-              </span>
-            </div>
-          );
-        })}
+      >
+        {/* Heading of the block in the chatbot record. */}
+        <h3 className="font-display text-navy pt-1.5 text-lg font-semibold tracking-tight dark:text-slate-50">
+          Agentes
+        </h3>
+        {/* «Sin modos» / «Con modos». */}
+        <span className="dark:border-primary-dark/15 mt-1 inline-flex rounded-full border border-cyan-800/15 bg-white/60 p-0.5 dark:bg-white/3">
+          <span
+            title="Sin modos"
+            className="text-navy grid size-8 place-items-center rounded-full dark:text-slate-200"
+          >
+            <Bot size={16} strokeWidth={1.8} />
+          </span>
+          <span
+            title="Con modos"
+            className="bg-primary-light dark:bg-primary-dark grid size-8 place-items-center rounded-full text-white dark:text-[#04111e]"
+          >
+            <Layers size={16} strokeWidth={1.8} />
+          </span>
+        </span>
       </div>
-      <p className={section}>Modos de respuesta</p>
-      <div className="space-y-2">
-        {committeeModes.map((mode, index) => {
-          const on = index === 0 || modeOn;
-          return (
-            <div
-              key={mode.name}
-              className={`${processCardClass} ${processBorderClass(index === 1 && modeOn)} relative flex items-center gap-3 px-3 py-1.5`}
-              style={enter(sceneReveal(time, 0.6 + index * 0.1, 0.3, reduced))}
+      <div
+        className="dark:border-primary-dark/15 mt-2.5 overflow-hidden rounded-xl border border-cyan-800/15 bg-white/90 dark:bg-[#152230]/90"
+        style={enter(sceneReveal(time, 0.3, 0.35, reduced))}
+      >
+        <table className="font-body w-full table-fixed border-collapse">
+          <thead>
+            <tr className="dark:border-primary-dark/15 border-b border-cyan-800/12">
+              <th className={head}>Nombre</th>
+              <th className={`${head} w-[90px] whitespace-nowrap`}>
+                Por defecto
+              </th>
+              <th className={`${head} w-[88px] text-right`}>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>{row(adminModes[0])}</tr>
+            <tr
+              className="dark:border-primary-dark/10 relative border-t border-cyan-800/10"
+              style={{
+                opacity: added,
+                display: two || added > 0 ? undefined : "none",
+              }}
             >
-              <PulseLayer
-                value={index === 1 ? pulseAt(time, committeesMode, reduced) : 0}
-              />
-              <div className="relative min-w-0 flex-1">
-                <p className="font-body text-navy flex items-center gap-2 text-[13px] font-semibold dark:text-slate-100">
-                  {mode.name}
-                  {index === 0 && (
-                    <span className="bg-primary-light/10 text-primary-light dark:bg-primary-dark/12 dark:text-primary-dark rounded-full px-1.5 text-[10px] font-semibold">
-                      Predeterminado
-                    </span>
-                  )}
-                </p>
-                <p className="font-body text-[11px] leading-4 text-slate-500 dark:text-slate-400">
-                  {mode.description}
-                </p>
-              </div>
-              <span
-                ref={index === 1 ? target(1) : undefined}
-                className="relative"
-              >
-                <Toggle on={on} />
-              </span>
-            </div>
-          );
-        })}
+              {row(adminModes[1])}
+            </tr>
+          </tbody>
+        </table>
       </div>
+      <div
+        className="relative mt-2.5 flex items-center gap-2"
+        style={{ opacity: sceneReveal(time, 0.5, 0.3, reduced) }}
+      >
+        <span
+          ref={target(0)}
+          className={`dark:border-primary-dark/20 font-body inline-flex h-9 min-w-44 items-center justify-between gap-2 rounded-lg border bg-white pr-1.5 pl-3 text-[13px] text-slate-600 dark:bg-[#152230] dark:text-slate-300 ${open ? "border-primary-light/50 dark:border-primary-dark/50" : "border-cyan-800/20"}`}
+        >
+          Añadir modo
+          <span className="bg-primary-light/10 text-primary-light dark:bg-primary-dark/12 dark:text-primary-dark grid size-6 place-items-center rounded-full">
+            <ChevronDown
+              size={13}
+              strokeWidth={2}
+              className={open ? "rotate-180" : ""}
+            />
+          </span>
+        </span>
+        <span className="dark:border-primary-dark/20 font-body text-navy inline-flex h-9 items-center gap-1.5 rounded-full border border-cyan-800/20 px-3.5 text-[13px] dark:text-slate-100">
+          <Plus size={15} strokeWidth={1.8} />
+          Crear modo
+        </span>
+        {/* Options of the «Añadir modo» select, opened above it. */}
+        <div
+          className="shadow-big-blocks dark:border-primary-dark/15 absolute bottom-[calc(100%+6px)] left-0 z-30 w-60 rounded-xl border border-cyan-800/15 bg-white/95 p-1 backdrop-blur-md dark:bg-[#152230]/95"
+          style={{ visibility: open ? "visible" : "hidden" }}
+        >
+          <div
+            ref={target(1)}
+            className={`flex items-center justify-between gap-3 rounded-lg px-2.5 py-2 ${!reduced && time >= committeesPick - 0.5 ? "bg-primary-light/8 dark:bg-primary-dark/10" : ""}`}
+          >
+            <span className="font-body text-navy text-[13px] dark:text-slate-100">
+              Precisión
+            </span>
+            <span className="font-body text-primary-light dark:text-primary-dark text-[11px]">
+              {organization}
+            </span>
+          </div>
+        </div>
+      </div>
+      <p className="font-body mt-2 text-[11px] leading-4 text-slate-500 dark:text-slate-400">
+        {two
+          ? "El profesional elige entre estos 2 modos en el chat; empieza con el último que usó o con el por defecto."
+          : "Con un solo modo el chat no muestra selector: siempre usa este."}
+      </p>
       <Pointer style={pointer} />
     </div>
   );
 }
 
-/* 32 · Publicación revisada: a proposed change is approved before publishing. */
-const reviewStages = ["Conversión", "Revisión", "Publicación"] as const;
-const REVIEW_POINTER = 1.8;
-const reviewApprove = REVIEW_POINTER + 1;
-const reviewPublished = reviewApprove + 0.9;
+/*
+ * 32 · Publicación revisada: the editor's proposal review (pr-review). Each
+ * proposed change shows its diff and is included or discarded; «Aprobar y
+ * publicar» publishes a new version of the corpus.
+ */
+const REVIEW_INCLUDE = 1.6;
+const reviewApprove = REVIEW_INCLUDE + 1.3;
+const reviewPublished = reviewApprove + 1;
 
 function ReviewScene({ time, reduced }: SceneProps) {
-  const { root, target, boxes } = useBoxes(1);
-  const approved = reduced || time >= reviewApprove;
+  const { root, target, boxes } = useBoxes(2);
+  const included = reduced || time >= REVIEW_INCLUDE;
+  const publishing =
+    !reduced && time >= reviewApprove && time < reviewPublished;
   const published = reduced || time >= reviewPublished;
-  const stage = published ? 3 : approved ? 2 : 1;
   const pointer = pointerStyle(
     [
-      { at: REVIEW_POINTER, point: { x: 200, y: 140 } },
-      { at: reviewApprove - 0.2, point: centre(boxes[0]) },
+      { at: 0.7, point: { x: 200, y: 140 } },
+      { at: REVIEW_INCLUDE - 0.2, point: centre(boxes[0]) },
+      { at: reviewApprove - 0.2, point: centre(boxes[1]) },
     ],
     time,
     reduced,
-    [reviewApprove - 0.15],
-    sceneReveal(time, REVIEW_POINTER, 0.3, reduced) *
+    [REVIEW_INCLUDE - 0.15, reviewApprove - 0.15],
+    sceneReveal(time, 0.7, 0.3, reduced) *
       (1 - sceneReveal(time, reviewApprove + 0.4, 0.3, reduced)),
   );
+  const line = (kind: "removed" | "added") =>
+    `flex ${kind === "added" ? "bg-primary-light/10 dark:bg-primary-dark/12" : "bg-rose-700/10 dark:bg-rose-300/14"}`;
+  const gutter = (kind: "removed" | "added") =>
+    `w-5 shrink-0 border-r border-cyan-800/10 text-center select-none ${kind === "added" ? "text-primary-light dark:text-primary-dark" : "text-rose-700 dark:text-rose-300"}`;
   return (
-    <div ref={root} className="relative flex h-full flex-col px-5 pt-6">
-      <ol
-        className="flex items-center gap-2"
-        style={{ opacity: sceneReveal(time, 0.1, 0.3, reduced) }}
-      >
-        {reviewStages.map((name, index) => {
-          const done = index < stage;
-          const current = index === stage;
-          return (
-            <li key={name} className="flex flex-1 items-center gap-2">
-              <span
-                className={`relative grid size-6 shrink-0 place-items-center overflow-hidden rounded-full border text-[10px] font-semibold ${done ? "bg-primary-light dark:bg-primary-dark border-transparent text-white dark:text-[#04111e]" : current ? "border-primary-light text-primary-light dark:border-primary-dark dark:text-primary-dark" : "dark:border-primary-dark/20 border-cyan-800/20 text-slate-400"}`}
-              >
-                {current && (
-                  <PulseLayer
-                    value={reduced ? 0 : pulseProgress(time, 0, 1.2)}
-                  />
-                )}
-                {done ? <Check size={13} strokeWidth={2} /> : index + 1}
-              </span>
-              <span
-                className={`font-body text-xs ${done || current ? "text-navy font-semibold dark:text-slate-100" : "text-slate-500 dark:text-slate-400"}`}
-              >
-                {name}
-              </span>
-              {index < reviewStages.length - 1 && (
-                <span
-                  className={`h-px flex-1 ${done ? "bg-primary-light/50 dark:bg-primary-dark/50" : "bg-cyan-800/15 dark:bg-cyan-300/15"}`}
-                />
-              )}
-            </li>
-          );
-        })}
-      </ol>
+    <div
+      ref={root}
+      className="relative flex h-full flex-col bg-[#f7fbfd] px-5 pt-4 dark:bg-[#0b1a29]"
+    >
+      <PanelHeading
+        label="Propuesta"
+        title="Protocolo de analgesia del área"
+        style={enter(sceneReveal(time, 0.1, 0.35, reduced))}
+      />
+      <p className="font-body mt-1 text-[11px] text-slate-500 dark:text-slate-400">
+        Cambios propuestos · 1 operación
+      </p>
       <section
-        className={`${processCardClass} ${processBorderClass(!approved)} relative mt-5 p-4`}
+        className="dark:border-primary-dark/20 mt-2.5 overflow-hidden rounded-xl border border-cyan-800/15 bg-white/80 dark:bg-[#152230]/80"
         style={enter(sceneReveal(time, 0.4, 0.35, reduced))}
       >
-        <PulseLayer value={pulseAt(time, reviewApprove, reduced)} />
-        <p className={`${eyebrow} relative`}>Cambio propuesto</p>
-        <p className="font-display text-navy relative mt-1 truncate text-sm font-semibold dark:text-slate-100">
-          Protocolo de analgesia del área · revisión 2
-        </p>
-        <div className="font-body relative mt-3 space-y-1 text-xs leading-[18px]">
-          <p
-            className="flex gap-2 rounded-md bg-rose-50 px-2 py-1.5 text-rose-800 dark:bg-rose-400/10 dark:text-rose-200"
-            style={{ opacity: sceneReveal(time, 0.8, 0.3, reduced) }}
-          >
-            <span aria-hidden="true">−</span>
-            <span className="line-through decoration-rose-400/60">
+        <div className="dark:border-primary-dark/15 flex items-center justify-between gap-2 border-b border-cyan-800/10 px-3 py-2">
+          <span className="font-body text-navy text-[11px] font-semibold dark:text-slate-100">
+            Cambio 1 · Actualizar
+          </span>
+          <span className="flex items-center gap-1.5">
+            {included && (
+              <span className="font-body bg-primary-light/10 text-primary-light dark:bg-primary-dark/12 dark:text-primary-dark inline-flex h-6 items-center rounded-full px-2 text-[10px] font-semibold">
+                Incluido
+              </span>
+            )}
+            <span
+              ref={target(0)}
+              className={`grid size-6 place-items-center rounded-full ${included ? "bg-primary-light dark:bg-primary-dark text-white dark:text-[#06111f]" : "border-primary-light/25 text-primary-light border bg-white/65 dark:bg-white/[0.03]"}`}
+              style={{
+                transform: `scale(${1 - press(time, REVIEW_INCLUDE - 0.15) * 0.08})`,
+              }}
+            >
+              <Check size={12} strokeWidth={2} />
+            </span>
+            <span className="border-primary-light/25 text-primary-light grid size-6 place-items-center rounded-full border bg-white/65 dark:bg-white/[0.03]">
+              <X size={12} strokeWidth={2} />
+            </span>
+          </span>
+        </div>
+        <div className="font-mono text-[10.5px] leading-[17px] text-slate-700 dark:text-slate-200">
+          <div className={line("removed")}>
+            <span className={gutter("removed")}>−</span>
+            <span className="px-2 py-1 line-through decoration-rose-700/70">
               Ibuprofeno 400 mg cada 8 horas como analgesia de primera elección.
             </span>
-          </p>
-          <p
-            className="bg-primary-light/8 text-navy dark:bg-primary-dark/10 flex gap-2 rounded-md px-2 py-1.5 dark:text-slate-100"
-            style={{ opacity: sceneReveal(time, 1.1, 0.3, reduced) }}
-          >
-            <span
-              aria-hidden="true"
-              className="text-primary-light dark:text-primary-dark"
-            >
-              +
-            </span>
-            <span>
+          </div>
+          <div className={line("added")}>
+            <span className={gutter("added")}>+</span>
+            <span className="px-2 py-1">
               Evitar AINE en la ERC; con aclaramiento inferior a 30 mL/min están
               contraindicados.
             </span>
-          </p>
-        </div>
-        <div className="relative mt-3 flex items-center gap-2">
-          <span
-            className={`font-body inline-flex items-center gap-1 text-[11px] font-semibold ${approved ? "text-primary-light dark:text-primary-dark" : "text-slate-500 dark:text-slate-400"}`}
-          >
-            {approved && <Check size={13} strokeWidth={1.8} />}
-            {published
-              ? "Aprobado y publicado"
-              : approved
-                ? "Aprobado"
-                : "Pendiente de aprobar"}
-          </span>
-          <span className="font-body ml-auto px-2 text-xs text-slate-500 dark:text-slate-400">
-            Rechazar
-          </span>
-          <span
-            ref={target(0)}
-            className={`bg-primary-light dark:bg-primary-dark font-body inline-flex h-8 items-center rounded-full px-3.5 text-xs font-semibold text-white transition-opacity duration-200 dark:text-[#04111e] ${approved ? "opacity-45" : ""}`}
-            style={{
-              transform: `scale(${1 - press(time, reviewApprove - 0.15) * 0.06})`,
-            }}
-          >
-            Aprobar
-          </span>
+          </div>
         </div>
       </section>
+      {/* Editorial decision. */}
+      <div
+        className="mt-3 flex items-center justify-between gap-2"
+        style={{ opacity: sceneReveal(time, 0.6, 0.3, reduced) }}
+      >
+        <span className="font-body text-[10.5px] text-slate-500 dark:text-slate-400">
+          {published
+            ? "Aprobado y publicado en v15"
+            : included
+              ? "1 cambio incluido"
+              : "1 sin revisar"}
+        </span>
+        <span className="flex items-center gap-1">
+          <PlatformButton variant="ghost" disabled={published}>
+            Rechazar propuesta
+          </PlatformButton>
+          <PlatformButton
+            buttonRef={target(1)}
+            disabled={!included || published}
+            pressed={press(time, reviewApprove - 0.15)}
+          >
+            {publishing ? "Publicando…" : "Aprobar y publicar"}
+          </PlatformButton>
+        </span>
+      </div>
       <Pointer style={pointer} />
     </div>
   );
@@ -698,17 +758,14 @@ function ControlScene({ time, reduced }: SceneProps) {
   const answered = Math.round(progress * CONTROL_TOTAL);
   const done = reduced || time >= controlDone;
   const alert = sceneReveal(time, controlDone + 0.2, 0.4, reduced);
+  // Verdict colours of the editor's question map.
   const legend = [
     {
       label: "Correcta",
-      className: "bg-primary-light/70 dark:bg-primary-dark/70",
+      className: "bg-primary-light/35 dark:bg-primary-dark/30",
     },
-    {
-      label: "Parcial",
-      className:
-        "bg-primary-light/20 border-primary-light/50 dark:bg-primary-dark/20 dark:border-primary-dark/50 border",
-    },
-    { label: "Incorrecta", className: "bg-rose-500/75" },
+    { label: "Parcial", className: "bg-[#73a9b0]" },
+    { label: "Incorrecta", className: "bg-rose-700 dark:bg-rose-300" },
   ];
   return (
     <div className="relative flex h-full flex-col px-5 pt-5">
@@ -734,14 +791,15 @@ function ControlScene({ time, reduced }: SceneProps) {
           {done ? "Completada" : `${answered} de ${CONTROL_TOTAL}`}
         </span>
       </p>
-      <div className="mt-2.5 grid grid-cols-10 gap-1.5">
+      {/* One mark per question, in order (campaign-questions). */}
+      <div className="mt-3 flex h-20 gap-[3px]">
         {Array.from({ length: CONTROL_TOTAL }, (_, index) => {
           const verdict = controlVerdict(index);
           const shown = index < answered;
           return (
             <span
               key={index}
-              className={`h-[22px] rounded-[5px] transition-colors duration-200 ${!shown ? "dark:border-primary-dark/15 border border-cyan-800/12" : verdict === "incorrect" ? "bg-rose-500/75" : verdict === "partial" ? "bg-primary-light/20 border-primary-light/50 dark:bg-primary-dark/20 dark:border-primary-dark/50 border" : "bg-primary-light/70 dark:bg-primary-dark/70"}`}
+              className={`min-w-0 flex-1 rounded-[1px] ${!shown ? "bg-slate-300/40 dark:bg-white/6" : verdict === "incorrect" ? "bg-rose-700 dark:bg-rose-300" : verdict === "partial" ? "bg-[#73a9b0]" : "bg-primary-light/35 dark:bg-primary-dark/30"}`}
             />
           );
         })}
@@ -749,7 +807,7 @@ function ControlScene({ time, reduced }: SceneProps) {
       <div className="font-body mt-2.5 flex gap-4 text-[10px] text-slate-500 dark:text-slate-400">
         {legend.map((item) => (
           <span key={item.label} className="inline-flex items-center gap-1.5">
-            <span className={`size-2.5 rounded-[3px] ${item.className}`} />
+            <span className={`size-2.5 rounded-sm ${item.className}`} />
             {item.label}
           </span>
         ))}
@@ -776,19 +834,26 @@ function ControlScene({ time, reduced }: SceneProps) {
   );
 }
 
-/* 35 · Valoración profesional: «not useful», with a comment for review. */
+/*
+ * 35 · Valoración profesional: «Respuesta no útil» opens the rating dialog
+ * (response-rating): the comment is required, «Enviar valoración» saves it
+ * and the actions row shows «Valoración guardada».
+ */
 const ratingComment =
   "Añadir el ajuste de dosis del paracetamol en la ERC grave.";
 const RATING_POINTER = 0.6;
 const ratingClick = RATING_POINTER + 1;
-const ratingTyping = ratingClick + 0.6;
+const ratingTyping = ratingClick + 0.7;
 const ratingTyped = ratingTyping + typingDuration(ratingComment.length);
 const ratingSend = ratingTyped + 0.9;
 
 function RatingScene({ time, reduced }: SceneProps) {
   const { root, target, boxes } = useBoxes(2);
   const chosen = reduced || time >= ratingClick;
-  const open = sceneReveal(time, ratingClick, 0.4, reduced);
+  const dialog = reduced
+    ? 0
+    : sceneReveal(time, ratingClick, 0.25, false) *
+      (1 - sceneReveal(time, ratingSend, 0.2, false));
   const written = writtenCharacters(
     time,
     ratingTyping,
@@ -809,8 +874,6 @@ function RatingScene({ time, reduced }: SceneProps) {
     sceneReveal(time, RATING_POINTER, 0.3, reduced) *
       (1 - sceneReveal(time, ratingSend + 0.4, 0.3, reduced)),
   );
-  const icon =
-    "grid size-8 place-items-center rounded-full text-slate-500 transition-colors duration-200 dark:text-slate-400";
   return (
     <div ref={root} className="relative h-full">
       <ProcessChatVeil />
@@ -819,61 +882,45 @@ function RatingScene({ time, reduced }: SceneProps) {
         <p>
           <Answer text={claimParagraph} />
         </p>
-        <div className="mt-2 flex items-center gap-0.5">
-          <span className={icon}>
-            <ThumbsUp size={15} strokeWidth={1.4} />
-          </span>
-          <span
-            ref={target(0)}
-            className={`${icon} ${chosen ? "bg-primary-light/10 text-primary-light dark:bg-primary-dark/12 dark:text-primary-dark" : ""}`}
-            style={{
-              transform: `scale(${1 - press(time, ratingClick - 0.15) * 0.1})`,
-            }}
-          >
-            <ThumbsDown size={15} strokeWidth={1.4} />
-          </span>
-          {sent && (
-            <span className="font-body text-primary-light dark:text-primary-dark ml-2 inline-flex items-center gap-1 text-[11px] font-semibold">
-              <Check size={13} strokeWidth={1.8} />
-              Valoración guardada
-            </span>
-          )}
-        </div>
-        <div
-          className="grid"
-          style={{ gridTemplateRows: `${open}fr`, opacity: open }}
-        >
-          <div className="min-h-0 overflow-hidden">
-            <div
-              className={`${processCardClass} ${processBorderClass(!sent)} mt-2 p-3`}
-            >
-              <p className="font-body text-[11px] font-semibold text-slate-600 dark:text-slate-300">
-                Comentario (obligatorio)
-              </p>
-              <p className="dark:border-primary-dark/15 font-body mt-1.5 min-h-9 rounded-lg border border-cyan-800/15 bg-white px-2.5 py-2 text-xs leading-[18px] text-slate-700 dark:bg-[#06111f] dark:text-slate-200">
-                {written > 0 ? (
-                  <Typed text={ratingComment} written={written} />
-                ) : (
-                  <span className="text-slate-400">
-                    Comentario sobre la respuesta…
-                  </span>
-                )}
-              </p>
-              <div className="mt-2 flex justify-end">
-                <span
-                  ref={target(1)}
-                  className={`bg-primary-light dark:bg-primary-dark font-body inline-flex h-7 items-center rounded-full px-3 text-[11px] font-semibold text-white transition-opacity duration-200 dark:text-[#04111e] ${written === 0 || sent ? "opacity-45" : ""}`}
-                  style={{
-                    transform: `scale(${1 - press(time, ratingSend - 0.15) * 0.06})`,
-                  }}
-                >
-                  {sent ? "Enviada a revisión" : "Enviar valoración"}
-                </span>
-              </div>
-            </div>
-          </div>
+        <div className="mt-3">
+          <ResponseActions
+            rating={chosen ? "negative" : undefined}
+            notice={sent ? "Valoración guardada" : undefined}
+            negativeRef={target(0)}
+          />
         </div>
       </div>
+      <PlatformDialog
+        open={dialog}
+        title="Respuesta no útil"
+        footer={
+          <>
+            <PlatformButton variant="ghost">Cancelar</PlatformButton>
+            <PlatformButton
+              buttonRef={target(1)}
+              disabled={written === 0}
+              pressed={press(time, ratingSend - 0.15)}
+            >
+              Enviar valoración
+            </PlatformButton>
+          </>
+        }
+      >
+        <div className="grid gap-1.5">
+          <p className="font-body text-navy text-xs font-medium dark:text-slate-100">
+            Comentario (obligatorio)
+          </p>
+          <PlatformField multiline focused={written > 0 && !sent}>
+            {written > 0 ? (
+              <Typed text={ratingComment} written={written} />
+            ) : (
+              <span className="text-slate-500">
+                Comentario sobre la respuesta…
+              </span>
+            )}
+          </PlatformField>
+        </div>
+      </PlatformDialog>
       <Pointer style={pointer} />
     </div>
   );
@@ -901,7 +948,6 @@ function BrandScene({ time, reduced }: SceneProps) {
       );
   const swap = reduced ? 1 : sceneReveal(time, brandSwap, 0.6, false);
   const own = swap > 0.5;
-  const accent = own ? brandColor : undefined;
   return (
     <div className="relative flex h-full flex-col bg-white dark:bg-[#06111f]">
       {/* Browser bar with the organization's domain. */}
@@ -923,35 +969,35 @@ function BrandScene({ time, reduced }: SceneProps) {
           <Typed text={brandDomain} written={written} />
         </span>
       </div>
-      <div className="relative flex h-14 items-center gap-2.5 px-6">
-        <span className="relative size-7">
-          <span className="absolute inset-0" style={{ opacity: 1 - swap }}>
-            <Mark className="size-7" />
+      {/* chatbot-intro: the logo above the organization and the name. */}
+      <div className="flex flex-1 flex-col items-center justify-center gap-2 pb-16 text-center">
+        <span className="relative h-12 w-24">
+          <span
+            className="absolute inset-0 grid place-items-center"
+            style={{ opacity: 1 - swap }}
+          >
+            <Mark className="size-12" />
           </span>
           <span
-            className="font-display absolute inset-0 grid place-items-center rounded-lg text-[11px] font-bold text-white"
-            style={{ opacity: swap, backgroundColor: brandColor }}
+            className="absolute inset-0 grid place-items-center"
+            style={{ opacity: swap }}
           >
-            AN
+            <span
+              className="font-display grid size-12 place-items-center rounded-xl text-base font-bold text-white"
+              style={{ backgroundColor: brandColor }}
+            >
+              AN
+            </span>
           </span>
         </span>
-        <span className="font-display text-navy text-sm font-semibold dark:text-slate-100">
-          {own ? organization : "BinPar"}
-        </span>
-      </div>
-      <div className="relative mt-7 px-6 text-center">
         <p
-          className="font-display text-[10px] font-bold tracking-[0.18em] uppercase"
-          style={{ color: accent }}
+          className={`font-display text-[10px] font-bold tracking-[0.18em] uppercase ${own ? "" : "text-primary-light dark:text-primary-dark"}`}
+          style={own ? { color: brandColor } : undefined}
         >
-          <span
-            className={own ? "" : "text-primary-light dark:text-primary-dark"}
-          >
-            Comité clínico
-          </span>
+          {own ? organization : "BinPar"}
         </p>
-        <p className="font-display text-navy mt-2 text-2xl font-semibold tracking-tight dark:text-slate-50">
-          ¿Qué quieres consultar?
+        <p className="font-display text-navy text-xl font-extrabold tracking-tight dark:text-slate-50">
+          Comité clínico
         </p>
       </div>
       <div className="absolute inset-x-6 bottom-5">
@@ -983,12 +1029,12 @@ export const governanceScenes: Record<GovernanceFeatureId, SceneDefinition> = {
   library: {
     render: (props) => <LibraryScene {...props} />,
     surface: "panel",
-    duration: libraryTyping + typingDuration(librarySummary.length) + 1.2,
+    duration: LIBRARY_DOCS + 0.25 + 2,
   },
   committees: {
     render: (props) => <CommitteesScene {...props} />,
     surface: "panel",
-    duration: committeesMode + 1.4,
+    duration: committeesAdded + 1.6,
   },
   review: {
     render: (props) => <ReviewScene {...props} />,
