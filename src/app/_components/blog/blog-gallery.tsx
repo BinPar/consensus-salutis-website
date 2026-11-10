@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { BlogPost, BlogTag } from "~/lib/blog";
 import {
   BlogEmptyState,
@@ -15,13 +15,8 @@ import { BlogSort, type BlogSort as SortOrder } from "./blog-sort";
 import { BlogTagFilter } from "./blog-tag-filter";
 import { BlogViewToggle, type BlogGalleryView } from "./blog-view-toggle";
 import { blogContentWidth } from "./blog-layout";
-
-const normalizeSearch = (text: string) =>
-  text
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLocaleLowerCase("es")
-    .trim();
+import { normalizeSearch } from "./normalize-search";
+import { stickyBandClass, useStuck } from "./sticky-band";
 
 export type BlogGalleryProps = {
   /** Colección ya resuelta por la ruta: índice completo o subconjunto por tag. */
@@ -50,6 +45,8 @@ export function BlogGallery({
   const [sort, setSort] = useState<SortOrder>("newest");
   const [query, setQuery] = useState("");
   const [view, setView] = useState<BlogGalleryView>("grid");
+  const bandRef = useRef<HTMLDivElement>(null);
+  const stuck = useStuck(bandRef);
   const searchTerm = normalizeSearch(query);
   const filteredPosts = posts.filter(
     (post) =>
@@ -96,13 +93,20 @@ export function BlogGallery({
       aria-label="Artículos del blog"
       className="scroll-mt-[calc(var(--blog-header-height,64px)+16px)] bg-[#fbfdff] pb-20 focus:outline-none lg:pb-24 dark:bg-[#06111f]"
     >
-      <div className={blogContentWidth}>
-        <BlogReveal className="sticky top-[var(--blog-header-height,64px)] z-30 flex flex-nowrap items-center gap-10 border-b border-cyan-800/15 bg-[#fbfdff]/95 py-2 backdrop-blur-xl dark:border-primary-dark/15 dark:bg-[#06111f]/95">
-          <p className="font-display hidden shrink-0 text-base font-semibold tracking-tight text-navy md:block dark:text-slate-100">
+      {/* Full-width band; its content keeps the gallery width. */}
+      <div
+        ref={bandRef}
+        data-stuck={stuck}
+        className={`sticky top-[var(--blog-header-height,64px)] z-30 ${stickyBandClass}`}
+      >
+        <BlogReveal
+          className={`${blogContentWidth} flex flex-nowrap items-center gap-10 py-2`}
+        >
+          <p className="font-display text-navy hidden shrink-0 text-base font-semibold tracking-tight md:block dark:text-slate-100">
             {activeTagLabel ?? "Todos los artículos"}
           </p>
           <div className="relative ml-auto flex min-w-0 flex-nowrap items-center justify-end gap-2 min-[1025px]:flex-1">
-            <div className="w-40 min-w-0 shrink min-[1025px]:w-auto min-[1025px]:flex-1 [&>div]:mt-0 [&>nav]:ml-auto [&>nav]:mt-0 [&>nav]:w-max">
+            <div className="w-40 min-w-0 shrink min-[1025px]:w-auto min-[1025px]:flex-1 [&>div]:mt-0 [&>nav]:mt-0 [&>nav]:ml-auto [&>nav]:w-max">
               <BlogTagFilter
                 tags={tags}
                 totalCount={allPosts.length}
@@ -111,7 +115,7 @@ export function BlogGallery({
             </div>
             <span
               aria-hidden="true"
-              className="h-6 w-px shrink-0 bg-cyan-800/20 dark:bg-primary-dark/20"
+              className="dark:bg-primary-dark/20 h-6 w-px shrink-0 bg-cyan-800/20"
             />
             <BlogSort
               value={sort}
@@ -132,11 +136,13 @@ export function BlogGallery({
             </div>
           </div>
         </BlogReveal>
+      </div>
+      <div className={blogContentWidth}>
         {posts.length === 0 ? (
           <BlogEmptyState />
         ) : filteredPosts.length === 0 ? (
           <div role="status" className="font-body py-16 text-center">
-            <p className="text-base font-medium text-navy dark:text-slate-100">
+            <p className="text-navy text-base font-medium dark:text-slate-100">
               No se han encontrado artículos.
             </p>
             <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">

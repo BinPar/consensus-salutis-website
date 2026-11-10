@@ -2,9 +2,14 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import type { BlogTag } from "~/lib/blog";
 import { BlogTagSelect } from "./blog-tag-select";
+import {
+  blogPillClass,
+  blogPillCountClass,
+  useScrollEdges,
+} from "./blog-pills";
 
 /**
  * Filtro de tags.
@@ -25,39 +30,9 @@ export function BlogTagFilter({
   const onSelect = (tag: string | undefined) =>
     router.push(`${tag ? `/blog/tag/${tag}` : "/blog"}#blog-page-gallery`);
   const scrollRef = useRef<HTMLElement>(null);
-  const [edges, setEdges] = useState({ left: false, right: false });
-
-  useLayoutEffect(() => {
-    const element = scrollRef.current;
-    if (!element) return;
-    const measure = () => {
-      const maxScroll = element.scrollWidth - element.clientWidth;
-      const left = element.scrollLeft > 1;
-      const right = maxScroll - element.scrollLeft > 1;
-      setEdges((previous) =>
-        previous.left === left && previous.right === right
-          ? previous
-          : { left, right },
-      );
-    };
-    measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(element);
-    element.addEventListener("scroll", measure, { passive: true });
-    document.fonts.addEventListener("loadingdone", measure);
-    return () => {
-      observer.disconnect();
-      element.removeEventListener("scroll", measure);
-      document.fonts.removeEventListener("loadingdone", measure);
-    };
-  }, [tags]);
+  const { edges, edgeMask } = useScrollEdges(scrollRef, [tags]);
 
   if (tags.length === 0) return null;
-
-  const edgeMask =
-    edges.left || edges.right
-      ? `linear-gradient(to right, ${edges.left ? "transparent, #000 32px" : "#000"}, ${edges.right ? "#000 calc(100% - 32px), transparent" : "#000"})`
-      : undefined;
 
   const entries = [
     {
@@ -98,17 +73,10 @@ export function BlogTagFilter({
               key={entry.href}
               aria-current={active ? "page" : undefined}
               aria-label={`${entry.label}: ${entry.count} ${entry.count === 1 ? "artículo" : "artículos"}`}
-              className={`font-body inline-flex h-[32px] shrink-0 items-center gap-2 rounded-full border pr-1.5 pl-4 text-xs font-semibold whitespace-nowrap transition-all duration-150 ${
-                active
-                  ? "border-primary-light bg-primary-light shadow-big-blocks dark:border-primary-dark dark:bg-primary-dark text-white dark:text-[#03111d]"
-                  : "hover:border-primary-light/35 dark:hover:border-primary-dark/30 border-primary-light/20 bg-primary-light/5 hover:bg-primary-light/10 text-slate-600 hover:text-cyan-800 dark:border-primary-dark/10 dark:bg-primary-dark/10 dark:hover:bg-primary-dark/15 dark:text-slate-400 dark:hover:text-primary-dark"
-              }`}
+              className={blogPillClass(active)}
             >
               {entry.label}
-              <span
-                aria-hidden="true"
-                className={`inline-flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full px-1 text-[10px] leading-none font-semibold tabular-nums ${active ? "bg-white/20 text-white dark:bg-[#03111d]/10 dark:text-[#03111d]" : "bg-primary-light/10 text-primary-light dark:bg-primary-dark/15 dark:text-primary-dark"}`}
-              >
+              <span aria-hidden="true" className={blogPillCountClass(active)}>
                 {entry.count}
               </span>
             </Link>
