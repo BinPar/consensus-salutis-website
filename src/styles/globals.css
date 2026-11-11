@@ -1,12 +1,13 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where(.dark, .dark *));
+/* `.light` opts a subtree out of the dark theme, e.g. a scene that shows the light UI. */
+@custom-variant dark (&:where(.dark, .dark *):not(:where(.light, .light *)));
 
 @theme {
   --breakpoint-3xl: 2000px;
   /* Navy de marca compartido por componentes y estilos locales. */
-  --color-navy: #05215E;
-  --color-primary-dark: #00BCBB;
+  --color-navy: #05215e;
+  --color-primary-dark: #00bcbb;
   --color-primary-light: #006d79;
   --color-secondary-light: #ffd230;
   --color-secondary-dark: #f6ff53;
@@ -17,8 +18,10 @@
   --font-system:
     ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
-  --shadow-big-blocks: 0 4px 30px 0 color-mix(in srgb, var(--color-primary-light), transparent 90%), 
-                0 2px 6px 2px color-mix(in srgb, var(--color-primary-light), transparent 98%);
+  --shadow-big-blocks:
+    0 4px 30px 0 color-mix(in srgb, var(--color-primary-light), transparent 90%),
+    0 2px 6px 2px
+      color-mix(in srgb, var(--color-primary-light), transparent 98%);
 }
 
 @utility font-body {
@@ -83,9 +86,7 @@
   }
 
   .dark .header-scroll-backdrop {
-    background-color: rgb(
-      6 17 31 / calc(var(--header-bg-progress, 0) * 70%)
-    );
+    background-color: rgb(6 17 31 / calc(var(--header-bg-progress, 0) * 70%));
   }
 
   .theme-changing *,

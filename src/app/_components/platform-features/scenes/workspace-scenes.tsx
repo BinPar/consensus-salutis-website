@@ -3,6 +3,7 @@
 import {
   Ellipsis,
   Moon,
+  Sun,
   X,
   FileText,
   FolderInput,
@@ -14,7 +15,7 @@ import {
   SquarePen,
   Trash2,
 } from "lucide-react";
-import type { CSSProperties, ReactNode } from "react";
+import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import {
   ProcessChatVeil,
   PulseLayer,
@@ -31,7 +32,6 @@ import {
   Answer,
   Caret,
   ChatHeader,
-  Composer,
   answerLength,
   bodyText,
   claimParagraph,
@@ -46,7 +46,6 @@ import {
   PlatformField,
   ProfilePanel,
   ProfileSection,
-  ProfileUser,
   ResponseActions,
 } from "./platform-ui";
 
@@ -871,43 +870,33 @@ const locales = [
     edit: "View and edit preferences",
   },
 ] as const;
-const LOCALE_SWITCH = [1.6, 3.2, 4.8] as const;
-const localeOrder = [1, 2, 0] as const;
-
-function LanguagesScene({ time, reduced }: SceneProps) {
-  const { root, target, boxes } = useBoxes(3);
-  const locale = reduced
-    ? 0
-    : time >= LOCALE_SWITCH[2]
-      ? 0
-      : time >= LOCALE_SWITCH[1]
-        ? 2
-        : time >= LOCALE_SWITCH[0]
-          ? 1
-          : 0;
-  const current = locales[locale];
-  const switched = [0, ...LOCALE_SWITCH].filter((at) => time >= at).pop()!;
-  const swap = reduced ? 1 : sceneReveal(time, switched, 0.3, false);
-  const text: CSSProperties = { opacity: swap };
-  const pointer = pointerStyle(
-    [
-      { at: 0.6, point: { x: 200, y: 280 } },
-      ...LOCALE_SWITCH.map((at, index) => ({
-        at: at - 0.2,
-        point: centre(boxes[localeOrder[index]!]),
-      })),
-    ],
-    time,
-    reduced,
-    LOCALE_SWITCH.map((at) => at - 0.15),
-    sceneReveal(time, 0.6, 0.3, reduced) *
-      (1 - sceneReveal(time, LOCALE_SWITCH[2] + 0.4, 0.3, reduced)),
-  );
+/**
+ * Profile panel of the personal area (account-menu, profile-menu): user card
+ * with the theme toggle, language switch and response preferences. Shared by
+ * the language and theme scenes so both show the same panel.
+ */
+function ProfileSettings({
+  copy = locales[0],
+  text,
+  locale = 0,
+  localeRef,
+  dark = false,
+  toggleRef,
+  pressed = 0,
+}: {
+  copy?: (typeof locales)[number];
+  /** Style of the texts that change with the language. */
+  text?: CSSProperties;
+  locale?: number;
+  localeRef?: (index: number) => (element: HTMLElement | null) => void;
+  /** Theme the panel is in: the toggle shows the sun in dark, the moon in light. */
+  dark?: boolean;
+  toggleRef?: (element: HTMLElement | null) => void;
+  pressed?: number;
+}) {
+  const current = copy;
   return (
-    <div
-      ref={root}
-      className="relative flex h-full flex-col bg-[#f2f8fb] dark:bg-[#0b1a29]"
-    >
+    <>
       {/* Panel header (inline profile panel). */}
       <div className="dark:border-primary-dark/10 flex h-11 shrink-0 items-center justify-between border-b border-cyan-800/10 bg-[#e8f2f7]/70 pr-5 pl-5 dark:bg-[#06111f]/50">
         <p
@@ -945,8 +934,20 @@ function LanguagesScene({ time, reduced }: SceneProps) {
                 lgomez@organizacion.es
               </p>
             </div>
-            <span className="border-primary-light/20 grid size-8 shrink-0 place-items-center rounded-full border bg-white/40 text-slate-700 dark:border-cyan-300/20 dark:text-[#7fd3dc]">
-              <Moon size={14} strokeWidth={1.8} />
+            <span
+              ref={toggleRef}
+              className="border-primary-light/20 dark:bg-primary-dark/[0.08] grid size-8 shrink-0 place-items-center rounded-full border bg-white/40 text-slate-700 dark:border-cyan-300/20 dark:text-[#7fd3dc]"
+              style={
+                pressed
+                  ? { transform: `scale(${1 - pressed * 0.08})` }
+                  : undefined
+              }
+            >
+              {dark ? (
+                <Sun size={14} strokeWidth={1.8} />
+              ) : (
+                <Moon size={14} strokeWidth={1.8} />
+              )}
             </span>
           </div>
         </ProfileSection>
@@ -958,7 +959,7 @@ function LanguagesScene({ time, reduced }: SceneProps) {
             >
               {current.language}
             </span>
-            <LocaleSwitcher active={locale} localeRef={target} />
+            <LocaleSwitcher active={locale} localeRef={localeRef} />
           </div>
         </ProfileSection>
         <ProfileSection title={current.preferences}>
@@ -973,46 +974,86 @@ function LanguagesScene({ time, reduced }: SceneProps) {
           </PlatformButton>
         </ProfileSection>
       </div>
+    </>
+  );
+}
+
+const LOCALE_SWITCH = [1.6, 3.2, 4.8] as const;
+const localeOrder = [1, 2, 0] as const;
+
+function LanguagesScene({ time, reduced }: SceneProps) {
+  const { root, target, boxes } = useBoxes(3);
+  const locale = reduced
+    ? 0
+    : time >= LOCALE_SWITCH[2]
+      ? 0
+      : time >= LOCALE_SWITCH[1]
+        ? 2
+        : time >= LOCALE_SWITCH[0]
+          ? 1
+          : 0;
+  const current = locales[locale];
+  const switched = [0, ...LOCALE_SWITCH].filter((at) => time >= at).pop()!;
+  const swap = reduced ? 1 : sceneReveal(time, switched, 0.3, false);
+  const text: CSSProperties = { opacity: swap };
+  const pointer = pointerStyle(
+    [
+      { at: 0.6, point: { x: 200, y: 280 } },
+      ...LOCALE_SWITCH.map((at, index) => ({
+        at: at - 0.2,
+        point: centre(boxes[localeOrder[index]!]),
+      })),
+    ],
+    time,
+    reduced,
+    LOCALE_SWITCH.map((at) => at - 0.15),
+    sceneReveal(time, 0.6, 0.3, reduced) *
+      (1 - sceneReveal(time, LOCALE_SWITCH[2] + 0.4, 0.3, reduced)),
+  );
+  return (
+    <div
+      ref={root}
+      className="relative flex h-full flex-col bg-[#f2f8fb] dark:bg-[#0b1a29]"
+    >
+      <ProfileSettings
+        copy={current}
+        text={text}
+        locale={locale}
+        localeRef={target}
+      />
       <Pointer style={pointer} />
     </div>
   );
 }
 
 /*
- * 28 · Tema claro y oscuro: the theme toggle of the profile panel; the dark
- * theme spreads from it.
+ * 28 · Tema claro y oscuro: the theme toggle of the profile panel, the same
+ * panel as Tres idiomas; the other theme spreads from it. The scene starts in
+ * the site theme and switches to the opposite one: light to dark on the light
+ * site, dark to light on the dark site.
  */
 const THEME_SWITCH = 1.6;
 
-function ThemeChat({
-  dark,
-  toggleRef,
-  pressed,
-}: {
-  dark: boolean;
-  toggleRef?: (element: HTMLElement | null) => void;
-  pressed: number;
-}) {
-  return (
-    <div className="relative h-full">
-      <ProcessChatVeil />
-      <ChatHeader />
-      <p className={`relative px-6 pt-[86px] ${bodyText}`}>
-        <Answer text={claimParagraph} />
-      </p>
-      <div className="absolute inset-x-6 bottom-5">
-        <Composer />
-      </div>
-      <ProfilePanel className="shadow-big-blocks absolute top-3 right-4 w-[230px]">
-        <ProfileSection>
-          <ProfileUser dark={dark} toggleRef={toggleRef} pressed={pressed} />
-        </ProfileSection>
-      </ProfilePanel>
-    </div>
-  );
+/** Whether the site is in its dark theme (the `dark` class on <html>). */
+function useSiteDark() {
+  const [dark, setDark] = useState(false);
+  useEffect(() => {
+    const root = document.documentElement;
+    const sync = () => setDark(root.classList.contains("dark"));
+    sync();
+    const observer = new MutationObserver(sync);
+    observer.observe(root, { attributes: true, attributeFilter: ["class"] });
+    return () => observer.disconnect();
+  }, []);
+  return dark;
 }
 
+/** Each layer sets its theme explicitly: `.dark` or `.light` (no dark variants). */
+const themeLayer = (dark: boolean) =>
+  `${dark ? "dark" : "light"} flex flex-col bg-[#f2f8fb] dark:bg-[#0b1a29]`;
+
 function ThemeScene({ time, reduced }: SceneProps) {
+  const siteDark = useSiteDark();
   const { root, target, boxes } = useBoxes(1);
   const spread = reduced ? 1 : sceneReveal(time, THEME_SWITCH, 0.9, false);
   const toggle = centre(boxes[0]);
@@ -1030,17 +1071,20 @@ function ThemeScene({ time, reduced }: SceneProps) {
   );
   return (
     <div ref={root} className="relative h-full overflow-hidden">
-      <div className="absolute inset-0 bg-white">
-        <ThemeChat dark={false} toggleRef={target(0)} pressed={pressed} />
+      <div className={`absolute inset-0 ${themeLayer(siteDark)}`}>
+        <ProfileSettings
+          dark={siteDark}
+          toggleRef={target(0)}
+          pressed={pressed}
+        />
       </div>
-      {/* The `dark` class turns on the dark variants of everything inside. */}
       <div
-        className="dark absolute inset-0 bg-[#06111f]"
+        className={`absolute inset-0 ${themeLayer(!siteDark)}`}
         style={{
           clipPath: `circle(${spread * 560}px at ${toggle.x}px ${toggle.y}px)`,
         }}
       >
-        <ThemeChat dark pressed={0} />
+        <ProfileSettings dark={!siteDark} />
       </div>
       <Pointer style={pointer} />
     </div>
@@ -1085,7 +1129,7 @@ export const workspaceScenes: Record<WorkspaceFeatureId, SceneDefinition> = {
   },
   theme: {
     render: (props) => <ThemeScene {...props} />,
-    surface: "chat",
+    surface: "panel",
     duration: THEME_SWITCH + 2,
   },
 };
