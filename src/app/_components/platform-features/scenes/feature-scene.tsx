@@ -165,6 +165,7 @@ export function FeatureScene({
   active = true,
   onFinish,
   alignGrid = false,
+  wide = false,
   className = "",
 }: {
   feature: FeatureMockId;
@@ -177,29 +178,43 @@ export function FeatureScene({
   alignGrid?: boolean;
   /** Called when the scene has played to its end. */
   onFinish?: () => void;
+  /**
+   * From lg, a frame half as wide again as the grid one at the same height:
+   * the scale comes from the height, as in the grid cards, and the artboard
+   * gains the extra width, so the composition spreads out instead of growing.
+   * Below lg the frame keeps the grid proportion, and so the grid scale.
+   */
+  wide?: boolean;
   className?: string;
 }) {
   const frame = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(0);
+  const [size, setSize] = useState({ scale: 0, width: ARTBOARD.width });
+  const { scale } = size;
   const scene = scenes[feature];
   const clock = useSceneClock(frame, scene.duration, active, onFinish);
   const gridPosition = usePageGridPosition(alignGrid);
   useLayoutEffect(() => {
     const element = frame.current;
     if (!element) return;
-    const measure = () =>
-      setScale(
-        Math.min(
-          MAX_SCALE,
-          element.clientWidth / ARTBOARD.width,
-          element.clientHeight / ARTBOARD.height,
-        ),
-      );
+    const measure = () => {
+      const { clientWidth, clientHeight } = element;
+      const next = wide
+        ? Math.min(MAX_SCALE, clientHeight / ARTBOARD.height)
+        : Math.min(
+            MAX_SCALE,
+            clientWidth / ARTBOARD.width,
+            clientHeight / ARTBOARD.height,
+          );
+      setSize({
+        scale: next,
+        width: wide && next ? clientWidth / next : ARTBOARD.width,
+      });
+    };
     measure();
     const observer = new ResizeObserver(measure);
     observer.observe(element);
     return () => observer.disconnect();
-  }, []);
+  }, [wide]);
   return (
     <div className={className}>
       <div
@@ -208,7 +223,7 @@ export function FeatureScene({
         data-scene-time={clock.time.toFixed(2)}
         role="img"
         aria-label={label}
-        className="shadow-big-blocks dark:border-primary-dark/15 relative isolate aspect-[14/11] w-full overflow-hidden rounded-[20px] border border-cyan-800/15 bg-white/80 backdrop-blur-sm dark:bg-[#06111f]"
+        className={`shadow-big-blocks dark:border-primary-dark/15 relative isolate w-full overflow-hidden ${wide ? "aspect-[14/11] lg:aspect-[21/11]" : "aspect-[14/11]"} rounded-[20px] border border-cyan-800/15 bg-white/80 backdrop-blur-sm dark:bg-[#06111f]`}
       >
         <div
           aria-hidden="true"
@@ -232,7 +247,7 @@ export function FeatureScene({
           aria-hidden="true"
           className="absolute top-1/2 left-1/2"
           style={{
-            width: ARTBOARD.width,
+            width: size.width,
             height: ARTBOARD.height,
             transform: `translate(-50%, -50%) scale(${scale})`,
             visibility: scale ? "visible" : "hidden",

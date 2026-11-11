@@ -17,6 +17,14 @@ type SelectOption<Value extends string> = {
   lang?: string;
 };
 
+/** Panel desplegable del selector; también lo usa el menú de la cabecera. */
+export const menuPanelClass =
+  "shadow-big-blocks dark:border-primary-dark/20 rounded-xl border border-cyan-800/15 bg-white/95 p-1.5 backdrop-blur-md dark:bg-[#102231]/95";
+
+/** Opción del panel, marcada cuando es la seleccionada o la página actual. */
+export const menuItemClass = (current: boolean) =>
+  `font-body focus-visible:ring-primary-light/35 dark:focus-visible:ring-primary-dark/35 dark:hover:bg-primary-dark/10 dark:focus-visible:bg-primary-dark/10 flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-left text-xs font-medium transition-colors hover:bg-cyan-800/5 focus-visible:bg-cyan-800/5 focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-inset ${current ? "bg-primary-light/5 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark" : "text-slate-600 dark:text-slate-300"}`;
+
 /** Selector propio compartido: foco, teclado y cierre fuera del control. */
 export function SelectMenu<Value extends string>({
   value,
@@ -160,7 +168,7 @@ export function SelectMenu<Value extends string>({
           role="menu"
           aria-label={label}
           onKeyDown={handleMenuKey}
-          className={`shadow-big-blocks dark:border-primary-dark/20 absolute top-full right-0 mt-2 rounded-xl border border-cyan-800/15 bg-white/95 p-1.5 backdrop-blur-md dark:bg-[#102231]/95 ${menuClassName}`}
+          className={`absolute top-full right-0 mt-2 ${menuPanelClass} ${menuClassName}`}
         >
           {options.map((option) => (
             <button
@@ -174,7 +182,7 @@ export function SelectMenu<Value extends string>({
                 onChange(option.value);
                 close();
               }}
-              className={`font-body focus-visible:ring-primary-light/35 dark:focus-visible:ring-primary-dark/35 dark:hover:bg-primary-dark/10 dark:focus-visible:bg-primary-dark/10 flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-left text-xs font-medium transition-colors hover:bg-cyan-800/5 focus-visible:bg-cyan-800/5 focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-inset ${value === option.value ? "bg-primary-light/5 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark" : "text-slate-600 dark:text-slate-300"}`}
+              className={menuItemClass(value === option.value)}
             >
               {option.label}
               {value === option.value && (

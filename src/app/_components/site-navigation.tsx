@@ -3,6 +3,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { NavigationDropdown, type NavigationLink } from "./navigation-dropdown";
+
+export type NavigationItem = {
+  href: string;
+  label: string;
+  disabled?: boolean;
+  /** Subpages, listed in a dropdown next to the entry. */
+  children?: readonly NavigationLink[];
+};
+
 export function isNavigationItemActive(pathname: string | null, href: string) {
   return (
     pathname === href ||
@@ -13,7 +23,7 @@ export function isNavigationItemActive(pathname: string | null, href: string) {
 export function SiteNavigation({
   items,
 }: {
-  items: readonly { href: string; label: string; disabled?: boolean }[];
+  items: readonly NavigationItem[];
 }) {
   const pathname = usePathname();
 
@@ -35,7 +45,7 @@ export function SiteNavigation({
             </span>
           );
         const active = isNavigationItemActive(pathname, item.href);
-        return (
+        const link = (
           <Link
             key={item.href}
             href={item.href}
@@ -46,7 +56,7 @@ export function SiteNavigation({
                   : "location"
                 : undefined
             }
-            className={`font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark relative rounded-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 ${active ? "text-primary-light dark:text-primary-dark font-semibold" : "font-medium hover:text-cyan-800 dark:hover:text-primary-dark"}`}
+            className={`font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark relative rounded-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 ${active ? "text-primary-light dark:text-primary-dark font-semibold" : "dark:hover:text-primary-dark font-medium hover:text-cyan-800"}`}
           >
             {item.label}
             {active && (
@@ -56,6 +66,17 @@ export function SiteNavigation({
               />
             )}
           </Link>
+        );
+        return item.children ? (
+          <NavigationDropdown
+            key={item.href}
+            label={item.label}
+            links={item.children}
+          >
+            {link}
+          </NavigationDropdown>
+        ) : (
+          link
         );
       })}
     </nav>

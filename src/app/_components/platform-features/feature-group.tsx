@@ -10,6 +10,14 @@ import type { FeatureGroupSection } from "./feature-groups";
 import type { PlatformFeature } from "./features-data";
 import { FeatureScene } from "./scenes/feature-scene";
 
+export type FeatureCardLayout = "grid" | "wide";
+
+/**
+ * "grid" is the three-column grid of the groups; "wide" is two per row, with
+ * a wider frame where the scene keeps its scale and spreads out (FeatureScene).
+ */
+const perRow: Record<FeatureCardLayout, number> = { grid: 3, wide: 2 };
+
 /** Title and explanation under each scene. */
 function FeatureCaption({ feature }: { feature: PlatformFeature }) {
   return (
@@ -30,12 +38,14 @@ function FeatureCaption({ feature }: { feature: PlatformFeature }) {
  * on its own, once a fifth of it has reached the viewport, one after another
  * within its row; its scene starts playing when it is painted.
  */
-function FeatureCard({
+export function FeatureCard({
   feature,
   index,
+  layout = "grid",
 }: {
   feature: PlatformFeature;
   index: number;
+  layout?: FeatureCardLayout;
 }) {
   const { ref, painted, reduced } = useProductEntrance();
   return (
@@ -48,7 +58,7 @@ function FeatureCard({
         animate={{ opacity: painted ? 1 : 0 }}
         transition={{
           duration: reduced ? 0 : 0.42,
-          delay: painted && !reduced ? (index % 3) * 0.08 : 0,
+          delay: painted && !reduced ? (index % perRow[layout]) * 0.08 : 0,
           ease: "easeOut",
         }}
       >
@@ -58,6 +68,7 @@ function FeatureCard({
             label={`${feature.title}. ${feature.description}`}
             active={painted}
             alignGrid
+            wide={layout === "wide"}
           />
           <FeatureCaption feature={feature} />
         </figure>

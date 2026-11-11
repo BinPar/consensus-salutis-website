@@ -5,15 +5,21 @@ import { MobileNavigation } from "~/app/_components/mobile-navigation";
 import { ScrollHeaderFrame } from "~/app/_components/scroll-header-frame";
 import { ThemeToggle } from "~/app/_components/theme-toggle";
 import { LanguageSelector } from "~/app/_components/language-selector";
-import { SiteNavigation } from "~/app/_components/site-navigation";
+import {
+  SiteNavigation,
+  type NavigationItem,
+} from "~/app/_components/site-navigation";
 
-export const navItems: Array<{
-  href: string;
-  label: string;
-  disabled?: boolean;
-}> = [
+export const navItems: NavigationItem[] = [
   { href: "/", label: "Inicio" },
-  { href: "/plataforma", label: "Plataforma" },
+  {
+    href: "/plataforma",
+    label: "Plataforma",
+    children: [
+      { href: "/plataforma", label: "Visión general" },
+      { href: "/plataforma/funcionalidades", label: "Funcionalidades" },
+    ],
+  },
   { href: "/equipo", label: "Equipo" },
   { href: "/blog", label: "Blog" },
   { href: "/contacto", label: "Contacto" },

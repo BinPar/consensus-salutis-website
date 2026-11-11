@@ -2,13 +2,9 @@
 
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
 
 import { Eyebrow } from "./eyebrow";
-import { normalizeSearch } from "./blog/normalize-search";
-import { FeatureFilterBar } from "./platform-features/feature-filter-bar";
-import { featureGroupSections } from "./platform-features/feature-groups";
-import { FeatureGroup } from "./platform-features/feature-group";
+import { FeatureHighlights } from "./platform-features/feature-highlights";
 import { SectionNavigation } from "./section-navigation";
 import { PlatformPreview } from "./platform-preview/platform-preview";
 import { ProductSignalLeft } from "./product-signal-left";
@@ -23,74 +19,14 @@ const sectionBlendDepth = "clamp(160px, 22vw, 360px)";
 const sectionFadeIn = surfaceMask(sectionBlendDepth);
 const sectionFadeOut = sectionFadeIn.replace("to bottom", "to top");
 
-/** The side index covers the page as a whole; the features bar covers the groups. */
+/** The side index of the page. */
 const platformSections = [
   { id: "plataforma", label: "Plataforma" },
   { id: "funcionalidades", label: "Funcionalidades" },
   { id: "contacto", label: "Contacto" },
 ];
 
-/** Text the features search looks into, per feature. */
-const searchIndex = new Map(
-  featureGroupSections.flatMap((section) =>
-    section.features.map((feature) => [
-      feature,
-      normalizeSearch(
-        [
-          feature.title,
-          feature.description,
-          feature.detail ?? "",
-          section.navLabel,
-          ...section.heading,
-        ].join(" "),
-      ),
-    ]),
-  ),
-);
-
 export function PlatformWalkthrough() {
-  const [query, setQuery] = useState("");
-  const featuresRef = useRef<HTMLDivElement>(null);
-  const barRef = useRef<HTMLDivElement>(null);
-  const searchTerm = normalizeSearch(query);
-  const groups = useMemo(
-    () =>
-      featureGroupSections
-        .map((section) => ({
-          ...section,
-          features: section.features.filter(
-            (feature) =>
-              !searchTerm || searchIndex.get(feature)?.includes(searchTerm),
-          ),
-        }))
-        .filter((section) => section.features.length > 0),
-    [searchTerm],
-  );
-  const filterEntries = useMemo(
-    () =>
-      groups.map((section) => ({
-        id: section.id,
-        label: section.navLabel,
-        count: section.features.length,
-      })),
-    [groups],
-  );
-
-  // While searching from inside the features, bring their start back under the
-  // bar so the first results are in view, as the blog gallery does with pages.
-  const searchedRef = useRef(false);
-  useEffect(() => {
-    const zone = featuresRef.current;
-    // Not on mount: a deep link such as #contacto keeps its position.
-    if (!searchedRef.current) {
-      searchedRef.current = true;
-      return;
-    }
-    if (!zone) return;
-    const top = zone.getBoundingClientRect().top;
-    if (top < 64) window.scrollTo({ top: window.scrollY + top - 64 });
-  }, [searchTerm]);
-
   return (
     <div className="relative isolate bg-[#fbfdff] dark:bg-[#06111f]">
       <HomeMotionBackground />
@@ -163,83 +99,32 @@ export function PlatformWalkthrough() {
           )}
         </HomePaintPanel>
 
-        <div
-          ref={featuresRef}
+        <section
           id="funcionalidades"
           tabIndex={-1}
           data-section-anchor
-          aria-label="Funcionalidades"
-          className="relative"
+          aria-labelledby="platform-highlights-title"
+          className="section-navigation-inset relative px-5 py-14 sm:px-8 sm:py-20 lg:px-10 lg:py-24"
         >
-          <FeatureFilterBar
-            entries={filterEntries}
-            query={query}
-            onQueryChange={setQuery}
-            barRef={barRef}
-          />
-          {groups.length === 0 && (
-            <div
-              role="status"
-              className="section-navigation-inset font-body relative z-30 px-5 py-16 text-center sm:px-8 lg:px-10"
-            >
-              <p className="text-navy text-base font-medium dark:text-slate-100">
-                No se han encontrado funcionalidades.
-              </p>
-              <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-                Prueba con otra búsqueda o{" "}
-                <Link
-                  href="/contacto"
-                  className="text-primary-light dark:text-primary-dark font-semibold underline-offset-4 hover:underline"
-                >
-                  pregúntanos directamente
-                </Link>
-                .
-              </p>
-            </div>
-          )}
-          {groups.map((section, index) => (
-            <section
-              key={section.id}
-              id={section.id}
-              tabIndex={-1}
-              data-section-anchor
-              aria-labelledby={`platform-group-${section.id}`}
-              className="section-navigation-inset relative px-5 py-14 sm:px-8 sm:py-20 lg:px-10 lg:py-24"
-            >
-              {index % 2 === 1 ? (
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 z-0 bg-white dark:bg-[#06111f]"
-                  style={{
-                    top: `calc(${sectionBlendDepth} / -2)`,
-                    bottom: `calc(${sectionBlendDepth} / -2)`,
-                    maskImage: `${sectionFadeIn}, ${sectionFadeOut}`,
-                    maskComposite: "intersect",
-                  }}
-                />
-              ) : (
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 z-1"
-                  style={{
-                    top: `calc(${sectionBlendDepth} / -2)`,
-                    bottom: `calc(${sectionBlendDepth} / -2)`,
-                  }}
-                >
-                  <ProcessBackground
-                    fadeToProduct
-                    continuationSurface={index === 0 ? "transparent" : "base"}
-                    blendDepth={sectionBlendDepth}
-                    softFadeOut
-                  />
-                </div>
-              )}
-              <div className="relative z-30 mx-auto w-full max-w-7xl">
-                <FeatureGroup section={section} />
-              </div>
-            </section>
-          ))}
-        </div>
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 z-1"
+            style={{
+              top: `calc(${sectionBlendDepth} / -2)`,
+              bottom: `calc(${sectionBlendDepth} / -2)`,
+            }}
+          >
+            <ProcessBackground
+              fadeToProduct
+              continuationSurface="transparent"
+              blendDepth={sectionBlendDepth}
+              softFadeOut
+            />
+          </div>
+          <div className="relative z-30 mx-auto w-full max-w-7xl">
+            <FeatureHighlights />
+          </div>
+        </section>
 
         <HomePaintPanel>
           {(painted, panelRef) => (

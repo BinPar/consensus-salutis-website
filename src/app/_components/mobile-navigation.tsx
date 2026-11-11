@@ -3,16 +3,12 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 
 import { Eyebrow } from "~/app/_components/eyebrow";
-import { isNavigationItemActive } from "./site-navigation";
+import { isNavigationItemActive, type NavigationItem } from "./site-navigation";
 
-export function MobileNavigation({
-  items,
-}: {
-  items: Array<{ href: string; label: string; disabled?: boolean }>;
-}) {
+export function MobileNavigation({ items }: { items: NavigationItem[] }) {
   const pathname = usePathname();
   const reducedMotion = useReducedMotion();
   const buttonRef = useRef<HTMLButtonElement | null>(null);
@@ -64,7 +60,7 @@ export function MobileNavigation({
         aria-expanded={open}
         aria-controls="mobile-navigation-panel"
         onClick={() => setOpen((current) => !current)}
-        className="border-primary-light/20 hover:border-primary-light/40 dark:bg-primary-dark/8 dark:text-primary-dark relative grid size-9 shrink-0 place-items-center rounded-full border bg-white/70 text-slate-700 shadow-sm transition hover:bg-cyan-50 hover:text-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600 dark:border-primary-dark/20 dark:shadow-none dark:hover:border-primary-dark/45 dark:hover:bg-primary-dark/15 dark:hover:text-primary-dark dark:focus-visible:outline-primary-dark"
+        className="border-primary-light/20 hover:border-primary-light/40 dark:bg-primary-dark/8 dark:text-primary-dark dark:border-primary-dark/20 dark:hover:border-primary-dark/45 dark:hover:bg-primary-dark/15 dark:hover:text-primary-dark dark:focus-visible:outline-primary-dark relative grid size-9 shrink-0 place-items-center rounded-full border bg-white/70 text-slate-700 shadow-sm transition hover:bg-cyan-50 hover:text-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600 dark:shadow-none"
       >
         <span className="relative block size-4" aria-hidden="true">
           <motion.span
@@ -90,7 +86,7 @@ export function MobileNavigation({
           <motion.nav
             id="mobile-navigation-panel"
             aria-label="Navegación móvil"
-            className="fixed inset-x-0 top-16 z-50 flex h-[calc(100dvh-4rem)] flex-col border-t border-cyan-800/10 bg-[#f4f9fc] px-5 py-7 shadow-xl sm:px-8 dark:border-primary-dark/10 dark:bg-[#06111f]"
+            className="dark:border-primary-dark/10 fixed inset-x-0 top-16 z-50 flex h-[calc(100dvh-4rem)] flex-col border-t border-cyan-800/10 bg-[#f4f9fc] px-5 py-7 shadow-xl sm:px-8 dark:bg-[#06111f]"
             initial={{
               x: reducedMotion ? 0 : "-100%",
               opacity: reducedMotion ? 1 : 0,
@@ -106,7 +102,7 @@ export function MobileNavigation({
             }}
           >
             <Eyebrow>Navegación</Eyebrow>
-            <div className="mt-5 max-w-xl border-t border-cyan-800/12 dark:border-primary-dark/12">
+            <div className="dark:border-primary-dark/12 mt-5 max-w-xl border-t border-cyan-800/12">
               {items.map((item, index) => {
                 if (item.disabled) {
                   return (
@@ -114,7 +110,7 @@ export function MobileNavigation({
                       key={item.href}
                       role="link"
                       aria-disabled="true"
-                      className="block cursor-not-allowed border-b border-cyan-800/12 py-3 text-sm font-semibold text-navy opacity-45 dark:border-primary-dark/12 dark:text-slate-100"
+                      className="text-navy dark:border-primary-dark/12 block cursor-not-allowed border-b border-cyan-800/12 py-3 text-sm font-semibold opacity-45 dark:text-slate-100"
                     >
                       {item.label}
                     </span>
@@ -122,32 +118,55 @@ export function MobileNavigation({
                 }
                 const active = isNavigationItemActive(pathname, item.href);
 
+                // Subpages other than the entry's own page, indented below it.
+                const subpages =
+                  item.children?.filter((child) => child.href !== item.href) ??
+                  [];
+
                 return (
-                  <Link
-                    ref={index === 0 ? firstLinkRef : undefined}
-                    key={item.href}
-                    href={item.href}
-                    aria-current={
-                      active
-                        ? pathname === item.href
-                          ? "page"
-                          : "location"
-                        : undefined
-                    }
-                    className={`relative block border-b border-cyan-800/12 py-3 text-sm font-semibold transition dark:border-primary-dark/12 ${
-                      active
-                        ? "text-primary-light dark:text-primary-dark"
-                        : "text-navy hover:text-cyan-800 dark:text-slate-100 dark:hover:text-primary-dark"
-                    }`}
-                  >
-                    {item.label}
-                    {active ? (
-                      <span
-                        aria-hidden="true"
-                        className="bg-primary-light dark:bg-primary-dark absolute bottom-0 left-0 h-px w-8"
-                      />
-                    ) : null}
-                  </Link>
+                  <Fragment key={item.href}>
+                    <Link
+                      ref={index === 0 ? firstLinkRef : undefined}
+                      href={item.href}
+                      aria-current={
+                        active
+                          ? pathname === item.href
+                            ? "page"
+                            : "location"
+                          : undefined
+                      }
+                      className={`dark:border-primary-dark/12 relative block border-b border-cyan-800/12 py-3 text-sm font-semibold transition ${
+                        active
+                          ? "text-primary-light dark:text-primary-dark"
+                          : "text-navy dark:hover:text-primary-dark hover:text-cyan-800 dark:text-slate-100"
+                      }`}
+                    >
+                      {item.label}
+                      {active ? (
+                        <span
+                          aria-hidden="true"
+                          className="bg-primary-light dark:bg-primary-dark absolute bottom-0 left-0 h-px w-8"
+                        />
+                      ) : null}
+                    </Link>
+                    {subpages.map((child) => {
+                      const current = pathname === child.href;
+                      return (
+                        <Link
+                          key={child.href}
+                          href={child.href}
+                          aria-current={current ? "page" : undefined}
+                          className={`dark:border-primary-dark/12 relative block border-b border-cyan-800/12 py-3 pl-5 text-sm font-medium transition ${
+                            current
+                              ? "text-primary-light dark:text-primary-dark"
+                              : "dark:hover:text-primary-dark text-slate-600 hover:text-cyan-800 dark:text-slate-300"
+                          }`}
+                        >
+                          {child.label}
+                        </Link>
+                      );
+                    })}
+                  </Fragment>
                 );
               })}
             </div>
