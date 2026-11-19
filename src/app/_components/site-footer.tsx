@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { navItems } from "~/app/_components/site-header";
 
-import { contactItems } from "./site-footer-links";
+import { contactItems, legalItems } from "./site-footer-links";
 import { ContrastFooter } from "./contrast-footer";
 
 export { contactItems } from "./site-footer-links";
@@ -12,7 +12,6 @@ export function VerticalFooter() {
   return <ContrastFooter palette="original" />;
 }
 
-const legalItems = [{ href: "/privacidad", label: "Política de privacidad" }];
 
 export function ReferenceFooter() {
   return (

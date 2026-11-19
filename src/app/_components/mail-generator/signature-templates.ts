@@ -70,7 +70,7 @@ export const company = {
 // Texto legal oficial de BINPAR TEAM, S.L.
 const legalText = [
   "ADVERTENCIA | La información contenida en este correo electrónico, y en su caso, cualquier fichero anexo al mismo, son de carácter privado y confidencial siendo para uso exclusivo de su destinatario. Si usted no es el destinatario correcto, el empleado o agente responsable de entregar el mensaje al destinatario, o ha recibido esta comunicación por error, le informamos que está totalmente prohibida cualquier divulgación, distribución o reproducción de esta comunicación según la legislación vigente y le rogamos que nos lo notifique inmediatamente, procediendo a su destrucción sin continuar su lectura. Le informamos que su dirección de correo electrónico, así como el resto de los datos de carácter personal de la tarjeta de visita que nos facilite, podrían ser objeto de tratamiento automatizado en nuestros sistemas de información, con la finalidad de gestionar la agenda de contactos de BINPAR TEAM, S.L. Usted puede en cualquier momento ejercer sus derechos de acceso, rectificación, cancelación y oposición en los términos establecidos en el Reglamento (UE) 2016/679 de Protección de Datos y la Ley Orgánica 3/2018 de 5 de diciembre de Protección de Datos de Carácter Personal y Garantías de Derechos Digitales (LOPDGDD) mediante notificación escrita, aportando copia del DNI o tarjeta identificativa, a ",
-  "Isabel@binpar.com",
+  "isabel@binpar.com",
   ". Usted puede consultar nuestra política de Protección de Datos en ",
   "www.binpar.com",
 ] as const;

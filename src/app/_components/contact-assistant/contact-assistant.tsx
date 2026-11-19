@@ -441,7 +441,7 @@ export function ContactAssistant({
                           target="_blank"
                           rel="noreferrer"
                         >
-                          Política de Privacidad
+                          Política de privacidad
                         </Link>
                         .
                       </span>

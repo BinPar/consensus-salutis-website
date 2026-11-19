@@ -37,7 +37,7 @@ export function officeMapStyle(dark: boolean): StyleSpecification {
         type: "vector",
         url: "https://tiles.openfreemap.org/planet",
         attribution:
-          '<a href="https://openfreemap.org/" target="_blank">OpenFreeMap</a> · <a href="https://www.openmaptiles.org/" target="_blank">OpenMapTiles</a> · © <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+          '<a href="https://openfreemap.org/" target="_blank" rel="noopener noreferrer">OpenFreeMap</a> · <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener noreferrer">OpenMapTiles</a> · © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>',
       },
     },
     layers: [

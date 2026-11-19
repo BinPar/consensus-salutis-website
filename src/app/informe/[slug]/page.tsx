@@ -92,7 +92,7 @@ export default async function InformePage({
     delante — también en un preview deployment.
   */
   const requestHeaders = await headers();
-  const host = requestHeaders.get("host") ?? "consensussalutis.com";
+  const host = requestHeaders.get("host") ?? "binpar.com";
   const proto = requestHeaders.get("x-forwarded-proto") ?? "https";
   const url = `${proto}://${host}/informe/${slug}`;
 

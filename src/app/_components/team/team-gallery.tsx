@@ -133,11 +133,11 @@ export function TeamGallery() {
                       <TeamPortrait person={person} />
                     </div>
                   </div>
-                  <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 z-1 flex items-baseline justify-between gap-3 rounded-b-lg bg-[linear-gradient(transparent,rgb(3_17_29/42%))] px-3.5 pt-9 pb-3 [text-shadow:0_1px_3px_rgb(3_17_29/25%)] [@media(width<=767px)]:gap-1.5 [@media(width<=767px)]:px-2.5 [@media(width<=767px)]:pt-7 [@media(width<=767px)]:pb-2.5">
-                    <h3 className="font-body m-0 min-w-0 truncate text-[clamp(11px,0.85vw,13px)] leading-5 font-medium text-[rgb(255_255_255/90%)]">
+                  <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 z-1 flex items-baseline justify-between gap-3 rounded-b-lg bg-[linear-gradient(transparent,rgb(3_17_29/42%))] px-3.5 pt-9 pb-3 [text-shadow:0_1px_3px_rgb(3_17_29/25%)] [@media(width<=767px)]:flex-col [@media(width<=767px)]:items-start [@media(width<=767px)]:gap-0 [@media(width<=767px)]:px-2.5 [@media(width<=767px)]:pt-7 [@media(width<=767px)]:pb-2.5">
+                    <h3 className="font-body m-0 min-w-0 truncate [@media(width<=767px)]:max-w-full text-[clamp(11px,0.85vw,13px)] leading-5 font-medium text-[rgb(255_255_255/90%)]">
                       {person.name}
                     </h3>
-                    <p className="m-0 shrink-0 text-right text-[clamp(10px,0.75vw,12px)] leading-5 whitespace-nowrap text-[rgb(255_255_255/75%)]">
+                    <p className="m-0 shrink-0 text-right text-[clamp(10px,0.75vw,12px)] leading-5 [@media(width<=767px)]:text-left [@media(width<=767px)]:leading-4 whitespace-nowrap text-[rgb(255_255_255/75%)]">
                       {person.role}
                     </p>
                   </figcaption>

@@ -19,7 +19,7 @@ export const contactSchema = z.object({
     .max(3000, "El mensaje no puede superar los 3000 caracteres."),
   privacyAccepted: z.literal(true, {
     errorMap: () => ({
-      message: "Debes aceptar la Política de Privacidad.",
+      message: "Debes aceptar la política de privacidad.",
     }),
   }),
   /** Trampa para bots: la única defensa antibot que queda. Tiene que ir vacío. */

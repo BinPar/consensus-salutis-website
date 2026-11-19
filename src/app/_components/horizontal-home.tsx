@@ -306,7 +306,7 @@ export function HorizontalHome({ posts }: { posts: BlogPost[] }) {
           <div
             ref={railRef}
             tabIndex={0}
-            aria-label="Home horizontal de BinPar"
+            aria-label="Página de inicio de BinPar"
             onScroll={updateProgress}
             onKeyDown={(event) => {
               const rail = railRef.current;

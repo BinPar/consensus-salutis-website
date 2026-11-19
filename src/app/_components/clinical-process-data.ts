@@ -20,7 +20,7 @@ export const processExpertInputs = [
 export const processConsultation = {
   question:
     "Paciente de 68 años con diabetes tipo 2, hipertensión y enfermedad renal crónica. Presenta cansancio progresivo, falta de aire al esfuerzo y edema en ambas piernas, y toma ibuprofeno con frecuencia. ¿Cómo orientarías la valoración inicial, qué signos de alarma y pruebas considerarías, y cómo influyen sus enfermedades y la medicación en las decisiones?",
-  source: "Consulta ejecutada en Consensus Salutis el 6 de octubre de 2026",
+  source: "Consulta ejecutada en BinPar el 6 de octubre de 2026",
   elapsedMs: 35156,
   citationCount: 17,
   experts: [

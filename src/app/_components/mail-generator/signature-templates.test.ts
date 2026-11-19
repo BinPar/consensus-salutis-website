@@ -53,7 +53,7 @@ describe("Noche email signature", () => {
   it("ends with the official legal notice", () => {
     const html = renderSignature(data);
     expect(html).toContain("ADVERTENCIA | La información contenida");
-    expect(html).toContain('href="mailto:Isabel@binpar.com"');
+    expect(html).toContain('href="mailto:isabel@binpar.com"');
     expect(renderSignatureText(data).split("\n")[0]).toBe("Ana <Prueba> Co");
   });
 

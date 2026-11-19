@@ -28,6 +28,8 @@ export const PUBLIC_ROUTES = [
   */
   { path: "/contacto", priority: 0.6 },
   { path: "/privacidad", priority: 0.3 },
+  { path: "/aviso-legal", priority: 0.2 },
+  { path: "/cookies", priority: 0.2 },
   { path: "/blog", priority: 0.9 },
 ] as const;
 

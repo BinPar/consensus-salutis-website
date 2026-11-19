@@ -5,7 +5,7 @@ import { ThemeSection, Eyebrow, PageShell } from "~/app/_components/site";
 import { PURPOSE_STATEMENT, RETENTION_STATEMENT } from "~/lib/eligibility";
 
 export const metadata: Metadata = {
-  title: "Política de Privacidad",
+  title: "Política de privacidad",
   description:
     "Información sobre el tratamiento de datos personales en BinPar.",
 };
@@ -18,7 +18,7 @@ export default function PrivacyPage() {
           <article className="mx-auto w-full max-w-4xl px-5 sm:px-8">
             <Eyebrow>Información legal</Eyebrow>
             <h1 className="font-display mt-5 text-4xl font-extrabold tracking-tight text-navy sm:text-5xl dark:text-slate-50">
-              Política de Privacidad
+              Política de privacidad
             </h1>
             <div className="font-body mt-10 space-y-8 text-base leading-8 text-slate-600 dark:text-slate-400">
               <LegalSection title="Responsable del tratamiento">

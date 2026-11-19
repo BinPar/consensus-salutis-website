@@ -7,7 +7,7 @@ export type TeamMember = Readonly<{
 export const teamMembers: readonly TeamMember[] = [
   {
     slug: "ignacio-ferro",
-    name: "Ignacio Ferro Picón",
+    name: "Ignacio Ferro",
     role: "CEO",
   },
   {
@@ -18,7 +18,7 @@ export const teamMembers: readonly TeamMember[] = [
   {
     slug: "marcos-gonzalez",
     name: "Marcos González",
-    role: "Tech Ninja",
+    role: "Chief Architect",
   },
   {
     slug: "isabel-ferro",
@@ -33,12 +33,12 @@ export const teamMembers: readonly TeamMember[] = [
   {
     slug: "nicolas-arianoutsos",
     name: "Nicolás Arianoutsos",
-    role: "Senior Analyst",
+    role: "Full-Stack Developer",
   },
   {
     slug: "beatriz-ortega",
     name: "Beatriz Ortega",
-    role: "Analyst",
+    role: "Full-Stack Developer",
   },
   {
     slug: "carolina-carcamo",
@@ -47,38 +47,38 @@ export const teamMembers: readonly TeamMember[] = [
   },
   {
     slug: "pablo-emilio",
-    name: "Pablo Emilio",
-    role: "Analyst",
+    name: "Pablo Emilio Pupo",
+    role: "Full-Stack Developer",
   },
   {
     slug: "adrian-rodriguez",
     name: "Adrián Rodríguez",
-    role: "Front End",
+    role: "Design Lead",
   },
   {
     slug: "fabian-padilla",
-    name: "Fabian Padilla",
-    role: "Full Stack",
+    name: "Fabián Padilla",
+    role: "Full-Stack Developer",
   },
   {
     slug: "jeronimo-ekerdt",
-    name: "Jeronimo Ekerdt",
-    role: "Full Stack",
+    name: "Jerónimo Ekerdt",
+    role: "Full-Stack Developer",
   },
   {
     slug: "jimmy-montano",
     name: "Jimmy Montaño",
-    role: "Full Stack",
+    role: "Full-Stack Developer",
   },
   {
     slug: "yaiza-vallejo",
     name: "Yaiza Vallejo",
-    role: "Full Stack",
+    role: "Product Lead",
   },
   {
     slug: "guillermo-hernandez",
     name: "Guillermo Hernández",
-    role: "Full Stack",
+    role: "Full-Stack Developer",
   },
 ];
 

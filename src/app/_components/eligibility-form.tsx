@@ -359,7 +359,7 @@ export function EligibilityForm({ className = "" }: { className?: string }) {
               href="/privacidad"
               className="text-primary-light dark:text-primary-dark underline underline-offset-4 hover:text-cyan-800 dark:hover:text-primary-dark"
             >
-              Política de Privacidad
+              Política de privacidad
             </Link>
             .
           </span>

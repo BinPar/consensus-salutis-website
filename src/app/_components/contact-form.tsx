@@ -253,7 +253,7 @@ export function ContactForm({
               href="/privacidad"
               className="dark:text-primary-dark text-primary-light underline underline-offset-4 hover:text-cyan-800 dark:hover:text-primary-dark"
             >
-              Política de Privacidad
+              Política de privacidad
             </Link>
             .
           </span>
@@ -292,7 +292,7 @@ export function ContactForm({
         disabled={busy}
         className="font-body bg-primary-light dark:bg-primary-dark dark:hover:bg-primary-dark/85 flex min-h-10 w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold text-white transition hover:bg-cyan-800 disabled:cursor-wait disabled:opacity-60 dark:text-[#04111e]"
       >
-        {busy ? "Enviando..." : "Enviar mensaje"}
+        {busy ? "Enviando…" : "Enviar mensaje"}
       </button>
     </form>
   );

@@ -42,7 +42,7 @@ export default async function BlogOpengraphImage({
   const title = post?.title ?? "Lecturas clínicas";
   const footer = post
     ? `${post.author.name} · ${post.createdAtLabel}`
-    : "consensussalutis.com";
+    : "binpar.com";
 
   /* Tres escalones: un título largo baja de cuerpo en vez de desbordar. */
   const titleSize = title.length > 96 ? 52 : title.length > 62 ? 62 : 72;

@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { HomeGrid } from "./motion-system";
 import { navItems } from "./site-header";
-import { contactItems } from "./site-footer-links";
+import { contactItems, legalItems } from "./site-footer-links";
 import "./footer-design.css";
 
 export function Brand({ white = false }: { white?: boolean }) {
@@ -77,7 +77,16 @@ export function Bottom() {
   return (
     <div className="ft-bottom">
       <p>© BinPar · Todos los derechos reservados</p>
-      <Link href="/privacidad">Política de privacidad</Link>
+      <nav
+        aria-label="Información legal"
+        className="flex flex-wrap justify-end gap-x-4 gap-y-1"
+      >
+        {legalItems.map((item) => (
+          <Link key={item.href} href={item.href}>
+            {item.label}
+          </Link>
+        ))}
+      </nav>
     </div>
   );
 }
