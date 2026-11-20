@@ -44,7 +44,6 @@ export const PUBLIC_ROUTES = [
  */
 export const PRIVATE_PATH_PREFIXES = [
   "/casos-lab",
-  "/mail-generator",
   "/informe",
   "/espacio",
   "/aws",

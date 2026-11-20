@@ -17,7 +17,7 @@
  */
 import { env } from "~/env";
 
-export const PRODUCTION_SITE_URL = "https://binpar.com";
+export const PRODUCTION_SITE_URL = "https://www.binpar.com";
 
 function stripTrailingSlash(value: string) {
   return value.replace(/\/+$/, "");
