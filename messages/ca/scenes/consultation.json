@@ -1,0 +1,83 @@
+{
+  "clarify": {
+    "userQuestion": "Pot mantenir l’ibuprofèn a dosis baixes?",
+    "eyebrow": "Pregunta del comitè",
+    "question": "Quin és el filtrat glomerular estimat més recent (mL/min/1,73 m²)?",
+    "options": {
+      "under30": "Menys de 30",
+      "from30To59": "Entre 30 i 59",
+      "from60": "60 o més"
+    }
+  },
+  "followup": {
+    "question": "Canvia res si, a més, pren un IECA?"
+  },
+  "committee": {
+    "title": "Comitè clínic",
+    "status": {
+      "received": "3 aportacions rebudes",
+      "receiving": "Rebent aportacions",
+      "selected": "Comitè seleccionat",
+      "selecting": "Seleccionant experts",
+      "incoming": "Rebent la consulta"
+    },
+    "expertStatus": {
+      "sent": "Aportació enviada",
+      "consulted": "Corpus consultat",
+      "consulting": "Consultant el corpus",
+      "directed": "Consulta dirigida"
+    },
+    "corpusLabel": "Corpus",
+    "experts": {
+      "cardiology": {
+        "name": "Cardiologia",
+        "corpus": "Cardiologia"
+      },
+      "pharmacology": {
+        "name": "Farmacologia",
+        "corpus": "Farmacologia"
+      },
+      "nephrology": {
+        "name": "Nefrologia",
+        "corpus": "Nefrologia"
+      }
+    }
+  },
+  "modes": {
+    "question": "Quins ajustos de la medicació convé revisar en aquest pacient?",
+    "options": {
+      "standard": {
+        "name": "Estàndard",
+        "description": "Resposta àgil per a la consulta habitual."
+      },
+      "precision": {
+        "name": "Precisió",
+        "description": "Més exhaustiu per a casos complexos; triga una mica més."
+      }
+    }
+  },
+  "progress": {
+    "received": "Resposta rebuda",
+    "consulting": "Consultant…",
+    "sourcesHeading": "Fonts consultades",
+    "sourcePages": "{source} · {count, plural, one {pàg.} other {pàg.}} {pages}",
+    "experts": {
+      "cardiology": {
+        "name": "Cardiologia",
+        "source": "Manual ProMIR · Cardiologia"
+      },
+      "pharmacology": {
+        "name": "Farmacologia",
+        "source": "Manual ProMIR · Nefrologia"
+      },
+      "nephrology": {
+        "name": "Nefrologia",
+        "source": "Manual ProMIR · Nefrologia"
+      }
+    }
+  },
+  "images": {
+    "question": "Adjunto l’ECG d’avui. Hi ha signes d’hiperpotassèmia?",
+    "fileName": "ecg-12-derivacions.png"
+  }
+}

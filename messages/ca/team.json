@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "title": "Equip",
+    "description": "Coneix les persones que hi ha darrere de BinPar. Mirades diferents i una mateixa curiositat per apropar el coneixement mèdic a qui el necessita."
+  },
+  "page": {
+    "sections": {
+      "idea": "La idea",
+      "gallery": "L’equip",
+      "contact": "Contacte"
+    }
+  },
+  "hero": {
+    "eyebrow": "Equip de BinPar",
+    "title": "Tot comença<br></br><accent>amb les persones.</accent>",
+    "body": "Mirades diferents. Una mateixa curiositat. Treballem per apropar el coneixement mèdic a qui el necessita.",
+    "cta": "Coneix l’equip",
+    "disciplines": [
+      "Coneixement clínic",
+      "Guies clíniques",
+      "Protocols institucionals",
+      "Corpus mèdic",
+      "Consulta clínica",
+      "Cerca documental",
+      "Contrast de fonts",
+      "Evidència visible",
+      "Respostes traçables",
+      "Referències bibliogràfiques",
+      "Context clínic",
+      "Historial de consultes",
+      "Coneixement institucional",
+      "Revisió documental",
+      "Actualització de continguts",
+      "Criteri professional"
+    ],
+    "motion": {
+      "reducedLabel": "Moviment reduït activat",
+      "resumeLabel": "Reprendre el moviment de les targetes",
+      "pauseLabel": "Aturar el moviment de les targetes",
+      "reducedTitle": "Moviment reduït",
+      "resumeTitle": "Reprendre",
+      "pauseTitle": "Aturar"
+    }
+  },
+  "idea": {
+    "eyebrow": "La idea que ens mou",
+    "title": "El coneixement,<br></br><accent>on fa falta.</accent>",
+    "body": "Més de quinze anys desenvolupant tecnologia per al sector de la salut ens han ensenyat que el coneixement té valor quan arriba a qui el necessita. Amb aquesta idea neix BinPar: una plataforma d’IA mèdica que connecta el coneixement mèdic amb la pràctica clínica. Per ajudar els qui tenen cura de la nostra salut a resoldre els seus dubtes, consultar fonts i continuar aprenent en el seu dia a dia."
+  },
+  "gallery": {
+    "title": "Les persones<br></br><accent>darrere de BinPar.</accent>",
+    "body": "Cada persona aporta una manera de pensar, de crear i de resoldre. Coneix l’equip que dona forma a BinPar cada dia.",
+    "listLabel": "Membres de l’equip"
+  },
+  "members": {
+    "ignacio-ferro": {
+      "role": "CEO"
+    },
+    "cristian-alvarez": {
+      "role": "COO"
+    },
+    "marcos-gonzalez": {
+      "role": "Chief Architect"
+    },
+    "isabel-ferro": {
+      "role": "CFO"
+    },
+    "alberto-blanco": {
+      "role": "CTO"
+    },
+    "nicolas-arianoutsos": {
+      "role": "Full-Stack Developer"
+    },
+    "beatriz-ortega": {
+      "role": "Full-Stack Developer"
+    },
+    "carolina-carcamo": {
+      "role": "Recruiter"
+    },
+    "pablo-emilio": {
+      "role": "Full-Stack Developer"
+    },
+    "adrian-rodriguez": {
+      "role": "Design Lead"
+    },
+    "fabian-padilla": {
+      "role": "Full-Stack Developer"
+    },
+    "jeronimo-ekerdt": {
+      "role": "Full-Stack Developer"
+    },
+    "jimmy-montano": {
+      "role": "Full-Stack Developer"
+    },
+    "yaiza-vallejo": {
+      "role": "Product Lead"
+    },
+    "guillermo-hernandez": {
+      "role": "Full-Stack Developer"
+    }
+  }
+}

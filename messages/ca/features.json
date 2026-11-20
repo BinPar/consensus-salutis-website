@@ -1,0 +1,262 @@
+{
+  "meta": {
+    "title": "Funcionalitats",
+    "description": "Totes les funcionalitats de BinPar agrupades: evidència visible, consulta clínica, formats de resposta, espai personal i govern institucional."
+  },
+  "groups": {
+    "evidence": {
+      "title": "Evidència visible",
+      "navLabel": "Evidència",
+      "heading": "Evidència",
+      "headingAccent": "visible.",
+      "lead": "Cada afirmació remet al document que la sustenta. El passatge es consulta en el seu context, amb la procedència i la vigència a la vista."
+    },
+    "consultation": {
+      "title": "Consulta clínica",
+      "navLabel": "Consulta",
+      "heading": "Consulta",
+      "headingAccent": "clínica.",
+      "lead": "El dubte es formula com en una sessió clínica. Cada especialitat revisa el seu corpus, l’avenç queda a la vista i la conversa conserva el cas."
+    },
+    "formats": {
+      "title": "Formats de resposta",
+      "navLabel": "Formats",
+      "heading": "Formats",
+      "headingAccent": "de resposta.",
+      "lead": "La resposta es presenta en el format que millor l’explica. Esquemes, figures i taules conserven les cites i es consulten al panell lateral."
+    },
+    "workspace": {
+      "title": "Espai personal",
+      "navLabel": "Espai personal",
+      "heading": "Espai",
+      "headingAccent": "personal.",
+      "lead": "Cada professional organitza les seves consultes en projectes amb instruccions i fonts pròpies, i ajusta com es llegeixen les respostes."
+    },
+    "governance": {
+      "title": "Govern institucional",
+      "navLabel": "Govern",
+      "heading": "Govern",
+      "headingAccent": "institucional.",
+      "lead": "L’organització decideix quins documents consulta el comitè, revisa cada canvi abans de publicar-lo i comprova que la qualitat de les respostes es manté."
+    }
+  },
+  "items": {
+    "citations": {
+      "title": "Cites per afirmació",
+      "description": "Cada afirmació enllaça amb la seva font.",
+      "detail": "En prémer el número al costat d’una frase, s’obre el document que la sustenta sense perdre de vista la resposta."
+    },
+    "bibliography": {
+      "title": "Bibliografia",
+      "description": "Les fonts utilitzades, al final de cada resposta.",
+      "detail": "La llista reuneix les guies i els manuals citats, per revisar d’un cop d’ull en quins documents es basa cada resposta."
+    },
+    "preserved": {
+      "title": "Evidència conservada",
+      "description": "La resposta guarda el que va citar, encara que el document es retiri.",
+      "detail": "Si una guia es retira o se substitueix, el passatge citat continua disponible per revisar en què es va basar aquella resposta."
+    },
+    "viewer": {
+      "title": "Visor del document",
+      "description": "El PDF, a la pàgina citada i amb el passatge ressaltat.",
+      "detail": "El document original s’obre en un panell lateral, de manera que el passatge es llegeix en el seu context, amb el que el precedeix i el que el segueix."
+    },
+    "verified": {
+      "title": "Text verificat",
+      "description": "Indica si el passatge coincideix amb el PDF original.",
+      "detail": "El text citat es contrasta amb el document d’origen, i un indicador assenyala si coincideix literalment amb el que diu el PDF."
+    },
+    "provenance": {
+      "title": "Procedència completa",
+      "description": "Document, capítol, apartat i pàgina.",
+      "detail": "Cada cita conserva la seva ubicació exacta dins del document, per localitzar-la o esmentar-la en una sessió clínica o en un informe."
+    },
+    "updates": {
+      "title": "Avisos d’actualització",
+      "description": "Assenyala les dades substituïdes per una font posterior.",
+      "detail": "Quan una edició més recent modifica la informació citada, un avís ho indica al costat del passatge per comprovar-ne la vigència."
+    },
+    "natural": {
+      "title": "Llenguatge natural",
+      "description": "El dubte es planteja com en una sessió clínica.",
+      "detail": "El cas es descriu amb els antecedents, la medicació i el que preocupa, sense paraules clau ni formularis."
+    },
+    "clarify": {
+      "title": "Preguntes d’aclariment",
+      "description": "Si falta una dada decisiva, el comitè la demana.",
+      "detail": "Quan la resposta depèn d’un valor que no s’ha indicat, com el filtrat glomerular, la pregunta arriba abans que la resposta, amb opcions per contestar amb un clic."
+    },
+    "followup": {
+      "title": "Seguiment",
+      "description": "Les preguntes següents conserven el context.",
+      "detail": "Una nova pregunta parteix del cas i de les fonts ja consultades, sense repetir les dades del pacient."
+    },
+    "committee": {
+      "title": "Comitè per especialitat",
+      "description": "Diversos experts, cadascun amb el seu corpus.",
+      "detail": "Cada especialitat revisa els documents del seu àmbit, i la resposta reuneix i contrasta les seves aportacions."
+    },
+    "modes": {
+      "title": "Modes de resposta",
+      "description": "Rapidesa o profunditat, a cada pregunta.",
+      "detail": "Cada organització defineix els seus modes de resposta; quan n’hi ha més d’un, el professional tria al costat del camp de consulta entre una resposta àgil i una revisió més exhaustiva."
+    },
+    "progress": {
+      "title": "Progrés visible",
+      "description": "Experts, fonts i pàgines consultades, mentre es respon.",
+      "detail": "Durant l’espera es veu quines especialitats treballen, quins documents revisen i en quines pàgines, abans de llegir la resposta."
+    },
+    "images": {
+      "title": "Imatges adjuntes",
+      "description": "S’enganxen, s’arrosseguen o s’adjunten a la consulta.",
+      "detail": "Un electrocardiograma, una analítica o una lesió fotografiada s’incorporen a la pregunta per consultar-los juntament amb el cas."
+    },
+    "schemes": {
+      "title": "Esquemes clínics",
+      "description": "Arbres de decisió i mapes mentals amb fonts.",
+      "detail": "Un arbre de decisió ordena els criteris de la resposta, i cada esquema indica les fonts en què es basa."
+    },
+    "figures": {
+      "title": "Figures del corpus",
+      "description": "Les figures de les guies, dins de la resposta.",
+      "detail": "Quan una guia inclou una il·lustració pertinent, la figura apareix al costat del text que l’explica."
+    },
+    "download": {
+      "title": "Descàrrega com a imatge",
+      "description": "Cada esquema s’exporta en PNG.",
+      "detail": "L’esquema es desa com a imatge per incorporar-lo a una sessió clínica, un protocol o material docent."
+    },
+    "tables": {
+      "title": "Taules comparatives",
+      "description": "Comparacions llegibles, sense perdre les cites.",
+      "detail": "Fàrmacs, criteris o alternatives es comparen en columnes, i cada fila manté la referència al seu document."
+    },
+    "textalt": {
+      "title": "Recorregut en text",
+      "description": "Alternativa accessible a cada esquema.",
+      "detail": "Cada esquema es pot llegir com una llista de passos, útil amb lectors de pantalla o per copiar-lo en un informe."
+    },
+    "panel": {
+      "title": "Panell lateral",
+      "description": "Documents, esquemes i imatges en pestanyes.",
+      "detail": "Les fonts, els esquemes i les figures s’obren al costat de la conversa, sense perdre de vista la resposta."
+    },
+    "projects": {
+      "title": "Projectes",
+      "description": "Converses agrupades per tema.",
+      "detail": "Les consultes sobre un mateix assumpte, com la revisió d’un protocol, es reuneixen en un espai amb instruccions i fonts pròpies."
+    },
+    "instructions": {
+      "title": "Instruccions comunes",
+      "description": "Format, idioma o enfocament per a tot un projecte.",
+      "detail": "S’indica una sola vegada com s’han de presentar les respostes del projecte; les regles clíniques i les fonts institucionals mantenen la seva prioritat."
+    },
+    "saved": {
+      "title": "Respostes com a font",
+      "description": "Una resposta es desa per a la resta del projecte.",
+      "detail": "Una resposta final es desa com a font privada i es pot recuperar des d’altres converses del mateix projecte."
+    },
+    "preferences": {
+      "title": "Preferències de resposta",
+      "description": "Extensió, to i format, recordats entre xats.",
+      "detail": "Les preferències queden registrades i s’apliquen a tots els xats; ajusten la presentació, no la finalitat ni les regles clíniques."
+    },
+    "private": {
+      "title": "Documents privats",
+      "description": "PDF, TXT i Markdown, citables com a font.",
+      "detail": "Un protocol del servei o unes notes pròpies s’afegeixen al projecte i se citen com la resta de fonts, visibles només per al propietari."
+    },
+    "history": {
+      "title": "Historial ordenat",
+      "description": "Fixar, canviar el nom, moure i recórrer per pregunta.",
+      "detail": "Les converses es fixen, se’ls canvia el nom o es mouen a un projecte, i en les més llargues se salta directament a cada pregunta."
+    },
+    "languages": {
+      "title": "Tres idiomes",
+      "description": "Castellà, català i anglès.",
+      "detail": "La interfície es presenta en l’idioma que tria cada professional, i el canvi s’aplica a l’instant."
+    },
+    "theme": {
+      "title": "Tema clar i fosc",
+      "description": "Lectura còmoda a la consulta o de guàrdia.",
+      "detail": "El mode fosc redueix la brillantor a les guàrdies nocturnes, i el clar facilita la lectura amb la llum de la consulta."
+    },
+    "corpus": {
+      "title": "Corpus per organització",
+      "description": "Protocols propis sobre una base comuna.",
+      "detail": "Els protocols del centre s’afegeixen sobre una base comuna de guies i manuals, i el comitè consulta tots dos amb la mateixa traçabilitat."
+    },
+    "library": {
+      "title": "Biblioteca de documents",
+      "description": "Inventari de les guies, amb tipus i resum.",
+      "detail": "Cada document hi figura amb el tipus, la data d’aprovació, els experts als quals alimenta i un resum del que aporta."
+    },
+    "committees": {
+      "title": "Comitès configurables",
+      "description": "Experts i modes definits per organització.",
+      "detail": "Cada organització configura els modes de resposta del seu comitè i en marca un per defecte; si n’hi ha més d’un, el professional tria entre ells al xat."
+    },
+    "review": {
+      "title": "Publicació revisada",
+      "description": "Els canvis es revisen abans d’entrar al corpus.",
+      "detail": "Un document nou o una actualització es revisa i s’aprova abans de publicar-se, de manera que res no arriba a les respostes sense control."
+    },
+    "versions": {
+      "title": "Versions del corpus",
+      "description": "Cada canvi queda registrat i versionat.",
+      "detail": "El corpus conserva el seu historial: què va canviar, quan i en quins documents, per reconstruir en què es va basar cada resposta."
+    },
+    "control": {
+      "title": "Preguntes de control",
+      "description": "Bateries que detecten si les respostes es degraden.",
+      "detail": "Una bateria de preguntes amb resposta de referència es repeteix després de cada canvi i assenyala les que empitjoren respecte a la versió anterior."
+    },
+    "rating": {
+      "title": "Valoració professional",
+      "description": "Útil o no útil, amb comentari per a revisió.",
+      "detail": "Cada professional marca una resposta com a útil o no útil i hi afegeix un comentari, que arriba a l’equip editorial perquè el revisi."
+    },
+    "brand": {
+      "title": "Marca i domini propis",
+      "description": "Accés amb el disseny de l’organització.",
+      "detail": "La plataforma es presenta amb el logotip, els colors i el domini de l’organització."
+    }
+  },
+  "group": {
+    "eyebrow": "Funcionalitats"
+  },
+  "highlights": {
+    "eyebrow": "Plataforma",
+    "title": "Les nostres principals<br></br><accent>funcionalitats.</accent>",
+    "lead": "Posem a la teva disposició {count} funcionalitats orientades a la teva feina diària: consultar amb el teu equip, comprovar cada font i mantenir al dia el coneixement de la teva organització. Aquestes són algunes de les principals.",
+    "cta": "Veure totes les funcionalitats"
+  },
+  "intro": {
+    "eyebrow": "Plataforma · Funcionalitats",
+    "title": "Tot el que ofereix<br></br><accent>la plataforma.</accent>",
+    "lead": "El que convé comprovar abans de portar-la a la teva organització: d’on surt cada resposta, qui decideix quins documents consulta i com se’n vigila la qualitat amb el temps.",
+    "cta": "Explorar les funcionalitats"
+  },
+  "filterBar": {
+    "title": "Funcionalitats",
+    "groupSelect": "Anar al grup",
+    "noun": {
+      "one": "funcionalitat",
+      "other": "funcionalitats"
+    },
+    "groupsNav": "Grups de funcionalitats",
+    "pillLabel": "{label}: {count, plural, one {# funcionalitat} other {# funcionalitats}}",
+    "search": "Cercar funcionalitats"
+  },
+  "overview": {
+    "sections": {
+      "intro": "Introducció",
+      "features": "Funcionalitats"
+    },
+    "featuresLabel": "Funcionalitats",
+    "empty": {
+      "title": "No s’han trobat funcionalitats.",
+      "body": "Prova amb una altra cerca o <link>pregunta’ns directament</link>."
+    }
+  }
+}

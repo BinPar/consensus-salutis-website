@@ -8,6 +8,7 @@ import { routing, type Locale } from "./routing";
 const loaders: Record<Locale, () => Promise<{ default: Messages }>> = {
   es: () => import("../../messages/es"),
   en: () => import("../../messages/en"),
+  ca: () => import("../../messages/ca"),
 };
 
 export default getRequestConfig(async ({ requestLocale }) => {

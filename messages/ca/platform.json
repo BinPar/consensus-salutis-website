@@ -1,0 +1,162 @@
+{
+  "meta": {
+    "title": "Plataforma",
+    "description": "De la consulta clínica a l’evidència: descobreix com BinPar reuneix experts, contrasta aportacions i ofereix una orientació amb fonts verificables."
+  },
+  "walkthrough": {
+    "sections": {
+      "platform": "Plataforma",
+      "features": "Funcionalitats",
+      "contact": "Contacte"
+    },
+    "intro": {
+      "eyebrow": "La nostra plataforma",
+      "title": "De la consulta clínica<br></br><accent>a l’evidència.</accent>",
+      "lead": "Explora la interfície, els panells i la teva àrea d’usuari amb una consulta d’exemple. Descobreix com es presenta la resposta i revisa les fonts que la sustenten per aprofundir en el context clínic."
+    },
+    "next": {
+      "eyebrow": "Pas següent",
+      "title": "El coneixement de la teva organització, en cada consulta.",
+      "lead": "Explorem com integrar les teves guies, protocols i corpus mèdic en un entorn de consulta governat.",
+      "cta": "Sol·licitar més informació"
+    }
+  },
+  "preview": {
+    "logoAlt": "BinPar",
+    "user": {
+      "initial": "A",
+      "role": "Clínic",
+      "name": "Dra. Ana García",
+      "email": "ana@hospital.example",
+      "organization": "Hospital de demostració"
+    },
+    "navigation": {
+      "label": "Navegació del xat",
+      "brandNewChat": "BinPar · Xat nou",
+      "newChat": "Xat nou",
+      "closeMobile": "Tanca la navegació del xat",
+      "closeMobileTitle": "Tanca la navegació",
+      "collapse": "Replega la barra lateral",
+      "expand": "Desplega la barra lateral",
+      "openMobile": "Obre la navegació del xat",
+      "pinned": "Fixats",
+      "recent": "Recents",
+      "showPinned": "Mostra els xats fixats",
+      "showRecent": "Mostra les converses recents",
+      "emptyPinned": "No hi ha xats fixats",
+      "emptyRecent": "No hi ha converses recents",
+      "pin": "Fixa {title}",
+      "unpin": "Deixa de fixar {title}",
+      "options": "Opcions de {title}",
+      "optionsTitle": "Opcions",
+      "openProfile": "Obre el perfil i la configuració",
+      "resize": "Redimensiona el panell de converses"
+    },
+    "chat": {
+      "title": "Consulta clínica",
+      "conversation": "Conversa d’exemple",
+      "bibliography": "Bibliografia",
+      "scrollBottom": "Ves al final de la conversa",
+      "restart": "Reinicia la consulta",
+      "attach": "Adjunts disponibles a la plataforma",
+      "chooseExample": "Tria una consulta d’exemple",
+      "placeholder": "Pregunta clínica al comitè...",
+      "send": "Carrega la consulta d’exemple",
+      "citation": "Mostra la font {order}: {title}"
+    },
+    "source": {
+      "label": "Panell de fonts de consulta",
+      "resize": "Redimensiona el panell de fonts de consulta",
+      "openDocuments": "Documents oberts",
+      "closeTab": "Tanca {title}",
+      "close": "Tanca el panell de fonts de consulta",
+      "eyebrow": "Font de consulta",
+      "showChapter": "Mostra el capítol",
+      "showFullDocument": "Mostra el document complet",
+      "backToCitation": "Torna a la cita"
+    },
+    "popup": {
+      "conversationOptions": "Opcions de la conversa",
+      "examples": "Consultes d’exemple",
+      "pinned": "Xats fixats",
+      "recent": "Converses recents",
+      "pin": "Fixa",
+      "unpin": "Deixa de fixar",
+      "rename": "Canvia el nom",
+      "delete": "Elimina"
+    },
+    "editDialog": {
+      "renameTitle": "Canvia el nom de la conversa",
+      "deleteTitle": "Elimina la conversa",
+      "nameLabel": "Nom de la conversa",
+      "deleteBody": "S’eliminarà «{title}» d’aquesta demostració.",
+      "cancel": "Cancel·la",
+      "save": "Desa",
+      "delete": "Elimina"
+    },
+    "profile": {
+      "title": "Perfil i configuració",
+      "close": "Tanca el perfil",
+      "themeLight": "Activa el tema clar",
+      "themeDark": "Activa el tema fosc",
+      "activeOrganization": "Organització activa",
+      "organizationActive": "Activa",
+      "account": "Compte",
+      "status": "Estat:",
+      "statusActive": "Actiu",
+      "lastActivity": "Última activitat:",
+      "lastActivityValue": "14 oct. 2026, 13:36",
+      "resetTitle": "Reinicia la demostració",
+      "signOut": "Tanca la sessió"
+    },
+    "document": {
+      "label": "Contingut del document",
+      "renal": {
+        "etiologyHeading": "Etiologia",
+        "etiology": "Les causes de malaltia renal crònica seran diferents en funció de l’edat del pacient. Així, en l’edat pediàtrica dominen els problemes congènits i glomerulars, en pacients d’edat mitjana la poliquistosi renal, i en pacients grans la diabetis mellitus i les causes vasculars.",
+        "diabetes": "En xifres absolutes, la diabetis mellitus amb nefropatia diabètica és la principal causa de MRC a escala mundial.",
+        "progressionHeading": "Progressió de la MRC.",
+        "progressionAfter": "Petites fluctuacions del FG no indiquen necessàriament progressió; per això s’exigeix que sigui un descens del FG sostingut. La hipertensió arterial (HTA) i la proteïnúria seran els factors principals de progressió de la malaltia i altres factors de risc modificables. Altres seran el control de la glucèmia en la població diabètica, la dislipèmia, la hiperuricèmia i el control de l’acidosi metabòlica.",
+        "risksHeading": "Factors de progressió de la malaltia renal crònica",
+        "risks": [
+          "Proteïnúria",
+          "Hipertensió arterial",
+          "Diabetis mellitus",
+          "Malaltia cardiovascular",
+          "Tabaquisme"
+        ]
+      },
+      "excerptRenal": "Valoració clínica i tractament",
+      "excerptHeart": "Insuficiència cardíaca aguda",
+      "selectCitation": "Selecciona una cita del cas inicial per localitzar-ne el fragment documental.",
+      "pharmacology": "Tractament farmacològic",
+      "clinical": "Valoració clínica",
+      "dosingHeading": "Dosis de fàrmacs i ronyó",
+      "dosingWays": [
+        "Disminuint la dosi.",
+        "Augmentant l’interval entre les dosis."
+      ],
+      "nsaidsHeading": "Antiinflamatoris no esteroidals"
+    },
+    "conversations": {
+      "valoracion": "Avaluació inicial de dispnea i edema perifèric",
+      "seguimiento": "Revisió de la medicació i de la funció renal"
+    },
+    "answers": {
+      "initial": "El quadre fa sospitar insuficiència cardíaca, però no la confirma; també cal valorar deteriorament renal, anèmia i altres causes de dispnea. La valoració inicial ha d’integrar símptomes, exploració i proves, tenint en compte que la malaltia renal pot contribuir a la congestió i modificar la interpretació d’alguns resultats. [1] [2] [3]\n\nAnamnesi i exploració: precisar l’evolució i preguntar per ortopnea, dispnea paroxística nocturna, dolor toràcic i palpitacions. Registrar pressió arterial, freqüència cardíaca i respiratòria i saturació; explorar jugulars, crepitants, edema i signes d’hipoperfusió, com fredor, pols feble, oligúria o confusió. [1]\n\nProves inicials: ECG, ecocardiograma transtoràcic, radiografia de tòrax, analítica i BNP o NT-proBNP. Considerar hemograma, funció renal, electròlits, glucèmia/HbA1c i orina; si es confirma deteriorament renal agut, l’ecografia renal és la primera prova d’imatge per descartar obstrucció. [1] [3]\n\nInterpretació: un BNP o NT-proBNP normal pot ajudar a descartar insuficiència cardíaca; un d’elevat hi dona suport, però no la confirma. La malaltia renal també el pot elevar, per la qual cosa s’ha d’interpretar juntament amb la clínica i l’ecocardiograma. La radiografia pot ajudar a buscar congestió o altres causes, però no confirma ni exclou per si sola la insuficiència cardíaca. [1]\n\nLa diabetis i la hipertensió augmenten el risc d’insuficiència cardíaca; la malaltia renal també condiciona la valoració de la funció renal i el potassi. L’ibuprofèn freqüent mereix revisió: els AINE poden deteriorar la funció renal, empitjorar el control tensional i afavorir una descompensació cardíaca; el corpus recomana evitar-los en la insuficiència renal i assenyala especial precaució si es combinen amb IECA, ARA-II o diürètics. [4] [5] [1] [6] [7]\n\nDefinició universal d’IC: s’han de complir els tres criteris: 1r símptomes + signes per història clínica; 2n alteració estructural/funcional per imatge cardíaca; 3r augment de pressions d’ompliment intraventricular (per pèptids natriürètics elevats, congestió pulmonar/sistèmica en imatge, o mesurament invasiu per cateterisme).\n\nSignes d’alarma: un empitjorament ràpid, especialment dispnea en repòs o deteriorament respiratori, requereix atenció urgent. La hipotensió amb signes d’hipoperfusió —com pell freda, oligúria o alteració de l’estat mental— és preocupant per possible xoc. L’edema agut de pulmó, la hiperpotassèmia tòxica i l’acidosi metabòlica extrema són complicacions greus descrites en la insuficiència renal aguda. [1] [8] [1] [3]",
+      "followup": "Per precisar el quadre, recolliria l’evolució dels símptomes, el seu impacte en les activitats, si empitjora en estirar-se o es desperta per falta d’aire, i si hi ha dolor toràcic, palpitacions, mareig o síncope. Preguntaria també per canvis en la diüresi i en el pes, comparant-lo amb l’habitual; un augment de 2 kg en 3 dies figura com a signe de descompensació que convé vigilar. [1] [1,2]\n\nEn l’exploració, falten pressió arterial, freqüència cardíaca i respiratòria, saturació, pes actual i dades de congestió o perfusió. Per interpretar l’evolució renal, reuniria els resultats previs i actuals de creatinina i filtrat glomerular amb les dates, a més de potassi, albuminúria/proteïnúria i sediment urinari; si sembla un deteriorament recent, aclariria canvis de diüresi, hipotensió, pèrdues de volum, infeccions i canvis recents de tractament. [1] [3] [4]\n\nPer revisar la medicació, demanaria una llista completa de fàrmacs prescrits i sense recepta, amb dosi, freqüència, motiu, durada i canvis recents; comprovaria també l’adherència, les interrupcions i l’ús de suplements. Quantificaria en particular l’ibuprofèn —quant en pren i quan va ser l’última presa— i preguntaria per altres AINE, IECA o ARA-II, diürètics i fàrmacs estalviadors de potassi. [5] [1] [6]\n\nLa funció renal i el potassi són dades clau per revisar tractaments que puguin requerir ajust o control. Si pren IECA o ARA-II, anotaria quan es van iniciar o modificar i quins controls analítics es van fer; la combinació d’AINE amb IECA/ARA-II o diürètics mereix especial atenció en la MRC. [6] [6,7]\n\nTambé ajudaria conèixer antecedents d’insuficiència cardíaca, infart o malaltia coronària, arítmies i valvulopatia, així com els tractaments ja indicats per al cor, la pressió arterial i la diabetis. Si estan disponibles, revisaria ECG, ecocardiograma, radiografia de tòrax i analítica —inclosos hemograma, funció renal i electròlits—; la malaltia renal pot elevar el BNP o el NT-proBNP, per la qual cosa aquests resultats requereixen interpretació juntament amb la clínica. [8] [9] [1]"
+    },
+    "references": {
+      "heartFailure": "Manual ProMIR · Cardiologia · Insuficiència cardíaca.",
+      "chronicKidneyFailure": "Manual ProMIR · Nefrologia · Insuficiència renal crònica.",
+      "acuteKidneyFailure": "Manual ProMIR · Nefrologia · Insuficiència renal aguda.",
+      "hypertension": "Manual ProMIR · Cardiologia · Hipertensió arterial. Prevenció, detecció, diagnòstic i tractament.",
+      "cardiovascularRisk": "Manual ProMIR · Cardiologia · Risc cardiovascular. Prevenció de les malalties cardiovasculars ateroscleròtiques mitjançant el control dels factors de risc cardiovascular.",
+      "thoracicSyndromes": "Manual ProMIR · Radiologia-Urgències · Síndromes toràciques a urgències.",
+      "nephrologyBody": "Manual ProMIR · Nefrologia · Cos del text.",
+      "basicCardiology": "Manual ProMIR · Cardiologia · Cardiologia bàsica.",
+      "heartFailureSection": "Insuficiència cardíaca.",
+      "chronicKidneyDefinition": "Malaltia renal crònica (MRC) i insuficiència renal crònica (IRC) · Definició."
+    }
+  }
+}

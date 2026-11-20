@@ -48,7 +48,7 @@ export type BlogPostType = (typeof blogPostTypes)[number];
   Ritmo de lectura de texto técnico en cada idioma (el castellano necesita más
   palabras para lo mismo). Redondea siempre a >= 1 minuto.
 */
-const WORDS_PER_MINUTE: Record<Locale, number> = { es: 210, en: 230 };
+const WORDS_PER_MINUTE: Record<Locale, number> = { es: 210, en: 230, ca: 210 };
 
 export function blogContentDir(locale: Locale) {
   return path.join(BLOG_CONTENT_DIR, locale);

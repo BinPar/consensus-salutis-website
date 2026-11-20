@@ -14,10 +14,11 @@ import { LOCALE_TAGS, type Locale } from "~/i18n/routing";
 import { getBlogPosts } from "~/lib/blog";
 import { absoluteUrl } from "~/lib/site";
 
+import ca from "../../messages/ca";
 import en from "../../messages/en";
 import es from "../../messages/es";
 
-const messages = { es, en } satisfies Record<Locale, unknown>;
+const messages = { es, en, ca } satisfies Record<Locale, unknown>;
 
 /** Escapa los cinco caracteres que no pueden ir crudos en texto XML. */
 function escapeXml(value: string) {

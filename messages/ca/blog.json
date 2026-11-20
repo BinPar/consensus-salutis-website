@@ -1,0 +1,129 @@
+{
+  "meta": {
+    "index": {
+      "title": "El nostre blog",
+      "description": "Lectures recents sobre IA mèdica, tendències sanitàries i noves maneres de transformar l’assistència al pacient en el sistema de salut."
+    },
+    "tag": {
+      "title": "Articles sobre {tag}",
+      "description": "Lectures clíniques de BinPar etiquetades com a «{tag}».",
+      "notFound": "Etiqueta no trobada"
+    },
+    "post": {
+      "notFound": "Article no trobat"
+    }
+  },
+  "og": {
+    "alt": "BinPar · Lectures clíniques",
+    "eyebrow": "Lectures clíniques",
+    "fallbackTitle": "Lectures clíniques"
+  },
+  "rss": {
+    "title": "BinPar · Lectures clíniques",
+    "description": "Lectures recents sobre IA mèdica, tendències sanitàries i noves maneres de transformar l’assistència al pacient en el sistema de salut."
+  },
+  "authors": {
+    "alberto-blanco": {
+      "role": "Direcció tècnica, BinPar"
+    },
+    "equipo-consensus-salutis": {
+      "role": "Producte i evidència clínica"
+    }
+  },
+  "post": {
+    "readTime": "{minutes} min de lectura"
+  },
+  "hero": {
+    "eyebrow": "Lectures clíniques · Blog",
+    "title": "El coneixement<br></br><accent>continua avançant.</accent>",
+    "body": "Explorem l’evolució de la IA mèdica i el seu paper en la pràctica clínica. Compartim lectures i perspectives per comprendre els avenços, contrastar enfocaments i apropar el coneixement als reptes quotidians de l’atenció al pacient.",
+    "cta": "Explorar els articles",
+    "latest": "Última entrada",
+    "number": "Núm. {number}"
+  },
+  "featured": {
+    "prompt": "Mostra’m l’últim article del blog.",
+    "placeholder": "Pregunta al comitè…",
+    "answering": "El comitè està responent…",
+    "committee": "Comitè clínic",
+    "articleLabel": "Últim article del blog",
+    "readArticle": "Llegir l’article: {title}"
+  },
+  "gallery": {
+    "label": "Articles del blog",
+    "allArticles": "Tots els articles",
+    "noResults": {
+      "title": "No s’ha trobat cap article.",
+      "body": "Prova una altra cerca o canvia l’etiqueta seleccionada."
+    }
+  },
+  "emptyState": {
+    "title": "Encara no hi ha articles publicats.",
+    "body": "Estem preparant les primeres lectures. Si vols que t’avisem quan publiquem, escriu-nos.",
+    "action": "Parlar amb l’equip"
+  },
+  "tagFilter": {
+    "label": "Filtre per etiqueta",
+    "all": "Tots",
+    "entry": "{label}: {count, plural, one {# article} other {# articles}}"
+  },
+  "tagSelect": {
+    "label": "Filtrar per etiqueta",
+    "noun": {
+      "one": "article",
+      "other": "articles"
+    }
+  },
+  "sort": {
+    "label": "Ordenar els articles",
+    "options": {
+      "newest": "Més recents",
+      "oldest": "Més antics",
+      "title": "Títol (A–Z)"
+    }
+  },
+  "viewToggle": {
+    "label": "Vista de la galeria",
+    "options": {
+      "grid": "Vista de fitxes",
+      "list": "Vista de llista"
+    }
+  },
+  "search": {
+    "label": "Cercar articles",
+    "placeholder": "{label}…",
+    "focus": "Anar a la cerca",
+    "clear": "Tancar i netejar la cerca"
+  },
+  "pagination": {
+    "label": "Paginació del blog",
+    "status": "Pàgina {page} de {total}",
+    "previous": "Pàgina anterior",
+    "next": "Pàgina següent",
+    "current": "Pàgina {page}, actual",
+    "goTo": "Anar a la pàgina {page}",
+    "pageSize": "Resultats per pàgina",
+    "pageSizeValue": "Resultats per pàgina: {size}",
+    "all": "Tots"
+  },
+  "list": {
+    "label": "Articles en format de llista",
+    "number": "Núm. {number}"
+  },
+  "article": {
+    "metadataLabel": "Informació de l’article",
+    "byAuthor": "Per {name}",
+    "updated": "Actualitzat el {date}",
+    "topics": "Temes",
+    "tagsLabel": "Etiquetes de l’article",
+    "relatedLabel": "Articles relacionats",
+    "relatedTitle": "Potser t’interessa",
+    "back": "Tornar al blog"
+  },
+  "readingLayout": {
+    "label": "Guia de lectura de l’article",
+    "contents": "En aquest article",
+    "tocLabel": "Índex de l’article",
+    "explore": "Explorar el blog"
+  }
+}

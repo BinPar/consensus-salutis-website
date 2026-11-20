@@ -94,6 +94,16 @@ describe("routing.pathnames", () => {
     );
   });
 
+  it("el catalán va con prefijo y con las rutas traducidas", () => {
+    expect(localizedUrl("ca", "/")).toBe("https://consensussalutis.com/ca");
+    expect(localizedUrl("ca", "/plataforma/funcionalidades")).toBe(
+      "https://consensussalutis.com/ca/plataforma/funcionalitats",
+    );
+    expect(localizedUrl("ca", "/aviso-legal")).toBe(
+      "https://consensussalutis.com/ca/avis-legal",
+    );
+  });
+
   it("cada idioma tiene su etiqueta para Intl y Open Graph", () => {
     routing.locales.forEach((locale) => {
       expect(LOCALE_TAGS[locale]).toMatch(/^[a-z]{2}-[A-Z]{2}$/);

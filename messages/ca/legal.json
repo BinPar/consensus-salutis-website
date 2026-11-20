@@ -1,0 +1,133 @@
+{
+  "eyebrow": "Informació legal",
+  "privacy": {
+    "meta": {
+      "title": "Política de privadesa",
+      "description": "Informació sobre el tractament de dades personals a BinPar."
+    },
+    "title": "Política de privadesa",
+    "sections": {
+      "controller": {
+        "title": "Responsable del tractament",
+        "body": "BinPar Team S.L., amb NIF B85271930 i domicili social a Paseo de la Castellana 43, 4, és el responsable del tractament de les dades enviades mitjançant el formulari de contacte de BinPar. Pots contactar-hi a info@binpar.com."
+      },
+      "purpose": {
+        "title": "Finalitat i base jurídica",
+        "body": "Tractem el nom, l’adreça electrònica i el contingut del missatge exclusivament per gestionar i respondre la consulta rebuda. La base jurídica és el consentiment atorgat en marcar l’acceptació d’aquesta política."
+      },
+      "retention": {
+        "title": "Conservació i destinataris",
+        "body": "Les dades es conservaran durant el temps necessari per atendre la consulta i complir les obligacions legals aplicables. No es cediran a tercers, llevat d’obligació legal o de proveïdors necessaris per prestar el servei amb les garanties corresponents."
+      },
+      "evaluator": {
+        "title": "Avaluador d’idoneïtat",
+        "body": "Si completes l’<link>avaluador d’idoneïtat (en castellà)</link>, tractem les dades d’identificació que facilites —nom, càrrec, adreça electrònica institucional, institució i àmbit geogràfic— juntament amb la transcripció de l’entrevista. {purpose} La base jurídica és el consentiment que atorgues de manera expressa abans de començar, i el pots retirar en qualsevol moment escrivint a info@binpar.com."
+      },
+      "evaluationRetention": {
+        "title": "Conservació de l’avaluació",
+        "body": "{retention} Pots retirar el consentiment o demanar la supressió en qualsevol moment escrivint a info@binpar.com, i en aquest cas eliminem la fitxa i la transcripció. En aquesta avaluació no es tracten dades de salut de pacients en cap moment."
+      },
+      "rights": {
+        "title": "Drets",
+        "body": "Pots sol·licitar l’accés, la rectificació, la supressió, la limitació del tractament, l’oposició o la portabilitat de les teves dades escrivint a info@binpar.com. També pots presentar una reclamació davant l’Agencia Española de Protección de Datos (Agència Espanyola de Protecció de Dades)."
+      },
+      "security": {
+        "title": "Seguretat",
+        "body": "Apliquem mesures tècniques i organitzatives orientades a protegir les dades davant d’accessos, alteracions o divulgacions no autoritzats. El formulari incorpora controls antispam i limitació de sol·licituds."
+      }
+    },
+    "evaluatorStatements": {
+      "purpose": "Tractem aquestes dades per elaborar la teva avaluació d’idoneïtat, enviar-te l’informe resultant i contactar amb tu en relació amb aquesta avaluació.",
+      "retention": "Conservem la fitxa d’identificació i la transcripció de l’entrevista mentre mantinguis el consentiment, sense termini predeterminat, i les suprimim tan bon punt ho sol·licitis."
+    }
+  },
+  "notice": {
+    "meta": {
+      "title": "Avís legal",
+      "description": "Dades del titular i condicions d’ús del lloc web de BinPar."
+    },
+    "title": "Avís legal",
+    "sections": {
+      "owner": {
+        "title": "Titular del lloc web",
+        "body": "En compliment de la Ley 34/2002, de servicios de la sociedad de la información y de comercio electrónico (LSSI-CE; Llei de serveis de la societat de la informació i de comerç electrònic), t’informem que aquest lloc web és titularitat de {name}, amb NIF {nif} i domicili a {address}. Pots contactar amb nosaltres escrivint a {email}."
+      },
+      "use": {
+        "title": "Objecte i condicions d’ús",
+        "body": "Aquest lloc web presenta BinPar, els seus serveis i el seu equip, i ofereix canals per contactar amb nosaltres. L’accés és gratuït i implica acceptar aquest avís legal. Et comprometes a fer un ús adequat del lloc i dels seus continguts, d’acord amb la llei i la bona fe, i a no utilitzar-los per a activitats il·lícites o que puguin perjudicar el lloc o tercers.",
+        "medical": "Els continguts del lloc són informatius. No constitueixen consell mèdic ni substitueixen el criteri d’un professional sanitari."
+      },
+      "ip": {
+        "title": "Propietat intel·lectual i industrial",
+        "body": "Els textos, imatges, dissenys, logotips, marques, codi font i altres continguts d’aquest lloc pertanyen a {name} o a tercers que n’han autoritzat l’ús. No se’n permet la reproducció, distribució, comunicació pública o transformació sense autorització expressa, excepte en els casos que permeti la llei."
+      },
+      "liability": {
+        "title": "Responsabilitat i enllaços",
+        "body": "Treballem perquè la informació del lloc sigui correcta i estigui actualitzada, però no podem garantir que estigui lliure d’errors ni que l’accés sigui ininterromput. El lloc pot incloure enllaços a pàgines de tercers, sobre els continguts i les polítiques de les quals no tenim control ni responsabilitat."
+      },
+      "data": {
+        "title": "Dades personals i cookies",
+        "body": "El tractament de les dades personals s’explica a la <privacy>política de privadesa</privacy>, i l’ús de cookies i emmagatzematge local, a la <cookies>política de cookies</cookies>."
+      },
+      "law": {
+        "title": "Legislació aplicable",
+        "body": "Aquest avís legal es regeix per la legislació espanyola. Per a qualsevol controvèrsia, les parts se sotmeten als jutjats i tribunals que corresponguin d’acord amb la normativa aplicable."
+      }
+    }
+  },
+  "cookies": {
+    "meta": {
+      "title": "Política de cookies",
+      "description": "Quines cookies i quin emmagatzematge local utilitza el lloc web de BinPar i per a què."
+    },
+    "title": "Política de cookies",
+    "sections": {
+      "what": {
+        "title": "Què utilitzem",
+        "body": "Aquest lloc només utilitza cookies tècniques i emmagatzematge local propis, necessaris perquè funcionin les parts que ho requereixen o per recordar una preferència que tries tu. No utilitzem cookies d’analítica, publicitat ni seguiment, i per això no et demanem el consentiment en entrar.",
+        "session": "Les cookies de sessió només es creen si utilitzes l’avaluador d’idoneïtat o l’espai de client, o si arribes des d’AWS Marketplace. Navegar per la resta del lloc no en crea cap."
+      },
+      "detail": {
+        "title": "Detall",
+        "columns": {
+          "name": "Nom",
+          "kind": "Tipus",
+          "purpose": "Finalitat",
+          "duration": "Durada"
+        }
+      },
+      "thirdParty": {
+        "title": "Serveis de tercers",
+        "body": "El mapa de la pàgina de <contact>contacte</contact> es carrega des d’OpenFreeMap. Per mostrar-lo, el teu navegador demana les imatges del mapa als seus servidors, que reben la teva adreça IP com en qualsevol petició web."
+      },
+      "manage": {
+        "title": "Com gestionar-les",
+        "body": "Pots consultar i esborrar les cookies i l’emmagatzematge local des de la configuració del teu navegador. Si els bloqueges, el lloc es pot continuar visitant, però l’avaluador i l’espai de client no funcionaran i no es recordarà el mode clar o fosc.",
+        "contact": "Per a qualsevol dubte, escriu-nos a {email}. Més informació sobre les teves dades a la <privacy>política de privadesa</privacy>."
+      }
+    },
+    "kinds": {
+      "ownCookie": "Galeta tècnica pròpia",
+      "ownStorage": "Emmagatzematge local propi"
+    },
+    "items": {
+      "session": {
+        "purpose": "Manté la sessió de l’avaluador d’idoneïtat mentre fas l’entrevista.",
+        "duration": "Fins a 7 dies"
+      },
+      "space": {
+        "purpose": "Manté la sessió de l’espai de client després d’entrar amb l’enllaç d’accés.",
+        "duration": "Fins a 7 dies"
+      },
+      "registration": {
+        "purpose": "Recorda l’alta que arriba des d’AWS Marketplace per completar el registre.",
+        "duration": "Fins a 7 dies"
+      },
+      "theme": {
+        "purpose": "Recorda si prefereixes veure el lloc en mode clar o fosc.",
+        "duration": "Fins que l’esborris des del navegador"
+      }
+    }
+  },
+  "translationNotice": "Aquesta pàgina és una traducció. En cas de discrepància, preval la versió en castellà."
+}

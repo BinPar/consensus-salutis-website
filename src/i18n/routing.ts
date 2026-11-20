@@ -18,7 +18,7 @@
 import { defineRouting } from "next-intl/routing";
 
 export const routing = defineRouting({
-  locales: ["es", "en"],
+  locales: ["es", "en", "ca"],
   defaultLocale: "es",
   localePrefix: "as-needed",
   localeDetection: false,
@@ -26,15 +26,20 @@ export const routing = defineRouting({
   alternateLinks: false,
   pathnames: {
     "/": "/",
-    "/plataforma": { es: "/plataforma", en: "/platform" },
+    "/plataforma": { es: "/plataforma", en: "/platform", ca: "/plataforma" },
     "/plataforma/funcionalidades": {
       es: "/plataforma/funcionalidades",
       en: "/platform/features",
+      ca: "/plataforma/funcionalitats",
     },
-    "/equipo": { es: "/equipo", en: "/team" },
-    "/contacto": { es: "/contacto", en: "/contact" },
-    "/privacidad": { es: "/privacidad", en: "/privacy" },
-    "/aviso-legal": { es: "/aviso-legal", en: "/legal-notice" },
+    "/equipo": { es: "/equipo", en: "/team", ca: "/equip" },
+    "/contacto": { es: "/contacto", en: "/contact", ca: "/contacte" },
+    "/privacidad": { es: "/privacidad", en: "/privacy", ca: "/privadesa" },
+    "/aviso-legal": {
+      es: "/aviso-legal",
+      en: "/legal-notice",
+      ca: "/avis-legal",
+    },
     "/cookies": "/cookies",
     "/blog": "/blog",
     /* Los slugs de cada post y cada etiqueta ya están en su idioma. */
@@ -58,16 +63,19 @@ export type StaticPathname = Exclude<AppPathname, `${string}[${string}`>;
 export const LOCALE_NAMES: Record<Locale, string> = {
   es: "Español",
   en: "English",
+  ca: "Català",
 };
 
 /** Etiqueta de idioma completa, para `Intl`, JSON-LD y RSS. */
 export const LOCALE_TAGS: Record<Locale, string> = {
   es: "es-ES",
   en: "en-GB",
+  ca: "ca-ES",
 };
 
 /** Formato de Open Graph (`og:locale`). */
 export const OG_LOCALES: Record<Locale, string> = {
   es: "es_ES",
   en: "en_GB",
+  ca: "ca_ES",
 };

@@ -144,7 +144,7 @@ describe("sitemap", () => {
     });
   });
 
-  it("incluye la versión en inglés de cada página pública, con su URL traducida", () => {
+  it("incluye la versión en inglés y en catalán de cada página pública, con su URL traducida", () => {
     const urls = sitemapEntries.map((entry) => entry.url);
 
     [
@@ -157,6 +157,15 @@ describe("sitemap", () => {
       "/en/legal-notice",
       "/en/cookies",
       "/en/blog",
+      "/ca",
+      "/ca/plataforma",
+      "/ca/plataforma/funcionalitats",
+      "/ca/equip",
+      "/ca/contacte",
+      "/ca/privadesa",
+      "/ca/avis-legal",
+      "/ca/cookies",
+      "/ca/blog",
     ].forEach((path) => {
       expect(urls).toContain(`https://consensussalutis.com${path}`);
     });

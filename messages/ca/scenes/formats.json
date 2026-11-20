@@ -1,0 +1,59 @@
+{
+  "tree": {
+    "root": "Aclariment de creatinina < 30 mL/min?",
+    "branches": {
+      "yes": {
+        "label": "Sí",
+        "result": "AINE contraindicats"
+      },
+      "no": {
+        "label": "No",
+        "result": "Evitar els AINE; només si són imprescindibles"
+      }
+    },
+    "route": "{root} → {label}: {result}"
+  },
+  "schemeCard": {
+    "sources": "Fonts de l’esquema"
+  },
+  "schemes": {
+    "intro": "Criteris per valorar l’ús d’AINE segons la funció renal:"
+  },
+  "figure": {
+    "afferent": "Arteriola aferent",
+    "nsaid": "AINE",
+    "glomerulus": "Glomèrul",
+    "efferent": "Arteriola eferent",
+    "caption": "Efecte dels AINE sobre l’arteriola aferent."
+  },
+  "download": {
+    "schemeTab": "Esquema 1",
+    "preparing": "Preparant la imatge…",
+    "download": "Descarrega la imatge",
+    "savedLabel": "Imatge descarregada · PNG",
+    "fileName": "us-dels-aine-en-la-mrc.png"
+  },
+  "tables": {
+    "intro": "Fàrmacs que convé revisar en la MRC:",
+    "drugHeading": "Fàrmac",
+    "noteHeading": "En la MRC",
+    "rows": {
+      "nsaids": {
+        "drug": "AINE",
+        "note": "Evitar-los; contraindicats si l’aclariment és inferior a 30 mL/min."
+      },
+      "aceInhibitors": {
+        "drug": "IECA i ARA-II",
+        "note": "Renoprotectors; en fases avançades poden requerir menys dosi."
+      },
+      "potassiumSparing": {
+        "drug": "Estalviadors de potassi",
+        "note": "Evitar-los en la insuficiència renal; no associar-los amb IECA, ARA-II o AINE."
+      }
+    }
+  },
+  "textalt": {
+    "label": "Lector de pantalla",
+    "title": "Recorregut en text de l’esquema"
+  }
+}

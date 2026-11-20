@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "description": "Plataforma d’IA mèdica institucional per al suport a la presa de decisions, l’evidència clínica i el govern del coneixement sanitari."
+  },
+  "cta": {
+    "meeting": "Sol·licitar una reunió",
+    "tryPlatform": "Provar la plataforma"
+  },
+  "notFound": {
+    "metaTitle": "Pàgina no trobada",
+    "eyebrow": "Error 404",
+    "title": "Aquesta pàgina no existeix",
+    "body": "Potser l’enllaç està mal escrit o la pàgina s’ha mogut. Des de l’inici arribes a tota la resta.",
+    "home": "Tornar a l’inici",
+    "contact": "Parlar amb l’equip"
+  },
+  "error": {
+    "eyebrow": "Error",
+    "title": "Alguna cosa ha fallat en carregar aquesta pàgina",
+    "body": "Torna-ho a provar. Si el problema continua, escriu-nos i ho revisem.",
+    "retry": "Tornar-ho a provar",
+    "home": "Tornar a l’inici"
+  }
+}

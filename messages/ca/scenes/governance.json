@@ -1,0 +1,136 @@
+{
+  "organization": "Área Sanitaria Norte",
+  "corpus": {
+    "committee": "Comitè de {organization}",
+    "searchable": "430 documents consultables",
+    "inheritedBase": "Base comuna heretada",
+    "base": {
+      "label": "Base comuna",
+      "title": "412 documents",
+      "body": "Heretada per totes les organitzacions."
+    },
+    "own": {
+      "label": "De l’àrea",
+      "title": "18 documents",
+      "body": "Només visibles per a l’àrea."
+    },
+    "dashedNote": "Els marcats amb vora discontínua s’hereten d’un node superior."
+  },
+  "library": {
+    "label": "Corpus",
+    "title": "Biblioteca",
+    "count": "430 documents",
+    "tabs": ["Tots", "Guia", "Protocol", "Llibre", "Del centre"],
+    "docs": {
+      "areaProtocol": {
+        "title": "Protocol d’analgèsia de l’àrea",
+        "publisher": "Área Sanitaria Norte",
+        "meta": "Área Sanitaria Norte · 2026",
+        "date": "Aprovat el 3 nov. 2026",
+        "node": "Área Sanitaria Norte",
+        "experts": ["FA", "NE"]
+      },
+      "promir": {
+        "title": "Manual ProMIR · Nefrologia",
+        "publisher": "ProMIR",
+        "meta": "ProMIR · 2025",
+        "date": "Aprovat el 12 set. 2026",
+        "node": "Base comuna",
+        "experts": ["CA", "FA", "NE"]
+      }
+    }
+  },
+  "committees": {
+    "heading": "Agents",
+    "withoutModes": "Sense modes",
+    "withModes": "Amb modes",
+    "columns": {
+      "name": "Nom",
+      "default": "Per defecte",
+      "actions": "Accions"
+    },
+    "defaultBadge": "Per defecte",
+    "modes": {
+      "standard": {
+        "name": "Estàndard",
+        "description": "Resposta àgil per a la consulta habitual."
+      },
+      "precision": {
+        "name": "Precisió",
+        "description": "Més exhaustiu per a casos complexos; triga una mica més."
+      }
+    },
+    "addMode": "Afegeix un mode",
+    "createMode": "Crea un mode",
+    "hintMany": "El professional tria entre aquests 2 modes al xat; comença amb l’últim que va fer servir o amb el mode per defecte.",
+    "hintOne": "Amb un sol mode, el xat no mostra cap selector: sempre fa servir aquest."
+  },
+  "review": {
+    "label": "Proposta",
+    "title": "Protocol d’analgèsia de l’àrea",
+    "summary": "Canvis proposats · 1 operació",
+    "change": "Canvi 1 · Actualitzar",
+    "included": "Inclòs",
+    "removedLine": "Ibuprofèn 400 mg cada 8 hores com a analgèsia de primera elecció.",
+    "addedLine": "Evitar els AINE en la MRC; amb un aclariment inferior a 30 mL/min estan contraindicats.",
+    "status": {
+      "published": "Aprovat i publicat a la v15",
+      "included": "1 canvi inclòs",
+      "pending": "1 sense revisar"
+    },
+    "reject": "Rebutja la proposta",
+    "publishing": "Publicant…",
+    "approve": "Aprova i publica"
+  },
+  "versions": {
+    "latest": {
+      "label": "Versió 15 · publicada ara",
+      "title": "Guia de MRC · revisió 3"
+    },
+    "items": {
+      "v14": {
+        "label": "Versió 14 · 3 nov. 2026",
+        "title": "Protocol d’analgèsia actualitzat"
+      },
+      "v13": {
+        "label": "Versió 13 · 21 oct. 2026",
+        "title": "Guia local d’hiperpotassèmia afegida"
+      },
+      "v12": {
+        "label": "Versió 12 · 2 oct. 2026",
+        "title": "Document retirat del corpus"
+      }
+    }
+  },
+  "control": {
+    "label": "Preguntes de control",
+    "title": "Bateria · Nefrologia",
+    "total": "{count} preguntes",
+    "corpusVersion": "Versió 15 del corpus",
+    "completed": "Completada",
+    "progress": "{answered} de {total}",
+    "legend": {
+      "correct": "Correcta",
+      "partial": "Parcial",
+      "incorrect": "Incorrecta"
+    },
+    "alertTitle": "1 pregunta empitjora respecte a la versió 14",
+    "alertBody": "Pregunta 23 · abans Correcta, ara Incorrecta"
+  },
+  "rating": {
+    "notice": "Valoració desada",
+    "dialogTitle": "Resposta no útil",
+    "cancel": "Cancel·la",
+    "submit": "Envia la valoració",
+    "commentLabel": "Comentari (obligatori)",
+    "comment": "Afegir l’ajust de dosi del paracetamol en la MRC greu.",
+    "commentPlaceholder": "Comentari sobre la resposta…"
+  },
+  "brand": {
+    "domain": "consulta.areanorte.es",
+    "logo": "AN",
+    "platform": "BinPar",
+    "title": "Comitè clínic",
+    "placeholder": "Pregunta clínica al comitè..."
+  }
+}

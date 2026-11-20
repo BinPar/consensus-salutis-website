@@ -1,0 +1,243 @@
+{
+  "chat": {
+    "placeholder": "Pregunta clínica al comitè...",
+    "responding": "El comitè està responent...",
+    "thinking": "Recuperant fonts…",
+    "bibliography": "Bibliografia"
+  },
+  "chatMock": {
+    "label": "Demostració de BinPar: una consulta clínica, una resposta amb evidència i les seves referències.",
+    "title": "Comitè clínic",
+    "question": "Quins criteris he de revisar per confirmar una possible hipertensió arterial i fer-ne el seguiment?",
+    "followUpQuestion": "Quines dades convé registrar durant el seguiment?",
+    "followUpAnswer": "Registra l’evolució de les xifres, l’adherència i la tolerància, els canvis en el risc cardiovascular i qualsevol troballa que requereixi ajustar el pla o ampliar l’estudi.",
+    "processingStates": [
+      "Consultant guies",
+      "Contrastant coneixement validat",
+      "Preparant la resposta"
+    ],
+    "followUpProcessing": "Contrastant el seguiment",
+    "answer": {
+      "confirm": {
+        "before": "Confirma les xifres amb ",
+        "strong": "mesuraments repetits",
+        "after": " i, quan escaigui, monitoratge fora de la consulta."
+      },
+      "risk": {
+        "before": "Valora el ",
+        "strong": "risc cardiovascular global",
+        "after": "."
+      },
+      "damage": {
+        "before": "Revisa possibles causes secundàries i ",
+        "strong": "dany orgànic",
+        "after": " abans de definir objectius i seguiment."
+      }
+    },
+    "references": ["Protocol clínic local", "Guia clínica d’hipertensió"]
+  },
+  "player": {
+    "title": "De la pregunta a l’evidència.",
+    "controls": {
+      "navigation": "Etapes de la consulta",
+      "playbackTarget": "recorregut",
+      "play": "Reproduir {target}",
+      "pause": "Posar en pausa {target}",
+      "playTitle": "Reproduir",
+      "pauseTitle": "Pausa",
+      "speed": "Velocitat ×{speed}. Canviar a ×{next}",
+      "speedTitle": "Velocitat ×{speed} · Canviar a ×{next}",
+      "restart": {
+        "etapa": "Reiniciar l’animació de l’etapa {number}",
+        "capa": "Reiniciar l’animació de la capa {number}"
+      },
+      "restartTitle": "Reiniciar l’escena actual"
+    }
+  },
+  "steps": {
+    "question": {
+      "title": "Plantejar la consulta",
+      "body": "El professional formula un dubte clínic en llenguatge natural i aporta el context necessari per orientar la consulta.",
+      "signal": "Llenguatge clínic natural"
+    },
+    "committee": {
+      "title": "Consultar el coneixement",
+      "body": "El sistema selecciona els agents experts adequats i consulta els seus corpus mèdics, adaptats a l’organització i l’especialitat.",
+      "signal": "Comitè d’experts"
+    },
+    "synthesis": {
+      "title": "Contrastar les aportacions",
+      "body": "L’orquestrador reuneix les aportacions dels experts, en contrasta els matisos i els límits i construeix una orientació conjunta per a la consulta.",
+      "signal": "Síntesi del comitè"
+    },
+    "evidence": {
+      "title": "Fonts verificables",
+      "body": "La resposta reuneix l’orientació clínica i permet consultar les fonts que en sostenen les conclusions.",
+      "signal": "Evidència traçable"
+    },
+    "followup": {
+      "title": "Revisar i aprofundir",
+      "body": "El professional pot ampliar la consulta i aportar context per aprofundir en la valoració del cas.",
+      "signal": "Conversa amb context"
+    }
+  },
+  "visuals": {
+    "coordinator": "Orquestrador",
+    "realConsultation": "Consulta real",
+    "processLabel": "Representació del procés"
+  },
+  "questionScene": {
+    "title": "Consulta clínica",
+    "states": [
+      "Seleccionant els especialistes per a aquesta consulta.",
+      "Consultant Cardiologia, Farmacologia i Nefrologia.",
+      "Contrastant els signes clínics, la funció renal i la medicació.",
+      "Integrant les aportacions per preparar la resposta."
+    ]
+  },
+  "committee": {
+    "query": "Consulta clínica",
+    "corpus": "Corpus",
+    "status": {
+      "received": "3 aportacions rebudes",
+      "receiving": "Rebent aportacions",
+      "selected": "Comitè seleccionat",
+      "selecting": "Seleccionant experts",
+      "incoming": "Rebent la consulta"
+    },
+    "expertStatus": {
+      "sent": "Aportació enviada",
+      "prepared": "Aportació preparada",
+      "consulted": "Corpus consultat",
+      "consulting": "Consultant el corpus",
+      "directed": "Consulta dirigida"
+    },
+    "prepared": {
+      "cardiologia": "Valorar congestió i signes d’alarma.",
+      "farmacologia": "Revisar AINE i interaccions per risc renal.",
+      "nefrologia": "Comparar creatinina, potassi i diüresi."
+    }
+  },
+  "synthesis": {
+    "status": {
+      "emitted": "Orientació emesa",
+      "integrating": "Integrant l’orientació",
+      "contrasting": "Contrastant matisos",
+      "gathering": "Reunint aportacions"
+    },
+    "output": "Orientació conjunta",
+    "relations": {
+      "congestion": {
+        "title": "Congestió",
+        "compact": "Contrastar l’origen cardíac i renal.",
+        "detail": "Contrastar congestió cardíaca i sobrecàrrega de volum per MRC."
+      },
+      "medication": {
+        "title": "Medicació",
+        "compact": "Ibuprofèn: retenció de líquids.",
+        "detail": "Ibuprofèn: possible retenció hídrica i deteriorament del filtrat glomerular."
+      },
+      "limits": {
+        "title": "Límits",
+        "compact": "Evitar atribuir l’edema només a la MRC.",
+        "detail": "Evitar atribuir l’edema només a la MRC o assumir causalitat per l’ibuprofèn."
+      }
+    }
+  },
+  "evidence": {
+    "sourceLabel": "Font de consulta",
+    "fullDocument": "Mostra el document complet",
+    "document": {
+      "intro": "Altres NTIC són:",
+      "dosingTitle": "Dosis de fàrmacs i ronyó",
+      "dosingOptions": [
+        "Disminuint la dosi.",
+        "Augmentant l’interval entre les dosis."
+      ],
+      "antimicrobialsTitle": "Antimicrobians",
+      "imageAlt": "Imatge del document de consulta amb dues fletxes que assenyalen detalls.",
+      "nsaidsTitle": "Antiinflamatoris no esteroidals"
+    }
+  },
+  "consultation": {
+    "question": "Pacient de 68 anys amb diabetis tipus 2, hipertensió i malaltia renal crònica. Presenta cansament progressiu, manca d’aire en fer esforços i edema a les dues cames, i pren ibuprofèn sovint. Com orientaries la valoració inicial, quins signes d’alarma i proves consideraries, i com influeixen les seves malalties i la medicació en les decisions?",
+    "experts": {
+      "cardiologia": {
+        "name": "Cardiologia",
+        "detail": "Congestió cardíaca: ortopnea, crepitants i edema perifèric.",
+        "compact": "Dispnea i edema: valorar congestió."
+      },
+      "farmacologia": {
+        "name": "Farmacologia",
+        "detail": "Revisar AINE, IECA/ARA-II i diürètics per risc renal i hiperpotassèmia.",
+        "compact": "Ibuprofèn: revisar el risc renal."
+      },
+      "nefrologia": {
+        "name": "Nefrologia",
+        "detail": "Valorar lesió renal aguda sobre MRC: creatinina, potassi i diüresi.",
+        "compact": "Revisar funció renal, potassi i diüresi."
+      }
+    }
+  },
+  "answer": {
+    "assessment": "El quadre requereix **valoració presencial prioritària**, perquè pot correspondre a una descompensació congestiva/insuficiència cardíaca, una sobrecàrrega de volum per empitjorament de la MRC, una insuficiència renal aguda sobre MRC, hiperpotassèmia, anèmia o una combinació d’aquests processos. ⟦c62888⟧ ⟦c7b5cc⟧",
+    "precipitant": "L’ibuprofèn és un possible factor precipitant, perquè afavoreix la retenció hídrica i el deteriorament del filtrat. ⟦c62888⟧ ⟦c7d2a7⟧",
+    "claim": "S’ha d’evitar en la MRC greu quan l’aclariment de creatinina és inferior a 30 ml/min, i també en presència d’insuficiència cardíaca, diabetis o hipertensió. ⟦c73b77⟧"
+  },
+  "followup": {
+    "question": "Quina informació addicional necessites per precisar la valoració i revisar la medicació?",
+    "paragraphs": {
+      "relevantData": "La disminució de la diüresi, la sobrecàrrega de volum, la hiperpotassèmia, l’acidosi i els símptomes urèmics són dades especialment rellevants.",
+      "creatinine": "Compararia els valors actuals amb els previs. Un augment de creatinina d’almenys 0,3 mg/dL en 48 hores o d’almenys el 50 % en 7 dies compleix el criteri d’insuficiència renal aguda segons KDIGO. ⟦c7bf72⟧",
+      "reconciliation": "La conciliació ha d’incloure els tractaments per a la diabetis, la hipertensió, el dolor i l’edema, a més dels medicaments «a demanda», preparats per al refredat, antiàcids, laxants, suplements, plantes i productes adquirits sense recepta o per internet. En la MRC, els fàrmacs d’eliminació renal poden requerir una reducció de la dosi o una ampliació de l’interval. ⟦c73d65⟧",
+      "nsaids": "Els AINE poden reduir el filtrat per vasoconstricció aferent; s’han d’evitar en la MRC i especialment si es combinen amb IECA/ARA-II o diürètics. ⟦c73b77⟧ ⟦c7d2a7⟧"
+    }
+  },
+  "references": {
+    "heartFailure": "Manual ProMIR · Cardiologia · Insuficiència cardíaca",
+    "acuteKidneyFailure": "Manual ProMIR · Nefrologia · Insuficiència renal aguda",
+    "chronicKidneyFailure": "Manual ProMIR · Nefrologia · Insuficiència renal crònica",
+    "cardiovascularRisk": "Manual ProMIR · Nefrologia · Risc cardiovascular i malaltia renal",
+    "bodyText": "Manual ProMIR · Nefrologia · Cos del text"
+  },
+  "citations": {
+    "c62888": "La ICA ([Cardiologia, Insuficiència cardíaca](/capitulo/570779c8f4d68bf008dbc6b4#58999992b89214740aff8b88)) engloba tots els estats en què el cor no és capaç de bombar la sang que l’organisme necessita en un moment determinat (despesa cardíaca inferior a les necessitats metabòliques).",
+    "c7b5cc": "##### Síndrome urèmica. Afectació per òrgans i sistemes",
+    "c7d2a7": "El moviment del líquid o filtració glomerular a través del glomèrul es regeix per les lleis de Starling i és proporcional a la permeabilitat de la membrana i a l’equilibri entre els gradients de pressió hidràulica (que afavoreix la sortida de líquid) i oncòtica (que impedeix la sortida de líquid).",
+    "c7bb6e": "El tractament de qualsevol IRA es basa a actuar al més aviat possible sobre la causa desencadenant.",
+    "c73b77": "**S’ha d’evitar l’ús d’AINE en la insuficiència renal.",
+    "c73d65": "L’ajust de dosi en la insuficiència renal és imprescindible per evitar la toxicitat de fàrmacs d’eliminació renal i procurar-ne una eficàcia adequada.",
+    "c7be7b": "La IRA prerenal habitualment és oligúrica i presenta una orina molt concentrada (sodi en orina baix, amb osmolaritat urinària elevada).",
+    "c7bd7c": "En tot pacient amb IRA, el primer que s’ha de fer és una ecografia renal per descartar una causa obstructiva.",
+    "c7c3cb": "En condicions normals, l’excreció normal de proteïnes en orina és de 80 mg/24 hores, de les quals fins a 30 mg corresponen a albúmina i la resta són proteïnes procedents de cèl·lules tubulars (proteïnes de Tamm-Horsfall) i proteïnes de baix pes molecular.",
+    "c7b8ef": "** Es defineix per un descens sostingut superior a 5 mL/min/any, havent descartat prèviament causes reversibles com uropatia obstructiva, depleció de volum, hipoperfusió renal o ús de fàrmacs nefrotòxics (antiinflamatoris no esteroidals, contrastos iodats, etc.",
+    "c7ca72": "** Es defineix com la concentració de potassi sèric superior a 5,5 mEq/L.",
+    "c6298f": "Per al **diagnòstic** (****)de la ICA sol·licitaràs un estudi radiològic, on podràs trobar ( i ):",
+    "c62a00": "</recuerda> És important conèixer quins són els factors precipitants d’una ICA, perquè de vegades et demanaran que els identifiquis: Causes cardíaques: taquiarítmies o bradiarítmies, isquèmia miocàrdica, fàrmacs inotròpics negatius (antagonistes del calci, β-blocadors, etc.",
+    "c62b09": "Pel que fa al **tractament** (**; **), t’has de plantejar els **objectius següents:**",
+    "c7da19": "Les nefropaties tubulointersticials agudes (NTIA) causen una reacció inflamatòria aguda de l’espai intersticial caracteritzada per edema intersticial, infiltrats inflamatoris i àrees de necrosi de cèl·lules tubulars.",
+    "c73a7e": "##### Diürètics S’han d’evitar els diürètics estalviadors de potassi (espironolactona, eplerenona, amilorida) en pacients amb insuficiència renal i, sobretot, no associar-los amb IECA, ARA-II o AINE (alt risc d’hiperpotassèmia).",
+    "c739f1": "##### Hipotensors IECA i ARA-II: són renoprotectors, no estan contraindicats en la insuficiència renal, però en etapes avançades poden requerir una disminució de la dosi."
+  },
+  "documentContext": {
+    "nephropathies": [
+      "Nefropatia per àcid úric: la hiperuricèmia crònica provoca dipòsits d’àcid úric i sals d’urat a l’interstici i els túbuls. Són freqüents els episodis recurrents de pielonefritis. S’associa a HTA i hiperlipidèmia. El tractament es basa en l’al·lopurinol.",
+      "Nefropatia hipercalcèmica: infiltrats per monòcits amb fibrosi intersticial i dipòsit de calci a l’interstici (nefrocalcinosi), els glomèruls i els vasos. Es caracteritza per incapacitat per concentrar l’orina i acidosi tubular distal amb pèrdua de potassi i sodi.",
+      "Nefropatia dels Balcans: nefropatia endèmica dels països de l’Europa de l’Est. Tot i que no se n’ha aclarit l’etiologia, se sospiten factors mediambientals (virus, toxines de plantes, hidrocarburs, etc.) sobre una base de predisposició genètica. Últimament es creu que podria ser deguda a un component vegetal, l’àcid aristolòquic. Presenta una incidència altíssima de tumors urotelials. Condueix a la MRC terminal entre els 30 i els 50 anys.",
+      "Nefropatia per oxalat: apareix en els processos que cursen amb augment de l’excreció d’oxalat, com ara hiperoxalúries, cirurgia de derivació ileal, intoxicació per etilenglicol, anestèsia amb metoxiflurà o ingesta d’altes dosis d’àcid ascòrbic. Apareixen nefrolitiasi i nefrocalcinosi. Per tractar-la es pot utilitzar piridoxina (converteix el glioxilat en glicina, en lloc d’oxalat).",
+      "Nefritis per radiació: és dependent de la dosi i afecta les persones exposades a més de 2.300 rad. Provoca una vasoconstricció important que dona lloc a isquèmia renal. És molt freqüent la HTA greu o maligna. Produeix hialinosi glomerular, fibrosi intersticial i hialinització de la capa mitjana de les arterioles."
+    ],
+    "dosing": "L’ajust de dosi en la insuficiència renal és imprescindible per evitar la toxicitat de fàrmacs d’eliminació renal i procurar-ne una eficàcia adequada. En la insuficiència renal es pot fer de dues maneres:",
+    "antimicrobials": [
+      "Antibiòtics: no requereixen ajust de dosi l’azitromicina, la clindamicina, el linezolid, la doxiciclina, la moxifloxacina i el cloramfenicol.",
+      "Antifúngics: no necessiten ajust de dosi la caspofungina, l’itraconazol i el voriconazol (els dos últims només per via oral, ja que per via intravenosa estan contraindicats amb un aclariment de creatinina < 50 mL/min, per acumulació del vehicle ciclodextrina).",
+      "Antivirals: pràcticament tots necessiten una disminució de la dosi perquè presenten un risc alt de neurotoxicitat, amb quadres confusionals, al·lucinacions visuals, etc., sobretot l’aciclovir.",
+      "Antituberculosos: no necessiten ajust de dosi la pirimetamina, la isoniazida, la rifampicina i la rifabutina."
+    ],
+    "nsaids": {
+      "highlight": "S’ha d’evitar l’ús d’AINE en la insuficiència renal",
+      "rest": ". En el cas que siguin estrictament necessaris, és preferible utilitzar AINE de vida mitjana curta i durant pocs dies. S’evitaran en pacients amb insuficiència cardíaca, diabetis i hipertensió concomitants. S’ha de procurar que el pacient estigui ben hidratat."
+    },
+    "interactions": "També se n’ha d’evitar l’ús juntament amb inhibidors de l’enzim convertidor de l’angiotensina (IECA), antagonistes dels receptors de l’angiotensina (ARA-II) i diürètics. En pacients amb MRC greu (aclariment de creatinina < 30 mL/min) sempre estan contraindicats."
+  }
+}
