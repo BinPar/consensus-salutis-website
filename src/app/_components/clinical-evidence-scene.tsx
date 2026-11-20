@@ -8,9 +8,11 @@ import {
   Paperclip,
   X,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import {
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
   type CSSProperties,
@@ -18,45 +20,57 @@ import {
 } from "react";
 import { processResult as result } from "./clinical-process-data";
 import {
-  processSceneReferences,
   sceneReferenceForAnchor,
+  useSceneReferences,
   type SceneReference,
 } from "./clinical-scene-references";
-import { evidenceDocumentContext as sourceText } from "./evidence-document-context";
+import { useEvidenceDocumentContext } from "./evidence-document-context";
 import { ProcessChatVeil } from "./clinical-process-visuals";
 import {
-  processAnswerParagraphs,
+  useProcessAnswerParagraphs,
   writtenCharacters,
 } from "./clinical-process-typing";
 
 const evidence = result.evidence;
-const evidenceReference = sceneReferenceForAnchor(evidence.anchor)!;
-// Verbatim passages from the captured answer, linked to the scene bibliography.
-const paragraphs = processAnswerParagraphs;
-const tokens = paragraphs.map((paragraph) =>
-  paragraph
-    .split(/(⟦[^⟧]+⟧|\*\*[^*]+\*\*)/g)
-    .filter(Boolean)
-    .map((part) => {
-      if (part.startsWith("⟦")) {
-        const citation = sceneReferenceForAnchor(part.slice(1, -1))!;
-        return {
-          text: `[${citation.order}]`,
-          citation: citation.order,
-          strong: false,
-        };
-      }
-      return {
-        text: part.replace(/\*\*/g, ""),
-        citation: undefined,
-        strong: part.startsWith("**"),
-      };
-    }),
-);
-const answerLength = tokens
-  .flat()
-  .reduce((sum, token) => sum + token.text.length, 0);
-const quotedText = evidence.quote.replace(/\*/g, "").replace(/\.$/, "");
+
+function useEvidenceAnswer() {
+  const paragraphs = useProcessAnswerParagraphs();
+  const sceneReferences = useSceneReferences();
+  return useMemo(() => {
+    const cite = (anchor: string) =>
+      sceneReferenceForAnchor(anchor, sceneReferences)!;
+    // Verbatim passages from the captured answer, linked to the scene bibliography.
+    const tokens = paragraphs.map((paragraph) =>
+      paragraph
+        .split(/(⟦[^⟧]+⟧|\*\*[^*]+\*\*)/g)
+        .filter(Boolean)
+        .map((part) => {
+          if (part.startsWith("⟦")) {
+            const citation = cite(part.slice(1, -1));
+            return {
+              text: `[${citation.order}]`,
+              citation: citation.order,
+              strong: false,
+            };
+          }
+          return {
+            text: part.replace(/\*\*/g, ""),
+            citation: undefined,
+            strong: part.startsWith("**"),
+          };
+        }),
+    );
+    return {
+      sceneReferences,
+      evidenceReference: cite(evidence.anchor),
+      tokens,
+      answerLength: tokens
+        .flat()
+        .reduce((sum, token) => sum + token.text.length, 0),
+    };
+  }, [paragraphs, sceneReferences]);
+}
+
 function readingTop(element: HTMLElement, reply: HTMLElement) {
   const claim = reply.querySelector<HTMLElement>("[data-evidence-claim]");
   const preceding = reply.querySelector<HTMLElement>(
@@ -109,7 +123,7 @@ export function EvidenceScene({
   seconds,
   reduced,
   continuation,
-  references = processSceneReferences,
+  references: referencesProp,
 }: {
   seconds: number;
   reduced: boolean;
@@ -121,6 +135,11 @@ export function EvidenceScene({
     scroll: number;
   };
 }) {
+  const t = useTranslations("clinical");
+  const sourceText = useEvidenceDocumentContext();
+  const { sceneReferences, evidenceReference, tokens, answerLength } =
+    useEvidenceAnswer();
+  const references = referencesProp ?? sceneReferences;
   const time = continuation || reduced ? 24 : seconds;
   const viewport = useRef<HTMLDivElement>(null);
   const response = useRef<HTMLDivElement>(null);
@@ -216,7 +235,14 @@ export function EvidenceScene({
         reply.scrollHeight - element.clientHeight + 12,
       );
     }
-  }, [written, focus, viewportWidth, continuation, composerHeight]);
+  }, [
+    written,
+    focus,
+    viewportWidth,
+    continuation,
+    composerHeight,
+    answerLength,
+  ]);
   useLayoutEffect(() => {
     const element = composer.current;
     if (!element) return;
@@ -249,7 +275,7 @@ export function EvidenceScene({
     setCitationPoint((previous) =>
       previous.x === x && previous.y === y ? previous : { x, y },
     );
-  }, [written, focus, panel, viewportWidth]);
+  }, [written, focus, panel, viewportWidth, evidenceReference.order]);
 
   let remaining = written;
   return (
@@ -289,7 +315,7 @@ export function EvidenceScene({
                 className="hidden size-full object-contain dark:block"
               />
             </span>
-            <span className="font-display text-sm font-semibold text-navy dark:text-slate-100">
+            <span className="font-display text-navy text-sm font-semibold dark:text-slate-100">
               BinPar
             </span>
           </div>
@@ -301,7 +327,7 @@ export function EvidenceScene({
           >
             {written === 0 && (
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                Pensando…
+                {t("chat.thinking")}
               </p>
             )}
             <div ref={response} data-evidence-response="">
@@ -358,7 +384,7 @@ export function EvidenceScene({
                         return token.strong ? (
                           <strong
                             key={tokenIndex}
-                            className="font-semibold text-navy dark:text-slate-100"
+                            className="text-navy font-semibold dark:text-slate-100"
                           >
                             {token.text.slice(0, count)}
                           </strong>
@@ -381,14 +407,14 @@ export function EvidenceScene({
             </div>
             <section
               data-evidence-bibliography=""
-              className="mt-3 border-t border-cyan-800/15 pt-3 pb-2 dark:border-primary-dark/15"
+              className="dark:border-primary-dark/15 mt-3 border-t border-cyan-800/15 pt-3 pb-2"
               style={{
                 opacity: bibliography,
                 visibility: bibliography > 0 ? "visible" : "hidden",
               }}
             >
               <p className="font-display text-primary-light dark:text-primary-dark text-[11px] font-bold tracking-[0.16em] uppercase">
-                Bibliografía
+                {t("chat.bibliography")}
               </p>
               <ol className="mt-3 space-y-2">
                 {references.map((citation, index) => (
@@ -428,15 +454,15 @@ export function EvidenceScene({
             {continuation?.composer ?? (
               <div
                 data-process-composer=""
-                className="shadow-big-blocks relative grid h-[52px] grid-cols-[56px_minmax(0,1fr)_56px] items-center overflow-hidden rounded-[28px] border border-cyan-800/15 bg-white/85 backdrop-blur-md dark:border-primary-dark/15 dark:bg-[#152230e6]/90"
+                className="shadow-big-blocks dark:border-primary-dark/15 relative grid h-[52px] grid-cols-[56px_minmax(0,1fr)_56px] items-center overflow-hidden rounded-[28px] border border-cyan-800/15 bg-white/85 backdrop-blur-md dark:bg-[#152230e6]/90"
               >
-                <span className="grid size-9 place-items-center place-self-center rounded-full border border-cyan-800/15 text-slate-500 dark:border-primary-dark/15 dark:text-slate-400">
+                <span className="dark:border-primary-dark/15 grid size-9 place-items-center place-self-center rounded-full border border-cyan-800/15 text-slate-500 dark:text-slate-400">
                   <Paperclip size={20} strokeWidth={1.1} />
                 </span>
                 <span className="min-w-0 truncate text-sm leading-6 text-slate-500 dark:text-slate-400">
                   {written < answerLength
-                    ? "El comité está respondiendo..."
-                    : "Pregunta clínica al comité..."}
+                    ? t("chat.responding")
+                    : t("chat.placeholder")}
                 </span>
                 <span className="bg-primary-light dark:bg-primary-dark grid size-9 place-items-center place-self-center rounded-full text-white opacity-45 dark:text-[#04111e]">
                   <ArrowUp size={20} strokeWidth={1.1} />
@@ -447,15 +473,15 @@ export function EvidenceScene({
         </div>
         <div
           data-process-source-viewer=""
-          className="evidence-source flex min-w-0 flex-col overflow-hidden border-cyan-800/15 bg-white dark:border-primary-dark/15 dark:bg-[#152230]"
+          className="evidence-source dark:border-primary-dark/15 flex min-w-0 flex-col overflow-hidden border-cyan-800/15 bg-white dark:bg-[#152230]"
           style={{
             width: sourceWidth || undefined,
             opacity: source,
             pointerEvents: source === 1 ? "auto" : "none",
           }}
         >
-          <div className="evidence-tabs flex h-11 shrink-0 items-end border-b border-cyan-800/10 bg-[#e8f2f7]/30 px-2 pt-1 dark:border-primary-dark/15 dark:bg-[#06111f]/45">
-            <div className="evidence-tab relative -mb-px flex h-10 max-w-56 min-w-0 flex-1 items-center gap-1.5 rounded-t-md border border-b-0 bg-white px-2.5 text-navy dark:bg-[#152230] dark:text-slate-100">
+          <div className="evidence-tabs dark:border-primary-dark/15 flex h-11 shrink-0 items-end border-b border-cyan-800/10 bg-[#e8f2f7]/30 px-2 pt-1 dark:bg-[#06111f]/45">
+            <div className="evidence-tab text-navy relative -mb-px flex h-10 max-w-56 min-w-0 flex-1 items-center gap-1.5 rounded-t-md border border-b-0 bg-white px-2.5 dark:bg-[#152230] dark:text-slate-100">
               <FileText
                 size={20}
                 strokeWidth={1.1}
@@ -474,18 +500,18 @@ export function EvidenceScene({
               <X size={20} strokeWidth={1.1} />
             </span>
           </div>
-          <header className="flex min-w-0 shrink-0 items-center gap-2 border-b border-cyan-800/10 bg-white px-4 py-3 dark:border-primary-dark/15 dark:bg-[#152230]">
+          <header className="dark:border-primary-dark/15 flex min-w-0 shrink-0 items-center gap-2 border-b border-cyan-800/10 bg-white px-4 py-3 dark:bg-[#152230]">
             <div className="min-w-0 flex-1">
               <p className="font-display text-primary-light dark:text-primary-dark text-[9px] font-bold tracking-[0.16em] uppercase">
-                Fuente de consulta
+                {t("evidence.sourceLabel")}
               </p>
-              <p className="font-display mt-0.5 truncate text-sm font-semibold text-navy dark:text-slate-100">
+              <p className="font-display text-navy mt-0.5 truncate text-sm font-semibold dark:text-slate-100">
                 {evidenceReference.title}
               </p>
             </div>
             <span className="flex shrink-0 items-center gap-1.5 rounded-full px-1.5 text-[11px] font-semibold text-slate-600 dark:text-slate-300">
               <Maximize2 size={20} strokeWidth={1.1} />
-              <span>Ver documento completo</span>
+              <span>{t("evidence.fullDocument")}</span>
             </span>
           </header>
           <div
@@ -500,22 +526,25 @@ export function EvidenceScene({
                 transform: `translateY(${-documentOffset * located}px)`,
               }}
             >
-              <p>Otras NTIC son:</p>
+              <p>{t("evidence.document.intro")}</p>
               <ul className="my-4 list-disc space-y-3 pl-4">
                 {sourceText.nephropathies.map((text) => (
                   <li key={text}>{text}</li>
                 ))}
               </ul>
-              <h3 className="font-display mt-6 mb-3 text-sm font-semibold text-navy dark:text-slate-100">
-                Dosis de fármacos y riñón
+              <h3 className="font-display text-navy mt-6 mb-3 text-sm font-semibold dark:text-slate-100">
+                {t("evidence.document.dosingTitle")}
               </h3>
               <p>{sourceText.dosing}</p>
               <ul className="my-4 list-disc space-y-2 pl-4">
-                <li>Disminuyendo la dosis.</li>
-                <li>Aumentando el intervalo entre las dosis.</li>
+                {(t.raw("evidence.document.dosingOptions") as string[]).map(
+                  (text) => (
+                    <li key={text}>{text}</li>
+                  ),
+                )}
               </ul>
-              <h3 className="font-display mt-6 mb-3 text-sm font-semibold text-navy dark:text-slate-100">
-                Antimicrobianos
+              <h3 className="font-display text-navy mt-6 mb-3 text-sm font-semibold dark:text-slate-100">
+                {t("evidence.document.antimicrobialsTitle")}
               </h3>
               <ul className="my-4 list-disc space-y-3 pl-4">
                 {sourceText.antimicrobials.map((text) => (
@@ -525,7 +554,7 @@ export function EvidenceScene({
               <figure className="my-5">
                 <Image
                   src="/img/evidence-source-image.jpg"
-                  alt="Imagen del documento de consulta con dos flechas señalando detalles."
+                  alt={t("evidence.document.imageAlt")}
                   width={750}
                   height={878}
                   sizes="(min-width: 1024px) 500px, (min-width: 640px) 450px, 100vw"
@@ -535,18 +564,18 @@ export function EvidenceScene({
               </figure>
               <h3
                 ref={documentTarget}
-                className="font-display mt-6 mb-3 text-sm font-semibold text-navy dark:text-slate-100"
+                className="font-display text-navy mt-6 mb-3 text-sm font-semibold dark:text-slate-100"
               >
-                Antiinflamatorios no esteroideos
+                {t("evidence.document.nsaidsTitle")}
               </h3>
               <p data-evidence-passage="">
                 <mark
                   data-source-highlight="literal"
                   className="evidence-highlight rounded-sm text-inherit"
                 >
-                  {quotedText}
+                  {sourceText.nsaids.highlight}
                 </mark>
-                {sourceText.nsaids.slice(quotedText.length)}
+                {sourceText.nsaids.rest}
               </p>
               <p className="mt-4">{sourceText.interactions}</p>
             </div>

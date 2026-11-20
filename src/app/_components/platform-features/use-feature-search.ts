@@ -2,32 +2,37 @@
 
 import { useMemo, useState } from "react";
 
-import { normalizeSearch } from "../blog/normalize-search";
-import { featureGroupSections } from "./feature-groups";
-
-/** Text the features search looks into, per feature. */
-const searchIndex = new Map(
-  featureGroupSections.flatMap((section) =>
-    section.features.map((feature) => [
-      feature,
-      normalizeSearch(
-        [
-          feature.title,
-          feature.description,
-          feature.detail ?? "",
-          section.navLabel,
-          ...section.heading,
-        ].join(" "),
-      ),
-    ]),
-  ),
-);
+import { useNormalizeSearch } from "../blog/normalize-search";
+import { useFeatureGroupSections } from "./feature-groups";
 
 /**
  * Search over the feature groups: the groups that still have features for the
  * query, and the entries (id, label, count) the sticky features bar lists.
  */
 export function useFeatureSearch() {
+  const featureGroupSections = useFeatureGroupSections();
+  const normalizeSearch = useNormalizeSearch();
+  // Busca en el texto que se ve, en el idioma de la página.
+  const searchIndex = useMemo(
+    () =>
+      new Map(
+        featureGroupSections.flatMap((section) =>
+          section.features.map((feature) => [
+            feature,
+            normalizeSearch(
+              [
+                feature.title,
+                feature.description,
+                feature.detail ?? "",
+                section.navLabel,
+                ...section.heading,
+              ].join(" "),
+            ),
+          ]),
+        ),
+      ),
+    [featureGroupSections, normalizeSearch],
+  );
   const [query, setQuery] = useState("");
   const searchTerm = normalizeSearch(query);
   const groups = useMemo(
@@ -41,7 +46,7 @@ export function useFeatureSearch() {
           ),
         }))
         .filter((section) => section.features.length > 0),
-    [searchTerm],
+    [featureGroupSections, searchIndex, searchTerm],
   );
   const entries = useMemo(
     () =>

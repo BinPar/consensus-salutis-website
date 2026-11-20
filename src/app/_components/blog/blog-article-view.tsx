@@ -1,7 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, Calendar, Clock, User } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
+import { Link } from "~/i18n/navigation";
 import type { BlogPost } from "~/lib/blog";
 import { BlogCover } from "~/app/_components/blog-cover";
 import { Eyebrow } from "~/app/_components/eyebrow";
@@ -18,12 +19,14 @@ const container =
   "mx-auto w-[calc(100%-40px)] max-w-[832px] sm:w-[calc(100%-64px)] lg:w-[calc(100%-80px)] lg:max-w-[1152px]";
 
 function ArticleMetadata({ post }: { post: BlogPost }) {
+  const t = useTranslations("blog.article");
+
   return (
-    <section aria-label="Información del artículo" className="font-body">
+    <section aria-label={t("metadataLabel")} className="font-body">
       <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs leading-[1.5] font-semibold text-slate-500 lg:flex-col lg:gap-2 dark:text-[#a9bacb]">
         <span className="inline-flex items-center gap-2 whitespace-nowrap">
           <User aria-hidden="true" size={14} strokeWidth={2} />
-          Por {post.author.name}
+          {t("byAuthor", { name: post.author.name })}
         </span>
         <span className="inline-flex items-center gap-2 whitespace-nowrap">
           <Calendar aria-hidden="true" size={14} strokeWidth={2} />
@@ -36,23 +39,27 @@ function ArticleMetadata({ post }: { post: BlogPost }) {
       </div>
       {post.updatedAtLabel && (
         <p className="mt-2 text-[10px] leading-4 text-slate-500 dark:text-slate-400">
-          Actualizado el {post.updatedAtLabel}
+          {t("updated", { date: post.updatedAtLabel })}
         </p>
       )}
       <p
-        className={`${label} mt-5 hidden border-t border-cyan-800/15 pt-5 lg:block dark:border-primary-dark/15`}
+        className={`${label} dark:border-primary-dark/15 mt-5 hidden border-t border-cyan-800/15 pt-5 lg:block`}
       >
-        Temas
+        {t("topics")}
       </p>
       <nav
-        aria-label="Etiquetas del artículo"
+        aria-label={t("tagsLabel")}
         className="mt-4 flex flex-wrap gap-1.5 lg:mt-3"
       >
         {post.tags.map((tag, index) => (
           <Link
             key={tag}
-            href={`/blog/tag/${tag}#blog-page-gallery`}
-            className="font-body border-primary-light/20 hover:border-primary-light/50 hover:text-primary-light dark:hover:text-primary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark dark:hover:border-primary-dark/50 inline-flex min-h-6 max-w-full items-center rounded-full border bg-white/50 px-2.5 py-0.5 text-[10px] leading-4 font-medium text-slate-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-primary-dark/15 dark:bg-[#152230]/50 dark:text-slate-300"
+            href={{
+              pathname: "/blog/tag/[tag]",
+              params: { tag },
+              hash: "blog-page-gallery",
+            }}
+            className="font-body border-primary-light/20 hover:border-primary-light/50 hover:text-primary-light dark:hover:text-primary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark dark:hover:border-primary-dark/50 dark:border-primary-dark/15 inline-flex min-h-6 max-w-full items-center rounded-full border bg-white/50 px-2.5 py-0.5 text-[10px] leading-4 font-medium text-slate-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 dark:bg-[#152230]/50 dark:text-slate-300"
           >
             {post.tagLabels[index] ?? tag}
           </Link>
@@ -63,22 +70,24 @@ function ArticleMetadata({ post }: { post: BlogPost }) {
 }
 
 function RelatedArticles({ posts }: { posts: BlogPost[] }) {
+  const t = useTranslations("blog.article");
+
   if (!posts.length) return null;
   return (
     <section
-      aria-label="Artículos relacionados"
-      className="border-t border-cyan-800/15 pt-5 dark:border-primary-dark/15"
+      aria-label={t("relatedLabel")}
+      className="dark:border-primary-dark/15 border-t border-cyan-800/15 pt-5"
     >
-      <h2 className={label}>Quizá te interese</h2>
+      <h2 className={label}>{t("relatedTitle")}</h2>
       <ul className="mt-3 divide-y divide-cyan-800/10 dark:divide-cyan-300/10">
         {posts.map((post) => (
           <li key={post.slug}>
             <Link
-              href={post.href}
+              href={{ pathname: "/blog/[slug]", params: { slug: post.slug } }}
               className="group focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark block rounded-lg py-3 focus-visible:outline-2 focus-visible:outline-offset-4"
             >
               <span className="flex items-start gap-3">
-                <span className="font-display group-hover:text-primary-light dark:group-hover:text-primary-dark text-[13px] leading-5 font-semibold tracking-tight text-navy transition-colors dark:text-slate-100">
+                <span className="font-display group-hover:text-primary-light dark:group-hover:text-primary-dark text-navy text-[13px] leading-5 font-semibold tracking-tight transition-colors dark:text-slate-100">
                   {post.title}
                 </span>
                 <ArrowUpRight
@@ -109,6 +118,7 @@ export function BlogArticleView({
   posts: BlogPost[];
   children: ReactNode;
 }) {
+  const t = useTranslations("blog.article");
   const relatedPosts = posts
     .filter((candidate) => candidate.slug !== post.slug)
     .map((candidate) => ({
@@ -155,10 +165,10 @@ export function BlogArticleView({
               className="focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark inline-flex items-center gap-2 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4"
             >
               <ArrowLeft aria-hidden="true" size={15} strokeWidth={1.8} />
-              Volver al blog
+              {t("back")}
             </Link>
           </Eyebrow>
-          <h1 className="font-display mt-4 text-[32px] leading-[1.08] font-extrabold tracking-tight text-navy sm:text-[40px] lg:mt-5 lg:text-[54px] dark:text-slate-50">
+          <h1 className="font-display text-navy mt-4 text-[32px] leading-[1.08] font-extrabold tracking-tight sm:text-[40px] lg:mt-5 lg:text-[54px] dark:text-slate-50">
             {post.title}
           </h1>
           <p className="font-body mt-4 text-base leading-7 text-slate-600 lg:mt-6 lg:text-lg lg:leading-8 dark:text-slate-400">
@@ -172,7 +182,7 @@ export function BlogArticleView({
           key={post.slug}
           slug={post.slug}
           cover={
-            <div className="shadow-big-blocks relative overflow-hidden rounded-2xl border border-cyan-800/15 bg-white/70 dark:border-primary-dark/20 dark:bg-[#152230]/80">
+            <div className="shadow-big-blocks dark:border-primary-dark/20 relative overflow-hidden rounded-2xl border border-cyan-800/15 bg-white/70 dark:bg-[#152230]/80">
               {post.image ? (
                 <Image
                   src={post.image}
@@ -184,7 +194,7 @@ export function BlogArticleView({
                 />
               ) : (
                 <div className="aspect-16/7 w-full">
-                  <BlogCover slug={post.slug} />
+                  <BlogCover slug={post.translationKey} />
                 </div>
               )}
             </div>

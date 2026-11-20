@@ -2,21 +2,16 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { blogContentWidth } from "../blog/blog-layout";
 import { HomePaintPanel } from "../home-paint-panel";
 import { FixedSignalLayer } from "../horizontal-home";
 import { Reveal, SignalField } from "../motion-system";
 import { ProductSignalLeft } from "../product-signal-left";
-import { featureGroupSections } from "./feature-groups";
+import { useFeatureGroupSections } from "./feature-groups";
 import { FeatureScene } from "./scenes/feature-scene";
-
-/** One scene per group, the first one each group lists. */
-const showcase = featureGroupSections.map((section) => ({
-  group: section.navLabel,
-  feature: section.features[0]!,
-}));
 
 /** How long the last frame of a scene stays before the next one starts. */
 const holdMs = 1800;
@@ -27,6 +22,16 @@ const holdMs = 1800;
  */
 function FeatureShowcase({ active }: { active: boolean }) {
   const reduced = useReducedMotion();
+  const featureGroupSections = useFeatureGroupSections();
+  /** One scene per group, the first one each group lists. */
+  const showcase = useMemo(
+    () =>
+      featureGroupSections.map((section) => ({
+        group: section.navLabel,
+        feature: section.features[0]!,
+      })),
+    [featureGroupSections],
+  );
   const [index, setIndex] = useState(0);
   const [holding, setHolding] = useState(false);
   const { group, feature } = showcase[index]!;
@@ -39,7 +44,7 @@ function FeatureShowcase({ active }: { active: boolean }) {
       setIndex((current) => (current + 1) % showcase.length);
     }, holdMs);
     return () => window.clearTimeout(timer);
-  }, [holding]);
+  }, [holding, showcase.length]);
 
   return (
     <AnimatePresence mode="wait" initial={false}>
@@ -89,6 +94,7 @@ function FeatureShowcase({ active }: { active: boolean }) {
  * right, so the features bar starts below the first screen.
  */
 export function FeaturesIntro({ targetId }: { targetId: string }) {
+  const t = useTranslations("features.intro");
   const reduced = useReducedMotion();
   return (
     <HomePaintPanel>
@@ -119,24 +125,25 @@ export function FeaturesIntro({ targetId }: { targetId: string }) {
             <div className="min-w-0 max-[900px]:text-center">
               <Reveal visible={painted}>
                 <p className="font-display text-primary-light dark:text-primary-dark text-xs font-bold tracking-[0.22em] uppercase">
-                  Plataforma · Funcionalidades
+                  {t("eyebrow")}
                 </p>
                 <h1
                   id="features-page-title"
                   className="font-display text-navy mt-5 max-w-4xl text-[32px] leading-[1.08] font-extrabold tracking-tight sm:text-[40px] lg:text-[54px] dark:text-slate-50"
                 >
-                  Todo lo que ofrece
-                  <br />
-                  <span className="text-primary-light dark:text-primary-dark">
-                    la plataforma.
-                  </span>
+                  {t.rich("title", {
+                    br: () => <br />,
+                    accent: (chunks) => (
+                      <span className="text-primary-light dark:text-primary-dark">
+                        {chunks}
+                      </span>
+                    ),
+                  })}
                 </h1>
               </Reveal>
               <Reveal visible={painted} delay={0.1}>
                 <p className="font-body mt-5 max-w-2xl text-sm leading-6 text-slate-600 max-[900px]:mx-auto sm:text-lg sm:leading-8 dark:text-slate-400">
-                  Lo que conviene comprobar antes de llevarla a tu organización:
-                  de dónde sale cada respuesta, quién decide qué documentos
-                  consulta y cómo se vigila su calidad con el tiempo.
+                  {t("lead")}
                 </p>
               </Reveal>
               <Reveal visible={painted} delay={0.2}>
@@ -154,7 +161,7 @@ export function FeaturesIntro({ targetId }: { targetId: string }) {
                   }}
                   className="font-body bg-primary-light dark:bg-primary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark dark:hover:bg-primary-dark/85 mt-7 inline-flex min-h-11 items-center justify-center gap-3 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-4 dark:text-[#04111e]"
                 >
-                  Explorar funcionalidades{" "}
+                  {t("cta")}{" "}
                   <ArrowDown size={17} strokeWidth={1.8} aria-hidden="true" />
                 </a>
               </Reveal>

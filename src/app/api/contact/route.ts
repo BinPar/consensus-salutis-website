@@ -62,6 +62,7 @@ async function sendContactEmail(input: {
   name: string;
   email: string;
   message: string;
+  locale: string;
 }) {
   if (!env.RESEND_API_KEY || !env.CONTACT_FROM_EMAIL) return false;
 
@@ -75,9 +76,10 @@ async function sendContactEmail(input: {
       from: env.CONTACT_FROM_EMAIL,
       to: [env.CONTACT_TO_EMAIL],
       reply_to: input.email,
+      // Correo interno para el equipo: va siempre en castellano, sin i18n.
       subject: `Consulta BinPar de ${input.name}`,
-      text: `Nombre: ${input.name}\nCorreo: ${input.email}\n\n${input.message}`,
-      html: `<p><strong>Nombre:</strong> ${escapeHtml(input.name)}</p><p><strong>Correo:</strong> ${escapeHtml(input.email)}</p><p>${escapeHtml(input.message).replace(/\n/g, "<br>")}</p>`,
+      text: `Nombre: ${input.name}\nCorreo: ${input.email}\nIdioma de la web: ${input.locale}\n\n${input.message}`,
+      html: `<p><strong>Nombre:</strong> ${escapeHtml(input.name)}</p><p><strong>Correo:</strong> ${escapeHtml(input.email)}</p><p><strong>Idioma de la web:</strong> ${input.locale}</p><p>${escapeHtml(input.message).replace(/\n/g, "<br>")}</p>`,
     }),
     signal: AbortSignal.timeout(8_000),
   });
@@ -90,32 +92,26 @@ export async function POST(request: NextRequest) {
   const contentType = request.headers.get("content-type");
 
   if (contentLength > MAX_BODY_BYTES) {
-    return json(
-      { ok: false, message: "La solicitud es demasiado grande." },
-      413,
-    );
+    return json({ ok: false, error: "tooLarge" }, 413);
   }
 
   if (!isSameOrigin(request)) {
-    return json({ ok: false, message: "Solicitud no permitida." }, 403);
+    return json({ ok: false, error: "forbidden" }, 403);
   }
 
   if (!contentType?.toLowerCase().startsWith("application/json")) {
-    return json({ ok: false, message: "Solicitud no válida." }, 415);
+    return json({ ok: false, error: "invalid" }, 415);
   }
 
   let payload: unknown;
   try {
     const rawBody = await request.text();
     if (new TextEncoder().encode(rawBody).byteLength > MAX_BODY_BYTES) {
-      return json(
-        { ok: false, message: "La solicitud es demasiado grande." },
-        413,
-      );
+      return json({ ok: false, error: "tooLarge" }, 413);
     }
     payload = JSON.parse(rawBody) as unknown;
   } catch {
-    return json({ ok: false, message: "Solicitud no válida." }, 400);
+    return json({ ok: false, error: "invalid" }, 400);
   }
 
   if (
@@ -141,7 +137,7 @@ export async function POST(request: NextRequest) {
     return json(
       {
         ok: false,
-        message: "Revisa los campos indicados.",
+        error: "fieldErrors",
         fieldErrors,
       },
       400,
@@ -169,13 +165,6 @@ export async function POST(request: NextRequest) {
     return json({ ok: true }, 200);
   } catch (error) {
     console.error("Contact form submission failed", error);
-    return json(
-      {
-        ok: false,
-        message:
-          "No hemos podido enviar el mensaje. Inténtalo de nuevo más tarde.",
-      },
-      503,
-    );
+    return json({ ok: false, error: "sendFailed" }, 503);
   }
 }

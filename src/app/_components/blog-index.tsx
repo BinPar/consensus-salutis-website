@@ -7,6 +7,7 @@
  */
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { BlogArticleCard } from "~/app/_components/blog-article-card";
 import { ProductSignalLeft } from "~/app/_components/product-signal-left";
@@ -14,6 +15,8 @@ import {
   HomeMotionBackground,
   SignalField,
 } from "~/app/_components/motion-system";
+import { Link as LocalizedLink } from "~/i18n/navigation";
+import type { StaticPathname } from "~/i18n/routing";
 import type { BlogPost, BlogTag } from "~/lib/blog";
 
 export const BLOG_POSTS_PER_PAGE = 12;
@@ -63,6 +66,7 @@ export function BlogTagFilter({
   tags: BlogTag[];
   activeTag?: string;
 }) {
+  const t = useTranslations("blog");
   if (tags.length === 0) return null;
 
   const entries = [
@@ -76,7 +80,7 @@ export function BlogTagFilter({
 
   return (
     <nav
-      aria-label="Filtro por etiqueta"
+      aria-label={t("tagFilter.label")}
       className="mt-10 flex flex-wrap gap-2"
     >
       {entries.map((entry) => {
@@ -90,7 +94,7 @@ export function BlogTagFilter({
             className={`font-body inline-flex h-8 items-center rounded-full border px-4 text-xs font-semibold transition-all duration-150 ${
               active
                 ? "border-primary-light bg-primary-light shadow-big-blocks dark:border-primary-dark dark:bg-primary-dark text-white dark:text-[#03111d]"
-                : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 bg-white/80 text-slate-600 hover:text-cyan-800 dark:border-primary-dark/20 dark:bg-[#152230e6]/90 dark:text-slate-400 dark:hover:text-primary-dark"
+                : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 dark:border-primary-dark/20 dark:hover:text-primary-dark bg-white/80 text-slate-600 hover:text-cyan-800 dark:bg-[#152230e6]/90 dark:text-slate-400"
             }`}
           >
             {entry.label}
@@ -109,28 +113,34 @@ export function BlogTagFilter({
  * mejor que una rejilla de tarjetas de relleno.
  */
 export function BlogEmptyState({
-  title = "Todavía no hay artículos publicados.",
-  body = "Estamos preparando las primeras lecturas. Si quieres que te avisemos cuando publiquemos, escríbenos.",
-  action = { href: "/contacto", label: "Hablar con el equipo" },
+  title,
+  body,
+  action,
 }: {
   title?: string;
   body?: string;
-  action?: { href: string; label: string };
+  action?: { href: StaticPathname; label: string };
 }) {
+  const t = useTranslations("blog.emptyState");
+  const { href, label }: { href: StaticPathname; label: string } = action ?? {
+    href: "/contacto",
+    label: t("action"),
+  };
+
   return (
-    <div className="shadow-big-blocks mt-14 rounded-2xl border border-cyan-800/15 bg-white/80 px-6 py-14 text-center backdrop-blur-xs sm:px-10 dark:border-primary-dark/20 dark:bg-[#152230e6]/90">
-      <p className="font-display text-xl font-semibold text-navy dark:text-slate-100">
-        {title}
+    <div className="shadow-big-blocks dark:border-primary-dark/20 mt-14 rounded-2xl border border-cyan-800/15 bg-white/80 px-6 py-14 text-center backdrop-blur-xs sm:px-10 dark:bg-[#152230e6]/90">
+      <p className="font-display text-navy text-xl font-semibold dark:text-slate-100">
+        {title ?? t("title")}
       </p>
       <p className="font-body mx-auto mt-4 max-w-xl text-base leading-7 text-slate-600 dark:text-slate-400">
-        {body}
+        {body ?? t("body")}
       </p>
-      <Link
-        href={action.href}
+      <LocalizedLink
+        href={href}
         className="font-body bg-primary-light shadow-big-blocks dark:bg-primary-dark dark:hover:bg-primary-dark/85 mt-8 inline-flex h-10 items-center justify-center rounded-full px-6 text-sm font-semibold text-white transition-all duration-150 hover:-translate-y-0.5 hover:bg-[#087a85] dark:text-[#03111d] dark:shadow-[0_0_24px_color-mix(in_srgb,var(--color-primary-dark)_18%,transparent)]"
       >
-        {action.label}
-      </Link>
+        {label}
+      </LocalizedLink>
     </div>
   );
 }
@@ -142,6 +152,7 @@ export function BlogPagination({
   currentPage: number;
   totalPages: number;
 }) {
+  const t = useTranslations("blog");
   if (totalPages <= 1) return null;
 
   const pages = Array.from({ length: totalPages }, (_, index) => index + 1);
@@ -150,7 +161,7 @@ export function BlogPagination({
 
   return (
     <nav
-      aria-label="Paginación del blog"
+      aria-label={t("pagination.label")}
       className="mt-12 flex items-center justify-center gap-2"
     >
       <Link
@@ -158,12 +169,12 @@ export function BlogPagination({
         aria-disabled={currentPage === 1}
         className={`grid size-10 place-items-center rounded-full border text-slate-600 transition dark:text-slate-400 ${
           currentPage === 1
-            ? "border-primary-light/60 pointer-events-none bg-white/60 opacity-45 dark:border-primary-dark/10 dark:bg-white/3"
-            : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 bg-white/80 hover:text-cyan-800 dark:border-primary-dark/20 dark:bg-[#152230e6]/90 dark:hover:text-primary-dark"
+            ? "border-primary-light/60 dark:border-primary-dark/10 pointer-events-none bg-white/60 opacity-45 dark:bg-white/3"
+            : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 dark:border-primary-dark/20 dark:hover:text-primary-dark bg-white/80 hover:text-cyan-800 dark:bg-[#152230e6]/90"
         }`}
       >
         <ChevronLeft aria-hidden="true" className="size-4" strokeWidth={1.8} />
-        <span className="sr-only">Página anterior</span>
+        <span className="sr-only">{t("pagination.previous")}</span>
       </Link>
 
       {pages.map((page) => {
@@ -177,7 +188,7 @@ export function BlogPagination({
             className={`font-body grid size-10 place-items-center rounded-full border text-sm font-semibold transition ${
               active
                 ? "border-primary-light bg-primary-light shadow-big-blocks dark:border-primary-dark dark:bg-primary-dark text-white dark:text-[#03111d]"
-                : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 bg-white/80 text-slate-600 hover:text-cyan-800 dark:border-primary-dark/20 dark:bg-[#152230e6]/90 dark:text-slate-400 dark:hover:text-primary-dark"
+                : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 dark:border-primary-dark/20 dark:hover:text-primary-dark bg-white/80 text-slate-600 hover:text-cyan-800 dark:bg-[#152230e6]/90 dark:text-slate-400"
             }`}
           >
             {page}
@@ -190,12 +201,12 @@ export function BlogPagination({
         aria-disabled={currentPage === totalPages}
         className={`grid size-10 place-items-center rounded-full border text-slate-600 transition dark:text-slate-400 ${
           currentPage === totalPages
-            ? "border-primary-light/60 pointer-events-none bg-white/60 opacity-45 dark:border-primary-dark/10 dark:bg-white/3"
-            : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 bg-white/80 hover:text-cyan-800 dark:border-primary-dark/20 dark:bg-[#152230e6]/90 dark:hover:text-primary-dark"
+            ? "border-primary-light/60 dark:border-primary-dark/10 pointer-events-none bg-white/60 opacity-45 dark:bg-white/3"
+            : "hover:border-primary-light/35 dark:hover:border-primary-dark border-primary-light/60 dark:border-primary-dark/20 dark:hover:text-primary-dark bg-white/80 hover:text-cyan-800 dark:bg-[#152230e6]/90"
         }`}
       >
         <ChevronRight aria-hidden="true" className="size-4" strokeWidth={1.8} />
-        <span className="sr-only">Página siguiente</span>
+        <span className="sr-only">{t("pagination.next")}</span>
       </Link>
     </nav>
   );

@@ -15,6 +15,7 @@ import {
   SquarePen,
   Trash2,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import {
   ProcessChatVeil,
@@ -26,6 +27,8 @@ import {
   typingDuration,
   writtenCharacters,
 } from "~/app/_components/clinical-process-typing";
+import { useSceneReferences } from "~/app/_components/clinical-scene-references";
+
 import type { WorkspaceFeatureId } from "../features-data";
 import { Pointer, centre, pointerStyle } from "./consultation-scenes";
 import {
@@ -36,6 +39,7 @@ import {
   bodyText,
   claimParagraph,
   useBoxes,
+  useClaimParagraph,
   type SceneDefinition,
   type SceneProps,
 } from "./evidence-scenes";
@@ -57,8 +61,6 @@ import {
  * and texts follow the code (messages/es/chatShell.json and the ui package).
  */
 
-const projectName = "Fármacos en la ERC";
-
 const enter = (value: number, distance = 8): CSSProperties => ({
   opacity: value,
   transform: `translateY(${distance * (1 - value)}px)`,
@@ -79,6 +81,22 @@ const dialogOpen = (
     : sceneReveal(time, opens, 0.25, false) *
       (1 - sceneReveal(time, closes, 0.2, false));
 
+/*
+ * La duración de cada escena es fija y no depende del idioma: el tecleo reserva
+ * el tiempo de un texto de `budget` caracteres (el castellano) y cada idioma
+ * escribe el suyo dentro de ese tiempo, carácter a carácter.
+ */
+const writtenWithin = (
+  time: number,
+  start: number,
+  budget: number,
+  length: number,
+  reduced: boolean,
+) =>
+  Math.floor(
+    (writtenCharacters(time, start, budget, reduced) * length) / budget,
+  );
+
 function Typed({ text, written }: { text: string; written: number }) {
   return (
     <>
@@ -96,6 +114,7 @@ function ProjectHeader({
   panel: "chats" | "sources";
   style?: CSSProperties;
 }) {
+  const t = useTranslations("scenes.workspace.projectHeader");
   const tab = (current: boolean) =>
     `font-body h-7 border-b-2 px-1 text-xs font-medium ${current ? "border-primary-light text-primary-light dark:border-primary-dark dark:text-primary-dark" : "border-transparent text-slate-500 dark:text-slate-400"}`;
   return (
@@ -108,23 +127,19 @@ function ProjectHeader({
           <Notebook size={16} strokeWidth={1.8} />
         </span>
         <h3 className="font-display text-navy truncate text-base font-semibold tracking-tight dark:text-slate-50">
-          {projectName}
+          {t("name")}
         </h3>
       </div>
       <div className="flex shrink-0 gap-3">
-        <span className={tab(panel === "chats")}>Chats</span>
-        <span className={tab(panel === "sources")}>Fuentes</span>
+        <span className={tab(panel === "chats")}>{t("chats")}</span>
+        <span className={tab(panel === "sources")}>{t("sources")}</span>
       </div>
     </header>
   );
 }
 
 /* 21 · Proyectos: the project's conversations (ProjectConversationList). */
-const projectChats = [
-  { title: "AINE en paciente con ERC", when: "hace 1 día" },
-  { title: "IECA e hiperpotasemia", when: "hace 3 días" },
-  { title: "Ajuste de dosis de metformina", when: "hace 4 semanas" },
-] as const;
+const projectChats = ["nsaids", "aceInhibitors", "metformin"] as const;
 const PROJECTS_MOVED = 2.6;
 
 function ChatRow({
@@ -157,6 +172,7 @@ function ChatRow({
 }
 
 function ProjectsScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.workspace.projects");
   const moved = sceneReveal(time, PROJECTS_MOVED, 0.45, reduced);
   return (
     <div className="relative flex h-full flex-col bg-white dark:bg-[#152230]">
@@ -172,8 +188,8 @@ function ProjectsScene({ time, reduced }: SceneProps) {
         >
           <div className="min-h-0 overflow-hidden">
             <ChatRow
-              title="Analgesia en ERC grave"
-              when="hace un momento"
+              title={t("moved.title")}
+              when={t("moved.when")}
               pulse={
                 !reduced &&
                 time >= PROJECTS_MOVED + 0.3 &&
@@ -186,10 +202,13 @@ function ProjectsScene({ time, reduced }: SceneProps) {
         </li>
         {projectChats.map((chat, index) => (
           <li
-            key={chat.title}
+            key={chat}
             style={enter(sceneReveal(time, 0.6 + index * 0.25, 0.3, reduced))}
           >
-            <ChatRow title={chat.title} when={chat.when} />
+            <ChatRow
+              title={t(`chats.${chat}.title`)}
+              when={t(`chats.${chat}.when`)}
+            />
           </li>
         ))}
       </ul>
@@ -198,21 +217,24 @@ function ProjectsScene({ time, reduced }: SceneProps) {
 }
 
 /* 22 · Instrucciones comunes: the project instructions and their dialog. */
-const instructionsText =
-  "Comparar los fármacos en tablas e indicar siempre el ajuste según el filtrado glomerular.";
+// Caracteres de las instrucciones en castellano: fijan el tiempo de tecleo.
+const INSTRUCTIONS_CHARS = 89;
 const INSTRUCTIONS_POINTER = 0.8;
 const instructionsOpen = INSTRUCTIONS_POINTER + 1;
 const instructionsTyping = instructionsOpen + 0.5;
 const instructionsTyped =
-  instructionsTyping + typingDuration(instructionsText.length);
+  instructionsTyping + typingDuration(INSTRUCTIONS_CHARS);
 const instructionsSave = instructionsTyped + 0.8;
 
 function InstructionsScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.workspace");
+  const instructionsText = t("instructions.text");
   const { root, target, boxes } = useBoxes(2);
   const dialog = dialogOpen(time, instructionsOpen, instructionsSave, reduced);
-  const written = writtenCharacters(
+  const written = writtenWithin(
     time,
     instructionsTyping,
+    INSTRUCTIONS_CHARS,
     instructionsText.length,
     reduced,
   );
@@ -250,51 +272,52 @@ function InstructionsScene({ time, reduced }: SceneProps) {
           />
           <div className="relative flex items-center justify-between gap-3">
             <p className="font-display text-navy text-[13px] font-semibold dark:text-slate-50">
-              Instrucciones del proyecto
+              {t("instructions.heading")}
             </p>
             <PlatformButton
               variant="ghost"
               buttonRef={target(0)}
               pressed={press(time, instructionsOpen - 0.15)}
             >
-              Editar instrucciones
+              {t("instructions.edit")}
             </PlatformButton>
           </div>
           <p className="font-body relative mt-2 line-clamp-3 text-xs leading-5 text-slate-500 dark:text-slate-400">
-            {saved ? instructionsText : "Sin instrucciones adicionales"}
+            {saved ? instructionsText : t("instructions.empty")}
           </p>
         </section>
       </div>
       <PlatformDialog
         open={dialog}
-        title="Instrucciones del proyecto"
+        title={t("instructions.heading")}
         footer={
           <>
-            <PlatformButton variant="outline">Cancelar</PlatformButton>
+            <PlatformButton variant="outline">
+              {t("actions.cancel")}
+            </PlatformButton>
             <PlatformButton
               buttonRef={target(1)}
               disabled={written === 0}
               pressed={press(time, instructionsSave - 0.15)}
             >
-              Guardar
+              {t("actions.save")}
             </PlatformButton>
           </>
         }
       >
         <div className="grid gap-1.5">
           <p className="font-body text-navy text-xs font-medium dark:text-slate-100">
-            Instrucciones del proyecto
+            {t("instructions.heading")}
           </p>
           <PlatformField multiline focused>
             <Typed text={instructionsText} written={written} />
             {written === 0 && <Caret />}
           </PlatformField>
           <p className="font-body text-right text-[10px] text-slate-500 tabular-nums dark:text-slate-400">
-            {written} de 16.000 caracteres
+            {t("instructions.counter", { count: written })}
           </p>
           <p className="font-body text-[11px] leading-4 text-slate-500 dark:text-slate-400">
-            Los cambios se aplican al siguiente turno. Una aclaración conserva
-            el contexto de la pregunta original.
+            {t("instructions.note")}
           </p>
         </div>
       </PlatformDialog>
@@ -308,8 +331,8 @@ function InstructionsScene({ time, reduced }: SceneProps) {
  * final answer opens its dialog (save-project-answer); once saved, the
  * action reads «Guardada en fuentes».
  */
+/* Presupuesto de escritura fijo: la longitud del párrafo en castellano. */
 const savedLength = answerLength(claimParagraph);
-const savedName = "AINE en paciente con ERC";
 const SAVED_TYPING = 0.3;
 const savedActions = SAVED_TYPING + typingDuration(savedLength) + 0.2;
 const savedPointer = savedActions + 0.3;
@@ -317,8 +340,17 @@ const savedClick = savedPointer + 1;
 const savedConfirm = savedClick + 1.8;
 
 function SavedScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.workspace");
   const { root, target, boxes } = useBoxes(2);
-  const written = writtenCharacters(time, SAVED_TYPING, savedLength, reduced);
+  const claim = useClaimParagraph();
+  const bibliography = useSceneReferences();
+  const written = writtenWithin(
+    time,
+    SAVED_TYPING,
+    savedLength,
+    answerLength(claim, bibliography),
+    reduced,
+  );
   const saved = reduced || time >= savedConfirm;
   const dialog = dialogOpen(time, savedClick, savedConfirm, reduced);
   const pointer = pointerStyle(
@@ -339,7 +371,7 @@ function SavedScene({ time, reduced }: SceneProps) {
       <ChatHeader />
       <div className={`relative px-6 ${bodyText}`}>
         <p className="min-h-[88px]">
-          <Answer text={claimParagraph} written={written} />
+          <Answer text={claim} written={written} />
         </p>
         <div
           className="mt-3"
@@ -356,25 +388,27 @@ function SavedScene({ time, reduced }: SceneProps) {
       </div>
       <PlatformDialog
         open={dialog}
-        title="Guardar en fuentes"
-        description="Guardar la respuesta final como fuente privada de este proyecto. No se incluyen los extractos recuperados de otras fuentes o conversaciones."
+        title={t("saved.title")}
+        description={t("saved.description")}
         footer={
           <>
-            <PlatformButton variant="ghost">Cancelar</PlatformButton>
+            <PlatformButton variant="ghost">
+              {t("actions.cancel")}
+            </PlatformButton>
             <PlatformButton
               buttonRef={target(1)}
               pressed={press(time, savedConfirm - 0.15)}
             >
-              Guardar en fuentes
+              {t("saved.confirm")}
             </PlatformButton>
           </>
         }
       >
         <div className="grid gap-1.5">
           <p className="font-body text-navy text-xs font-medium dark:text-slate-100">
-            Nombre de la fuente
+            {t("saved.nameLabel")}
           </p>
-          <PlatformField focused>{savedName}</PlatformField>
+          <PlatformField focused>{t("saved.name")}</PlatformField>
         </div>
       </PlatformDialog>
       <Pointer style={pointer} />
@@ -386,21 +420,23 @@ function SavedScene({ time, reduced }: SceneProps) {
  * 24 · Preferencias de respuesta: the section of the profile panel and the
  * preferences editor (preferences-editor-dialog).
  */
-const preferencesText =
-  "Prefiero respuestas breves, con las dosis en tabla y sin repetir los antecedentes del paciente.";
+// Caracteres de las preferencias en castellano: fijan el tiempo de tecleo.
+const PREFERENCES_CHARS = 95;
 const PREFERENCES_POINTER = 0.8;
 const preferencesOpen = PREFERENCES_POINTER + 1;
 const preferencesTyping = preferencesOpen + 0.5;
-const preferencesTyped =
-  preferencesTyping + typingDuration(preferencesText.length);
+const preferencesTyped = preferencesTyping + typingDuration(PREFERENCES_CHARS);
 const preferencesSave = preferencesTyped + 0.8;
 
 function PreferencesScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.workspace");
+  const preferencesText = t("preferences.text");
   const { root, target, boxes } = useBoxes(2);
   const dialog = dialogOpen(time, preferencesOpen, preferencesSave, reduced);
-  const written = writtenCharacters(
+  const written = writtenWithin(
     time,
     preferencesTyping,
+    PREFERENCES_CHARS,
     preferencesText.length,
     reduced,
   );
@@ -424,7 +460,7 @@ function PreferencesScene({ time, reduced }: SceneProps) {
         className="absolute inset-x-6 top-5 border-0 bg-transparent p-0 dark:bg-transparent"
         style={enter(sceneReveal(time, 0.1, 0.35, reduced))}
       >
-        <ProfileSection title="Preferencias de respuesta">
+        <ProfileSection title={t("preferences.section")}>
           {saved ? (
             <div className="dark:border-primary-dark/15 bg-primary-light/5 dark:bg-primary-dark/5 font-body text-navy relative overflow-hidden rounded-lg border border-cyan-800/10 px-2.5 py-2 text-xs leading-5 dark:text-slate-50">
               <PulseLayer
@@ -438,11 +474,11 @@ function PreferencesScene({ time, reduced }: SceneProps) {
             </div>
           ) : (
             <p className="font-body text-xs text-slate-500 dark:text-slate-400">
-              Aún no hay preferencias guardadas.
+              {t("preferences.empty")}
             </p>
           )}
           <p className="font-body text-[11px] leading-4 text-slate-500 dark:text-slate-400">
-            Puedes editar el texto completo o pedir cambios en el chat.
+            {t("preferences.hint")}
           </p>
           <PlatformButton
             variant="outline"
@@ -450,34 +486,35 @@ function PreferencesScene({ time, reduced }: SceneProps) {
             buttonRef={target(0)}
             pressed={press(time, preferencesOpen - 0.15)}
           >
-            Ver y editar preferencias
+            {t("preferences.edit")}
           </PlatformButton>
           <p className="font-body text-[11px] leading-4 text-slate-500 dark:text-slate-400">
-            Se aplican a tus chats. Solo ajustan la presentación; la finalidad y
-            las reglas clínicas de las respuestas no cambian.
+            {t("preferences.note")}
           </p>
         </ProfileSection>
       </ProfilePanel>
       <PlatformDialog
         open={dialog}
-        title="Preferencias de respuesta"
-        description="Escribe cómo quieres que se presenten las respuestas. Puedes usar Markdown. El texto aceptado se guardará tal como lo escribas."
+        title={t("preferences.dialogTitle")}
+        description={t("preferences.dialogDescription")}
         footer={
           <>
-            <PlatformButton variant="outline">Cancelar</PlatformButton>
+            <PlatformButton variant="outline">
+              {t("actions.cancel")}
+            </PlatformButton>
             <PlatformButton
               buttonRef={target(1)}
               disabled={written === 0}
               pressed={press(time, preferencesSave - 0.15)}
             >
-              Guardar
+              {t("actions.save")}
             </PlatformButton>
           </>
         }
       >
         <div className="grid gap-1.5">
           <p className="font-body text-navy text-xs font-medium dark:text-slate-100">
-            Texto de preferencias
+            {t("preferences.fieldLabel")}
           </p>
           <PlatformField multiline focused>
             <span className="font-mono text-[11px]">
@@ -486,7 +523,7 @@ function PreferencesScene({ time, reduced }: SceneProps) {
             </span>
           </PlatformField>
           <p className="font-body text-right text-[10px] text-slate-500 tabular-nums dark:text-slate-400">
-            {written}/1000
+            {t("preferences.counter", { count: written })}
           </p>
         </div>
       </PlatformDialog>
@@ -496,10 +533,7 @@ function PreferencesScene({ time, reduced }: SceneProps) {
 }
 
 /* 25 · Documentos privados: the project sources (project-source-library). */
-const privateSources = [
-  { name: "Notas de la sesión clínica.md" },
-  { name: "Ajuste de dosis en ERC.txt" },
-] as const;
+const privateSources = ["sessionNotes", "doseAdjustment"] as const;
 const PRIVATE_ADDED = 0.6;
 const PRIVATE_PROCESS = 1.3;
 const privateReady = PRIVATE_PROCESS + 2;
@@ -533,6 +567,7 @@ function SourceRow({
 }
 
 function PrivateScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.workspace.private");
   const added = sceneReveal(time, PRIVATE_ADDED, 0.4, reduced);
   const progress = reduced
     ? 1
@@ -547,11 +582,11 @@ function PrivateScene({ time, reduced }: SceneProps) {
         style={enter(sceneReveal(time, 0.1, 0.35, reduced))}
       >
         <p className="font-display text-navy text-[13px] font-semibold dark:text-slate-50">
-          Fuentes
+          {t("heading")}
         </p>
         <PlatformButton variant="outline">
           <Plus size={14} strokeWidth={1.8} />
-          Añadir
+          {t("add")}
         </PlatformButton>
       </div>
       <div className="mt-2.5 space-y-2 px-5">
@@ -561,7 +596,7 @@ function PrivateScene({ time, reduced }: SceneProps) {
         >
           <div className="min-h-0 overflow-hidden">
             <SourceRow
-              name="Protocolo de analgesia del servicio.pdf"
+              name={t("newSource")}
               pulse={
                 ready && !reduced && time < privateReady + 1
                   ? pulseProgress(time, privateReady, 1) * 0.6
@@ -569,20 +604,23 @@ function PrivateScene({ time, reduced }: SceneProps) {
               }
               status={
                 ready
-                  ? "Disponible"
+                  ? t("status.ready")
                   : time >= PRIVATE_PROCESS
-                    ? `Procesando · ${pages} de ${PRIVATE_PAGES} páginas`
-                    : "En cola"
+                    ? t("status.processing", { pages, total: PRIVATE_PAGES })
+                    : t("status.queued")
               }
             />
           </div>
         </div>
         {privateSources.map((source, index) => (
           <div
-            key={source.name}
+            key={source}
             style={enter(sceneReveal(time, 0.2 + index * 0.15, 0.3, reduced))}
           >
-            <SourceRow name={source.name} status="Disponible" />
+            <SourceRow
+              name={t(`sources.${source}`)}
+              status={t("status.ready")}
+            />
           </div>
         ))}
       </div>
@@ -596,13 +634,8 @@ function PrivateScene({ time, reduced }: SceneProps) {
  * Rows have fixed slots, so the pinned chat glides between the sections.
  */
 const HISTORY_ROW = 34;
-const historyChats = [
-  "AINE en paciente con ERC",
-  "Disnea y edema en ERC",
-  "Ajuste de dosis de metformina",
-  "Dosis de digoxina en ERC",
-] as const;
-const historyRename = "AINE y ERC grave";
+// Caracteres del nuevo nombre en castellano: fijan el tiempo de tecleo.
+const HISTORY_RENAME_CHARS = 16;
 const HISTORY_POINTER = 0.9;
 const historyMenu1 = HISTORY_POINTER + 1;
 const historyPin = historyMenu1 + 1;
@@ -610,12 +643,12 @@ const historyMenu2 = historyPin + 1.1;
 const historyDialog = historyMenu2 + 0.9;
 const historyTyping = historyDialog + 0.5;
 const historySave =
-  historyTyping + typingDuration(historyRename.length) * 1.4 + 0.6;
+  historyTyping + typingDuration(HISTORY_RENAME_CHARS) * 1.4 + 0.6;
 const historyMenuItems = [
-  { icon: Pencil, label: "Cambiar el nombre" },
-  { icon: FolderInput, label: "Mover conversación" },
-  { icon: Pin, label: "Anclar chat" },
-  { icon: Trash2, label: "Eliminar" },
+  { id: "rename", icon: Pencil },
+  { id: "move", icon: FolderInput },
+  { id: "pin", icon: Pin },
+  { id: "delete", icon: Trash2 },
 ] as const;
 const MENU_ITEM = 32;
 
@@ -630,6 +663,7 @@ function HistoryMenu({
   highlight: number;
   pinned: boolean;
 }) {
+  const t = useTranslations("scenes.workspace.history");
   return (
     <div
       className="shadow-big-blocks dark:border-primary-dark/15 absolute right-5 z-30 w-44 rounded-xl border border-cyan-800/15 bg-[#f7fbfd]/98 p-1.5 text-slate-700 backdrop-blur-xl dark:bg-[#0b1a29]/98 dark:text-slate-200"
@@ -642,12 +676,12 @@ function HistoryMenu({
     >
       {historyMenuItems.map((item, index) => (
         <div
-          key={item.label}
+          key={item.id}
           className={`font-body flex items-center gap-2.5 rounded-lg px-2.5 text-xs font-medium ${index === highlight ? "bg-primary-light/10 dark:bg-primary-dark/10 text-cyan-800 dark:text-cyan-100" : ""}`}
           style={{ height: MENU_ITEM }}
         >
           <item.icon size={14} strokeWidth={1.8} />
-          {index === 2 && pinned ? "Desanclar chat" : item.label}
+          {index === 2 && pinned ? t("menu.unpin") : t(`menu.${item.id}`)}
         </div>
       ))}
     </div>
@@ -655,12 +689,16 @@ function HistoryMenu({
 }
 
 function HistoryScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.workspace");
+  const historyChats = t.raw("history.chats") as string[];
+  const historyRename = t("history.rename");
   const pinT = reduced ? 1 : sceneReveal(time, historyPin + 0.1, 0.5, false);
   const pinned = reduced || time >= historyPin;
   const renamed = reduced || time >= historySave;
-  const typed = writtenCharacters(
+  const typed = writtenWithin(
     time,
     historyTyping,
+    HISTORY_RENAME_CHARS,
     historyRename.length,
     reduced,
   );
@@ -736,13 +774,13 @@ function HistoryScene({ time, reduced }: SceneProps) {
       <div style={{ opacity: list }}>
         <span className="font-body absolute top-5 left-5 inline-flex h-9 items-center gap-3 px-3 text-[13px] font-semibold text-slate-700 dark:text-slate-200">
           <SquarePen size={16} strokeWidth={1.8} />
-          Nuevo chat
+          {t("history.newChat")}
         </span>
         <p className={label} style={{ top: 64 }}>
-          Anclados
+          {t("history.pinned")}
         </p>
         <div className={row} style={{ top: pinnedTop, height: HISTORY_ROW }}>
-          <span className="truncate">Protocolo de hiperpotasemia</span>
+          <span className="truncate">{t("history.pinnedChat")}</span>
           <Pin
             size={14}
             strokeWidth={1.8}
@@ -750,7 +788,7 @@ function HistoryScene({ time, reduced }: SceneProps) {
           />
         </div>
         <p className={label} style={{ top: recentLabel }}>
-          Recientes
+          {t("history.recent")}
         </p>
         {/* The chat that is pinned and renamed. */}
         <div
@@ -799,23 +837,25 @@ function HistoryScene({ time, reduced }: SceneProps) {
       />
       <PlatformDialog
         open={dialog}
-        title="Cambiar el nombre"
-        description="Escribe un nombre breve para identificar esta conversación."
+        title={t("history.dialog.title")}
+        description={t("history.dialog.description")}
         footer={
           <>
-            <PlatformButton variant="outline">Cancelar</PlatformButton>
+            <PlatformButton variant="outline">
+              {t("actions.cancel")}
+            </PlatformButton>
             <PlatformButton
               buttonRef={target(0)}
               pressed={press(time, historySave - 0.15)}
             >
-              Guardar
+              {t("actions.save")}
             </PlatformButton>
           </>
         }
       >
         <div className="grid gap-1.5">
           <p className="font-body text-navy text-xs font-medium dark:text-slate-100">
-            Nombre de la conversación
+            {t("history.dialog.label")}
           </p>
           <PlatformField focused>
             {typed > 0 ? (
@@ -828,9 +868,11 @@ function HistoryScene({ time, reduced }: SceneProps) {
             )}
           </PlatformField>
           <p className="font-body flex justify-between text-[10px] text-slate-500 tabular-nums dark:text-slate-400">
-            <span>Máximo 72 caracteres.</span>
+            <span>{t("history.dialog.limit")}</span>
             <span>
-              {typed > 0 ? typed : historyChats[0].length} de 72 caracteres
+              {t("history.dialog.counter", {
+                count: typed > 0 ? typed : historyChats[0]!.length,
+              })}
             </span>
           </p>
         </div>
@@ -844,39 +886,15 @@ function HistoryScene({ time, reduced }: SceneProps) {
  * 27 · Tres idiomas: the profile panel (account-menu, profile-menu) changes
  * language at once from its switch. Texts are the chat's own in es, ca, en.
  */
-const locales = [
-  {
-    panel: "Perfil y configuración",
-    language: "Idioma",
-    role: "Clínico",
-    preferences: "Preferencias de respuesta",
-    empty: "Aún no hay preferencias guardadas.",
-    edit: "Ver y editar preferencias",
-  },
-  {
-    panel: "Perfil i configuració",
-    language: "Idioma",
-    role: "Clínic",
-    preferences: "Preferències de resposta",
-    empty: "Encara no hi ha preferències desades.",
-    edit: "Veure i editar les preferències",
-  },
-  {
-    panel: "Profile and settings",
-    language: "Language",
-    role: "Clinician",
-    preferences: "Response preferences",
-    empty: "No preferences saved yet.",
-    edit: "View and edit preferences",
-  },
-] as const;
+// Orden del selector de idioma de la plataforma (LocaleSwitcher).
+const locales = ["es", "ca", "en"] as const;
 /**
  * Profile panel of the personal area (account-menu, profile-menu): user card
  * with the theme toggle, language switch and response preferences. Shared by
  * the language and theme scenes so both show the same panel.
  */
 function ProfileSettings({
-  copy = locales[0],
+  copy = "es",
   text,
   locale = 0,
   localeRef,
@@ -894,7 +912,15 @@ function ProfileSettings({
   toggleRef?: (element: HTMLElement | null) => void;
   pressed?: number;
 }) {
-  const current = copy;
+  const t = useTranslations("scenes.workspace.profile");
+  const current = {
+    panel: t(`locales.${copy}.panel`),
+    language: t(`locales.${copy}.language`),
+    role: t(`locales.${copy}.role`),
+    preferences: t(`locales.${copy}.preferences`),
+    empty: t(`locales.${copy}.empty`),
+    edit: t(`locales.${copy}.edit`),
+  };
   return (
     <>
       {/* Panel header (inline profile panel). */}
@@ -917,7 +943,7 @@ function ProfileSettings({
             {/* Avatar with the role badge (RoleBadge). */}
             <span className="relative shrink-0 pb-1.5">
               <span className="font-display dark:border-primary-dark/15 grid size-11 place-items-center rounded-full border border-cyan-800/15 bg-slate-400 text-lg text-white">
-                L
+                {t("initial")}
               </span>
               <span
                 className="bg-primary-light dark:bg-primary-dark absolute top-8 left-1/2 -translate-x-1/2 rounded-full border border-white px-1.5 py-px text-[8px] leading-none font-semibold whitespace-nowrap text-white dark:text-[#06111f]"
@@ -928,10 +954,10 @@ function ProfileSettings({
             </span>
             <div className="min-w-0 flex-1">
               <p className="font-body text-navy truncate text-sm font-semibold dark:text-slate-50">
-                Laura Gómez
+                {t("name")}
               </p>
               <p className="font-body truncate text-xs text-slate-500 dark:text-slate-400">
-                lgomez@organizacion.es
+                {t("email")}
               </p>
             </div>
             <span

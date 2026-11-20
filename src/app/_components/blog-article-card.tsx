@@ -1,7 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
 
 import { BlogCover } from "~/app/_components/blog-cover";
+import { Link } from "~/i18n/navigation";
 import type { BlogPost } from "~/lib/blog";
 
 export function BlogArticleCard({
@@ -12,7 +12,7 @@ export function BlogArticleCard({
 }) {
   return (
     <Link
-      href={article.href}
+      href={{ pathname: "/blog/[slug]", params: { slug: article.slug } }}
       className="group focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark block h-full rounded-2xl transition-[translate] duration-300 ease-out hover:-translate-y-1.5 focus-visible:-translate-y-1.5 focus-visible:outline-2 focus-visible:outline-offset-4 motion-reduce:translate-none! motion-reduce:transition-none"
     >
       <article className="flex h-full min-w-0 flex-col rounded-2xl">
@@ -27,12 +27,12 @@ export function BlogArticleCard({
                 className="h-full w-full object-cover"
               />
             ) : (
-              <BlogCover slug={article.slug} />
+              <BlogCover slug={article.translationKey} />
             )}
           </div>
         </div>
         <div className="flex flex-1 flex-col pt-5">
-          <h2 className="font-display min-h-[2.7em] text-lg leading-[1.35] font-semibold tracking-tight text-navy lg:max-xl:min-h-[4.05em] dark:text-slate-50">
+          <h2 className="font-display text-navy min-h-[2.7em] text-lg leading-[1.35] font-semibold tracking-tight lg:max-xl:min-h-[4.05em] dark:text-slate-50">
             {article.title}
           </h2>
           <p className="font-body mt-2.5 line-clamp-3 min-h-[4.95em] text-[13px] leading-[1.65] text-slate-600 dark:text-slate-400">

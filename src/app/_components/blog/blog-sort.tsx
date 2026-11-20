@@ -1,13 +1,10 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { SelectMenu } from "../select-menu";
 
 export type BlogSort = "newest" | "oldest" | "title";
-const options: { value: BlogSort; label: string }[] = [
-  { value: "newest", label: "Más recientes" },
-  { value: "oldest", label: "Más antiguos" },
-  { value: "title", label: "Título (A–Z)" },
-];
+const sortOrders: BlogSort[] = ["newest", "oldest", "title"];
 
 export function BlogSort({
   value,
@@ -16,12 +13,18 @@ export function BlogSort({
   value: BlogSort;
   onChange: (value: BlogSort) => void;
 }) {
+  const t = useTranslations("blog.sort");
+  const options = sortOrders.map((order) => ({
+    value: order,
+    label: t(`options.${order}`),
+  }));
+
   return (
     <SelectMenu
       value={value}
       onChange={onChange}
       options={options}
-      label="Ordenar artículos"
+      label={t("label")}
     />
   );
 }

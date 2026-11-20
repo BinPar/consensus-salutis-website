@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import type { Map, Marker } from "maplibre-gl";
 import { officeCoordinates, officeMapStyle } from "./office-map-style";
@@ -7,6 +8,8 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import "./office-map.css";
 
 export function OfficeMap({ active = true }: { active?: boolean }) {
+  const t = useTranslations("contact.map");
+  const locale = useLocale();
   const root = useRef<HTMLDivElement>(null);
   const container = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<"loading" | "ready" | "error">(
@@ -70,7 +73,7 @@ export function OfficeMap({ active = true }: { active?: boolean }) {
         let dark = isDark();
         map = new Map({
           container: element!,
-          style: officeMapStyle(dark),
+          style: officeMapStyle(dark, locale),
           center: officeCoordinates,
           zoom: 15.8,
           minZoom: 12,
@@ -81,16 +84,13 @@ export function OfficeMap({ active = true }: { active?: boolean }) {
           pitchWithRotate: false,
           cooperativeGestures: true,
           locale: {
-            "NavigationControl.ZoomIn": "Acercar mapa",
-            "NavigationControl.ZoomOut": "Alejar mapa",
-            "AttributionControl.ToggleAttribution": "Información del mapa",
-            "Map.Title": "Oficinas de BinPar en Paseo de la Castellana, Madrid",
-            "CooperativeGesturesHandler.MobileHelpText":
-              "Usa dos dedos para mover el mapa",
-            "CooperativeGesturesHandler.WindowsHelpText":
-              "Usa Ctrl y la rueda para acercar el mapa",
-            "CooperativeGesturesHandler.MacHelpText":
-              "Usa ⌘ y la rueda para acercar el mapa",
+            "NavigationControl.ZoomIn": t("zoomIn"),
+            "NavigationControl.ZoomOut": t("zoomOut"),
+            "AttributionControl.ToggleAttribution": t("attribution"),
+            "Map.Title": t("title"),
+            "CooperativeGesturesHandler.MobileHelpText": t("mobileHelp"),
+            "CooperativeGesturesHandler.WindowsHelpText": t("windowsHelp"),
+            "CooperativeGesturesHandler.MacHelpText": t("macHelp"),
           },
         });
         map.touchZoomRotate.disableRotation();
@@ -113,10 +113,7 @@ export function OfficeMap({ active = true }: { active?: boolean }) {
         pin.href = "https://g.page/binpar-sl?share";
         pin.target = "_blank";
         pin.rel = "noopener noreferrer";
-        pin.setAttribute(
-          "aria-label",
-          "Oficinas de BinPar · Abrir ubicación en Google Maps (pestaña nueva)",
-        );
+        pin.setAttribute("aria-label", t("markerLabel"));
         // Same outline waves and timing as the Cases water ripple.
         const waves = Array.from(
           { length: 4 },
@@ -131,7 +128,7 @@ export function OfficeMap({ active = true }: { active?: boolean }) {
           const next = isDark();
           if (next === dark) return;
           dark = next;
-          map?.setStyle(officeMapStyle(dark));
+          map?.setStyle(officeMapStyle(dark, locale));
         });
         themeObserver.observe(document.documentElement, {
           attributes: true,
@@ -152,7 +149,8 @@ export function OfficeMap({ active = true }: { active?: boolean }) {
       marker?.remove();
       map?.remove();
     };
-  }, []);
+    // `t` y `locale` son estables mientras no cambie el idioma de la página.
+  }, [t, locale]);
 
   return (
     <div
@@ -164,16 +162,14 @@ export function OfficeMap({ active = true }: { active?: boolean }) {
       <div ref={container} className="absolute inset-0" />
       {status !== "ready" && (
         <div className="office-map-status" role="status">
-          {status === "loading"
-            ? "Cargando mapa…"
-            : "No se ha podido cargar el mapa."}
+          {status === "loading" ? t("loading") : t("error")}
           {status === "error" && (
             <a
               href="https://g.page/binpar-sl?share"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Abrir ubicación en Google Maps
+              {t("openInMaps")}
             </a>
           )}
         </div>

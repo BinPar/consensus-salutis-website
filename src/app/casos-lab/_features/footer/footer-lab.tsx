@@ -1,6 +1,6 @@
 "use client";
 
-import { ReferenceFooter } from "~/app/_components/site-footer";
+import { ReferenceFooter } from "./reference-footer";
 import { ContactLab } from "../contact/contact-lab";
 import type { ContactDirection } from "../contact/contact-directions";
 import type { FooterDirection } from "./footer-directions";

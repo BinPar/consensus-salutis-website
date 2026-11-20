@@ -1,5 +1,6 @@
 "use client";
 import { motion, useInView, useReducedMotion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { ProductStrataContent } from "./product-strata-scene";
 export function useProductEntrance() {
@@ -58,6 +59,7 @@ export function ProductStrataSection({
   visible?: boolean;
   layout?: "vertical" | "horizontal" | "mobile";
 }) {
+  const t = useTranslations("strata.section");
   const { ref, painted, running, reduced } = useProductEntrance();
   const shown = reduced || (visible && painted);
   return (
@@ -66,7 +68,7 @@ export function ProductStrataSection({
         ref.current = node;
         panelRef?.(node);
       }}
-      aria-label="Producto"
+      aria-label={t("label")}
       data-home-product="strata-3"
       data-product-direction="strata-3"
       data-product-painted={shown}

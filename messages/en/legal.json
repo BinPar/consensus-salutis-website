@@ -1,0 +1,133 @@
+{
+  "eyebrow": "Legal information",
+  "privacy": {
+    "meta": {
+      "title": "Privacy policy",
+      "description": "Information on the processing of personal data at BinPar."
+    },
+    "title": "Privacy policy",
+    "sections": {
+      "controller": {
+        "title": "Data controller",
+        "body": "BinPar Team S.L., with tax identification number (NIF) B85271930 and registered office at Paseo de la Castellana 43, 4, is the controller of the data submitted through the BinPar contact form. You can contact us at info@binpar.com."
+      },
+      "purpose": {
+        "title": "Purpose and legal basis",
+        "body": "We process your name, email address and the content of your message solely to manage and respond to the enquiry received. The legal basis is the consent you give by ticking the box to accept this policy."
+      },
+      "retention": {
+        "title": "Retention and recipients",
+        "body": "The data will be kept for as long as necessary to handle the enquiry and to comply with the applicable legal obligations. It will not be disclosed to third parties except where required by law or to providers necessary to deliver the service, subject to the appropriate safeguards."
+      },
+      "evaluator": {
+        "title": "Suitability assessment",
+        "body": "If you complete the <link>suitability assessment (in Spanish)</link>, we process the identification data you provide – name, role, institutional email address, institution and geographical scope – together with the transcript of the interview. {purpose} The legal basis is the consent you expressly give before starting, and you may withdraw it at any time by writing to info@binpar.com."
+      },
+      "evaluationRetention": {
+        "title": "Retention of the assessment",
+        "body": "{retention} You may withdraw your consent or request erasure at any time by writing to info@binpar.com, in which case we delete the record and the transcript. No patient health data is processed at any point in this assessment."
+      },
+      "rights": {
+        "title": "Rights",
+        "body": "You may exercise your rights of access, rectification, erasure, restriction of processing, objection and portability in respect of your data by writing to info@binpar.com. You may also lodge a complaint with the Agencia Española de Protección de Datos (the Spanish Data Protection Agency)."
+      },
+      "security": {
+        "title": "Security",
+        "body": "We apply technical and organisational measures designed to protect the data against unauthorised access, alteration or disclosure. The form includes anti-spam controls and request rate limiting."
+      }
+    },
+    "evaluatorStatements": {
+      "purpose": "We process this data to prepare your suitability assessment, send you the resulting report and contact you in relation to that assessment.",
+      "retention": "We keep the identification record and the interview transcript for as long as you maintain your consent, with no predetermined period, and we erase them as soon as you request it."
+    }
+  },
+  "notice": {
+    "meta": {
+      "title": "Legal notice",
+      "description": "Owner details and terms of use of the BinPar website."
+    },
+    "title": "Legal notice",
+    "sections": {
+      "owner": {
+        "title": "Website owner",
+        "body": "In compliance with Ley 34/2002, de servicios de la sociedad de la información y de comercio electrónico (LSSI-CE, the Spanish Information Society Services and Electronic Commerce Act), we inform you that this website is owned by {name}, with tax identification number (NIF) {nif} and registered office at {address}. You can contact us by writing to {email}."
+      },
+      "use": {
+        "title": "Purpose and terms of use",
+        "body": "This website presents BinPar, its services and its team, and offers channels for contacting us. Access is free of charge and implies acceptance of this legal notice. You undertake to make appropriate use of the website and its contents, in accordance with the law and good faith, and not to use them for unlawful activities or for activities that may harm the website or third parties.",
+        "medical": "The contents of this website are for information purposes only. They do not constitute medical advice and do not replace the judgement of a healthcare professional."
+      },
+      "ip": {
+        "title": "Intellectual and industrial property",
+        "body": "The texts, images, designs, logos, trade marks, source code and other contents of this website belong to {name} or to third parties who have authorised their use. Their reproduction, distribution, communication to the public or transformation is not permitted without express authorisation, except where permitted by law."
+      },
+      "liability": {
+        "title": "Liability and links",
+        "body": "We work to ensure that the information on the website is accurate and up to date, but we cannot guarantee that it is free from errors or that access will be uninterrupted. The website may include links to third-party pages, over whose contents and policies we have no control and for which we accept no responsibility."
+      },
+      "data": {
+        "title": "Personal data and cookies",
+        "body": "The processing of personal data is explained in the <privacy>privacy policy</privacy>, and the use of cookies and local storage in the <cookies>cookie policy</cookies>."
+      },
+      "law": {
+        "title": "Applicable law",
+        "body": "This legal notice is governed by Spanish law. For any dispute, the parties submit to the courts and tribunals that have jurisdiction under the applicable legislation."
+      }
+    }
+  },
+  "cookies": {
+    "meta": {
+      "title": "Cookie policy",
+      "description": "Which cookies and local storage the BinPar website uses, and for what purpose."
+    },
+    "title": "Cookie policy",
+    "sections": {
+      "what": {
+        "title": "What we use",
+        "body": "This website uses only first-party technical cookies and local storage, which are necessary for the parts that require them to work or to remember a preference that you choose. We do not use analytics, advertising or tracking cookies, which is why we do not ask for your consent when you arrive.",
+        "session": "Session cookies are only created if you use the suitability assessment or the client space, or if you arrive from AWS Marketplace. Browsing the rest of the website does not create any."
+      },
+      "detail": {
+        "title": "Details",
+        "columns": {
+          "name": "Name",
+          "kind": "Type",
+          "purpose": "Purpose",
+          "duration": "Duration"
+        }
+      },
+      "thirdParty": {
+        "title": "Third-party services",
+        "body": "The map on the <contact>contact</contact> page is loaded from OpenFreeMap. To display it, your browser requests the map images from its servers, which receive your IP address as with any web request."
+      },
+      "manage": {
+        "title": "How to manage them",
+        "body": "You can view and delete cookies and local storage in your browser settings. If you block them, you can still visit the website, but the suitability assessment and the client space will not work and your light or dark mode preference will not be remembered.",
+        "contact": "If you have any questions, write to us at {email}. More information about your data is available in the <privacy>privacy policy</privacy>."
+      }
+    },
+    "kinds": {
+      "ownCookie": "First-party technical cookie",
+      "ownStorage": "First-party local storage"
+    },
+    "items": {
+      "session": {
+        "purpose": "Keeps the suitability assessment session active while you complete the interview.",
+        "duration": "Up to 7 days"
+      },
+      "space": {
+        "purpose": "Keeps the client space session active after you sign in with the access link.",
+        "duration": "Up to 7 days"
+      },
+      "registration": {
+        "purpose": "Remembers a sign-up arriving from AWS Marketplace so that registration can be completed.",
+        "duration": "Up to 7 days"
+      },
+      "theme": {
+        "purpose": "Remembers whether you prefer to view the website in light or dark mode.",
+        "duration": "Until you delete it in your browser"
+      }
+    }
+  },
+  "translationNotice": "This page is a translation. In the event of any discrepancy, the Spanish version prevails."
+}

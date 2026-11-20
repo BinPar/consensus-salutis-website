@@ -14,6 +14,7 @@ import {
   Paperclip,
   type LucideIcon,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
   useLayoutEffect,
   useRef,
@@ -37,13 +38,15 @@ import {
 import {
   processAnswerParagraphs,
   typingDuration,
+  useProcessAnswerParagraphs,
   writtenCharacters,
 } from "~/app/_components/clinical-process-typing";
 import {
-  processSceneReferences,
   sceneReferenceForAnchor,
+  useSceneReferences,
+  type SceneReference,
 } from "~/app/_components/clinical-scene-references";
-import { evidenceDocumentContext as sourceText } from "~/app/_components/evidence-document-context";
+import { useEvidenceDocumentContext } from "~/app/_components/evidence-document-context";
 import type { EvidenceFeatureId } from "../features-data";
 import { PlatformTabs } from "./platform-ui";
 
@@ -53,13 +56,39 @@ import { PlatformTabs } from "./platform-ui";
  * references and the same source passage run through all seven cards.
  */
 
+/**
+ * Pasaje citado de la respuesta, en castellano. Se mantiene para los módulos
+ * que aún lo importan; las escenas usan `useClaimParagraph`.
+ */
 export const claimParagraph = processAnswerParagraphs[2]!;
-const precipitantParagraph = processAnswerParagraphs[1]!;
-export const claimReference = sceneReferenceForAnchor("c73b77")!;
-export const sourceTitle = "Manual ProMIR · Nefrología";
-const sourceChapter = "Riesgo cardiovascular y enfermedad renal";
-const quoted = "Se debe evitar el uso de AINE en la insuficiencia renal.";
-const passageRest = sourceText.nsaids.slice(quoted.length);
+/** Pasaje citado de la respuesta, en el idioma de la página. */
+export function useClaimParagraph() {
+  return useProcessAnswerParagraphs()[2]!;
+}
+const CLAIM_ANCHOR = "c73b77";
+
+/**
+ * Frase citada del pasaje de AINE y el resto del párrafo. El resaltado llega
+ * sin su puntuación final, que abre `rest`; las escenas citan la frase
+ * entera, así que se le pasa esa puntuación (sin depender del idioma).
+ */
+function useQuotedPassage() {
+  const { nsaids } = useEvidenceDocumentContext();
+  const punctuation = /^[^\s\p{L}\p{N}]*/u.exec(nsaids.rest)![0];
+  return {
+    quoted: nsaids.highlight + punctuation,
+    rest: nsaids.rest.slice(punctuation.length),
+  };
+}
+/** Pasajes de la respuesta para calcular duraciones fuera de un componente. */
+const answerText = (
+  clinical: ClinicalTranslator,
+  id: "precipitant" | "claim",
+) => clinical.raw(`answer.${id}`) as string;
+/** Título del documento fuente que citan todas las escenas. */
+export function useSourceTitle() {
+  return useTranslations("scenes.evidence.source")("title");
+}
 
 /** Passage highlight; `--highlight` (0 to 1) grows it in. */
 export const highlightClass =
@@ -80,15 +109,24 @@ type CitationCue = {
 /** Answer text with ⟦anchor⟧ markers rendered as the scenes' superscripts. */
 const answerParts = (text: string) =>
   text.split(/(⟦[^⟧]+⟧|\*\*[^*]+\*\*)/g).filter(Boolean);
-const partText = (part: string) =>
+const partText = (part: string, bibliography?: readonly SceneReference[]) =>
   part.startsWith("⟦")
-    ? `[${sceneReferenceForAnchor(part.slice(1, -1))!.order}]`
+    ? `[${sceneReferenceForAnchor(part.slice(1, -1), bibliography)!.order}]`
     : part.startsWith("**")
       ? part.slice(2, -2)
       : part;
-/** Characters shown while typing, citations counted as «[n]». */
-export const answerLength = (text: string) =>
-  answerParts(text).reduce((sum, part) => sum + partText(part).length, 0);
+/**
+ * Characters shown while typing, citations counted as «[n]». Sin bibliografía
+ * se usa la numeración por defecto: solo depende de las anclas, no del idioma.
+ */
+export const answerLength = (
+  text: string,
+  bibliography?: readonly SceneReference[],
+) =>
+  answerParts(text).reduce(
+    (sum, part) => sum + partText(part, bibliography).length,
+    0,
+  );
 
 export function Caret() {
   return (
@@ -111,12 +149,13 @@ export function Answer({
   /** Characters typed so far, as the chat streams the answer. */
   written?: number;
 }) {
-  const total = answerLength(text);
+  const bibliography = useSceneReferences();
+  const total = answerLength(text, bibliography);
   let budget = written ?? total;
   return (
     <>
       {answerParts(text).map((part, index) => {
-        const length = partText(part).length;
+        const length = partText(part, bibliography).length;
         const count = Math.min(budget, length);
         budget = Math.max(0, budget - length);
         // A citation appears once its whole marker has been reached.
@@ -128,13 +167,16 @@ export function Answer({
               key={index}
               className="text-navy font-semibold dark:text-slate-100"
             >
-              {partText(part).slice(0, count)}
+              {partText(part, bibliography).slice(0, count)}
             </strong>
           ) : (
             <span key={index}>{part.slice(0, count)}</span>
           );
         if (part.startsWith("⟦")) {
-          const order = sceneReferenceForAnchor(part.slice(1, -1))!.order;
+          const order = sceneReferenceForAnchor(
+            part.slice(1, -1),
+            bibliography,
+          )!.order;
           const active = order === selected;
           const tint = active ? (cue?.tint ?? 1) : 0;
           const ring =
@@ -195,28 +237,33 @@ export function Answer({
 }
 
 export function ChatHeader() {
+  const t = useTranslations("scenes.evidence.chatHeader");
   return (
     <div className="relative flex h-14 items-center gap-2.5 px-6">
       <Mark className="size-6" />
       <span className="font-display text-navy text-sm font-semibold dark:text-slate-100">
-        BinPar
+        {t("brand")}
       </span>
     </div>
   );
 }
 
 export function Composer({
-  placeholder = "Pregunta clínica al comité...",
+  placeholder,
+  responding = false,
 }: {
   placeholder?: string;
+  /** Mientras el comité responde, el compositor lo indica. */
+  responding?: boolean;
 }) {
+  const t = useTranslations("scenes.evidence.composer");
   return (
     <div className="shadow-big-blocks dark:border-primary-dark/15 relative grid h-[52px] grid-cols-[56px_minmax(0,1fr)_56px] items-center overflow-hidden rounded-[28px] border border-cyan-800/15 bg-white/85 backdrop-blur-md dark:bg-[#152230e6]/90">
       <span className="dark:border-primary-dark/15 grid size-9 place-items-center place-self-center rounded-full border border-cyan-800/15 text-slate-500 dark:text-slate-400">
         <Paperclip size={20} strokeWidth={1.1} />
       </span>
       <span className="font-body min-w-0 truncate text-sm leading-6 text-slate-500 dark:text-slate-400">
-        {placeholder}
+        {placeholder ?? (responding ? t("responding") : t("placeholder"))}
       </span>
       <span className="bg-primary-light dark:bg-primary-dark grid size-9 place-items-center place-self-center rounded-full text-white opacity-45 dark:text-[#04111e]">
         <ArrowUp size={20} strokeWidth={1.1} />
@@ -238,16 +285,19 @@ function Bibliography({
   /** Progress of the focus on the claim's reference, 0 to 1. */
   focus: number;
 }) {
+  const t = useTranslations("scenes.evidence.bibliography");
+  const references = useSceneReferences();
+  const claimReference = sceneReferenceForAnchor(CLAIM_ANCHOR, references)!;
   return (
     <section
       className="dark:border-primary-dark/15 border-t border-cyan-800/15 pt-3"
       style={{ opacity: sceneReveal(time, start, 0.35, reduced) }}
     >
       <p className="font-display text-primary-light dark:text-primary-dark text-[11px] font-bold tracking-[0.16em] uppercase">
-        Bibliografía
+        {t("heading")}
       </p>
       <ol className="mt-3 space-y-2">
-        {processSceneReferences.map((reference, index) => {
+        {references.map((reference, index) => {
           const selected = reference.order === claimReference.order;
           return (
             <li
@@ -287,6 +337,8 @@ function SourcePanel({
   children: ReactNode;
   notice?: ReactNode;
 }) {
+  const t = useTranslations("scenes.evidence.sourcePanel");
+  const sourceTitle = useSourceTitle();
   return (
     <div className="dark:border-primary-dark/15 flex h-full min-w-0 flex-col overflow-hidden bg-white dark:bg-[#152230]">
       <PlatformTabs
@@ -295,14 +347,14 @@ function SourcePanel({
       />
       <header className="dark:border-primary-dark/15 flex min-w-0 shrink-0 items-center gap-2 border-b border-cyan-800/10 bg-white px-4 py-3 dark:bg-[#152230]">
         <div className="min-w-0 flex-1">
-          <p className={eyebrow}>Fuente de consulta</p>
+          <p className={eyebrow}>{t("eyebrow")}</p>
           <p className="font-display text-navy mt-0.5 truncate text-sm font-semibold dark:text-slate-100">
             {sourceTitle}
           </p>
         </div>
         <span className="font-body flex shrink-0 items-center gap-1.5 rounded-full px-1.5 text-[11px] font-semibold text-slate-600 dark:text-slate-300">
           <Maximize2 size={14} strokeWidth={1.8} />
-          <span>Ver documento completo</span>
+          <span>{t("fullDocument")}</span>
         </span>
       </header>
       {notice}
@@ -314,13 +366,16 @@ function SourcePanel({
 }
 
 export function Passage({ highlight = 1 }: { highlight?: number }) {
+  const t = useTranslations("scenes.evidence.passage");
+  const source = useEvidenceDocumentContext();
+  const { quoted, rest } = useQuotedPassage();
   return (
     <>
       <h3
         data-passage-heading=""
         className="font-display text-navy mb-3 text-sm font-semibold dark:text-slate-100"
       >
-        Antiinflamatorios no esteroideos
+        {t("heading")}
       </h3>
       <p>
         <mark
@@ -329,9 +384,9 @@ export function Passage({ highlight = 1 }: { highlight?: number }) {
         >
           {quoted}
         </mark>
-        {passageRest}
+        {rest}
       </p>
-      <p className="mt-4">{sourceText.interactions}</p>
+      <p className="mt-4">{source.interactions}</p>
     </>
   );
 }
@@ -434,13 +489,19 @@ export function Dot({ x, y }: { x: number; y: number }) {
   );
 }
 
-const precipitantLength = answerLength(precipitantParagraph);
-const claimLength = answerLength(claimParagraph);
 const CITATIONS_TYPING_START = 0.5;
-const citationsTyped =
+const citationsTypedAt = (precipitantLength: number, claimLength: number) =>
   CITATIONS_TYPING_START + typingDuration(precipitantLength + claimLength);
 
 function CitationsScene({ time, reduced }: SceneProps) {
+  const paragraphs = useProcessAnswerParagraphs();
+  const references = useSceneReferences();
+  const precipitantParagraph = paragraphs[1]!;
+  const claimParagraph = paragraphs[2]!;
+  const claimReference = sceneReferenceForAnchor(CLAIM_ANCHOR, references)!;
+  const precipitantLength = answerLength(precipitantParagraph, references);
+  const claimLength = answerLength(claimParagraph, references);
+  const citationsTyped = citationsTypedAt(precipitantLength, claimLength);
   const written = writtenCharacters(
     time,
     CITATIONS_TYPING_START,
@@ -484,13 +545,7 @@ function CitationsScene({ time, reduced }: SceneProps) {
         )}
       </div>
       <div className="absolute inset-x-6 bottom-5">
-        <Composer
-          placeholder={
-            typed
-              ? "Pregunta clínica al comité..."
-              : "El comité está respondiendo..."
-          }
-        />
+        <Composer responding={!typed} />
       </div>
     </div>
   );
@@ -498,11 +553,18 @@ function CitationsScene({ time, reduced }: SceneProps) {
 
 const BIBLIOGRAPHY_TYPING_START = 0.3;
 // The list follows the typed answer, as in the evidence scene.
-const bibliographyStart =
-  BIBLIOGRAPHY_TYPING_START + typingDuration(claimLength) + 0.25;
-const bibliographyFocus = bibliographyStart + 1.2;
+const bibliographyTimeline = (claimLength: number) => {
+  const start = BIBLIOGRAPHY_TYPING_START + typingDuration(claimLength) + 0.25;
+  return { start, focus: start + 1.2 };
+};
 
 function BibliographyScene({ time, reduced }: SceneProps) {
+  const references = useSceneReferences();
+  const claimParagraph = useClaimParagraph();
+  const claimReference = sceneReferenceForAnchor(CLAIM_ANCHOR, references)!;
+  const claimLength = answerLength(claimParagraph, references);
+  const { start: bibliographyStart, focus: bibliographyFocus } =
+    bibliographyTimeline(claimLength);
   const written = writtenCharacters(
     time,
     BIBLIOGRAPHY_TYPING_START,
@@ -539,6 +601,8 @@ function BibliographyScene({ time, reduced }: SceneProps) {
 }
 
 function ViewerScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.evidence.viewer");
+  const source = useEvidenceDocumentContext();
   const content = useRef<HTMLDivElement>(null);
   const [offset, setOffset] = useState(0);
   useLayoutEffect(() => {
@@ -563,12 +627,13 @@ function ViewerScene({ time, reduced }: SceneProps) {
         }}
       >
         <h3 className="font-display text-navy mb-3 text-sm font-semibold dark:text-slate-100">
-          Dosis de fármacos y riñón
+          {t("heading")}
         </h3>
-        <p>{sourceText.dosing}</p>
+        <p>{source.dosing}</p>
         <ul className="my-4 list-disc space-y-2 pl-4">
-          <li>Disminuyendo la dosis.</li>
-          <li>Aumentando el intervalo entre las dosis.</li>
+          {(t.raw("methods") as string[]).map((method) => (
+            <li key={method}>{method}</li>
+          ))}
         </ul>
         <div className="h-3" />
         <Passage highlight={highlight} />
@@ -578,6 +643,7 @@ function ViewerScene({ time, reduced }: SceneProps) {
 }
 
 function UpdatesScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.evidence.updates");
   const notice = sceneReveal(time, 1, 0.45, reduced);
   const alerting = !reduced && time >= 1.5 && time < 3.5;
   return (
@@ -592,11 +658,7 @@ function UpdatesScene({ time, reduced }: SceneProps) {
             style={{ opacity: notice }}
           >
             <PulseLayer value={alerting ? pulseProgress(time, 1.5, 1) : 0} />
-            <span className="relative">
-              Anterior a la actualización: una fuente posterior actualizó parte
-              de esta unidad, así que este pasaje puede recoger un dato ya
-              sustituido.
-            </span>
+            <span className="relative">{t("notice")}</span>
           </p>
         </div>
       }
@@ -609,6 +671,9 @@ function UpdatesScene({ time, reduced }: SceneProps) {
 }
 
 function PreservedScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.evidence.preserved");
+  const sourceTitle = useSourceTitle();
+  const { quoted, rest } = useQuotedPassage();
   const documentCard = sceneReveal(time, 0.2, 0.35, reduced);
   const draw = drawProgress(time, 0.8, 0.5, reduced);
   const passage = sceneReveal(time, 1.7, 0.4, reduced);
@@ -645,9 +710,7 @@ function PreservedScene({ time, reduced }: SceneProps) {
       <div ref={target(0)}>
         <SceneCard
           icon={withdrawn ? FileX2 : FileText}
-          label={
-            withdrawn ? "Documento retirado del corpus" : "Documento del corpus"
-          }
+          label={withdrawn ? t("withdrawn") : t("document")}
           title={sourceTitle}
           dashed={withdrawn}
           style={{
@@ -659,8 +722,8 @@ function PreservedScene({ time, reduced }: SceneProps) {
       <div ref={target(1)}>
         <SceneCard
           icon={Archive}
-          label="Conservado con la respuesta"
-          title="Pasaje citado"
+          label={t("kept")}
+          title={t("passage")}
           active
           pulse={keeping ? pulseProgress(time, 3.1, 1) : 0}
           style={{
@@ -670,7 +733,7 @@ function PreservedScene({ time, reduced }: SceneProps) {
         >
           <blockquote className="border-primary-light/55 dark:border-primary-dark/55 font-body mt-3 border-l-2 pl-3 text-[13px] leading-[22px] text-slate-700 dark:text-slate-300">
             <mark className={highlightClass}>{quoted}</mark>{" "}
-            {passageRest.split(". ")[0]}.
+            {rest.split(". ")[0]}.
           </blockquote>
         </SceneCard>
       </div>
@@ -750,6 +813,8 @@ const VERIFIED_SEND = 2.6;
 const VERIFIED_AT = VERIFIED_SEND + 2 * DOT_GAP + DOT_TRANSIT;
 
 function VerifiedScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.evidence.verified");
+  const { quoted } = useQuotedPassage();
   const left = sceneReveal(time, 0.2, 0.4, reduced);
   const right = sceneReveal(time, 0.45, 0.4, reduced);
   const highlight = sceneReveal(time, 1, 0.45, reduced);
@@ -802,8 +867,8 @@ function VerifiedScene({ time, reduced }: SceneProps) {
         <div ref={target(0)}>
           <SceneCard
             icon={FileText}
-            label="En la respuesta"
-            title="Cita [4]"
+            label={t("answer.label")}
+            title={t("answer.title")}
             active={comparing}
             pulse={cardPulse}
             style={enter(left)}
@@ -816,8 +881,8 @@ function VerifiedScene({ time, reduced }: SceneProps) {
         <div ref={target(1)}>
           <SceneCard
             icon={BookOpen}
-            label="En el PDF original"
-            title="Pág. 412"
+            label={t("original.label")}
+            title={t("original.title")}
             active={comparing}
             pulse={cardPulse}
             style={enter(right)}
@@ -845,12 +910,10 @@ function VerifiedScene({ time, reduced }: SceneProps) {
           </span>
           <div className="relative min-w-0">
             <p className="font-display text-navy text-sm font-semibold whitespace-nowrap dark:text-slate-50">
-              {verified ? "Texto verificado" : "Verificando el texto"}
+              {verified ? t("status.verified") : t("status.verifying")}
             </p>
             <p className="font-body text-xs leading-5 whitespace-nowrap text-slate-500 dark:text-slate-400">
-              {verified
-                ? "Coincide con el PDF original"
-                : "Contrastando con el PDF"}
+              {verified ? t("detail.verified") : t("detail.verifying")}
             </p>
           </div>
         </div>
@@ -860,23 +923,22 @@ function VerifiedScene({ time, reduced }: SceneProps) {
 }
 
 const provenanceSteps = [
-  { icon: BookOpen, label: "Documento", title: sourceTitle },
-  {
-    icon: Layers,
-    label: "Capítulo",
-    title: sourceChapter,
-  },
-  {
-    icon: ListTree,
-    label: "Apartado",
-    title: "Antiinflamatorios no esteroideos",
-  },
-  { icon: FileText, label: "Página", title: "412" },
+  { id: "document", icon: BookOpen },
+  { id: "chapter", icon: Layers },
+  { id: "section", icon: ListTree },
+  { id: "page", icon: FileText },
 ] as const;
 
 const PROVENANCE_STEP = 0.6;
 
 function ProvenanceScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.evidence");
+  const titles = {
+    document: t("source.title"),
+    chapter: t("source.chapter"),
+    section: t("passage.heading"),
+    page: "412",
+  };
   const last = provenanceSteps.length - 1;
   const { root, target, boxes } = useBoxes(provenanceSteps.length);
   const rows = boxes.map((box) => box.y + box.h / 2);
@@ -929,11 +991,11 @@ function ProvenanceScene({ time, reduced }: SceneProps) {
             reduced,
           );
           return (
-            <li key={step.label} ref={target(index)}>
+            <li key={step.id} ref={target(index)}>
               <SceneCard
                 icon={step.icon}
-                label={step.label}
-                title={step.title}
+                label={t(`provenance.${step.id}`)}
+                title={titles[step.id]}
                 active={index === last && (reduced || time >= settled)}
                 pulse={
                   index === last && located
@@ -956,23 +1018,37 @@ function ProvenanceScene({ time, reduced }: SceneProps) {
 
 export type SceneProps = { time: number; reduced: boolean };
 
-/** `duration` marks the end of a scene that plays once. */
+/** Traductores de `scenes` y `clinical`, para calcular duraciones a partir del texto. */
+export type ScenesTranslator = ReturnType<typeof useTranslations<"scenes">>;
+export type ClinicalTranslator = ReturnType<typeof useTranslations<"clinical">>;
+
+/**
+ * `duration` marks the end of a scene that plays once. Una escena que escribe
+ * texto da una función: su duración depende de la longitud del texto traducido.
+ */
 export type SceneDefinition = {
   render: (props: SceneProps) => ReactNode;
   surface: "chat" | "panel" | "process";
-  duration: number;
+  duration:
+    number | ((t: ScenesTranslator, clinical: ClinicalTranslator) => number);
 };
 
 export const evidenceScenes: Record<EvidenceFeatureId, SceneDefinition> = {
   citations: {
     render: (props) => <CitationsScene {...props} />,
     surface: "chat",
-    duration: citationsTyped + 2.8,
+    duration: (_, clinical) =>
+      citationsTypedAt(
+        answerLength(answerText(clinical, "precipitant")),
+        answerLength(answerText(clinical, "claim")),
+      ) + 2.8,
   },
   bibliography: {
     render: (props) => <BibliographyScene {...props} />,
     surface: "chat",
-    duration: bibliographyFocus + 0.8,
+    duration: (_, clinical) =>
+      bibliographyTimeline(answerLength(answerText(clinical, "claim"))).focus +
+      0.8,
   },
   preserved: {
     render: (props) => <PreservedScene {...props} />,

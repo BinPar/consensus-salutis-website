@@ -29,7 +29,7 @@ vigilar aquí.
 - **Reutiliza antes de acuñar.** Mira qué tags existen ya:
 
   ```bash
-  grep -h '^tags:' src/content/blog/*.mdx | sort | uniq -c
+  grep -h '^tags:' src/content/blog/es/*.mdx | sort | uniq -c
   ```
 
 - Un tag nuevo se justifica si va a tener **más de un post**. Si no, es una

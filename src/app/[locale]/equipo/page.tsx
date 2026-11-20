@@ -1,15 +1,27 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+
+import { localizedMetadata } from "~/i18n/metadata";
+import { resolveLocale, type LocaleParams } from "~/i18n/server";
 import { PageShell } from "~/app/_components/site";
 import { TeamPage } from "~/app/_components/team/team-page";
 
-export const metadata: Metadata = {
-  title: "Equipo",
-  description:
-    "Conoce a las personas detrás de BinPar. Distintas miradas y una misma curiosidad para acercar el conocimiento médico a quienes lo necesitan.",
-  alternates: { canonical: "/equipo" },
-};
+export async function generateMetadata({
+  params,
+}: LocaleParams): Promise<Metadata> {
+  const locale = await resolveLocale(params);
+  const t = await getTranslations({ locale, namespace: "team.meta" });
 
-export default function EquipoPage() {
+  return {
+    title: t("title"),
+    description: t("description"),
+    ...localizedMetadata(locale, "/equipo"),
+  };
+}
+
+export default async function EquipoPage({ params }: LocaleParams) {
+  await resolveLocale(params);
+
   return (
     <PageShell>
       <TeamPage />

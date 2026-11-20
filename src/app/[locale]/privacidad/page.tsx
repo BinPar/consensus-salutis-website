@@ -1,89 +1,100 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
 import { ThemeSection, Eyebrow, PageShell } from "~/app/_components/site";
+import { TranslationNotice } from "~/app/_components/legal-page";
+import { localizedMetadata } from "~/i18n/metadata";
+import { routing } from "~/i18n/routing";
+import { resolveLocale, type LocaleParams } from "~/i18n/server";
 import { PURPOSE_STATEMENT, RETENTION_STATEMENT } from "~/lib/eligibility";
 
-export const metadata: Metadata = {
-  title: "Política de privacidad",
-  description:
-    "Información sobre el tratamiento de datos personales en BinPar.",
-};
+import type { Messages } from "../../../../messages/es";
 
-export default function PrivacyPage() {
+export async function generateMetadata({
+  params,
+}: LocaleParams): Promise<Metadata> {
+  const locale = await resolveLocale(params);
+  const t = await getTranslations({ locale, namespace: "legal.privacy.meta" });
+
+  return {
+    title: t("title"),
+    description: t("description"),
+    ...localizedMetadata(locale, "/privacidad"),
+  };
+}
+
+export default async function PrivacyPage({ params }: LocaleParams) {
+  const locale = await resolveLocale(params);
+  const t = await getTranslations("legal");
+  /*
+    El evaluador solo existe en castellano y su consentimiento cita estas
+    constantes: en castellano la política las usa tal cual, para que los dos
+    textos no puedan divergir. En otro idioma va su traducción, y un test
+    comprueba que el texto en castellano de los mensajes es idéntico a ellas.
+  */
+  const isDefaultLocale = locale === routing.defaultLocale;
+  const purpose = isDefaultLocale
+    ? PURPOSE_STATEMENT
+    : t("privacy.evaluatorStatements.purpose");
+  const retention = isDefaultLocale
+    ? RETENTION_STATEMENT
+    : t("privacy.evaluatorStatements.retention");
+  const section = (
+    id: Exclude<SectionId, "evaluator" | "evaluationRetention">,
+  ) => (
+    <LegalSection key={id} title={t(`privacy.sections.${id}.title`)}>
+      {t(`privacy.sections.${id}.body`)}
+    </LegalSection>
+  );
+
   return (
     <PageShell>
       <main>
         <ThemeSection>
           <article className="mx-auto w-full max-w-4xl px-5 sm:px-8">
-            <Eyebrow>Información legal</Eyebrow>
-            <h1 className="font-display mt-5 text-4xl font-extrabold tracking-tight text-navy sm:text-5xl dark:text-slate-50">
-              Política de privacidad
+            <Eyebrow>{t("eyebrow")}</Eyebrow>
+            <h1 className="font-display text-navy mt-5 text-4xl font-extrabold tracking-tight sm:text-5xl dark:text-slate-50">
+              {t("privacy.title")}
             </h1>
+            {!isDefaultLocale && <TranslationNotice />}
             <div className="font-body mt-10 space-y-8 text-base leading-8 text-slate-600 dark:text-slate-400">
-              <LegalSection title="Responsable del tratamiento">
-                BinPar Team S.L., con NIF B85271930 y domicilio social en Paseo
-                de la Castellana 43, 4, es responsable del tratamiento de los
-                datos enviados mediante el formulario de contacto de BinPar.
-                Puedes contactar mediante info@binpar.com.
-              </LegalSection>
-              <LegalSection title="Finalidad y base jurídica">
-                Tratamos el nombre, correo electrónico y contenido del mensaje
-                exclusivamente para gestionar y responder la consulta recibida.
-                La base jurídica es el consentimiento otorgado al marcar la
-                aceptación de esta política.
-              </LegalSection>
-              <LegalSection title="Conservación y destinatarios">
-                Los datos se conservarán durante el tiempo necesario para
-                atender la consulta y cumplir las obligaciones legales
-                aplicables. No se cederán a terceros salvo obligación legal o a
-                proveedores necesarios para prestar el servicio bajo las
-                garantías correspondientes.
-              </LegalSection>
+              {section("controller")}
+              {section("purpose")}
+              {section("retention")}
               {/*
                 Evaluador de idoneidad. El plazo y la finalidad salen de las
                 mismas constantes que el texto del consentimiento en /evaluador:
                 los dos textos tienen que decir lo mismo, y compartiendo la
-                constante no pueden divergir editando solo uno.
+                constante no pueden divergir editando solo uno. El evaluador solo
+                existe en castellano, así que el enlace no lleva idioma.
               */}
-              <LegalSection title="Evaluador de idoneidad">
-                Si completas el{" "}
-                <Link
-                  href="/evaluador"
-                  className="text-primary-light dark:text-primary-dark underline underline-offset-4 hover:text-cyan-800 dark:hover:text-primary-dark"
-                >
-                  evaluador de idoneidad
-                </Link>
-                , tratamos los datos de identificación que facilitas —nombre,
-                cargo, correo electrónico institucional, institución y ámbito
-                geográfico— junto con la transcripción de la entrevista.{" "}
-                {PURPOSE_STATEMENT} La base jurídica es el consentimiento que
-                otorgas de forma expresa antes de empezar, y puedes retirarlo en
-                cualquier momento escribiendo a info@binpar.com.
+              <LegalSection title={t("privacy.sections.evaluator.title")}>
+                {t.rich("privacy.sections.evaluator.body", {
+                  purpose,
+                  link: (chunks) => (
+                    <Link
+                      href="/evaluador"
+                      className="text-primary-light dark:text-primary-dark dark:hover:text-primary-dark underline underline-offset-4 hover:text-cyan-800"
+                    >
+                      {chunks}
+                    </Link>
+                  ),
+                })}
               </LegalSection>
-              <LegalSection title="Retención de la evaluación">
+              <LegalSection
+                title={t("privacy.sections.evaluationRetention.title")}
+              >
                 {/*
                   Retención indefinida, sostenida por el consentimiento. Misma
                   constante que el texto del consentimiento en /evaluador.
                 */}
-                {RETENTION_STATEMENT} Puedes retirar el consentimiento o pedir
-                la supresión en cualquier momento escribiendo a info@binpar.com,
-                y en ese caso eliminamos la ficha y la transcripción. En esta
-                evaluación no se tratan datos de salud de pacientes en ningún
-                momento.
+                {t("privacy.sections.evaluationRetention.body", {
+                  retention,
+                })}
               </LegalSection>
-              <LegalSection title="Derechos">
-                Puedes solicitar el acceso, rectificación, supresión,
-                limitación, oposición o portabilidad de tus datos escribiendo a
-                info@binpar.com. También puedes presentar una reclamación ante
-                la Agencia Española de Protección de Datos.
-              </LegalSection>
-              <LegalSection title="Seguridad">
-                Aplicamos medidas técnicas y organizativas orientadas a proteger
-                los datos frente a accesos, alteraciones o divulgaciones no
-                autorizadas. El formulario incorpora controles anti-spam y
-                limitación de solicitudes.
-              </LegalSection>
+              {section("rights")}
+              {section("security")}
             </div>
           </article>
         </ThemeSection>
@@ -91,6 +102,8 @@ export default function PrivacyPage() {
     </PageShell>
   );
 }
+
+type SectionId = keyof Messages["legal"]["privacy"]["sections"];
 
 function LegalSection({
   title,
@@ -101,7 +114,7 @@ function LegalSection({
 }) {
   return (
     <section>
-      <h2 className="font-display text-xl font-extrabold text-navy dark:text-slate-100">
+      <h2 className="font-display text-navy text-xl font-extrabold dark:text-slate-100">
         {title}
       </h2>
       <p className="mt-3">{children}</p>

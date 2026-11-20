@@ -4,7 +4,9 @@ import dynamic from "next/dynamic";
 import { animate, motion, useMotionValue, useTransform } from "framer-motion";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { BookOpen, Cloud, Code2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { PlaybackControls } from "~/app/_components/clinical-process-player";
+import strataEs from "../../../../messages/es/strata.json";
 const StrataRotatableGraphic = dynamic(
   () =>
     import("./strata-rotatable-graphic").then(
@@ -13,54 +15,69 @@ const StrataRotatableGraphic = dynamic(
   { ssr: false },
 );
 // Shared product capabilities and brand presentation.
-export const pillars = [
+// Los textos de cada capa están en `strata.pillars.<id>`.
+export const pillarLayers = [
   {
-    name: "BinPar",
-    role: "Producto e ingeniería",
-    short: "Ingeniería",
+    id: "binpar",
     logo: "/logos/binpar-brand/binpar-logo-light.svg",
     darkLogo: "/logos/binpar-brand/binpar-logo-dark.svg",
     width: 430,
     height: 132,
     icon: Code2,
-    proof: "+15 años",
-    proofLabel: "de software sanitario",
-    summary:
-      "Convierte contenidos y protocolos en un sistema integrable, evaluable y trazable.",
-    detail:
-      "Más de 15 años desarrollando software sanitario. Una capa de ingeniería que controla el ciclo de cada respuesta y conecta el conocimiento con la práctica clínica.",
   },
   {
-    name: "Editorial Médica Panamericana",
-    role: "Conocimiento clínico",
-    short: "Conocimiento",
+    id: "panamericana",
     logo: "/logos/emp.svg",
     width: 180,
     height: 45,
     icon: BookOpen,
-    proof: "+70 años",
-    proofLabel: "de experiencia editorial",
-    summary:
-      "Una base médica revisada, estructurada y actualizada de forma continua.",
-    detail:
-      "Más de 70 años de experiencia editorial y más de 3 TB de conocimiento médico. Contenidos revisados que dan profundidad y contexto a la consulta.",
   },
   {
-    name: "AWS",
-    role: "Infraestructura resiliente",
-    short: "Infraestructura",
+    id: "aws",
     logo: "/logos/Amazon_Web_Services_Logo.svg",
     width: 84,
     height: 50,
     icon: Cloud,
+  },
+] as const;
+
+/*
+  Textos que solo lee el laboratorio (`casos-lab`): la web no los muestra, así
+  que no se han pasado a los mensajes.
+*/
+const labOnlyPillarCopy = {
+  binpar: {
+    short: "Ingeniería",
+    proof: "+15 años",
+    proofLabel: "de software sanitario",
+    summary:
+      "Convierte contenidos y protocolos en un sistema integrable, evaluable y trazable.",
+  },
+  panamericana: {
+    short: "Conocimiento",
+    proof: "+70 años",
+    proofLabel: "de experiencia editorial",
+    summary:
+      "Una base médica revisada, estructurada y actualizada de forma continua.",
+  },
+  aws: {
+    short: "Infraestructura",
     proof: "Continuidad",
     proofLabel: "y capacidad de escala",
     summary:
       "Aísla cargas, escala automáticamente y sostiene la operación del sistema.",
-    detail:
-      "Una arquitectura cloud native preparada para operar con continuidad, observabilidad y cumplimiento. La infraestructura acompaña el crecimiento y las necesidades de cada organización.",
   },
-] as const;
+} as const;
+
+/*
+  Capas con sus textos en castellano, para el laboratorio, que no usa hooks.
+  La web lee los textos con `useTranslations("strata.pillars")`.
+*/
+export const pillars = pillarLayers.map((layer) => ({
+  ...layer,
+  ...strataEs.pillars[layer.id],
+  ...labOnlyPillarCopy[layer.id],
+}));
 
 export const micro =
   "font-display text-[10px] font-bold uppercase tracking-[0.22em] text-primary-light dark:text-primary-dark";
@@ -79,7 +96,9 @@ export function Brand({
   className?: string;
   large?: boolean;
 }) {
-  const p = pillars[index]!;
+  const t = useTranslations("strata.pillars");
+  const p = pillarLayers[index]!;
+  const name = t(`${p.id}.name`);
   const sizes =
     index === 2
       ? large
@@ -96,7 +115,7 @@ export function Brand({
     <span className={`inline-flex items-center ${className}`}>
       <Image
         src={p.logo}
-        alt={p.name}
+        alt={name}
         width={p.width}
         height={p.height}
         className={`${sizes} ${"darkLogo" in p ? "dark:hidden" : "dark:brightness-0 dark:invert"}`}
@@ -104,7 +123,7 @@ export function Brand({
       {"darkLogo" in p && (
         <Image
           src={p.darkLogo}
-          alt={p.name}
+          alt={name}
           width={p.width}
           height={p.height}
           className={`${sizes} hidden dark:block`}
@@ -118,7 +137,7 @@ export function Heading({
   children,
   description,
   centered = false,
-  eyebrow = "Producto · Tres capacidades, un sistema",
+  eyebrow,
   compact = false,
 }: {
   children: ReactNode;
@@ -127,13 +146,16 @@ export function Heading({
   eyebrow?: string | null;
   compact?: boolean;
 }) {
+  const t = useTranslations("strata.heading");
+  // Sin `eyebrow`, el antetítulo por defecto; con `null`, ninguno.
+  const eyebrowText = eyebrow === undefined ? t("eyebrow") : eyebrow;
   return (
     <div
       className={`relative z-10 ${centered ? "mx-auto max-w-3xl text-center" : "max-w-2xl"}`}
     >
-      {eyebrow && <p className={micro}>{eyebrow}</p>}
+      {eyebrowText && <p className={micro}>{eyebrowText}</p>}
       <h2
-        className={`${title} ${eyebrow ? "mt-5" : ""} ${compact ? "max-lg:text-[32px] sm:max-lg:text-[40px]" : ""}`}
+        className={`${title} ${eyebrowText ? "mt-5" : ""} ${compact ? "max-lg:text-[32px] sm:max-lg:text-[40px]" : ""}`}
       >
         {children}
       </h2>
@@ -157,6 +179,9 @@ export function useStrataScene({
   scaleActive?: boolean;
   keyboardEnabled?: boolean;
 }) {
+  const t = useTranslations("strata.details");
+  // Misma etiqueta que la navegación de `StrataDetails`, que se busca abajo.
+  const navigationLabel = t("navigation");
   const [turn, setTurn] = useState(0);
   const [paused, setPaused] = useState(false);
   const [interacting, setInteracting] = useState(false);
@@ -267,7 +292,7 @@ export function useStrataScene({
           ?.focus({ preventScroll: true });
       } else if (
         focused instanceof Element &&
-        focused.closest('[aria-label="Escenas de las capas del producto"]')
+        focused.closest(`[aria-label="${CSS.escape(navigationLabel)}"]`)
       ) {
         scene.current
           ?.querySelectorAll<HTMLButtonElement>("nav button")
@@ -276,7 +301,7 @@ export function useStrataScene({
     };
     window.addEventListener("keydown", navigate);
     return () => window.removeEventListener("keydown", navigate);
-  }, [keyboardEnabled, turn, progress]);
+  }, [keyboardEnabled, turn, progress, navigationLabel]);
   useEffect(() => {
     if (!running || reduced || paused || interacting) return;
     let previous = performance.now();
@@ -320,6 +345,7 @@ export function StrataDetails({
   reduced: boolean;
   compactLayout?: boolean;
 }) {
+  const t = useTranslations("strata");
   const { scene, turn, paused, setPaused, progress, order, selectTurn } = model;
   return (
     <div
@@ -355,7 +381,7 @@ export function StrataDetails({
             <p
               className={`${micro} mb-7 ${compactLayout ? "max-lg:mb-4" : ""}`}
             >
-              Capa 0{layer + 1} / 03
+              {t("details.layer", { number: `0${layer + 1}` })}
             </p>
             <div
               className={`flex h-12 items-center ${compactLayout ? "max-md:justify-center" : ""}`}
@@ -367,14 +393,14 @@ export function StrataDetails({
               />
             </div>
             <h3
-              className={`font-display mt-8 max-w-sm leading-tight font-bold tracking-tight text-navy dark:text-slate-50 ${compactLayout ? "text-2xl max-lg:mt-4 max-lg:max-w-none" : "text-3xl sm:text-4xl"}`}
+              className={`font-display text-navy mt-8 max-w-sm leading-tight font-bold tracking-tight dark:text-slate-50 ${compactLayout ? "text-2xl max-lg:mt-4 max-lg:max-w-none" : "text-3xl sm:text-4xl"}`}
             >
-              {pillars[index]!.role}
+              {t(`pillars.${pillarLayers[index]!.id}.role`)}
             </h3>
             <p
               className={`${compactLayout ? sectionBody : body} mt-5 max-w-md ${compactLayout ? "max-lg:mt-3 max-md:mx-auto" : ""}`}
             >
-              {pillars[index]!.detail}
+              {t(`pillars.${pillarLayers[index]!.id}.detail`)}
             </p>
           </motion.div>
         ))}
@@ -382,7 +408,7 @@ export function StrataDetails({
       <PlaybackControls
         steps={order.map((index, layer) => ({
           number: `0${layer + 1}`,
-          title: pillars[index]!.role,
+          title: t(`pillars.${pillarLayers[index]!.id}.role`),
         }))}
         index={turn}
         progress={progress}
@@ -390,8 +416,8 @@ export function StrataDetails({
         paused={paused}
         onSelect={selectTurn}
         onTogglePause={() => setPaused((current) => !current)}
-        navigationLabel="Escenas de las capas del producto"
-        playbackLabel="escena de capas"
+        navigationLabel={t("details.navigation")}
+        playbackLabel={t("details.playback")}
         unit="capa"
         className={
           compactLayout
@@ -409,6 +435,7 @@ export function ProductStrataContent({
   reduced: boolean;
   running: boolean;
 }) {
+  const t = useTranslations("strata");
   const model = useStrataScene({ reduced, running });
   return (
     <div className="product-strata-scene">
@@ -416,12 +443,12 @@ export function ProductStrataContent({
         centered
         compact
         eyebrow={null}
-        description="Un producto sólido se construye en profundidad. Tres capas complementarias sostienen la misma experiencia clínica."
+        description={t("heading.description")}
       >
-        Tres capacidades.
+        {t("heading.titleLead")}
         <br />
         <span className="text-primary-light dark:text-primary-dark">
-          Una sola arquitectura.
+          {t("heading.titleAccent")}
         </span>
       </Heading>
       <div className="mt-10 grid items-center gap-8 max-lg:mt-6 max-lg:gap-5 md:grid-cols-[.95fr_1.05fr] lg:grid-cols-[1.05fr_.95fr] lg:gap-16">
@@ -431,7 +458,9 @@ export function ProductStrataContent({
             scales={model.layerScales}
             ambientSeconds={model.ambientSeconds}
             turn={model.turn}
-            roles={model.order.map((index) => pillars[index]!.role)}
+            roles={model.order.map((index) =>
+              t(`pillars.${pillarLayers[index]!.id}.role`),
+            )}
             running={running && !model.paused}
             reduced={reduced}
             onSelect={model.selectTurn}

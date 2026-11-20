@@ -19,7 +19,13 @@ import { join, relative } from "node:path";
 import { describe, expect, it } from "vitest";
 
 const INFORME_UI = join(process.cwd(), "src", "app", "_components", "informe");
-const INFORME_PAGE = join(process.cwd(), "src", "app", "informe");
+const INFORME_PAGE = join(
+  process.cwd(),
+  "src",
+  "app",
+  "(castellano)",
+  "informe",
+);
 const READ_MODULE = join(
   process.cwd(),
   "src",

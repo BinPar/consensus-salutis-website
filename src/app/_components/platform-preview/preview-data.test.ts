@@ -1,18 +1,30 @@
 import { describe, expect, it } from "vitest";
+import clinical from "../../../../messages/es/clinical.json";
+import es from "../../../../messages/es/platform.json";
 import {
   closeSourceTab,
-  documentCitations,
-  initialCitation,
-  initialConversations,
-  initialTabs,
+  createPreviewData,
   openSourceTab,
 } from "./preview-data";
 import {
-  initialAnswer,
-  followupAnswer,
   initialReferences,
   followupReferences,
 } from "./preview-consultation-content";
+
+const {
+  initialCitation,
+  initialConversations,
+  initialTabs,
+  documentCitations,
+} = createPreviewData({
+  ...es.preview,
+  questions: {
+    consultation: clinical.consultation.question,
+    followup: clinical.followup.question,
+  },
+  quotes: clinical.citations,
+});
+const { initial: initialAnswer, followup: followupAnswer } = es.preview.answers;
 
 describe("preview document tabs", () => {
   it("selects another passage without duplicating its source document", () => {
@@ -91,7 +103,9 @@ describe("contenido actualizado de las dos consultas", () => {
       expect(decoded).toBe(expected);
       expect(cited).toEqual(numbers);
       expect(message.citations.map((citation) => citation.title)).toEqual(
-        references.map((reference) => reference.title),
+        references.map(
+          (reference) => es.preview.references[reference.reference],
+        ),
       );
       expect(message.citations.map((citation) => citation.order)).toEqual([
         ...new Set(cited),

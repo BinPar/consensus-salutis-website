@@ -1,0 +1,243 @@
+{
+  "chat": {
+    "placeholder": "Clinical question for the committee...",
+    "responding": "The committee is answering...",
+    "thinking": "Retrieving sources…",
+    "bibliography": "References"
+  },
+  "chatMock": {
+    "label": "BinPar demo: a clinical query, an answer with evidence and its references.",
+    "title": "Clinical committee",
+    "question": "Which criteria should I review to confirm and follow up possible hypertension?",
+    "followUpQuestion": "What data should be recorded during follow-up?",
+    "followUpAnswer": "Record the trend in readings, adherence and tolerability, changes in cardiovascular risk and any finding that calls for adjusting the plan or further investigation.",
+    "processingStates": [
+      "Consulting guidelines",
+      "Contrasting validated knowledge",
+      "Preparing answer"
+    ],
+    "followUpProcessing": "Contrasting follow-up",
+    "answer": {
+      "confirm": {
+        "before": "Confirm the readings with ",
+        "strong": "repeated measurements",
+        "after": " and, where appropriate, out-of-office monitoring."
+      },
+      "risk": {
+        "before": "Assess ",
+        "strong": "overall cardiovascular risk",
+        "after": "."
+      },
+      "damage": {
+        "before": "Review possible secondary causes and ",
+        "strong": "organ damage",
+        "after": " before setting targets and follow-up."
+      }
+    },
+    "references": ["Local clinical protocol", "Hypertension clinical guideline"]
+  },
+  "player": {
+    "title": "From question to evidence.",
+    "controls": {
+      "navigation": "Consultation stages",
+      "playbackTarget": "walkthrough",
+      "play": "Play {target}",
+      "pause": "Pause {target}",
+      "playTitle": "Play",
+      "pauseTitle": "Pause",
+      "speed": "Speed ×{speed}. Switch to ×{next}",
+      "speedTitle": "Speed ×{speed} · Switch to ×{next}",
+      "restart": {
+        "etapa": "Restart stage {number} animation",
+        "capa": "Restart layer {number} animation"
+      },
+      "restartTitle": "Restart current scene"
+    }
+  },
+  "steps": {
+    "question": {
+      "title": "Ask the question",
+      "body": "The professional asks a clinical question in natural language, adding the context needed to frame the query.",
+      "signal": "Natural clinical language"
+    },
+    "committee": {
+      "title": "Consult the knowledge",
+      "body": "The system selects the relevant expert agents and consults their medical corpora, adapted to the organisation and the specialty.",
+      "signal": "Expert committee"
+    },
+    "synthesis": {
+      "title": "Contrast the contributions",
+      "body": "The orchestrator brings together the experts' contributions, contrasts their nuances and limits and builds joint guidance for the query.",
+      "signal": "Committee synthesis"
+    },
+    "evidence": {
+      "title": "Verifiable sources",
+      "body": "The answer brings together the clinical guidance and lets you consult the sources that support its conclusions.",
+      "signal": "Traceable evidence"
+    },
+    "followup": {
+      "title": "Review and go deeper",
+      "body": "The professional can extend the query and add context to go deeper into the assessment of the case.",
+      "signal": "Conversation with context"
+    }
+  },
+  "visuals": {
+    "coordinator": "Orchestrator",
+    "realConsultation": "Real consultation",
+    "processLabel": "Process illustration"
+  },
+  "questionScene": {
+    "title": "Clinical consultation",
+    "states": [
+      "Selecting the specialists for this consultation.",
+      "Consulting Cardiology, Pharmacology and Nephrology.",
+      "Contrasting clinical signs, renal function and medication.",
+      "Integrating the contributions to prepare the answer."
+    ]
+  },
+  "committee": {
+    "query": "Clinical consultation",
+    "corpus": "Corpus",
+    "status": {
+      "received": "3 contributions received",
+      "receiving": "Receiving contributions",
+      "selected": "Committee selected",
+      "selecting": "Selecting experts",
+      "incoming": "Receiving query"
+    },
+    "expertStatus": {
+      "sent": "Contribution sent",
+      "prepared": "Contribution prepared",
+      "consulted": "Corpus consulted",
+      "consulting": "Consulting corpus",
+      "directed": "Query routed"
+    },
+    "prepared": {
+      "cardiologia": "Assess congestion and red flags.",
+      "farmacologia": "Review NSAIDs and interactions for renal risk.",
+      "nefrologia": "Compare creatinine, potassium and urine output."
+    }
+  },
+  "synthesis": {
+    "status": {
+      "emitted": "Guidance issued",
+      "integrating": "Integrating guidance",
+      "contrasting": "Contrasting nuances",
+      "gathering": "Gathering contributions"
+    },
+    "output": "Joint guidance",
+    "relations": {
+      "congestion": {
+        "title": "Congestion",
+        "compact": "Contrast cardiac and renal origin.",
+        "detail": "Contrast cardiac congestion with volume overload due to CKD."
+      },
+      "medication": {
+        "title": "Medication",
+        "compact": "Ibuprofen: fluid retention.",
+        "detail": "Ibuprofen: possible fluid retention and decline in glomerular filtration rate."
+      },
+      "limits": {
+        "title": "Limits",
+        "compact": "Avoid attributing the oedema to CKD alone.",
+        "detail": "Avoid attributing the oedema to CKD alone or assuming causation by ibuprofen."
+      }
+    }
+  },
+  "evidence": {
+    "sourceLabel": "Source consulted",
+    "fullDocument": "View full document",
+    "document": {
+      "intro": "Other CTINs are:",
+      "dosingTitle": "Drug dosing and the kidney",
+      "dosingOptions": [
+        "Reducing the dose.",
+        "Increasing the interval between doses."
+      ],
+      "antimicrobialsTitle": "Antimicrobials",
+      "imageAlt": "Image from the source document with two arrows pointing to details.",
+      "nsaidsTitle": "Non-steroidal anti-inflammatory drugs"
+    }
+  },
+  "consultation": {
+    "question": "68-year-old patient with type 2 diabetes, hypertension and chronic kidney disease. Presents with progressive tiredness, exertional breathlessness and oedema in both legs, and takes ibuprofen frequently. How would you approach the initial assessment, which red flags and tests would you consider, and how do the patient's conditions and medication influence the decisions?",
+    "experts": {
+      "cardiologia": {
+        "name": "Cardiology",
+        "detail": "Cardiac congestion: orthopnoea, crackles and peripheral oedema.",
+        "compact": "Dyspnoea and oedema: assess congestion."
+      },
+      "farmacologia": {
+        "name": "Pharmacology",
+        "detail": "Review NSAIDs, ACE inhibitors/ARBs and diuretics for renal risk and hyperkalaemia.",
+        "compact": "Ibuprofen: review the renal risk."
+      },
+      "nefrologia": {
+        "name": "Nephrology",
+        "detail": "Assess acute kidney injury on CKD: creatinine, potassium and urine output.",
+        "compact": "Review renal function, potassium and urine output."
+      }
+    }
+  },
+  "answer": {
+    "assessment": "The presentation requires **priority in-person assessment**, because it may correspond to congestive decompensation/heart failure, volume overload due to worsening CKD, acute kidney injury on CKD, hyperkalaemia, anaemia or a combination of these processes. ⟦c62888⟧ ⟦c7b5cc⟧",
+    "precipitant": "Ibuprofen is a possible precipitating factor, as it promotes fluid retention and a decline in filtration. ⟦c62888⟧ ⟦c7d2a7⟧",
+    "claim": "It should be avoided in severe CKD when creatinine clearance is below 30 mL/min, and also in the presence of heart failure, diabetes or hypertension. ⟦c73b77⟧"
+  },
+  "followup": {
+    "question": "What additional information do you need to refine the assessment and review the medication?",
+    "paragraphs": {
+      "relevantData": "Reduced urine output, volume overload, hyperkalaemia, acidosis and uraemic symptoms are particularly relevant findings.",
+      "creatinine": "I would compare current values with previous ones. A rise in creatinine of at least 0.3 mg/dL within 48 hours or of at least 50% within 7 days meets the KDIGO criterion for acute kidney injury. ⟦c7bf72⟧",
+      "reconciliation": "Reconciliation should include treatments for diabetes, hypertension, pain and oedema, as well as ‘as needed’ medicines, cold remedies, antacids, laxatives, supplements, herbal products and products bought over the counter or online. In CKD, renally eliminated drugs may require a dose reduction or a longer dosing interval. ⟦c73d65⟧",
+      "nsaids": "NSAIDs can reduce filtration through afferent vasoconstriction; they should be avoided in CKD, and especially when combined with ACE inhibitors/ARBs or diuretics. ⟦c73b77⟧ ⟦c7d2a7⟧"
+    }
+  },
+  "references": {
+    "heartFailure": "Manual ProMIR · Cardiology · Heart failure",
+    "acuteKidneyFailure": "Manual ProMIR · Nephrology · Acute kidney injury",
+    "chronicKidneyFailure": "Manual ProMIR · Nephrology · Chronic renal failure",
+    "cardiovascularRisk": "Manual ProMIR · Nephrology · Cardiovascular risk and kidney disease",
+    "bodyText": "Manual ProMIR · Nephrology · Main text"
+  },
+  "citations": {
+    "c62888": "AHF ([Cardiology, Heart failure](/capitulo/570779c8f4d68bf008dbc6b4#58999992b89214740aff8b88)) covers all those states in which the heart is unable to pump the blood the body needs at a given moment (cardiac output below metabolic requirements).",
+    "c7b5cc": "##### Uraemic syndrome. Involvement by organs and systems",
+    "c7d2a7": "The movement of fluid, or glomerular filtration, across the glomerulus is governed by Starling's laws and is proportional to membrane permeability and to the balance between the hydraulic pressure gradient (which favours fluid outflow) and the oncotic pressure gradient (which prevents fluid outflow).",
+    "c7bb6e": "The treatment of any AKI is based on acting on the triggering cause as early as possible.",
+    "c73b77": "**The use of NSAIDs should be avoided in renal failure.",
+    "c73d65": "Dose adjustment in renal failure is essential to avoid toxicity from renally eliminated drugs and to ensure their adequate efficacy.",
+    "c7be7b": "Prerenal AKI is usually oliguric and presents with highly concentrated urine (low urinary sodium, with high urine osmolality).",
+    "c7bd7c": "In every patient with AKI, the first step should be a renal ultrasound to rule out an obstructive cause.",
+    "c7c3cb": "Under normal conditions, normal urinary protein excretion is 80 mg/24 hours, of which up to 30 mg is albumin and the rest is protein from tubular cells (Tamm-Horsfall protein) and low-molecular-weight proteins.",
+    "c7b8ef": "** It is defined as a sustained decline of more than 5 mL/min/year, after first ruling out reversible causes such as obstructive uropathy, volume depletion, renal hypoperfusion or the use of nephrotoxic drugs (non-steroidal anti-inflammatory drugs, iodinated contrast media, etc.",
+    "c7ca72": "** It is defined as a serum potassium concentration above 5.5 mEq/L.",
+    "c6298f": "For the **diagnosis** (****)of AHF you will request a radiological study, where you may find ( and ):",
+    "c62a00": "</recuerda> It is important to know the precipitating factors of AHF, because you will sometimes be asked to identify them: Cardiac causes: tachyarrhythmias or bradyarrhythmias, myocardial ischaemia, negative inotropic drugs (calcium antagonists, β-blockers, etc.",
+    "c62b09": "As for **treatment** (**; **), you should set yourself the following **goals:**",
+    "c7da19": "Acute tubulointerstitial nephropathies (ATIN) cause an acute inflammatory reaction of the interstitial space characterised by interstitial oedema, inflammatory infiltrates and areas of tubular cell necrosis.",
+    "c73a7e": "##### Diuretics Potassium-sparing diuretics (spironolactone, eplerenone, amiloride) should be avoided in patients with renal failure and, above all, should not be combined with ACE inhibitors, ARBs or NSAIDs (high risk of hyperkalaemia).",
+    "c739f1": "##### Antihypertensives ACE inhibitors and ARBs: they are renoprotective and are not contraindicated in renal failure, but in advanced stages they may require a dose reduction."
+  },
+  "documentContext": {
+    "nephropathies": [
+      "Uric acid nephropathy: chronic hyperuricaemia causes deposits of uric acid and urate salts in the interstitium and tubules. Recurrent episodes of pyelonephritis are common. It is associated with hypertension and hyperlipidaemia. Treatment is based on allopurinol.",
+      "Hypercalcaemic nephropathy: monocyte infiltrates with interstitial fibrosis and calcium deposition in the interstitium (nephrocalcinosis), glomeruli and vessels. It is characterised by an inability to concentrate urine and distal tubular acidosis with potassium and sodium loss.",
+      "Balkan nephropathy: an endemic nephropathy of Eastern European countries. Although its aetiology has not been established, environmental factors (viruses, plant toxins, hydrocarbons, etc.) acting on a background of genetic predisposition are suspected. It has recently been thought to be due to a plant component, aristolochic acid. It has a very high incidence of urothelial tumours. It progresses to end-stage CKD between the ages of 30 and 50.",
+      "Oxalate nephropathy: it occurs in conditions with increased oxalate excretion, such as hyperoxalurias, ileal bypass surgery, ethylene glycol poisoning, methoxyflurane anaesthesia or ingestion of high doses of ascorbic acid. Nephrolithiasis and nephrocalcinosis develop. Pyridoxine can be used for treatment (it converts glyoxylate into glycine instead of oxalate).",
+      "Radiation nephritis: it is dose-dependent and affects those exposed to more than 2,300 rad. It causes marked vasoconstriction leading to renal ischaemia. Severe or malignant hypertension is very common. It produces glomerular hyalinosis, interstitial fibrosis and hyalinisation of the arteriolar media."
+    ],
+    "dosing": "Dose adjustment in renal failure is essential to avoid toxicity from renally eliminated drugs and to ensure their adequate efficacy. In renal failure it can be done in two ways:",
+    "antimicrobials": [
+      "Antibiotics: azithromycin, clindamycin, linezolid, doxycycline, moxifloxacin and chloramphenicol require no dose adjustment.",
+      "Antifungals: caspofungin, itraconazole and voriconazole need no dose adjustment (the latter two only orally, as intravenously they are contraindicated with creatinine clearance < 50 mL/min, owing to accumulation of the cyclodextrin vehicle).",
+      "Antivirals: almost all require a dose reduction as they carry a high risk of neurotoxicity, with confusional states, visual hallucinations, etc., especially aciclovir.",
+      "Antituberculosis drugs: pyrimethamine, isoniazid, rifampicin and rifabutin need no dose adjustment."
+    ],
+    "nsaids": {
+      "highlight": "The use of NSAIDs should be avoided in renal failure",
+      "rest": ". If they are strictly necessary, it is preferable to use NSAIDs with a short half-life, for a few days only. They should be avoided in patients with concomitant heart failure, diabetes and hypertension. Adequate hydration of the patient should be ensured."
+    },
+    "interactions": "Their use together with angiotensin-converting enzyme inhibitors (ACE inhibitors), angiotensin receptor blockers (ARBs) and diuretics should also be avoided. In patients with severe CKD (creatinine clearance < 30 mL/min) they are always contraindicated."
+  }
+}

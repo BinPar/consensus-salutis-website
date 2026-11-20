@@ -1,15 +1,18 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { Fragment, useEffect, useRef, useState } from "react";
 
 import { Eyebrow } from "~/app/_components/eyebrow";
+import { Link, usePathname } from "~/i18n/navigation";
+
 import { isNavigationItemActive, type NavigationItem } from "./site-navigation";
 
 export function MobileNavigation({ items }: { items: NavigationItem[] }) {
   const pathname = usePathname();
+  const t = useTranslations("layout.navigation");
+  const tCta = useTranslations("common.cta");
   const reducedMotion = useReducedMotion();
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const firstLinkRef = useRef<HTMLAnchorElement | null>(null);
@@ -56,7 +59,7 @@ export function MobileNavigation({ items }: { items: NavigationItem[] }) {
       <button
         ref={buttonRef}
         type="button"
-        aria-label={open ? "Cerrar navegación" : "Abrir navegación"}
+        aria-label={open ? t("close") : t("open")}
         aria-expanded={open}
         aria-controls="mobile-navigation-panel"
         onClick={() => setOpen((current) => !current)}
@@ -85,7 +88,7 @@ export function MobileNavigation({ items }: { items: NavigationItem[] }) {
         {open ? (
           <motion.nav
             id="mobile-navigation-panel"
-            aria-label="Navegación móvil"
+            aria-label={t("mobile")}
             className="dark:border-primary-dark/10 fixed inset-x-0 top-16 z-50 flex h-[calc(100dvh-4rem)] flex-col border-t border-cyan-800/10 bg-[#f4f9fc] px-5 py-7 shadow-xl sm:px-8 dark:bg-[#06111f]"
             initial={{
               x: reducedMotion ? 0 : "-100%",
@@ -101,7 +104,7 @@ export function MobileNavigation({ items }: { items: NavigationItem[] }) {
               ease: "easeInOut",
             }}
           >
-            <Eyebrow>Navegación</Eyebrow>
+            <Eyebrow>{t("mobileEyebrow")}</Eyebrow>
             <div className="dark:border-primary-dark/12 mt-5 max-w-xl border-t border-cyan-800/12">
               {items.map((item, index) => {
                 if (item.disabled) {
@@ -174,7 +177,7 @@ export function MobileNavigation({ items }: { items: NavigationItem[] }) {
               href="/contacto"
               className="dark:bg-secondary-dark font-body focus-visible:outline-secondary-dark bg-secondary-light mt-auto inline-flex min-h-11 w-fit items-center rounded-full px-5 py-2.5 text-sm font-semibold text-[#06111f] transition-transform hover:scale-[1.01] focus-visible:scale-[1.01] focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none"
             >
-              Solicitar reunión
+              {tCta("meeting")}
             </Link>
           </motion.nav>
         ) : null}

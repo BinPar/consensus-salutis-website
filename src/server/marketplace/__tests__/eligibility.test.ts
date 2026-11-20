@@ -234,11 +234,11 @@ describe("consentimiento", () => {
 
 describe("retención declarada y coherente entre los dos textos", () => {
   const evaluadorPage = readFileSync(
-    join(process.cwd(), "src", "app", "evaluador", "page.tsx"),
+    join(process.cwd(), "src", "app", "(castellano)", "evaluador", "page.tsx"),
     "utf8",
   );
   const privacidadPage = readFileSync(
-    join(process.cwd(), "src", "app", "privacidad", "page.tsx"),
+    join(process.cwd(), "src", "app", "[locale]", "privacidad", "page.tsx"),
     "utf8",
   );
   const form = readFileSync(
@@ -278,7 +278,7 @@ describe("retención declarada y coherente entre los dos textos", () => {
 
 describe("requisitos de la página de fulfillment", () => {
   const evaluadorPage = readFileSync(
-    join(process.cwd(), "src", "app", "evaluador", "page.tsx"),
+    join(process.cwd(), "src", "app", "(castellano)", "evaluador", "page.tsx"),
     "utf8",
   );
   const form = readFileSync(

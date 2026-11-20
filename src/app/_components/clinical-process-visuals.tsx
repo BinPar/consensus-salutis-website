@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import type { Ref } from "react";
 import type { LucideIcon } from "lucide-react";
@@ -92,6 +93,7 @@ export function ProcessCoordinator({
   active?: boolean;
   kind: "committee" | "synthesis";
 }) {
+  const t = useTranslations("clinical.visuals");
   return (
     <div
       ref={nodeRef}
@@ -102,8 +104,8 @@ export function ProcessCoordinator({
       <PulseLayer value={pulse} />
       <Mark className="relative size-5 shrink-0 @min-[480px]:size-8" />
       <div className="relative min-w-0">
-        <p className="font-display text-[10px] font-semibold whitespace-nowrap text-navy @min-[480px]:text-sm dark:text-slate-50">
-          Orquestador
+        <p className="font-display text-navy text-[10px] font-semibold whitespace-nowrap @min-[480px]:text-sm dark:text-slate-50">
+          {t("coordinator")}
         </p>
         <p className="font-body text-[10px] leading-4 whitespace-nowrap text-slate-500 @min-[480px]:text-xs @min-[480px]:leading-5 dark:text-slate-400">
           {status}
@@ -115,16 +117,17 @@ export function ProcessCoordinator({
 
 export function SceneLabel({
   text,
-  secondary = "Consulta real",
+  secondary,
 }: {
   text: string;
   secondary?: string;
 }) {
+  const t = useTranslations("clinical.visuals");
   return (
     <div className="font-display absolute inset-x-6 top-6 flex items-center justify-between gap-3 text-[9px] font-semibold tracking-[0.14em] text-slate-500 uppercase dark:text-slate-400">
       <span>{text}</span>
       <span className="text-primary-light dark:text-primary-dark">
-        {secondary}
+        {secondary ?? t("realConsultation")}
       </span>
     </div>
   );

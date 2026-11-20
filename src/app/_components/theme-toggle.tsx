@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 type Theme = "light" | "dark";
@@ -11,6 +12,7 @@ function getCurrentTheme(): Theme {
 }
 
 export function ThemeToggle() {
+  const t = useTranslations("layout.theme");
   const [theme, setTheme] = useState<Theme | null>(null);
 
   useEffect(() => {
@@ -35,7 +37,7 @@ export function ThemeToggle() {
   };
 
   const isDark = theme === "dark";
-  const label = isDark ? "Activar tema claro" : "Activar tema oscuro";
+  const label = isDark ? t("toLight") : t("toDark");
 
   return (
     <button
@@ -44,7 +46,7 @@ export function ThemeToggle() {
       aria-label={label}
       title={label}
       data-theme-toggle
-      className="border-primary-light/20 hover:border-primary-light/40 dark:bg-primary-dark/8 dark:text-primary-dark grid size-9 shrink-0 place-items-center rounded-full border bg-white/30 text-slate-700 transition hover:bg-cyan-50 hover:text-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600 dark:border-primary-dark/20 dark:shadow-none dark:hover:border-primary-dark/45 dark:hover:bg-primary-dark/15 dark:hover:text-primary-dark dark:focus-visible:outline-primary-dark"
+      className="border-primary-light/20 hover:border-primary-light/40 dark:bg-primary-dark/8 dark:text-primary-dark dark:border-primary-dark/20 dark:hover:border-primary-dark/45 dark:hover:bg-primary-dark/15 dark:hover:text-primary-dark dark:focus-visible:outline-primary-dark grid size-9 shrink-0 place-items-center rounded-full border bg-white/30 text-slate-700 transition hover:bg-cyan-50 hover:text-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600 dark:shadow-none"
     >
       <span data-theme-toggle-icon className="grid size-4 place-items-center">
         <span className="grid place-items-center dark:hidden">

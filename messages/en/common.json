@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "description": "Institutional medical AI platform for decision support, clinical evidence and healthcare knowledge governance."
+  },
+  "cta": {
+    "meeting": "Request a meeting",
+    "tryPlatform": "Try the platform"
+  },
+  "notFound": {
+    "metaTitle": "Page not found",
+    "eyebrow": "Error 404",
+    "title": "This page does not exist",
+    "body": "The link may be mistyped or the page may have moved. From the home page you can reach everything else.",
+    "home": "Back to home",
+    "contact": "Talk to the team"
+  },
+  "error": {
+    "eyebrow": "Error",
+    "title": "Something went wrong loading this page",
+    "body": "Try again. If the problem persists, write to us and we'll look into it.",
+    "retry": "Try again",
+    "home": "Back to home"
+  }
+}

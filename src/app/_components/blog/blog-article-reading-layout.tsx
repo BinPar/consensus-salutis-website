@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, type ReactNode } from "react";
 import {
   motion,
@@ -14,10 +14,12 @@ import {
   articleLabelClassName as label,
 } from "./blog-article-styles";
 import { useArticleIndex } from "./use-blog-article-index";
+import { Link } from "~/i18n/navigation";
 
 type Index = ReturnType<typeof useArticleIndex>;
 
 function ArticleIndex({ index }: { index: Index }) {
+  const t = useTranslations("blog.readingLayout");
   const listRef = useRef<HTMLOListElement>(null);
   const reducedMotion = useReducedMotion();
   const indicatorY = useMotionValue(7);
@@ -62,11 +64,7 @@ function ArticleIndex({ index }: { index: Index }) {
 
   if (!index.headings.length) return null;
   return (
-    <nav
-      aria-label="Índice del artículo"
-      data-article-toc=""
-      className="font-body"
-    >
+    <nav aria-label={t("tocLabel")} data-article-toc="" className="font-body">
       <div className="before:bg-primary-light/16 dark:before:bg-primary-dark/20 relative before:absolute before:inset-y-0 before:left-[3px] before:w-px">
         <ol ref={listRef}>
           {index.headings.map((heading) => {
@@ -113,6 +111,7 @@ export function BlogArticleReadingLayout({
   related: ReactNode;
   children: ReactNode;
 }) {
+  const t = useTranslations("blog.readingLayout");
   const index = useArticleIndex(slug);
   return (
     <div className="relative mt-6 lg:mt-10 lg:grid lg:grid-cols-[minmax(0,1fr)_232px] lg:items-stretch lg:gap-8 xl:grid-cols-[minmax(0,1fr)_264px] xl:gap-14">
@@ -127,26 +126,23 @@ export function BlogArticleReadingLayout({
         </div>
         {related && <div className="mt-10 lg:hidden">{related}</div>}
       </div>
-      <aside
-        aria-label="Guía de lectura del artículo"
-        className="hidden min-w-0 lg:block"
-      >
+      <aside aria-label={t("label")} className="hidden min-w-0 lg:block">
         <div
           data-article-sidebar=""
           className="sticky top-22 max-h-[calc(100svh-112px)] [scrollbar-width:thin] space-y-5 overflow-y-auto overscroll-contain pr-2 pb-1"
         >
           {metadata}
-          <section className="border-t border-cyan-800/15 pt-5 dark:border-primary-dark/15">
-            <h2 className={`${label} mb-3`}>En este artículo</h2>
+          <section className="dark:border-primary-dark/15 border-t border-cyan-800/15 pt-5">
+            <h2 className={`${label} mb-3`}>{t("contents")}</h2>
             <ArticleIndex index={index} />
           </section>
           {related}
-          <div className="border-t border-cyan-800/15 pt-5 dark:border-primary-dark/15">
+          <div className="dark:border-primary-dark/15 border-t border-cyan-800/15 pt-5">
             <Link
               href="/blog"
               className="font-body text-primary-light dark:text-primary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark inline-flex items-center gap-2 rounded-full text-xs font-semibold focus-visible:outline-2 focus-visible:outline-offset-4"
             >
-              Explorar el blog
+              {t("explore")}
               <ArrowUpRight aria-hidden="true" size={14} strokeWidth={1.8} />
             </Link>
           </div>

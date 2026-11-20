@@ -2,18 +2,16 @@
 
 import { motion } from "framer-motion";
 import { ArrowUp, ArrowUpRight, Paperclip } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Link } from "~/i18n/navigation";
 import type { BlogPost } from "~/lib/blog";
 import { BlogSceneCover } from "./blog-scene-cover";
 
-const prompt = "Muéstrame el último artículo del blog.";
 const promptStartAt = 1200;
 const promptCharacterMs = 55;
 const promptReadMs = 1800;
-const sentAt = promptStartAt + prompt.length * promptCharacterMs + promptReadMs;
-const answerAt = sentAt + 400;
 const excerptCharacterMs = 26;
 
 /** Ficha vertical que se dibuja dentro del mock. Entrada del índice del blog. */
@@ -26,6 +24,12 @@ export function BlogFeaturedArticle({
   visible: boolean;
   reduced: boolean;
 }) {
+  const t = useTranslations("blog.featured");
+  // Los tiempos dependen de la longitud del prompt en el idioma de la página.
+  const prompt = t("prompt");
+  const sentAt =
+    promptStartAt + prompt.length * promptCharacterMs + promptReadMs;
+  const answerAt = sentAt + 400;
   const gridRef = useRef<HTMLDivElement>(null);
   const alignGridRef = useRef<(() => void) | null>(null);
   const [elapsed, setElapsed] = useState(0);
@@ -133,15 +137,15 @@ export function BlogFeaturedArticle({
   );
   const inputText =
     time < promptStartAt
-      ? "Pregunta al comité…"
+      ? t("placeholder")
       : centered
         ? prompt.slice(
             0,
             Math.floor((time - promptStartAt) / promptCharacterMs),
           )
         : complete
-          ? "Pregunta al comité…"
-          : "El comité está respondiendo…";
+          ? t("placeholder")
+          : t("answering");
 
   return (
     <motion.div
@@ -153,11 +157,11 @@ export function BlogFeaturedArticle({
       className="w-full"
     >
       <Link
-        href={post.href}
-        aria-label={`Leer artículo: ${post.title}`}
+        href={{ pathname: "/blog/[slug]", params: { slug: post.slug } }}
+        aria-label={t("readArticle", { title: post.title })}
         inert={!complete}
         data-blog-article-mock=""
-        className="group shadow-big-blocks focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark @container relative isolate block min-h-[430px] overflow-hidden rounded-3xl border border-cyan-800/15 bg-white/80 backdrop-blur-sm focus-visible:outline-2 focus-visible:outline-offset-4 dark:border-primary-dark/15 dark:bg-[#06111f]"
+        className="group shadow-big-blocks focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark dark:border-primary-dark/15 @container relative isolate block min-h-[430px] overflow-hidden rounded-3xl border border-cyan-800/15 bg-white/80 backdrop-blur-sm focus-visible:outline-2 focus-visible:outline-offset-4 dark:bg-[#06111f]"
       >
         <div
           ref={gridRef}
@@ -192,13 +196,13 @@ export function BlogFeaturedArticle({
           <p className="font-display text-primary-light dark:text-primary-dark text-[10px] font-bold tracking-[0.22em] uppercase">
             BinPar
           </p>
-          <p className="font-display mt-2 text-lg font-extrabold tracking-tight text-navy dark:text-slate-50">
-            Comité clínico
+          <p className="font-display text-navy mt-2 text-lg font-extrabold tracking-tight dark:text-slate-50">
+            {t("committee")}
           </p>
         </div>
 
         <article
-          aria-label="Último artículo del blog"
+          aria-label={t("articleLabel")}
           inert={!answering}
           className={`relative px-5 pt-5 pb-20 transition-opacity duration-300 motion-reduce:transition-none ${answering ? "opacity-100" : "opacity-0"}`}
         >
@@ -229,10 +233,10 @@ export function BlogFeaturedArticle({
                 className="object-cover"
               />
             ) : (
-              <BlogSceneCover slug={post.slug} />
+              <BlogSceneCover slug={post.translationKey} />
             )}
           </motion.div>
-          <h2 className="font-display mt-3 text-lg leading-[1.35] font-semibold tracking-tight text-navy dark:text-slate-50">
+          <h2 className="font-display text-navy mt-3 text-lg leading-[1.35] font-semibold tracking-tight dark:text-slate-50">
             <TypedText
               text={post.title}
               length={titleLength}
@@ -257,7 +261,7 @@ export function BlogFeaturedArticle({
             </p>
             <span
               aria-hidden="true"
-              className="text-primary-light dark:text-primary-dark inline-flex size-6 shrink-0 items-center justify-center rounded-full transition-colors group-hover:bg-cyan-800/5 group-focus-visible:bg-cyan-800/5 dark:group-hover:bg-primary-dark/10 dark:group-focus-visible:bg-primary-dark/10"
+              className="text-primary-light dark:text-primary-dark dark:group-hover:bg-primary-dark/10 dark:group-focus-visible:bg-primary-dark/10 inline-flex size-6 shrink-0 items-center justify-center rounded-full transition-colors group-hover:bg-cyan-800/5 group-focus-visible:bg-cyan-800/5"
             >
               <ArrowUpRight size={18} strokeWidth={1.8} aria-hidden="true" />
             </span>
@@ -272,8 +276,8 @@ export function BlogFeaturedArticle({
             translate: centered ? "0 0" : "0 -100%",
           }}
         >
-          <div className="font-body shadow-big-blocks grid min-h-11 grid-cols-[44px_minmax(0,1fr)_44px] overflow-hidden rounded-[28px] border border-cyan-800/15 bg-white/85 text-[13px] leading-5.5 backdrop-blur-md dark:border-primary-dark/15 dark:bg-[#152230]/90 dark:shadow-[0_0_32px_color-mix(in_srgb,var(--color-primary-dark)_12%,transparent)]">
-            <span className="grid size-7 place-items-center place-self-center rounded-full border border-cyan-800/15 text-slate-500 dark:border-primary-dark/15 dark:text-slate-400">
+          <div className="font-body shadow-big-blocks dark:border-primary-dark/15 grid min-h-11 grid-cols-[44px_minmax(0,1fr)_44px] overflow-hidden rounded-[28px] border border-cyan-800/15 bg-white/85 text-[13px] leading-5.5 backdrop-blur-md dark:bg-[#152230]/90 dark:shadow-[0_0_32px_color-mix(in_srgb,var(--color-primary-dark)_12%,transparent)]">
+            <span className="dark:border-primary-dark/15 grid size-7 place-items-center place-self-center rounded-full border border-cyan-800/15 text-slate-500 dark:text-slate-400">
               <Paperclip className="size-3.5" strokeWidth={1.8} />
             </span>
             <span className="min-w-0 self-center truncate py-2 text-slate-500 dark:text-slate-400">

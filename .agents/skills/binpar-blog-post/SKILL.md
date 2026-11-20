@@ -7,16 +7,22 @@ description: >
   cadena de portada y los comandos de verificación del repositorio. Úsala cuando
   se pida escribir, redactar, ampliar, actualizar, revisar o auditar un artículo
   o post del blog de BinPar, o cuando se vaya a tocar cualquier
-  `.mdx` de `src/content/blog/`. Write, update or audit a BinPar blog post.
+  `.mdx` de `src/content/blog/<idioma>/`. Write, update or audit a BinPar blog post.
 ---
 
 # BinPar · Blog post
 
-Un post es **un fichero** `.mdx` en `src/content/blog/`. No hay índice que
+Un post es **un fichero** `.mdx` en `src/content/blog/es/`. No hay índice que
 tocar, ni registro que actualizar, ni ruta que añadir: el loader
 (`src/lib/blog.ts`) descubre el fichero, valida su frontmatter y deriva slug,
 `href`, etiquetas de fecha y tiempo de lectura. Publicar es crear el fichero y
 quitarle `draft`.
+
+El castellano es el idioma fuente: un post se escribe en castellano. Su
+traducción es otro fichero en `src/content/blog/<idioma>/` (hoy `en/`), con
+slug en ese idioma y `translationKey` igual al slug del original
+(`references/frontmatter-contract.md`). Un post sin traducir solo aparece en
+castellano; no rompe nada.
 
 Esta skill cubre lo que es de **este repositorio**: rutas, contrato de
 frontmatter, figuras del cuerpo, cadena de portada y comandos. Cómo suena el texto no vive aquí —
@@ -113,7 +119,7 @@ Si el ángulo no se aprueba, se propone otro; no se escribe «mientras tanto».
 
 ### 3. Escribir el `.mdx`
 
-`src/content/blog/<slug>.mdx`, con `draft: true` siempre. Slug kebab-case en
+`src/content/blog/es/<slug>.mdx`, con `draft: true` siempre. Slug kebab-case en
 castellano sin artículos sueltos, derivado del título y estable.
 Contrato de campos: `references/frontmatter-contract.md`.
 
@@ -184,7 +190,7 @@ es cuándo se publicó, no cuándo se tocó por última vez.
 
 ## Modo auditar
 
-Recorre `src/content/blog/`, aplica la checklist de la voz —o el subconjunto
+Recorre `src/content/blog/es/` (y las traducciones de `src/content/blog/<idioma>/` si se piden), aplica la checklist de la voz —o el subconjunto
 mínimo— y devuelve, **por post**, los incumplimientos con severidad y
 reescritura propuesta. Auditar es diagnosticar: **no edita ficheros** salvo que
 se pida explícitamente aplicar los hallazgos.

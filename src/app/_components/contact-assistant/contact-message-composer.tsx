@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { createPortal } from "react-dom";
 import {
   useCallback,
@@ -26,7 +27,7 @@ export function ContactMessageComposer({
   invalid,
   placeholder,
   disabled = false,
-  submitLabel = "Enviar consulta",
+  submitLabel,
 }: {
   value: string;
   onChange: (value: string) => void;
@@ -39,6 +40,8 @@ export function ContactMessageComposer({
   disabled?: boolean;
   submitLabel?: string;
 }) {
+  const t = useTranslations("contact.composer");
+  const sendLabel = submitLabel ?? t("submit");
   const root = useRef<HTMLDivElement>(null);
   const textarea = useRef<HTMLTextAreaElement>(null);
   const compactMirror = useRef<HTMLTextAreaElement>(null);
@@ -254,8 +257,8 @@ export function ContactMessageComposer({
           className="cm-expand"
           aria-controls={id}
           aria-expanded={fullscreen}
-          aria-label={fullscreen ? "Reducir editor" : "Ampliar editor"}
-          title={fullscreen ? "Reducir editor" : "Ampliar editor"}
+          aria-label={fullscreen ? t("collapse") : t("expand")}
+          title={fullscreen ? t("collapse") : t("expand")}
           onClick={() => toggleFullscreen(!fullscreen)}
         >
           {fullscreen ? (
@@ -273,8 +276,8 @@ export function ContactMessageComposer({
         className="cm-send"
         onClick={submit}
         disabled={disabled || !value.trim()}
-        aria-label={disabled ? "Enviando consulta" : submitLabel}
-        title={disabled ? "Enviando consulta" : submitLabel}
+        aria-label={disabled ? t("sending") : sendLabel}
+        title={disabled ? t("sending") : sendLabel}
       >
         <ArrowUp size={18} strokeWidth={1.8} aria-hidden="true" />
       </button>
@@ -287,7 +290,7 @@ export function ContactMessageComposer({
           className="cm-fullscreen-overlay"
           role="dialog"
           aria-modal="true"
-          aria-label="Editor de tu consulta"
+          aria-label={t("dialogLabel")}
           onKeyDown={(event) => {
             if (event.key !== "Tab") return;
             const targets = [

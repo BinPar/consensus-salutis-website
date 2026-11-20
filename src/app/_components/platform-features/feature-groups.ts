@@ -1,5 +1,9 @@
+import { useTranslations } from "next-intl";
+import { useMemo } from "react";
+
 import {
-  platformFeatureGroups,
+  usePlatformFeatureGroups,
+  type FeatureGroupId,
   type FeatureMockId,
   type PlatformFeature,
 } from "./features-data";
@@ -15,16 +19,15 @@ export type FeatureGroupSection = {
   features: PlatformFeature[];
 };
 
-const sections: (Omit<FeatureGroupSection, "features"> & {
-  group: string;
+// Ancla y orden de cada grupo; los textos están en `features.groups`.
+const sections: {
+  group: FeatureGroupId;
+  id: string;
   order: readonly FeatureMockId[];
-})[] = [
+}[] = [
   {
     group: "evidence",
     id: "evidencia",
-    navLabel: "Evidencia",
-    heading: ["Evidencia", "visible."],
-    lead: "Cada afirmación remite al documento que la respalda. El pasaje se consulta en su contexto, con su procedencia y su vigencia a la vista.",
     order: [
       "citations",
       "bibliography",
@@ -38,9 +41,6 @@ const sections: (Omit<FeatureGroupSection, "features"> & {
   {
     group: "consultation",
     id: "consulta",
-    navLabel: "Consulta",
-    heading: ["Consulta", "clínica."],
-    lead: "La duda se formula como en una sesión clínica. Cada especialidad revisa su corpus, el avance queda a la vista y la conversación conserva el caso.",
     order: [
       "natural",
       "images",
@@ -54,17 +54,11 @@ const sections: (Omit<FeatureGroupSection, "features"> & {
   {
     group: "formats",
     id: "formatos",
-    navLabel: "Formatos",
-    heading: ["Formatos", "de respuesta."],
-    lead: "La respuesta se presenta en el formato que mejor la explica. Esquemas, figuras y tablas conservan sus citas y se consultan en el panel lateral.",
     order: ["schemes", "tables", "figures", "panel", "download", "textalt"],
   },
   {
     group: "workspace",
     id: "espacio-personal",
-    navLabel: "Espacio personal",
-    heading: ["Espacio", "personal."],
-    lead: "Cada profesional organiza sus consultas en proyectos con instrucciones y fuentes propias, y ajusta cómo se leen las respuestas.",
     order: [
       "projects",
       "history",
@@ -79,9 +73,6 @@ const sections: (Omit<FeatureGroupSection, "features"> & {
   {
     group: "governance",
     id: "gobierno",
-    navLabel: "Gobierno",
-    heading: ["Gobierno", "institucional."],
-    lead: "La organización decide qué documentos consulta el comité, revisa cada cambio antes de publicarlo y comprueba que la calidad de las respuestas se mantiene.",
     order: [
       "corpus",
       "library",
@@ -95,16 +86,24 @@ const sections: (Omit<FeatureGroupSection, "features"> & {
   },
 ];
 
-export const featureGroupSections: FeatureGroupSection[] = sections.map(
-  ({ group, order, ...section }) => {
-    const features = platformFeatureGroups.find(
-      (entry) => entry.id === group,
-    )!.features;
-    return {
-      ...section,
-      features: order.map((mock) =>
-        features.find((feature) => feature.mock === mock)!,
-      ),
-    };
-  },
-);
+/** Las secciones de grupo con sus textos en el idioma de la página. */
+export function useFeatureGroupSections(): FeatureGroupSection[] {
+  const t = useTranslations("features.groups");
+  const groups = usePlatformFeatureGroups();
+  return useMemo(
+    () =>
+      sections.map(({ group, order, id }) => {
+        const features = groups.find((entry) => entry.id === group)!.features;
+        return {
+          id,
+          navLabel: t(`${group}.navLabel`),
+          heading: [t(`${group}.heading`), t(`${group}.headingAccent`)],
+          lead: t(`${group}.lead`),
+          features: order.map((mock) =>
+            features.find((feature) => feature.mock === mock)!,
+          ),
+        };
+      }),
+    [t, groups],
+  );
+}

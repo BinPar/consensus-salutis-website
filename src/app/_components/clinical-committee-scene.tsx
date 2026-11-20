@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useLayoutEffect, useRef, useState } from "react";
 import {
   Check,
@@ -9,10 +10,7 @@ import {
   Pill,
   Waves,
 } from "lucide-react";
-import {
-  processConsultation,
-  processExpertInputs,
-} from "./clinical-process-data";
+import { useProcessConsultation } from "./clinical-process-data";
 import {
   drawProgress,
   FlowDot,
@@ -40,11 +38,6 @@ const readingStart =
 const gatherStart = readingStart + 3 * processMotion.readingPulse + 2;
 const handoffStart = gatherStart + 1.4;
 const handoffEnd = handoffStart + packetDuration + 0.32;
-const preparedSummaries = [
-  "Valorar congestión y signos de alarma.",
-  "Revisar AINE e interacciones por riesgo renal.",
-  "Comparar creatinina, potasio y diuresis.",
-] as const;
 const times = {
   selection: 4.7,
   corpus: corpusStart,
@@ -75,6 +68,9 @@ export function CommitteeScene({
   seconds: number;
   reduced: boolean;
 }) {
+  const t = useTranslations("clinical.committee");
+  const tLabels = useTranslations("clinical.visuals");
+  const processConsultation = useProcessConsultation();
   const seconds = sceneSeconds - queryIntroDuration;
   const root = useRef<HTMLDivElement>(null);
   const question = useRef<HTMLDivElement>(null);
@@ -242,14 +238,14 @@ export function CommitteeScene({
       reading,
       status:
         reduced || seconds >= handoffStart + i * 0.16 + packetDuration
-          ? "Aportación enviada"
+          ? t("expertStatus.sent")
           : seconds >= times.ready
-            ? "Aportación preparada"
+            ? t("expertStatus.prepared")
             : seconds >= readEnd
-              ? "Corpus consultado"
+              ? t("expertStatus.consulted")
               : seconds >= corpusAt
-                ? "Consultando corpus"
-                : "Consulta dirigida",
+                ? t("expertStatus.consulting")
+                : t("expertStatus.directed"),
       pulse: reading
         ? pulseProgress(seconds, readingAt, processMotion.readingPulse)
         : 0,
@@ -318,7 +314,7 @@ export function CommitteeScene({
       data-committee-phase={phase}
       className="relative h-[480px] px-3 pt-14 pb-5 @min-[480px]:px-6"
     >
-      <SceneLabel text="Representación del proceso" />
+      <SceneLabel text={tLabels("processLabel")} />
       <div
         ref={question}
         aria-hidden="true"
@@ -348,7 +344,7 @@ export function CommitteeScene({
         >
           <ProcessIcon icon={MessageSquare} />
           <p className="font-display text-[10px] font-semibold whitespace-nowrap @min-[480px]:text-[13px]">
-            Consulta clínica
+            {t("query")}
           </p>
         </div>
       </div>
@@ -501,14 +497,14 @@ export function CommitteeScene({
               active={thinking || receiving}
               status={
                 received
-                  ? "3 aportaciones recibidas"
+                  ? t("status.received")
                   : receiving
-                    ? "Recibiendo aportaciones"
+                    ? t("status.receiving")
                     : selected
-                      ? "Comité seleccionado"
+                      ? t("status.selected")
                       : seconds >= 2.7
-                        ? "Seleccionando expertos"
-                        : "Recibiendo consulta"
+                        ? t("status.selecting")
+                        : t("status.incoming")
               }
               pulse={
                 thinking
@@ -574,20 +570,20 @@ export function CommitteeScene({
                         <span className="text-primary-light dark:text-primary-dark grid size-7 shrink-0 place-items-center">
                           <ProcessIcon icon={icons[i]!} />
                         </span>
-                        <p className="font-display text-center text-[10px] font-semibold text-navy @min-[480px]:text-left @min-[480px]:text-[13px] dark:text-slate-100">
+                        <p className="font-display text-navy text-center text-[10px] font-semibold @min-[480px]:text-left @min-[480px]:text-[13px] dark:text-slate-100">
                           {expert.name}
                         </p>
                       </div>
                       <p className="font-body @container/expert relative mt-1 hidden text-center text-[10px] leading-4 text-slate-600 min-[450px]:block @min-[480px]:text-left @min-[480px]:text-xs @min-[480px]:leading-[18px] dark:text-slate-300">
                         {ready ? (
-                          preparedSummaries[i]
+                          t(`prepared.${expert.slug}`)
                         ) : (
                           <>
                             <span className="@min-[196px]/expert:hidden">
-                              {processExpertInputs[i]!.compact}
+                              {expert.compact}
                             </span>
                             <span className="hidden @min-[196px]/expert:inline">
-                              {processExpertInputs[i]!.detail}
+                              {expert.detail}
                             </span>
                           </>
                         )}
@@ -651,7 +647,7 @@ export function CommitteeScene({
                         <span className="bg-primary-light/20 dark:bg-primary-dark/20 h-px w-4" />
                       </div>
                       <span className="font-body relative text-[10px] text-slate-500 @min-[480px]:text-xs dark:text-slate-400">
-                        Corpus
+                        {t("corpus")}
                       </span>
                     </div>
                   </div>

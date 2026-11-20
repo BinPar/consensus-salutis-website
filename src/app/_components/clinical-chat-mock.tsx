@@ -2,62 +2,58 @@
 
 import { motion } from "framer-motion";
 import { ArrowUp, Paperclip } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import {
   useEffect,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
   type ReactNode,
 } from "react";
 
-const question =
-  "¿Qué criterios debo revisar para confirmar y realizar el seguimiento de una posible hipertensión arterial?";
-const followUpQuestion =
-  "¿Qué datos conviene registrar durante el seguimiento?";
-const followUpAnswer =
-  "Registra la evolución de las cifras, adherencia y tolerancia, cambios en el riesgo cardiovascular y cualquier hallazgo que requiera ajustar el plan o ampliar el estudio.";
-const processingStates = [
-  "Consultando guías",
-  "Contrastando conocimiento validado",
-  "Preparando respuesta",
-];
-const references = ["Protocolo clínico local", "Guía clínica de hipertensión"];
-
 type TextPart = { text: string; strong?: boolean };
-const answerBlocks: { parts: TextPart[]; citation?: number; list?: boolean }[] =
-  [
-    {
-      parts: [
-        { text: "Confirma las cifras con " },
-        { text: "mediciones repetidas", strong: true },
-        { text: " y, cuando proceda, monitorización fuera de consulta." },
-      ],
-      citation: 1,
-    },
-    {
-      list: true,
-      parts: [
-        { text: "Valora el " },
-        { text: "riesgo cardiovascular global", strong: true },
-        { text: "." },
-      ],
-      citation: 2,
-    },
-    {
-      list: true,
-      parts: [
-        { text: "Revisa posibles causas secundarias y " },
-        { text: "daño orgánico", strong: true },
-        { text: " antes de definir objetivos y seguimiento." },
-      ],
-    },
-  ];
-const answerLength = answerBlocks.reduce(
-  (total, block) =>
-    total + block.parts.reduce((length, part) => length + part.text.length, 0),
-  0,
-);
+type AnswerBlock = { parts: TextPart[]; citation?: number; list?: boolean };
+
+// Cada bloque tiene una parte en negrita; el texto se escribe letra a letra.
+const answerBlockIds = [
+  { id: "confirm", citation: 1 },
+  { id: "risk", list: true, citation: 2 },
+  { id: "damage", list: true },
+] as const;
+
+function blockLength(block: AnswerBlock) {
+  return block.parts.reduce((length, part) => length + part.text.length, 0);
+}
+
+function useChatMockCopy() {
+  const t = useTranslations("clinical.chatMock");
+  return useMemo(() => {
+    const answerBlocks: AnswerBlock[] = answerBlockIds.map(
+      ({ id, ...block }) => ({
+        ...block,
+        parts: [
+          { text: t(`answer.${id}.before`) },
+          { text: t(`answer.${id}.strong`), strong: true },
+          { text: t(`answer.${id}.after`) },
+        ],
+      }),
+    );
+    return {
+      question: t("question"),
+      followUpQuestion: t("followUpQuestion"),
+      followUpAnswer: t("followUpAnswer"),
+      processingStates: t.raw("processingStates") as string[],
+      references: t.raw("references") as string[],
+      answerBlocks,
+      answerLength: answerBlocks.reduce(
+        (total, block) => total + blockLength(block),
+        0,
+      ),
+    };
+  }, [t]);
+}
 
 type Stage =
   | "idle"
@@ -90,6 +86,16 @@ export function ClinicalChatMock({
   compact?: boolean;
   active?: boolean;
 }) {
+  const t = useTranslations("clinical");
+  const {
+    question,
+    followUpQuestion,
+    followUpAnswer,
+    processingStates,
+    references,
+    answerBlocks,
+    answerLength,
+  } = useChatMockCopy();
   const reducedMotion = useReducedMotion();
   const threadRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
@@ -183,7 +189,15 @@ export function ClinicalChatMock({
     };
     void run();
     return () => controller.abort();
-  }, [reducedMotion, active]);
+  }, [
+    reducedMotion,
+    active,
+    question.length,
+    processingStates.length,
+    answerLength,
+    followUpQuestion.length,
+    followUpAnswer.length,
+  ]);
 
   const staticDemo = reducedMotion === true;
   const centered =
@@ -218,8 +232,8 @@ export function ClinicalChatMock({
       ? followUpQuestion.slice(0, followUpQuestionLength)
       : question.slice(0, questionLength)
     : processing
-      ? "El comité está respondiendo..."
-      : "Pregunta clínica al comité...";
+      ? t("chat.responding")
+      : t("chat.placeholder");
 
   useLayoutEffect(() => {
     const grid = gridRef.current;
@@ -327,10 +341,10 @@ export function ClinicalChatMock({
   return (
     <div
       role="img"
-      aria-label="Demostración de BinPar: una consulta clínica, una respuesta con evidencia y sus referencias."
+      aria-label={t("chatMock.label")}
       data-stage={staticDemo ? "static" : stage}
       data-compact={compact}
-      className={`shadow-big-blocks @container pointer-events-none relative isolate overflow-hidden rounded-3xl border border-cyan-800/15 bg-white/80 backdrop-blur-sm select-none dark:border-primary-dark/15 dark:bg-[#06111f] ${compact ? "h-87.5" : "h-110"}`}
+      className={`shadow-big-blocks dark:border-primary-dark/15 @container pointer-events-none relative isolate overflow-hidden rounded-3xl border border-cyan-800/15 bg-white/80 backdrop-blur-sm select-none dark:bg-[#06111f] ${compact ? "h-87.5" : "h-110"}`}
     >
       <div aria-hidden="true" className="flex h-full">
         <motion.div
@@ -372,6 +386,7 @@ export function ClinicalChatMock({
               )}
               {showAnswer && (
                 <AssistantAnswer
+                  blocks={answerBlocks}
                   length={staticDemo ? answerLength : typedAnswerLength}
                   condensed={staticDemo}
                 />
@@ -380,7 +395,7 @@ export function ClinicalChatMock({
                 <UserMessage compact={compact}>{followUpQuestion}</UserMessage>
               )}
               {showFollowUp && stage === "processing-follow-up" && (
-                <ProcessingLabel label="Contrastando seguimiento" />
+                <ProcessingLabel label={t("chatMock.followUpProcessing")} />
               )}
               {showFollowUpAnswer && (
                 <p>
@@ -392,7 +407,13 @@ export function ClinicalChatMock({
                   )}
                 </p>
               )}
-              {showReferences && <MockReferences condensed={staticDemo} />}
+              {showReferences && (
+                <MockReferences
+                  references={references}
+                  title={t("chat.bibliography")}
+                  condensed={staticDemo}
+                />
+              )}
             </div>
           </div>
           <div
@@ -402,8 +423,8 @@ export function ClinicalChatMock({
             <p className="font-display text-primary-light dark:text-primary-dark text-[10px] font-bold tracking-[0.22em] uppercase">
               BinPar
             </p>
-            <p className="font-display mt-2 text-lg font-extrabold tracking-tight text-navy dark:text-slate-50">
-              Comité clínico
+            <p className="font-display text-navy mt-2 text-lg font-extrabold tracking-tight dark:text-slate-50">
+              {t("chatMock.title")}
             </p>
           </div>
           <div
@@ -480,9 +501,11 @@ function Citation({ number }: { number: number }) {
 }
 
 function AssistantAnswer({
+  blocks: answerBlocks,
   length,
   condensed = false,
 }: {
+  blocks: AnswerBlock[];
   length: number;
   condensed?: boolean;
 }) {
@@ -529,11 +552,9 @@ function AssistantAnswer({
   return (
     <div className="space-y-2">
       {blocks[0]}
-      {length >
-        answerBlocks[0]!.parts.reduce(
-          (total, part) => total + part.text.length,
-          0,
-        ) && <ul className="ml-4 list-disc space-y-1">{blocks.slice(1)}</ul>}
+      {length > blockLength(answerBlocks[0]!) && (
+        <ul className="ml-4 list-disc space-y-1">{blocks.slice(1)}</ul>
+      )}
     </div>
   );
 }
@@ -552,15 +573,23 @@ function ProcessingLabel({ label }: { label: string }) {
   );
 }
 
-function MockReferences({ condensed }: { condensed: boolean }) {
+function MockReferences({
+  references,
+  title,
+  condensed,
+}: {
+  references: string[];
+  title: string;
+  condensed: boolean;
+}) {
   return (
     <div
-      className={`border-t border-cyan-800/15 dark:border-primary-dark/15 ${condensed ? "pt-2" : "pt-4"}`}
+      className={`dark:border-primary-dark/15 border-t border-cyan-800/15 ${condensed ? "pt-2" : "pt-4"}`}
     >
       <p
         className={`font-display text-primary-light dark:text-primary-dark font-bold tracking-[0.16em] uppercase ${condensed ? "text-[9px]" : "text-[11px]"}`}
       >
-        Bibliografía
+        {title}
       </p>
       <ol className={condensed ? "mt-2 space-y-1" : "mt-3 space-y-2.5"}>
         {references.map((reference, index) => (
@@ -616,7 +645,7 @@ function MockComposer({
       ref={composerRef}
       data-mock-composer=""
       data-expanded={expanded}
-      className={`font-body shadow-big-blocks relative mx-auto grid max-w-3xl grid-cols-[44px_minmax(0,1fr)_44px] overflow-hidden border border-cyan-800/15 bg-white/85 backdrop-blur-md dark:border-primary-dark/15 dark:bg-[#152230]/90 dark:shadow-[0_0_32px_color-mix(in_srgb,var(--color-primary-dark)_12%,transparent)] ${expanded ? "rounded-[20px]" : "rounded-[28px]"} ${compact ? "min-h-10 text-xs leading-5" : "min-h-11 text-[13px] leading-5.5"}`}
+      className={`font-body shadow-big-blocks dark:border-primary-dark/15 relative mx-auto grid max-w-3xl grid-cols-[44px_minmax(0,1fr)_44px] overflow-hidden border border-cyan-800/15 bg-white/85 backdrop-blur-md dark:bg-[#152230]/90 dark:shadow-[0_0_32px_color-mix(in_srgb,var(--color-primary-dark)_12%,transparent)] ${expanded ? "rounded-[20px]" : "rounded-[28px]"} ${compact ? "min-h-10 text-xs leading-5" : "min-h-11 text-[13px] leading-5.5"}`}
     >
       <span
         ref={mirrorRef}
@@ -627,7 +656,7 @@ function MockComposer({
         {composing && <Caret />}
       </span>
       <span
-        className={`col-start-1 grid size-7 place-items-center place-self-center rounded-full border border-cyan-800/15 text-slate-500 dark:border-primary-dark/15 dark:text-slate-400 ${expanded ? "row-start-2 my-2" : "row-start-1"}`}
+        className={`dark:border-primary-dark/15 col-start-1 grid size-7 place-items-center place-self-center rounded-full border border-cyan-800/15 text-slate-500 dark:text-slate-400 ${expanded ? "row-start-2 my-2" : "row-start-1"}`}
       >
         <Paperclip className="size-3.5" strokeWidth={1.8} />
       </span>

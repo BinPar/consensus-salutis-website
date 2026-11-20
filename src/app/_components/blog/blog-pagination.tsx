@@ -1,16 +1,20 @@
 "use client";
 
 import { Check, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
   useEffect,
   useId,
   useLayoutEffect,
   useRef,
   useState,
+  type ComponentProps,
   type KeyboardEvent,
   type ReactNode,
 } from "react";
+import { Link } from "~/i18n/navigation";
+
+type PageHref = ComponentProps<typeof Link>["href"];
 
 // Navegación y tamaños del editor; selector coherente con la barra del blog.
 const pageSizes = [12, 15, 25, 50] as const;
@@ -46,7 +50,7 @@ function PageControl({
   children,
   onSelect,
 }: {
-  href?: string;
+  href?: PageHref;
   disabled?: boolean;
   active?: boolean;
   label: string;
@@ -99,12 +103,13 @@ export function BlogPagination({
   totalPages: number;
   pageSize: BlogSize;
   allowAll?: boolean;
-  pageHref?: (page: number) => string;
+  pageHref?: (page: number) => PageHref;
   onPageChange: (page: number) => void;
   onPageSizeChange: (size: BlogSize) => void;
 }) {
+  const t = useTranslations("blog.pagination");
   const options: BlogSize[] = allowAll ? ["all", ...pageSizes] : [...pageSizes];
-  const sizeLabel = pageSize === "all" ? "Todos" : pageSize;
+  const sizeLabel = pageSize === "all" ? t("all") : pageSize;
   const [open, setOpen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
@@ -176,19 +181,19 @@ export function BlogPagination({
 
   return (
     <nav
-      aria-label="Paginación del blog"
-      className="font-body mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-cyan-800/10 pt-3 dark:border-primary-dark/10"
+      aria-label={t("label")}
+      className="font-body dark:border-primary-dark/10 mt-10 flex flex-wrap items-center justify-between gap-3 border-t border-cyan-800/10 pt-3"
     >
       <div
         className="flex max-w-full min-w-0 flex-wrap items-center gap-1"
-        aria-label={`Página ${currentPage} de ${totalPages}`}
+        aria-label={t("status", { page: currentPage, total: totalPages })}
       >
         <PageControl
           href={pageHref?.(Math.max(1, currentPage - 1))}
           className={`${buttonClass} ${outlineClass}`}
           disabled={currentPage === 1}
           onSelect={() => onPageChange(currentPage - 1)}
-          label="Página anterior"
+          label={t("previous")}
         >
           <ChevronLeft
             aria-hidden="true"
@@ -205,8 +210,8 @@ export function BlogPagination({
               onSelect={() => onPageChange(item)}
               label={
                 item === currentPage
-                  ? `Página ${item}, actual`
-                  : `Ir a la página ${item}`
+                  ? t("current", { page: item })
+                  : t("goTo", { page: item })
               }
               active={item === currentPage}
             >
@@ -227,7 +232,7 @@ export function BlogPagination({
           className={`${buttonClass} ${outlineClass}`}
           disabled={currentPage === totalPages}
           onSelect={() => onPageChange(currentPage + 1)}
-          label="Página siguiente"
+          label={t("next")}
         >
           <ChevronRight
             aria-hidden="true"
@@ -237,7 +242,7 @@ export function BlogPagination({
         </PageControl>
       </div>
       <div className="flex items-center gap-2 text-xs whitespace-nowrap text-slate-600 dark:text-slate-400">
-        <span className="hidden sm:inline">Resultados por página</span>
+        <span className="hidden sm:inline">{t("pageSize")}</span>
         <div
           ref={root}
           className={`relative min-w-0 ${pageSize === "all" ? "w-24" : "w-20"}`}
@@ -245,7 +250,7 @@ export function BlogPagination({
           <button
             ref={trigger}
             type="button"
-            aria-label={`Resultados por página: ${sizeLabel}`}
+            aria-label={t("pageSizeValue", { size: sizeLabel })}
             aria-haspopup="listbox"
             aria-expanded={open}
             aria-controls={open ? menuId : undefined}
@@ -256,7 +261,7 @@ export function BlogPagination({
                 setOpen(true);
               }
             }}
-            className="font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark border-primary-light/60 hover:border-primary-light/35 dark:hover:border-primary-dark flex h-[32px] w-full cursor-pointer items-center justify-between gap-2 rounded-full border bg-white/80 px-3 text-xs font-medium text-slate-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 dark:border-primary-dark/20 dark:bg-[#152230]/90 dark:text-slate-300"
+            className="font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark border-primary-light/60 hover:border-primary-light/35 dark:hover:border-primary-dark dark:border-primary-dark/20 flex h-[32px] w-full cursor-pointer items-center justify-between gap-2 rounded-full border bg-white/80 px-3 text-xs font-medium text-slate-600 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 dark:bg-[#152230]/90 dark:text-slate-300"
           >
             {sizeLabel}
             <ChevronDown
@@ -271,9 +276,9 @@ export function BlogPagination({
               ref={menu}
               id={menuId}
               role="listbox"
-              aria-label="Resultados por página"
+              aria-label={t("pageSize")}
               onKeyDown={handleMenuKey}
-              className="shadow-big-blocks absolute right-0 bottom-full z-40 mb-2 w-24 rounded-xl border border-cyan-800/15 bg-white/95 p-1.5 backdrop-blur-md dark:border-primary-dark/20 dark:bg-[#102231]/95"
+              className="shadow-big-blocks dark:border-primary-dark/20 absolute right-0 bottom-full z-40 mb-2 w-24 rounded-xl border border-cyan-800/15 bg-white/95 p-1.5 backdrop-blur-md dark:bg-[#102231]/95"
             >
               {options.map((size) => (
                 <button
@@ -286,9 +291,9 @@ export function BlogPagination({
                     onPageSizeChange(size);
                     close();
                   }}
-                  className={`font-body focus-visible:ring-primary-light/35 dark:focus-visible:ring-primary-dark/35 flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-left text-xs font-medium transition-colors hover:bg-cyan-800/5 focus-visible:bg-cyan-800/5 focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-inset dark:hover:bg-primary-dark/10 dark:focus-visible:bg-primary-dark/10 ${pageSize === size ? "bg-primary-light/5 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark" : "text-slate-600 dark:text-slate-300"}`}
+                  className={`font-body focus-visible:ring-primary-light/35 dark:focus-visible:ring-primary-dark/35 dark:hover:bg-primary-dark/10 dark:focus-visible:bg-primary-dark/10 flex w-full cursor-pointer items-center justify-between gap-3 rounded-lg px-3 py-2.5 text-left text-xs font-medium transition-colors hover:bg-cyan-800/5 focus-visible:bg-cyan-800/5 focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-inset ${pageSize === size ? "bg-primary-light/5 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark" : "text-slate-600 dark:text-slate-300"}`}
                 >
-                  {size === "all" ? "Todos" : size}
+                  {size === "all" ? t("all") : size}
                   {pageSize === size && (
                     <Check
                       aria-hidden="true"

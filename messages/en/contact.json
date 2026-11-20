@@ -1,0 +1,119 @@
+{
+  "meta": {
+    "title": "Contact",
+    "description": "Request an institutional meeting about BinPar."
+  },
+  "page": {
+    "sections": {
+      "talk": "Let's talk",
+      "location": "Where we are"
+    }
+  },
+  "details": {
+    "eyebrow": "Where to find us",
+    "title": "We're in Madrid.",
+    "body": "Write to us or see how to get to our offices.",
+    "address": "Paseo de la Castellana, 43, 4th floor · 121. Chamberí, 28046 Madrid, Spain.",
+    "directions": "Get directions",
+    "directionsHint": " (Google Maps, new tab)"
+  },
+  "map": {
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "attribution": "Map information",
+    "title": "BinPar offices on Paseo de la Castellana, Madrid",
+    "mobileHelp": "Use two fingers to move the map",
+    "windowsHelp": "Use Ctrl and the scroll wheel to zoom the map",
+    "macHelp": "Use ⌘ and the scroll wheel to zoom the map",
+    "markerLabel": "BinPar offices · Open location in Google Maps (new tab)",
+    "loading": "Loading map…",
+    "error": "The map could not be loaded.",
+    "openInMaps": "Open location in Google Maps"
+  },
+  "errors": {
+    "nameRequired": "Enter your full name.",
+    "nameTooLong": "Your name cannot exceed 100 characters.",
+    "emailInvalid": "Enter a valid email address.",
+    "emailTooLong": "The email address is too long.",
+    "messageTooShort": "Your message must be at least 20 characters long.",
+    "messageTooLong": "Your message cannot exceed 3,000 characters.",
+    "privacyRequired": "Please accept the privacy policy to continue.",
+    "tooLarge": "The request is too large.",
+    "forbidden": "Request not allowed.",
+    "invalid": "Invalid request.",
+    "fieldErrors": "Please check the highlighted fields.",
+    "sendFailed": "We couldn't send your message. Please try again later."
+  },
+  "shared": {
+    "privacyConsent": "I have read and accept the <link>Privacy policy</link>.",
+    "honeypotLabel": "Website"
+  },
+  "form": {
+    "name": {
+      "label": "Full name",
+      "placeholder": "Your full name"
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "you@example.com"
+    },
+    "message": {
+      "label": "Message",
+      "placeholder": "Tell us briefly what you need."
+    },
+    "submit": "Send message",
+    "submitting": "Sending…",
+    "networkError": "We couldn't send your message. Please try again.",
+    "success": {
+      "eyebrow": "Message sent",
+      "title": "Thank you for getting in touch.",
+      "body": "We've received your enquiry and the BinPar team will get back to you.",
+      "again": "Send another message"
+    }
+  },
+  "assistant": {
+    "eyebrow": "Contact",
+    "title": "Let's talk about your organisation.",
+    "steps": {
+      "name": {
+        "label": "Your name",
+        "question": "What's your name?",
+        "placeholder": "Type your full name…"
+      },
+      "email": {
+        "label": "Your email",
+        "question": "Where can we reply to you?",
+        "placeholder": "Your email address…"
+      },
+      "message": {
+        "label": "Your enquiry",
+        "question": "What would you like to explore with BinPar?",
+        "placeholder": "Tell us about your use case or what you need…"
+      }
+    },
+    "replies": {
+      "name": "Would you like to explore BinPar for your organisation? Leave your details and tell us what you need. Our team will get in touch with you.",
+      "email": "{name}, leave your email address so we can continue the conversation. Our team will write to you to learn more about your case and consider the next step.",
+      "message": "{name}, we'll reply to {email}.\nTell us what you'd like to explore with BinPar and what your organisation needs, so we can prepare a conversation focused on your case."
+    },
+    "continue": "Continue",
+    "submit": "Send enquiry",
+    "submitPreview": "Prepare enquiry",
+    "progressLabel": "Contact steps",
+    "networkError": "We couldn't send your message. Please try again.",
+    "complete": {
+      "title": "Thank you, {name}.",
+      "sent": "We've received your enquiry. Our team will reply to <strong>{email}</strong>.",
+      "preview": "Your enquiry is ready, with the email address <strong>{email}</strong>.",
+      "previewNote": "Lab preview. No data has been sent.",
+      "restart": "Start again"
+    }
+  },
+  "composer": {
+    "expand": "Expand editor",
+    "collapse": "Collapse editor",
+    "submit": "Send enquiry",
+    "sending": "Sending enquiry",
+    "dialogLabel": "Enquiry editor"
+  }
+}

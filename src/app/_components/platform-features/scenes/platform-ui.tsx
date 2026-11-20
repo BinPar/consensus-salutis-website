@@ -15,6 +15,7 @@ import {
   Workflow,
   X,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { CSSProperties, ReactNode } from "react";
 
 /*
@@ -139,6 +140,7 @@ export function ResponseActions({
     buttonRef?: (element: HTMLElement | null) => void;
   };
 }) {
+  const t = useTranslations("scenes.ui.responseActions");
   const thumb =
     "grid size-8 place-items-center rounded-full text-slate-500 dark:text-slate-400";
   return (
@@ -170,7 +172,7 @@ export function ResponseActions({
           ) : (
             <Bookmark size={14} strokeWidth={1.8} />
           )}
-          {save.saved ? "Guardada en fuentes" : "Guardar en fuentes"}
+          {save.saved ? t("saved") : t("save")}
         </span>
       )}
     </div>
@@ -246,6 +248,7 @@ export function PlatformTabs({
 
 /** Zoom header of the image and scheme panels (media-zoom-controls). */
 export function ZoomControls({ children }: { children?: ReactNode }) {
+  const t = useTranslations("scenes.ui.zoomControls");
   return (
     <header className="dark:border-primary-dark/15 flex shrink-0 items-center justify-between gap-2 border-b border-cyan-800/15 p-2.5">
       <div className="flex items-center gap-1.5">
@@ -260,7 +263,7 @@ export function ZoomControls({ children }: { children?: ReactNode }) {
         </span>
         <span className={`${zoomControl} px-2.5`}>
           <RotateCcw size={14} strokeWidth={1.8} />
-          Restablecer
+          {t("reset")}
         </span>
       </div>
       {children}
@@ -300,6 +303,7 @@ export function ProfilePanel({
   className?: string;
   style?: CSSProperties;
 }) {
+  const t = useTranslations("scenes.ui.profilePanel");
   return (
     <div
       className={`dark:border-primary-dark/15 rounded-md border border-cyan-800/15 bg-[#f7fbfd] p-2 dark:bg-[#0b1a29] ${className}`}
@@ -307,7 +311,7 @@ export function ProfilePanel({
     >
       <div className="dark:border-primary-dark/10 mb-2 flex h-8 items-center justify-between border-b border-cyan-800/10 pr-1 pl-1">
         <p className="font-display text-primary-light dark:text-primary-dark text-[9px] font-bold tracking-[0.18em] uppercase">
-          Perfil y configuración
+          {t("title")}
         </p>
         <X
           size={14}
@@ -330,17 +334,19 @@ export function ProfileUser({
   toggleRef?: (element: HTMLElement | null) => void;
   pressed?: number;
 }) {
+  const t = useTranslations("scenes.ui.profileUser");
+
   return (
     <div className="flex items-center gap-2.5">
       <span className="font-display bg-primary-light/10 text-primary-light dark:bg-primary-dark/12 dark:text-primary-dark dark:border-primary-dark/15 grid size-8 shrink-0 place-items-center rounded-full border border-cyan-800/15 text-[11px] font-semibold">
-        LG
+        {t("initials")}
       </span>
       <div className="min-w-0 flex-1">
         <p className="font-body text-navy truncate text-xs font-semibold dark:text-slate-50">
-          Laura Gómez
+          {t("name")}
         </p>
         <p className="font-body truncate text-[10px] text-slate-500 dark:text-slate-400">
-          Nefrología
+          {t("specialty")}
         </p>
       </div>
       <span
@@ -366,9 +372,18 @@ export function LocaleSwitcher({
   active: number;
   localeRef?: (index: number) => (element: HTMLElement | null) => void;
 }) {
+  /*
+    Los códigos siguen el orden de los paneles de la escena de idiomas
+    (`scenes.workspace.profile.locales`): el primero es el idioma de la web,
+    así que el código marcado coincide con el idioma del panel que se ve.
+  */
+  const codes = useTranslations("scenes.ui").raw(
+    "localeSwitcher.codes",
+  ) as string[];
+
   return (
     <span className="border-primary-light/20 dark:bg-primary-dark/[0.08] inline-flex items-center gap-0.5 rounded-full border bg-white/40 p-0.5 dark:border-cyan-300/20">
-      {["es", "ca", "en"].map((locale, index) => (
+      {codes.map((locale, index) => (
         <span
           key={locale}
           ref={localeRef?.(index)}

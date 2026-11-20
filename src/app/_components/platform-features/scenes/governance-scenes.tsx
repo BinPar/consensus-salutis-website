@@ -19,6 +19,7 @@ import {
   X,
   type LucideIcon,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { CSSProperties, ReactNode } from "react";
 import {
   FlowDot,
@@ -52,11 +53,11 @@ import {
   DOT_TRANSIT,
   SceneCard,
   bodyText,
-  claimParagraph,
   curvePath,
   curvePoint,
   eyebrow,
   useBoxes,
+  useClaimParagraph,
   verticalCurve,
   type SceneDefinition,
   type SceneProps,
@@ -69,8 +70,6 @@ import {
  * the editor (messages/es: library, ingestion, benchmarkSuites, chatbots).
  */
 
-const organization = "Área Sanitaria Norte";
-
 const enter = (value: number, distance = 8): CSSProperties => ({
   opacity: value,
   transform: `translateY(${distance * (1 - value)}px)`,
@@ -81,6 +80,22 @@ const press = (time: number, at: number) => {
 };
 const pulseAt = (time: number, at: number, reduced: boolean, length = 1) =>
   !reduced && time >= at && time < at + length ? pulseProgress(time, at, 1) : 0;
+
+/*
+ * La duración de cada escena es fija y no depende del idioma: el tecleo reserva
+ * el tiempo de un texto de `budget` caracteres (el castellano) y cada idioma
+ * escribe el suyo dentro de ese tiempo, carácter a carácter.
+ */
+const writtenWithin = (
+  time: number,
+  start: number,
+  budget: number,
+  length: number,
+  reduced: boolean,
+) =>
+  Math.floor(
+    (writtenCharacters(time, start, budget, reduced) * length) / budget,
+  );
 
 function Typed({ text, written }: { text: string; written: number }) {
   return (
@@ -121,6 +136,7 @@ const CORPUS_OWN = 2.2;
 const corpusDone = CORPUS_OWN + 0.5 + 0.5 + 2 * DOT_GAP + DOT_TRANSIT;
 
 function CorpusScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.governance");
   const { root, target, boxes } = useBoxes(3);
   const curves =
     boxes.length === 3
@@ -173,10 +189,10 @@ function CorpusScene({ time, reduced }: SceneProps) {
           <Mark className="relative size-7" />
           <div className="relative min-w-0">
             <p className="font-display text-navy text-sm font-semibold whitespace-nowrap dark:text-slate-50">
-              Comité de {organization}
+              {t("corpus.committee", { organization: t("organization") })}
             </p>
             <p className="font-body text-xs leading-5 whitespace-nowrap text-slate-500 dark:text-slate-400">
-              {done ? "430 documentos consultables" : "Base común heredada"}
+              {done ? t("corpus.searchable") : t("corpus.inheritedBase")}
             </p>
           </div>
         </div>
@@ -186,27 +202,27 @@ function CorpusScene({ time, reduced }: SceneProps) {
           <div ref={target(1)}>
             <SceneCard
               icon={Layers}
-              label="Base común"
-              title="412 documentos"
+              label={t("corpus.base.label")}
+              title={t("corpus.base.title")}
               dashed
               style={enter(sceneReveal(time, CORPUS_BASE, 0.35, reduced))}
             >
               <p className="font-body mt-2 text-xs leading-[18px] text-slate-600 dark:text-slate-300">
-                Heredada por todas las organizaciones.
+                {t("corpus.base.body")}
               </p>
             </SceneCard>
           </div>
           <div ref={target(2)}>
             <SceneCard
               icon={Building2}
-              label="Del área"
-              title="18 documentos"
+              label={t("corpus.own.label")}
+              title={t("corpus.own.title")}
               active
               pulse={pulseAt(time, CORPUS_OWN + 0.3, reduced)}
               style={enter(sceneReveal(time, CORPUS_OWN, 0.35, reduced))}
             >
               <p className="font-body mt-2 text-xs leading-[18px] text-slate-600 dark:text-slate-300">
-                Solo visibles para el área.
+                {t("corpus.own.body")}
               </p>
             </SceneCard>
           </div>
@@ -217,7 +233,7 @@ function CorpusScene({ time, reduced }: SceneProps) {
             opacity: sceneReveal(time, CORPUS_BASE + 0.3, 0.3, reduced),
           }}
         >
-          Los marcados con borde discontinuo se heredan de un nodo superior.
+          {t("corpus.dashedNote")}
         </p>
       </div>
     </div>
@@ -230,41 +246,24 @@ function CorpusScene({ time, reduced }: SceneProps) {
  * title, publisher and year, the approval date, the node chip (dashed when
  * inherited) and the experts it feeds.
  */
-const libraryTabs = ["Todos", "Guía", "Protocolo", "Libro", "Del centro"];
 const libraryDocs = [
-  {
-    title: "Protocolo de analgesia del área",
-    publisher: organization,
-    meta: "Área Sanitaria Norte · 2026",
-    date: "Aprobado el 3 nov. 2026",
-    node: organization,
-    inherited: false,
-    stripe: "#00a7a6",
-    experts: ["FA", "NE"],
-  },
-  {
-    title: "Manual ProMIR · Nefrología",
-    publisher: "ProMIR",
-    meta: "ProMIR · 2025",
-    date: "Aprobado el 12 sept. 2026",
-    node: "Base común",
-    inherited: true,
-    stripe: "#62748e",
-    experts: ["CA", "FA", "NE"],
-  },
+  { id: "areaProtocol", inherited: false, stripe: "#00a7a6" },
+  { id: "promir", inherited: true, stripe: "#62748e" },
 ] as const;
 const LIBRARY_DOCS = 0.5;
 
 function LibraryScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.governance");
+  const libraryTabs = t.raw("library.tabs") as string[];
   return (
     <div className="relative flex h-full flex-col bg-[#f7fbfd] px-5 pt-4 dark:bg-[#0b1a29]">
       <PanelHeading
-        label="Corpus"
-        title="Biblioteca"
+        label={t("library.label")}
+        title={t("library.title")}
         style={enter(sceneReveal(time, 0.1, 0.35, reduced))}
         aside={
           <span className="font-body mt-1 text-[11px] text-slate-500 dark:text-slate-400">
-            430 documentos
+            {t("library.count")}
           </span>
         }
       />
@@ -284,7 +283,7 @@ function LibraryScene({ time, reduced }: SceneProps) {
       <div className="mt-2.5 grid grid-cols-2 gap-5">
         {libraryDocs.map((doc, index) => (
           <div
-            key={doc.title}
+            key={doc.id}
             className="flex min-w-0 flex-col"
             style={enter(
               sceneReveal(time, LIBRARY_DOCS + index * 0.25, 0.35, reduced),
@@ -298,18 +297,18 @@ function LibraryScene({ time, reduced }: SceneProps) {
               />
               <div className="flex h-full flex-col gap-1 bg-[#deedf3]/50 px-3 pt-3.5 pb-2 pl-4 dark:bg-[#06111f]">
                 <span className="font-display text-navy/80 truncate text-[8px] font-bold tracking-[0.18em] uppercase dark:text-slate-300">
-                  {doc.publisher}
+                  {t(`library.docs.${doc.id}.publisher`)}
                 </span>
                 <span className="font-display text-navy line-clamp-3 text-[13px] leading-[1.15] font-extrabold dark:text-slate-50">
-                  {doc.title}
+                  {t(`library.docs.${doc.id}.title`)}
                 </span>
               </div>
             </div>
             <p className="font-body text-navy mt-2 line-clamp-2 text-xs leading-[1.3] font-bold dark:text-slate-50">
-              {doc.title}
+              {t(`library.docs.${doc.id}.title`)}
             </p>
             <p className="font-body mt-0.5 truncate text-[10.5px] text-slate-500 dark:text-slate-400">
-              {doc.meta}
+              {t(`library.docs.${doc.id}.meta`)}
             </p>
             <p className="font-body text-navy mt-0.5 flex items-center gap-1 text-[10.5px] dark:text-slate-200">
               <Clock3
@@ -317,24 +316,30 @@ function LibraryScene({ time, reduced }: SceneProps) {
                 strokeWidth={2}
                 className="shrink-0 text-slate-500"
               />
-              <span className="truncate">{doc.date}</span>
+              <span className="truncate">
+                {t(`library.docs.${doc.id}.date`)}
+              </span>
             </p>
             <div className="mt-2 flex items-center justify-between gap-2">
               <span
                 className={`font-body inline-flex min-w-0 items-center gap-1 truncate rounded-full py-0.5 pr-2 pl-1.5 text-[10px] font-semibold ${doc.inherited ? "border border-dashed border-cyan-800/30 text-slate-600 dark:border-cyan-300/26 dark:text-slate-400" : "bg-primary-light/10 text-primary-light dark:bg-primary-dark/12 dark:text-primary-dark"}`}
               >
                 <Layers3 size={11} strokeWidth={2} className="shrink-0" />
-                <span className="truncate">{doc.node}</span>
+                <span className="truncate">
+                  {t(`library.docs.${doc.id}.node`)}
+                </span>
               </span>
               <span className="flex shrink-0">
-                {doc.experts.map((initials, expert) => (
-                  <span
-                    key={initials}
-                    className={`font-display text-navy inline-flex size-6 items-center justify-center rounded-full border-2 border-[#f7fbfd] bg-[#e8f2f7] text-[8px] font-bold dark:border-[#0b1a29] dark:bg-[#152230] dark:text-slate-100 ${expert > 0 ? "-ml-1.5" : ""}`}
-                  >
-                    {initials}
-                  </span>
-                ))}
+                {(t.raw(`library.docs.${doc.id}.experts`) as string[]).map(
+                  (initials, expert) => (
+                    <span
+                      key={initials}
+                      className={`font-display text-navy inline-flex size-6 items-center justify-center rounded-full border-2 border-[#f7fbfd] bg-[#e8f2f7] text-[8px] font-bold dark:border-[#0b1a29] dark:bg-[#152230] dark:text-slate-100 ${expert > 0 ? "-ml-1.5" : ""}`}
+                    >
+                      {initials}
+                    </span>
+                  ),
+                )}
               </span>
             </div>
           </div>
@@ -351,16 +356,8 @@ function LibraryScene({ time, reduced }: SceneProps) {
  * Agent and model columns are left out: they name internal pieces.
  */
 const adminModes = [
-  {
-    name: "Estándar",
-    description: "Respuesta ágil para la consulta habitual.",
-    isDefault: true,
-  },
-  {
-    name: "Precisión",
-    description: "Más exhaustivo para casos complejos; tarda algo más.",
-    isDefault: false,
-  },
+  { id: "standard", isDefault: true },
+  { id: "precision", isDefault: false },
 ] as const;
 const COMMITTEES_POINTER = 0.9;
 const committeesOpen = COMMITTEES_POINTER + 1;
@@ -376,6 +373,7 @@ function ActionButton({ icon: Icon }: { icon: LucideIcon }) {
 }
 
 function CommitteesScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.governance");
   const { root, target, boxes } = useBoxes(2);
   const open = !reduced && time >= committeesOpen && time < committeesPick;
   const added = sceneReveal(time, committeesAdded, 0.35, reduced);
@@ -399,16 +397,16 @@ function CommitteesScene({ time, reduced }: SceneProps) {
     <>
       <td className={cell}>
         <span className="text-navy block truncate text-[13px] font-medium dark:text-slate-50">
-          {mode.name}
+          {t(`committees.modes.${mode.id}.name`)}
         </span>
         <span className="block truncate text-[11px] leading-4 text-slate-500 dark:text-slate-400">
-          {mode.description}
+          {t(`committees.modes.${mode.id}.description`)}
         </span>
       </td>
       <td className={cell}>
         {mode.isDefault && (
           <span className="dark:border-primary-dark/20 text-navy inline-flex rounded-full border border-cyan-800/15 px-2 py-0.5 text-[11px] font-medium whitespace-nowrap dark:text-slate-100">
-            Por defecto
+            {t("committees.defaultBadge")}
           </span>
         )}
       </td>
@@ -428,18 +426,18 @@ function CommitteesScene({ time, reduced }: SceneProps) {
       >
         {/* Heading of the block in the chatbot record. */}
         <h3 className="font-display text-navy pt-1.5 text-lg font-semibold tracking-tight dark:text-slate-50">
-          Agentes
+          {t("committees.heading")}
         </h3>
         {/* «Sin modos» / «Con modos». */}
         <span className="dark:border-primary-dark/15 mt-1 inline-flex rounded-full border border-cyan-800/15 bg-white/60 p-0.5 dark:bg-white/3">
           <span
-            title="Sin modos"
+            title={t("committees.withoutModes")}
             className="text-navy grid size-8 place-items-center rounded-full dark:text-slate-200"
           >
             <Bot size={16} strokeWidth={1.8} />
           </span>
           <span
-            title="Con modos"
+            title={t("committees.withModes")}
             className="bg-primary-light dark:bg-primary-dark grid size-8 place-items-center rounded-full text-white dark:text-[#04111e]"
           >
             <Layers size={16} strokeWidth={1.8} />
@@ -453,11 +451,13 @@ function CommitteesScene({ time, reduced }: SceneProps) {
         <table className="font-body w-full table-fixed border-collapse">
           <thead>
             <tr className="dark:border-primary-dark/15 border-b border-cyan-800/12">
-              <th className={head}>Nombre</th>
+              <th className={head}>{t("committees.columns.name")}</th>
               <th className={`${head} w-[90px] whitespace-nowrap`}>
-                Por defecto
+                {t("committees.columns.default")}
               </th>
-              <th className={`${head} w-[88px] text-right`}>Acciones</th>
+              <th className={`${head} w-[88px] text-right`}>
+                {t("committees.columns.actions")}
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -482,7 +482,7 @@ function CommitteesScene({ time, reduced }: SceneProps) {
           ref={target(0)}
           className={`dark:border-primary-dark/20 font-body inline-flex h-9 min-w-44 items-center justify-between gap-2 rounded-lg border bg-white pr-1.5 pl-3 text-[13px] text-slate-600 dark:bg-[#152230] dark:text-slate-300 ${open ? "border-primary-light/50 dark:border-primary-dark/50" : "border-cyan-800/20"}`}
         >
-          Añadir modo
+          {t("committees.addMode")}
           <span className="bg-primary-light/10 text-primary-light dark:bg-primary-dark/12 dark:text-primary-dark grid size-6 place-items-center rounded-full">
             <ChevronDown
               size={13}
@@ -493,7 +493,7 @@ function CommitteesScene({ time, reduced }: SceneProps) {
         </span>
         <span className="dark:border-primary-dark/20 font-body text-navy inline-flex h-9 items-center gap-1.5 rounded-full border border-cyan-800/20 px-3.5 text-[13px] dark:text-slate-100">
           <Plus size={15} strokeWidth={1.8} />
-          Crear modo
+          {t("committees.createMode")}
         </span>
         {/* Options of the «Añadir modo» select, opened above it. */}
         <div
@@ -505,18 +505,16 @@ function CommitteesScene({ time, reduced }: SceneProps) {
             className={`flex items-center justify-between gap-3 rounded-lg px-2.5 py-2 ${!reduced && time >= committeesPick - 0.5 ? "bg-primary-light/8 dark:bg-primary-dark/10" : ""}`}
           >
             <span className="font-body text-navy text-[13px] dark:text-slate-100">
-              Precisión
+              {t("committees.modes.precision.name")}
             </span>
             <span className="font-body text-primary-light dark:text-primary-dark text-[11px]">
-              {organization}
+              {t("organization")}
             </span>
           </div>
         </div>
       </div>
       <p className="font-body mt-2 text-[11px] leading-4 text-slate-500 dark:text-slate-400">
-        {two
-          ? "El profesional elige entre estos 2 modos en el chat; empieza con el último que usó o con el por defecto."
-          : "Con un solo modo el chat no muestra selector: siempre usa este."}
+        {two ? t("committees.hintMany") : t("committees.hintOne")}
       </p>
       <Pointer style={pointer} />
     </div>
@@ -533,6 +531,7 @@ const reviewApprove = REVIEW_INCLUDE + 1.3;
 const reviewPublished = reviewApprove + 1;
 
 function ReviewScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.governance");
   const { root, target, boxes } = useBoxes(2);
   const included = reduced || time >= REVIEW_INCLUDE;
   const publishing =
@@ -560,12 +559,12 @@ function ReviewScene({ time, reduced }: SceneProps) {
       className="relative flex h-full flex-col bg-[#f7fbfd] px-5 pt-4 dark:bg-[#0b1a29]"
     >
       <PanelHeading
-        label="Propuesta"
-        title="Protocolo de analgesia del área"
+        label={t("review.label")}
+        title={t("review.title")}
         style={enter(sceneReveal(time, 0.1, 0.35, reduced))}
       />
       <p className="font-body mt-1 text-[11px] text-slate-500 dark:text-slate-400">
-        Cambios propuestos · 1 operación
+        {t("review.summary")}
       </p>
       <section
         className="dark:border-primary-dark/20 mt-2.5 overflow-hidden rounded-xl border border-cyan-800/15 bg-white/80 dark:bg-[#152230]/80"
@@ -573,12 +572,12 @@ function ReviewScene({ time, reduced }: SceneProps) {
       >
         <div className="dark:border-primary-dark/15 flex items-center justify-between gap-2 border-b border-cyan-800/10 px-3 py-2">
           <span className="font-body text-navy text-[11px] font-semibold dark:text-slate-100">
-            Cambio 1 · Actualizar
+            {t("review.change")}
           </span>
           <span className="flex items-center gap-1.5">
             {included && (
               <span className="font-body bg-primary-light/10 text-primary-light dark:bg-primary-dark/12 dark:text-primary-dark inline-flex h-6 items-center rounded-full px-2 text-[10px] font-semibold">
-                Incluido
+                {t("review.included")}
               </span>
             )}
             <span
@@ -599,15 +598,12 @@ function ReviewScene({ time, reduced }: SceneProps) {
           <div className={line("removed")}>
             <span className={gutter("removed")}>−</span>
             <span className="px-2 py-1 line-through decoration-rose-700/70">
-              Ibuprofeno 400 mg cada 8 horas como analgesia de primera elección.
+              {t("review.removedLine")}
             </span>
           </div>
           <div className={line("added")}>
             <span className={gutter("added")}>+</span>
-            <span className="px-2 py-1">
-              Evitar AINE en la ERC; con aclaramiento inferior a 30 mL/min están
-              contraindicados.
-            </span>
+            <span className="px-2 py-1">{t("review.addedLine")}</span>
           </div>
         </div>
       </section>
@@ -618,21 +614,21 @@ function ReviewScene({ time, reduced }: SceneProps) {
       >
         <span className="font-body text-[10.5px] text-slate-500 dark:text-slate-400">
           {published
-            ? "Aprobado y publicado en v15"
+            ? t("review.status.published")
             : included
-              ? "1 cambio incluido"
-              : "1 sin revisar"}
+              ? t("review.status.included")
+              : t("review.status.pending")}
         </span>
         <span className="flex items-center gap-1">
           <PlatformButton variant="ghost" disabled={published}>
-            Rechazar propuesta
+            {t("review.reject")}
           </PlatformButton>
           <PlatformButton
             buttonRef={target(1)}
             disabled={!included || published}
             pressed={press(time, reviewApprove - 0.15)}
           >
-            {publishing ? "Publicando…" : "Aprobar y publicar"}
+            {publishing ? t("review.publishing") : t("review.approve")}
           </PlatformButton>
         </span>
       </div>
@@ -642,27 +638,11 @@ function ReviewScene({ time, reduced }: SceneProps) {
 }
 
 /* 33 · Versiones del corpus: every change is a numbered version. */
-const versions: {
-  icon: LucideIcon;
-  label: string;
-  title: string;
-}[] = [
-  {
-    icon: GitCommitVertical,
-    label: "Versión 14 · 3 nov. 2026",
-    title: "Protocolo de analgesia actualizado",
-  },
-  {
-    icon: GitCommitVertical,
-    label: "Versión 13 · 21 oct. 2026",
-    title: "Guía local de hiperpotasemia añadida",
-  },
-  {
-    icon: FileX2,
-    label: "Versión 12 · 2 oct. 2026",
-    title: "Documento retirado del corpus",
-  },
-];
+const versions = [
+  { id: "v14", icon: GitCommitVertical },
+  { id: "v13", icon: GitCommitVertical },
+  { id: "v12", icon: FileX2 },
+] as const;
 const VERSIONS_NEW = 1.6;
 
 function VersionRow({
@@ -698,6 +678,7 @@ function VersionRow({
 }
 
 function VersionsScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.governance");
   const added = sceneReveal(time, VERSIONS_NEW, 0.45, reduced);
   return (
     <div className="relative flex h-full flex-col justify-center px-6">
@@ -714,8 +695,8 @@ function VersionsScene({ time, reduced }: SceneProps) {
             <div className="pb-2.5">
               <VersionRow
                 icon={GitCommitVertical}
-                label="Versión 15 · publicada ahora"
-                title="Guía de ERC · revisión 3"
+                label={t("versions.latest.label")}
+                title={t("versions.latest.title")}
                 active
                 pulse={pulseAt(time, VERSIONS_NEW + 0.4, reduced)}
               />
@@ -725,8 +706,10 @@ function VersionsScene({ time, reduced }: SceneProps) {
         <div className="space-y-2.5">
           {versions.map((version, index) => (
             <VersionRow
-              key={version.label}
-              {...version}
+              key={version.id}
+              icon={version.icon}
+              label={t(`versions.items.${version.id}.label`)}
+              title={t(`versions.items.${version.id}.title`)}
               style={enter(sceneReveal(time, 0.2 + index * 0.2, 0.3, reduced))}
             />
           ))}
@@ -749,6 +732,7 @@ const CONTROL_RUN = 0.8;
 const controlDone = CONTROL_RUN + 2.6;
 
 function ControlScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.governance");
   const progress = reduced
     ? 1
     : Math.max(
@@ -761,26 +745,29 @@ function ControlScene({ time, reduced }: SceneProps) {
   // Verdict colours of the editor's question map.
   const legend = [
     {
-      label: "Correcta",
+      label: t("control.legend.correct"),
       className: "bg-primary-light/35 dark:bg-primary-dark/30",
     },
-    { label: "Parcial", className: "bg-[#73a9b0]" },
-    { label: "Incorrecta", className: "bg-rose-700 dark:bg-rose-300" },
+    { label: t("control.legend.partial"), className: "bg-[#73a9b0]" },
+    {
+      label: t("control.legend.incorrect"),
+      className: "bg-rose-700 dark:bg-rose-300",
+    },
   ];
   return (
     <div className="relative flex h-full flex-col px-5 pt-5">
       <PanelHeading
-        label="Preguntas de control"
-        title="Batería · Nefrología"
+        label={t("control.label")}
+        title={t("control.title")}
         style={enter(sceneReveal(time, 0.1, 0.35, reduced))}
         aside={
           <span className="font-body mt-1 text-[11px] text-slate-500 dark:text-slate-400">
-            {CONTROL_TOTAL} preguntas
+            {t("control.total", { count: CONTROL_TOTAL })}
           </span>
         }
       />
       <p className="font-body mt-2 flex items-center justify-between text-[11px] text-slate-600 tabular-nums dark:text-slate-300">
-        <span>Versión 15 del corpus</span>
+        <span>{t("control.corpusVersion")}</span>
         <span
           className={
             done
@@ -788,7 +775,9 @@ function ControlScene({ time, reduced }: SceneProps) {
               : ""
           }
         >
-          {done ? "Completada" : `${answered} de ${CONTROL_TOTAL}`}
+          {done
+            ? t("control.completed")
+            : t("control.progress", { answered, total: CONTROL_TOTAL })}
         </span>
       </p>
       {/* One mark per question, in order (campaign-questions). */}
@@ -823,10 +812,10 @@ function ControlScene({ time, reduced }: SceneProps) {
         />
         <div className="min-w-0">
           <p className="font-display text-navy text-[13px] font-semibold dark:text-slate-100">
-            1 pregunta empeora respecto a la versión 14
+            {t("control.alertTitle")}
           </p>
           <p className="font-body text-[11px] leading-4 text-slate-500 dark:text-slate-400">
-            Pregunta 23 · antes Correcta, ahora Incorrecta
+            {t("control.alertBody")}
           </p>
         </div>
       </div>
@@ -839,24 +828,28 @@ function ControlScene({ time, reduced }: SceneProps) {
  * (response-rating): the comment is required, «Enviar valoración» saves it
  * and the actions row shows «Valoración guardada».
  */
-const ratingComment =
-  "Añadir el ajuste de dosis del paracetamol en la ERC grave.";
+// Caracteres del comentario en castellano: fijan el tiempo de tecleo.
+const RATING_COMMENT_CHARS = 58;
 const RATING_POINTER = 0.6;
 const ratingClick = RATING_POINTER + 1;
 const ratingTyping = ratingClick + 0.7;
-const ratingTyped = ratingTyping + typingDuration(ratingComment.length);
+const ratingTyped = ratingTyping + typingDuration(RATING_COMMENT_CHARS);
 const ratingSend = ratingTyped + 0.9;
 
 function RatingScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.governance");
+  const claim = useClaimParagraph();
+  const ratingComment = t("rating.comment");
   const { root, target, boxes } = useBoxes(2);
   const chosen = reduced || time >= ratingClick;
   const dialog = reduced
     ? 0
     : sceneReveal(time, ratingClick, 0.25, false) *
       (1 - sceneReveal(time, ratingSend, 0.2, false));
-  const written = writtenCharacters(
+  const written = writtenWithin(
     time,
     ratingTyping,
+    RATING_COMMENT_CHARS,
     ratingComment.length,
     reduced,
   );
@@ -880,42 +873,44 @@ function RatingScene({ time, reduced }: SceneProps) {
       <ChatHeader />
       <div className={`relative px-6 ${bodyText}`}>
         <p>
-          <Answer text={claimParagraph} />
+          <Answer text={claim} />
         </p>
         <div className="mt-3">
           <ResponseActions
             rating={chosen ? "negative" : undefined}
-            notice={sent ? "Valoración guardada" : undefined}
+            notice={sent ? t("rating.notice") : undefined}
             negativeRef={target(0)}
           />
         </div>
       </div>
       <PlatformDialog
         open={dialog}
-        title="Respuesta no útil"
+        title={t("rating.dialogTitle")}
         footer={
           <>
-            <PlatformButton variant="ghost">Cancelar</PlatformButton>
+            <PlatformButton variant="ghost">
+              {t("rating.cancel")}
+            </PlatformButton>
             <PlatformButton
               buttonRef={target(1)}
               disabled={written === 0}
               pressed={press(time, ratingSend - 0.15)}
             >
-              Enviar valoración
+              {t("rating.submit")}
             </PlatformButton>
           </>
         }
       >
         <div className="grid gap-1.5">
           <p className="font-body text-navy text-xs font-medium dark:text-slate-100">
-            Comentario (obligatorio)
+            {t("rating.commentLabel")}
           </p>
           <PlatformField multiline focused={written > 0 && !sent}>
             {written > 0 ? (
               <Typed text={ratingComment} written={written} />
             ) : (
               <span className="text-slate-500">
-                Comentario sobre la respuesta…
+                {t("rating.commentPlaceholder")}
               </span>
             )}
           </PlatformField>
@@ -927,13 +922,16 @@ function RatingScene({ time, reduced }: SceneProps) {
 }
 
 /* 36 · Marca y dominio propios: the platform takes the organization's look. */
-const brandDomain = "consulta.areanorte.es";
+// Caracteres del dominio en castellano: fijan el tiempo de tecleo.
+const BRAND_DOMAIN_CHARS = 21;
 const BRAND_TYPING = 0.5;
-const brandTyped = BRAND_TYPING + typingDuration(brandDomain.length) * 1.6;
+const brandTyped = BRAND_TYPING + typingDuration(BRAND_DOMAIN_CHARS) * 1.6;
 const brandSwap = brandTyped + 0.5;
 const brandColor = "#3a4fa3";
 
 function BrandScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.governance");
+  const brandDomain = t("brand.domain");
   const written = reduced
     ? brandDomain.length
     : Math.min(
@@ -986,7 +984,7 @@ function BrandScene({ time, reduced }: SceneProps) {
               className="font-display grid size-12 place-items-center rounded-xl text-base font-bold text-white"
               style={{ backgroundColor: brandColor }}
             >
-              AN
+              {t("brand.logo")}
             </span>
           </span>
         </span>
@@ -994,10 +992,10 @@ function BrandScene({ time, reduced }: SceneProps) {
           className={`font-display text-[10px] font-bold tracking-[0.18em] uppercase ${own ? "" : "text-primary-light dark:text-primary-dark"}`}
           style={own ? { color: brandColor } : undefined}
         >
-          {own ? organization : "BinPar"}
+          {own ? t("organization") : t("brand.platform")}
         </p>
         <p className="font-display text-navy text-xl font-extrabold tracking-tight dark:text-slate-50">
-          Comité clínico
+          {t("brand.title")}
         </p>
       </div>
       <div className="absolute inset-x-6 bottom-5">
@@ -1006,7 +1004,7 @@ function BrandScene({ time, reduced }: SceneProps) {
             <Paperclip size={20} strokeWidth={1.1} />
           </span>
           <span className="font-body truncate text-sm text-slate-500 dark:text-slate-400">
-            Pregunta clínica al comité...
+            {t("brand.placeholder")}
           </span>
           <span
             className={`grid size-9 place-items-center place-self-center rounded-full text-white transition-colors duration-300 ${own ? "" : "bg-primary-light dark:bg-primary-dark dark:text-[#04111e]"}`}

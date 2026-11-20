@@ -1,16 +1,19 @@
+import { useTranslations } from "next-intl";
+
 import { SectionNavigation } from "~/app/_components/section-navigation";
 import { TeamIdea } from "./team-idea";
 import { TeamContact } from "./team-contact";
 import { TeamGallery } from "./team-gallery";
 import { TeamOrbitHero } from "./team-orbit-hero";
 
-const teamSections = [
-  { id: "equipo-ceo", label: "La idea" },
-  { id: "equipo-galeria", label: "El equipo" },
-  { id: "contacto", label: "Contacto" },
-];
-
 export function TeamPage() {
+  const t = useTranslations("team.page.sections");
+  const teamSections = [
+    { id: "equipo-ceo", label: t("idea") },
+    { id: "equipo-galeria", label: t("gallery") },
+    { id: "contacto", label: t("contact") },
+  ];
+
   return (
     <>
       <SectionNavigation sections={teamSections} deferUntilContent />

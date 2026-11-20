@@ -1,18 +1,21 @@
 "use client";
 
 import { Search, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useEffect, useId, useRef, useState } from "react";
 
 export function BlogSearch({
   value,
   onChange,
-  label = "Buscar artículos",
+  label: labelProp,
 }: {
   value: string;
   onChange: (value: string) => void;
   /** Accessible name and placeholder, «Buscar artículos» on the blog. */
   label?: string;
 }) {
+  const t = useTranslations("blog.search");
+  const label = labelProp ?? t("label");
   const [open, setOpen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const input = useRef<HTMLInputElement>(null);
@@ -60,7 +63,7 @@ export function BlogSearch({
       <button
         ref={trigger}
         type="button"
-        aria-label={open ? "Enfocar búsqueda" : label}
+        aria-label={open ? t("focus") : label}
         aria-expanded={open}
         aria-controls={open ? inputId : undefined}
         onClick={() => {
@@ -78,14 +81,14 @@ export function BlogSearch({
             id={inputId}
             type="search"
             aria-label={label}
-            placeholder={`${label}…`}
+            placeholder={t("placeholder", { label })}
             value={value}
             onChange={(event) => onChange(event.currentTarget.value)}
             className="min-w-0 flex-1 bg-transparent py-1 text-xs leading-5 placeholder:text-slate-400 focus:outline-none dark:placeholder:text-slate-500 [&::-webkit-search-cancel-button]:appearance-none"
           />
           <button
             type="button"
-            aria-label="Cerrar y limpiar búsqueda"
+            aria-label={t("clear")}
             onClick={close}
             className="focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark dark:hover:text-primary-dark grid size-[32px] shrink-0 cursor-pointer place-items-center rounded-full hover:text-cyan-800 focus-visible:outline-2 focus-visible:-outline-offset-3"
           >

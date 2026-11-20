@@ -1,17 +1,28 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 
 import { BLOG_POSTS_PER_PAGE } from "~/app/_components/blog-index";
 import { BlogIndexView } from "~/app/_components/blog/blog-index-view";
+import { localizeBlogPosts } from "~/app/_components/blog/localize-blog-posts";
 import { PageShell } from "~/app/_components/site";
+import { localizedMetadata } from "~/i18n/metadata";
+import { resolveLocale, type LocaleParams } from "~/i18n/server";
 import { getBlogPosts, getBlogTags } from "~/lib/blog";
 
-export const metadata: Metadata = {
-  title: "Nuestro blog",
-  description:
-    "Lecturas recientes sobre IA médica, tendencias sanitarias y nuevas formas de transformar la asistencia al paciente en el sistema de salud.",
-};
+export async function generateMetadata({
+  params,
+}: LocaleParams): Promise<Metadata> {
+  const locale = await resolveLocale(params);
+  const t = await getTranslations({ locale, namespace: "blog.meta.index" });
 
-type BlogPageProps = {
+  return {
+    title: t("title"),
+    description: t("description"),
+    ...localizedMetadata(locale, "/blog"),
+  };
+}
+
+type BlogPageProps = LocaleParams & {
   searchParams?: Promise<{
     page?: string | string[];
   }>;
@@ -24,8 +35,12 @@ function getPageParam(page: string | string[] | undefined) {
   return Number.isFinite(parsed) ? parsed : 1;
 }
 
-export default async function BlogPage({ searchParams }: BlogPageProps) {
-  const posts = getBlogPosts();
+export default async function BlogPage({
+  params,
+  searchParams,
+}: BlogPageProps) {
+  const locale = await resolveLocale(params);
+  const posts = await localizeBlogPosts(getBlogPosts(locale), locale);
   const tags = getBlogTags(posts);
   const resolvedSearchParams = await searchParams;
   const requestedPage = getPageParam(resolvedSearchParams?.page);

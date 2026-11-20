@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState, type RefObject } from "react";
 
 import {
@@ -34,6 +35,7 @@ export function FeatureFilterBar({
   onQueryChange: (value: string) => void;
   barRef: RefObject<HTMLDivElement | null>;
 }) {
+  const t = useTranslations("features.filterBar");
   const scrollRef = useRef<HTMLElement>(null);
   const { edges, edgeMask } = useScrollEdges(scrollRef, [entries.length]);
   const [activeId, setActiveId] = useState(entries[0]?.id);
@@ -90,7 +92,7 @@ export function FeatureFilterBar({
     target.focus({ preventScroll: true });
   };
 
-  const noun = ["funcionalidad", "funcionalidades"] as const;
+  const noun = [t("noun.one"), t("noun.other")] as const;
 
   return (
     <div
@@ -100,7 +102,7 @@ export function FeatureFilterBar({
     >
       <div className="mx-auto flex w-full max-w-7xl flex-nowrap items-center gap-10 py-2">
         <p className="font-display text-navy hidden shrink-0 text-base font-semibold tracking-tight md:block dark:text-slate-100">
-          Funcionalidades
+          {t("title")}
         </p>
         <div className="relative ml-auto flex min-w-0 flex-nowrap items-center justify-end gap-2 min-[1025px]:flex-1">
           {entries.length > 0 && (
@@ -114,12 +116,12 @@ export function FeatureFilterBar({
                   }))}
                   activeTag={activeId}
                   onSelect={jumpTo}
-                  label="Ir al grupo"
+                  label={t("groupSelect")}
                   noun={noun}
                 />
                 <nav
                   ref={scrollRef}
-                  aria-label="Grupos de funcionalidades"
+                  aria-label={t("groupsNav")}
                   data-scroll-left={edges.left}
                   data-scroll-right={edges.right}
                   style={{ maskImage: edgeMask, WebkitMaskImage: edgeMask }}
@@ -132,7 +134,10 @@ export function FeatureFilterBar({
                         key={entry.id}
                         href={`#${entry.id}`}
                         aria-current={active ? "true" : undefined}
-                        aria-label={`${entry.label}: ${entry.count} ${entry.count === 1 ? noun[0] : noun[1]}`}
+                        aria-label={t("pillLabel", {
+                          label: entry.label,
+                          count: entry.count,
+                        })}
                         onClick={(event) => {
                           if (
                             event.metaKey ||
@@ -168,7 +173,7 @@ export function FeatureFilterBar({
             <BlogSearch
               value={query}
               onChange={onQueryChange}
-              label="Buscar funcionalidades"
+              label={t("search")}
             />
           </div>
         </div>

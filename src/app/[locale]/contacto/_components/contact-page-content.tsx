@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { ContactAssistant } from "~/app/_components/contact-assistant/contact-assistant";
 import { HomePaintPanel } from "~/app/_components/home-paint-panel";
 import { SignalField } from "~/app/_components/motion-system";
@@ -7,12 +9,13 @@ import { ProductSignalLeft } from "~/app/_components/product-signal-left";
 import { SectionNavigation } from "~/app/_components/section-navigation";
 import { ContactDetails } from "./contact-details";
 
-const contactSections = [
-  { id: "hablemos", label: "Hablemos" },
-  { id: "donde-estamos", label: "Dónde estamos" },
-];
-
 export function ContactPageContent() {
+  const t = useTranslations("contact.page.sections");
+  const contactSections = [
+    { id: "hablemos", label: t("talk") },
+    { id: "donde-estamos", label: t("location") },
+  ];
+
   return (
     <>
       <SectionNavigation sections={contactSections} />

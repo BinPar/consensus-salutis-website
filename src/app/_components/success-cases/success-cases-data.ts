@@ -1,3 +1,5 @@
+import successCasesEs from "../../../../messages/es/successCases.json";
+
 export type InstitutionalCase = {
   id: string;
   name: string;
@@ -12,12 +14,15 @@ export type InstitutionalCase = {
   point?: { x: number; y: number };
 };
 
-export const institutionalCases: readonly InstitutionalCase[] = [
+type CaseStructure = Omit<
+  InstitutionalCase,
+  "name" | "organization" | "territory"
+>;
+
+// Estructura de cada caso; sus textos están en `successCases.cases.<id>`.
+export const institutionalCaseData = [
   {
     id: "axia",
-    name: "Axia",
-    organization: "Generalitat de Catalunya",
-    territory: "Catalunya",
     region: "Cataluña/Catalunya",
     logo: "/logos/Axia.svg",
     darkLogo: "/logos/axia-white.svg",
@@ -27,9 +32,6 @@ export const institutionalCases: readonly InstitutionalCase[] = [
   },
   {
     id: "sermas",
-    name: "SERMAS",
-    organization: "Servicio Madrileño de Salud",
-    territory: "Comunidad de Madrid",
     region: "Comunidad de Madrid",
     logo: "/logos/sermas-lite.svg",
     darkLogo: null,
@@ -37,9 +39,20 @@ export const institutionalCases: readonly InstitutionalCase[] = [
     height: 116,
     point: { x: 244, y: 179 },
   },
-];
+] as const satisfies readonly CaseStructure[];
 
+/*
+  Casos con sus textos en castellano, para el laboratorio (`casos-lab`) y los
+  tests, que no pueden usar hooks. La web usa `useInstitutionalCases`.
+*/
+export const institutionalCases: readonly InstitutionalCase[] =
+  institutionalCaseData.map((item) => ({
+    ...item,
+    ...successCasesEs.cases[item.id],
+  }));
+
+// Solo lo lee el laboratorio; la web usa `successCases.intro`.
 export const casesIntro = {
   title: "IA médica que ya forma parte del sistema sanitario.",
-  body: "Organizaciones sanitarias que ya incorporan nuestra inteligencia artificial para facilitar el acceso al conocimiento clínico fiable, acompañar la atención asistencial y reforzar la mejora continua.",
+  body: successCasesEs.intro.body,
 };

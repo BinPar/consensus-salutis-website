@@ -1,10 +1,38 @@
 "use client";
 
 import { motion, useInView, useReducedMotion } from "framer-motion";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { institutionalCases } from "./success-cases-data";
+import { useTranslations } from "next-intl";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
+import {
+  institutionalCaseData,
+  type InstitutionalCase,
+} from "./success-cases-data";
 import { CasesBackground } from "./success-cases-surfaces";
 import { DefinitiveTwoVariant } from "./territorial-case-definitive-two";
+
+/*
+  Casos con sus textos en el idioma de la página. Memorizado: el mapa calcula
+  sus grupos a partir de la referencia del array.
+*/
+function useInstitutionalCases(): readonly InstitutionalCase[] {
+  const t = useTranslations("successCases.cases");
+  return useMemo(
+    () =>
+      institutionalCaseData.map((item) => ({
+        ...item,
+        name: t(`${item.id}.name`),
+        organization: t(`${item.id}.organization`),
+        territory: t(`${item.id}.territory`),
+      })),
+    [t],
+  );
+}
 
 export function SuccessCasesSection({
   panelRef,
@@ -17,6 +45,8 @@ export function SuccessCasesSection({
   layout?: "vertical" | "horizontal";
   continueBackground?: boolean;
 }) {
+  const t = useTranslations("successCases.section");
+  const institutionalCases = useInstitutionalCases();
   const section = useRef<HTMLElement>(null);
   const inView = useInView(section, { amount: "some" });
   const reduced = !!useReducedMotion();
@@ -86,7 +116,7 @@ export function SuccessCasesSection({
         section.current = node;
         panelRef?.(node);
       }}
-      aria-label="Casos de éxito"
+      aria-label={t("label")}
       data-home-success-cases="definitive-two"
       data-map-painted={painted || reduced}
       data-intro-painted={(visible && introPainted) || reduced}

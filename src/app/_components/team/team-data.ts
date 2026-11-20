@@ -1,88 +1,78 @@
-export type TeamMember = Readonly<{
-  slug: string;
-  name: string;
-  role: string;
-}>;
-
-export const teamMembers: readonly TeamMember[] = [
+// El cargo de cada persona está en `messages/<idioma>/team.json`
+// (`members.<slug>.role`); aquí solo quedan el slug y el nombre propio.
+const members = [
   {
     slug: "ignacio-ferro",
     name: "Ignacio Ferro",
-    role: "CEO",
   },
   {
     slug: "cristian-alvarez",
     name: "Cristian Álvarez",
-    role: "COO",
   },
   {
     slug: "marcos-gonzalez",
     name: "Marcos González",
-    role: "Chief Architect",
   },
   {
     slug: "isabel-ferro",
     name: "Isabel Ferro",
-    role: "CFO",
   },
   {
     slug: "alberto-blanco",
     name: "Alberto Blanco",
-    role: "CTO",
   },
   {
     slug: "nicolas-arianoutsos",
     name: "Nicolás Arianoutsos",
-    role: "Full-Stack Developer",
   },
   {
     slug: "beatriz-ortega",
     name: "Beatriz Ortega",
-    role: "Full-Stack Developer",
   },
   {
     slug: "carolina-carcamo",
     name: "Carolina Cárcamo",
-    role: "Recruiter",
   },
   {
     slug: "pablo-emilio",
     name: "Pablo Emilio Pupo",
-    role: "Full-Stack Developer",
   },
   {
     slug: "adrian-rodriguez",
     name: "Adrián Rodríguez",
-    role: "Design Lead",
   },
   {
     slug: "fabian-padilla",
     name: "Fabián Padilla",
-    role: "Full-Stack Developer",
   },
   {
     slug: "jeronimo-ekerdt",
     name: "Jerónimo Ekerdt",
-    role: "Full-Stack Developer",
   },
   {
     slug: "jimmy-montano",
     name: "Jimmy Montaño",
-    role: "Full-Stack Developer",
   },
   {
     slug: "yaiza-vallejo",
     name: "Yaiza Vallejo",
-    role: "Product Lead",
   },
   {
     slug: "guillermo-hernandez",
     name: "Guillermo Hernández",
-    role: "Full-Stack Developer",
   },
-];
+] as const;
 
-const galleryOrder = [
+export type TeamMemberSlug = (typeof members)[number]["slug"];
+
+export type TeamMember = Readonly<{
+  slug: TeamMemberSlug;
+  name: string;
+}>;
+
+export const teamMembers: readonly TeamMember[] = members;
+
+const galleryOrder: readonly TeamMemberSlug[] = [
   "ignacio-ferro",
   "cristian-alvarez",
   "marcos-gonzalez",

@@ -1,30 +1,37 @@
 "use client";
 
 import { motion, useInView, useReducedMotion } from "framer-motion";
-import { useEffect, useId, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { HomeGrid } from "./motion-system";
 import "./volume-section.css";
 
+/*
+  Las cifras y sus textos están en `home.volume.items.<id>`. La cifra va
+  escrita tal cual (`+8.327`): `Intl` en castellano no separa los miles de
+  cuatro cifras y forzarlo no funciona en todos los navegadores.
+*/
 const metrics = [
-  { value: "+3", unit: "TB", label: "Conocimiento médico estructurado" },
-  { value: "+8.327", unit: "", label: "Epígrafes clínicos" },
-  { value: "+30.000", unit: "", label: "Preguntas de evaluación" },
-  { value: "<24", unit: "h", label: "Actualización urgente" },
+  { id: "knowledge", unit: "TB" },
+  { id: "headings", unit: "" },
+  { id: "questions", unit: "" },
+  { id: "updates", unit: "h" },
 ] as const;
 
-const updatingPhrases = ["se actualiza.", "evoluciona.", "crece."] as const;
-
 function UpdatingHeading({ id }: { id: string }) {
+  const t = useTranslations("home.volume.heading");
+  // Memorizado para que el efecto no se reinicie en cada render.
+  const updatingPhrases = useMemo(() => t.raw("phrases") as string[], [t]);
   const heading = useRef<HTMLHeadingElement>(null);
   const inView = useInView(heading, { amount: 0.5 });
   const reducedMotion = useReducedMotion();
-  const [text, setText] = useState<string>(updatingPhrases[0]);
+  const [text, setText] = useState<string>(updatingPhrases[0]!);
 
   useEffect(() => {
-    setText(updatingPhrases[0]);
+    setText(updatingPhrases[0]!);
     if (!inView || reducedMotion !== false) return;
     let phraseIndex = 0;
-    let length = updatingPhrases[0].length;
+    let length = updatingPhrases[0]!.length;
     let deleting = true;
     let timer: ReturnType<typeof setTimeout>;
     const tick = () => {
@@ -44,20 +51,15 @@ function UpdatingHeading({ id }: { id: string }) {
     };
     timer = setTimeout(tick, 2400);
     return () => clearTimeout(timer);
-  }, [inView, reducedMotion]);
+  }, [inView, reducedMotion, updatingPhrases]);
 
   return (
-    <h2
-      ref={heading}
-      id={id}
-      className="font-display"
-      aria-label="El conocimiento avanza. La base se actualiza."
-    >
+    <h2 ref={heading} id={id} className="font-display" aria-label={t("label")}>
       <span aria-hidden="true">
-        El conocimiento avanza.
+        {t("lead")}
         <span className="vol-updating-line">
-          <span className="vol-updating-space">La base se actualiza.</span>
-          <span className="vol-updating-text">La base {text}</span>
+          <span className="vol-updating-space">{t("placeholder")}</span>
+          <span className="vol-updating-text">{t("typing", { text })}</span>
         </span>
       </span>
     </h2>
@@ -73,6 +75,7 @@ export function VolumeSection({
   visible?: boolean;
   palette?: "teal" | "original";
 }) {
+  const t = useTranslations("home.volume");
   const reducedMotion = useReducedMotion();
   const headingId = useId();
   return (
@@ -101,26 +104,22 @@ export function VolumeSection({
       <div className="vol-container">
         <div className="vol-original-contrast">
           <div>
-            <p className="vol-original-eyebrow font-display">
-              Volumen y actualización
-            </p>
+            <p className="vol-original-eyebrow font-display">{t("eyebrow")}</p>
             <UpdatingHeading id={headingId} />
-            <p className="vol-original-intro font-body">
-              Una base médica estructurada que incorpora las guías y protocolos
-              de cada organización, con evaluación continua y validación
-              clínica.
-            </p>
+            <p className="vol-original-intro font-body">{t("intro")}</p>
           </div>
           <div className="vol-figures">
             {metrics.map((metric) => (
-              <div className="vol-metric" key={metric.value}>
+              <div className="vol-metric" key={metric.id}>
                 <p className="vol-value font-display">
-                  {metric.value}
+                  {t(`items.${metric.id}.value`)}
                   {metric.unit && (
                     <span className="vol-unit">{metric.unit}</span>
                   )}
                 </p>
-                <p className="vol-label font-body">{metric.label}</p>
+                <p className="vol-label font-body">
+                  {t(`items.${metric.id}.label`)}
+                </p>
               </div>
             ))}
           </div>

@@ -1,35 +1,44 @@
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { forwardRef } from "react";
 import type { ReactNode } from "react";
 
 import { ClinicalChatMock } from "~/app/_components/clinical-chat-mock";
 import { Eyebrow } from "~/app/_components/eyebrow";
 import { FooterBandMenu } from "~/app/_components/footer-band-menu";
-import { contactItems, VerticalFooter } from "~/app/_components/site-footer";
-import { navItems, SiteHeader } from "~/app/_components/site-header";
+import { VerticalFooter } from "~/app/_components/site-footer";
+import {
+  useContactItems,
+  useNavItems,
+} from "~/app/_components/site-footer-links";
+import { SiteHeader } from "~/app/_components/site-header";
 import {
   HomeGrid,
   HomeMotionBackground,
   MotionSurface,
   SignalField,
 } from "~/app/_components/motion-system";
+import { Link } from "~/i18n/navigation";
 
 export function HomeFooterBand() {
+  const t = useTranslations("layout.footerBand");
+  const navItems = useNavItems();
+  const contactItems = useContactItems();
+
   return (
-    <footer className="relative z-40 shrink-0 border-t border-cyan-800/10 bg-[#edf6f9]/92 text-slate-600 backdrop-blur-md dark:border-primary-dark/15 dark:bg-[#030b17]/92 dark:text-slate-400">
+    <footer className="dark:border-primary-dark/15 relative z-40 shrink-0 border-t border-cyan-800/10 bg-[#edf6f9]/92 text-slate-600 backdrop-blur-md dark:bg-[#030b17]/92 dark:text-slate-400">
       <div className="mx-auto flex min-h-12 w-full max-w-425 items-center justify-between gap-3 px-5 sm:px-8 lg:h-12">
         <Link
           href="/"
-          className="text-[9px] font-semibold tracking-[0.16em] text-slate-700 uppercase transition hover:text-cyan-800 dark:text-slate-100 dark:hover:text-primary-dark"
+          className="dark:hover:text-primary-dark text-[9px] font-semibold tracking-[0.16em] text-slate-700 uppercase transition hover:text-cyan-800 dark:text-slate-100"
         >
-          © BinPar all rights reserved
+          {t("rights")}
         </Link>
         <nav
-          aria-label="Enlaces del pie"
+          aria-label={t("links")}
           className="flex items-center gap-1 sm:gap-3"
         >
-          <FooterBandMenu label="Producto" items={navItems} />
-          <FooterBandMenu label="Contacto" items={contactItems} />
+          <FooterBandMenu label={t("product")} items={navItems} />
+          <FooterBandMenu label={t("contact")} items={contactItems} />
         </nav>
       </div>
     </footer>
@@ -72,19 +81,21 @@ export function HomeShell({
 export { Eyebrow };
 
 export function CTAGroup() {
+  const t = useTranslations("common.cta");
+
   return (
     <div className="flex flex-col gap-3 sm:flex-row">
       <Link
         href="/contacto"
         className="bg-primary-light font-body dark:bg-primary-dark dark:hover:bg-primary-dark/85 min-h-10 rounded-full px-5 py-2 text-center text-sm font-semibold text-white shadow-md transition hover:bg-cyan-800 dark:text-[#04111e] dark:shadow-[0_0_34px_color-mix(in_srgb,var(--color-primary-dark)_26%,transparent)]"
       >
-        Solicitar reunión
+        {t("meeting")}
       </Link>
       <Link
         href="/plataforma"
-        className="border-primary-light/25 font-body hover:border-primary-light/45 min-h-10 rounded-full border bg-white/65 px-5 py-2 text-center text-sm font-semibold text-cyan-800 backdrop-blur-sm transition hover:bg-cyan-50 dark:border-primary-dark/30 dark:bg-white/3 dark:text-slate-100 dark:hover:border-primary-dark/50 dark:hover:bg-primary-dark/10"
+        className="border-primary-light/25 font-body hover:border-primary-light/45 dark:border-primary-dark/30 dark:hover:border-primary-dark/50 dark:hover:bg-primary-dark/10 min-h-10 rounded-full border bg-white/65 px-5 py-2 text-center text-sm font-semibold text-cyan-800 backdrop-blur-sm transition hover:bg-cyan-50 dark:bg-white/3 dark:text-slate-100"
       >
-        Probar plataforma
+        {t("tryPlatform")}
       </Link>
     </div>
   );
@@ -100,7 +111,7 @@ export function MetricGrid({
       {metrics.map((metric) => (
         <MotionSurface
           key={metric.label}
-          className="rounded-2xl border border-cyan-800/10 bg-white/75 p-6 shadow-sm backdrop-blur-sm dark:border-primary-dark/20 dark:bg-white/3 dark:shadow-none"
+          className="dark:border-primary-dark/20 rounded-2xl border border-cyan-800/10 bg-white/75 p-6 shadow-sm backdrop-blur-sm dark:bg-white/3 dark:shadow-none"
         >
           <p className="dark:text-primary-dark text-3xl font-semibold text-cyan-800">
             {metric.value}
@@ -118,44 +129,6 @@ export function SignalPanel({ active = true }: { active?: boolean }) {
   return <ClinicalChatMock active={active} />;
 }
 
-export function EvidenceFlow() {
-  return (
-    <div className="grid gap-4">
-      {[
-        ["01", "Documentos gobernados", "Guías, protocolos y corpus médico."],
-        [
-          "02",
-          "Orquestación especializada",
-          "Recuperación, contraste y validación.",
-        ],
-        [
-          "03",
-          "Respuesta referenciada",
-          "Fuentes visibles y fragmentos auditables.",
-        ],
-        ["04", "Mejora continua", "Feedback, tests y publicación controlada."],
-      ].map(([step, title, detail]) => (
-        <MotionSurface
-          key={step}
-          className="grid grid-cols-[3rem_1fr] gap-4 rounded-md border border-cyan-800/10 bg-white/70 p-4 dark:border-primary-dark/10 dark:bg-white/[0.035]"
-        >
-          <span className="text-primary-light dark:text-primary-dark text-sm font-semibold">
-            {step}
-          </span>
-          <div>
-            <p className="font-semibold text-slate-900 dark:text-slate-100">
-              {title}
-            </p>
-            <p className="font-body mt-1 text-sm leading-6 text-slate-600 dark:text-slate-400">
-              {detail}
-            </p>
-          </div>
-        </MotionSurface>
-      ))}
-    </div>
-  );
-}
-
 export function CapabilityGrid({
   items,
 }: {
@@ -166,9 +139,9 @@ export function CapabilityGrid({
       {items.map((item) => (
         <MotionSurface
           key={item.title}
-          className="rounded-md border border-cyan-800/10 bg-white/80 p-6 shadow-lg shadow-slate-900/5 dark:border-primary-dark/10 dark:bg-[#081a2b]/82 dark:shadow-[#020817]/20"
+          className="dark:border-primary-dark/10 rounded-md border border-cyan-800/10 bg-white/80 p-6 shadow-lg shadow-slate-900/5 dark:bg-[#081a2b]/82 dark:shadow-[#020817]/20"
         >
-          <h3 className="font-display text-lg font-semibold text-navy dark:text-slate-50">
+          <h3 className="font-display text-navy text-lg font-semibold dark:text-slate-50">
             {item.title}
           </h3>
           <p className="font-body mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">
@@ -221,13 +194,13 @@ export function PageHero({
   body: string;
 }) {
   return (
-    <section className="relative overflow-hidden border-b border-cyan-800/10 bg-[#fbfdff] dark:border-primary-dark/10 dark:bg-[#06111f]">
+    <section className="dark:border-primary-dark/10 relative overflow-hidden border-b border-cyan-800/10 bg-[#fbfdff] dark:bg-[#06111f]">
       <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(8,145,178,0.1),transparent_35%,rgba(13,148,136,0.08)_72%,transparent)] dark:bg-[linear-gradient(120deg,color-mix(in_srgb,var(--color-primary-dark)_10%,transparent),transparent_35%,color-mix(in_srgb,var(--color-primary-dark)_8%,transparent)_72%,transparent)]" />
       <HomeGrid />
       <SignalField intensity="hero" />
       <div className="relative mx-auto w-full max-w-7xl px-5 py-20 sm:px-8 lg:py-24">
         <Eyebrow>{eyebrow}</Eyebrow>
-        <h1 className="font-display mt-5 max-w-4xl text-4xl font-extrabold tracking-tight text-navy sm:text-5xl dark:text-slate-50">
+        <h1 className="font-display text-navy mt-5 max-w-4xl text-4xl font-extrabold tracking-tight sm:text-5xl dark:text-slate-50">
           {title}
         </h1>
         <p className="font-body mt-6 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-400">

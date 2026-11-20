@@ -1,10 +1,13 @@
+import { useTranslations } from "next-intl";
 import type { RefObject } from "react";
 
 function LinkedInLabel() {
+  const t = useTranslations("layout.linkedin");
+
   return (
     <>
       <span className="social-follow-label text-[15px] leading-none font-semibold [text-orientation:mixed] [writing-mode:vertical-rl]">
-        Síguenos
+        {t("follow")}
       </span>
       <svg
         aria-hidden="true"
@@ -27,12 +30,14 @@ export function SideLinkedInLink({
   visible?: boolean;
   contrastRef?: RefObject<HTMLSpanElement | null>;
 }) {
+  const t = useTranslations("layout.linkedin");
+
   return (
     <a
       href="https://www.linkedin.com/company/binpar/"
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="Sigue a BinPar en LinkedIn (se abre en una pestaña nueva)"
+      aria-label={t("label")}
       className="social-follow font-body group hover:text-primary-light focus-visible:outline-primary-light dark:hover:text-primary-dark dark:focus-visible:outline-primary-dark invisible fixed start-5 top-1/2 z-35 hidden w-8 -translate-y-1/2 rounded-md py-1.5 text-[#64748b] opacity-0 transition-[opacity,visibility,color] duration-[180ms,180ms,150ms] ease-out focus-visible:outline-2 focus-visible:outline-offset-4 data-[visible=true]:visible data-[visible=true]:opacity-100 motion-reduce:transition-none xl:block dark:text-[#a9bacb]"
       data-visible={visible}
       aria-hidden={!visible}

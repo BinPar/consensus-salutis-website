@@ -5,6 +5,7 @@
 import "./src/env.js";
 
 import createMDX from "@next/mdx";
+import createNextIntlPlugin from "next-intl/plugin";
 
 /** @type {import("next").NextConfig} */
 const config = {
@@ -17,7 +18,15 @@ const config = {
     cualquier regeneración en runtime.
   */
   outputFileTracingIncludes: {
-    "/blog/[slug]/opengraph-image": ["./src/app/_fonts/**"],
+    "/[locale]/blog/[slug]/opengraph-image": ["./src/app/_fonts/**"],
+  },
+  experimental: {
+    /*
+      El sitio no tiene un layout raíz único (cada idioma pone su `<html lang>`),
+      así que el 404 de las URL que no casan con nada lo da
+      `src/app/global-not-found.tsx`.
+    */
+    globalNotFound: true,
   },
 };
 
@@ -32,4 +41,6 @@ const withMDX = createMDX({
   },
 });
 
-export default withMDX(config);
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
+
+export default withNextIntl(withMDX(config));

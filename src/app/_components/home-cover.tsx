@@ -3,6 +3,7 @@
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { ArrowDown } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { BrandIsotypeReveal } from "./brand-isotype-reveal";
 import { BrandIsotypeParticles } from "./brand-isotype-particles";
@@ -20,6 +21,7 @@ export function HomeCoverContent({
   running?: boolean;
   entranceAnimation?: "trace" | "particles";
 }) {
+  const t = useTranslations("home.cover");
   const reduced = useReducedMotion();
 
   return (
@@ -65,15 +67,13 @@ export function HomeCoverContent({
         )}
       </div>
       <h1 className="home-cover-title font-display font-extrabold tracking-tight">
-        BinPar
-        <span>Respuestas clínicas trazables.</span>
+        {t.rich("title", { line: (chunks) => <span>{chunks}</span> })}
       </h1>
       <p className="home-cover-description font-body text-lg leading-8 text-slate-600 dark:text-slate-400">
-        BinPar, la IA médica institucional que conecta guías, protocolos y corpus
-        médico con la práctica clínica.
+        {t("description")}
       </p>
       <button type="button" className="home-cover-explore" onClick={onExplore}>
-        Descubrir
+        {t("explore")}
         <ArrowDown size={17} strokeWidth={1.5} aria-hidden="true" />
       </button>
     </motion.div>
@@ -81,6 +81,7 @@ export function HomeCoverContent({
 }
 
 export function HomeCover({ targetId }: { targetId: string }) {
+  const t = useTranslations("home.cover");
   const reduced = useReducedMotion();
   const root = useRef<HTMLElement>(null);
   const inView = useInView(root, { amount: "some" });
@@ -107,7 +108,7 @@ export function HomeCover({ targetId }: { targetId: string }) {
         event.currentTarget.dataset.entranceComplete = "true";
         window.dispatchEvent(new Event("binpar:home-cover-ready"));
       }}
-      aria-label="BinPar: respuestas clínicas trazables"
+      aria-label={t("label")}
     >
       <HomeCoverContent
         animateEntrance

@@ -1,9 +1,14 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useId, useRef, useState } from "react";
 
-import { contactSchema, type ContactField } from "~/lib/contact";
+import {
+  contactSchema,
+  isContactErrorCode,
+  type ContactField,
+} from "~/lib/contact";
 
 // Isolated visual preview: keeps validation and markup, never sends data.
 
@@ -22,6 +27,7 @@ export function PreviewContactForm({
   compact?: boolean;
   className?: string;
 }) {
+  const t = useTranslations("contact.errors");
   const formRef = useRef<HTMLFormElement>(null);
   const id = useId();
   const [status, setStatus] = useState<"idle" | "submitting" | "success">(
@@ -75,7 +81,10 @@ export function PreviewContactForm({
           field === "message" ||
           field === "privacyAccepted"
         ) {
-          errors[field] ??= issue.message;
+          /* El esquema devuelve códigos; el texto sale de los mensajes. */
+          errors[field] ??= isContactErrorCode(issue.message)
+            ? t(issue.message)
+            : issue.message;
         }
       }
       setStatus("idle");
@@ -201,7 +210,7 @@ export function PreviewContactForm({
             He leído y acepto la{" "}
             <Link
               href="/privacidad"
-              className="dark:text-primary-dark text-primary-light underline underline-offset-4 hover:text-cyan-800 dark:hover:text-primary-dark"
+              className="dark:text-primary-dark text-primary-light dark:hover:text-primary-dark underline underline-offset-4 hover:text-cyan-800"
             >
               Política de Privacidad
             </Link>

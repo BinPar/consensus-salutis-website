@@ -172,6 +172,8 @@ export function createBlogPageSamples(reference?: BlogPost): BlogPost[] {
     return {
       ...reference,
       slug,
+      /* Las portadas se siembran con `translationKey`: cada muestra, la suya. */
+      translationKey: slug,
       href: `#${slug}`,
       title,
       excerpt,

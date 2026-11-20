@@ -1,0 +1,130 @@
+{
+  "actions": {
+    "cancel": "Cancelar",
+    "save": "Guardar"
+  },
+  "projectHeader": {
+    "name": "Fármacos en la ERC",
+    "chats": "Chats",
+    "sources": "Fuentes"
+  },
+  "projects": {
+    "moved": {
+      "title": "Analgesia en ERC grave",
+      "when": "hace un momento"
+    },
+    "chats": {
+      "nsaids": {
+        "title": "AINE en paciente con ERC",
+        "when": "hace 1 día"
+      },
+      "aceInhibitors": {
+        "title": "IECA e hiperpotasemia",
+        "when": "hace 3 días"
+      },
+      "metformin": {
+        "title": "Ajuste de dosis de metformina",
+        "when": "hace 4 semanas"
+      }
+    }
+  },
+  "instructions": {
+    "heading": "Instrucciones del proyecto",
+    "edit": "Editar instrucciones",
+    "text": "Comparar los fármacos en tablas e indicar siempre el ajuste según el filtrado glomerular.",
+    "empty": "Sin instrucciones adicionales",
+    "counter": "{count} de 16.000 caracteres",
+    "note": "Los cambios se aplican al siguiente turno. Una aclaración conserva el contexto de la pregunta original."
+  },
+  "saved": {
+    "title": "Guardar en fuentes",
+    "description": "Guardar la respuesta final como fuente privada de este proyecto. No se incluyen los extractos recuperados de otras fuentes o conversaciones.",
+    "confirm": "Guardar en fuentes",
+    "nameLabel": "Nombre de la fuente",
+    "name": "AINE en paciente con ERC"
+  },
+  "preferences": {
+    "section": "Preferencias de respuesta",
+    "text": "Prefiero respuestas breves, con las dosis en tabla y sin repetir los antecedentes del paciente.",
+    "empty": "Aún no hay preferencias guardadas.",
+    "hint": "Puedes editar el texto completo o pedir cambios en el chat.",
+    "edit": "Ver y editar preferencias",
+    "note": "Se aplican a tus chats. Solo ajustan la presentación; la finalidad y las reglas clínicas de las respuestas no cambian.",
+    "dialogTitle": "Preferencias de respuesta",
+    "dialogDescription": "Escribe cómo quieres que se presenten las respuestas. Puedes usar Markdown. El texto aceptado se guardará tal como lo escribas.",
+    "fieldLabel": "Texto de preferencias",
+    "counter": "{count}/1000"
+  },
+  "private": {
+    "heading": "Fuentes",
+    "add": "Añadir",
+    "newSource": "Protocolo de analgesia del servicio.pdf",
+    "status": {
+      "ready": "Disponible",
+      "processing": "Procesando · {pages} de {total} páginas",
+      "queued": "En cola"
+    },
+    "sources": {
+      "sessionNotes": "Notas de la sesión clínica.md",
+      "doseAdjustment": "Ajuste de dosis en ERC.txt"
+    }
+  },
+  "history": {
+    "newChat": "Nuevo chat",
+    "pinned": "Anclados",
+    "recent": "Recientes",
+    "pinnedChat": "Protocolo de hiperpotasemia",
+    "chats": [
+      "AINE en paciente con ERC",
+      "Disnea y edema en ERC",
+      "Ajuste de dosis de metformina",
+      "Dosis de digoxina en ERC"
+    ],
+    "rename": "AINE y ERC grave",
+    "menu": {
+      "rename": "Cambiar el nombre",
+      "move": "Mover conversación",
+      "pin": "Anclar chat",
+      "unpin": "Desanclar chat",
+      "delete": "Eliminar"
+    },
+    "dialog": {
+      "title": "Cambiar el nombre",
+      "description": "Escribe un nombre breve para identificar esta conversación.",
+      "label": "Nombre de la conversación",
+      "limit": "Máximo 72 caracteres.",
+      "counter": "{count} de 72 caracteres"
+    }
+  },
+  "profile": {
+    "initial": "L",
+    "name": "Laura Gómez",
+    "email": "lgomez@organizacion.es",
+    "locales": {
+      "es": {
+        "panel": "Perfil y configuración",
+        "language": "Idioma",
+        "role": "Clínico",
+        "preferences": "Preferencias de respuesta",
+        "empty": "Aún no hay preferencias guardadas.",
+        "edit": "Ver y editar preferencias"
+      },
+      "ca": {
+        "panel": "Perfil i configuració",
+        "language": "Idioma",
+        "role": "Clínic",
+        "preferences": "Preferències de resposta",
+        "empty": "Encara no hi ha preferències desades.",
+        "edit": "Veure i editar les preferències"
+      },
+      "en": {
+        "panel": "Profile and settings",
+        "language": "Language",
+        "role": "Clinician",
+        "preferences": "Response preferences",
+        "empty": "No preferences saved yet.",
+        "edit": "View and edit preferences"
+      }
+    }
+  }
+}

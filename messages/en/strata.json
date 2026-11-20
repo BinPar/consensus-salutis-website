@@ -1,0 +1,42 @@
+{
+  "section": {
+    "label": "Product"
+  },
+  "heading": {
+    "eyebrow": "Product · Three capabilities, one system",
+    "titleLead": "Three capabilities.",
+    "titleAccent": "One architecture.",
+    "description": "A solid product is built in depth. Three complementary layers support the same clinical experience."
+  },
+  "pillars": {
+    "binpar": {
+      "name": "BinPar",
+      "role": "Product and engineering",
+      "detail": "More than 15 years developing healthcare software. An engineering layer that controls the life cycle of each answer and connects knowledge with clinical practice."
+    },
+    "panamericana": {
+      "name": "Editorial Médica Panamericana",
+      "role": "Clinical knowledge",
+      "detail": "More than 70 years of publishing experience and more than 3 TB of medical knowledge. Reviewed content that gives depth and context to each query."
+    },
+    "aws": {
+      "name": "AWS",
+      "role": "Resilient infrastructure",
+      "detail": "A cloud-native architecture built to operate with continuity, observability and compliance. The infrastructure supports the growth and needs of each organisation."
+    }
+  },
+  "details": {
+    "layer": "Layer {number} / 03",
+    "navigation": "Product layer scenes",
+    "playback": "layer scene"
+  },
+  "graphic": {
+    "label": "Product architecture: rotatable graphic",
+    "instructions": "Drag to rotate and tilt. Shift and the arrow keys rotate the graphic. Left and right select layers.",
+    "layers": "Product architecture layers",
+    "layer": "Layer {number}: {role}",
+    "systemTitle": "BINPAR / INTEGRATED SYSTEM",
+    "reset": "Reset the graphic to its initial view",
+    "resetTitle": "Reset to initial view"
+  }
+}

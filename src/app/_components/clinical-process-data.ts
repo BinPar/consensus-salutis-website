@@ -1,32 +1,54 @@
-// The same expert focus is shown during consultation (02) and synthesis (03).
-export const processExpertInputs = [
-  {
-    detail: "Congestión cardíaca: ortopnea, crepitantes y edema periférico.",
-    compact: "Disnea y edema: valorar congestión.",
-  },
-  {
-    detail:
-      "Revisar AINE, IECA/ARA-II y diuréticos por riesgo renal e hiperpotasemia.",
-    compact: "Ibuprofeno: revisar el riesgo renal.",
-  },
-  {
-    detail:
-      "Valorar lesión renal aguda sobre ERC: creatinina, potasio y diuresis.",
-    compact: "Revisar función renal, potasio y diuresis.",
-  },
+import { useTranslations } from "next-intl";
+import { useMemo } from "react";
+
+/*
+  Los textos que se ven salen de `messages/<idioma>/clinical.json`. Los hooks
+  dan la versión del idioma de la página; las constantes `process*` dan el
+  castellano (idioma fuente) para los módulos que aún las leen fuera de un
+  componente. Los campos con texto literal que siguen aquí no se muestran.
+*/
+import es from "../../../messages/es/clinical.json";
+
+export const processExpertSlugs = [
+  "cardiologia",
+  "farmacologia",
+  "nefrologia",
 ] as const;
+
+export type ProcessExpertSlug = (typeof processExpertSlugs)[number];
+
+/** Expertos de la consulta con el foco que muestran en 02 y 03. */
+export function useProcessExperts() {
+  const t = useTranslations("clinical.consultation.experts");
+  return useMemo(
+    () =>
+      processExpertSlugs.map((slug) => ({
+        slug,
+        name: t(`${slug}.name`),
+        detail: t(`${slug}.detail`),
+        compact: t(`${slug}.compact`),
+      })),
+    [t],
+  );
+}
+
+/** Pregunta de la consulta y sus expertos, en el idioma de la página. */
+export function useProcessConsultation() {
+  const t = useTranslations("clinical.consultation");
+  const experts = useProcessExperts();
+  return useMemo(() => ({ question: t("question"), experts }), [t, experts]);
+}
 
 // Sanitized capture of the user's actual consultation. No live backend calls.
 export const processConsultation = {
-  question:
-    "Paciente de 68 años con diabetes tipo 2, hipertensión y enfermedad renal crónica. Presenta cansancio progresivo, falta de aire al esfuerzo y edema en ambas piernas, y toma ibuprofeno con frecuencia. ¿Cómo orientarías la valoración inicial, qué signos de alarma y pruebas considerarías, y cómo influyen sus enfermedades y la medicación en las decisiones?",
+  question: es.consultation.question,
   source: "Consulta ejecutada en BinPar el 6 de octubre de 2026",
   elapsedMs: 35156,
   citationCount: 17,
   experts: [
     {
       slug: "cardiologia",
-      name: "Cardiología",
+      name: es.consultation.experts.cardiologia.name,
       question:
         "Paciente de 68 años con diabetes tipo 2, hipertensión y enfermedad renal crónica, con cansancio progresivo, disnea de esfuerzo y edema bilateral, y uso frecuente de ibuprofeno. ¿Cómo orientarías la valoración inicial, signos de alarma y pruebas iniciales, considerando posible insuficiencia cardiaca y comorbilidades? Responde de forma clínica y accionable, indicando límites.",
       opinion:
@@ -37,7 +59,7 @@ export const processConsultation = {
     },
     {
       slug: "farmacologia",
-      name: "Farmacología",
+      name: es.consultation.experts.farmacologia.name,
       question:
         "Paciente de 68 años con diabetes tipo 2, hipertensión y enfermedad renal crónica, con cansancio progresivo, disnea de esfuerzo y edema bilateral, y consumo frecuente de ibuprofeno. ¿Cómo influye la medicación, especialmente AINEs, en la valoración y decisiones iniciales? ¿Qué revisar y qué signos de toxicidad o interacciones considerarías? Responde de forma clínica y accionable, indicando límites.",
       opinion:
@@ -48,7 +70,7 @@ export const processConsultation = {
     },
     {
       slug: "nefrologia",
-      name: "Nefrología",
+      name: es.consultation.experts.nefrologia.name,
       question:
         "Paciente de 68 años con diabetes tipo 2, hipertensión y enfermedad renal crónica, con cansancio progresivo, disnea de esfuerzo y edema bilateral, además de uso frecuente de ibuprofeno. ¿Cómo orientarías la valoración inicial, qué signos de alarma y pruebas considerarías, y cómo influyen la ERC y el ibuprofeno en las decisiones? Responde de forma clínica y accionable, indicando límites de evidencia.",
       opinion:
@@ -61,8 +83,7 @@ export const processConsultation = {
 } as const;
 
 export const processFollowup = {
-  question:
-    "¿Qué información adicional necesitas para precisar la valoración y revisar la medicación?",
+  question: es.followup.question,
   finalOpinion:
     "La disminución de la diuresis, la sobrecarga de volumen, la hiperpotasemia, la acidosis y los síntomas urémicos son datos especialmente relevantes. El edema pulmonar refractario, la hiperpotasemia tóxica, la acidosis extrema o la encefalopatía/pericarditis urémica requieren valoración urgente y pueden constituir indicaciones de tratamiento renal sustitutivo. ⟦c7bb6e⟧\n\nSi existe hiperpotasemia, debe conocerse si hay alteraciones electrocardiográficas, ya que constituyen una emergencia y justifican realizar un ECG incluso cuando la cifra de potasio no parezca muy elevada. ⟦c7ca72⟧\n\nTambién preguntaría por dolor torácico, síntomas infecciosos y palpitaciones o ritmo irregular, para valorar isquemia, infección o arritmia como posibles desencadenantes de una descompensación cardiaca. ⟦c62888⟧ ⟦c62a00⟧\n\nCompararía los valores actuales con los previos. Un aumento de creatinina de al menos 0,3 mg/dL en 48 horas o de al menos el 50 % en 7 días cumple criterio de fracaso renal agudo según KDIGO. ⟦c7bf72⟧ En un fracaso renal agudo debe considerarse inicialmente una ecografía renal para descartar obstrucción. ⟦c7bd7c⟧\n\nLa conciliación debe incluir tratamientos para diabetes, hipertensión, dolor y edema, además de medicamentos “a demanda”, preparados para resfriado, antiácidos, laxantes, suplementos, plantas y productos adquiridos sin receta o por internet. En la ERC, los fármacos con eliminación renal pueden requerir reducción de dosis o ampliación del intervalo. ⟦c73d65⟧\n\nLos AINE pueden reducir el filtrado por vasoconstricción aferente; deben evitarse en la ERC y especialmente si se combinan con IECA/ARA-II o diuréticos. ⟦c73b77⟧ ⟦c7d2a7⟧\n\nLos IECA/ARA-II pueden elevar el potasio y reducir el filtrado, sobre todo en hipoperfusión; requieren control analítico y deben revisarse si aparece fracaso renal agudo o hiperpotasemia. ⟦c7b3de⟧ Los ahorradores de potasio requieren especial cautela en la insuficiencia renal, y no se aconseja combinar IECA y ARA-II. ⟦c73a7e⟧ ⟦c739f1⟧\n\nSi toma digoxina, solicitaría dosis, horario, última toma, niveles disponibles, electrolitos y síntomas de toxicidad, dado que la insuficiencia renal obliga a individualizar la dosis y el intervalo. ⟦c738f6⟧",
   citations: [
@@ -142,141 +163,126 @@ export const processResult = {
       order: 1,
       expert: "cardiologia",
       source: "promir-radiologia-urgencias.md",
-      quote:
-        "La ICA ([Cardiología, Insuficiencia cardíaca](/capitulo/570779c8f4d68bf008dbc6b4#58999992b89214740aff8b88)) abarca todos aquellos estados en los que el corazón no es capaz de bombear la sangre que el organismo necesita en un momento determinado (gasto cardíaco inferior a las necesidades metabólicas).",
+      quote: es.citations.c62888,
     },
     {
       anchor: "c7b5cc",
       order: 2,
       expert: "nefrologia",
       source: "promir-nefrologia.md",
-      quote: "##### Síndrome urémico. Afectación por órganos y sistemas",
+      quote: es.citations.c7b5cc,
     },
     {
       anchor: "c7d2a7",
       order: 3,
       expert: "nefrologia",
       source: "promir-nefrologia.md",
-      quote:
-        "El movimiento del líquido o filtración glomerular a través del glomérulo se rige por las leyes de Starling y es proporcional a la permeabilidad de la membrana y al equilibrio entre los gradientes de presión hidráulica (que favorece la salida de líquido) y oncótica (que impide la salida de líquido).",
+      quote: es.citations.c7d2a7,
     },
     {
       anchor: "c7bb6e",
       order: 4,
       expert: "nefrologia",
       source: "promir-nefrologia.md",
-      quote:
-        "El tratamiento de cualquier FRA se basa en actuar de la forma más precoz posible sobre la causa desencadenante.",
+      quote: es.citations.c7bb6e,
     },
     {
       anchor: "c73b77",
       order: 5,
       expert: "farmacologia",
       source: "promir-nefrologia.md",
-      quote: "**Se debe evitar el uso de AINE en la insuficiencia renal.",
+      quote: es.citations.c73b77,
     },
     {
       anchor: "c73d65",
       order: 6,
       expert: "farmacologia",
       source: "promir-nefrologia.md",
-      quote:
-        "El ajuste de dosis en la insuficiencia renal es imprescindible para evitar la toxicidad de fármacos con eliminación renal y procurar su adecuada eficacia.",
+      quote: es.citations.c73d65,
     },
     {
       anchor: "c7be7b",
       order: 7,
       expert: "nefrologia",
       source: "promir-nefrologia.md",
-      quote:
-        "La IRA prerrenal habitualmente es oligúrica y presenta una orina muy concentrada (sodio en orina bajo, con osmolaridad urinaria elevada).",
+      quote: es.citations.c7be7b,
     },
     {
       anchor: "c7bd7c",
       order: 8,
       expert: "nefrologia",
       source: "promir-nefrologia.md",
-      quote:
-        "En todo paciente con IRA lo primero que se debe realizar es una ecografía renal para descartar causa obstructiva.",
+      quote: es.citations.c7bd7c,
     },
     {
       anchor: "c7c3cb",
       order: 9,
       expert: "nefrologia",
       source: "promir-nefrologia.md",
-      quote:
-        "En condiciones normales la excreción normal de proteínas en orina es de 80 mg/24 horas, de las cuales hasta 30 mg corresponden a albúmina y el resto son proteínas procedentes de células tubulares (proteínas de Tamm-Horsfall) y proteínas de bajo peso molecular.",
+      quote: es.citations.c7c3cb,
     },
     {
       anchor: "c7b8ef",
       order: 10,
       expert: "nefrologia",
       source: "promir-nefrologia.md",
-      quote:
-        "** Se define por un descenso sostenido superior a 5 mL/min/año descartándose previamente causas reversibles como uropatía obstructiva, depleción de volumen, hipoperfusión renal o empleo de fármacos nefrotóxicos (antiinflamatorios no esteroideos, contrastes yodados, etc.",
+      quote: es.citations.c7b8ef,
     },
     {
       anchor: "c7ca72",
       order: 11,
       expert: "nefrologia",
       source: "promir-nefrologia.md",
-      quote:
-        "** Se define como la concentración de potasio sérico superior a 5,5 mEq/L.",
+      quote: es.citations.c7ca72,
     },
     {
       anchor: "c6298f",
       order: 12,
       expert: "cardiologia",
       source: "promir-radiologia-urgencias.md",
-      quote:
-        "Para el **diagnóstico** (****)de la ICA solicitarás estudio radiológico, donde podrás encontrar ( y ):",
+      quote: es.citations.c6298f,
     },
     {
       anchor: "c62a00",
       order: 13,
       expert: "cardiologia",
       source: "promir-radiologia-urgencias.md",
-      quote:
-        "</recuerda> Es importante conocer cuáles son los factores precipitantes de una ICA, porque en ocasiones te solicitarán su identificación: Causas cardíacas: taquiarritmias o bradiarritmias, isquemia miocárdica, fármacos inotrópicos negativos (antagonistas del calcio, β-bloqueantes, etc.",
+      quote: es.citations.c62a00,
     },
     {
       anchor: "c62b09",
       order: 14,
       expert: "cardiologia",
       source: "promir-radiologia-urgencias.md",
-      quote:
-        "En cuanto al **tratamiento** (**; **), debes plantearte los siguientes **objetivos:**",
+      quote: es.citations.c62b09,
     },
     {
       anchor: "c7da19",
       order: 15,
       expert: "nefrologia",
       source: "promir-nefrologia.md",
-      quote:
-        "Las nefropatías tubulointersticiales agudas (NTIA) causan una reacción inflamatoria aguda del espacio intersticial caracterizada por edema intersticial, infiltrados inflamatorios y áreas de necrosis de células tubulares.",
+      quote: es.citations.c7da19,
     },
     {
       anchor: "c73a7e",
       order: 16,
       expert: "farmacologia",
       source: "promir-nefrologia.md",
-      quote:
-        "##### Diuréticos Se deben evitar los diuréticos ahorradores de potasio (espironolactona, eplerenona, amilorida) en pacientes con insuficiencia renal y, sobre todo, no asociarlos con IECA, ARA-II o AINE (alto riesgo de hiperpotasemia).",
+      quote: es.citations.c73a7e,
     },
     {
       anchor: "c739f1",
       order: 17,
       expert: "farmacologia",
       source: "promir-nefrologia.md",
-      quote:
-        "##### Hipotensores IECA y ARA-II: son renoprotectores, no están contraindicados en la insuficiencia renal, pero en etapas avanzadas pueden requerir disminución de la dosis.",
+      quote: es.citations.c739f1,
     },
   ],
   evidence: {
     anchor: "c73b77",
     referenceIndex: 5,
     source: "promir-nefrologia.md",
-    quote: "**Se debe evitar el uso de AINE en la insuficiencia renal.",
+    quote: es.citations.c73b77,
     relation: "derived-from",
     unit: "#### AINE\n\n<redFlag>Se debe evitar el uso de AINE en la insuficiencia renal; con ERC grave (aclaramiento de creatinina < 30 mL/min) están siempre contraindicados.</redFlag> Si son estrictamente necesarios, es preferible emplear AINE de vida media corta durante pocos días, asegurando una correcta hidratación. Se evitarán en insuficiencia cardíaca, diabetes e hipertensión concomitantes, y no deben asociarse a IECA, ARA-II ni diuréticos.",
   },

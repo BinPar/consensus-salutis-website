@@ -1,0 +1,262 @@
+{
+  "meta": {
+    "title": "Funcionalidades",
+    "description": "Todas las funcionalidades de BinPar agrupadas: evidencia visible, consulta clínica, formatos de respuesta, espacio personal y gobierno institucional."
+  },
+  "groups": {
+    "evidence": {
+      "title": "Evidencia visible",
+      "navLabel": "Evidencia",
+      "heading": "Evidencia",
+      "headingAccent": "visible.",
+      "lead": "Cada afirmación remite al documento que la respalda. El pasaje se consulta en su contexto, con su procedencia y su vigencia a la vista."
+    },
+    "consultation": {
+      "title": "Consulta clínica",
+      "navLabel": "Consulta",
+      "heading": "Consulta",
+      "headingAccent": "clínica.",
+      "lead": "La duda se formula como en una sesión clínica. Cada especialidad revisa su corpus, el avance queda a la vista y la conversación conserva el caso."
+    },
+    "formats": {
+      "title": "Formatos de respuesta",
+      "navLabel": "Formatos",
+      "heading": "Formatos",
+      "headingAccent": "de respuesta.",
+      "lead": "La respuesta se presenta en el formato que mejor la explica. Esquemas, figuras y tablas conservan sus citas y se consultan en el panel lateral."
+    },
+    "workspace": {
+      "title": "Espacio personal",
+      "navLabel": "Espacio personal",
+      "heading": "Espacio",
+      "headingAccent": "personal.",
+      "lead": "Cada profesional organiza sus consultas en proyectos con instrucciones y fuentes propias, y ajusta cómo se leen las respuestas."
+    },
+    "governance": {
+      "title": "Gobierno institucional",
+      "navLabel": "Gobierno",
+      "heading": "Gobierno",
+      "headingAccent": "institucional.",
+      "lead": "La organización decide qué documentos consulta el comité, revisa cada cambio antes de publicarlo y comprueba que la calidad de las respuestas se mantiene."
+    }
+  },
+  "items": {
+    "citations": {
+      "title": "Citas por afirmación",
+      "description": "Cada afirmación enlaza con su fuente.",
+      "detail": "Al pulsar el número junto a una frase, se abre el documento que la respalda sin perder de vista la respuesta."
+    },
+    "bibliography": {
+      "title": "Bibliografía",
+      "description": "Las fuentes utilizadas, al final de cada respuesta.",
+      "detail": "La lista reúne las guías y manuales citados, para revisar de un vistazo en qué documentos se apoya cada respuesta."
+    },
+    "preserved": {
+      "title": "Evidencia conservada",
+      "description": "La respuesta guarda lo que citó, aunque el documento se retire.",
+      "detail": "Si una guía se retira o se sustituye, el pasaje citado sigue disponible para revisar en qué se basó aquella respuesta."
+    },
+    "viewer": {
+      "title": "Visor del documento",
+      "description": "El PDF, en la página citada y con el pasaje resaltado.",
+      "detail": "El documento original se abre en un panel lateral, de modo que el pasaje se lee en su contexto, con lo que lo precede y lo sigue."
+    },
+    "verified": {
+      "title": "Texto verificado",
+      "description": "Indica si el pasaje coincide con el PDF original.",
+      "detail": "El texto citado se contrasta con el documento de origen, y un indicador señala si coincide literalmente con lo que dice el PDF."
+    },
+    "provenance": {
+      "title": "Procedencia completa",
+      "description": "Documento, capítulo, apartado y página.",
+      "detail": "Cada cita conserva su ubicación exacta dentro del documento, para localizarla o mencionarla en una sesión clínica o en un informe."
+    },
+    "updates": {
+      "title": "Avisos de actualización",
+      "description": "Señala los datos sustituidos por una fuente posterior.",
+      "detail": "Cuando una edición más reciente modifica la información citada, un aviso lo indica junto al pasaje para comprobar su vigencia."
+    },
+    "natural": {
+      "title": "Lenguaje natural",
+      "description": "La duda se plantea como en una sesión clínica.",
+      "detail": "El caso se describe con sus antecedentes, su medicación y lo que preocupa, sin palabras clave ni formularios."
+    },
+    "clarify": {
+      "title": "Preguntas de aclaración",
+      "description": "Si falta un dato decisivo, el comité lo solicita.",
+      "detail": "Cuando la respuesta depende de un valor que no se ha indicado, como el filtrado glomerular, la pregunta llega antes que la respuesta, con opciones para contestar en un clic."
+    },
+    "followup": {
+      "title": "Seguimiento",
+      "description": "Las preguntas siguientes conservan el contexto.",
+      "detail": "Una nueva pregunta parte del caso y de las fuentes ya consultadas, sin repetir los datos del paciente."
+    },
+    "committee": {
+      "title": "Comité por especialidad",
+      "description": "Varios expertos, cada uno con su corpus.",
+      "detail": "Cada especialidad revisa los documentos de su ámbito, y la respuesta reúne y contrasta sus aportaciones."
+    },
+    "modes": {
+      "title": "Modos de respuesta",
+      "description": "Rapidez o profundidad, en cada pregunta.",
+      "detail": "Cada organización define sus modos de respuesta; cuando hay más de uno, el profesional elige junto al campo de consulta entre una respuesta ágil y una revisión más exhaustiva."
+    },
+    "progress": {
+      "title": "Progreso visible",
+      "description": "Expertos, fuentes y páginas consultadas, mientras se responde.",
+      "detail": "Durante la espera se ve qué especialidades trabajan, qué documentos revisan y en qué páginas, antes de leer la respuesta."
+    },
+    "images": {
+      "title": "Imágenes adjuntas",
+      "description": "Se pegan, arrastran o adjuntan a la consulta.",
+      "detail": "Un electrocardiograma, una analítica o una lesión fotografiada se incorporan a la pregunta para consultarlos junto al caso."
+    },
+    "schemes": {
+      "title": "Esquemas clínicos",
+      "description": "Árboles de decisión y mapas mentales con fuentes.",
+      "detail": "Un árbol de decisión ordena los criterios de la respuesta, y cada esquema indica las fuentes en las que se apoya."
+    },
+    "figures": {
+      "title": "Figuras del corpus",
+      "description": "Las figuras de las guías, dentro de la respuesta.",
+      "detail": "Cuando una guía incluye una ilustración pertinente, la figura aparece junto al texto que la explica."
+    },
+    "download": {
+      "title": "Descarga como imagen",
+      "description": "Cada esquema se exporta en PNG.",
+      "detail": "El esquema se guarda como imagen para incorporarlo a una sesión clínica, un protocolo o material docente."
+    },
+    "tables": {
+      "title": "Tablas comparativas",
+      "description": "Comparaciones legibles, sin perder las citas.",
+      "detail": "Fármacos, criterios o alternativas se comparan en columnas, y cada fila mantiene la referencia a su documento."
+    },
+    "textalt": {
+      "title": "Recorrido en texto",
+      "description": "Alternativa accesible a cada esquema.",
+      "detail": "Cada esquema puede leerse como una lista de pasos, útil con lectores de pantalla o para copiarlo en un informe."
+    },
+    "panel": {
+      "title": "Panel lateral",
+      "description": "Documentos, esquemas e imágenes en pestañas.",
+      "detail": "Las fuentes, los esquemas y las figuras se abren junto a la conversación, sin perder de vista la respuesta."
+    },
+    "projects": {
+      "title": "Proyectos",
+      "description": "Conversaciones agrupadas por tema.",
+      "detail": "Las consultas sobre un mismo asunto, como la revisión de un protocolo, se reúnen en un espacio con sus propias instrucciones y fuentes."
+    },
+    "instructions": {
+      "title": "Instrucciones comunes",
+      "description": "Formato, idioma o enfoque para todo un proyecto.",
+      "detail": "Se indica una vez cómo deben presentarse las respuestas del proyecto; las reglas clínicas y las fuentes institucionales mantienen su prioridad."
+    },
+    "saved": {
+      "title": "Respuestas como fuente",
+      "description": "Una respuesta se guarda para el resto del proyecto.",
+      "detail": "Una respuesta final se guarda como fuente privada y puede recuperarse desde otras conversaciones del mismo proyecto."
+    },
+    "preferences": {
+      "title": "Preferencias de respuesta",
+      "description": "Extensión, tono y formato, recordados entre chats.",
+      "detail": "Las preferencias quedan registradas y se aplican a todos los chats; ajustan la presentación, no la finalidad ni las reglas clínicas."
+    },
+    "private": {
+      "title": "Documentos privados",
+      "description": "PDF, TXT y Markdown, citables como fuente.",
+      "detail": "Un protocolo del servicio o unas notas propias se añaden al proyecto y se citan como el resto de fuentes, visibles solo para su propietario."
+    },
+    "history": {
+      "title": "Historial ordenado",
+      "description": "Fijar, renombrar, mover y recorrer por pregunta.",
+      "detail": "Las conversaciones se anclan, se renombran o se mueven a un proyecto, y en las más largas se salta directamente a cada pregunta."
+    },
+    "languages": {
+      "title": "Tres idiomas",
+      "description": "Español, catalán e inglés.",
+      "detail": "La interfaz se presenta en el idioma que elige cada profesional, y el cambio se aplica al momento."
+    },
+    "theme": {
+      "title": "Tema claro y oscuro",
+      "description": "Lectura cómoda en consulta o de guardia.",
+      "detail": "El modo oscuro reduce el brillo en las guardias nocturnas, y el claro facilita la lectura con la luz de la consulta."
+    },
+    "corpus": {
+      "title": "Corpus por organización",
+      "description": "Protocolos propios sobre una base común.",
+      "detail": "Los protocolos del centro se añaden sobre una base común de guías y manuales, y el comité consulta ambos con la misma trazabilidad."
+    },
+    "library": {
+      "title": "Biblioteca de documentos",
+      "description": "Inventario de las guías, con tipo y resumen.",
+      "detail": "Cada documento figura con su tipo, su fecha de aprobación, los expertos a los que alimenta y un resumen de lo que aporta."
+    },
+    "committees": {
+      "title": "Comités configurables",
+      "description": "Expertos y modos definidos por organización.",
+      "detail": "Cada organización configura los modos de respuesta de su comité y marca uno por defecto; con más de uno, el profesional elige entre ellos en el chat."
+    },
+    "review": {
+      "title": "Publicación revisada",
+      "description": "Los cambios se revisan antes de entrar en el corpus.",
+      "detail": "Un documento nuevo o una actualización se revisa y se aprueba antes de publicarse, de modo que nada llega a las respuestas sin control."
+    },
+    "versions": {
+      "title": "Versiones del corpus",
+      "description": "Cada cambio queda registrado y versionado.",
+      "detail": "El corpus conserva su historial: qué cambió, cuándo y en qué documentos, para reconstruir en qué se basó cada respuesta."
+    },
+    "control": {
+      "title": "Preguntas de control",
+      "description": "Baterías que detectan si las respuestas se degradan.",
+      "detail": "Una batería de preguntas con respuesta de referencia se repite tras cada cambio y señala las que empeoran respecto a la versión anterior."
+    },
+    "rating": {
+      "title": "Valoración profesional",
+      "description": "Útil o no útil, con comentario para revisión.",
+      "detail": "Cada profesional marca una respuesta como útil o no útil y añade un comentario, que llega al equipo editorial para su revisión."
+    },
+    "brand": {
+      "title": "Marca y dominio propios",
+      "description": "Acceso con el diseño de la organización.",
+      "detail": "La plataforma se presenta con el logotipo, los colores y el dominio de la organización."
+    }
+  },
+  "group": {
+    "eyebrow": "Funcionalidades"
+  },
+  "highlights": {
+    "eyebrow": "Plataforma",
+    "title": "Nuestras principales<br></br><accent>funcionalidades.</accent>",
+    "lead": "Ponemos a tu disposición {count} funcionalidades orientadas a tu trabajo diario: consultar con tu equipo, comprobar cada fuente y mantener al día el conocimiento de tu organización. Estas son algunas de las principales.",
+    "cta": "Ver todas las funcionalidades"
+  },
+  "intro": {
+    "eyebrow": "Plataforma · Funcionalidades",
+    "title": "Todo lo que ofrece<br></br><accent>la plataforma.</accent>",
+    "lead": "Lo que conviene comprobar antes de llevarla a tu organización: de dónde sale cada respuesta, quién decide qué documentos consulta y cómo se vigila su calidad con el tiempo.",
+    "cta": "Explorar funcionalidades"
+  },
+  "filterBar": {
+    "title": "Funcionalidades",
+    "groupSelect": "Ir al grupo",
+    "noun": {
+      "one": "funcionalidad",
+      "other": "funcionalidades"
+    },
+    "groupsNav": "Grupos de funcionalidades",
+    "pillLabel": "{label}: {count, plural, one {# funcionalidad} other {# funcionalidades}}",
+    "search": "Buscar funcionalidades"
+  },
+  "overview": {
+    "sections": {
+      "intro": "Introducción",
+      "features": "Funcionalidades"
+    },
+    "featuresLabel": "Funcionalidades",
+    "empty": {
+      "title": "No se han encontrado funcionalidades.",
+      "body": "Prueba con otra búsqueda o <link>pregúntanos directamente</link>."
+    }
+  }
+}

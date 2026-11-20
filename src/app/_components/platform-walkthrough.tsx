@@ -1,7 +1,9 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+
+import { Link } from "~/i18n/navigation";
 
 import { Eyebrow } from "./eyebrow";
 import { FeatureHighlights } from "./platform-features/feature-highlights";
@@ -19,14 +21,14 @@ const sectionBlendDepth = "clamp(160px, 22vw, 360px)";
 const sectionFadeIn = surfaceMask(sectionBlendDepth);
 const sectionFadeOut = sectionFadeIn.replace("to bottom", "to top");
 
-/** The side index of the page. */
-const platformSections = [
-  { id: "plataforma", label: "Plataforma" },
-  { id: "funcionalidades", label: "Funcionalidades" },
-  { id: "contacto", label: "Contacto" },
-];
-
 export function PlatformWalkthrough() {
+  const t = useTranslations("platform.walkthrough");
+  /** The side index of the page. */
+  const platformSections = [
+    { id: "plataforma", label: t("sections.platform") },
+    { id: "funcionalidades", label: t("sections.features") },
+    { id: "contacto", label: t("sections.contact") },
+  ];
   return (
     <div className="relative isolate bg-[#fbfdff] dark:bg-[#06111f]">
       <HomeMotionBackground />
@@ -68,22 +70,22 @@ export function PlatformWalkthrough() {
                 <div className="relative mx-auto mb-16 max-w-3xl text-center lg:mb-24">
                   <Reveal visible={painted}>
                     <p className="font-display text-primary-light dark:text-primary-dark mb-6 text-xs leading-4 font-bold tracking-[0.22em] text-balance uppercase">
-                      Nuestra plataforma
+                      {t("intro.eyebrow")}
                     </p>
                     <h1 className="font-display text-navy text-[32px] leading-[1.08] font-extrabold tracking-tight sm:text-[40px] lg:text-[54px] dark:text-slate-50">
-                      De la consulta clínica
-                      <br />
-                      <span className="text-primary-light dark:text-primary-dark">
-                        a la evidencia.
-                      </span>
+                      {t.rich("intro.title", {
+                        br: () => <br />,
+                        accent: (chunks) => (
+                          <span className="text-primary-light dark:text-primary-dark">
+                            {chunks}
+                          </span>
+                        ),
+                      })}
                     </h1>
                   </Reveal>
                   <Reveal visible={painted} delay={0.1}>
                     <p className="font-body mx-auto mt-4 max-w-2xl text-lg leading-8 text-slate-600 lg:mt-6 dark:text-slate-400">
-                      Explora la interfaz, los paneles y tu área de usuario con
-                      una consulta de ejemplo. Descubre cómo se presenta la
-                      respuesta y revisa las fuentes que la respaldan para
-                      profundizar en el contexto clínico.
+                      {t("intro.lead")}
                     </p>
                   </Reveal>
                 </div>
@@ -147,17 +149,16 @@ export function PlatformWalkthrough() {
               <div className="relative z-30 mx-auto flex w-full max-w-7xl flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
                 <div>
                   <Reveal visible={painted}>
-                    <Eyebrow>Siguiente paso</Eyebrow>
+                    <Eyebrow>{t("next.eyebrow")}</Eyebrow>
                   </Reveal>
                   <Reveal visible={painted} delay={0.1}>
                     <h2 className="font-display text-navy mt-4 max-w-2xl text-3xl font-extrabold tracking-tight sm:text-4xl dark:text-slate-50">
-                      El conocimiento de tu organización, en cada consulta.
+                      {t("next.title")}
                     </h2>
                   </Reveal>
                   <Reveal visible={painted} delay={0.2}>
                     <p className="font-body mt-5 max-w-xl text-base leading-7 text-slate-600 dark:text-slate-400">
-                      Exploremos cómo integrar tus guías, protocolos y corpus
-                      médico en un entorno de consulta gobernado.
+                      {t("next.lead")}
                     </p>
                   </Reveal>
                 </div>
@@ -166,7 +167,7 @@ export function PlatformWalkthrough() {
                     href="/contacto"
                     className="font-body bg-primary-light focus-visible:outline-primary-light dark:bg-primary-dark dark:hover:bg-primary-dark/85 inline-flex shrink-0 items-center gap-3 rounded-full px-6 py-3.5 text-sm font-semibold text-white shadow-md transition hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-4 dark:text-[#03111d]"
                   >
-                    Solicitar más información{" "}
+                    {t("next.cta")}{" "}
                     <ArrowRight
                       size={17}
                       strokeWidth={1.8}

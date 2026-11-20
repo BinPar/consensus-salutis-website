@@ -10,10 +10,11 @@
 import fs from "node:fs";
 import path from "node:path";
 
+import { createFormatter, createTranslator } from "next-intl";
 import { describe, expect, it } from "vitest";
 
 import {
-  BLOG_CONTENT_DIR,
+  blogContentDir,
   editDistance,
   getAllBlogPosts,
   getBlogPosts,
@@ -22,15 +23,36 @@ import {
   normalizeTag,
   parseBlogPost,
 } from "~/lib/blog";
+import { formatBlogDate } from "~/app/_components/blog/blog-post-format";
 import { blogAuthorIds, getBlogAuthor } from "~/content/blog/authors";
+import { routing } from "~/i18n/routing";
 import { blogCoverGeometry } from "~/lib/blog-cover";
 
-const fileNames = fs
-  .readdirSync(BLOG_CONTENT_DIR)
-  .filter((fileName) => fileName.endsWith(".mdx"))
-  .sort();
+import blogMessages from "../../../messages/es/blog.json";
+
+/* Los ficheros de cada idioma, con su ruta: `src/content/blog/<idioma>/<slug>.mdx`. */
+const files = routing.locales.flatMap((fileLocale) => {
+  const directory = blogContentDir(fileLocale);
+
+  return fs.existsSync(directory)
+    ? fs
+        .readdirSync(directory)
+        .filter((fileName) => fileName.endsWith(".mdx"))
+        .sort()
+        .map((fileName) => ({
+          locale: fileLocale,
+          fileName,
+          path: path.join(directory, fileName),
+        }))
+    : [];
+});
 
 const posts = getAllBlogPosts();
+
+/* La copy de fecha y lectura se compone al pintar; aquí, con los mensajes en castellano. */
+const locale = routing.defaultLocale;
+const format = createFormatter({ locale });
+const t = createTranslator({ locale, messages: { blog: blogMessages } });
 
 function frontmatterOf(overrides: Record<string, string> = {}) {
   const base: Record<string, string> = {
@@ -52,26 +74,58 @@ function frontmatterOf(overrides: Record<string, string> = {}) {
 
 describe("contenido real del blog", () => {
   it("hay al menos un fichero .mdx y todos parsean", () => {
-    expect(fileNames.length).toBeGreaterThan(0);
+    expect(files.length).toBeGreaterThan(0);
 
-    fileNames.forEach((fileName) => {
-      const source = fs.readFileSync(
-        path.join(BLOG_CONTENT_DIR, fileName),
-        "utf8",
-      );
+    files.forEach((file) => {
+      const source = fs.readFileSync(file.path, "utf8");
 
-      expect(() => parseBlogPost(fileName, source)).not.toThrow();
+      expect(() =>
+        parseBlogPost(file.fileName, source, file.locale),
+      ).not.toThrow();
     });
   });
 
-  it("los slugs son únicos y kebab-case", () => {
-    const slugs = posts.map((post) => post.slug);
+  it("no hay posts sueltos fuera de la carpeta de un idioma", () => {
+    expect(
+      fs
+        .readdirSync(path.dirname(blogContentDir(routing.defaultLocale)))
+        .filter((fileName) => fileName.endsWith(".mdx")),
+    ).toEqual([]);
+  });
 
-    expect(new Set(slugs).size).toBe(slugs.length);
+  it("los slugs son únicos dentro de cada idioma y kebab-case", () => {
+    routing.locales.forEach((postLocale) => {
+      const slugs = posts
+        .filter((post) => post.locale === postLocale)
+        .map((post) => post.slug);
 
-    slugs.forEach((slug) => {
-      expect(slug).toMatch(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
+      expect(new Set(slugs).size).toBe(slugs.length);
+
+      slugs.forEach((slug) => {
+        expect(slug).toMatch(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
+      });
     });
+  });
+
+  it("cada traducción apunta a un original en castellano y no lo repite", () => {
+    const originals = new Set(
+      posts
+        .filter((post) => post.locale === routing.defaultLocale)
+        .map((post) => post.slug),
+    );
+
+    routing.locales
+      .filter((postLocale) => postLocale !== routing.defaultLocale)
+      .forEach((postLocale) => {
+        const keys = posts
+          .filter((post) => post.locale === postLocale)
+          .map((post) => post.translationKey);
+
+        keys.forEach((key) => {
+          expect(originals.has(key), `${postLocale}: ${key}`).toBe(true);
+        });
+        expect(new Set(keys).size).toBe(keys.length);
+      });
   });
 
   it("cada autor existe en el registro y trae cargo", () => {
@@ -79,7 +133,7 @@ describe("contenido real del blog", () => {
       const author = getBlogAuthor(post.author.id);
 
       expect(author, `autor de ${post.slug}`).toBeDefined();
-      expect(author?.role.trim()).not.toBe("");
+      expect(t(`blog.authors.${post.author.id}.role`).trim()).not.toBe("");
     });
   });
 
@@ -99,11 +153,8 @@ describe("contenido real del blog", () => {
     // `<img>` JSX o `![alt](src)` Markdown; solo rutas absolutas de public/
     const jsxImg = /<img\b([^>]*)>/g;
     const mdImg = /!\[([^\]]*)\]\(([^)\s]+)/g;
-    fileNames.forEach((fileName) => {
-      const source = fs.readFileSync(
-        path.join(BLOG_CONTENT_DIR, fileName),
-        "utf8",
-      );
+    files.forEach((file) => {
+      const source = fs.readFileSync(file.path, "utf8");
       const figures: Array<{ src: string; alt: string }> = [];
       for (const match of source.matchAll(jsxImg)) {
         const attrs = match[1] ?? "";
@@ -120,11 +171,11 @@ describe("contenido real del blog", () => {
         .forEach((figure) => {
           expect(
             figure.alt.trim(),
-            `alt de ${figure.src} en ${fileName}`,
+            `alt de ${figure.src} en ${file.fileName}`,
           ).toBeTruthy();
           expect(
             fs.existsSync(path.join(process.cwd(), "public", figure.src)),
-            `${figure.src} (${fileName}) no existe en public/`,
+            `${figure.src} (${file.fileName}) no existe en public/`,
           ).toBe(true);
         });
     });
@@ -139,8 +190,12 @@ describe("contenido real del blog", () => {
   it("deriva href, etiqueta de fecha y tiempo de lectura", () => {
     posts.forEach((post) => {
       expect(post.href).toBe(`/blog/${post.slug}`);
-      expect(post.createdAtLabel).toMatch(/^\d{1,2} [a-zé]+ \d{4}$/);
-      expect(post.readTime).toBe(`${post.readMinutes} min de lectura`);
+      expect(formatBlogDate(format, post.date)).toMatch(
+        /^\d{1,2} [a-zé]+ \d{4}$/,
+      );
+      expect(t("blog.post.readTime", { minutes: post.readMinutes })).toBe(
+        `${post.readMinutes} min de lectura`,
+      );
       expect(post.readMinutes).toBeGreaterThan(0);
       expect(post.wordCount).toBeGreaterThan(0);
     });
@@ -226,12 +281,20 @@ describe("borradores y fechas futuras", () => {
 
   it("en dev y en test se ven todos", () => {
     /* Vitest corre con NODE_ENV=test, que es el caso «visible». */
-    expect(getBlogPosts().length).toBe(posts.length);
+    routing.locales.forEach((postLocale) => {
+      expect(getBlogPosts(postLocale).length).toBe(
+        posts.filter((post) => post.locale === postLocale).length,
+      );
+    });
   });
 });
 
 describe("índice de tags", () => {
-  const tags = getBlogTags(posts);
+  /* Las etiquetas son de cada idioma; el índice se prueba sobre el castellano. */
+  const spanishPosts = posts.filter(
+    (post) => post.locale === routing.defaultLocale,
+  );
+  const tags = getBlogTags(spanishPosts);
 
   it("normaliza a slug", () => {
     expect(normalizeTag("Inteligencia Artificial")).toBe(
@@ -249,7 +312,9 @@ describe("índice de tags", () => {
     expect([...counts].sort((left, right) => right - left)).toEqual(counts);
 
     tags.forEach((entry) => {
-      expect(getBlogPostsByTag(entry.tag, posts)).toHaveLength(entry.count);
+      expect(getBlogPostsByTag(entry.tag, spanishPosts)).toHaveLength(
+        entry.count,
+      );
     });
   });
 
@@ -303,7 +368,7 @@ describe("registro de autores", () => {
 
       expect(author.id).toBe(id);
       expect(author.name.trim()).not.toBe("");
-      expect(author.role.trim()).not.toBe("");
+      expect(blogMessages.authors[id].role.trim()).not.toBe("");
     });
   });
 });
@@ -325,10 +390,12 @@ describe("portada de marca", () => {
   });
 
   it("cada post real tiene su portada, con `image` o sin ella", () => {
+    /* Una traducción comparte la portada de su original: se siembra con `translationKey`. */
+    const keys = new Set(posts.map((post) => post.translationKey));
     const drawn = new Set(
-      posts.map((post) => blogCoverGeometry(post.slug).mainBlob),
+      [...keys].map((key) => blogCoverGeometry(key).mainBlob),
     );
 
-    expect(drawn.size).toBe(posts.length);
+    expect(drawn.size).toBe(keys.size);
   });
 });

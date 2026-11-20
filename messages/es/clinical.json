@@ -1,0 +1,243 @@
+{
+  "chat": {
+    "placeholder": "Pregunta clínica al comité...",
+    "responding": "El comité está respondiendo...",
+    "thinking": "Pensando…",
+    "bibliography": "Bibliografía"
+  },
+  "chatMock": {
+    "label": "Demostración de BinPar: una consulta clínica, una respuesta con evidencia y sus referencias.",
+    "title": "Comité clínico",
+    "question": "¿Qué criterios debo revisar para confirmar y realizar el seguimiento de una posible hipertensión arterial?",
+    "followUpQuestion": "¿Qué datos conviene registrar durante el seguimiento?",
+    "followUpAnswer": "Registra la evolución de las cifras, adherencia y tolerancia, cambios en el riesgo cardiovascular y cualquier hallazgo que requiera ajustar el plan o ampliar el estudio.",
+    "processingStates": [
+      "Consultando guías",
+      "Contrastando conocimiento validado",
+      "Preparando respuesta"
+    ],
+    "followUpProcessing": "Contrastando seguimiento",
+    "answer": {
+      "confirm": {
+        "before": "Confirma las cifras con ",
+        "strong": "mediciones repetidas",
+        "after": " y, cuando proceda, monitorización fuera de consulta."
+      },
+      "risk": {
+        "before": "Valora el ",
+        "strong": "riesgo cardiovascular global",
+        "after": "."
+      },
+      "damage": {
+        "before": "Revisa posibles causas secundarias y ",
+        "strong": "daño orgánico",
+        "after": " antes de definir objetivos y seguimiento."
+      }
+    },
+    "references": ["Protocolo clínico local", "Guía clínica de hipertensión"]
+  },
+  "player": {
+    "title": "De la pregunta a la evidencia.",
+    "controls": {
+      "navigation": "Etapas de la consulta",
+      "playbackTarget": "recorrido",
+      "play": "Reproducir {target}",
+      "pause": "Pausar {target}",
+      "playTitle": "Reproducir",
+      "pauseTitle": "Pausar",
+      "speed": "Velocidad ×{speed}. Cambiar a ×{next}",
+      "speedTitle": "Velocidad ×{speed} · Cambiar a ×{next}",
+      "restart": {
+        "etapa": "Reiniciar animación de la etapa {number}",
+        "capa": "Reiniciar animación de la capa {number}"
+      },
+      "restartTitle": "Reiniciar escena actual"
+    }
+  },
+  "steps": {
+    "question": {
+      "title": "Plantear la consulta",
+      "body": "El profesional formula una duda clínica en lenguaje natural, aportando el contexto necesario para orientar la consulta.",
+      "signal": "Lenguaje clínico natural"
+    },
+    "committee": {
+      "title": "Consultar el conocimiento",
+      "body": "El sistema selecciona los agentes expertos adecuados y consulta sus corpus médicos, adaptados a la organización y la especialidad.",
+      "signal": "Comité de expertos"
+    },
+    "synthesis": {
+      "title": "Contrastar las aportaciones",
+      "body": "El orquestador reúne las aportaciones de los expertos, contrasta sus matices y límites y construye una orientación conjunta para la consulta.",
+      "signal": "Síntesis del comité"
+    },
+    "evidence": {
+      "title": "Fuentes verificables",
+      "body": "La respuesta reúne la orientación clínica y permite consultar las fuentes que respaldan sus conclusiones.",
+      "signal": "Evidencia trazable"
+    },
+    "followup": {
+      "title": "Revisar y profundizar",
+      "body": "El profesional puede ampliar la consulta y aportar contexto para profundizar en la valoración del caso.",
+      "signal": "Conversación con contexto"
+    }
+  },
+  "visuals": {
+    "coordinator": "Orquestador",
+    "realConsultation": "Consulta real",
+    "processLabel": "Representación del proceso"
+  },
+  "questionScene": {
+    "title": "Consulta clínica",
+    "states": [
+      "Seleccionando los especialistas para esta consulta.",
+      "Consultando Cardiología, Farmacología y Nefrología.",
+      "Contrastando los signos clínicos, la función renal y la medicación.",
+      "Integrando las aportaciones para preparar la respuesta."
+    ]
+  },
+  "committee": {
+    "query": "Consulta clínica",
+    "corpus": "Corpus",
+    "status": {
+      "received": "3 aportaciones recibidas",
+      "receiving": "Recibiendo aportaciones",
+      "selected": "Comité seleccionado",
+      "selecting": "Seleccionando expertos",
+      "incoming": "Recibiendo consulta"
+    },
+    "expertStatus": {
+      "sent": "Aportación enviada",
+      "prepared": "Aportación preparada",
+      "consulted": "Corpus consultado",
+      "consulting": "Consultando corpus",
+      "directed": "Consulta dirigida"
+    },
+    "prepared": {
+      "cardiologia": "Valorar congestión y signos de alarma.",
+      "farmacologia": "Revisar AINE e interacciones por riesgo renal.",
+      "nefrologia": "Comparar creatinina, potasio y diuresis."
+    }
+  },
+  "synthesis": {
+    "status": {
+      "emitted": "Orientación emitida",
+      "integrating": "Integrando orientación",
+      "contrasting": "Contrastando matices",
+      "gathering": "Reuniendo aportaciones"
+    },
+    "output": "Orientación conjunta",
+    "relations": {
+      "congestion": {
+        "title": "Congestión",
+        "compact": "Contrastar el origen cardíaco y renal.",
+        "detail": "Contrastar congestión cardíaca y sobrecarga de volumen por ERC."
+      },
+      "medication": {
+        "title": "Medicación",
+        "compact": "Ibuprofeno: retención de líquidos.",
+        "detail": "Ibuprofeno: posible retención hídrica y deterioro del filtrado glomerular."
+      },
+      "limits": {
+        "title": "Límites",
+        "compact": "Evitar atribuir el edema solo a la ERC.",
+        "detail": "Evitar atribuir el edema solo a la ERC o asumir causalidad por ibuprofeno."
+      }
+    }
+  },
+  "evidence": {
+    "sourceLabel": "Fuente de consulta",
+    "fullDocument": "Ver documento completo",
+    "document": {
+      "intro": "Otras NTIC son:",
+      "dosingTitle": "Dosis de fármacos y riñón",
+      "dosingOptions": [
+        "Disminuyendo la dosis.",
+        "Aumentando el intervalo entre las dosis."
+      ],
+      "antimicrobialsTitle": "Antimicrobianos",
+      "imageAlt": "Imagen del documento de consulta con dos flechas señalando detalles.",
+      "nsaidsTitle": "Antiinflamatorios no esteroideos"
+    }
+  },
+  "consultation": {
+    "question": "Paciente de 68 años con diabetes tipo 2, hipertensión y enfermedad renal crónica. Presenta cansancio progresivo, falta de aire al esfuerzo y edema en ambas piernas, y toma ibuprofeno con frecuencia. ¿Cómo orientarías la valoración inicial, qué signos de alarma y pruebas considerarías, y cómo influyen sus enfermedades y la medicación en las decisiones?",
+    "experts": {
+      "cardiologia": {
+        "name": "Cardiología",
+        "detail": "Congestión cardíaca: ortopnea, crepitantes y edema periférico.",
+        "compact": "Disnea y edema: valorar congestión."
+      },
+      "farmacologia": {
+        "name": "Farmacología",
+        "detail": "Revisar AINE, IECA/ARA-II y diuréticos por riesgo renal e hiperpotasemia.",
+        "compact": "Ibuprofeno: revisar el riesgo renal."
+      },
+      "nefrologia": {
+        "name": "Nefrología",
+        "detail": "Valorar lesión renal aguda sobre ERC: creatinina, potasio y diuresis.",
+        "compact": "Revisar función renal, potasio y diuresis."
+      }
+    }
+  },
+  "answer": {
+    "assessment": "El cuadro requiere **valoración presencial prioritaria**, porque puede corresponder a una descompensación congestiva/insuficiencia cardiaca, una sobrecarga de volumen por empeoramiento de la ERC, un fracaso renal agudo sobre ERC, hiperpotasemia, anemia o una combinación de estos procesos. ⟦c62888⟧ ⟦c7b5cc⟧",
+    "precipitant": "El ibuprofeno es un posible factor precipitante, al favorecer retención hídrica y deterioro del filtrado. ⟦c62888⟧ ⟦c7d2a7⟧",
+    "claim": "Debe evitarse en la ERC grave cuando el aclaramiento de creatinina es inferior a 30 ml/min, y también en presencia de insuficiencia cardiaca, diabetes o hipertensión. ⟦c73b77⟧"
+  },
+  "followup": {
+    "question": "¿Qué información adicional necesitas para precisar la valoración y revisar la medicación?",
+    "paragraphs": {
+      "relevantData": "La disminución de la diuresis, la sobrecarga de volumen, la hiperpotasemia, la acidosis y los síntomas urémicos son datos especialmente relevantes.",
+      "creatinine": "Compararía los valores actuales con los previos. Un aumento de creatinina de al menos 0,3 mg/dL en 48 horas o de al menos el 50 % en 7 días cumple criterio de fracaso renal agudo según KDIGO. ⟦c7bf72⟧",
+      "reconciliation": "La conciliación debe incluir tratamientos para diabetes, hipertensión, dolor y edema, además de medicamentos “a demanda”, preparados para resfriado, antiácidos, laxantes, suplementos, plantas y productos adquiridos sin receta o por internet. En la ERC, los fármacos con eliminación renal pueden requerir reducción de dosis o ampliación del intervalo. ⟦c73d65⟧",
+      "nsaids": "Los AINE pueden reducir el filtrado por vasoconstricción aferente; deben evitarse en la ERC y especialmente si se combinan con IECA/ARA-II o diuréticos. ⟦c73b77⟧ ⟦c7d2a7⟧"
+    }
+  },
+  "references": {
+    "heartFailure": "Manual ProMIR · Cardiología · Insuficiencia cardíaca",
+    "acuteKidneyFailure": "Manual ProMIR · Nefrología · Fracaso renal agudo",
+    "chronicKidneyFailure": "Manual ProMIR · Nefrología · Insuficiencia renal crónica",
+    "cardiovascularRisk": "Manual ProMIR · Nefrología · Riesgo cardiovascular y enfermedad renal",
+    "bodyText": "Manual ProMIR · Nefrología · Cuerpo de texto"
+  },
+  "citations": {
+    "c62888": "La ICA ([Cardiología, Insuficiencia cardíaca](/capitulo/570779c8f4d68bf008dbc6b4#58999992b89214740aff8b88)) abarca todos aquellos estados en los que el corazón no es capaz de bombear la sangre que el organismo necesita en un momento determinado (gasto cardíaco inferior a las necesidades metabólicas).",
+    "c7b5cc": "##### Síndrome urémico. Afectación por órganos y sistemas",
+    "c7d2a7": "El movimiento del líquido o filtración glomerular a través del glomérulo se rige por las leyes de Starling y es proporcional a la permeabilidad de la membrana y al equilibrio entre los gradientes de presión hidráulica (que favorece la salida de líquido) y oncótica (que impide la salida de líquido).",
+    "c7bb6e": "El tratamiento de cualquier FRA se basa en actuar de la forma más precoz posible sobre la causa desencadenante.",
+    "c73b77": "**Se debe evitar el uso de AINE en la insuficiencia renal.",
+    "c73d65": "El ajuste de dosis en la insuficiencia renal es imprescindible para evitar la toxicidad de fármacos con eliminación renal y procurar su adecuada eficacia.",
+    "c7be7b": "La IRA prerrenal habitualmente es oligúrica y presenta una orina muy concentrada (sodio en orina bajo, con osmolaridad urinaria elevada).",
+    "c7bd7c": "En todo paciente con IRA lo primero que se debe realizar es una ecografía renal para descartar causa obstructiva.",
+    "c7c3cb": "En condiciones normales la excreción normal de proteínas en orina es de 80 mg/24 horas, de las cuales hasta 30 mg corresponden a albúmina y el resto son proteínas procedentes de células tubulares (proteínas de Tamm-Horsfall) y proteínas de bajo peso molecular.",
+    "c7b8ef": "** Se define por un descenso sostenido superior a 5 mL/min/año descartándose previamente causas reversibles como uropatía obstructiva, depleción de volumen, hipoperfusión renal o empleo de fármacos nefrotóxicos (antiinflamatorios no esteroideos, contrastes yodados, etc.",
+    "c7ca72": "** Se define como la concentración de potasio sérico superior a 5,5 mEq/L.",
+    "c6298f": "Para el **diagnóstico** (****)de la ICA solicitarás estudio radiológico, donde podrás encontrar ( y ):",
+    "c62a00": "</recuerda> Es importante conocer cuáles son los factores precipitantes de una ICA, porque en ocasiones te solicitarán su identificación: Causas cardíacas: taquiarritmias o bradiarritmias, isquemia miocárdica, fármacos inotrópicos negativos (antagonistas del calcio, β-bloqueantes, etc.",
+    "c62b09": "En cuanto al **tratamiento** (**; **), debes plantearte los siguientes **objetivos:**",
+    "c7da19": "Las nefropatías tubulointersticiales agudas (NTIA) causan una reacción inflamatoria aguda del espacio intersticial caracterizada por edema intersticial, infiltrados inflamatorios y áreas de necrosis de células tubulares.",
+    "c73a7e": "##### Diuréticos Se deben evitar los diuréticos ahorradores de potasio (espironolactona, eplerenona, amilorida) en pacientes con insuficiencia renal y, sobre todo, no asociarlos con IECA, ARA-II o AINE (alto riesgo de hiperpotasemia).",
+    "c739f1": "##### Hipotensores IECA y ARA-II: son renoprotectores, no están contraindicados en la insuficiencia renal, pero en etapas avanzadas pueden requerir disminución de la dosis."
+  },
+  "documentContext": {
+    "nephropathies": [
+      "Nefropatía por ácido úrico: la hiperuricemia crónica provoca depósitos de ácido úrico y sales de urato en el intersticio y los túbulos. Son frecuentes los episodios recurrentes de pielonefritis. Se asocia a HTA e hiperlipidemia. El tratamiento se basa en el alopurinol.",
+      "Nefropatía hipercalcémica: infiltrados por monocitos con fibrosis intersticial y depósito de calcio en el intersticio (nefrocalcinosis), glomérulos y vasos. Se caracteriza por incapacidad para concentrar la orina y acidosis tubular distal con pérdida de potasio y sodio.",
+      "Nefropatía de los Balcanes: nefropatía endémica de los países de Europa del Este. Aunque no está aclarada su etiología, se sospechan factores medioambientales (virus, toxinas de plantas, hidrocarburos, etc.) sobre una base de predisposición genética. Últimamente se cree que pueda ser debida a un componente vegetal, el ácido aristolóquico. Presenta una altísima incidencia de tumores uroteliales. Conduce a la ERC terminal entre los 30-50 años.",
+      "Nefropatía por oxalato: aparece en aquellos procesos que cursan con aumento de la excreción de oxalato como hiperoxalurias, cirugía de derivación ileal, intoxicación por etilenglicol, anestesia con metoxiflurano o ingesta de altas dosis de ácido ascórbico. Aparece nefrolitiasis y nefrocalcinosis. Para su tratamiento se puede utilizar piridoxina (convierte el glioxilato en glicina, en lugar de oxalato).",
+      "Nefritis por radiación: es dependiente de dosis y afecta a los expuestos a más de 2.300 rad. Provoca una importante vasoconstricción que da lugar a isquemia renal. Es muy frecuente la HTA grave o maligna. Produce hialinosis glomerular, fibrosis intersticial y hialinización de la capa media de las arteriolas."
+    ],
+    "dosing": "El ajuste de dosis en la insuficiencia renal es imprescindible para evitar la toxicidad de fármacos con eliminación renal y procurar su adecuada eficacia. En la insuficiencia renal se puede realizar de dos maneras:",
+    "antimicrobials": [
+      "Antibióticos: no requieren ajuste de dosis azitromicina, clindamicina, linezolid, doxiciclina, moxifloxacino, cloranfenicol.",
+      "Antifúngicos: no precisan ajuste de dosis caspofungina, itraconazol y voriconazol (los dos últimos sólo por vía oral, ya que por vía intravenosa están contraindicados con aclaramiento de creatinina < 50 mL/min, por acúmulo del vehículo ciclodextrina).",
+      "Antivirales: prácticamente todos precisan disminución de dosis pues presentan alto riesgo de neurotoxicidad, con cuadros confusionales, alucinaciones visuales, etc., sobre todo el aciclovir.",
+      "Antituberculostáticos: no precisan ajuste de dosis pirimetamina, isoniazida, rifampicina, rifabutina."
+    ],
+    "nsaids": {
+      "highlight": "Se debe evitar el uso de AINE en la insuficiencia renal",
+      "rest": ". En el supuesto de que sean estrictamente necesarios es preferible utilizar AINE de vida media corta y durante pocos días. Se evitarán en pacientes con insuficiencia cardíaca, diabetes e hipertensión concomitantes. Se debe procurar que el paciente tenga una correcta hidratación."
+    },
+    "interactions": "También hay que evitar su uso junto a inhibidores de la enzima convertidora de angiotensina (IECA), antagonistas de los receptores de angiotensina (ARA-II) y diuréticos. En pacientes con ERC grave (aclaramiento de creatinina < 30 mL/min) siempre están contraindicados."
+  }
+}

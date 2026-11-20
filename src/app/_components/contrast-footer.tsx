@@ -2,16 +2,24 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
-import Link from "next/link";
+
+import { Link } from "~/i18n/navigation";
+
 import { HomeGrid } from "./motion-system";
-import { navItems } from "./site-header";
-import { contactItems, legalItems } from "./site-footer-links";
+import {
+  useContactItems,
+  useLegalItems,
+  useNavItems,
+} from "./site-footer-links";
 import "./footer-design.css";
 
 export function Brand({ white = false }: { white?: boolean }) {
+  const t = useTranslations("layout.footer");
+
   return (
-    <Link href="/" aria-label="BinPar · Inicio" className="ft-brand">
+    <Link href="/" aria-label={t("brandHome")} className="ft-brand">
       {!white && (
         <Image
           src="/logos/binpar-brand/binpar-logo-light.svg"
@@ -33,8 +41,11 @@ export function Brand({ white = false }: { white?: boolean }) {
 }
 
 export function ProductLinks({ numbered = false }: { numbered?: boolean }) {
+  const t = useTranslations("layout.footer");
+  const navItems = useNavItems();
+
   return (
-    <nav aria-label="Producto · Pie de página" className="ft-product-links">
+    <nav aria-label={t("productNav")} className="ft-product-links">
       {navItems.map((item, index) =>
         item.disabled ? (
           <span
@@ -61,24 +72,42 @@ export function ProductLinks({ numbered = false }: { numbered?: boolean }) {
 }
 
 export function ContactLinks() {
+  const t = useTranslations("layout.footer");
+  const contactItems = useContactItems();
+
   return (
-    <nav aria-label="Contacto · Pie de página" className="ft-contact-links">
-      {contactItems.map((item) => (
-        <Link href={item.href} key={item.href}>
-          {item.label}
-          <ArrowUpRight size={15} strokeWidth={1.8} aria-hidden="true" />
-        </Link>
-      ))}
+    <nav aria-label={t("contactNav")} className="ft-contact-links">
+      {contactItems.map((item) => {
+        const content = (
+          <>
+            {item.label}
+            <ArrowUpRight size={15} strokeWidth={1.8} aria-hidden="true" />
+          </>
+        );
+
+        return item.kind === "mail" ? (
+          <a href={item.href} key={item.href}>
+            {content}
+          </a>
+        ) : (
+          <Link href={item.href} key={item.href}>
+            {content}
+          </Link>
+        );
+      })}
     </nav>
   );
 }
 
 export function Bottom() {
+  const t = useTranslations("layout.footer");
+  const legalItems = useLegalItems();
+
   return (
     <div className="ft-bottom">
-      <p>© BinPar · Todos los derechos reservados</p>
+      <p>{t("rights")}</p>
       <nav
-        aria-label="Información legal"
+        aria-label={t("legalNav")}
         className="flex flex-wrap justify-end gap-x-4 gap-y-1"
       >
         {legalItems.map((item) => (
@@ -92,11 +121,11 @@ export function Bottom() {
 }
 
 export function Description({ extended = false }: { extended?: boolean }) {
+  const t = useTranslations("layout.footer");
+
   return (
     <p className="ft-description">
-      {extended
-        ? "IA médica institucional para conectar conocimiento clínico y respuestas trazables."
-        : "IA médica institucional."}
+      {extended ? t("descriptionExtended") : t("description")}
     </p>
   );
 }
@@ -106,6 +135,7 @@ export function ContrastFooter({
 }: {
   palette?: "teal" | "original";
 }) {
+  const t = useTranslations("layout.footer");
   const reduced = useReducedMotion();
   return (
     <motion.footer
@@ -127,11 +157,11 @@ export function ContrastFooter({
             <Description extended />
           </div>
           <div className="ft-panel-navigation">
-            <p className="ft-eyebrow font-display">Explorar</p>
+            <p className="ft-eyebrow font-display">{t("explore")}</p>
             <ProductLinks />
           </div>
           <div className="ft-panel-contact">
-            <p className="ft-eyebrow font-display">Conectemos</p>
+            <p className="ft-eyebrow font-display">{t("connect")}</p>
             <ContactLinks />
           </div>
         </div>

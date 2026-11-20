@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
 import { BrandIsotypeReveal } from "~/app/_components/brand-isotype-reveal";
 import {
   AnimatePresence,
@@ -17,32 +17,21 @@ import {
   useRef,
   useState,
 } from "react";
-import { contactSchema, type ContactResponse } from "~/lib/contact";
+import { Link } from "~/i18n/navigation";
+import { LOCALE_TAGS } from "~/i18n/routing";
+import {
+  contactSchema,
+  isContactErrorCode,
+  type ContactResponse,
+} from "~/lib/contact";
 import { ContactMessageComposer } from "./contact-message-composer";
 import "./contact-assistant.css";
 
+// Los textos de cada paso están en `contact.assistant.steps.<field>`.
 const steps = [
-  {
-    field: "name",
-    label: "Tu nombre",
-    question: "¿Cómo te llamas?",
-    placeholder: "Escribe tu nombre completo…",
-    icon: UserRound,
-  },
-  {
-    field: "email",
-    label: "Tu correo",
-    question: "¿Dónde podemos responderte?",
-    placeholder: "Tu correo electrónico…",
-    icon: Mail,
-  },
-  {
-    field: "message",
-    label: "Tu consulta",
-    question: "¿Qué te gustaría explorar con BinPar?",
-    placeholder: "Cuéntanos tu caso de uso o lo que necesitas…",
-    icon: MessageSquare,
-  },
+  { field: "name", icon: UserRound },
+  { field: "email", icon: Mail },
+  { field: "message", icon: MessageSquare },
 ] as const;
 
 type Answers = { name: string; email: string; message: string };
@@ -57,6 +46,11 @@ export function ContactAssistant({
   preview?: boolean;
   layout?: "section" | "page";
 }) {
+  const t = useTranslations("contact");
+  const locale = useLocale();
+  // Los errores llegan como código; un mensaje sin código (zod) se pinta tal cual.
+  const errorText = (value: string) =>
+    isContactErrorCode(value) ? t(`errors.${value}`) : value;
   const root = useRef<HTMLElement>(null);
   const inView = useInView(root, { amount: 0.2 });
   const [entered, setEntered] = useState(false);
@@ -100,14 +94,18 @@ export function ContactAssistant({
   const Icon = current.icon;
   const firstName = answers.name.trim().split(/\s+/)[0];
   const greetingName = firstName
-    ? firstName.charAt(0).toLocaleUpperCase("es") + firstName.slice(1)
+    ? firstName.charAt(0).toLocaleUpperCase(LOCALE_TAGS[locale]) +
+      firstName.slice(1)
     : "";
   const reply =
     step === 0
-      ? "¿Quieres explorar BinPar para tu organización? Déjanos tus datos y cuéntanos qué necesitas. Nuestro equipo se pondrá en contacto contigo."
+      ? t("assistant.replies.name")
       : step === 1
-        ? `${greetingName}, déjanos tu correo electrónico para continuar la conversación. Nuestro equipo te escribirá para conocer mejor tu caso y valorar el siguiente paso.`
-        : `${greetingName}, te responderemos en ${answers.email}.\nCuéntanos qué te gustaría explorar con BinPar y qué necesita tu organización para que podamos preparar una conversación centrada en tu caso.`;
+        ? t("assistant.replies.email", { name: greetingName })
+        : t("assistant.replies.message", {
+            name: greetingName,
+            email: answers.email,
+          });
   // Keep the initial server/client state identical when reduced motion is set.
   const immediateReply = revealedSteps.includes(step);
   const inputReady =
@@ -144,7 +142,7 @@ export function ContactAssistant({
       answers[current.field],
     );
     if (!validation.success) {
-      setError(validation.error.issues[0]!.message);
+      setError(errorText(validation.error.issues[0]!.message));
       inputRef.current?.focus();
       return;
     }
@@ -160,12 +158,13 @@ export function ContactAssistant({
       ...answers,
       privacyAccepted: privacy,
       website: websiteRef.current?.value ?? "",
+      locale,
     });
     if (!final.success) {
       const issue = final.error.issues[0]!;
       const next = steps.findIndex((item) => item.field === issue.path[0]);
       if (next >= 0 && next !== step) changeStep(next);
-      setError(issue.message);
+      setError(errorText(issue.message));
       return;
     }
     setError("");
@@ -187,9 +186,8 @@ export function ContactAssistant({
           const field = Object.keys(result.fieldErrors ?? {})[0];
           const next = steps.findIndex((item) => item.field === field);
           if (next >= 0 && next !== step) changeStep(next);
-          setError(result.message);
-        } else
-          setError("No hemos podido enviar tu consulta. Inténtalo de nuevo.");
+          setError(errorText(result.error));
+        } else setError(t("assistant.networkError"));
         return;
       }
       setAnswers({
@@ -199,7 +197,7 @@ export function ContactAssistant({
       });
       setComplete(true);
     } catch {
-      setError("No hemos podido enviar tu consulta. Inténtalo de nuevo.");
+      setError(t("assistant.networkError"));
     } finally {
       submitting.current = false;
       setBusy(false);
@@ -246,7 +244,7 @@ export function ContactAssistant({
             delay: reduced ? 0 : 0.18,
           }}
         >
-          Contacto
+          {t("assistant.eyebrow")}
         </motion.p>
         <Heading
           id={`${id}-heading`}
@@ -261,7 +259,7 @@ export function ContactAssistant({
             if (entered || reduced) setIntroReady(true);
           }}
         >
-          Hablemos de tu organización.
+          {t("assistant.title")}
         </Heading>
         <AnimatePresence mode="wait" initial={false}>
           {complete ? (
@@ -277,21 +275,28 @@ export function ContactAssistant({
               <span className="ca-complete-mark">
                 <Check size={25} strokeWidth={1.8} aria-hidden="true" />
               </span>
-              <h3 className="font-display">Gracias, {answers.name}.</h3>
+              <h3 className="font-display">
+                {t("assistant.complete.title", { name: answers.name })}
+              </h3>
               <p>
-                {preview
-                  ? "Tu consulta está preparada con el correo "
-                  : "Hemos recibido tu consulta. Nuestro equipo te responderá en "}
-                <strong>{answers.email}</strong>.
+                {t.rich(
+                  preview
+                    ? "assistant.complete.preview"
+                    : "assistant.complete.sent",
+                  {
+                    email: answers.email,
+                    strong: (chunks) => <strong>{chunks}</strong>,
+                  },
+                )}
               </p>
               <blockquote>{answers.message}</blockquote>
               {preview && (
                 <p className="ca-preview-note">
-                  Vista previa del laboratorio. No se han enviado datos.
+                  {t("assistant.complete.previewNote")}
                 </p>
               )}
               <button type="button" onClick={reset} className="ca-restart">
-                Volver a empezar
+                {t("assistant.complete.restart")}
               </button>
             </motion.div>
           ) : (
@@ -328,19 +333,23 @@ export function ContactAssistant({
                   htmlFor={`${id}-${current.field}`}
                   aria-live="polite"
                 >
-                  {current.question}
+                  {t(`assistant.steps.${current.field}.question`)}
                 </label>
                 {step === 2 ? (
                   <ContactMessageComposer
                     id={`${id}-message`}
                     inputRef={focusInput}
                     value={answers.message}
-                    placeholder={current.placeholder}
+                    placeholder={t(
+                      `assistant.steps.${current.field}.placeholder`,
+                    )}
                     errorId={`${id}-error`}
                     invalid={Boolean(error)}
                     disabled={busy}
                     submitLabel={
-                      preview ? "Preparar consulta" : "Enviar consulta"
+                      preview
+                        ? t("assistant.submitPreview")
+                        : t("assistant.submit")
                     }
                     onChange={(message) => {
                       setAnswers((previous) => ({ ...previous, message }));
@@ -363,7 +372,9 @@ export function ContactAssistant({
                       maxLength={step === 1 ? 254 : 100}
                       aria-describedby={`${id}-error`}
                       aria-invalid={Boolean(error)}
-                      placeholder={current.question}
+                      placeholder={t(
+                        `assistant.steps.${current.field}.question`,
+                      )}
                       value={answers[current.field]}
                       onChange={(event) => {
                         setAnswers((previous) => ({
@@ -377,8 +388,8 @@ export function ContactAssistant({
                       className="ca-send"
                       type="submit"
                       disabled={busy || !answers[current.field].trim()}
-                      aria-label="Continuar"
-                      title="Continuar"
+                      aria-label={t("assistant.continue")}
+                      title={t("assistant.continue")}
                     >
                       <ArrowUp size={24} strokeWidth={1.8} aria-hidden="true" />
                     </button>
@@ -388,7 +399,10 @@ export function ContactAssistant({
                   {error}
                 </p>
                 <div className="ca-footer">
-                  <nav className="ca-progress" aria-label="Pasos del contacto">
+                  <nav
+                    className="ca-progress"
+                    aria-label={t("assistant.progressLabel")}
+                  >
                     {steps.map((item, index) => (
                       <button
                         key={item.field}
@@ -419,7 +433,7 @@ export function ContactAssistant({
                             `0${index + 1}`
                           )}
                         </span>
-                        {item.label}
+                        {t(`assistant.steps.${item.field}.label`)}
                       </button>
                     ))}
                   </nav>
@@ -435,15 +449,17 @@ export function ContactAssistant({
                         }}
                       />
                       <span>
-                        He leído y acepto la{" "}
-                        <Link
-                          href="/privacidad"
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          Política de privacidad
-                        </Link>
-                        .
+                        {t.rich("shared.privacyConsent", {
+                          link: (chunks) => (
+                            <Link
+                              href="/privacidad"
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              {chunks}
+                            </Link>
+                          ),
+                        })}
                       </span>
                     </label>
                   )}
@@ -452,7 +468,9 @@ export function ContactAssistant({
                   aria-hidden="true"
                   className="absolute -left-[10000px] size-px overflow-hidden"
                 >
-                  <label htmlFor={`${id}-website`}>Sitio web</label>
+                  <label htmlFor={`${id}-website`}>
+                    {t("shared.honeypotLabel")}
+                  </label>
                   <input
                     ref={websiteRef}
                     id={`${id}-website`}

@@ -1,13 +1,12 @@
 "use client";
 
 import { ArrowUp, Paperclip } from "lucide-react";
-import { useLayoutEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { EvidenceScene } from "./clinical-evidence-scene";
-import { processFollowup as followup } from "./clinical-process-data";
 import {
-  processFollowupParagraphs,
-  processFollowupReferences,
   sceneReferenceForAnchor,
+  useProcessFollowup,
 } from "./clinical-scene-references";
 import { typingDuration, writtenCharacters } from "./clinical-process-typing";
 
@@ -15,28 +14,47 @@ function reveal(time: number, start: number, duration: number) {
   const t = Math.max(0, Math.min(1, (time - start) / duration));
   return t * t * (3 - 2 * t);
 }
-// Three verbatim excerpts, linked to the same bibliography as the preceding answer.
-const replyParagraphs = processFollowupParagraphs.map((paragraph) =>
-  paragraph
-    .split(/(⟦[^⟧]+⟧)/g)
-    .filter(Boolean)
-    .map((text) => {
-      if (!text.startsWith("⟦")) return { text, citation: false };
-      const number = sceneReferenceForAnchor(
-        text.slice(1, -1),
-        processFollowupReferences,
-      )!.order;
-      return { text: `[${number}]`, citation: true };
-    }),
-);
-const replyLength = replyParagraphs
-  .flat()
-  .reduce((sum, token) => sum + token.text.length, 0);
 const questionStarts = 3.2;
-const sentAt = questionStarts + typingDuration(followup.question.length) + 0.4;
-const respondingAt = sentAt + 1.2;
-const responseEnds = respondingAt + typingDuration(replyLength);
-export const FOLLOWUP_DURATION = responseEnds + 5.7;
+
+/*
+  Tiempos de la escena 05: dependen de lo que tardan en escribirse la
+  pregunta y la respuesta del idioma de la página.
+*/
+export function useFollowupTimeline() {
+  const followup = useProcessFollowup();
+  return useMemo(() => {
+    // Three verbatim excerpts, linked to the same bibliography as the preceding answer.
+    const replyParagraphs = followup.paragraphs.map((paragraph) =>
+      paragraph
+        .split(/(⟦[^⟧]+⟧)/g)
+        .filter(Boolean)
+        .map((text) => {
+          if (!text.startsWith("⟦")) return { text, citation: false };
+          const number = sceneReferenceForAnchor(
+            text.slice(1, -1),
+            followup.references,
+          )!.order;
+          return { text: `[${number}]`, citation: true };
+        }),
+    );
+    const replyLength = replyParagraphs
+      .flat()
+      .reduce((sum, token) => sum + token.text.length, 0);
+    const sentAt =
+      questionStarts + typingDuration(followup.question.length) + 0.4;
+    const respondingAt = sentAt + 1.2;
+    const responseEnds = respondingAt + typingDuration(replyLength);
+    return {
+      followup,
+      replyParagraphs,
+      replyLength,
+      sentAt,
+      respondingAt,
+      responseEnds,
+      duration: responseEnds + 5.7,
+    };
+  }, [followup]);
+}
 
 export function FollowupScene({
   seconds,
@@ -45,6 +63,16 @@ export function FollowupScene({
   seconds: number;
   reduced: boolean;
 }) {
+  const t = useTranslations("clinical.chat");
+  const {
+    followup,
+    replyParagraphs,
+    replyLength,
+    sentAt,
+    respondingAt,
+    responseEnds,
+    duration: FOLLOWUP_DURATION,
+  } = useFollowupTimeline();
   const time = reduced ? responseEnds + 1 : seconds;
   const questionLength = writtenCharacters(
     time,
@@ -76,7 +104,7 @@ export function FollowupScene({
       <EvidenceScene
         seconds={0}
         reduced={reduced}
-        references={responding ? processFollowupReferences : undefined}
+        references={responding ? followup.references : undefined}
         continuation={{
           sourceVisibility: 0,
           scroll: reveal(time, sentAt, 0.6),
@@ -95,7 +123,7 @@ export function FollowupScene({
               <div className="mt-5" data-followup-response="">
                 {!responding ? (
                   <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Pensando…
+                    {t("thinking")}
                   </p>
                 ) : (
                   replyParagraphs.map((paragraph, index) => {
@@ -148,6 +176,7 @@ export function FollowupScene({
 }
 
 function FollowupComposer({ text, typing }: { text: string; typing: boolean }) {
+  const t = useTranslations("clinical.chat");
   const mirror = useRef<HTMLSpanElement>(null);
   const [expanded, setExpanded] = useState(false);
   useLayoutEffect(() => {
@@ -163,7 +192,7 @@ function FollowupComposer({ text, typing }: { text: string; typing: boolean }) {
     <div
       data-process-composer=""
       data-expanded={expanded}
-      className={`font-body shadow-big-blocks relative grid min-h-[52px] grid-cols-[56px_minmax(0,1fr)_56px] border border-cyan-800/15 bg-white/85 text-sm leading-6 backdrop-blur-md dark:border-primary-dark/15 dark:bg-[#152230e6]/90 ${expanded ? "rounded-3xl" : "rounded-[28px]"}`}
+      className={`font-body shadow-big-blocks dark:border-primary-dark/15 relative grid min-h-[52px] grid-cols-[56px_minmax(0,1fr)_56px] border border-cyan-800/15 bg-white/85 text-sm leading-6 backdrop-blur-md dark:bg-[#152230e6]/90 ${expanded ? "rounded-3xl" : "rounded-[28px]"}`}
     >
       <span
         ref={mirror}
@@ -173,7 +202,7 @@ function FollowupComposer({ text, typing }: { text: string; typing: boolean }) {
         {typing && <span className="inline-block h-3 w-px" />}
       </span>
       <span
-        className={`grid size-9 place-items-center place-self-center rounded-full border border-cyan-800/15 text-slate-500 dark:border-primary-dark/15 dark:text-slate-400 ${expanded ? "col-start-1 row-start-2 my-2.5" : "col-start-1 row-start-1"}`}
+        className={`dark:border-primary-dark/15 grid size-9 place-items-center place-self-center rounded-full border border-cyan-800/15 text-slate-500 dark:text-slate-400 ${expanded ? "col-start-1 row-start-2 my-2.5" : "col-start-1 row-start-1"}`}
       >
         <Paperclip size={20} strokeWidth={1.1} />
       </span>
@@ -182,7 +211,7 @@ function FollowupComposer({ text, typing }: { text: string; typing: boolean }) {
       >
         {text || (
           <span className="text-slate-500 dark:text-slate-400">
-            Pregunta clínica al comité...
+            {t("placeholder")}
           </span>
         )}
         {typing && (

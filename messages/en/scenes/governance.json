@@ -1,0 +1,136 @@
+{
+  "organization": "Área Sanitaria Norte",
+  "corpus": {
+    "committee": "{organization} committee",
+    "searchable": "430 searchable documents",
+    "inheritedBase": "Inherited shared base",
+    "base": {
+      "label": "Shared base",
+      "title": "412 documents",
+      "body": "Inherited by every organisation."
+    },
+    "own": {
+      "label": "Area's own",
+      "title": "18 documents",
+      "body": "Visible to the area only."
+    },
+    "dashedNote": "Items with a dashed border are inherited from a higher node."
+  },
+  "library": {
+    "label": "Corpus",
+    "title": "Library",
+    "count": "430 documents",
+    "tabs": ["All", "Guideline", "Protocol", "Book", "Local"],
+    "docs": {
+      "areaProtocol": {
+        "title": "Area analgesia protocol",
+        "publisher": "Área Sanitaria Norte",
+        "meta": "Área Sanitaria Norte · 2026",
+        "date": "Approved 3 Nov 2026",
+        "node": "Área Sanitaria Norte",
+        "experts": ["PH", "NE"]
+      },
+      "promir": {
+        "title": "Manual ProMIR · Nephrology",
+        "publisher": "ProMIR",
+        "meta": "ProMIR · 2025",
+        "date": "Approved 12 Sept 2026",
+        "node": "Shared base",
+        "experts": ["CA", "PH", "NE"]
+      }
+    }
+  },
+  "committees": {
+    "heading": "Agents",
+    "withoutModes": "Without modes",
+    "withModes": "With modes",
+    "columns": {
+      "name": "Name",
+      "default": "Default",
+      "actions": "Actions"
+    },
+    "defaultBadge": "Default",
+    "modes": {
+      "standard": {
+        "name": "Standard",
+        "description": "Quick answer for everyday queries."
+      },
+      "precision": {
+        "name": "Precision",
+        "description": "More thorough for complex cases; takes a little longer."
+      }
+    },
+    "addMode": "Add mode",
+    "createMode": "Create mode",
+    "hintMany": "Professionals choose between these 2 modes in the chat; the chat starts with the last one they used or the default.",
+    "hintOne": "With a single mode the chat shows no selector: it always uses this one."
+  },
+  "review": {
+    "label": "Proposal",
+    "title": "Area analgesia protocol",
+    "summary": "Proposed changes · 1 operation",
+    "change": "Change 1 · Update",
+    "included": "Included",
+    "removedLine": "Ibuprofen 400 mg every 8 hours as first-line analgesia.",
+    "addedLine": "Avoid NSAIDs in CKD; they are contraindicated with clearance below 30 mL/min.",
+    "status": {
+      "published": "Approved and published in v15",
+      "included": "1 change included",
+      "pending": "1 not reviewed"
+    },
+    "reject": "Reject proposal",
+    "publishing": "Publishing…",
+    "approve": "Approve and publish"
+  },
+  "versions": {
+    "latest": {
+      "label": "Version 15 · published now",
+      "title": "CKD guideline · revision 3"
+    },
+    "items": {
+      "v14": {
+        "label": "Version 14 · 3 Nov 2026",
+        "title": "Analgesia protocol updated"
+      },
+      "v13": {
+        "label": "Version 13 · 21 Oct 2026",
+        "title": "Local hyperkalaemia guideline added"
+      },
+      "v12": {
+        "label": "Version 12 · 2 Oct 2026",
+        "title": "Document withdrawn from the corpus"
+      }
+    }
+  },
+  "control": {
+    "label": "Control questions",
+    "title": "Question set · Nephrology",
+    "total": "{count} questions",
+    "corpusVersion": "Corpus version 15",
+    "completed": "Completed",
+    "progress": "{answered} of {total}",
+    "legend": {
+      "correct": "Correct",
+      "partial": "Partial",
+      "incorrect": "Incorrect"
+    },
+    "alertTitle": "1 question is worse than in version 14",
+    "alertBody": "Question 23 · was Correct, now Incorrect"
+  },
+  "rating": {
+    "notice": "Rating saved",
+    "dialogTitle": "Answer not useful",
+    "cancel": "Cancel",
+    "submit": "Submit rating",
+    "commentLabel": "Comment (required)",
+    "comment": "Add the paracetamol dose adjustment in severe CKD.",
+    "commentPlaceholder": "Comment on the answer…"
+  },
+  "brand": {
+    "domain": "consulta.areanorte.es",
+    "logo": "AN",
+    "platform": "BinPar",
+    "title": "Clinical committee",
+    "placeholder": "Clinical question for the committee..."
+  }
+}

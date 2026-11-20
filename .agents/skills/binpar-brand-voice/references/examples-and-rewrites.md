@@ -285,10 +285,8 @@ table. Remove a row once the site is fixed.
 | 8 | "Una capa de IA seria, auditable y preparada para operar dentro de un sistema sanitario." | Home cover lede, second sentence | M1 | "Cada respuesta puede enlazar el fragmento que la sustenta, y cada cambio del corpus pasa por un editor antes de publicarse." |
 | 9 | "Organizaciones sanitarias que ya incorporan nuestra inteligencia artificial para facilitar el acceso al conocimiento clínico fiable, acompañar la atención asistencial y reforzar la mejora continua." | Home, success cases lede | M1 | "Servicios de salud que ya consultan sus guías y protocolos con BinPar, con la fuente de cada respuesta a la vista." |
 | 10 | "descubre cómo BinPar reúne expertos, contrasta aportaciones y ofrece una orientación con fuentes verificables" | `/plataforma` meta description | H9 | "De la consulta clínica a la evidencia: cómo el comité reúne las especialidades necesarias, contrasta sus aportaciones y enlaza cada conclusión con su fuente." |
-| 11 | "KPIs operativos", "Feedback + pruebas automáticas" | Home volume band eyebrow; process step 05 label | M14 | "Indicadores operativos", "Valoración profesional + pruebas automáticas" |
-| 12 | "Volumen datos y actualización continua." | Home volume band headline | L11 | "Volumen de datos y actualización continua." |
-| 13 | "Tech Ninja" | `/equipo`, job title | M8 | The person's actual title, e.g. "Tech Lead" (`formats.md` §12) |
-| 14 | "BINPAR / SISTEMA INTEGRADO" typed in caps | Product strata graphic label (also in the identity manual's geometry page) | M15 | Source string "BinPar / Sistema integrado" with CSS `uppercase` |
+| 11 | "Tech Ninja" | `/equipo`, job title | M8 | The person's actual title, e.g. "Tech Lead" (`formats.md` §12) |
+| 12 | "BINPAR / SISTEMA INTEGRADO" typed in caps | Product strata graphic label (also in the identity manual's geometry page) | M15 | Source string "BinPar / Sistema integrado" with CSS `uppercase` |
 
 Rows 4 and 5: the scenes replay a real captured consultation, so the answer text is product
 output and outside this skill. The debt is the framing: an expert quoted in the first person, and

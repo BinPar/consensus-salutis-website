@@ -1,8 +1,7 @@
 "use client";
 
 import { ChevronDown } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import {
   useEffect,
   useId,
@@ -13,9 +12,12 @@ import {
   type ReactNode,
 } from "react";
 
+import { Link, usePathname } from "~/i18n/navigation";
+import type { StaticPathname } from "~/i18n/routing";
+
 import { menuItemClass, menuPanelClass } from "./select-menu";
 
-export type NavigationLink = { href: string; label: string };
+export type NavigationLink = { href: StaticPathname; label: string };
 
 /**
  * A main-navigation entry with subpages. The label stays a link to its page;
@@ -35,6 +37,7 @@ export function NavigationDropdown({
   children: ReactNode;
 }) {
   const pathname = usePathname();
+  const t = useTranslations("layout.navigation");
   const [open, setOpen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const toggle = useRef<HTMLButtonElement>(null);
@@ -143,7 +146,7 @@ export function NavigationDropdown({
       <button
         ref={toggle}
         type="button"
-        aria-label={`Más páginas de ${label}`}
+        aria-label={t("morePages", { label })}
         aria-expanded={open}
         aria-controls={open ? menuId : undefined}
         onClick={handleClick}

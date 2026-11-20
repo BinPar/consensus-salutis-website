@@ -122,7 +122,7 @@ severidad alta, la auditoría está mal hecha, no el fragmento.
 - **No renombra ni borra un `.mdx` existente.** El nombre es la URL.
 - **No despliega.** Ni `vercel`, ni `vercel --prod`, ni promoción de nada.
 - **No toca el motor**: `src/lib/blog.ts`, `src/lib/blog-cover.ts`,
-  `src/content/blog/authors.ts`, `src/app/blog/**`. Si el post necesita un campo
+  `src/content/blog/authors.ts`, `src/app/blog/**`, `src/app/[locale]/blog/**`. Si el post necesita un campo
   nuevo, un autor nuevo o un componente, se para y lo pregunta.
 - **No edita ficheros en modo auditar**, salvo petición explícita de aplicar los
   hallazgos.

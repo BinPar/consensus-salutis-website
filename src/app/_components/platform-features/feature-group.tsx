@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 import { Eyebrow } from "../eyebrow";
 import { HomePaintPanel } from "../home-paint-panel";
@@ -84,6 +85,7 @@ export function FeatureCard({
  * viewport and fade out again when scrolled back above it.
  */
 export function FeatureGroup({ section }: { section: FeatureGroupSection }) {
+  const t = useTranslations("features.group");
   const titleId = `platform-group-${section.id}`;
   return (
     <>
@@ -92,7 +94,7 @@ export function FeatureGroup({ section }: { section: FeatureGroupSection }) {
           // Section heading of the site: Eyebrow, display title and lead.
           <header ref={panelRef}>
             <Reveal visible={painted}>
-              <Eyebrow>Funcionalidades</Eyebrow>
+              <Eyebrow>{t("eyebrow")}</Eyebrow>
             </Reveal>
             <Reveal visible={painted} delay={0.1}>
               <h2

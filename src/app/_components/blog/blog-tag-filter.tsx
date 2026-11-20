@@ -1,8 +1,9 @@
 "use client";
 
-import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
+import { getPathname, Link } from "~/i18n/navigation";
 import type { BlogTag } from "~/lib/blog";
 import { BlogTagSelect } from "./blog-tag-select";
 import {
@@ -26,9 +27,25 @@ export function BlogTagFilter({
   totalCount: number;
   activeTag?: string;
 }) {
+  const t = useTranslations("blog.tagFilter");
+  const locale = useLocale();
   const router = useRouter();
-  const onSelect = (tag: string | undefined) =>
-    router.push(`${tag ? `/blog/tag/${tag}` : "/blog"}#blog-page-gallery`);
+  const hrefOf = (tag: string | undefined) =>
+    tag
+      ? ({
+          pathname: "/blog/tag/[tag]",
+          params: { tag },
+          hash: "blog-page-gallery",
+        } as const)
+      : ({ pathname: "/blog", hash: "blog-page-gallery" } as const);
+  /*
+    El router de next-intl no admite `hash`: se compone la URL localizada y se
+    añade el ancla para el router de Next.
+  */
+  const onSelect = (tag: string | undefined) => {
+    const { hash, ...href } = hrefOf(tag);
+    router.push(`${getPathname({ locale, href })}#${hash}`);
+  };
   const scrollRef = useRef<HTMLElement>(null);
   const { edges, edgeMask } = useScrollEdges(scrollRef, [tags]);
 
@@ -37,15 +54,13 @@ export function BlogTagFilter({
   const entries = [
     {
       tag: undefined,
-      label: "Todos",
-      href: "/blog#blog-page-gallery",
+      label: t("all"),
       count: totalCount,
     },
     ...tags.map((entry) => ({
       tag: entry.tag,
       label: entry.label,
       count: entry.count,
-      href: `/blog/tag/${entry.tag}#blog-page-gallery`,
     })),
   ];
 
@@ -58,7 +73,7 @@ export function BlogTagFilter({
       />
       <nav
         ref={scrollRef}
-        aria-label="Filtro por etiqueta"
+        aria-label={t("label")}
         data-scroll-left={edges.left}
         data-scroll-right={edges.right}
         style={{ maskImage: edgeMask, WebkitMaskImage: edgeMask }}
@@ -69,10 +84,13 @@ export function BlogTagFilter({
 
           return (
             <Link
-              href={entry.href}
-              key={entry.href}
+              href={hrefOf(entry.tag)}
+              key={entry.tag ?? "all"}
               aria-current={active ? "page" : undefined}
-              aria-label={`${entry.label}: ${entry.count} ${entry.count === 1 ? "artículo" : "artículos"}`}
+              aria-label={t("entry", {
+                label: entry.label,
+                count: entry.count,
+              })}
               className={blogPillClass(active)}
             >
               {entry.label}

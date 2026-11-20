@@ -1,0 +1,83 @@
+{
+  "clarify": {
+    "userQuestion": "Can they stay on low-dose ibuprofen?",
+    "eyebrow": "Question from the committee",
+    "question": "What is the most recent estimated glomerular filtration rate (mL/min/1.73 m²)?",
+    "options": {
+      "under30": "Under 30",
+      "from30To59": "Between 30 and 59",
+      "from60": "60 or above"
+    }
+  },
+  "followup": {
+    "question": "Does anything change if they're also on an ACE inhibitor?"
+  },
+  "committee": {
+    "title": "Clinical committee",
+    "status": {
+      "received": "3 contributions received",
+      "receiving": "Receiving contributions",
+      "selected": "Committee selected",
+      "selecting": "Selecting experts",
+      "incoming": "Receiving the query"
+    },
+    "expertStatus": {
+      "sent": "Contribution sent",
+      "consulted": "Corpus consulted",
+      "consulting": "Consulting corpus",
+      "directed": "Query routed"
+    },
+    "corpusLabel": "Corpus",
+    "experts": {
+      "cardiology": {
+        "name": "Cardiology",
+        "corpus": "Cardiology"
+      },
+      "pharmacology": {
+        "name": "Pharmacology",
+        "corpus": "Pharmacology"
+      },
+      "nephrology": {
+        "name": "Nephrology",
+        "corpus": "Nephrology"
+      }
+    }
+  },
+  "modes": {
+    "question": "Which medication adjustments should be reviewed in this patient?",
+    "options": {
+      "standard": {
+        "name": "Standard",
+        "description": "Quick answer for everyday queries."
+      },
+      "precision": {
+        "name": "Precision",
+        "description": "More thorough for complex cases; takes a little longer."
+      }
+    }
+  },
+  "progress": {
+    "received": "Answer received",
+    "consulting": "Consulting…",
+    "sourcesHeading": "Sources consulted",
+    "sourcePages": "{source} · {count, plural, one {p.} other {pp.}} {pages}",
+    "experts": {
+      "cardiology": {
+        "name": "Cardiology",
+        "source": "Manual ProMIR · Cardiology"
+      },
+      "pharmacology": {
+        "name": "Pharmacology",
+        "source": "Manual ProMIR · Nephrology"
+      },
+      "nephrology": {
+        "name": "Nephrology",
+        "source": "Manual ProMIR · Nephrology"
+      }
+    }
+  },
+  "images": {
+    "question": "I've attached today's ECG. Are there any signs of hyperkalaemia?",
+    "fileName": "12-lead-ecg.png"
+  }
+}

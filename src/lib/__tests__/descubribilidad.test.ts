@@ -52,16 +52,18 @@ beforeAll(async () => {
   publicRoutes = sitemapModule.PUBLIC_ROUTES;
   robotsTxt = robotsModule.default();
   feed = await rssModule.GET().text();
-  postSlugs = blogModule.getBlogPosts().map((post) => post.slug);
-  tagSlugs = blogModule.getBlogTags().map((entry) => entry.tag);
+  const spanishPosts = blogModule.getBlogPosts("es");
+  postSlugs = spanishPosts.map((post) => post.slug);
+  tagSlugs = blogModule.getBlogTags(spanishPosts).map((entry) => entry.tag);
 });
 
 /**
  * Rutas con página en `src/app`, en forma de URL.
  *
- * Se descartan los segmentos dinámicos —no son una URL, son una plantilla— y las
- * páginas que solo redirigen, que no son contenido indexable (`/contact` existe
- * únicamente para mandar a `/contacto`).
+ * `[locale]` no añade nada a la URL: el castellano va sin prefijo, y el resto
+ * de idiomas sale de `routing.pathnames` (lo fija el test de idiomas). Se
+ * descartan los segmentos dinámicos —no son una URL, son una plantilla— y las
+ * páginas que solo redirigen, que no son contenido indexable.
  */
 function routesWithPages() {
   const routes: string[] = [];
@@ -72,7 +74,13 @@ function routesWithPages() {
         /* `_components`, `_fonts`: convención de Next para lo que no es ruta. */
         if (entry.name.startsWith("_")) return;
 
-        walk(path.join(directory, entry.name), `${route}/${entry.name}`);
+        walk(
+          path.join(directory, entry.name),
+          /* Ni `[locale]` ni los grupos `(...)` aparecen en la URL. */
+          entry.name === "[locale]" || entry.name.startsWith("(")
+            ? route
+            : `${route}/${entry.name}`,
+        );
 
         return;
       }
@@ -136,6 +144,49 @@ describe("sitemap", () => {
     });
   });
 
+  it("incluye la versión en inglés de cada página pública, con su URL traducida", () => {
+    const urls = sitemapEntries.map((entry) => entry.url);
+
+    [
+      "/en",
+      "/en/platform",
+      "/en/platform/features",
+      "/en/team",
+      "/en/contact",
+      "/en/privacy",
+      "/en/legal-notice",
+      "/en/cookies",
+      "/en/blog",
+    ].forEach((path) => {
+      expect(urls).toContain(`https://consensussalutis.com${path}`);
+    });
+  });
+
+  /*
+    Google descarta un hreflang que no es recíproco: si A apunta a B, B tiene
+    que estar en el sitemap y apuntar a A con las mismas versiones.
+  */
+  it("el hreflang es recíproco", () => {
+    const byUrl = new Map(sitemapEntries.map((entry) => [entry.url, entry]));
+
+    /* `/evaluador` solo existe en castellano y no lleva alternativas. */
+    sitemapEntries.forEach((entry) => {
+      if (!entry.alternates?.languages) return;
+
+      const languages = entry.alternates.languages;
+
+      Object.entries(languages).forEach(([language, url]) => {
+        if (language === "x-default") return;
+
+        const target = byUrl.get(url!);
+
+        expect(target, `${entry.url} → ${language}`).toBeDefined();
+        expect(target?.alternates?.languages).toEqual(languages);
+      });
+      expect(Object.values(languages)).toContain(entry.url);
+    });
+  });
+
   it("no repite URLs", () => {
     const urls = sitemapEntries.map((entry) => entry.url);
 
@@ -145,7 +196,7 @@ describe("sitemap", () => {
   it("cada post lleva `lastModified` de `updatedAt` o de `date`", async () => {
     const { getBlogPosts } = await import("~/lib/blog");
 
-    getBlogPosts().forEach((post) => {
+    getBlogPosts("es").forEach((post) => {
       const entry = sitemapEntries.find(
         (candidate) =>
           candidate.url === `https://consensussalutis.com${post.href}`,
@@ -240,13 +291,13 @@ describe("rss", () => {
     const productionFeed = await GET().text();
     const today = new Date().toISOString().slice(0, 10);
 
-    getBlogPosts().forEach((post) => {
+    getBlogPosts("es").forEach((post) => {
       expect(post.draft).toBe(false);
       expect(post.date <= today).toBe(true);
     });
 
     expect((productionFeed.match(/<item>/g) ?? []).length).toBe(
-      getBlogPosts().length,
+      getBlogPosts("es").length,
     );
 
     vi.unstubAllEnvs();

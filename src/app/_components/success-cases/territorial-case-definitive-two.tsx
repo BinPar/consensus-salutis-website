@@ -24,7 +24,8 @@ import { InstitutionalLogo } from "./success-cases-brand";
 import { caseRegions } from "./success-cases-geography";
 import { groupMappedCases, regionViewBox } from "./success-cases-layout";
 import { MapPin } from "lucide-react";
-import { casesIntro, type InstitutionalCase } from "./success-cases-data";
+import { useTranslations } from "next-intl";
+import { type InstitutionalCase } from "./success-cases-data";
 
 const eyebrow =
   "font-display text-primary-light dark:text-primary-dark text-xs font-bold tracking-[0.22em] uppercase";
@@ -488,6 +489,7 @@ function FloatingCaseCard({
   "aria-label": string;
   "data-map-case-card": string;
 }) {
+  const t = useTranslations("successCases.map");
   const ref = useRef<HTMLButtonElement>(null);
   const content = useRef<HTMLSpanElement>(null);
   const detailsId = useId();
@@ -878,8 +880,8 @@ function FloatingCaseCard({
         <span className="font-body mt-3 block text-[11px] leading-[18px] text-slate-600 sm:text-xs dark:text-slate-300">
           {item.organization}
         </span>
-        <span className="font-body mt-3 block border-t border-cyan-800/10 pt-3 text-[11px] leading-4 text-slate-500 dark:border-primary-dark/10 dark:text-slate-400">
-          Conocimiento clínico fiable al servicio de la atención asistencial.
+        <span className="font-body dark:border-primary-dark/10 mt-3 block border-t border-cyan-800/10 pt-3 text-[11px] leading-4 text-slate-500 dark:text-slate-400">
+          {t("caseDescription")}
         </span>
       </motion.span>
     </motion.button>
@@ -907,12 +909,7 @@ function Registration({ className = "" }: { className?: string }) {
       aria-hidden="true"
       className={`pointer-events-none absolute inset-0 ${className}`}
     >
-      {[
-        "top-0 left-0 border-t border-l",
-        "top-0 right-0 border-t border-r",
-        "bottom-0 left-0 border-b border-l",
-        "bottom-0 right-0 border-b border-r",
-      ].map((position) => (
+      {cornerPositions.map((position) => (
         <span
           key={position}
           className={`border-primary-light/25 dark:border-primary-dark/30 absolute h-5 w-5 ${position}`}
@@ -935,6 +932,7 @@ function TerritorialMap({
   labels?: boolean;
   floating?: FloatingCallouts;
 }) {
+  const t = useTranslations("successCases.map");
   const id = useId();
   const groups = groupMappedCases(cases);
   const crisp = kind === "contrast";
@@ -1181,7 +1179,7 @@ function TerritorialMap({
           letterSpacing="2"
           className="font-display"
         >
-          CANARIAS
+          {t("canarias")}
         </text>
       </g>
     </svg>
@@ -1195,22 +1193,23 @@ function CaseHeading({
   compact?: boolean;
   singleLine?: boolean;
 }) {
+  const t = useTranslations("successCases.intro");
   return (
     <>
-      <p className={eyebrow}>Casos de éxito</p>
+      <p className={eyebrow}>{t("eyebrow")}</p>
       <h2
-        className={`${singleLine ? "font-display text-3xl font-extrabold tracking-tight text-navy sm:text-4xl lg:[font-size:clamp(1.5rem,10cqw,3.25rem)] lg:leading-none dark:text-slate-50" : heading} mt-5 ${compact && !singleLine ? "lg:text-[52px]" : ""}`}
+        className={`${singleLine ? "font-display text-navy text-3xl font-extrabold tracking-tight sm:text-4xl lg:[font-size:clamp(1.5rem,10cqw,3.25rem)] lg:leading-none dark:text-slate-50" : heading} mt-5 ${compact && !singleLine ? "lg:text-[52px]" : ""}`}
       >
         <span className={singleLine ? "lg:whitespace-nowrap" : undefined}>
-          El futuro de la salud.
+          {t("titleLead")}
         </span>
         <br />
         <span className="text-primary-light dark:text-primary-dark">
-          Ya está aquí.
+          {t("titleAccent")}
         </span>
       </h2>
       <p className="font-body mt-6 max-w-lg text-base leading-7 text-slate-600 sm:text-lg sm:leading-8 dark:text-slate-400">
-        {casesIntro.body}
+        {t("body")}
       </p>
     </>
   );
@@ -1226,6 +1225,7 @@ function DefinitiveMap({
   motionEnabled: boolean;
   compactLayout?: boolean;
 }) {
+  const t = useTranslations("successCases.map");
   const groups = useMemo(() => groupMappedCases(cases), [cases]);
   const canvas = useRef<HTMLDivElement>(null);
   const elapsed = useMotionValue(0);
@@ -1406,11 +1406,7 @@ function DefinitiveMap({
               floating={floating}
             />
           </div>
-          <div
-            role="group"
-            aria-label="Instituciones en el mapa"
-            className="static"
-          >
+          <div role="group" aria-label={t("institutions")} className="static">
             {groups.map((group, index) => {
               const item =
                 group.cases.find(
@@ -1437,9 +1433,13 @@ function DefinitiveMap({
                   }
                   onClick={() => selection.select(item.id)}
                   aria-pressed={selected}
-                  aria-label={`${item.name}, ${item.territory}, ${item.organization}`}
+                  aria-label={t("caseLabel", {
+                    name: item.name,
+                    territory: item.territory,
+                    organization: item.organization,
+                  })}
                   data-map-case-card={item.id}
-                  className={`${focus} definitive-two-case-card absolute rounded-xl border bg-white/95 text-left shadow-[0_8px_24px_-18px_rgba(0,109,121,.25)] backdrop-blur-sm transition-colors dark:bg-[#102330]/95 ${selected ? "border-primary-light/35 dark:border-primary-dark/40" : "hover:border-primary-light/35 dark:hover:border-primary-dark/40 border-cyan-800/15 dark:border-primary-dark/20"}`}
+                  className={`${focus} definitive-two-case-card absolute rounded-xl border bg-white/95 text-left shadow-[0_8px_24px_-18px_rgba(0,109,121,.25)] backdrop-blur-sm transition-colors dark:bg-[#102330]/95 ${selected ? "border-primary-light/35 dark:border-primary-dark/40" : "hover:border-primary-light/35 dark:hover:border-primary-dark/40 dark:border-primary-dark/20 border-cyan-800/15"}`}
                   style={{
                     top: position.top * scale,
                     left: `${(position.left / 600) * 100}%`,
@@ -1455,6 +1455,14 @@ function DefinitiveMap({
   );
 }
 
+/* Clases de las cuatro esquinas del marco. */
+const cornerPositions = [
+  "top-0 left-0 border-t border-l",
+  "top-0 right-0 border-t border-r",
+  "bottom-0 left-0 border-b border-l",
+  "bottom-0 right-0 border-b border-r",
+];
+
 export function DefinitiveTwoVariant({
   cases,
   motionEnabled,
@@ -1465,6 +1473,7 @@ export function DefinitiveTwoVariant({
   compactLayout?: boolean;
   mapPainted?: boolean;
 }) {
+  const t = useTranslations("successCases.map");
   const selection = useTerritorialSelection(cases);
   const { openId, close } = selection;
   useEffect(() => {
@@ -1498,7 +1507,7 @@ export function DefinitiveTwoVariant({
           <div
             role="group"
             className="mt-8 flex flex-wrap gap-2"
-            aria-label="Seleccionar institución"
+            aria-label={t("select")}
           >
             {cases.map((item, index) => (
               <button
@@ -1508,7 +1517,7 @@ export function DefinitiveTwoVariant({
                 type="button"
                 onClick={() => selection.select(item.id)}
                 aria-pressed={selection.active?.id === item.id}
-                className={`${focus} font-body min-h-10 rounded-full border px-4 text-xs font-semibold transition-colors ${selection.active?.id === item.id ? "border-primary-light bg-primary-light dark:border-primary-dark dark:bg-primary-dark text-white dark:text-[#06111f]" : "border-cyan-800/15 text-slate-600 hover:bg-cyan-800/5 dark:border-primary-dark/15 dark:text-slate-300 dark:hover:bg-primary-dark/5"}`}
+                className={`${focus} font-body min-h-10 rounded-full border px-4 text-xs font-semibold transition-colors ${selection.active?.id === item.id ? "border-primary-light bg-primary-light dark:border-primary-dark dark:bg-primary-dark text-white dark:text-[#06111f]" : "dark:border-primary-dark/15 dark:hover:bg-primary-dark/5 border-cyan-800/15 text-slate-600 hover:bg-cyan-800/5 dark:text-slate-300"}`}
               >
                 <span className="mr-2 opacity-60">{count(index + 1)}</span>
                 {item.name}

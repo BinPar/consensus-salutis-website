@@ -21,6 +21,7 @@ import {
   Trash2,
   X,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
   useEffect,
   useLayoutEffect,
@@ -47,8 +48,6 @@ import {
 } from "./chat-workspace-sizing";
 import {
   closeSourceTab,
-  initialCitation,
-  initialConversations,
   openSourceTab,
   type PreviewCitation,
   type PreviewConversation,
@@ -62,6 +61,7 @@ import {
   PreviewLogo,
   PreviewProfile,
 } from "./preview-ui";
+import { usePreviewData } from "./use-preview-data";
 import { writtenCharacters } from "../clinical-process-typing";
 import "./platform-preview.css";
 
@@ -74,11 +74,7 @@ type NavigationPhase =
   | "fading-out"
   | "contracting";
 type SourcePhase =
-  | "closed"
-  | "waiting-for-navigation"
-  | "expanding"
-  | "open"
-  | "contracting";
+  "closed" | "waiting-for-navigation" | "expanding" | "open" | "contracting";
 type Popup = "pinned" | "recent" | "examples" | { conversation: string } | null;
 type Drag = {
   kind: "navigation" | "source";
@@ -103,7 +99,17 @@ const navigationNext: Partial<Record<NavigationPhase, NavigationPhase>> = {
   contracting: "collapsed",
 };
 
+/* Secciones de la lista de conversaciones; su título sale de los mensajes. */
+const conversationSections = ["pinned", "recent"] as const;
+
 export function PlatformPreview() {
+  const t = useTranslations("platform.preview");
+  const {
+    initialConversations,
+    initialCitation,
+    documentCitations,
+    renalProgression,
+  } = usePreviewData();
   const outer = useRef<HTMLDivElement>(null);
   const root = useRef<HTMLDivElement>(null);
   const messages = useRef<HTMLDivElement>(null);
@@ -366,7 +372,7 @@ export function PlatformPreview() {
       cancelAnimationFrame(request);
       window.clearTimeout(completeTimer);
     };
-  }, [typing, reduced]);
+  }, [typing, reduced, initialConversations]);
   useLayoutEffect(() => {
     const text = draftText.current;
     if (text) text.scrollTop = text.scrollHeight;
@@ -727,14 +733,18 @@ export function PlatformPreview() {
           <div className="pp-thread-actions">
             <PreviewIconButton
               icon={c.pinned ? PinOff : Pin}
-              label={(c.pinned ? "Desanclar " : "Anclar ") + c.title}
+              label={
+                c.pinned
+                  ? t("navigation.unpin", { title: c.title })
+                  : t("navigation.pin", { title: c.title })
+              }
               onClick={() => togglePin(c.id)}
             />
             <button
               type="button"
               className="pp-icon-button"
-              aria-label={"Opciones de " + c.title}
-              title="Opciones"
+              aria-label={t("navigation.options", { title: c.title })}
+              title={t("navigation.optionsTitle")}
               data-preview-popover=""
               onClick={(e) => popupAt({ conversation: c.id }, e.currentTarget)}
             >
@@ -745,7 +755,7 @@ export function PlatformPreview() {
       ))
     ) : (
       <p className="pp-empty">
-        {pinned ? "No hay chats anclados" : "No hay conversaciones recientes"}
+        {pinned ? t("navigation.emptyPinned") : t("navigation.emptyRecent")}
       </p>
     );
   };
@@ -756,7 +766,7 @@ export function PlatformPreview() {
           type="button"
           className="pp-brand-button"
           onClick={() => chooseConversation(null)}
-          aria-label="BinPar · Nuevo chat"
+          aria-label={t("navigation.brandNewChat")}
         >
           <PreviewLogo dark={dark} />
         </button>
@@ -765,9 +775,11 @@ export function PlatformPreview() {
           type="button"
           className="pp-icon-button"
           aria-label={
-            mobile ? "Cerrar navegación del chat" : "Contraer barra lateral"
+            mobile ? t("navigation.closeMobile") : t("navigation.collapse")
           }
-          title={mobile ? "Cerrar navegación" : "Contraer barra lateral"}
+          title={
+            mobile ? t("navigation.closeMobileTitle") : t("navigation.collapse")
+          }
           onClick={() =>
             mobile ? setMobileMenu(false) : changeNavigation(false)
           }
@@ -795,9 +807,9 @@ export function PlatformPreview() {
               onClick={() => chooseConversation(null)}
             >
               <SquarePen size={19} strokeWidth={1.8} aria-hidden="true" />
-              Nuevo chat
+              {t("navigation.newChat")}
             </button>
-            {(["pinned", "recent"] as const).map((section) => (
+            {conversationSections.map((section) => (
               <section key={section}>
                 <button
                   type="button"
@@ -819,7 +831,9 @@ export function PlatformPreview() {
                       aria-hidden="true"
                     />
                   )}
-                  {section === "pinned" ? "Anclados" : "Recientes"}
+                  {section === "pinned"
+                    ? t("navigation.pinned")
+                    : t("navigation.recent")}
                   {sections[section] ? (
                     <ChevronDown
                       size={14}
@@ -847,13 +861,13 @@ export function PlatformPreview() {
                 setProfile(true);
                 setPopup(null);
               }}
-              aria-label="Abrir perfil y configuración"
+              aria-label={t("navigation.openProfile")}
               aria-expanded={profile}
             >
               <PreviewAvatar />
               <span>
-                <strong>Dra. Ana García</strong>
-                <small>Hospital de demostración</small>
+                <strong>{t("user.name")}</strong>
+                <small>{t("user.organization")}</small>
               </span>
             </button>
           </div>
@@ -903,7 +917,7 @@ export function PlatformPreview() {
               <aside
                 className="pp-navigation"
                 data-expanded={navigationExpanded}
-                aria-label="Navegación del chat"
+                aria-label={t("navigation.label")}
               >
                 <div
                   className="pp-expanded-navigation"
@@ -924,8 +938,8 @@ export function PlatformPreview() {
                   <button
                     className="pp-rail-brand"
                     type="button"
-                    aria-label="Expandir barra lateral"
-                    title="Expandir barra lateral"
+                    aria-label={t("navigation.expand")}
+                    title={t("navigation.expand")}
                     onClick={() => changeNavigation(true)}
                   >
                     <span className="pp-rail-mark">
@@ -941,13 +955,13 @@ export function PlatformPreview() {
                   </button>
                   <PreviewIconButton
                     icon={SquarePen}
-                    label="Nuevo chat"
+                    label={t("navigation.newChat")}
                     onClick={() => chooseConversation(null)}
                   />
                   <button
                     type="button"
                     className="pp-icon-button"
-                    aria-label="Ver chats anclados"
+                    aria-label={t("navigation.showPinned")}
                     aria-expanded={popup === "pinned"}
                     data-preview-popover=""
                     onClick={(e) => popupAt("pinned", e.currentTarget)}
@@ -957,7 +971,7 @@ export function PlatformPreview() {
                   <button
                     type="button"
                     className="pp-icon-button"
-                    aria-label="Ver conversaciones recientes"
+                    aria-label={t("navigation.showRecent")}
                     aria-expanded={popup === "recent"}
                     data-preview-popover=""
                     onClick={(e) => popupAt("recent", e.currentTarget)}
@@ -971,7 +985,7 @@ export function PlatformPreview() {
                   <button
                     type="button"
                     className="pp-rail-account"
-                    aria-label="Abrir perfil y configuración"
+                    aria-label={t("navigation.openProfile")}
                     data-preview-popover=""
                     onClick={(e) => {
                       returnTrigger.current = e.currentTarget;
@@ -987,7 +1001,7 @@ export function PlatformPreview() {
                   role="separator"
                   tabIndex={0}
                   aria-orientation="vertical"
-                  aria-label="Redimensionar panel de conversaciones"
+                  aria-label={t("navigation.resize")}
                   aria-valuemin={48}
                   aria-valuemax={Math.round(navigationMaximum)}
                   aria-valuenow={Math.round(effectiveNavigationWidth)}
@@ -1003,7 +1017,7 @@ export function PlatformPreview() {
             )}
             <section
               className="pp-chat"
-              aria-label="Consulta clínica"
+              aria-label={t("chat.title")}
               inert={sourceExpanded && !split}
             >
               <div
@@ -1016,7 +1030,7 @@ export function PlatformPreview() {
                   <button
                     type="button"
                     className="pp-icon-button"
-                    aria-label="Abrir navegación del chat"
+                    aria-label={t("navigation.openMobile")}
                     onClick={(e) => {
                       returnTrigger.current = e.currentTarget;
                       setMobileMenu(true);
@@ -1025,10 +1039,10 @@ export function PlatformPreview() {
                     <Menu size={20} strokeWidth={1.8} aria-hidden="true" />
                   </button>
                   <PreviewLogo symbol dark={dark} />
-                  <strong>Consulta clínica</strong>
+                  <strong>{t("chat.title")}</strong>
                   <PreviewIconButton
                     icon={SquarePen}
-                    label="Nuevo chat"
+                    label={t("navigation.newChat")}
                     onClick={() => chooseConversation(null)}
                   />
                 </header>
@@ -1038,7 +1052,7 @@ export function PlatformPreview() {
                   ref={messages}
                   className="pp-messages"
                   tabIndex={0}
-                  aria-label="Conversación de ejemplo"
+                  aria-label={t("chat.conversation")}
                   onScroll={(e) =>
                     setShowBottom(
                       e.currentTarget.scrollHeight -
@@ -1064,7 +1078,7 @@ export function PlatformPreview() {
                       ),
                     )}
                     <section className="pp-bibliography">
-                      <h3>Bibliografía</h3>
+                      <h3>{t("chat.bibliography")}</h3>
                       {selectedConversation.messages
                         .filter((m) => m.role === "assistant")
                         .at(-1)
@@ -1085,8 +1099,8 @@ export function PlatformPreview() {
               ) : (
                 <div className="pp-welcome">
                   <PreviewLogo symbol dark={dark} />
-                  <p>Hospital de demostración</p>
-                  <h2>Consulta clínica</h2>
+                  <p>{t("user.organization")}</p>
+                  <h2>{t("chat.title")}</h2>
                 </div>
               )}
               <div
@@ -1099,7 +1113,7 @@ export function PlatformPreview() {
                   <button
                     type="button"
                     className="pp-scroll-bottom"
-                    aria-label="Ir al final de la conversación"
+                    aria-label={t("chat.scrollBottom")}
                     onClick={() => {
                       messages.current?.scrollTo({
                         top: messages.current.scrollHeight,
@@ -1116,7 +1130,7 @@ export function PlatformPreview() {
                     className="pp-composer pp-restart-consultation"
                     onClick={() => chooseConversation(null)}
                   >
-                    <span>Reiniciar consulta</span>
+                    <span>{t("chat.restart")}</span>
                     <RotateCcw size={18} strokeWidth={1.8} aria-hidden="true" />
                   </button>
                 ) : (
@@ -1134,8 +1148,8 @@ export function PlatformPreview() {
                     <button
                       type="button"
                       className="pp-attach"
-                      title="Adjuntos disponibles en la plataforma"
-                      aria-label="Adjuntos disponibles en la plataforma"
+                      title={t("chat.attach")}
+                      aria-label={t("chat.attach")}
                       disabled
                     >
                       <Paperclip
@@ -1147,7 +1161,7 @@ export function PlatformPreview() {
                     <button
                       type="button"
                       className="pp-composer-field"
-                      aria-label="Elegir una consulta de ejemplo"
+                      aria-label={t("chat.chooseExample")}
                       disabled={Boolean(typing)}
                       onClick={(e) => popupAt("examples", e.currentTarget)}
                     >
@@ -1166,14 +1180,14 @@ export function PlatformPreview() {
                           )}
                         </span>
                       ) : (
-                        "Pregunta clínica al comité..."
+                        t("chat.placeholder")
                       )}
                     </button>
                     <button
                       type="submit"
                       className="pp-send"
                       disabled={!draft || Boolean(typing)}
-                      aria-label="Cargar consulta de ejemplo"
+                      aria-label={t("chat.send")}
                     >
                       <ArrowUp size={18} strokeWidth={1.1} aria-hidden="true" />
                     </button>
@@ -1186,7 +1200,7 @@ export function PlatformPreview() {
                 className="pp-source"
                 data-visible={sourceExpanded}
                 data-fullscreen={!split}
-                aria-label="Panel de fuentes de consulta"
+                aria-label={t("source.label")}
                 inert={!sourceExpanded}
               >
                 {layout.mode === "split-resizable" && (
@@ -1195,7 +1209,7 @@ export function PlatformPreview() {
                     role="separator"
                     tabIndex={0}
                     aria-orientation="vertical"
-                    aria-label="Redimensionar panel de fuentes de consulta"
+                    aria-label={t("source.resize")}
                     aria-valuemin={360}
                     aria-valuemax={Math.round(
                       workspaceRailPanelMaximumWidth(dimensions.width),
@@ -1213,7 +1227,7 @@ export function PlatformPreview() {
                 )}
                 <div className="pp-source-content">
                   <div className="pp-source-tabs">
-                    <div role="tablist" aria-label="Documentos abiertos">
+                    <div role="tablist" aria-label={t("source.openDocuments")}>
                       {sourceTabs.tabs.map((tab) => (
                         <div
                           className="pp-source-tab"
@@ -1243,7 +1257,9 @@ export function PlatformPreview() {
                           <button
                             type="button"
                             className="pp-tab-close"
-                            aria-label={"Cerrar " + tab.citation.title}
+                            aria-label={t("source.closeTab", {
+                              title: tab.citation.title,
+                            })}
                             onClick={() => {
                               const next = closeSourceTab(sourceTabs, tab.key);
                               if (!next.tabs.length) closeSource();
@@ -1259,7 +1275,7 @@ export function PlatformPreview() {
                       ref={sourceClose}
                       type="button"
                       className="pp-icon-button"
-                      aria-label="Cerrar panel de fuentes de consulta"
+                      aria-label={t("source.close")}
                       onClick={() => closeSource()}
                     >
                       <X size={18} strokeWidth={1.8} aria-hidden="true" />
@@ -1267,7 +1283,7 @@ export function PlatformPreview() {
                   </div>
                   <header className="pp-source-heading">
                     <div>
-                      <p>Fuente de consulta</p>
+                      <p>{t("source.eyebrow")}</p>
                       <h2 title={currentSource.title}>{currentSource.title}</h2>
                     </div>
                     <button
@@ -1280,7 +1296,9 @@ export function PlatformPreview() {
                         strokeWidth={1.8}
                         aria-hidden="true"
                       />
-                      {fullDocument ? "Ver capítulo" : "Ver documento completo"}
+                      {fullDocument
+                        ? t("source.showChapter")
+                        : t("source.showFullDocument")}
                     </button>
                   </header>
                   {fullDocument && (
@@ -1297,13 +1315,15 @@ export function PlatformPreview() {
                         strokeWidth={1.8}
                         aria-hidden="true"
                       />
-                      Volver a la cita
+                      {t("source.backToCitation")}
                     </button>
                   )}
                   <PreviewDocument
                     citation={currentSource}
                     full={fullDocument}
                     locateKey={locateKey}
+                    documentCitations={documentCitations}
+                    renalProgression={renalProgression}
                   />
                 </div>
               </aside>
@@ -1318,7 +1338,7 @@ export function PlatformPreview() {
                 className="pp-mobile-navigation"
                 role="dialog"
                 aria-modal="true"
-                aria-label="Navegación del chat"
+                aria-label={t("navigation.label")}
                 onClick={(e) => e.stopPropagation()}
               >
                 {sidebarContent}
@@ -1345,12 +1365,12 @@ export function PlatformPreview() {
               role="dialog"
               aria-label={
                 typeof popup === "object"
-                  ? "Opciones de conversación"
+                  ? t("popup.conversationOptions")
                   : popup === "examples"
-                    ? "Consultas de ejemplo"
+                    ? t("popup.examples")
                     : popup === "pinned"
-                      ? "Chats anclados"
-                      : "Conversaciones recientes"
+                      ? t("popup.pinned")
+                      : t("popup.recent")
               }
             >
               {typeof popup === "object" ? (
@@ -1367,21 +1387,21 @@ export function PlatformPreview() {
                           ) : (
                             <Pin size={16} aria-hidden="true" />
                           )}
-                          {c.pinned ? "Desanclar" : "Anclar"}
+                          {c.pinned ? t("popup.unpin") : t("popup.pin")}
                         </button>
                         <button
                           type="button"
                           onClick={() => editConversation(c.id, "rename")}
                         >
                           <Pencil size={16} aria-hidden="true" />
-                          Renombrar
+                          {t("popup.rename")}
                         </button>
                         <button
                           type="button"
                           onClick={() => editConversation(c.id, "delete")}
                         >
                           <Trash2 size={16} aria-hidden="true" />
-                          Eliminar
+                          {t("popup.delete")}
                         </button>
                       </>
                     ) : null;
@@ -1389,7 +1409,7 @@ export function PlatformPreview() {
                 </>
               ) : popup === "examples" ? (
                 <>
-                  <h3>Consultas de ejemplo</h3>
+                  <h3>{t("popup.examples")}</h3>
                   {initialConversations.map((c) => (
                     <button
                       type="button"
@@ -1402,7 +1422,11 @@ export function PlatformPreview() {
                 </>
               ) : (
                 <>
-                  <h3>{popup === "pinned" ? "Anclados" : "Recientes"}</h3>
+                  <h3>
+                    {popup === "pinned"
+                      ? t("navigation.pinned")
+                      : t("navigation.recent")}
+                  </h3>
                   {threadRows(popup === "pinned")}
                 </>
               )}
@@ -1412,8 +1436,8 @@ export function PlatformPreview() {
             <PreviewEditDialog
               title={
                 editing.kind === "rename"
-                  ? "Renombrar conversación"
-                  : "Eliminar conversación"
+                  ? t("editDialog.renameTitle")
+                  : t("editDialog.deleteTitle")
               }
               value={newTitle}
               renaming={editing.kind === "rename"}
@@ -1446,6 +1470,7 @@ function PreviewEditDialog({
   onClose: () => void;
   onCommit: () => void;
 }) {
+  const t = useTranslations("platform.preview.editDialog");
   const dialog = useRef<HTMLFormElement>(null);
   useEffect(() => {
     dialog.current
@@ -1484,7 +1509,7 @@ function PreviewEditDialog({
         <h2>{title}</h2>
         {renaming ? (
           <label>
-            Nombre de la conversación
+            {t("nameLabel")}
             <input
               value={value}
               onChange={(e) => onChange(e.target.value)}
@@ -1493,18 +1518,18 @@ function PreviewEditDialog({
             />
           </label>
         ) : (
-          <p>Se eliminará «{value}» de esta demostración.</p>
+          <p>{t("deleteBody", { title: value })}</p>
         )}
         <div>
           <button type="button" className="pp-outline-button" onClick={onClose}>
-            Cancelar
+            {t("cancel")}
           </button>
           <button
             type="submit"
             className="pp-primary-button"
             disabled={renaming && !value.trim()}
           >
-            {renaming ? "Guardar" : "Eliminar"}
+            {renaming ? t("save") : t("delete")}
           </button>
         </div>
       </form>

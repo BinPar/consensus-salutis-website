@@ -1,14 +1,8 @@
+import { processResult } from "../clinical-process-data";
 import {
-  processConsultation,
-  processFollowup,
-  processResult,
-} from "../clinical-process-data";
-import { evidenceDocumentContext } from "../evidence-document-context";
-import {
-  initialAnswer,
-  followupAnswer,
   initialReferences,
   followupReferences,
+  type PreviewReferenceId,
 } from "./preview-consultation-content";
 
 export type PreviewCitation = {
@@ -40,29 +34,23 @@ export function cleanQuote(text: string) {
     .replace(/\*|#/g, "")
     .trim();
 }
-export const documentCitations: readonly PreviewCitation[] =
-  processResult.citations.map((c) => ({
-    ...c,
-    title: c.source,
-    quote: cleanQuote(c.quote),
-  }));
-const citations: readonly PreviewCitation[] = initialReferences.map(
-  (reference, index) => ({
-    ...reference,
-    order: index + 1,
-    quote:
-      documentCitations.find((c) => c.anchor === reference.anchor)?.quote ??
-      null,
-  }),
-);
-const followupCitations: readonly PreviewCitation[] = followupReferences.map(
-  (reference, index) => ({
-    ...reference,
-    anchor: `preview-followup-${index + 1}`,
-    order: index + 1,
-    quote: citations.find((c) => c.title === reference.title)?.quote ?? null,
-  }),
-);
+/** Anchor de cada pasaje citado en el documento de la consulta. */
+export type PreviewQuoteAnchor =
+  (typeof processResult.citations)[number]["anchor"];
+export const previewQuoteAnchors: readonly PreviewQuoteAnchor[] =
+  processResult.citations.map((c) => c.anchor);
+export type PreviewConversationId = "valoracion" | "seguimiento";
+
+/** Textos de la maqueta en el idioma de la página (`platform.preview`). */
+export type PreviewText = {
+  /** Preguntas de la consulta y del seguimiento (`clinical`). */
+  questions: { consultation: string; followup: string };
+  /** Pasajes citados, en bruto (`clinical.citations.<anchor>`). */
+  quotes: Record<PreviewQuoteAnchor, string>;
+  conversations: Record<PreviewConversationId, string>;
+  answers: { initial: string; followup: string };
+  references: Record<PreviewReferenceId, string>;
+};
 
 // Adaptación de contenido al formato de citas que ya utiliza la maqueta.
 function withCitationAnchors(
@@ -81,44 +69,92 @@ function withCitationAnchors(
       .join(" "),
   );
 }
-const consultation: PreviewMessage = {
-  role: "user",
-  text: processConsultation.question,
-  citations: [],
-};
-const reply: PreviewMessage = {
-  role: "assistant",
-  text: withCitationAnchors(initialAnswer, citations),
-  citations,
-};
-export const initialConversations: readonly PreviewConversation[] = [
-  {
-    id: "valoracion",
-    title: "Evaluación inicial de disnea y edema periférico",
-    pinned: false,
-    messages: [consultation, reply],
-  },
-  {
-    id: "seguimiento",
-    title: "Revisión de la medicación y función renal",
-    pinned: false,
-    messages: [
-      consultation,
-      reply,
-      { role: "user", text: processFollowup.question, citations: [] },
-      {
-        role: "assistant",
-        text: withCitationAnchors(followupAnswer, followupCitations),
-        citations: followupCitations,
-      },
-    ],
-  },
-];
-export const initialCitation = citations.find((c) => c.anchor === "c7b8ef")!;
-export const initialTabs: SourceTabs = {
-  tabs: [{ key: initialCitation.source, citation: initialCitation }],
-  activeKey: initialCitation.source,
-};
+
+/** Conversaciones de ejemplo y cita inicial, montadas con sus textos. */
+export function createPreviewData(text: PreviewText) {
+  const documentCitations: readonly PreviewCitation[] =
+    processResult.citations.map((c) => ({
+      anchor: c.anchor,
+      order: c.order,
+      expert: c.expert,
+      source: c.source,
+      title: c.source,
+      quote: cleanQuote(text.quotes[c.anchor]),
+    }));
+  const citations: readonly PreviewCitation[] = initialReferences.map(
+    (reference, index) => ({
+      anchor: reference.anchor,
+      title: text.references[reference.reference],
+      source: reference.source,
+      order: index + 1,
+      quote:
+        documentCitations.find((c) => c.anchor === reference.anchor)?.quote ??
+        null,
+    }),
+  );
+  const followupCitations: readonly PreviewCitation[] = followupReferences.map(
+    (reference, index) => {
+      const initial = initialReferences.find(
+        (entry) => entry.reference === reference.reference,
+      );
+      return {
+        title: text.references[reference.reference],
+        source: reference.source,
+        anchor: `preview-followup-${index + 1}`,
+        order: index + 1,
+        quote:
+          citations.find((c) => c.anchor === initial?.anchor)?.quote ?? null,
+      };
+    },
+  );
+  const consultation: PreviewMessage = {
+    role: "user",
+    text: text.questions.consultation,
+    citations: [],
+  };
+  const reply: PreviewMessage = {
+    role: "assistant",
+    text: withCitationAnchors(text.answers.initial, citations),
+    citations,
+  };
+  const initialConversations: readonly PreviewConversation[] = [
+    {
+      id: "valoracion",
+      title: text.conversations.valoracion,
+      pinned: false,
+      messages: [consultation, reply],
+    },
+    {
+      id: "seguimiento",
+      title: text.conversations.seguimiento,
+      pinned: false,
+      messages: [
+        consultation,
+        reply,
+        { role: "user", text: text.questions.followup, citations: [] },
+        {
+          role: "assistant",
+          text: withCitationAnchors(text.answers.followup, followupCitations),
+          citations: followupCitations,
+        },
+      ],
+    },
+  ];
+  const initialCitation = citations.find((c) => c.anchor === "c7b8ef")!;
+  const initialTabs: SourceTabs = {
+    tabs: [{ key: initialCitation.source, citation: initialCitation }],
+    activeKey: initialCitation.source,
+  };
+  // Document wording from the supplied product capture and existing captured corpus excerpts.
+  const renalProgression = cleanQuote(initialCitation.quote ?? "") + ").";
+  return {
+    initialConversations,
+    initialCitation,
+    initialTabs,
+    documentCitations,
+    renalProgression,
+  };
+}
 
 // Same document-key deduplication and neighbour selection as citation-viewer-tabs.ts in apps/chat.
 export function openSourceTab(
@@ -146,22 +182,3 @@ export function closeSourceTab(state: SourceTabs, key: string): SourceTabs {
         : state.activeKey,
   };
 }
-
-// Document wording from the supplied product capture and existing captured corpus excerpts.
-export const renalContext = {
-  etiology:
-    "Las causas de enfermedad renal crónica van a ser distintas en función de la edad del paciente. Así, en la edad pediátrica dominan los problemas congénitos y glomerulares, en pacientes de edad media la poliquistosis renal, y en pacientes mayores la diabetes mellitus y las causas vasculares.",
-  diabetes:
-    "En números absolutos la diabetes mellitus con nefropatía diabética es la principal causa de ERC a nivel mundial.",
-  progression: cleanQuote(initialCitation.quote ?? "") + ").",
-  progressionAfter:
-    "Pequeñas fluctuaciones del FG no indican necesariamente progresión, por ello se exige que sea un descenso del FG sostenido. La hipertensión arterial (HTA) y la proteinuria serán los factores principales de progresión de la enfermedad y otros factores de riesgo modificables. Otros serán el control de la glucemia en la población diabética, la dislipemia, la hiperuricemia y el control de la acidosis metabólica.",
-  risks: [
-    "Proteinuria",
-    "Hipertensión arterial",
-    "Diabetes mellitus",
-    "Enfermedad cardiovascular",
-    "Tabaquismo",
-  ],
-};
-export const drugContext = evidenceDocumentContext;

@@ -6,6 +6,12 @@ import {
   MotionConfig,
   useReducedMotion,
 } from "framer-motion";
+/*
+  `usePathname` de Next y no el de `~/i18n/navigation`: este proveedor envuelve
+  también al de textos y no tiene idioma. Aquí solo detecta que la ruta ha
+  cambiado; no pinta nada con ella.
+*/
+// eslint-disable-next-line no-restricted-imports
 import { usePathname, useRouter } from "next/navigation";
 import {
   useEffect,

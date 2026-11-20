@@ -1,0 +1,116 @@
+{
+  "horizontal": {
+    "railLabel": "Página de inicio de BinPar",
+    "scrollHint": "Desplázate en vertical para avanzar",
+    "panels": [
+      "Inicio",
+      "Casos de éxito",
+      "Atención Primaria",
+      "Arquitectura",
+      "Métricas",
+      "Reunión"
+    ]
+  },
+  "sections": {
+    "introduction": "Presentación",
+    "successCases": "Casos de éxito",
+    "process": "Cómo funciona",
+    "architecture": "Arquitectura",
+    "blog": "Blog"
+  },
+  "cover": {
+    "label": "BinPar: respuestas clínicas trazables",
+    "title": "BinPar<line>Respuestas clínicas trazables.</line>",
+    "description": "BinPar, la IA médica institucional que conecta guías, protocolos y corpus médico con la práctica clínica.",
+    "explore": "Descubrir"
+  },
+  "hero": {
+    "eyebrow": "IA médica institucional",
+    "title": "Conocimiento clínico <accent>orquestado por IA.</accent>",
+    "body": "BinPar convierte guías, protocolos y corpus médico en respuestas trazables para Atención Primaria. Una capa de IA seria, auditable y preparada para operar dentro de un sistema sanitario.",
+    "mobileBody": "BinPar convierte guías, protocolos y corpus médico en respuestas trazables para Atención Primaria."
+  },
+  "metrics": {
+    "eyebrow": "Indicadores operativos",
+    "title": "Volumen de datos y actualización continua.",
+    "body": "La plataforma combina una base de conocimiento médico estructurada con guías clínicas y protocolos propios de cada organización. Los contenidos pasan por procesos automatizados de ingesta, evaluación mediante preguntas clave, validación clínica y publicación controlada antes de incorporarse a las respuestas del sistema.",
+    "items": {
+      "knowledge": "Conocimiento médico estructurado y gobernable.",
+      "headings": "Epígrafes clínicos listos para consulta trazable.",
+      "questions": "Preguntas para evaluación continua del sistema.",
+      "updates": "Actualización urgente de contenidos relevantes."
+    }
+  },
+  "primaryCare": {
+    "eyebrow": "Proceso de consulta",
+    "title": "De la pregunta a la evidencia.",
+    "body": "BinPar acompaña cada consulta desde la formulación de la duda clínica hasta una respuesta contrastada, referenciada y preparada para ser revisada."
+  },
+  "process": {
+    "query": {
+      "title": "Plantear la consulta",
+      "body": "El profesional formula una duda clínica en lenguaje natural, aportando el contexto necesario para orientar la consulta.",
+      "signal": "Lenguaje clínico natural"
+    },
+    "locate": {
+      "title": "Localizar conocimiento relevante",
+      "body": "El sistema recupera conocimiento relevante del corpus médico, las guías clínicas y los protocolos institucionales.",
+      "signal": "Corpus + guías + protocolos"
+    },
+    "contrast": {
+      "title": "Contrastar y priorizar",
+      "body": "El sistema contrasta las fuentes recuperadas y aplica las prioridades documentales definidas por la organización.",
+      "signal": "Prioridades configurables"
+    },
+    "respond": {
+      "title": "Responder con evidencia visible",
+      "body": "El sistema sintetiza una respuesta operativa y enlaza el fragmento o la página original que sustenta cada conclusión.",
+      "signal": "Referencia al fragmento original"
+    },
+    "review": {
+      "title": "Revisar y mejorar",
+      "body": "La valoración profesional permite revisar los contenidos y reforzar las pruebas automáticas para futuras consultas.",
+      "signal": "Valoración profesional + pruebas automáticas"
+    }
+  },
+  "blog": {
+    "eyebrow": "Lecturas clínicas",
+    "title": "Últimos <accent>artículos</accent>",
+    "body": "Lecturas recientes sobre IA médica, tendencias sanitarias y nuevas formas de transformar la asistencia al paciente en el sistema de salud.",
+    "viewAll": "Ver todos"
+  },
+  "contact": {
+    "eyebrow": "Siguiente paso",
+    "title": "Una conversación seria sobre tu organización sanitaria.",
+    "body": "Revisamos caso de uso, restricciones de seguridad, requisitos de integración y el nivel de evidencia necesario para un piloto institucional."
+  },
+  "volume": {
+    "eyebrow": "Volumen y actualización",
+    "intro": "Una base médica estructurada que incorpora las guías y protocolos de cada organización, con evaluación continua y validación clínica.",
+    "heading": {
+      "label": "El conocimiento avanza. La base se actualiza.",
+      "lead": "El conocimiento avanza.",
+      "placeholder": "La base se actualiza.",
+      "typing": "La base {text}",
+      "phrases": ["se actualiza.", "evoluciona.", "crece."]
+    },
+    "items": {
+      "knowledge": {
+        "value": "+3",
+        "label": "Conocimiento médico estructurado"
+      },
+      "headings": {
+        "value": "+8.327",
+        "label": "Epígrafes clínicos"
+      },
+      "questions": {
+        "value": "+30.000",
+        "label": "Preguntas de evaluación"
+      },
+      "updates": {
+        "value": "<24",
+        "label": "Actualización urgente"
+      }
+    }
+  }
+}

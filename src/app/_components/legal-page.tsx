@@ -1,6 +1,8 @@
-import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
 
 import { ThemeSection, Eyebrow, PageShell } from "~/app/_components/site";
+import { Link } from "~/i18n/navigation";
+import { routing, type StaticPathname } from "~/i18n/routing";
 
 /** Datos del titular, compartidos por las páginas legales. */
 export const LEGAL_OWNER = {
@@ -20,15 +22,19 @@ export function LegalPage({
   title: string;
   children: React.ReactNode;
 }) {
+  const t = useTranslations("legal");
+  const locale = useLocale();
+
   return (
     <PageShell>
       <main>
         <ThemeSection>
           <article className="mx-auto w-full max-w-4xl px-5 sm:px-8">
-            <Eyebrow>Información legal</Eyebrow>
+            <Eyebrow>{t("eyebrow")}</Eyebrow>
             <h1 className="font-display text-navy mt-5 text-4xl font-extrabold tracking-tight sm:text-5xl dark:text-slate-50">
               {title}
             </h1>
+            {locale !== routing.defaultLocale && <TranslationNotice />}
             <div className="font-body mt-10 space-y-8 text-base leading-8 text-slate-600 dark:text-slate-400">
               {children}
             </div>
@@ -36,6 +42,20 @@ export function LegalPage({
         </ThemeSection>
       </main>
     </PageShell>
+  );
+}
+
+/**
+ * Aviso de las traducciones de los textos legales: el que vincula es el
+ * castellano, que es el que se ha revisado jurídicamente.
+ */
+export function TranslationNotice() {
+  const t = useTranslations("legal");
+
+  return (
+    <p className="font-body mt-5 max-w-3xl text-sm leading-6 text-slate-500 italic dark:text-slate-400">
+      {t("translationNotice")}
+    </p>
   );
 }
 
@@ -60,7 +80,7 @@ export function LegalLink({
   href,
   children,
 }: {
-  href: string;
+  href: StaticPathname;
   children: React.ReactNode;
 }) {
   return (

@@ -1,6 +1,8 @@
 "use client";
 
+import { useLocale, useTranslations } from "next-intl";
 import { useRef, useState } from "react";
+import { LOCALE_TAGS } from "~/i18n/routing";
 import type { BlogPost, BlogTag } from "~/lib/blog";
 import {
   BlogEmptyState,
@@ -15,7 +17,7 @@ import { BlogSort, type BlogSort as SortOrder } from "./blog-sort";
 import { BlogTagFilter } from "./blog-tag-filter";
 import { BlogViewToggle, type BlogGalleryView } from "./blog-view-toggle";
 import { blogContentWidth } from "./blog-layout";
-import { normalizeSearch } from "./normalize-search";
+import { useNormalizeSearch } from "./normalize-search";
 import { stickyBandClass, useStuck } from "./sticky-band";
 
 export type BlogGalleryProps = {
@@ -39,6 +41,9 @@ export function BlogGallery({
   initialTotalPages,
   activeTag,
 }: BlogGalleryProps) {
+  const t = useTranslations("blog.gallery");
+  const localeTag = LOCALE_TAGS[useLocale()];
+  const normalizeSearch = useNormalizeSearch();
   const defaultSize = activeTag ? "all" : BLOG_POSTS_PER_PAGE;
   const [pageSize, setPageSize] = useState<BlogSize>(defaultSize);
   const [page, setPage] = useState(1);
@@ -57,12 +62,14 @@ export function BlogGallery({
   );
   const sortedPosts = [...filteredPosts].sort((a, b) => {
     if (sort === "title")
-      return a.title.localeCompare(b.title, "es", { sensitivity: "base" });
+      return a.title.localeCompare(b.title, localeTag, {
+        sensitivity: "base",
+      });
     const byDate =
       sort === "oldest"
         ? a.date.localeCompare(b.date)
         : b.date.localeCompare(a.date);
-    return byDate || a.slug.localeCompare(b.slug, "es");
+    return byDate || a.slug.localeCompare(b.slug, localeTag);
   });
   const customPresentation =
     !!searchTerm || sort !== "newest" || pageSize !== defaultSize;
@@ -90,7 +97,7 @@ export function BlogGallery({
     <section
       id="blog-page-gallery"
       tabIndex={-1}
-      aria-label="Artículos del blog"
+      aria-label={t("label")}
       className="scroll-mt-[calc(var(--blog-header-height,64px)+16px)] bg-[#fbfdff] pb-20 focus:outline-none lg:pb-24 dark:bg-[#06111f]"
     >
       {/* Full-width band; its content keeps the gallery width. */}
@@ -103,7 +110,7 @@ export function BlogGallery({
           className={`${blogContentWidth} flex flex-nowrap items-center gap-10 py-2`}
         >
           <p className="font-display text-navy hidden shrink-0 text-base font-semibold tracking-tight md:block dark:text-slate-100">
-            {activeTagLabel ?? "Todos los artículos"}
+            {activeTagLabel ?? t("allArticles")}
           </p>
           <div className="relative ml-auto flex min-w-0 flex-nowrap items-center justify-end gap-2 min-[1025px]:flex-1">
             <div className="w-40 min-w-0 shrink min-[1025px]:w-auto min-[1025px]:flex-1 [&>div]:mt-0 [&>nav]:mt-0 [&>nav]:ml-auto [&>nav]:w-max">
@@ -143,10 +150,10 @@ export function BlogGallery({
         ) : filteredPosts.length === 0 ? (
           <div role="status" className="font-body py-16 text-center">
             <p className="text-navy text-base font-medium dark:text-slate-100">
-              No se han encontrado artículos.
+              {t("noResults.title")}
             </p>
             <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-              Prueba con otra búsqueda o cambia la etiqueta seleccionada.
+              {t("noResults.body")}
             </p>
           </div>
         ) : (
@@ -171,7 +178,10 @@ export function BlogGallery({
                 allowAll={!!activeTag}
                 pageHref={
                   !customPresentation && !activeTag
-                    ? (nextPage) => `/blog?page=${nextPage}`
+                    ? (nextPage) => ({
+                        pathname: "/blog",
+                        query: { page: nextPage },
+                      })
                     : undefined
                 }
                 onPageChange={(nextPage) => {

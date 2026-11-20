@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, ChevronDown } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
   useEffect,
   useId,
@@ -16,8 +17,8 @@ export function BlogTagSelect({
   entries,
   activeTag,
   onSelect,
-  label = "Filtrar por etiqueta",
-  noun = ["artículo", "artículos"],
+  label: labelProp,
+  noun: nounProp,
 }: {
   entries: TagOption[];
   activeTag?: string;
@@ -27,6 +28,9 @@ export function BlogTagSelect({
   /** What the counts count, singular and plural. */
   noun?: readonly [string, string];
 }) {
+  const t = useTranslations("blog.tagSelect");
+  const label = labelProp ?? t("label");
+  const noun = nounProp ?? [t("noun.one"), t("noun.other")];
   const [open, setOpen] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);

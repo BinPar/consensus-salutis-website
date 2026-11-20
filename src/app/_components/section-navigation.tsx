@@ -6,6 +6,7 @@ import {
   useReducedMotion,
   useSpring,
 } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 
 import { SideLinkedInLink } from "./side-linkedin-link";
@@ -24,6 +25,7 @@ export function SectionNavigation({
   sections: PageSection[];
   deferUntilContent?: boolean;
 }) {
+  const t = useTranslations("layout.navigation");
   const [activeId, setActiveId] = useState(sections[0]?.id);
   const [visible, setVisible] = useState(!deferUntilContent);
   const listRef = useRef<HTMLOListElement>(null);
@@ -180,7 +182,7 @@ export function SectionNavigation({
     <>
       <SideLinkedInLink visible={visible} contrastRef={socialContrastRef} />
       <nav
-        aria-label="Secciones de esta página"
+        aria-label={t("sections")}
         className="section-navigation font-body"
         data-visible={visible}
         aria-hidden={!visible}

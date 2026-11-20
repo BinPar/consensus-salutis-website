@@ -30,11 +30,19 @@ import {
   muestraAccesoPlataforma,
 } from "~/lib/espacio";
 
-const ESPACIO_PAGE = join(process.cwd(), "src", "app", "espacio", "page.tsx");
+const ESPACIO_PAGE = join(
+  process.cwd(),
+  "src",
+  "app",
+  "(castellano)",
+  "espacio",
+  "page.tsx",
+);
 const ACCESO_PAGE = join(
   process.cwd(),
   "src",
   "app",
+  "(castellano)",
   "espacio",
   "acceso",
   "[token]",

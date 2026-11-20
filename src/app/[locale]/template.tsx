@@ -1,5 +1,1 @@
-import { RouteEntrance } from "~/app/_components/motion-system";
-
-export default function Template({ children }: { children: React.ReactNode }) {
-  return <RouteEntrance>{children}</RouteEntrance>;
-}
+export { default } from "~/app/_components/route-template";

@@ -13,6 +13,7 @@ import {
   Waves,
   X,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
   useLayoutEffect,
   useRef,
@@ -31,10 +32,11 @@ import {
   pulseProgress,
   sceneReveal,
 } from "~/app/_components/clinical-process-visuals";
+import { useProcessConsultation } from "~/app/_components/clinical-process-data";
 import {
-  processConsultation,
-  processFollowup,
-} from "~/app/_components/clinical-process-data";
+  useProcessFollowup,
+  useSceneReferences,
+} from "~/app/_components/clinical-scene-references";
 import {
   typingDuration,
   writtenCharacters,
@@ -51,11 +53,11 @@ import {
   Dot,
   answerLength,
   bodyText,
-  claimParagraph,
   curvePath,
   curvePoint,
   eyebrow,
   useBoxes,
+  useClaimParagraph,
   verticalCurve,
   type Box,
   type SceneDefinition,
@@ -144,7 +146,7 @@ export const centre = (box?: Box) =>
  */
 function ExpandedComposer({
   text,
-  placeholder = "Pregunta clínica al comité...",
+  placeholder,
   typing = false,
   ready = false,
   mode,
@@ -167,6 +169,7 @@ function ExpandedComposer({
   sendPulse?: number;
   className?: string;
 }) {
+  const t = useTranslations("scenes.evidence.composer");
   return (
     <div
       className={`shadow-big-blocks dark:border-primary-dark/15 relative overflow-hidden rounded-3xl border border-cyan-800/15 bg-white/85 backdrop-blur-md dark:bg-[#152230e6]/90 ${dropping ? "ring-primary-light/60 dark:ring-primary-dark/60 ring-2" : ""} ${className}`}
@@ -174,7 +177,7 @@ function ExpandedComposer({
       <div className="font-body relative min-h-6 px-4 pt-3 text-sm leading-6 break-words text-slate-700 dark:text-slate-200">
         {text || (
           <span className="text-slate-500 dark:text-slate-400">
-            {placeholder}
+            {placeholder ?? t("placeholder")}
           </span>
         )}
         {typing && <Caret />}
@@ -209,12 +212,13 @@ function ExpandedComposer({
 }
 
 /* 08 · Lenguaje natural: the case is typed as it would be told to a colleague. */
-const question = processConsultation.question;
 const NATURAL_TYPING = 0.4;
-const naturalTyped = NATURAL_TYPING + typingDuration(question.length);
-const naturalSent = naturalTyped + 0.7;
+const naturalSentAt = (questionLength: number) =>
+  NATURAL_TYPING + typingDuration(questionLength) + 0.7;
 
 function NaturalScene({ time, reduced }: SceneProps) {
+  const { question } = useProcessConsultation();
+  const naturalSent = naturalSentAt(question.length);
   const written = writtenCharacters(
     time,
     NATURAL_TYPING,
@@ -238,7 +242,7 @@ function NaturalScene({ time, reduced }: SceneProps) {
       )}
       <div className="absolute inset-x-6 bottom-5">
         {sent ? (
-          <Composer placeholder="El comité está respondiendo..." />
+          <Composer responding />
         ) : (
           <ExpandedComposer
             text={question.slice(0, written)}
@@ -253,9 +257,7 @@ function NaturalScene({ time, reduced }: SceneProps) {
 }
 
 /* 09 · Preguntas de aclaración: the committee asks for the decisive value. */
-const clarifyQuestion =
-  "¿Cuál es el filtrado glomerular estimado más reciente (mL/min/1,73 m²)?";
-const clarifyOptions = ["Menos de 30", "Entre 30 y 59", "60 o más"] as const;
+const clarifyOptions = ["under30", "from30To59", "from60"] as const;
 const CLARIFY_CARD = 0.5;
 // The card arrives whole, as the chat renders it (asked-question-card).
 const clarifyPointer = CLARIFY_CARD + 1.4;
@@ -263,6 +265,7 @@ const clarifyClick = clarifyPointer + 1.2;
 const clarifyAnswered = clarifyClick + 0.2;
 
 function ClarifyScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.consultation.clarify");
   const { root, target, boxes } = useBoxes(1);
   const card = sceneReveal(time, CLARIFY_CARD, 0.4, reduced);
   const chosen = reduced || time >= clarifyClick;
@@ -283,7 +286,7 @@ function ClarifyScene({ time, reduced }: SceneProps) {
       <ProcessChatVeil />
       <ChatHeader />
       <div className="relative space-y-4 px-6">
-        <UserBubble>¿Puede mantener el ibuprofeno a dosis bajas?</UserBubble>
+        <UserBubble>{t("userQuestion")}</UserBubble>
         {/* asked-question-card, framed. */}
         <section
           className="dark:border-primary-dark/15 relative grid gap-2.5 rounded-2xl border border-cyan-800/15 bg-white/75 px-4 py-3.5 backdrop-blur-sm dark:bg-[#152230]/72"
@@ -291,10 +294,10 @@ function ClarifyScene({ time, reduced }: SceneProps) {
         >
           <p className="font-display text-primary-light dark:text-primary-dark inline-flex items-center gap-1.5 text-[9px] font-bold tracking-[0.16em] uppercase">
             <MessageCircleQuestionMark size={14} strokeWidth={1.4} />
-            Pregunta del comité
+            {t("eyebrow")}
           </p>
           <h3 className="font-display text-navy text-[13px] leading-[22px] font-semibold dark:text-slate-100">
-            {clarifyQuestion}
+            {t("question")}
           </h3>
           <ul className="flex flex-wrap gap-2">
             {clarifyOptions.map((option, index) => {
@@ -306,7 +309,7 @@ function ClarifyScene({ time, reduced }: SceneProps) {
                   className={`font-body inline-flex h-8 items-center gap-1.5 rounded-full border px-3.5 text-xs font-medium transition-colors duration-150 ${selected ? "bg-primary-light dark:bg-primary-dark border-transparent text-white dark:text-[#04111e]" : "border-primary-light/40 text-primary-light dark:border-primary-dark/40 dark:text-primary-dark"} ${chosen && !selected ? "opacity-60" : ""}`}
                 >
                   {selected && <Check size={14} strokeWidth={1.8} />}
-                  {option}
+                  {t(`options.${option}`)}
                 </li>
               );
             })}
@@ -319,16 +322,24 @@ function ClarifyScene({ time, reduced }: SceneProps) {
 }
 
 /* 10 · Seguimiento: a short question that relies on the case already told. */
-const followupQuestion = "¿Cambia algo si además toma un IECA?";
-const followupParagraph = processFollowup.finalOpinion.split("\n\n")[5]!;
-const followupLength = answerLength(followupParagraph);
 const FOLLOWUP_TYPING = 0.6;
-const followupSent =
-  FOLLOWUP_TYPING + typingDuration(followupQuestion.length) + 0.5;
-const followupAnswer = followupSent + 0.9;
-const followupEnd = followupAnswer + typingDuration(followupLength);
+// Los tiempos dependen de la longitud de la pregunta y la respuesta traducidas.
+const followupTimeline = (questionLength: number, followupLength: number) => {
+  const sent = FOLLOWUP_TYPING + typingDuration(questionLength) + 0.5;
+  const answer = sent + 0.9;
+  return { sent, answer, end: answer + typingDuration(followupLength) };
+};
 
 function FollowupScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.consultation.followup");
+  const followupQuestion = t("question");
+  const claimParagraph = useClaimParagraph();
+  const followupParagraph = useProcessFollowup().nsaids;
+  const followupLength = answerLength(followupParagraph, useSceneReferences());
+  const { sent: followupSent, answer: followupAnswer } = followupTimeline(
+    followupQuestion.length,
+    followupLength,
+  );
   const asked = writtenCharacters(
     time,
     FOLLOWUP_TYPING,
@@ -387,13 +398,7 @@ function FollowupScene({ time, reduced }: SceneProps) {
       </div>
       <div className="absolute inset-x-6 bottom-5">
         {sent ? (
-          <Composer
-            placeholder={
-              written < followupLength
-                ? "El comité está respondiendo..."
-                : "Pregunta clínica al comité..."
-            }
-          />
+          <Composer responding={written < followupLength} />
         ) : (
           <ExpandedComposer
             text={followupQuestion.slice(0, asked)}
@@ -408,9 +413,9 @@ function FollowupScene({ time, reduced }: SceneProps) {
 
 /* 11 · Comité por especialidad: each expert reads its own corpus. */
 const committee = [
-  { name: "Cardiología", icon: HeartPulse, corpus: "Cardiología" },
-  { name: "Farmacología", icon: Pill, corpus: "Farmacología" },
-  { name: "Nefrología", icon: Waves, corpus: "Nefrología" },
+  { id: "cardiology", icon: HeartPulse },
+  { id: "pharmacology", icon: Pill },
+  { id: "nephrology", icon: Waves },
 ] as const;
 const COMMITTEE_EXPERTS = 1.1;
 const COMMITTEE_CORPUS = 2.5;
@@ -419,6 +424,7 @@ const COMMITTEE_RETURN = 4.9;
 const committeeDone = COMMITTEE_RETURN + 2 * DOT_GAP + DOT_TRANSIT + 0.15;
 
 function CommitteeScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.consultation.committee");
   const { root, target, boxes } = useBoxes(7);
   const ready = boxes.length === 7;
   const node = sceneReveal(time, 0.2, 0.35, reduced);
@@ -429,14 +435,14 @@ function CommitteeScene({ time, reduced }: SceneProps) {
     : 0;
   const done = reduced || time >= committeeDone;
   const status = done
-    ? "3 aportaciones recibidas"
+    ? t("status.received")
     : time >= COMMITTEE_RETURN
-      ? "Recibiendo aportaciones"
+      ? t("status.receiving")
       : time >= COMMITTEE_CORPUS
-        ? "Comité seleccionado"
+        ? t("status.selected")
         : time >= COMMITTEE_EXPERTS
-          ? "Seleccionando expertos"
-          : "Recibiendo la consulta";
+          ? t("status.selecting")
+          : t("status.incoming");
   const dots = (curve: ReturnType<typeof verticalCurve>, start: number) =>
     !reduced &&
     [0, 1, 2].map((dot) => {
@@ -506,7 +512,7 @@ function CommitteeScene({ time, reduced }: SceneProps) {
           <Mark className="relative size-7" />
           <div className="relative min-w-0">
             <p className="font-display text-navy text-sm font-semibold whitespace-nowrap dark:text-slate-50">
-              Comité clínico
+              {t("title")}
             </p>
             <p className="font-body text-xs leading-5 whitespace-nowrap text-slate-500 dark:text-slate-400">
               {status}
@@ -526,7 +532,7 @@ function CommitteeScene({ time, reduced }: SceneProps) {
             reduced || time >= COMMITTEE_RETURN + index * 0.12 + 0.2;
           return (
             <div
-              key={expert.name}
+              key={expert.id}
               ref={target(1 + index)}
               className={`${processCardClass} ${processBorderClass(reading)} relative flex flex-col items-center gap-1 px-2 py-2.5`}
               style={enter(appear)}
@@ -536,16 +542,16 @@ function CommitteeScene({ time, reduced }: SceneProps) {
                 <expert.icon size={20} strokeWidth={1.1} aria-hidden="true" />
               </span>
               <p className="font-display text-navy relative text-[13px] font-semibold dark:text-slate-100">
-                {expert.name}
+                {t(`experts.${expert.id}.name`)}
               </p>
               <p className="font-body text-primary-light dark:text-primary-dark relative text-[10px] leading-4 whitespace-nowrap">
                 {answered
-                  ? "Aportación enviada"
+                  ? t("expertStatus.sent")
                   : time >= COMMITTEE_READING + 1.2
-                    ? "Corpus consultado"
+                    ? t("expertStatus.consulted")
                     : time >= COMMITTEE_CORPUS + index * 0.2
-                      ? "Consultando corpus"
-                      : "Consulta dirigida"}
+                      ? t("expertStatus.consulting")
+                      : t("expertStatus.directed")}
               </p>
             </div>
           );
@@ -553,7 +559,7 @@ function CommitteeScene({ time, reduced }: SceneProps) {
       </div>
       <div className="grid grid-cols-3 gap-3">
         {committee.map((expert, index) => (
-          <div key={expert.corpus} className="flex justify-center">
+          <div key={expert.id} className="flex justify-center">
             <div
               ref={target(4 + index)}
               className={`${processCardClass} ${processBorderClass(reading)} relative flex w-[92px] flex-col items-center gap-1 py-2.5`}
@@ -574,10 +580,10 @@ function CommitteeScene({ time, reduced }: SceneProps) {
                 className="text-primary-light dark:text-primary-dark relative"
               />
               <span className="font-body relative text-[10px] leading-4 text-slate-500 dark:text-slate-400">
-                Corpus
+                {t("corpusLabel")}
               </span>
               <span className="font-display text-navy relative text-[10px] leading-4 font-semibold dark:text-slate-100">
-                {expert.corpus}
+                {t(`experts.${expert.id}.corpus`)}
               </span>
             </div>
           </div>
@@ -588,33 +594,36 @@ function CommitteeScene({ time, reduced }: SceneProps) {
 }
 
 /* 12 · Modos de respuesta: the picker beside the send key (chat-mode-picker). */
-const modesQuestion =
-  "¿Qué ajustes de la medicación conviene revisar en este paciente?";
 // Default modes and descriptions of the platform (ui builtIn labels).
-const modes = [
-  {
-    name: "Estándar",
-    description: "Respuesta ágil para la consulta habitual.",
-  },
-  {
-    name: "Precisión",
-    description: "Más exhaustivo para casos complejos; tarda algo más.",
-  },
-] as const;
+const modes = ["standard", "precision"] as const;
 // chat-mode-picker: 288px menu, right-aligned with the trigger, 8px above it.
 const MODES_MENU_WIDTH = 288;
 const MODES_MENU_GAP = 8;
 const MODES_TYPING = 0.4;
-const modesTyped = MODES_TYPING + typingDuration(modesQuestion.length);
-const modesPointer = modesTyped + 0.3;
-const modesOpen = modesPointer + 1;
-// The menu stays open long enough to read both modes: the pointer rests on
-// the trigger, glides to «Precisión», hovers it and only then picks it.
-const modesRead = modesOpen + 1.1;
-const modesPick = modesRead + 1.6;
-const modesClosed = modesPick + 0.3;
+// Los tiempos dependen de la longitud de la pregunta traducida.
+const modesTimeline = (questionLength: number) => {
+  const typed = MODES_TYPING + typingDuration(questionLength);
+  const pointer = typed + 0.3;
+  const open = pointer + 1;
+  // The menu stays open long enough to read both modes: the pointer rests on
+  // the trigger, glides to «Precisión», hovers it and only then picks it.
+  const read = open + 1.1;
+  const pick = read + 1.6;
+  const closed = pick + 0.3;
+  return { pointer, open, read, pick, closed };
+};
 
 function ModesScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.consultation.modes");
+  const modesQuestion = t("question");
+  const claimParagraph = useClaimParagraph();
+  const {
+    pointer: modesPointer,
+    open: modesOpen,
+    read: modesRead,
+    pick: modesPick,
+    closed: modesClosed,
+  } = modesTimeline(modesQuestion.length);
   const { root, target, boxes } = useBoxes(2);
   const written = writtenCharacters(
     time,
@@ -654,7 +663,9 @@ function ModesScene({ time, reduced }: SceneProps) {
           text={modesQuestion.slice(0, written)}
           typing={written > 0 && written < modesQuestion.length}
           ready={written > 0}
-          mode={picked ? "Precisión" : "Estándar"}
+          mode={
+            picked ? t("options.precision.name") : t("options.standard.name")
+          }
           modeRef={target(0)}
           modeOpen={open}
         />
@@ -680,16 +691,16 @@ function ModesScene({ time, reduced }: SceneProps) {
           const hovered = index === 1 && !reduced && time >= modesPick - 0.7;
           return (
             <div
-              key={mode.name}
+              key={mode}
               ref={index === 1 ? target(1) : undefined}
               className={`grid grid-cols-[minmax(0,1fr)_16px] items-start gap-2 rounded-xl px-3 py-2 text-left transition-colors duration-100 ${hovered ? "bg-primary-light/8 dark:bg-primary-dark/10" : ""}`}
             >
               <span className="grid min-w-0 gap-0.5">
                 <span className="font-body text-navy text-sm font-medium dark:text-slate-50">
-                  {mode.name}
+                  {t(`options.${mode}.name`)}
                 </span>
                 <span className="font-body text-xs leading-5 text-slate-500 dark:text-slate-400">
-                  {mode.description}
+                  {t(`options.${mode}.description`)}
                 </span>
               </span>
               {selected && (
@@ -710,27 +721,16 @@ function ModesScene({ time, reduced }: SceneProps) {
 
 /* 13 · Progreso visible: expert cards of the chat (expert-progress). */
 const progressExperts = [
-  {
-    name: "Cardiología",
-    source: "Manual ProMIR · Cardiología",
-    pages: "96, 98",
-  },
-  {
-    name: "Farmacología",
-    source: "Manual ProMIR · Nefrología",
-    pages: "412",
-  },
-  {
-    name: "Nefrología",
-    source: "Manual ProMIR · Nefrología",
-    pages: "377, 381",
-  },
+  { id: "cardiology", pages: "96, 98" },
+  { id: "pharmacology", pages: "412" },
+  { id: "nephrology", pages: "377, 381" },
 ] as const;
 const PROGRESS_STEP = 0.45;
 const progressSources = (index: number) => 1.5 + index * 0.55;
 const progressDone = (index: number) => 3.4 + index * 0.5;
 
 function ProgressScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.consultation.progress");
   return (
     <div className="relative h-full">
       <ProcessChatVeil />
@@ -751,7 +751,7 @@ function ProgressScene({ time, reduced }: SceneProps) {
           const done = reduced || time >= progressDone(index);
           return (
             <li
-              key={expert.name}
+              key={expert.id}
               className="dark:border-primary-dark/15 relative rounded-[14px] border border-cyan-800/15 bg-white/75 px-3.5 py-2.5 backdrop-blur-sm dark:bg-[#152230]/72"
               style={enter(appear)}
             >
@@ -764,12 +764,12 @@ function ProgressScene({ time, reduced }: SceneProps) {
               />
               <div className="relative flex items-start justify-between gap-3">
                 <span className="font-display text-navy text-sm leading-5 font-semibold dark:text-slate-100">
-                  {expert.name}
+                  {t(`experts.${expert.id}.name`)}
                 </span>
                 {done ? (
                   <span className="font-body text-primary-light dark:text-primary-dark inline-flex items-center gap-1 text-xs leading-5 font-semibold">
                     <Check size={14} strokeWidth={1.8} />
-                    Respuesta recibida
+                    {t("received")}
                   </span>
                 ) : (
                   <span className="font-body inline-flex items-center gap-1.5 text-xs leading-5 text-slate-600 dark:text-slate-300">
@@ -782,7 +782,7 @@ function ProgressScene({ time, reduced }: SceneProps) {
                     >
                       <Mark className="size-3.5" />
                     </span>
-                    Consultando…
+                    {t("consulting")}
                   </span>
                 )}
               </div>
@@ -791,13 +791,18 @@ function ProgressScene({ time, reduced }: SceneProps) {
                 style={{ gridTemplateRows: `${sources}fr`, opacity: sources }}
               >
                 <div className="min-h-0 overflow-hidden">
-                  <p className={`${eyebrow} pt-2`}>Fuentes consultadas</p>
+                  <p className={`${eyebrow} pt-2`}>{t("sourcesHeading")}</p>
                   <p className="mt-1.5 flex min-w-0 items-center gap-2.5">
                     <span className="border-primary-light/20 bg-primary-light/8 text-primary-light dark:border-primary-dark/25 dark:bg-primary-dark/10 dark:text-primary-dark grid size-5 shrink-0 place-items-center rounded-md border">
                       <FileText size={12} strokeWidth={1.4} />
                     </span>
                     <span className="font-body min-w-0 truncate text-xs leading-5 text-slate-600 dark:text-slate-400">
-                      {expert.source} · pág. {expert.pages}
+                      {t("sourcePages", {
+                        source: t(`experts.${expert.id}.source`),
+                        pages: expert.pages,
+                        /* «96, 98» son dos páginas: en inglés, «pp.». */
+                        count: expert.pages.split(",").length,
+                      })}
                     </span>
                   </p>
                 </div>
@@ -811,12 +816,9 @@ function ProgressScene({ time, reduced }: SceneProps) {
 }
 
 /* 14 · Imágenes adjuntas: an ECG is dragged onto the composer. */
-const imageQuestion = "Adjunto el ECG de hoy. ¿Hay signos de hiperpotasemia?";
-const imageName = "ecg-12-derivaciones.png";
 const IMAGE_DRAG = 0.5;
 const IMAGE_DROP = IMAGE_DRAG + 1.4;
 const IMAGE_TYPING = IMAGE_DROP + 0.8;
-const imageTyped = IMAGE_TYPING + typingDuration(imageQuestion.length);
 
 /** ECG strip with peaked T waves, drawn for the scene. */
 function EcgStrip({ className = "" }: { className?: string }) {
@@ -842,6 +844,9 @@ function EcgStrip({ className = "" }: { className?: string }) {
 }
 
 function ImagesScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.consultation.images");
+  const imageQuestion = t("question");
+  const imageName = t("fileName");
   const lift = sceneReveal(time, 0.15, 0.35, reduced);
   const travel = reduced ? 1 : drawProgress(time, IMAGE_DRAG, 1.2, false);
   const dropped = reduced || time >= IMAGE_DROP;
@@ -923,7 +928,8 @@ export const consultationScenes: Record<
   natural: {
     render: (props) => <NaturalScene {...props} />,
     surface: "chat",
-    duration: naturalSent + 1.6,
+    duration: (_, clinical) =>
+      naturalSentAt(clinical("consultation.question").length) + 1.6,
   },
   clarify: {
     render: (props) => <ClarifyScene {...props} />,
@@ -933,7 +939,11 @@ export const consultationScenes: Record<
   followup: {
     render: (props) => <FollowupScene {...props} />,
     surface: "chat",
-    duration: followupEnd + 1.2,
+    duration: (t, clinical) =>
+      followupTimeline(
+        t("consultation.followup.question").length,
+        answerLength(clinical.raw("followup.paragraphs.nsaids") as string),
+      ).end + 1.2,
   },
   committee: {
     render: (props) => <CommitteeScene {...props} />,
@@ -943,7 +953,8 @@ export const consultationScenes: Record<
   modes: {
     render: (props) => <ModesScene {...props} />,
     surface: "chat",
-    duration: modesClosed + 1.2,
+    duration: (t) =>
+      modesTimeline(t("consultation.modes.question").length).closed + 1.2,
   },
   progress: {
     render: (props) => <ProgressScene {...props} />,
@@ -953,6 +964,9 @@ export const consultationScenes: Record<
   images: {
     render: (props) => <ImagesScene {...props} />,
     surface: "chat",
-    duration: imageTyped + 1.2,
+    duration: (t) =>
+      IMAGE_TYPING +
+      typingDuration(t("consultation.images.question").length) +
+      1.2,
   },
 };

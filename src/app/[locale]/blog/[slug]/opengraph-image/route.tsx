@@ -10,17 +10,24 @@
  * nada de `next/font/google`, así que Sora entra como `.ttf` commiteado
  * (`src/app/_fonts/`, subset latino). Sin eso el título saldría con la fuente
  * del sistema y la tarjeta no sería de la marca.
+ *
+ * Es un route handler y no el fichero `opengraph-image.tsx` de Next: bajo
+ * `[locale]`, Next anunciaría la imagen en `/es/blog/...`, una URL que el
+ * middleware redirige. Así la URL la escribe la página (`OG_IMAGE` en
+ * `og-image.ts`) y es la misma de siempre, sin prefijo.
  */
 import fs from "node:fs";
 import path from "node:path";
 
+import { hasLocale } from "next-intl";
+import { getFormatter, getTranslations } from "next-intl/server";
 import { ImageResponse } from "next/og";
 
+import { formatBlogDate } from "~/app/_components/blog/blog-post-format";
+import { routing } from "~/i18n/routing";
 import { getBlogPostBySlug } from "~/lib/blog";
 
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
-export const alt = "BinPar · Lecturas clínicas";
+import { OG_IMAGE } from "../og-image";
 
 /*
   `fs` y no `new URL(..., import.meta.url)`: ese patrón resuelve a una ruta de
@@ -32,16 +39,20 @@ function readFont(fileName: string) {
   return fs.readFileSync(path.join(process.cwd(), "src/app/_fonts", fileName));
 }
 
-export default async function BlogOpengraphImage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
-  const post = getBlogPostBySlug(slug);
-  const title = post?.title ?? "Lecturas clínicas";
+export async function GET(
+  _request: Request,
+  { params }: { params: Promise<{ locale: string; slug: string }> },
+) {
+  const { locale: requestedLocale, slug } = await params;
+  const locale = hasLocale(routing.locales, requestedLocale)
+    ? requestedLocale
+    : routing.defaultLocale;
+  const t = await getTranslations({ locale, namespace: "blog.og" });
+  const format = await getFormatter({ locale });
+  const post = getBlogPostBySlug(slug, locale);
+  const title = post?.title ?? t("fallbackTitle");
   const footer = post
-    ? `${post.author.name} · ${post.createdAtLabel}`
+    ? `${post.author.name} · ${formatBlogDate(format, post.date)}`
     : "binpar.com";
 
   /* Tres escalones: un título largo baja de cuerpo en vez de desbordar. */
@@ -106,7 +117,7 @@ export default async function BlogOpengraphImage({
             color: "#00BCBB",
           }}
         >
-          Lecturas clínicas
+          {t("eyebrow")}
         </div>
       </div>
 
@@ -142,7 +153,8 @@ export default async function BlogOpengraphImage({
       </div>
     </div>,
     {
-      ...size,
+      width: OG_IMAGE.width,
+      height: OG_IMAGE.height,
       fonts: [
         { name: "Sora", data: extraBold, weight: 800, style: "normal" },
         { name: "Sora", data: semiBold, weight: 600, style: "normal" },

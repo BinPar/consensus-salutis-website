@@ -1,11 +1,13 @@
 "use client";
 
-import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
 import { useId, useRef, useState } from "react";
 
 import { Eyebrow } from "~/app/_components/eyebrow";
+import { Link } from "~/i18n/navigation";
 import {
   contactSchema,
+  isContactErrorCode,
   type ContactField,
   type ContactResponse,
 } from "~/lib/contact";
@@ -40,6 +42,11 @@ export function ContactForm({
   compact?: boolean;
   className?: string;
 }) {
+  const t = useTranslations("contact");
+  const locale = useLocale();
+  // Los errores llegan como código; un mensaje sin código (zod) se pinta tal cual.
+  const errorText = (value: string) =>
+    isContactErrorCode(value) ? t(`errors.${value}`) : value;
   const formRef = useRef<HTMLFormElement>(null);
   const submittingRef = useRef(false);
   const id = useId();
@@ -74,6 +81,7 @@ export function ContactForm({
       message: formValue(formData, "message"),
       privacyAccepted: formData.get("privacyAccepted") === "on",
       website: formValue(formData, "website"),
+      locale,
     };
     submittingRef.current = true;
     setStatus("submitting");
@@ -88,8 +96,8 @@ export function ContactForm({
 
       if (!result.ok) {
         setStatus("idle");
-        setMessage(result.message);
-        setFieldErrors(result.fieldErrors ?? {});
+        setMessage(errorText(result.error));
+        setFieldErrors(translateFieldErrors(result.fieldErrors ?? {}));
         return;
       }
 
@@ -99,7 +107,7 @@ export function ContactForm({
       formRef.current.reset();
     } catch {
       setStatus("idle");
-      setMessage("No hemos podido enviar el mensaje. Inténtalo de nuevo.");
+      setMessage(t("form.networkError"));
     } finally {
       submittingRef.current = false;
     }
@@ -128,11 +136,11 @@ export function ContactForm({
           field === "message" ||
           field === "privacyAccepted"
         ) {
-          errors[field] ??= issue.message;
+          errors[field] ??= errorText(issue.message);
         }
       }
       setStatus("idle");
-      setMessage("Revisa los campos indicados.");
+      setMessage(t("errors.fieldErrors"));
       setFieldErrors(errors);
       return;
     }
@@ -142,25 +150,36 @@ export function ContactForm({
     void submitContact();
   }
 
+  function translateFieldErrors(errors: Partial<Record<ContactField, string>>) {
+    const translated: Partial<Record<ContactField, string>> = {};
+    for (const [field, value] of Object.entries(errors) as [
+      ContactField,
+      string,
+    ][]) {
+      translated[field] = errorText(value);
+    }
+    return translated;
+  }
+
   if (status === "success") {
     return (
       <div
-        className={`min-w-0 rounded-3xl border border-cyan-800/20 bg-white/75 p-7 shadow-2xl shadow-slate-900/10 backdrop-blur-sm dark:border-primary-dark/20 dark:bg-white/3 dark:shadow-cyan-950/30 ${className}`}
+        className={`dark:border-primary-dark/20 min-w-0 rounded-3xl border border-cyan-800/20 bg-white/75 p-7 shadow-2xl shadow-slate-900/10 backdrop-blur-sm dark:bg-white/3 dark:shadow-cyan-950/30 ${className}`}
         role="status"
       >
-        <Eyebrow>Mensaje enviado</Eyebrow>
-        <h3 className="font-display mt-4 text-2xl font-semibold text-navy dark:text-slate-50">
-          Gracias por contactar.
+        <Eyebrow>{t("form.success.eyebrow")}</Eyebrow>
+        <h3 className="font-display text-navy mt-4 text-2xl font-semibold dark:text-slate-50">
+          {t("form.success.title")}
         </h3>
         <p className="font-body mt-3 text-sm leading-6 text-slate-600 dark:text-slate-400">
-          Hemos recibido tu consulta y responderemos desde el equipo de BinPar.
+          {t("form.success.body")}
         </p>
         <button
           type="button"
-          className="bg-primary-light/10 hover:bg-primary-light/18 dark:bg-primary-dark/10 mt-6 rounded-md border border-cyan-800/20 px-4 py-2 text-sm font-semibold text-cyan-800 transition dark:border-primary-dark/20 dark:text-slate-100 dark:hover:bg-primary-dark/18"
+          className="bg-primary-light/10 hover:bg-primary-light/18 dark:bg-primary-dark/10 dark:border-primary-dark/20 dark:hover:bg-primary-dark/18 mt-6 rounded-md border border-cyan-800/20 px-4 py-2 text-sm font-semibold text-cyan-800 transition dark:text-slate-100"
           onClick={() => setStatus("idle")}
         >
-          Enviar otro mensaje
+          {t("form.success.again")}
         </button>
       </div>
     );
@@ -169,7 +188,7 @@ export function ContactForm({
   return (
     <form
       ref={formRef}
-      className={`shadow-big-blocks min-w-0 rounded-3xl border border-cyan-800/20 bg-white/80 backdrop-blur-sm dark:border-primary-dark/20 dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30 ${
+      className={`shadow-big-blocks dark:border-primary-dark/20 min-w-0 rounded-3xl border border-cyan-800/20 bg-white/80 backdrop-blur-sm dark:bg-[#152230e6]/90 dark:shadow-2xl dark:shadow-cyan-950/30 ${
         compact ? "space-y-3 p-5" : "space-y-5 p-7"
       } ${className}`}
       onSubmit={handleSubmit}
@@ -177,7 +196,7 @@ export function ContactForm({
     >
       <FormField
         id={`${id}-name`}
-        label="Nombre completo"
+        label={t("form.name.label")}
         error={fieldErrors.name}
       >
         <input
@@ -190,7 +209,7 @@ export function ContactForm({
           required
           disabled={busy}
           className={fieldClassName}
-          placeholder="Tu nombre completo"
+          placeholder={t("form.name.placeholder")}
           aria-invalid={Boolean(fieldErrors.name)}
           onInput={() => clearFieldError("name")}
         />
@@ -198,7 +217,7 @@ export function ContactForm({
 
       <FormField
         id={`${id}-email`}
-        label="Correo electrónico"
+        label={t("form.email.label")}
         error={fieldErrors.email}
       >
         <input
@@ -210,7 +229,7 @@ export function ContactForm({
           required
           disabled={busy}
           className={fieldClassName}
-          placeholder="tu@email.com"
+          placeholder={t("form.email.placeholder")}
           aria-invalid={Boolean(fieldErrors.email)}
           onInput={() => clearFieldError("email")}
         />
@@ -218,7 +237,7 @@ export function ContactForm({
 
       <FormField
         id={`${id}-message`}
-        label="Mensaje"
+        label={t("form.message.label")}
         error={fieldErrors.message}
       >
         <textarea
@@ -230,7 +249,7 @@ export function ContactForm({
           required
           disabled={busy}
           className={`${fieldClassName} resize-none`}
-          placeholder="Cuéntanos brevemente qué necesitas."
+          placeholder={t("form.message.placeholder")}
           aria-invalid={Boolean(fieldErrors.message)}
           onInput={() => clearFieldError("message")}
         />
@@ -248,14 +267,16 @@ export function ContactForm({
             onChange={() => clearFieldError("privacyAccepted")}
           />
           <span>
-            He leído y acepto la{" "}
-            <Link
-              href="/privacidad"
-              className="dark:text-primary-dark text-primary-light underline underline-offset-4 hover:text-cyan-800 dark:hover:text-primary-dark"
-            >
-              Política de privacidad
-            </Link>
-            .
+            {t.rich("shared.privacyConsent", {
+              link: (chunks) => (
+                <Link
+                  href="/privacidad"
+                  className="dark:text-primary-dark text-primary-light dark:hover:text-primary-dark underline underline-offset-4 hover:text-cyan-800"
+                >
+                  {chunks}
+                </Link>
+              ),
+            })}
           </span>
         </label>
         {fieldErrors.privacyAccepted ? (
@@ -269,7 +290,7 @@ export function ContactForm({
         aria-hidden="true"
         className="absolute top-auto -left-2499.75 size-px overflow-hidden"
       >
-        <label htmlFor={`${id}-website`}>Sitio web</label>
+        <label htmlFor={`${id}-website`}>{t("shared.honeypotLabel")}</label>
         <input
           id={`${id}-website`}
           name="website"
@@ -292,7 +313,7 @@ export function ContactForm({
         disabled={busy}
         className="font-body bg-primary-light dark:bg-primary-dark dark:hover:bg-primary-dark/85 flex min-h-10 w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold text-white transition hover:bg-cyan-800 disabled:cursor-wait disabled:opacity-60 dark:text-[#04111e]"
       >
-        {busy ? "Enviando…" : "Enviar mensaje"}
+        {busy ? t("form.submitting") : t("form.submit")}
       </button>
     </form>
   );

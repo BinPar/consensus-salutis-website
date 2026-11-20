@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useMotionValue } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, type ReactNode } from "react";
 import { useProductEntrance } from "~/app/_components/product-strata/product-strata-section";
 import { galleryMembers } from "./team-data";
@@ -35,6 +36,7 @@ function Reveal({
 }
 
 export function TeamGallery() {
+  const t = useTranslations("team");
   const directoryRef = useRef<HTMLDivElement>(null);
   const asideRef = useRef<HTMLDivElement>(null);
   const backgroundOpacity = useMotionValue(0);
@@ -106,18 +108,20 @@ export function TeamGallery() {
               id="equipo-galeria-title"
               className="font-display m-0 text-4xl leading-tight font-extrabold tracking-tight text-balance text-(--team-ink) xl:text-5xl"
             >
-              Las personas
-              <br />
-              <span className="text-(--team-accent)">detrás de BinPar.</span>
+              {t.rich("gallery.title", {
+                br: () => <br />,
+                accent: (chunks) => (
+                  <span className="text-(--team-accent)">{chunks}</span>
+                ),
+              })}
             </h2>
             <p className="mt-6 text-lg leading-8 text-pretty text-slate-600 dark:text-slate-400 [@media(width<=639px)]:text-base [@media(width<=639px)]:leading-7">
-              Cada persona aporta una forma de pensar, de crear y de resolver.
-              Conoce al equipo que da forma a BinPar cada día.
+              {t("gallery.body")}
             </p>
           </Reveal>
         </div>
         <ul
-          aria-label="Miembros del equipo"
+          aria-label={t("gallery.listLabel")}
           className="m-0 grid list-none grid-cols-3 gap-1 p-0 [@media(width<=1100px)]:grid-cols-2"
         >
           {galleryMembers.map((person, index) => (
@@ -134,11 +138,11 @@ export function TeamGallery() {
                     </div>
                   </div>
                   <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 z-1 flex items-baseline justify-between gap-3 rounded-b-lg bg-[linear-gradient(transparent,rgb(3_17_29/42%))] px-3.5 pt-9 pb-3 [text-shadow:0_1px_3px_rgb(3_17_29/25%)] [@media(width<=767px)]:flex-col [@media(width<=767px)]:items-start [@media(width<=767px)]:gap-0 [@media(width<=767px)]:px-2.5 [@media(width<=767px)]:pt-7 [@media(width<=767px)]:pb-2.5">
-                    <h3 className="font-body m-0 min-w-0 truncate [@media(width<=767px)]:max-w-full text-[clamp(11px,0.85vw,13px)] leading-5 font-medium text-[rgb(255_255_255/90%)]">
+                    <h3 className="font-body m-0 min-w-0 truncate text-[clamp(11px,0.85vw,13px)] leading-5 font-medium text-[rgb(255_255_255/90%)] [@media(width<=767px)]:max-w-full">
                       {person.name}
                     </h3>
-                    <p className="m-0 shrink-0 text-right text-[clamp(10px,0.75vw,12px)] leading-5 [@media(width<=767px)]:text-left [@media(width<=767px)]:leading-4 whitespace-nowrap text-[rgb(255_255_255/75%)]">
-                      {person.role}
+                    <p className="m-0 shrink-0 text-right text-[clamp(10px,0.75vw,12px)] leading-5 whitespace-nowrap text-[rgb(255_255_255/75%)] [@media(width<=767px)]:text-left [@media(width<=767px)]:leading-4">
+                      {t(`members.${person.slug}.role`)}
                     </p>
                   </figcaption>
                 </figure>

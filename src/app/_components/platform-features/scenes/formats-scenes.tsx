@@ -1,6 +1,7 @@
 "use client";
 
 import { AudioLines, Download, FileImage, Maximize2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { CSSProperties, ReactNode } from "react";
 import {
   ProcessChatVeil,
@@ -8,7 +9,10 @@ import {
   pulseProgress,
   sceneReveal,
 } from "~/app/_components/clinical-process-visuals";
-import { processFollowup } from "~/app/_components/clinical-process-data";
+import {
+  useProcessFollowup,
+  useSceneReferences,
+} from "~/app/_components/clinical-scene-references";
 import {
   typingDuration,
   writtenCharacters,
@@ -32,11 +36,12 @@ import {
   bodyText,
   curvePath,
   eyebrow,
-  sourceTitle,
   useBoxes,
+  useSourceTitle,
   verticalCurve,
   type SceneDefinition,
   type SceneProps,
+  type ScenesTranslator,
 } from "./evidence-scenes";
 
 /*
@@ -75,26 +80,28 @@ function Typed({ text, written }: { text: string; written: number }) {
  * arrowheads, and plain edge labels over the line. Drawn in a 320 × 150 box.
  */
 const TREE = { width: 320, height: 150 };
-const treeRoot = "¿Aclaramiento de creatinina < 30 mL/min?";
 const treeBranches = [
   {
-    label: "Sí",
-    result: "AINE contraindicados",
+    id: "yes",
     x: 70,
     d: "M 76 40 H 74 Q 70 40 70 44 V 101",
   },
   {
-    label: "No",
-    result: "Evitar AINE; solo si son imprescindibles",
+    id: "no",
     x: 250,
     d: "M 244 40 H 246 Q 250 40 250 44 V 101",
   },
 ] as const;
 
 /** Text route of the scheme, as the accessible alternative lists it. */
-const treeRoute = treeBranches.map(
-  (branch) => `${treeRoot} → ${branch.label}: ${branch.result}`,
-);
+const treeRoute = (t: ScenesTranslator) =>
+  treeBranches.map((branch) =>
+    t("formats.tree.route", {
+      root: t("formats.tree.root"),
+      label: t(`formats.tree.branches.${branch.id}.label`),
+      result: t(`formats.tree.branches.${branch.id}.result`),
+    }),
+  );
 
 const diagramNode =
   "font-body absolute flex items-center justify-center border border-[#3f7c88]/80 bg-[#e9f1f5] px-2 text-center text-[11px] leading-[14px] text-navy dark:border-primary-dark/50 dark:bg-[#152230] dark:text-slate-100";
@@ -110,6 +117,7 @@ function DecisionTree({
   reduced: boolean;
   scale?: number;
 }) {
+  const t = useTranslations("scenes.formats.tree");
   const root = sceneReveal(time, start, 0.35, reduced);
   return (
     <div
@@ -143,7 +151,7 @@ function DecisionTree({
               reduced,
             );
             return (
-              <g key={branch.label}>
+              <g key={branch.id}>
                 <path
                   d={branch.d}
                   fill="none"
@@ -166,7 +174,7 @@ function DecisionTree({
           className="font-body text-navy absolute top-0 left-[102px] flex h-20 w-[116px] items-center justify-center text-center text-[11px] leading-[14px] dark:text-slate-100"
           style={{ opacity: root }}
         >
-          {treeRoot}
+          {t("root")}
         </div>
         {treeBranches.map((branch, index) => {
           const label = sceneReveal(
@@ -182,13 +190,13 @@ function DecisionTree({
             reduced,
           );
           return (
-            <div key={branch.label}>
+            <div key={branch.id}>
               {/* Edge label written over the line, as Mermaid does. */}
               <span
                 className="font-body text-navy absolute -translate-x-1/2 text-[11px] leading-[14px] dark:text-slate-100"
                 style={{ left: branch.x, top: 64, opacity: label }}
               >
-                {branch.label}
+                {t(`branches.${branch.id}.label`)}
               </span>
               <div
                 className={`${diagramNode} top-[106px] h-10 w-[130px]`}
@@ -198,7 +206,7 @@ function DecisionTree({
                   transform: `translateY(${6 * (1 - leaf)}px)`,
                 }}
               >
-                {branch.result}
+                {t(`branches.${branch.id}.result`)}
               </div>
             </div>
           );
@@ -223,6 +231,7 @@ function SchemeCard({
   footer?: ReactNode;
   style?: CSSProperties;
 }) {
+  const t = useTranslations("scenes.formats.schemeCard");
   return (
     <figure
       className="dark:border-primary-dark/20 relative m-0 rounded-2xl border border-cyan-800/15 bg-white/80 p-2.5 dark:bg-[#152230]/90"
@@ -235,7 +244,7 @@ function SchemeCard({
         <div
           className="mt-2 flex gap-1"
           style={{ opacity: sources }}
-          aria-label="Fuentes del esquema"
+          aria-label={t("sources")}
         >
           {[4, 5].map((number) => (
             <span
@@ -253,14 +262,22 @@ function SchemeCard({
 }
 
 /* 15 · Esquemas clínicos: the answer draws a decision tree with its sources. */
-const schemesIntro =
-  "Criterios para valorar el uso de AINE según la función renal:";
 const SCHEMES_TYPING = 0.3;
-const schemesCard = SCHEMES_TYPING + typingDuration(schemesIntro.length) + 0.2;
-const schemesTree = schemesCard + 0.4;
-const schemesSources = schemesTree + 1.6;
+// Los tiempos dependen de la longitud de la introducción traducida.
+const schemesTimeline = (introLength: number) => {
+  const card = SCHEMES_TYPING + typingDuration(introLength) + 0.2;
+  const tree = card + 0.4;
+  return { card, tree, sources: tree + 1.6 };
+};
 
 function SchemesScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.formats.schemes");
+  const schemesIntro = t("intro");
+  const {
+    card: schemesCard,
+    tree: schemesTree,
+    sources: schemesSources,
+  } = schemesTimeline(schemesIntro.length);
   const written = writtenCharacters(
     time,
     SCHEMES_TYPING,
@@ -296,6 +313,7 @@ function AfferentFigure({
   pulse?: number;
   className?: string;
 }) {
+  const t = useTranslations("scenes.formats.figure");
   const half = 9 - 4.5 * constrict;
   const top = 75 - half;
   const bottom = 75 + half;
@@ -359,30 +377,35 @@ function AfferentFigure({
         strokeWidth="1.3"
       />
       <text x="4" y="106" className={label}>
-        Arteriola aferente
+        {t("afferent")}
       </text>
       <text x="103" y="40" className={`${label} fill-current`}>
-        AINE
+        {t("nsaid")}
       </text>
       <text x="158" y="140" className={label}>
-        Glomérulo
+        {t("glomerulus")}
       </text>
       <text x="262" y="94" className={label}>
-        Arteriola eferente
+        {t("efferent")}
       </text>
     </svg>
   );
 }
 
 /* 16 · Figuras del corpus: the guideline figure, beside the text it explains. */
-const figureParagraph = processFollowup.finalOpinion.split("\n\n")[5]!;
-const figureLength = answerLength(figureParagraph);
-const figureCaption = "Efecto de los AINE sobre la arteriola aferente.";
 const FIGURE_TYPING = 0.3;
-const figureShown = FIGURE_TYPING + typingDuration(figureLength) + 0.25;
-const figureConstrict = figureShown + 0.6;
+// Los tiempos dependen de la longitud del párrafo traducido.
+const figureTimeline = (figureLength: number) => {
+  const shown = FIGURE_TYPING + typingDuration(figureLength) + 0.25;
+  return { shown, constrict: shown + 0.6 };
+};
 
 function FiguresScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.formats.figure");
+  const figureParagraph = useProcessFollowup().nsaids;
+  const figureLength = answerLength(figureParagraph, useSceneReferences());
+  const { shown: figureShown, constrict: figureConstrict } =
+    figureTimeline(figureLength);
   const written = writtenCharacters(time, FIGURE_TYPING, figureLength, reduced);
   const shown = sceneReveal(time, figureShown, 0.4, reduced);
   const constrict = reduced ? 1 : sceneReveal(time, figureConstrict, 1, false);
@@ -411,7 +434,7 @@ function FiguresScene({ time, reduced }: SceneProps) {
             />
           </div>
           <figcaption className="dark:border-primary-dark/10 font-body border-t border-cyan-800/10 px-3 py-1.5 text-[11px] leading-[18px] text-slate-600 dark:text-slate-400">
-            {figureCaption}
+            {t("caption")}
           </figcaption>
         </figure>
       </div>
@@ -425,6 +448,7 @@ const downloadClick = DOWNLOAD_POINTER + 1;
 const downloadReady = downloadClick + 1;
 
 function DownloadScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.formats.download");
   const { root, target, boxes } = useBoxes(1);
   const button = centre(boxes[0]);
   const pressed = press(time, downloadClick);
@@ -447,7 +471,7 @@ function DownloadScene({ time, reduced }: SceneProps) {
       className="relative flex h-full flex-col bg-white dark:bg-[#152230]"
     >
       <PlatformTabs
-        tabs={[{ kind: "diagram", title: "Esquema 1" }]}
+        tabs={[{ kind: "diagram", title: t("schemeTab") }]}
         active={0}
       />
       {/* diagram-panel: zoom controls and «Descargar imagen». */}
@@ -458,7 +482,7 @@ function DownloadScene({ time, reduced }: SceneProps) {
           style={{ transform: `scale(${1 - pressed * 0.06})` }}
         >
           <Download size={14} strokeWidth={1.8} />
-          {preparing ? "Preparando imagen…" : "Descargar imagen"}
+          {preparing ? t("preparing") : t("download")}
         </span>
       </ZoomControls>
       <div className="relative flex-1 px-3 pt-4">
@@ -468,8 +492,8 @@ function DownloadScene({ time, reduced }: SceneProps) {
       <div className="absolute inset-x-6 bottom-4" style={enter(saved, 12)}>
         <SceneCard
           icon={FileImage}
-          label="Imagen descargada · PNG"
-          title="uso-de-aine-en-la-erc.png"
+          label={t("savedLabel")}
+          title={t("fileName")}
           active
           pulse={
             !reduced && time >= downloadReady && time < downloadReady + 1
@@ -484,37 +508,49 @@ function DownloadScene({ time, reduced }: SceneProps) {
 }
 
 /* 18 · Tablas comparativas: rows typed with their citations. */
-const tableIntro = "Fármacos que conviene revisar en la ERC:";
-const tableRows = [
-  {
-    drug: "AINE",
-    note: "Evitar; contraindicados si el aclaramiento es inferior a 30 mL/min.",
-    citation: 4,
-  },
-  {
-    drug: "IECA y ARA-II",
-    note: "Renoprotectores; en fases avanzadas pueden requerir menos dosis.",
-    citation: 5,
-  },
-  {
-    drug: "Ahorradores de potasio",
-    note: "Evitar en la insuficiencia renal; no asociar con IECA, ARA-II o AINE.",
-    citation: 5,
-  },
-] as const;
-const tableCells = tableRows.flatMap((row) => [
-  { text: row.drug },
-  { text: row.note, citation: `[${row.citation}]` },
-]);
-const tableLength = tableCells.reduce(
-  (sum, cell) => sum + cell.text.length + (cell.citation?.length ?? 0),
-  0,
-);
 const TABLE_TYPING = 0.3;
-const tableStart = TABLE_TYPING + typingDuration(tableIntro.length) + 0.2;
-const tableEnd = tableStart + 0.4 + typingDuration(tableLength);
+const tableRows = [
+  { id: "nsaids", citation: 4 },
+  { id: "aceInhibitors", citation: 5 },
+  { id: "potassiumSparing", citation: 5 },
+] as const;
+/** Rows with their translated texts, the cells in typing order and the timing. */
+const tableLayout = (t: ScenesTranslator) => {
+  const intro = t("formats.tables.intro");
+  const rows = tableRows.map((row) => ({
+    ...row,
+    drug: t(`formats.tables.rows.${row.id}.drug`),
+    note: t(`formats.tables.rows.${row.id}.note`),
+  }));
+  const cells = rows.flatMap((row) => [
+    { text: row.drug, citation: undefined },
+    { text: row.note, citation: `[${row.citation}]` },
+  ]);
+  const length = cells.reduce(
+    (sum, cell) => sum + cell.text.length + (cell.citation?.length ?? 0),
+    0,
+  );
+  const start = TABLE_TYPING + typingDuration(intro.length) + 0.2;
+  return {
+    intro,
+    rows,
+    cells,
+    length,
+    start,
+    end: start + 0.4 + typingDuration(length),
+  };
+};
 
 function TablesScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.formats.tables");
+  const tScenes = useTranslations("scenes");
+  const {
+    intro: tableIntro,
+    rows: tableRowTexts,
+    cells: tableCells,
+    length: tableLength,
+    start: tableStart,
+  } = tableLayout(tScenes);
   const intro = writtenCharacters(
     time,
     TABLE_TYPING,
@@ -547,17 +583,17 @@ function TablesScene({ time, reduced }: SceneProps) {
           <table className="w-full table-fixed border-collapse">
             <thead>
               <tr className="dark:border-primary-dark/15 border-b border-cyan-800/15">
-                <th className={`${head} w-[104px]`}>Fármaco</th>
-                <th className={head}>En la ERC</th>
+                <th className={`${head} w-[104px]`}>{t("drugHeading")}</th>
+                <th className={head}>{t("noteHeading")}</th>
               </tr>
             </thead>
             <tbody className="font-body text-xs leading-[18px] text-slate-900 dark:text-slate-100">
-              {tableRows.map((row, index) => {
+              {tableRowTexts.map((row, index) => {
                 const drug = cells[index * 2]!;
                 const note = cells[index * 2 + 1]!;
                 return (
                   <tr
-                    key={row.drug}
+                    key={row.id}
                     className="dark:border-primary-dark/10 border-b border-cyan-800/10 align-middle last:border-b-0"
                   >
                     <td className="p-2">
@@ -590,10 +626,14 @@ function TablesScene({ time, reduced }: SceneProps) {
  * the scene shows the scheme and what the reader announces.
  */
 const TEXTALT_READ = 1.6;
-const textaltLength = treeRoute.reduce((sum, line) => sum + line.length, 0);
-const textaltEnd = TEXTALT_READ + 0.4 + typingDuration(textaltLength);
+const routeLength = (route: string[]) =>
+  route.reduce((sum, line) => sum + line.length, 0);
 
 function TextAltScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.formats.textalt");
+  const tScenes = useTranslations("scenes");
+  const route = treeRoute(tScenes);
+  const textaltLength = routeLength(route);
   const { root, target, boxes } = useBoxes(2);
   const curve =
     boxes.length === 2 ? verticalCurve(boxes[0]!, boxes[1]!) : undefined;
@@ -634,12 +674,12 @@ function TextAltScene({ time, reduced }: SceneProps) {
       <div ref={target(1)} style={enter(reader)}>
         <SceneCard
           icon={AudioLines}
-          label="Lector de pantalla"
-          title="Recorrido en texto del esquema"
+          label={t("label")}
+          title={t("title")}
           active={reader > 0.5 && budget < textaltLength}
         >
           <ol className="font-body mt-2 list-none space-y-1 text-[11px] leading-4 text-slate-600 dark:text-slate-300">
-            {treeRoute.map((line) => {
+            {route.map((line) => {
               const count = Math.min(budget, line.length);
               budget = Math.max(0, budget - line.length);
               return (
@@ -656,17 +696,20 @@ function TextAltScene({ time, reduced }: SceneProps) {
 }
 
 /* 20 · Panel lateral: source, scheme and figure open as tabs (citation-viewer). */
-const panelTabs: PlatformTab[] = [
-  { kind: "document", title: sourceTitle },
-  { kind: "diagram", title: "Esquema 1" },
-  { kind: "image", title: figureCaption },
-];
 const PANEL_SCHEME = 1.3;
 const PANEL_IMAGE = 2.9;
 const PANEL_POINTER = 4.3;
 const panelBack = PANEL_POINTER + 1;
 
 function PanelScene({ time, reduced }: SceneProps) {
+  const t = useTranslations("scenes.formats");
+  const tSource = useTranslations("scenes.evidence.sourcePanel");
+  const sourceTitle = useSourceTitle();
+  const panelTabs: PlatformTab[] = [
+    { kind: "document", title: sourceTitle },
+    { kind: "diagram", title: t("download.schemeTab") },
+    { kind: "image", title: t("figure.caption") },
+  ];
   const { root, target, boxes } = useBoxes(3);
   // The pointer returns to the scheme tab, the frame the scene rests on.
   const active = reduced
@@ -718,14 +761,14 @@ function PanelScene({ time, reduced }: SceneProps) {
         <div className="absolute inset-0 flex flex-col" style={layer(0)}>
           <header className="dark:border-primary-dark/15 flex shrink-0 items-center gap-2 border-b border-cyan-800/10 px-4 py-3">
             <div className="min-w-0 flex-1">
-              <p className={eyebrow}>Fuente de consulta</p>
+              <p className={eyebrow}>{tSource("eyebrow")}</p>
               <p className="font-display text-navy mt-0.5 truncate text-sm font-semibold dark:text-slate-100">
                 {sourceTitle}
               </p>
             </div>
             <span className="font-body flex shrink-0 items-center gap-1.5 px-1.5 text-[11px] font-semibold text-slate-600 dark:text-slate-300">
               <Maximize2 size={14} strokeWidth={1.8} />
-              Ver documento completo
+              {tSource("fullDocument")}
             </span>
           </header>
           <div className="font-body min-h-0 flex-1 overflow-hidden px-5 pt-4 text-[13px] leading-6 text-slate-700 dark:text-slate-300">
@@ -737,7 +780,7 @@ function PanelScene({ time, reduced }: SceneProps) {
           <ZoomControls>
             <span className={`${zoomControl} px-2.5`}>
               <Download size={14} strokeWidth={1.8} />
-              Descargar imagen
+              {t("download.download")}
             </span>
           </ZoomControls>
           <div className="px-3 pt-4">
@@ -761,12 +804,16 @@ export const formatScenes: Record<FormatFeatureId, SceneDefinition> = {
   schemes: {
     render: (props) => <SchemesScene {...props} />,
     surface: "chat",
-    duration: schemesSources + 1.2,
+    duration: (t) =>
+      schemesTimeline(t("formats.schemes.intro").length).sources + 1.2,
   },
   figures: {
     render: (props) => <FiguresScene {...props} />,
     surface: "chat",
-    duration: figureConstrict + 2.4,
+    duration: (_, clinical) =>
+      figureTimeline(
+        answerLength(clinical.raw("followup.paragraphs.nsaids") as string),
+      ).constrict + 2.4,
   },
   download: {
     render: (props) => <DownloadScene {...props} />,
@@ -776,12 +823,13 @@ export const formatScenes: Record<FormatFeatureId, SceneDefinition> = {
   tables: {
     render: (props) => <TablesScene {...props} />,
     surface: "chat",
-    duration: tableEnd + 1.2,
+    duration: (t) => tableLayout(t).end + 1.2,
   },
   textalt: {
     render: (props) => <TextAltScene {...props} />,
     surface: "chat",
-    duration: textaltEnd + 1.2,
+    duration: (t) =>
+      TEXTALT_READ + 0.4 + typingDuration(routeLength(treeRoute(t))) + 1.2,
   },
   panel: {
     render: (props) => <PanelScene {...props} />,

@@ -31,8 +31,10 @@ still comes from precision, never from enthusiasm.
 BinPar sells **defensibility**: the reader should close the piece thinking *«esto lo puedo
 sostener delante de un comité»*. Anything that does not serve that is cut.
 
-**Language:** all customer-facing copy is **Spanish (es-ES)**. This skill is written in English;
-every quoted string, example and rewrite stays in Spanish.
+**Language:** customer-facing copy is written in **Spanish (es-ES)**, the source language. The
+website also has an **English (en-GB)** translation; translating or reviewing it follows
+`references/english.md` (glossary, en-GB conventions, what is never translated). This skill is
+written in English; every quoted Spanish string, example and rewrite stays in Spanish.
 
 > Sources: the production copy of the BinPar website (November 2026) and product (tone of
 > record), the October 2026 videos, and the
@@ -258,6 +260,7 @@ format (`formats.md`): *tú* everywhere except legal text and *usted* email thre
 | `references/post-archetypes.md` | Five blog archetypes: structure, budgets, openings, closings | Planning a blog piece |
 | `references/examples-and-rewrites.md` | Before/after rewrites; known debt in live site and product copy | Learning by contrast; reviewing site copy |
 | `references/review-checklist.md` | Severity codes, review format, pre-delivery checklist, worked audit | Auditing copy |
+| `references/english.md` | en-GB conventions, glossary, what is not translated, legal and clinical demo rules | Translating or reviewing the English website |
 
 ## Examples
 

@@ -2,7 +2,16 @@ import type { StyleSpecification } from "maplibre-gl";
 
 export const officeCoordinates: [number, number] = [-3.68955, 40.43538];
 
-export function officeMapStyle(dark: boolean): StyleSpecification {
+/**
+ * Estilo del mapa de la oficina. Los nombres de calles y barrios salen en el
+ * idioma de la página (`name:<locale>`) y, si el dato no lo trae, en el nombre
+ * por defecto.
+ */
+export function officeMapStyle(
+  dark: boolean,
+  locale: string,
+): StyleSpecification {
+  const localizedName = `name:${locale}`;
   const colors = dark
     ? {
         base: "#081827",
@@ -171,7 +180,7 @@ export function officeMapStyle(dark: boolean): StyleSpecification {
           "symbol-spacing": 280,
           "text-field": [
             "coalesce",
-            ["get", "name:es"],
+            ["get", localizedName],
             ["get", "name:latin"],
             ["get", "name"],
           ],
@@ -197,7 +206,7 @@ export function officeMapStyle(dark: boolean): StyleSpecification {
           ["literal", ["suburb", "quarter", "neighbourhood"]],
         ],
         layout: {
-          "text-field": ["coalesce", ["get", "name:es"], ["get", "name"]],
+          "text-field": ["coalesce", ["get", localizedName], ["get", "name"]],
           "text-font": ["Noto Sans Regular"],
           "text-size": 13,
           "text-letter-spacing": 0.12,

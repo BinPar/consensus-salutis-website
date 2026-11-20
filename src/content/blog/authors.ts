@@ -6,27 +6,27 @@
  * escrito rompe el test en vez de publicar una firma vacía.
  *
  * Sin foto a propósito — la línea de autoría del artículo es texto.
+ *
+ * El cargo se traduce: vive en `messages/<idioma>/blog.json`
+ * (`authors.<id>.role`). Aquí quedan el id y el nombre propio.
  */
-export type BlogAuthor = {
-  id: string;
-  name: string;
-  role: string;
-};
-
 export const blogAuthors = {
   "alberto-blanco": {
     id: "alberto-blanco",
     name: "Alberto Blanco",
-    role: "Dirección técnica, BinPar",
   },
   "equipo-consensus-salutis": {
     id: "equipo-consensus-salutis",
     name: "Equipo BinPar",
-    role: "Producto y evidencia clínica",
   },
-} as const satisfies Record<string, BlogAuthor>;
+} as const satisfies Record<string, { id: string; name: string }>;
 
 export type BlogAuthorId = keyof typeof blogAuthors;
+
+export type BlogAuthor = {
+  id: BlogAuthorId;
+  name: string;
+};
 
 export const blogAuthorIds = Object.keys(blogAuthors) as BlogAuthorId[];
 

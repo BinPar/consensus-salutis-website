@@ -1,3 +1,5 @@
+import { localizeBlogPosts } from "~/app/_components/blog/localize-blog-posts";
+import { routing } from "~/i18n/routing";
 import { getBlogPosts, getBlogTags } from "~/lib/blog";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -73,7 +75,10 @@ export default async function CasesLabPage({
     emailSignaturesVariant,
   } = await searchParams;
   const direction = caseDirections.find((item) => item.id === variant)?.id;
-  const blogPosts = getBlogPosts();
+  const blogPosts = await localizeBlogPosts(
+    getBlogPosts(routing.defaultLocale),
+    routing.defaultLocale,
+  );
   const articlePost =
     blogPosts.find(
       (post) =>

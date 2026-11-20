@@ -2,6 +2,7 @@
 
 import { animate, type MotionValue, useMotionValue } from "framer-motion";
 import { RotateCcw } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
   useEffect,
   useId,
@@ -43,6 +44,7 @@ export function StrataRotatableGraphic({
   onSelect,
   onInteraction,
 }: Props) {
+  const t = useTranslations("strata.graphic");
   const id = useId();
   const root = useRef<HTMLDivElement>(null);
   const yaw = useMotionValue(initialStrataYaw);
@@ -303,7 +305,7 @@ export function StrataRotatableGraphic({
       data-rotating={dragging}
       role="group"
       tabIndex={0}
-      aria-label="Arquitectura del producto: gráfico rotatable"
+      aria-label={t("label")}
       aria-describedby={`${id}-instructions`}
       className={`absolute inset-0 touch-none outline-none select-none [--strata-glass-backdrop-opacity:1] [--strata-glass-ground:#fff] [--strata-glass-tint:rgba(255,255,255,0.3)] dark:[--strata-glass-backdrop-opacity:0.45] dark:[--strata-glass-ground:#06111f] dark:[--strata-glass-tint:rgba(11,32,48,0.3)] ${dragging ? "cursor-grabbing [&_*]:cursor-grabbing!" : "cursor-grab"}`}
       onPointerDown={(event) => {
@@ -400,15 +402,14 @@ export function StrataRotatableGraphic({
       }}
     >
       <span id={`${id}-instructions`} className="sr-only">
-        Arrastra para girar e inclinar. Mayús y flechas giran el gráfico.
-        Izquierda y derecha seleccionan capas.
+        {t("instructions")}
       </span>
       <svg
         viewBox="0 0 650 410"
         className="absolute size-full overflow-visible"
         fill="none"
         role="group"
-        aria-label="Capas de la arquitectura del producto"
+        aria-label={t("layers")}
         style={
           {
             "--product-motion": running && !dragging ? "running" : "paused",
@@ -445,7 +446,10 @@ export function StrataRotatableGraphic({
                 data-strata-layer={index}
                 role="button"
                 tabIndex={0}
-                aria-label={`Capa 0${index + 1}: ${roles[index]}`}
+                aria-label={t("layer", {
+                  number: `0${index + 1}`,
+                  role: roles[index]!,
+                })}
                 aria-pressed={active}
                 className="outline-none"
                 style={{ outline: "none" }}
@@ -615,7 +619,7 @@ export function StrataRotatableGraphic({
                       fontWeight="600"
                       letterSpacing={1.6 * layer.textScale}
                     >
-                      BINPAR / SISTEMA INTEGRADO
+                      {t("systemTitle")}
                     </text>
                   )}
                   <text
@@ -638,8 +642,8 @@ export function StrataRotatableGraphic({
       </svg>
       <button
         type="button"
-        aria-label="Recuperar vista inicial del gráfico"
-        title="Recuperar vista inicial"
+        aria-label={t("reset")}
+        title={t("resetTitle")}
         disabled={!rotated}
         onClick={resetView}
         className={`bg-primary-light/10 text-primary-light focus-visible:ring-primary-light/50 dark:bg-primary-dark/10 dark:text-primary-dark absolute right-0 bottom-0 grid size-8 place-items-center rounded-full outline-none focus-visible:ring-1 ${rotated ? "" : "pointer-events-none invisible"}`}

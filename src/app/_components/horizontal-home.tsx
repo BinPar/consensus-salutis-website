@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
 import {
   useCallback,
   useEffect,
@@ -41,85 +41,46 @@ import {
   SignalField,
   ViewportReveal,
 } from "~/app/_components/motion-system";
+import { Link } from "~/i18n/navigation";
+import { LOCALE_TAGS } from "~/i18n/routing";
 import type { BlogPost } from "~/lib/blog";
 
+// Los textos de las métricas están en `home.metrics.items.<id>`.
 const metrics = [
-  {
-    value: 3,
-    prefix: "+",
-    suffix: " TB",
-    label: "Conocimiento médico estructurado y gobernable.",
-  },
-  {
-    value: 8327,
-    prefix: "+",
-    label: "Epígrafes clínicos listos para consulta trazable.",
-  },
-  {
-    value: 30000,
-    prefix: "+",
-    label: "Preguntas para evaluación continua del sistema.",
-  },
-  {
-    value: 24,
-    prefix: "<",
-    suffix: "h",
-    label: "Actualización urgente de contenidos relevantes.",
-  },
-];
+  { id: "knowledge", value: 3, prefix: "+", suffix: " TB" },
+  { id: "headings", value: 8327, prefix: "+" },
+  { id: "questions", value: 30000, prefix: "+" },
+  { id: "updates", value: 24, prefix: "<", suffix: "h" },
+] as const;
 
-const clinicalProcess = [
-  {
-    step: "01",
-    title: "Plantear la consulta",
-    body: "El profesional formula una duda clínica en lenguaje natural, aportando el contexto necesario para orientar la consulta.",
-    signal: "Lenguaje clínico natural",
-  },
-  {
-    step: "02",
-    title: "Localizar conocimiento relevante",
-    body: "El sistema recupera conocimiento relevante del corpus médico, las guías clínicas y los protocolos institucionales.",
-    signal: "Corpus + guías + protocolos",
-  },
-  {
-    step: "03",
-    title: "Contrastar y priorizar",
-    body: "El sistema contrasta las fuentes recuperadas y aplica las prioridades documentales definidas por la organización.",
-    signal: "Prioridades configurables",
-  },
-  {
-    step: "04",
-    title: "Responder con evidencia visible",
-    body: "El sistema sintetiza una respuesta operativa y enlaza el fragmento o la página original que sustenta cada conclusión.",
-    signal: "Referencia al fragmento original",
-  },
-  {
-    step: "05",
-    title: "Revisar y mejorar",
-    body: "La valoración profesional permite revisar los contenidos y reforzar las pruebas automáticas para futuras consultas.",
-    signal: "Feedback + pruebas automáticas",
-  },
-];
+// Los textos de cada paso están en `home.process.<id>`.
+const clinicalProcessSteps = [
+  { id: "query", step: "01" },
+  { id: "locate", step: "02" },
+  { id: "contrast", step: "03" },
+  { id: "respond", step: "04" },
+  { id: "review", step: "05" },
+] as const;
 
-const panels = [
-  "Inicio",
-  "Casos de éxito",
-  "Atención Primaria",
-  "Arquitectura",
-  "Métricas",
-  "Reunión",
-];
+type ClinicalProcessItem = {
+  step: string;
+  title: string;
+  body: string;
+  signal: string;
+};
+
 const mobilePanelOrder = [0, 1, 2, 3, 4, 5, 6] as const;
 /* La home enseña los cuatro últimos; el resto vive en `/blog`. */
 const HOME_POSTS = 4;
 
+// La etiqueta de cada sección está en `home.sections.<labelKey>`.
 const homeSections = [
-  { id: "home-introduction", label: "Presentación" },
-  { id: "casos-de-exito", label: "Casos de éxito" },
-  { id: "proceso", label: "Cómo funciona" },
-  { id: "arquitectura", label: "Arquitectura" },
-  { id: "lecturas", label: "Blog" },
-];
+  { id: "home-introduction", labelKey: "introduction" },
+  { id: "casos-de-exito", labelKey: "successCases" },
+  { id: "proceso", labelKey: "process" },
+  { id: "arquitectura", labelKey: "architecture" },
+  { id: "lecturas", labelKey: "blog" },
+] as const;
 
 type DesktopLayout = "horizontal" | "vertical";
 type PanelHeight = "natural" | "viewport";
@@ -189,6 +150,8 @@ function usePassedViewport(amount: number, activationRatio = 1.12) {
 }
 
 export function HorizontalHome({ posts }: { posts: BlogPost[] }) {
+  const t = useTranslations("home.horizontal");
+  const panels = t.raw("panels") as string[];
   const railRef = useRef<HTMLDivElement>(null);
   const panelRefs = useRef<Array<HTMLElement | null>>([]);
   const previousScrollLeft = useRef(0);
@@ -302,11 +265,11 @@ export function HorizontalHome({ posts }: { posts: BlogPost[] }) {
   return (
     <>
       <main className="relative z-10 hidden min-h-0 flex-1 lg:block">
-        <section className="relative h-full overflow-hidden border-b border-cyan-800/10 dark:border-primary-dark/10">
+        <section className="dark:border-primary-dark/10 relative h-full overflow-hidden border-b border-cyan-800/10">
           <div
             ref={railRef}
             tabIndex={0}
-            aria-label="Página de inicio de BinPar"
+            aria-label={t("railLabel")}
             onScroll={updateProgress}
             onKeyDown={(event) => {
               const rail = railRef.current;
@@ -406,7 +369,7 @@ export function HorizontalHome({ posts }: { posts: BlogPost[] }) {
                 />
               </div>
               <p className="text-xs text-slate-500 dark:text-slate-500">
-                Scroll vertical para avanzar
+                {t("scrollHint")}
               </p>
             </div>
           </div>
@@ -419,12 +382,13 @@ export function HorizontalHome({ posts }: { posts: BlogPost[] }) {
 }
 
 export function VerticalHome({ posts }: { posts: BlogPost[] }) {
+  const t = useTranslations("home.sections");
   const sections = useMemo(
     () =>
-      homeSections.filter(
-        (section) => section.id !== "lecturas" || posts.length > 0,
-      ),
-    [posts.length],
+      homeSections
+        .filter((section) => section.id !== "lecturas" || posts.length > 0)
+        .map(({ id, labelKey }) => ({ id, label: t(labelKey) })),
+    [posts.length, t],
   );
   const [revealedPanels, setRevealedPanels] = useState<Set<number>>(
     () => new Set([0]),
@@ -731,6 +695,7 @@ export function HeroPanel({
   presentation?: "hero" | "section";
   fadeBottom?: boolean;
 }) {
+  const t = useTranslations("home.hero");
   const section = presentation === "section";
   const Heading = section ? "h2" : "h1";
   return (
@@ -759,25 +724,26 @@ export function HeroPanel({
           style={{ translate: "var(--home-copy-offset, 0px 0px)" }}
         >
           <Reveal visible={visible}>
-            <Eyebrow>IA médica institucional</Eyebrow>
+            <Eyebrow>{t("eyebrow")}</Eyebrow>
           </Reveal>
           <Reveal visible={visible} delay={0.1}>
             <Heading
-              className={`font-display max-w-4xl font-extrabold tracking-tight text-navy dark:text-slate-50 ${section ? "mt-5 text-4xl leading-tight xl:text-5xl" : "mt-6 text-6xl xl:text-6xl"}`}
+              className={`font-display text-navy max-w-4xl font-extrabold tracking-tight dark:text-slate-50 ${section ? "mt-5 text-4xl leading-tight xl:text-5xl" : "mt-6 text-6xl xl:text-6xl"}`}
             >
-              Conocimiento clínico{" "}
-              <span className="text-primary-light dark:text-primary-dark">
-                orquestado por IA.
-              </span>
+              {t.rich("title", {
+                accent: (chunks) => (
+                  <span className="text-primary-light dark:text-primary-dark">
+                    {chunks}
+                  </span>
+                ),
+              })}
             </Heading>
           </Reveal>
           <Reveal visible={visible} delay={0.2}>
             <p
               className={`font-body max-w-2xl text-slate-700 dark:text-slate-300 ${section ? "mt-5 text-lg leading-8" : "mt-7 text-xl leading-9"}`}
             >
-              BinPar convierte guías, protocolos y corpus médico en respuestas
-              trazables para Atención Primaria. Una capa de IA seria, auditable
-              y preparada para operar dentro de un sistema sanitario.
+              {t("body")}
             </p>
           </Reveal>
           <Reveal
@@ -845,15 +811,16 @@ export function MetricsIntro({
   visible?: boolean;
   compact?: boolean;
 }) {
+  const t = useTranslations("home.metrics");
   const content = (
     <>
-      <Eyebrow>KPIs operativos</Eyebrow>
+      <Eyebrow>{t("eyebrow")}</Eyebrow>
       <h2
-        className={`font-display mt-4 max-w-110 font-extrabold tracking-tight text-navy dark:text-slate-50 ${
+        className={`font-display text-navy mt-4 max-w-110 font-extrabold tracking-tight dark:text-slate-50 ${
           compact ? "text-3xl sm:text-4xl" : "text-5xl"
         }`}
       >
-        Volumen datos y actualización continua.
+        {t("title")}
       </h2>
       <p
         className={`font-body max-w-5xl text-slate-600 dark:text-slate-400 ${
@@ -862,11 +829,7 @@ export function MetricsIntro({
             : "mt-6 text-lg leading-8"
         }`}
       >
-        La plataforma combina una base de conocimiento médico estructurada con
-        guías clínicas y protocolos propios de cada organización. Los contenidos
-        pasan por procesos automatizados de ingesta, evaluación mediante
-        preguntas clave, validación clínica y publicación controlada antes de
-        incorporarse a las respuestas del sistema.
+        {t("body")}
       </p>
     </>
   );
@@ -878,15 +841,15 @@ export function MetricsIntro({
   return (
     <div className="max-w-5xl">
       <Reveal visible={visible}>
-        <Eyebrow>KPIs operativos</Eyebrow>
+        <Eyebrow>{t("eyebrow")}</Eyebrow>
       </Reveal>
       <Reveal visible={visible} delay={0.1}>
         <h2
-          className={`font-display mt-4 max-w-xl font-extrabold tracking-tight text-navy dark:text-slate-50 ${
+          className={`font-display text-navy mt-4 max-w-xl font-extrabold tracking-tight dark:text-slate-50 ${
             compact ? "text-3xl" : "text-5xl"
           }`}
         >
-          Volumen datos y actualización continua.
+          {t("title")}
         </h2>
       </Reveal>
       <Reveal visible={visible} delay={0.2}>
@@ -897,11 +860,7 @@ export function MetricsIntro({
               : "mt-6 text-lg leading-8"
           }`}
         >
-          La plataforma combina una base de conocimiento médico estructurada con
-          guías clínicas y protocolos propios de cada organización. Los
-          contenidos pasan por procesos automatizados de ingesta, evaluación
-          mediante preguntas clave, validación clínica y publicación controlada
-          antes de incorporarse a las respuestas del sistema.
+          {t("body")}
         </p>
       </Reveal>
     </div>
@@ -935,6 +894,7 @@ function PrimaryCarePanel({
   panelRef: PanelRef;
   layout?: DesktopLayout;
 }) {
+  const t = useTranslations("home.primaryCare");
   return (
     <Panel
       panelRef={panelRef}
@@ -943,18 +903,16 @@ function PrimaryCarePanel({
     >
       <div className="max-w-5xl">
         <Reveal visible={visible}>
-          <Eyebrow>Proceso de consulta</Eyebrow>
+          <Eyebrow>{t("eyebrow")}</Eyebrow>
         </Reveal>
         <Reveal visible={visible} delay={0.1}>
-          <h2 className="font-display mt-4 max-w-92.5 text-5xl font-extrabold tracking-tight text-navy dark:text-slate-50">
-            De la pregunta a la evidencia.
+          <h2 className="font-display text-navy mt-4 max-w-92.5 text-5xl font-extrabold tracking-tight dark:text-slate-50">
+            {t("title")}
           </h2>
         </Reveal>
         <Reveal visible={visible} delay={0.2}>
           <p className="font-body mt-5 max-w-4xl text-lg leading-8 text-slate-600 dark:text-slate-400">
-            BinPar acompaña cada consulta desde la formulación de la duda
-            clínica hasta una respuesta contrastada, referenciada y preparada
-            para ser revisada.
+            {t("body")}
           </p>
         </Reveal>
       </div>
@@ -994,6 +952,7 @@ export function BlogContent({
   compact?: boolean;
   posts: BlogPost[];
 }) {
+  const t = useTranslations("home.blog");
   const reducedMotion = useReducedMotion();
   const [viewportRef, inViewport] = usePassedViewport(0.28);
   const show = reducedMotion ? true : (visible ?? inViewport);
@@ -1001,16 +960,19 @@ export function BlogContent({
   const heading = (
     <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
       <div>
-        <Eyebrow>Lecturas clínicas</Eyebrow>
+        <Eyebrow>{t("eyebrow")}</Eyebrow>
         <h2
-          className={`font-display mt-4 max-w-4xl font-extrabold tracking-tight text-navy dark:text-slate-50 ${
+          className={`font-display text-navy mt-4 max-w-4xl font-extrabold tracking-tight dark:text-slate-50 ${
             compact ? "text-3xl sm:text-4xl" : "text-5xl"
           }`}
         >
-          Últimos{" "}
-          <span className="text-primary-light dark:text-primary-dark">
-            artículos
-          </span>
+          {t.rich("title", {
+            accent: (chunks) => (
+              <span className="text-primary-light dark:text-primary-dark">
+                {chunks}
+              </span>
+            ),
+          })}
         </h2>
         <p
           className={`font-body mt-5 max-w-3xl text-slate-600 dark:text-slate-400 ${
@@ -1019,16 +981,14 @@ export function BlogContent({
               : "text-lg leading-8"
           }`}
         >
-          Lecturas recientes sobre IA médica, tendencias sanitarias y nuevas
-          formas de transformar la asistencia al paciente en el sistema de
-          salud.
+          {t("body")}
         </p>
       </div>
       <Link
         href="/blog"
-        className="font-body text-primary-light dark:text-primary-dark hover:bg-primary-light/5 dark:hover:bg-primary-dark/10 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark inline-flex min-h-10 shrink-0 items-center gap-3 self-start rounded-full border border-cyan-800/20 px-5 text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 sm:self-end dark:border-primary-dark/20"
+        className="font-body text-primary-light dark:text-primary-dark hover:bg-primary-light/5 dark:hover:bg-primary-dark/10 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark dark:border-primary-dark/20 inline-flex min-h-10 shrink-0 items-center gap-3 self-start rounded-full border border-cyan-800/20 px-5 text-xs font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 sm:self-end"
       >
-        Ver todos
+        {t("viewAll")}
         <ArrowRight aria-hidden="true" className="size-3.5" strokeWidth={1.8} />
       </Link>
     </div>
@@ -1080,7 +1040,7 @@ export function BlogContent({
       </div>
       <div
         aria-hidden="true"
-        className="mt-10 border-t border-cyan-800/10 dark:border-primary-dark/10"
+        className="dark:border-primary-dark/10 mt-10 border-t border-cyan-800/10"
       />
     </motion.section>
   );
@@ -1095,6 +1055,7 @@ export function ContactPanel({
   panelRef: PanelRef;
   layout?: DesktopLayout;
 }) {
+  const t = useTranslations("home.contact");
   return (
     <Panel
       className="min-h-fit bg-[#deedf3]/82 dark:bg-[#030916]/82"
@@ -1108,18 +1069,16 @@ export function ContactPanel({
           {/* <ContactSignalAccent /> */}
           <div className="relative z-10">
             <Reveal visible={visible}>
-              <Eyebrow>Siguiente paso</Eyebrow>
+              <Eyebrow>{t("eyebrow")}</Eyebrow>
             </Reveal>
             <Reveal visible={visible} delay={0.1}>
-              <h2 className="font-display mt-4 max-w-3xl text-5xl font-extrabold tracking-tight text-navy dark:text-slate-50">
-                Una conversación seria sobre tu organización sanitaria.
+              <h2 className="font-display text-navy mt-4 max-w-3xl text-5xl font-extrabold tracking-tight dark:text-slate-50">
+                {t("title")}
               </h2>
             </Reveal>
             <Reveal visible={visible} delay={0.2}>
               <p className="font-body mt-6 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-400">
-                Revisamos caso de uso, restricciones de seguridad, requisitos de
-                integración y el nivel de evidencia necesario para un piloto
-                institucional.
+                {t("body")}
               </p>
             </Reveal>
           </div>
@@ -1137,6 +1096,7 @@ export function MobileHeroContent({
 }: {
   presentation?: "hero" | "section";
 }) {
+  const t = useTranslations("home.hero");
   const section = presentation === "section";
   const Heading = section ? "h2" : "h1";
   const [heroRef, visible] = usePassedViewport(0.05, 0.85);
@@ -1148,18 +1108,20 @@ export function MobileHeroContent({
           visible={visible}
           className={section ? "relative z-10" : "relative z-10 mt-10"}
         >
-          <Eyebrow>IA médica institucional</Eyebrow>
+          <Eyebrow>{t("eyebrow")}</Eyebrow>
           <Heading
-            className={`font-display mt-3.5 max-w-xl font-extrabold tracking-tight text-navy dark:text-slate-50 ${section ? "text-3xl sm:mt-5 sm:text-4xl" : "text-4xl sm:mt-6 sm:text-5xl"}`}
+            className={`font-display text-navy mt-3.5 max-w-xl font-extrabold tracking-tight dark:text-slate-50 ${section ? "text-3xl sm:mt-5 sm:text-4xl" : "text-4xl sm:mt-6 sm:text-5xl"}`}
           >
-            Conocimiento clínico{" "}
-            <span className="text-primary-light dark:text-primary-dark">
-              orquestado por IA.
-            </span>
+            {t.rich("title", {
+              accent: (chunks) => (
+                <span className="text-primary-light dark:text-primary-dark">
+                  {chunks}
+                </span>
+              ),
+            })}
           </Heading>
           <p className="font-body mt-3.5 max-w-xl text-base leading-7 text-slate-700 sm:mt-7 sm:text-lg sm:leading-8 dark:text-slate-300">
-            BinPar convierte guías, protocolos y corpus médico en respuestas
-            trazables para Atención Primaria.
+            {t("mobileBody")}
           </p>
           <div className="mt-7">
             <ClinicalChatMock compact active={visible} />
@@ -1234,7 +1196,7 @@ function MobileHome({
           ref={(node) => {
             sectionRefs.current[0] = node;
           }}
-          className={`relative overflow-hidden border-b border-cyan-800/10 px-5 pt-14 pb-8 sm:px-10 sm:pt-18 sm:pb-10 dark:border-primary-dark/10 ${withCover ? "scroll-mt-20" : ""}`}
+          className={`dark:border-primary-dark/10 relative overflow-hidden border-b border-cyan-800/10 px-5 pt-14 pb-8 sm:px-10 sm:pt-18 sm:pb-10 ${withCover ? "scroll-mt-20" : ""}`}
         >
           <MobileHeroContent presentation={withCover ? "section" : "hero"} />
           {withCover && <IntroductionBottomFade />}
@@ -1320,6 +1282,15 @@ function ClinicalProcess({
   className?: string;
   compact?: boolean;
 }) {
+  const t = useTranslations("home.process");
+  const clinicalProcess: ClinicalProcessItem[] = clinicalProcessSteps.map(
+    ({ id, step }) => ({
+      step,
+      title: t(`${id}.title`),
+      body: t(`${id}.body`),
+      signal: t(`${id}.signal`),
+    }),
+  );
   const reducedMotion = useReducedMotion();
   const [viewportRef, inViewport] = usePassedViewport(0.25);
   const show = reducedMotion ? true : (visible ?? inViewport);
@@ -1385,7 +1356,7 @@ function MobileProcessMilestone({
   last,
   reducedMotion,
 }: {
-  item: (typeof clinicalProcess)[number];
+  item: ClinicalProcessItem;
   index: number;
   last: boolean;
   reducedMotion: boolean | null;
@@ -1408,14 +1379,14 @@ function MobileProcessMilestone({
       }}
     >
       <div className="relative flex justify-center">
-        <span className="border-primary-light dark:text-primary-dark relative z-10 grid size-10 place-items-center rounded-full border bg-white/50 text-xs font-semibold text-cyan-800 shadow-sm backdrop-blur-sm dark:border-primary-dark dark:bg-[#06111f] dark:shadow-[0_0_18px_color-mix(in_srgb,var(--color-primary-dark)_18%,transparent)]">
+        <span className="border-primary-light dark:text-primary-dark dark:border-primary-dark relative z-10 grid size-10 place-items-center rounded-full border bg-white/50 text-xs font-semibold text-cyan-800 shadow-sm backdrop-blur-sm dark:bg-[#06111f] dark:shadow-[0_0_18px_color-mix(in_srgb,var(--color-primary-dark)_18%,transparent)]">
           {item.step}
         </span>
         {!last ? (
           <>
             <span
               aria-hidden="true"
-              className="absolute top-10 bottom-0 left-1/2 w-px -translate-x-1/2 bg-cyan-600/15 dark:bg-primary-dark/15"
+              className="dark:bg-primary-dark/15 absolute top-10 bottom-0 left-1/2 w-px -translate-x-1/2 bg-cyan-600/15"
             />
             <motion.span
               aria-hidden="true"
@@ -1436,7 +1407,7 @@ function MobileProcessMilestone({
         ) : null}
       </div>
       <div className={last ? "pb-0" : "pb-6"}>
-        <h3 className="font-display mt-1 text-base font-semibold text-navy dark:text-slate-100">
+        <h3 className="font-display text-navy mt-1 text-base font-semibold dark:text-slate-100">
           {item.title}
         </h3>
         <p className="font-body mt-2 min-h-12 text-sm leading-6 text-slate-600 dark:text-slate-400">
@@ -1459,7 +1430,7 @@ function ProcessMilestone({
   connector = false,
   reducedMotion,
 }: {
-  item: (typeof clinicalProcess)[number];
+  item: ClinicalProcessItem;
   index: number;
   compact?: boolean;
   className?: string;
@@ -1487,7 +1458,7 @@ function ProcessMilestone({
       {desktop && connector ? (
         <motion.span
           aria-hidden="true"
-          className={`border-primary-light absolute z-0 origin-left border-t dark:border-primary-dark ${
+          className={`border-primary-light dark:border-primary-dark absolute z-0 origin-left border-t ${
             compact
               ? "top-4 left-4 w-[calc(100%+2.5rem)]"
               : "top-5 left-5 w-[calc(100%+3.5rem)]"
@@ -1506,7 +1477,7 @@ function ProcessMilestone({
         />
       ) : null}
       <span
-        className={`border-primary-light font-display dark:text-primary-dark relative z-10 grid shrink-0 place-items-center rounded-full border bg-white/80 font-semibold text-cyan-800 shadow-sm backdrop-blur-sm dark:border-primary-dark dark:bg-[#06111f] dark:shadow-[0_0_18px_color-mix(in_srgb,var(--color-primary-dark)_18%,transparent)] ${
+        className={`border-primary-light font-display dark:text-primary-dark dark:border-primary-dark relative z-10 grid shrink-0 place-items-center rounded-full border bg-white/80 font-semibold text-cyan-800 shadow-sm backdrop-blur-sm dark:bg-[#06111f] dark:shadow-[0_0_18px_color-mix(in_srgb,var(--color-primary-dark)_18%,transparent)] ${
           compact ? "size-8 text-[10px]" : "size-10 text-xs"
         } ${desktop ? "" : "absolute top-0 -left-12"}`}
       >
@@ -1536,6 +1507,7 @@ export function StaggeredMetricGrid({
   visible?: boolean;
   className?: string;
 }) {
+  const t = useTranslations("home.metrics.items");
   const reducedMotion = useReducedMotion();
   const [viewportRef, inViewport] = usePassedViewport(0.3);
   const shown = reducedMotion ? true : (visible ?? inViewport);
@@ -1559,8 +1531,8 @@ export function StaggeredMetricGrid({
     >
       {metrics.map((metric, index) => (
         <motion.div
-          key={metric.label}
-          className="shadow-big-blocks flex flex-col items-center rounded-2xl border border-cyan-800/20 bg-white/80 p-3 backdrop-blur-xs sm:block sm:p-6 dark:border-primary-dark/20 dark:bg-[#152230e6]/90 dark:shadow-[0_0_18px_color-mix(in_srgb,var(--color-primary-dark)_8%,transparent)] dark:backdrop-blur-sm"
+          key={metric.id}
+          className="shadow-big-blocks dark:border-primary-dark/20 flex flex-col items-center rounded-2xl border border-cyan-800/20 bg-white/80 p-3 backdrop-blur-xs sm:block sm:p-6 dark:bg-[#152230e6]/90 dark:shadow-[0_0_18px_color-mix(in_srgb,var(--color-primary-dark)_8%,transparent)] dark:backdrop-blur-sm"
           variants={{
             hidden: { opacity: reducedMotion ? 1 : 0 },
             visible: {
@@ -1573,11 +1545,11 @@ export function StaggeredMetricGrid({
             active={countersActive}
             delay={0.3 + index * 0.18}
             prefix={metric.prefix}
-            suffix={metric.suffix}
+            suffix={"suffix" in metric ? metric.suffix : undefined}
             value={metric.value}
           />
           <p className="font-body mt-2 text-center text-xs leading-5 text-slate-600 sm:text-left sm:text-sm sm:leading-6 dark:text-slate-400">
-            {metric.label}
+            {t(metric.id)}
           </p>
         </motion.div>
       ))}
@@ -1598,6 +1570,7 @@ function AnimatedMetricValue({
   suffix?: string;
   value: number;
 }) {
+  const localeTag = LOCALE_TAGS[useLocale()];
   const reducedMotion = useReducedMotion();
   const [displayValue, setDisplayValue] = useState(reducedMotion ? value : 0);
   // const formattedValue = `${prefix}${value.toLocaleString("es-ES")}${suffix}`;
@@ -1644,7 +1617,7 @@ function AnimatedMetricValue({
     >
       <span aria-hidden="true">
         {prefix}
-        {displayValue.toLocaleString("es-ES")}
+        {displayValue.toLocaleString(localeTag)}
         {suffix}
       </span>
     </p>

@@ -1,22 +1,43 @@
-// Document context supplied for mock 04, preserving the source wording.
+import { useTranslations } from "next-intl";
+import { useMemo } from "react";
+
+import es from "../../../messages/es/clinical.json";
+
+/*
+  Document context supplied for mock 04, preserving the source wording.
+  Es texto literal de la fuente, por eso se lee con `t.raw`. El párrafo de
+  AINE llega partido: `highlight` es el pasaje que se resalta como cita.
+*/
+type EvidenceDocumentContext = {
+  nephropathies: string[];
+  dosing: string;
+  antimicrobials: string[];
+  nsaids: { highlight: string; rest: string };
+  interactions: string;
+};
+
+export function useEvidenceDocumentContext(): EvidenceDocumentContext {
+  const t = useTranslations("clinical.documentContext");
+  return useMemo(
+    () => ({
+      nephropathies: t.raw("nephropathies") as string[],
+      dosing: t.raw("dosing") as string,
+      antimicrobials: t.raw("antimicrobials") as string[],
+      nsaids: {
+        highlight: t.raw("nsaids.highlight") as string,
+        rest: t.raw("nsaids.rest") as string,
+      },
+      interactions: t.raw("interactions") as string,
+    }),
+    [t],
+  );
+}
+
+/** Versión en castellano, con el párrafo de AINE entero, para otros módulos. */
 export const evidenceDocumentContext = {
-  nephropathies: [
-    "Nefropatía por ácido úrico: la hiperuricemia crónica provoca depósitos de ácido úrico y sales de urato en el intersticio y los túbulos. Son frecuentes los episodios recurrentes de pielonefritis. Se asocia a HTA e hiperlipidemia. El tratamiento se basa en el alopurinol.",
-    "Nefropatía hipercalcémica: infiltrados por monocitos con fibrosis intersticial y depósito de calcio en el intersticio (nefrocalcinosis), glomérulos y vasos. Se caracteriza por incapacidad para concentrar la orina y acidosis tubular distal con pérdida de potasio y sodio.",
-    "Nefropatía de los Balcanes: nefropatía endémica de los países de Europa de Este. Aunque no está aclarada su etiología, se sospechan factores medioambientales (virus, toxinas de plantas, hidrocarburos, etc.) sobre una base de predisposición genética. Últimamente se cree que pueda ser debida a un componente vegetal, el ácido aristolóquico. Presenta una altísima incidencia de tumores endoteliales. Conduce a la ERC terminal entre los 30-50 años.",
-    "Nefropatía por oxalato: aparece en aquellos procesos que cursan con aumento de la excreción de oxalato como hiperoxalurias, cirugía de derivación ileal, intoxicación por etilenglicol, anestesia con metoxiflurano o ingesta de altas dosis de ácido ascórbico. Aparece nefrolitiasis y nefrocalcinosis. Para su tratamiento se puede utilizar piridoxina (convierte el glicolato en glicina, en lugar de oxalato).",
-    "Nefritis por radiación: es dependiente de dosis y afecta a los expuestos a más de 2.300 rad. Provoca una importante vasoconstricción que da lugar a isquemia renal. Es muy frecuente la HTA grave o maligna. Produce hialinosis glomerular, fibrosis intersticial y hialinización de la capa media de las arteriolas.",
-  ],
-  dosing:
-    "El ajuste de dosis en la insuficiencia renal es imprescindible para evitar la toxicidad de fármacos con eliminación renal y procurar su adecuada eficacia. En la insuficiencia renal se puede realizar de dos maneras:",
-  antimicrobials: [
-    "Antibióticos: no requieren ajuste de dosis azitromicina, clindamicina, linezolid, doxiciclina, moxifloxacino, cloranfenicol.",
-    "Antifúngicos: no precisan ajuste de dosis caspofungina, itraconazol y voriconazol (los dos últimos sólo por vía oral, ya que por vía intravenosa están contraindicados con aclaramiento de creatinina < 50 mL/min, por acúmulo del vehículo ciclohexidina).",
-    "Antivirales: prácticamente todos precisan disminución de dosis pues presentan alto riesgo de neurotoxicidad, con cuadros confusionales, alucinaciones visuales, etc., sobre todo el aciclovir.",
-    "Antituberculostáticos: no precisan ajuste de dosis pirimetamina, isoniazida, rifampicina, rifabutina.",
-  ],
-  nsaids:
-    "Se debe evitar el uso de AINE en la insuficiencia renal. En el supuesto de que sean estrictamente necesarios es preferible utilizar AINE de vida media corta y durante pocos días. Se evitarán en pacientes con insuficiencia cardíaca, diabetes e hipertensión concomitantes. Se debe procurar que el paciente tenga una correcta hidratación.",
-  interactions:
-    "También hay que evitar su uso junto a inhibidores de la enzima convertidora de angiotensina (IECA), antagonistas de los receptores de angiotensina (ARA-II) y diuréticos. En pacientes con ERC grave (aclaramiento de creatinina < 30 mL/min) siempre están contraindicados.",
-} as const;
+  nephropathies: es.documentContext.nephropathies,
+  dosing: es.documentContext.dosing,
+  antimicrobials: es.documentContext.antimicrobials,
+  nsaids: es.documentContext.nsaids.highlight + es.documentContext.nsaids.rest,
+  interactions: es.documentContext.interactions,
+};

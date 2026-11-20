@@ -2,6 +2,7 @@
 
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { ArrowDown } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRef } from "react";
 import { useBlogHydrated } from "./use-blog-hydrated";
 import { BlogFeaturedArticle } from "./blog-featured-article";
@@ -24,6 +25,8 @@ function Copy({
   visible: boolean;
   reduced: boolean;
 }) {
+  const t = useTranslations("blog.hero");
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 22 }}
@@ -36,25 +39,25 @@ function Copy({
       className={`relative z-10 ${centered ? "mx-auto max-w-[720px] text-center" : "min-w-0 max-[900px]:text-center"}`}
     >
       <p className="font-display text-primary-light dark:text-primary-dark text-xs font-bold tracking-[0.22em] uppercase">
-        Lecturas clínicas · Blog
+        {t("eyebrow")}
       </p>
       <h1
         id="blog-page-title"
-        className="font-display mt-5 max-w-4xl text-[32px] leading-[1.08] font-extrabold tracking-tight text-navy sm:text-[40px] lg:text-[54px] dark:text-slate-50"
+        className="font-display text-navy mt-5 max-w-4xl text-[32px] leading-[1.08] font-extrabold tracking-tight sm:text-[40px] lg:text-[54px] dark:text-slate-50"
       >
-        El conocimiento
-        <br />
-        <span className="text-primary-light dark:text-primary-dark">
-          sigue avanzando.
-        </span>
+        {t.rich("title", {
+          br: () => <br />,
+          accent: (chunks) => (
+            <span className="text-primary-light dark:text-primary-dark">
+              {chunks}
+            </span>
+          ),
+        })}
       </h1>
       <p
         className={`font-body mt-5 max-w-2xl text-sm leading-6 text-slate-600 sm:text-lg sm:leading-8 dark:text-slate-400 ${centered ? "mx-auto" : "max-[900px]:mx-auto"}`}
       >
-        Exploramos la evolución de la IA médica y su papel en la práctica
-        clínica. Compartimos lecturas y perspectivas para comprender los
-        avances, contrastar enfoques y acercar el conocimiento a los retos
-        cotidianos de la atención al paciente.
+        {t("body")}
       </p>
       <a
         href="#blog-page-gallery"
@@ -68,10 +71,9 @@ function Copy({
           });
           target.focus({ preventScroll: true });
         }}
-        className="font-body bg-primary-light dark:bg-primary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark mt-7 inline-flex min-h-11 items-center justify-center gap-3 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-4 dark:text-[#04111e] dark:hover:bg-primary-dark/85"
+        className="font-body bg-primary-light dark:bg-primary-dark focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark dark:hover:bg-primary-dark/85 mt-7 inline-flex min-h-11 items-center justify-center gap-3 rounded-full px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-4 dark:text-[#04111e]"
       >
-        Explorar artículos{" "}
-        <ArrowDown size={17} strokeWidth={1.8} aria-hidden="true" />
+        {t("cta")} <ArrowDown size={17} strokeWidth={1.8} aria-hidden="true" />
       </a>
     </motion.div>
   );
@@ -84,6 +86,7 @@ function EntranceStage({
   post?: BlogPost;
   postNumber: number;
 }) {
+  const t = useTranslations("blog.hero");
   const root = useRef<HTMLElement>(null);
   const visible = useInView(root, { once: true, amount: 0.15 });
   const hydrated = useBlogHydrated();
@@ -131,9 +134,13 @@ function EntranceStage({
           >
             {post && (
               <p className="font-body absolute top-full right-0 mt-3 flex items-baseline justify-end gap-2 text-xs leading-5 font-medium whitespace-nowrap text-slate-500 tabular-nums dark:text-slate-400">
-                <span>Última entrada</span>
+                <span>{t("latest")}</span>
                 <span aria-hidden="true">·</span>
-                <span>Nº {String(postNumber).padStart(2, "0")}</span>
+                <span>
+                  {t("number", {
+                    number: String(postNumber).padStart(2, "0"),
+                  })}
+                </span>
                 <span aria-hidden="true">·</span>
                 <time dateTime={post.date}>{post.createdAtLabel}</time>
               </p>

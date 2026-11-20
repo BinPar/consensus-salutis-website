@@ -1,6 +1,7 @@
 "use client";
 
 import { Pause, Play, RotateCcw } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
   useEffect,
   useLayoutEffect,
@@ -187,11 +188,19 @@ export function FeatureScene({
   wide?: boolean;
   className?: string;
 }) {
+  const t = useTranslations("scenes.ui.featureScene");
+  const tScenes = useTranslations("scenes");
+  const tClinical = useTranslations("clinical");
   const frame = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState({ scale: 0, width: ARTBOARD.width });
   const { scale } = size;
   const scene = scenes[feature];
-  const clock = useSceneClock(frame, scene.duration, active, onFinish);
+  // Las escenas que escriben texto duran según la longitud del texto traducido.
+  const duration =
+    typeof scene.duration === "function"
+      ? scene.duration(tScenes, tClinical)
+      : scene.duration;
+  const clock = useSceneClock(frame, duration, active, onFinish);
   const gridPosition = usePageGridPosition(alignGrid);
   useLayoutEffect(() => {
     const element = frame.current;
@@ -274,9 +283,9 @@ export function FeatureScene({
               onClick={clock.togglePause}
               aria-pressed={clock.paused}
               aria-label={
-                clock.paused ? `Reproducir: ${label}` : `Pausar: ${label}`
+                clock.paused ? t("play", { label }) : t("pause", { label })
               }
-              title={clock.paused ? "Reproducir" : "Pausar"}
+              title={clock.paused ? t("playTitle") : t("pauseTitle")}
               className="bg-primary-light/10 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark hover:bg-primary-light/15 dark:hover:bg-primary-dark/15 grid size-8 shrink-0 place-items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-700"
             >
               {clock.paused ? (
@@ -288,8 +297,8 @@ export function FeatureScene({
             <button
               type="button"
               onClick={clock.replay}
-              aria-label={`Repetir: ${label}`}
-              title="Repetir escena"
+              aria-label={t("replay", { label })}
+              title={t("replayTitle")}
               className="bg-primary-light/10 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark hover:bg-primary-light/15 dark:hover:bg-primary-dark/15 grid size-8 shrink-0 place-items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-700"
             >
               <RotateCcw size={16} strokeWidth={1.1} aria-hidden="true" />

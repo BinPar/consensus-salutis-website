@@ -1,30 +1,13 @@
 "use client";
 
 import { ArrowDown, Pause, Play } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useState, type CSSProperties } from "react";
 import { teamMembers } from "./team-data";
 import { TeamPortrait } from "./team-portrait";
 import { teamContentWidth } from "./team-layout";
 import { useTeamOrbit } from "./use-team-orbit";
 
-const disciplines = [
-  "Conocimiento clínico",
-  "Guías clínicas",
-  "Protocolos institucionales",
-  "Corpus médico",
-  "Consulta clínica",
-  "Búsqueda documental",
-  "Contraste de fuentes",
-  "Evidencia visible",
-  "Respuestas trazables",
-  "Referencias bibliográficas",
-  "Contexto clínico",
-  "Historial de consultas",
-  "Conocimiento institucional",
-  "Revisión documental",
-  "Actualización de contenidos",
-  "Criterio profesional",
-];
 const sizes = [1, 0.92, 1.06, 0.96, 1, 1.04, 0.92, 1];
 const innerPortraitSlots = [0, 1, 2, 4, 5, 6, 7, 9, 10, 11, 13];
 const outerPortraitSlots = [1, 2, 3, 5, 6, 7, 9, 10, 11, 13, 14, 15];
@@ -99,6 +82,9 @@ function Pattern({ index }: { index: number }) {
 }
 
 export function TeamOrbitHero() {
+  const t = useTranslations("team");
+  // Una disciplina por tarjeta sin retrato, en orden de `patternIndex`.
+  const disciplines = t.raw("hero.disciplines") as string[];
   const [paused, setPaused] = useState(false);
   const { stage, reducedMotion, memberIndices } = useTeamOrbit(paused);
   return (
@@ -179,7 +165,7 @@ export function TeamOrbitHero() {
                   </span>
                   {person && (
                     <small className="mt-0.5 block text-[0.82em]">
-                      {person.role}
+                      {t(`members.${person.slug}.role`)}
                     </small>
                   )}
                 </div>
@@ -188,27 +174,26 @@ export function TeamOrbitHero() {
           })}
         </div>
       ))}
-      <div
-       
-        className="pointer-events-none relative z-2 -mt-3 flex w-[calc(100%-40px)] max-w-3xl flex-col items-center text-center sm:w-[calc(100%-64px)] lg:w-[calc(100%-80px)] [&>*]:pointer-events-auto"
-      >
+      <div className="pointer-events-none relative z-2 -mt-3 flex w-[calc(100%-40px)] max-w-3xl flex-col items-center text-center sm:w-[calc(100%-64px)] lg:w-[calc(100%-80px)] [&>*]:pointer-events-auto">
         <p className="font-display mb-6 text-xs leading-4 font-bold tracking-[0.22em] text-balance text-(--team-accent) uppercase">
-          BinPar Team
+          {t("hero.eyebrow")}
         </p>
         <h1
           id="team-title"
           tabIndex={-1}
-          className="font-display m-0 text-4xl leading-tight font-extrabold tracking-tight text-balance text-navy focus:outline-none xl:text-5xl dark:text-slate-50"
+          className="font-display text-navy m-0 text-4xl leading-tight font-extrabold tracking-tight text-balance focus:outline-none xl:text-5xl dark:text-slate-50"
         >
-          Todo empieza
-          <br />
-          <span className="text-primary-light dark:text-primary-dark">
-            con las personas.
-          </span>
+          {t.rich("hero.title", {
+            br: () => <br />,
+            accent: (chunks) => (
+              <span className="text-primary-light dark:text-primary-dark">
+                {chunks}
+              </span>
+            ),
+          })}
         </h1>
         <p className="font-body mx-auto mt-6 max-w-lg text-base leading-7 text-balance text-slate-600 md:text-lg md:leading-8 dark:text-slate-400">
-          Distintas miradas. Una misma curiosidad. Trabajamos para acercar el
-          conocimiento médico a quienes lo necesitan.
+          {t("hero.body")}
         </p>
         <div className="font-body mt-8 flex items-center justify-center [@media(width<=600px)]:mt-[27px]">
           <a
@@ -222,9 +207,9 @@ export function TeamOrbitHero() {
                 block: "start",
               });
             }}
-            className="inline-flex min-h-10 items-center justify-center gap-2.5 rounded-[999px] border border-transparent bg-(--team-accent) px-5 py-2 text-sm leading-5 font-semibold text-white shadow-[0_4px_6px_-1px_rgb(0_0_0/10%),0_2px_4px_-2px_rgb(0_0_0/10%)] transition-[background,border-color,box-shadow] duration-200 hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-[5px] focus-visible:outline-(--team-accent) motion-reduce:transition-none dark:text-[#04111e] dark:shadow-[0_0_34px_color-mix(in_srgb,var(--color-primary-dark)_26%,transparent)] dark:hover:bg-primary-dark/85 [@media(width<=600px)]:min-h-11 [@media(width<=600px)]:min-w-[205px]"
+            className="dark:hover:bg-primary-dark/85 inline-flex min-h-10 items-center justify-center gap-2.5 rounded-[999px] border border-transparent bg-(--team-accent) px-5 py-2 text-sm leading-5 font-semibold text-white shadow-[0_4px_6px_-1px_rgb(0_0_0/10%),0_2px_4px_-2px_rgb(0_0_0/10%)] transition-[background,border-color,box-shadow] duration-200 hover:bg-cyan-800 focus-visible:outline-2 focus-visible:outline-offset-[5px] focus-visible:outline-(--team-accent) motion-reduce:transition-none dark:text-[#04111e] dark:shadow-[0_0_34px_color-mix(in_srgb,var(--color-primary-dark)_26%,transparent)] [@media(width<=600px)]:min-h-11 [@media(width<=600px)]:min-w-[205px]"
           >
-            Conoce al equipo
+            {t("hero.cta")}
             <ArrowDown size={17} strokeWidth={1.8} aria-hidden="true" />
           </a>
         </div>
@@ -239,17 +224,17 @@ export function TeamOrbitHero() {
           aria-pressed={paused || reducedMotion}
           aria-label={
             reducedMotion
-              ? "Movimiento reducido activado"
+              ? t("hero.motion.reducedLabel")
               : paused
-                ? "Reanudar movimiento de las tarjetas"
-                : "Pausar movimiento de las tarjetas"
+                ? t("hero.motion.resumeLabel")
+                : t("hero.motion.pauseLabel")
           }
           title={
             reducedMotion
-              ? "Movimiento reducido"
+              ? t("hero.motion.reducedTitle")
               : paused
-                ? "Reanudar"
-                : "Pausar"
+                ? t("hero.motion.resumeTitle")
+                : t("hero.motion.pauseTitle")
           }
           className="bg-primary-light/10 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark hover:bg-primary-light/15 dark:hover:bg-primary-dark/15 grid size-8 cursor-pointer place-items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-700 disabled:cursor-default"
         >

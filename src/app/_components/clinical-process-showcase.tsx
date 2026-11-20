@@ -10,7 +10,7 @@ import {
   Waves,
 } from "lucide-react";
 import { EvidenceScene } from "./clinical-evidence-scene";
-import { FollowupScene, FOLLOWUP_DURATION } from "./clinical-followup-scene";
+import { FollowupScene, useFollowupTimeline } from "./clinical-followup-scene";
 import { typingDuration, writtenCharacters } from "./clinical-process-typing";
 import { CommitteeScene, COMMITTEE_DURATION } from "./clinical-committee-scene";
 import {
@@ -32,90 +32,70 @@ import {
   processMotion,
   pulseProgress,
 } from "./clinical-process-visuals";
-import { useLayoutEffect, useRef, useState } from "react";
-import {
-  processConsultation as data,
-  processExpertInputs,
-} from "./clinical-process-data";
+import { useTranslations } from "next-intl";
+import { useLayoutEffect, useMemo, useRef, useState } from "react";
+import { useProcessExperts } from "./clinical-process-data";
 
-const questionProcessingStates = [
-  "Seleccionando los especialistas para esta consulta.",
-  "Consultando Cardiología, Farmacología y Nefrología.",
-  "Contrastando los signos clínicos, la función renal y la medicación.",
-  "Integrando las aportaciones para preparar la respuesta.",
-] as const;
-const questionSendAt = 1 + typingDuration(data.question.length) + 0.5;
 const questionStateDuration = 2.2;
-const steps = [
-  {
-    number: "01",
-    title: "Plantear la consulta",
-    body: "El profesional formula una duda clínica en lenguaje natural, aportando el contexto necesario para orientar la consulta.",
-    signal: "Lenguaje clínico natural",
-  },
-  {
-    number: "02",
-    title: "Consultar el conocimiento",
-    body: "El sistema selecciona los agentes expertos adecuados y consulta sus corpus médicos, adaptados a la organización y la especialidad.",
-    signal: "Comité de expertos",
-  },
-  {
-    number: "03",
-    title: "Contrastar las aportaciones",
-    body: "El orquestador reúne las aportaciones de los expertos, contrasta sus matices y límites y construye una orientación conjunta para la consulta.",
-    signal: "Síntesis del comité",
-  },
-  {
-    number: "04",
-    title: "Fuentes verificables",
-    body: "La respuesta reúne la orientación clínica y permite consultar las fuentes que respaldan sus conclusiones.",
-    signal: "Evidencia trazable",
-  },
-  {
-    number: "05",
-    title: "Revisar y profundizar",
-    body: "El profesional puede ampliar la consulta y aportar contexto para profundizar en la valoración del caso.",
-    signal: "Conversación con contexto",
-  },
+const stepIds = [
+  { id: "question", number: "01" },
+  { id: "committee", number: "02" },
+  { id: "synthesis", number: "03" },
+  { id: "evidence", number: "04" },
+  { id: "followup", number: "05" },
 ] as const;
 
-export const clinicalProcessStages: readonly ProcessStage[] = steps.map(
-  (step, index) => ({
-    ...step,
-    start: index === 1 ? 2.5 : index === 3 ? 0.55 : index === 4 ? 1.2 : 0,
-    end:
-      index === 0
-        ? questionSendAt + 2
-        : index === 1
-          ? COMMITTEE_DURATION - 1.6
-          : index === 2
-            ? 20.6
-            : index === 3
-              ? 18.35
-              : FOLLOWUP_DURATION - 2.7,
-    render: (seconds, reduced) =>
-      index === 0 ? (
-        <QuestionScene seconds={seconds} reduced={reduced} />
-      ) : index === 1 ? (
-        <CommitteeScene seconds={seconds} reduced={reduced} />
-      ) : index === 2 ? (
-        <SynthesisScene seconds={seconds} reduced={reduced} />
-      ) : index === 3 ? (
-        <EvidenceScene seconds={seconds} reduced={reduced} />
-      ) : (
-        <FollowupScene seconds={seconds} reduced={reduced} />
-      ),
-  }),
-);
+// El envío depende de lo que tarda en escribirse la pregunta de cada idioma.
+function questionSendAt(questionLength: number) {
+  return 1 + typingDuration(questionLength) + 0.5;
+}
+
+function useClinicalProcessStages(): readonly ProcessStage[] {
+  const t = useTranslations("clinical");
+  const followupDuration = useFollowupTimeline().duration;
+  return useMemo(() => {
+    const sendAt = questionSendAt(t("consultation.question").length);
+    return stepIds.map(({ id, number }, index) => ({
+      number,
+      title: t(`steps.${id}.title`),
+      body: t(`steps.${id}.body`),
+      signal: t(`steps.${id}.signal`),
+      start: index === 1 ? 2.5 : index === 3 ? 0.55 : index === 4 ? 1.2 : 0,
+      end:
+        index === 0
+          ? sendAt + 2
+          : index === 1
+            ? COMMITTEE_DURATION - 1.6
+            : index === 2
+              ? 20.6
+              : index === 3
+                ? 18.35
+                : followupDuration - 2.7,
+      render: (seconds: number, reduced: boolean) =>
+        index === 0 ? (
+          <QuestionScene seconds={seconds} reduced={reduced} />
+        ) : index === 1 ? (
+          <CommitteeScene seconds={seconds} reduced={reduced} />
+        ) : index === 2 ? (
+          <SynthesisScene seconds={seconds} reduced={reduced} />
+        ) : index === 3 ? (
+          <EvidenceScene seconds={seconds} reduced={reduced} />
+        ) : (
+          <FollowupScene seconds={seconds} reduced={reduced} />
+        ),
+    }));
+  }, [t, followupDuration]);
+}
 
 export function ClinicalProcessShowcase({
   homePresentation = false,
 }: {
   homePresentation?: boolean;
 }) {
+  const stages = useClinicalProcessStages();
   return (
     <ClinicalProcessPlayer
-      stages={clinicalProcessStages}
+      stages={stages}
       homePresentation={homePresentation}
     />
   );
@@ -128,22 +108,22 @@ function QuestionScene({
   seconds: number;
   reduced: boolean;
 }) {
-  const sent = reduced || seconds >= questionSendAt;
+  const t = useTranslations("clinical");
+  const question = t("consultation.question");
+  const questionProcessingStates = t.raw("questionScene.states") as string[];
+  const sendAt = questionSendAt(question.length);
+  const sent = reduced || seconds >= sendAt;
   const stateIndex = reduced
     ? questionProcessingStates.length - 1
     : Math.min(
         questionProcessingStates.length - 1,
-        Math.floor(
-          Math.max(0, seconds - questionSendAt) / questionStateDuration,
-        ),
+        Math.floor(Math.max(0, seconds - sendAt) / questionStateDuration),
       );
-  const length = writtenCharacters(seconds, 1, data.question.length, reduced);
-  const text = reduced ? data.question : data.question.slice(0, length);
+  const length = writtenCharacters(seconds, 1, question.length, reduced);
+  const text = reduced ? question : question.slice(0, length);
   return (
     <>
-      <ProcessChatVeil
-        opacity={sceneReveal(seconds, questionSendAt, 0.35, reduced)}
-      />
+      <ProcessChatVeil opacity={sceneReveal(seconds, sendAt, 0.35, reduced)} />
       <motion.div
         initial={false}
         animate={{ opacity: sent ? 0 : 1, y: sent ? -18 : 0 }}
@@ -154,16 +134,16 @@ function QuestionScene({
         <p className="font-display text-primary-light dark:text-primary-dark mt-4 text-[10px] font-bold tracking-[0.22em] uppercase">
           BinPar
         </p>
-        <p className="font-display mt-3 text-2xl font-extrabold tracking-tight text-navy dark:text-slate-50">
-          Consulta clínica
+        <p className="font-display text-navy mt-3 text-2xl font-extrabold tracking-tight dark:text-slate-50">
+          {t("questionScene.title")}
         </p>
       </motion.div>
       <div
         className="absolute inset-x-0 top-0 flex h-14 items-center gap-2.5 px-5 @min-[600px]:px-6"
-        style={{ opacity: sceneReveal(seconds, questionSendAt, 0.35, reduced) }}
+        style={{ opacity: sceneReveal(seconds, sendAt, 0.35, reduced) }}
       >
         <Mark className="size-6" />
-        <span className="font-display text-sm font-semibold text-navy dark:text-slate-100">
+        <span className="font-display text-navy text-sm font-semibold dark:text-slate-100">
           BinPar
         </span>
       </div>
@@ -178,7 +158,7 @@ function QuestionScene({
             className="absolute inset-x-5 top-[68px] space-y-5 @min-[600px]:inset-x-6"
           >
             <div className="bg-primary-light dark:bg-primary-dark font-body ml-auto max-w-[90%] rounded-2xl rounded-br-md px-4 py-3 text-[13px] leading-[22px] text-white shadow-lg dark:text-[#04111e]">
-              {data.question}
+              {question}
             </div>
             <div className="font-body flex min-h-[66px] items-start gap-2.5 text-[13px] leading-[22px] text-slate-600 @min-[600px]:min-h-11 dark:text-slate-300">
               <span
@@ -186,8 +166,7 @@ function QuestionScene({
                 style={{
                   opacity: reduced
                     ? 1
-                    : 0.65 +
-                      Math.sin((seconds - questionSendAt) * Math.PI) * 0.25,
+                    : 0.65 + Math.sin((seconds - sendAt) * Math.PI) * 0.25,
                 }}
               >
                 <Mark className="size-5" />
@@ -214,7 +193,7 @@ function QuestionScene({
         style={{ top: sent ? "calc(100% - 76px)" : "54%" }}
       >
         <ProcessComposer
-          text={sent ? "Pregunta clínica al comité..." : text}
+          text={sent ? t("chat.placeholder") : text}
           typing={!sent && length > 0}
         />
       </div>
@@ -223,6 +202,7 @@ function QuestionScene({
 }
 
 function ProcessComposer({ text, typing }: { text: string; typing: boolean }) {
+  const t = useTranslations("clinical.chat");
   const mirror = useRef<HTMLSpanElement>(null);
   const content = useRef<HTMLDivElement>(null);
   const [expanded, setExpanded] = useState(false);
@@ -244,7 +224,7 @@ function ProcessComposer({ text, typing }: { text: string; typing: boolean }) {
     <div
       data-process-composer=""
       data-expanded={expanded}
-      className={`font-body shadow-big-blocks relative grid min-h-[52px] grid-cols-[56px_minmax(0,1fr)_56px] border border-cyan-800/15 bg-white/90 text-[14px] leading-6 backdrop-blur-md dark:border-primary-dark/15 dark:bg-[#152230]/90 ${expanded ? "rounded-3xl" : "rounded-[28px]"}`}
+      className={`font-body shadow-big-blocks dark:border-primary-dark/15 relative grid min-h-[52px] grid-cols-[56px_minmax(0,1fr)_56px] border border-cyan-800/15 bg-white/90 text-[14px] leading-6 backdrop-blur-md dark:bg-[#152230]/90 ${expanded ? "rounded-3xl" : "rounded-[28px]"}`}
     >
       <span
         ref={mirror}
@@ -254,7 +234,7 @@ function ProcessComposer({ text, typing }: { text: string; typing: boolean }) {
         {typing && <span className="inline-block h-3 w-px" />}
       </span>
       <span
-        className={`grid size-9 place-items-center place-self-center rounded-full border border-cyan-800/15 text-slate-500 dark:border-primary-dark/15 dark:text-slate-400 ${expanded ? "col-start-1 row-start-2 my-2.5" : "col-start-1 row-start-1"}`}
+        className={`dark:border-primary-dark/15 grid size-9 place-items-center place-self-center rounded-full border border-cyan-800/15 text-slate-500 dark:text-slate-400 ${expanded ? "col-start-1 row-start-2 my-2.5" : "col-start-1 row-start-1"}`}
       >
         <Paperclip size={16} strokeWidth={1.8} />
       </span>
@@ -264,7 +244,7 @@ function ProcessComposer({ text, typing }: { text: string; typing: boolean }) {
       >
         {text || (
           <span className="text-slate-500 dark:text-slate-400">
-            Pregunta clínica al comité...
+            {t("placeholder")}
           </span>
         )}
         {typing && (
@@ -299,35 +279,10 @@ const expertDetails = [
   },
 ] as const;
 
-const synthesisInputs = processExpertInputs.map((input) => input.detail);
-const synthesisCompactInputs = processExpertInputs.map(
-  (input) => input.compact,
-);
-
 const synthesisRelations = [
-  {
-    title: "Congestión",
-    compact: "Contrastar el origen cardíaco y renal.",
-    detail: "Contrastar congestión cardíaca y sobrecarga de volumen por ERC.",
-    experts: [0, 2],
-    start: 3,
-  },
-  {
-    title: "Medicación",
-    compact: "Ibuprofeno: retención de líquidos.",
-    detail:
-      "Ibuprofeno: posible retención hídrica y deterioro del filtrado glomerular.",
-    experts: [1, 2],
-    start: 6.4,
-  },
-  {
-    title: "Límites",
-    compact: "Evitar atribuir el edema solo a la ERC.",
-    detail:
-      "Evitar atribuir el edema solo a la ERC o asumir causalidad por ibuprofeno.",
-    experts: [1, 2],
-    start: 9.8,
-  },
+  { id: "congestion", experts: [0, 2], start: 3 },
+  { id: "medication", experts: [1, 2], start: 6.4 },
+  { id: "limits", experts: [1, 2], start: 9.8 },
 ] as const;
 
 type SynthesisPath = {
@@ -346,6 +301,9 @@ function SynthesisScene({
   seconds: number;
   reduced: boolean;
 }) {
+  const t = useTranslations("clinical.synthesis");
+  const tLabels = useTranslations("clinical.visuals");
+  const experts = useProcessExperts();
   const root = useRef<HTMLDivElement>(null);
   const map = useRef<HTMLDivElement>(null);
   const core = useRef<HTMLDivElement>(null);
@@ -497,12 +455,12 @@ function SynthesisScene({
     : pulse;
   const status =
     reduced || seconds >= 18.6
-      ? "Orientación emitida"
+      ? t("status.emitted")
       : seconds >= 15.2
-        ? "Integrando orientación"
+        ? t("status.integrating")
         : seconds >= 3
-          ? "Contrastando matices"
-          : "Reuniendo aportaciones";
+          ? t("status.contrasting")
+          : t("status.gathering");
   const pulseLayer = (active: boolean, value = pulse) => (
     <PulseLayer value={active ? value : 0} />
   );
@@ -528,7 +486,7 @@ function SynthesisScene({
       }
       className="relative h-[480px] px-3 pt-14 pb-5 @min-[480px]:px-6"
     >
-      <SceneLabel text="Representación del proceso" />
+      <SceneLabel text={tLabels("processLabel")} />
       <div className="flex h-full items-center" style={{ opacity: closing }}>
         <svg
           className="text-primary-light dark:text-primary-dark pointer-events-none absolute inset-0 size-full"
@@ -635,7 +593,7 @@ function SynthesisScene({
           className="relative grid w-full gap-y-11 @min-[760px]:grid-cols-[minmax(0,1fr)_236px_minmax(0,1fr)] @min-[760px]:items-center @min-[760px]:gap-x-6 @min-[880px]:gap-x-11"
         >
           <div className="grid grid-cols-3 items-stretch gap-2 @min-[480px]:gap-3 @min-[760px]:grid-cols-1 @min-[760px]:gap-6">
-            {data.experts.map((expert, i) => {
+            {experts.map((expert, i) => {
               const Icon = expertDetails[i]!.icon;
               const active =
                 !reduced &&
@@ -656,16 +614,16 @@ function SynthesisScene({
                     <span className="text-primary-light dark:text-primary-dark grid size-7 shrink-0 place-items-center">
                       <ProcessIcon icon={Icon} />
                     </span>
-                    <p className="font-display text-center text-[10px] font-semibold text-navy @min-[480px]:text-left @min-[480px]:text-[13px] dark:text-slate-100">
+                    <p className="font-display text-navy text-center text-[10px] font-semibold @min-[480px]:text-left @min-[480px]:text-[13px] dark:text-slate-100">
                       {expert.name}
                     </p>
                   </div>
                   <p className="font-body relative mt-1 hidden text-center text-[10px] leading-4 text-slate-600 min-[450px]:block @min-[480px]:text-left @min-[480px]:text-xs @min-[480px]:leading-[18px] dark:text-slate-300">
                     <span className="@min-[760px]:hidden">
-                      {synthesisCompactInputs[i]}
+                      {expert.compact}
                     </span>
                     <span className="hidden @min-[760px]:inline">
-                      {synthesisInputs[i]}
+                      {expert.detail}
                     </span>
                   </p>
                 </div>
@@ -681,6 +639,7 @@ function SynthesisScene({
           />
           <div className="relative grid grid-cols-3 items-stretch gap-2 @min-[480px]:gap-3 @min-[760px]:grid-cols-1 @min-[760px]:gap-6">
             {synthesisRelations.map((relation, i) => {
+              const title = t(`relations.${relation.id}.title`);
               const Icon = [HeartPulse, Pill, Waves][i]!;
               const active = !reduced && phase === i;
               const offset = gatherOffsets[i] ?? { x: 0, y: 0 };
@@ -699,15 +658,15 @@ function SynthesisScene({
               const travel = seconds >= 15.2 ? gather : 1 - departure;
               return (
                 <div
-                  key={relation.title}
+                  key={relation.id}
                   ref={(el) => {
                     relations.current[i] = el;
                   }}
-                  data-synthesis-slot={relation.title}
+                  data-synthesis-slot={title}
                   className="relative min-h-[88px] @min-[760px]:min-h-[104px]"
                 >
                   <div
-                    data-synthesis-relation={relation.title}
+                    data-synthesis-relation={title}
                     className={`${processCardClass} relative h-full min-h-[88px] p-2 @min-[480px]:p-3 @min-[760px]:min-h-0 ${processBorderClass(active)}`}
                     style={{
                       opacity: appearance * (1 - gatheredFade),
@@ -721,16 +680,16 @@ function SynthesisScene({
                       <span className="text-primary-light dark:text-primary-dark grid size-7 shrink-0 place-items-center">
                         <ProcessIcon icon={Icon} />
                       </span>
-                      <p className="font-display text-center text-[10px] font-semibold text-navy @min-[480px]:text-left @min-[480px]:text-[13px] dark:text-slate-100">
-                        {relation.title}
+                      <p className="font-display text-navy text-center text-[10px] font-semibold @min-[480px]:text-left @min-[480px]:text-[13px] dark:text-slate-100">
+                        {title}
                       </p>
                     </div>
                     <p className="font-body relative mt-1 text-center text-[10px] leading-4 text-slate-600 @min-[480px]:text-left @min-[480px]:text-xs @min-[480px]:leading-[18px] dark:text-slate-300">
                       <span className="@min-[760px]:hidden">
-                        {relation.compact}
+                        {t(`relations.${relation.id}.compact`)}
                       </span>
                       <span className="hidden @min-[760px]:inline">
-                        {relation.detail}
+                        {t(`relations.${relation.id}.detail`)}
                       </span>
                     </p>
                   </div>
@@ -743,7 +702,7 @@ function SynthesisScene({
               className="absolute inset-x-0 top-0 flex h-14 items-center justify-center @min-[480px]:h-[66px] @min-[760px]:top-1/2 @min-[760px]:-translate-y-1/2 @min-[760px]:justify-start"
             >
               <p
-                className={`${processBorderClass(!reduced && seconds >= 18.6)} font-display relative flex h-full w-[200px] max-w-full items-center gap-2 rounded-2xl border bg-white/95 px-4 py-3 text-[10px] font-semibold text-navy shadow-[0_8px_24px_rgba(0,109,121,0.10)] @min-[480px]:w-[236px] @min-[480px]:gap-3 @min-[480px]:text-sm @min-[760px]:w-full dark:bg-[#152230] dark:text-slate-50`}
+                className={`${processBorderClass(!reduced && seconds >= 18.6)} font-display text-navy relative flex h-full w-[200px] max-w-full items-center gap-2 rounded-2xl border bg-white/95 px-4 py-3 text-[10px] font-semibold shadow-[0_8px_24px_rgba(0,109,121,0.10)] @min-[480px]:w-[236px] @min-[480px]:gap-3 @min-[480px]:text-sm @min-[760px]:w-full dark:bg-[#152230] dark:text-slate-50`}
                 style={{
                   opacity: emission,
                   transform: reduced
@@ -758,7 +717,7 @@ function SynthesisScene({
                   className="text-primary-light dark:text-primary-dark relative shrink-0"
                   aria-hidden="true"
                 />
-                <span className="relative">Orientación conjunta</span>
+                <span className="relative">{t("output")}</span>
               </p>
             </div>
           </div>

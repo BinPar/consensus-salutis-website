@@ -1,0 +1,262 @@
+{
+  "meta": {
+    "title": "Features",
+    "description": "Every BinPar feature, grouped: visible evidence, clinical consultation, answer formats, personal workspace and institutional governance."
+  },
+  "groups": {
+    "evidence": {
+      "title": "Visible evidence",
+      "navLabel": "Evidence",
+      "heading": "Visible",
+      "headingAccent": "evidence.",
+      "lead": "Every statement points to the document that supports it. You read the passage in context, with its provenance and currency in view."
+    },
+    "consultation": {
+      "title": "Clinical consultation",
+      "navLabel": "Consultation",
+      "heading": "Clinical",
+      "headingAccent": "consultation.",
+      "lead": "You put the question as you would at a clinical meeting. Each specialty reviews its corpus, progress stays in view and the conversation keeps the case."
+    },
+    "formats": {
+      "title": "Answer formats",
+      "navLabel": "Formats",
+      "heading": "Answer",
+      "headingAccent": "formats.",
+      "lead": "The answer comes in the format that explains it best. Diagrams, figures and tables keep their citations and open in the side panel."
+    },
+    "workspace": {
+      "title": "Personal workspace",
+      "navLabel": "Personal workspace",
+      "heading": "Personal",
+      "headingAccent": "workspace.",
+      "lead": "Each professional organises their queries into projects with their own instructions and sources, and adjusts how answers read."
+    },
+    "governance": {
+      "title": "Institutional governance",
+      "navLabel": "Governance",
+      "heading": "Institutional",
+      "headingAccent": "governance.",
+      "lead": "The organisation decides which documents the committee consults, reviews every change before publishing it and checks that answer quality holds."
+    }
+  },
+  "items": {
+    "citations": {
+      "title": "Citations per statement",
+      "description": "Every statement links to its source.",
+      "detail": "Click the number next to a sentence and the supporting document opens, with the answer still in view."
+    },
+    "bibliography": {
+      "title": "References",
+      "description": "The sources used, at the end of every answer.",
+      "detail": "The list gathers the guidelines and manuals cited, so you can see at a glance which documents each answer rests on."
+    },
+    "preserved": {
+      "title": "Preserved evidence",
+      "description": "The answer keeps what it cited, even if the document is withdrawn.",
+      "detail": "If a guideline is withdrawn or replaced, the cited passage stays available, so you can review what that answer was based on."
+    },
+    "viewer": {
+      "title": "Document viewer",
+      "description": "The PDF, open at the cited page with the passage highlighted.",
+      "detail": "The original document opens in a side panel, so you read the passage in context, with what comes before and after it."
+    },
+    "verified": {
+      "title": "Verified text",
+      "description": "Shows whether the passage matches the original PDF.",
+      "detail": "The cited text is checked against the source document, and an indicator shows whether it matches the PDF word for word."
+    },
+    "provenance": {
+      "title": "Full provenance",
+      "description": "Document, chapter, section and page.",
+      "detail": "Every citation keeps its exact location in the document, so you can find it or refer to it at a clinical meeting or in a report."
+    },
+    "updates": {
+      "title": "Update notices",
+      "description": "Flags data superseded by a later source.",
+      "detail": "When a newer edition changes the cited information, a notice next to the passage says so, so you can check it is still current."
+    },
+    "natural": {
+      "title": "Natural language",
+      "description": "You put the question as you would at a clinical meeting.",
+      "detail": "You describe the case with its history, medication and what concerns you, with no keywords or forms."
+    },
+    "clarify": {
+      "title": "Clarifying questions",
+      "description": "If a key detail is missing, the committee asks for it.",
+      "detail": "When the answer depends on a value you have not given, such as the glomerular filtration rate, the question comes before the answer, with options to reply in one click."
+    },
+    "followup": {
+      "title": "Follow-up",
+      "description": "Later questions keep the context.",
+      "detail": "A new question builds on the case and the sources already consulted, without repeating the patient's details."
+    },
+    "committee": {
+      "title": "Committee by specialty",
+      "description": "Several experts, each with its own corpus.",
+      "detail": "Each specialty reviews the documents in its field, and the answer brings together and contrasts their contributions."
+    },
+    "modes": {
+      "title": "Answer modes",
+      "description": "Speed or depth, for every question.",
+      "detail": "Each organisation defines its answer modes; when there is more than one, the professional chooses next to the query box between a quick answer and a more thorough review."
+    },
+    "progress": {
+      "title": "Visible progress",
+      "description": "Experts, sources and pages consulted, while the answer is prepared.",
+      "detail": "While you wait, you can see which specialties are working, which documents they are reviewing and on which pages, before you read the answer."
+    },
+    "images": {
+      "title": "Attached images",
+      "description": "Pasted, dragged or attached to the query.",
+      "detail": "An ECG, a set of lab results or a photographed lesion can be added to the question and consulted alongside the case."
+    },
+    "schemes": {
+      "title": "Clinical diagrams",
+      "description": "Decision trees and mind maps, with sources.",
+      "detail": "A decision tree lays out the criteria behind the answer, and every diagram shows the sources it rests on."
+    },
+    "figures": {
+      "title": "Corpus figures",
+      "description": "Figures from the guidelines, inside the answer.",
+      "detail": "When a guideline includes a relevant illustration, the figure appears next to the text that explains it."
+    },
+    "download": {
+      "title": "Download as image",
+      "description": "Every diagram exports as a PNG.",
+      "detail": "Save the diagram as an image to use in a clinical meeting, a protocol or teaching material."
+    },
+    "tables": {
+      "title": "Comparison tables",
+      "description": "Readable comparisons, with citations intact.",
+      "detail": "Drugs, criteria or alternatives are compared in columns, and every row keeps the reference to its document."
+    },
+    "textalt": {
+      "title": "Text walkthrough",
+      "description": "An accessible alternative to every diagram.",
+      "detail": "Every diagram can be read as a list of steps, useful with screen readers or for copying into a report."
+    },
+    "panel": {
+      "title": "Side panel",
+      "description": "Documents, diagrams and images in tabs.",
+      "detail": "Sources, diagrams and figures open next to the conversation, with the answer still in view."
+    },
+    "projects": {
+      "title": "Projects",
+      "description": "Conversations grouped by topic.",
+      "detail": "Queries on the same matter, such as a protocol review, sit together in one space with their own instructions and sources."
+    },
+    "instructions": {
+      "title": "Shared instructions",
+      "description": "Format, language or approach for a whole project.",
+      "detail": "You state once how the project's answers should be presented; clinical rules and institutional sources keep their priority."
+    },
+    "saved": {
+      "title": "Answers as sources",
+      "description": "Save an answer for the rest of the project.",
+      "detail": "A final answer is saved as a private source and can be retrieved from other conversations in the same project."
+    },
+    "preferences": {
+      "title": "Answer preferences",
+      "description": "Length, tone and format, remembered across chats.",
+      "detail": "Preferences are stored and apply to every chat; they adjust the presentation, not the purpose or the clinical rules."
+    },
+    "private": {
+      "title": "Private documents",
+      "description": "PDF, TXT and Markdown, citable as sources.",
+      "detail": "A department protocol or your own notes are added to the project and cited like any other source, visible only to their owner."
+    },
+    "history": {
+      "title": "Organised history",
+      "description": "Pin, rename, move and jump by question.",
+      "detail": "Conversations can be pinned, renamed or moved to a project, and in longer ones you can jump straight to each question."
+    },
+    "languages": {
+      "title": "Three languages",
+      "description": "Spanish, Catalan and English.",
+      "detail": "The interface appears in the language each professional chooses, and the change applies instantly."
+    },
+    "theme": {
+      "title": "Light and dark theme",
+      "description": "Comfortable reading in clinic or on call.",
+      "detail": "Dark mode reduces glare on night shifts, and light mode makes reading easier in clinic lighting."
+    },
+    "corpus": {
+      "title": "Corpus per organisation",
+      "description": "Your own protocols on a shared base.",
+      "detail": "The centre's protocols are added on top of a shared base of guidelines and manuals, and the committee consults both with the same traceability."
+    },
+    "library": {
+      "title": "Document library",
+      "description": "An inventory of the guidelines, with type and summary.",
+      "detail": "Each document is listed with its type, approval date, the experts it feeds and a summary of what it contributes."
+    },
+    "committees": {
+      "title": "Configurable committees",
+      "description": "Experts and modes defined per organisation.",
+      "detail": "Each organisation configures its committee's answer modes and sets one as the default; when there is more than one, the professional chooses between them in the chat."
+    },
+    "review": {
+      "title": "Review before publication",
+      "description": "Changes are reviewed before they enter the corpus.",
+      "detail": "A new document or an update is reviewed and approved before it is published, so nothing reaches the answers unchecked."
+    },
+    "versions": {
+      "title": "Corpus versions",
+      "description": "Every change is logged and versioned.",
+      "detail": "The corpus keeps its history: what changed, when and in which documents, so you can reconstruct what each answer was based on."
+    },
+    "control": {
+      "title": "Control questions",
+      "description": "Question sets that detect whether answers degrade.",
+      "detail": "A set of questions with reference answers is rerun after every change and flags those that get worse compared with the previous version."
+    },
+    "rating": {
+      "title": "Professional feedback",
+      "description": "Useful or not useful, with a comment for review.",
+      "detail": "Each professional marks an answer as useful or not useful and adds a comment, which goes to the editorial team for review."
+    },
+    "brand": {
+      "title": "Your own brand and domain",
+      "description": "Access with the organisation's design.",
+      "detail": "The platform appears with the organisation's logo, colours and domain."
+    }
+  },
+  "group": {
+    "eyebrow": "Features"
+  },
+  "highlights": {
+    "eyebrow": "Platform",
+    "title": "Our main<br></br><accent>features.</accent>",
+    "lead": "We offer you {count} features built around your daily work: consulting with your team, checking every source and keeping your organisation's knowledge up to date. These are some of the main ones.",
+    "cta": "See all features"
+  },
+  "intro": {
+    "eyebrow": "Platform · Features",
+    "title": "Everything<br></br><accent>the platform offers.</accent>",
+    "lead": "What is worth checking before you bring it to your organisation: where each answer comes from, who decides which documents it consults and how its quality is monitored over time.",
+    "cta": "Explore features"
+  },
+  "filterBar": {
+    "title": "Features",
+    "groupSelect": "Go to group",
+    "noun": {
+      "one": "feature",
+      "other": "features"
+    },
+    "groupsNav": "Feature groups",
+    "pillLabel": "{label}: {count, plural, one {# feature} other {# features}}",
+    "search": "Search features"
+  },
+  "overview": {
+    "sections": {
+      "intro": "Introduction",
+      "features": "Features"
+    },
+    "featuresLabel": "Features",
+    "empty": {
+      "title": "No features found.",
+      "body": "Try another search or <link>ask us directly</link>."
+    }
+  }
+}

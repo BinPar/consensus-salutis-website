@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar, Clock, ArrowLeft } from "lucide-react";
+import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
 import { BlogCover } from "~/app/_components/blog-cover";
 import { ProductSignalLeft } from "~/app/_components/product-signal-left";
@@ -27,6 +28,7 @@ export function ArticleLab({
   direction?: ArticleDirection;
   posts?: BlogPost[];
 }) {
+  const tAuthors = useTranslations("blog.authors");
   if (!post)
     return (
       <main
@@ -89,7 +91,7 @@ export function ArticleLab({
                     </span>
                     <span className="text-slate-500 dark:text-slate-500">
                       {" · "}
-                      {post.author.role}
+                      {tAuthors(`${post.author.id}.role`)}
                     </span>
                   </p>
                   <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm font-medium text-slate-500 dark:text-slate-400">

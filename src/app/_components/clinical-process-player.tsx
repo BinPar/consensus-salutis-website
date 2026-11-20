@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion, type MotionValue } from "framer-motion";
 import { Pause, Play, RotateCcw } from "lucide-react";
+import { useTranslations } from "next-intl";
 import {
   useEffect,
   useId,
@@ -40,6 +41,7 @@ export function ClinicalProcessPlayer({
   stages: readonly ProcessStage[];
   homePresentation?: boolean;
 }) {
+  const t = useTranslations("clinical.player");
   const titleId = useId();
   const frame = useRef<HTMLDivElement>(null);
   const section = useRef<HTMLElement>(null);
@@ -250,7 +252,7 @@ export function ClinicalProcessPlayer({
       style={{ opacity: painted || reduced ? 1 : 0 }}
     >
       <h2 id={titleId} className="sr-only">
-        De la pregunta a la evidencia.
+        {t("title")}
       </h2>
       <div className="grid items-start gap-8 lg:grid-cols-3 lg:gap-12">
         <div className="min-w-0 lg:flex lg:h-[482px] lg:flex-col">
@@ -305,7 +307,7 @@ export function ClinicalProcessPlayer({
             data-playing={
               painted && visible && tabVisible && !paused && !reduced
             }
-            className={`shadow-big-blocks @container relative isolate h-[482px] overflow-hidden rounded-3xl border border-cyan-800/15 bg-white/80 backdrop-blur-sm dark:border-primary-dark/15 dark:bg-[#06111f] ${homePresentation ? "w-full" : ""}`}
+            className={`shadow-big-blocks dark:border-primary-dark/15 @container relative isolate h-[482px] overflow-hidden rounded-3xl border border-cyan-800/15 bg-white/80 backdrop-blur-sm dark:bg-[#06111f] ${homePresentation ? "w-full" : ""}`}
           >
             <div
               aria-hidden="true"
@@ -347,8 +349,8 @@ export function PlaybackControls({
   onSpeedChange,
   onTogglePause,
   onRestart,
-  navigationLabel = "Etapas de la consulta",
-  playbackLabel = "recorrido",
+  navigationLabel,
+  playbackLabel,
   unit = "etapa",
   className = "",
 }: {
@@ -367,13 +369,20 @@ export function PlaybackControls({
   unit?: "etapa" | "capa";
   className?: string;
 }) {
+  const t = useTranslations("clinical.player.controls");
   const nextSpeed = speed === 1 ? 1.5 : speed === 1.5 ? 2 : 1;
+  const target = playbackLabel ?? t("playbackTarget");
+  // Como texto: ICU formatearía el número con coma decimal ("1,5").
+  const speeds = { speed: String(speed), next: String(nextSpeed) };
   return (
     <div
       className={`font-body mt-6 shrink-0 text-xs text-slate-500 dark:text-slate-400 ${className}`}
     >
       <div className="flex items-center justify-between gap-2 pb-1.5">
-        <nav aria-label={navigationLabel} className="shrink-0">
+        <nav
+          aria-label={navigationLabel ?? t("navigation")}
+          className="shrink-0"
+        >
           <ol className="flex items-center gap-0.5 xl:gap-1">
             {steps.map((item, itemIndex) => (
               <li key={item.number}>
@@ -407,8 +416,8 @@ export function PlaybackControls({
             <button
               type="button"
               onClick={() => onSpeedChange(nextSpeed)}
-              aria-label={`Velocidad ×${speed}. Cambiar a ×${nextSpeed}`}
-              title={`Velocidad ×${speed} · Cambiar a ×${nextSpeed}`}
+              aria-label={t("speed", speeds)}
+              title={t("speedTitle", speeds)}
               className="font-display bg-primary-light/10 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark hover:bg-primary-light/15 dark:hover:bg-primary-dark/15 grid size-8 place-items-center rounded-full text-[11px] font-semibold tabular-nums focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-700"
             >
               ×{speed}
@@ -419,12 +428,8 @@ export function PlaybackControls({
               type="button"
               onClick={onTogglePause}
               aria-pressed={paused}
-              aria-label={
-                paused
-                  ? `Reproducir ${playbackLabel}`
-                  : `Pausar ${playbackLabel}`
-              }
-              title={paused ? "Reproducir" : "Pausar"}
+              aria-label={t(paused ? "play" : "pause", { target })}
+              title={t(paused ? "playTitle" : "pauseTitle")}
               className="bg-primary-light/10 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark hover:bg-primary-light/15 dark:hover:bg-primary-dark/15 grid size-8 place-items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-700"
             >
               {paused ? (
@@ -438,8 +443,10 @@ export function PlaybackControls({
             <button
               type="button"
               onClick={onRestart}
-              aria-label={`Reiniciar animación de la ${unit} ${steps[index]!.number}`}
-              title="Reiniciar escena actual"
+              aria-label={t(`restart.${unit}`, {
+                number: steps[index]!.number,
+              })}
+              title={t("restartTitle")}
               className="bg-primary-light/10 text-primary-light dark:bg-primary-dark/10 dark:text-primary-dark hover:bg-primary-light/15 dark:hover:bg-primary-dark/15 grid size-8 place-items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-700"
             >
               <RotateCcw size={16} strokeWidth={1.1} />

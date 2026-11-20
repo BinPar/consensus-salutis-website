@@ -1,0 +1,42 @@
+{
+  "section": {
+    "label": "Producto"
+  },
+  "heading": {
+    "eyebrow": "Producto · Tres capacidades, un sistema",
+    "titleLead": "Tres capacidades.",
+    "titleAccent": "Una sola arquitectura.",
+    "description": "Un producto sólido se construye en profundidad. Tres capas complementarias sostienen la misma experiencia clínica."
+  },
+  "pillars": {
+    "binpar": {
+      "name": "BinPar",
+      "role": "Producto e ingeniería",
+      "detail": "Más de 15 años desarrollando software sanitario. Una capa de ingeniería que controla el ciclo de cada respuesta y conecta el conocimiento con la práctica clínica."
+    },
+    "panamericana": {
+      "name": "Editorial Médica Panamericana",
+      "role": "Conocimiento clínico",
+      "detail": "Más de 70 años de experiencia editorial y más de 3 TB de conocimiento médico. Contenidos revisados que dan profundidad y contexto a la consulta."
+    },
+    "aws": {
+      "name": "AWS",
+      "role": "Infraestructura resiliente",
+      "detail": "Una arquitectura cloud native preparada para operar con continuidad, observabilidad y cumplimiento. La infraestructura acompaña el crecimiento y las necesidades de cada organización."
+    }
+  },
+  "details": {
+    "layer": "Capa {number} / 03",
+    "navigation": "Escenas de las capas del producto",
+    "playback": "escena de capas"
+  },
+  "graphic": {
+    "label": "Arquitectura del producto: gráfico rotable",
+    "instructions": "Arrastra para girar e inclinar. Mayús y flechas giran el gráfico. Izquierda y derecha seleccionan capas.",
+    "layers": "Capas de la arquitectura del producto",
+    "layer": "Capa {number}: {role}",
+    "systemTitle": "BINPAR / SISTEMA INTEGRADO",
+    "reset": "Recuperar vista inicial del gráfico",
+    "resetTitle": "Recuperar vista inicial"
+  }
+}

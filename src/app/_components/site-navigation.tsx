@@ -1,12 +1,14 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+
+import { Link, usePathname } from "~/i18n/navigation";
+import type { StaticPathname } from "~/i18n/routing";
 
 import { NavigationDropdown, type NavigationLink } from "./navigation-dropdown";
 
 export type NavigationItem = {
-  href: string;
+  href: StaticPathname;
   label: string;
   disabled?: boolean;
   /** Subpages, listed in a dropdown next to the entry. */
@@ -26,10 +28,11 @@ export function SiteNavigation({
   items: readonly NavigationItem[];
 }) {
   const pathname = usePathname();
+  const t = useTranslations("layout.navigation");
 
   return (
     <nav
-      aria-label="Navegación principal"
+      aria-label={t("main")}
       className="hidden items-center gap-2 text-xs font-medium text-slate-600 md:flex md:justify-self-center lg:gap-7 lg:text-sm dark:text-slate-400"
     >
       {items.map((item) => {

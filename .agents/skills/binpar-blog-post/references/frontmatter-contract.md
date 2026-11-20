@@ -18,8 +18,9 @@ publicarse mal.
 | `tags` | array de string | sí, ≥1 | 2–4 en la práctica. Ver `tag-vocabulary.md` |
 | `image` | ruta absoluta | no | Empieza por `/` y el fichero tiene que existir en `public/`. El test lo comprueba |
 | `imageAlt` | string | sí **si** hay `image` | Descriptivo, no el título repetido |
-| `readTime` | entero > 0 | no | Minutos. **No lo escribas**: el loader lo calcula a 210 palabras/minuto. Solo para forzar un valor, y no hay motivo |
+| `readTime` | entero > 0 | no | Minutos. **No lo escribas**: el loader lo calcula (210 palabras/minuto en castellano, 230 en inglés). Solo para forzar un valor, y no hay motivo |
 | `draft` | boolean | no (`false`) | Siempre `true` al crear. Lo quita una persona |
+| `translationKey` | slug | **solo en traducciones** | En un post de `src/content/blog/<idioma>/` distinto de `es/`: el slug del original en castellano. Enlaza las versiones para el hreflang. Obligatorio ahí y prohibido en `es/`; el test comprueba que el original existe |
 
 ## Ejemplo mínimo
 

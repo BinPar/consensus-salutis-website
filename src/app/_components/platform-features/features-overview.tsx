@@ -1,7 +1,9 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef } from "react";
+
+import { Link } from "~/i18n/navigation";
 
 import { HomeMotionBackground } from "../motion-system";
 import { SectionNavigation } from "../section-navigation";
@@ -13,18 +15,18 @@ import { useFeatureSearch } from "./use-feature-search";
 /** Height of the fixed site header, as the features bar assumes it. */
 const headerHeight = 64;
 
-/** The side index covers the page as a whole; the features bar covers the groups. */
-const pageSections = [
-  { id: "introduccion", label: "Introducción" },
-  { id: "funcionalidades", label: "Funcionalidades" },
-];
-
 /**
  * /plataforma/funcionalidades: an entry section and, under it, every feature
  * group of the platform with the same sticky bar (group pills and search) as
  * the features zone of /plataforma.
  */
 export function FeaturesOverview() {
+  const t = useTranslations("features.overview");
+  /** The side index covers the page as a whole; the features bar covers the groups. */
+  const pageSections = [
+    { id: "introduccion", label: t("sections.intro") },
+    { id: "funcionalidades", label: t("sections.features") },
+  ];
   const { query, setQuery, searchTerm, groups, entries } = useFeatureSearch();
   const featuresRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
@@ -54,7 +56,7 @@ export function FeaturesOverview() {
           id="funcionalidades"
           tabIndex={-1}
           data-section-anchor
-          aria-label="Funcionalidades"
+          aria-label={t("featuresLabel")}
           className="relative"
         >
           <FeatureFilterBar
@@ -69,17 +71,19 @@ export function FeaturesOverview() {
               className="section-navigation-inset font-body relative z-30 px-5 py-16 text-center sm:px-8 lg:px-10"
             >
               <p className="text-navy text-base font-medium dark:text-slate-100">
-                No se han encontrado funcionalidades.
+                {t("empty.title")}
               </p>
               <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">
-                Prueba con otra búsqueda o{" "}
-                <Link
-                  href="/contacto"
-                  className="text-primary-light dark:text-primary-dark font-semibold underline-offset-4 hover:underline"
-                >
-                  pregúntanos directamente
-                </Link>
-                .
+                {t.rich("empty.body", {
+                  link: (chunks) => (
+                    <Link
+                      href="/contacto"
+                      className="text-primary-light dark:text-primary-dark font-semibold underline-offset-4 hover:underline"
+                    >
+                      {chunks}
+                    </Link>
+                  ),
+                })}
               </p>
             </div>
           )}
