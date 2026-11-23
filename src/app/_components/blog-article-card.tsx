@@ -1,8 +1,7 @@
-import Image from "next/image";
-
 import { BlogCover } from "~/app/_components/blog-cover";
 import { Link } from "~/i18n/navigation";
 import type { BlogPost } from "~/lib/blog";
+import { BlogCoverImage } from "~/app/_components/blog/blog-cover-image";
 
 export function BlogArticleCard({
   article,
@@ -19,8 +18,9 @@ export function BlogArticleCard({
         <div className="relative aspect-[1.85] overflow-hidden rounded-2xl bg-[#e5f1f4] dark:bg-[#102231]">
           <div className="absolute inset-0 transition-transform duration-500 ease-out group-focus-within:scale-[1.03] group-hover:scale-[1.03] motion-reduce:scale-100! motion-reduce:transition-none">
             {article.image ? (
-              <Image
+              <BlogCoverImage
                 src={article.image}
+                lightSrc={article.imageLight}
                 alt=""
                 width={800}
                 height={533}

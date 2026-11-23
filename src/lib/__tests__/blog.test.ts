@@ -147,6 +147,11 @@ describe("contenido real del blog", () => {
           fs.existsSync(path.join(process.cwd(), "public", post.image!)),
           `${post.image} no existe en public/`,
         ).toBe(true);
+        // el tema es una clase en <html>: sin gemelo, la portada no cambia con el modo
+        expect(
+          post.imageLight,
+          `${post.image}: falta el gemelo claro (<portada>.light.webp)`,
+        ).toBeTruthy();
       });
   });
 

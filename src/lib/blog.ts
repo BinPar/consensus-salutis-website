@@ -117,6 +117,15 @@ const frontmatterSchema = z
     }
   });
 
+/* El tema es una clase en `<html>`: la portada clara se detecta aquí y el componente pinta las dos. */
+function lightCoverSrc(image: string): string | null {
+  const light = image.replace(/(\.[a-z0-9]+)$/i, ".light$1");
+  if (light === image) return null;
+  return fs.existsSync(path.join(process.cwd(), "public", light))
+    ? light
+    : null;
+}
+
 export type BlogFrontmatter = z.infer<typeof frontmatterSchema>;
 
 export type BlogPostData = {
@@ -137,6 +146,8 @@ export type BlogPostData = {
   /* Las mismas etiquetas como las escribió el autor, para pintarlas. */
   tagLabels: string[];
   image: string | null;
+  /* Gemelo de tema claro (`<portada>.light.<ext>`), si existe en `public/`. */
+  imageLight: string | null;
   imageAlt: string | null;
   draft: boolean;
   wordCount: number;
@@ -292,6 +303,7 @@ export function parseBlogPost(
     tags,
     tagLabels,
     image: frontmatter.image ?? null,
+    imageLight: frontmatter.image ? lightCoverSrc(frontmatter.image) : null,
     imageAlt: frontmatter.imageAlt ?? null,
     draft: frontmatter.draft,
     wordCount,
