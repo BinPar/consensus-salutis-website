@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600" role="img" aria-labelledby="t d" font-family="Sora, ui-sans-serif, system-ui, sans-serif">
+<title id="t">Lau arrazoi eta lau baldintza</title><desc id="d">Bi zutabe aurrez aurre. Ezkerrean, aipu batek balioa galtzeko lau arrazoiak: lan-ordena, testuingurua, falta den datua eta bertsioa. Eskuinean, bakoitza saihesten duen baldintza.</desc>
+<defs>
+<pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse"><path d="M44 0H0V44" fill="none" stroke="rgba(0,109,121,0.051)" stroke-width="1"/></pattern>
+<marker id="a" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L12 6L0 12z" fill="#006D79"/></marker>
+<marker id="al" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L12 6L0 12z" fill="#E8B400"/></marker>
+<radialGradient id="glow" cx="0.85" cy="0.1" r="0.6"><stop offset="0" stop-color="rgba(0,109,121,0.085)"/><stop offset="1" stop-color="rgba(0,109,121,0.0)"/></radialGradient>
+</defs>
+<rect width="1200" height="600" fill="#F4F9FC"/><rect width="1200" height="600" fill="url(#grid)"/><rect width="1200" height="600" fill="url(#glow)"/>
+<text x="40" y="64" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="700" fill="#006D79" letter-spacing="1.5">ZERGATIK HUTS EGITEN DU AIPU BATEK</text>
+<text x="660" y="64" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="700" fill="#006D79" letter-spacing="1.5">ZERK SAIHESTEN DU</text>
+<rect x="40" y="92" width="500" height="104" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<text x="72" y="132" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="15" font-weight="700" fill="#006D79" letter-spacing="1.5">ORDENA</text>
+<text x="72" y="168" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#05215E">Testua lehenik, aipuak gero</text>
+<path d="M548 144 H652" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="660" y="92" width="500" height="104" rx="16" fill="rgba(0,109,121,0.102)" stroke="#006D79" stroke-width="2"/>
+<text x="692" y="153" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#006D79">Aipurik gabekoa kendu egiten da</text>
+<rect x="40" y="216" width="500" height="104" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<text x="72" y="256" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="15" font-weight="700" fill="#006D79" letter-spacing="1.5">TESTUINGURUA</text>
+<text x="72" y="292" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#05215E">Araua, orrietan sakabanatuta</text>
+<path d="M548 268 H652" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="660" y="216" width="500" height="104" rx="16" fill="rgba(0,109,121,0.102)" stroke="#006D79" stroke-width="2"/>
+<text x="692" y="277" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#006D79">Espezialitate bakoitza, bere corpus osoa</text>
+<rect x="40" y="340" width="500" height="104" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<text x="72" y="380" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="15" font-weight="700" fill="#006D79" letter-spacing="1.5">DATUA</text>
+<text x="72" y="416" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#05215E">Kasuak bereizteko datua falta da</text>
+<path d="M548 392 H652" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="660" y="340" width="500" height="104" rx="16" fill="rgba(0,109,121,0.102)" stroke="#006D79" stroke-width="2"/>
+<text x="692" y="401" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#006D79">Erantzun aurretik galdetzen da</text>
+<rect x="40" y="464" width="500" height="104" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<text x="72" y="504" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="15" font-weight="700" fill="#006D79" letter-spacing="1.5">BERTSIOA</text>
+<text x="72" y="540" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#05215E">Edizio okerraren aipua</text>
+<path d="M548 516 H652" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="660" y="464" width="500" height="104" rx="16" fill="rgba(0,109,121,0.102)" stroke="#006D79" stroke-width="2"/>
+<text x="692" y="525" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#006D79">Profesionalaren zentroko bertsioa</text>
+</svg>

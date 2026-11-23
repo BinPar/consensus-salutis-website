@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600" role="img" aria-labelledby="t d" font-family="Sora, ui-sans-serif, system-ui, sans-serif">
+<title id="t">Las capas del conocimiento de una organización</title><desc id="d">Tres planos apilados: la base común de guías y manuales, la capa propia de la organización y, encima, la adaptación del centro, que hereda de las capas inferiores y añade, corrige o retira. Al publicar, la capa se compila en una versión nueva y los centros que dependen de ella se actualizan.</desc>
+<defs>
+<pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse"><path d="M44 0H0V44" fill="none" stroke="rgba(0,109,121,0.051)" stroke-width="1"/></pattern>
+<marker id="a" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L12 6L0 12z" fill="#006D79"/></marker>
+<marker id="al" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L12 6L0 12z" fill="#E8B400"/></marker>
+<radialGradient id="glow" cx="0.85" cy="0.1" r="0.6"><stop offset="0" stop-color="rgba(0,109,121,0.085)"/><stop offset="1" stop-color="rgba(0,109,121,0.0)"/></radialGradient>
+</defs>
+<rect width="1200" height="600" fill="#F4F9FC"/><rect width="1200" height="600" fill="url(#grid)"/><rect width="1200" height="600" fill="url(#glow)"/>
+<path d="M50 460 V476 L270 536 L490 476 V460 L270 520 Z" fill="rgba(0,109,121,0.06)" stroke="rgba(0,109,121,0.297)" stroke-width="1.5"/>
+<path d="M50 460 L270 400 L490 460 L270 520 Z" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<rect x="204" y="446" width="26" height="12" rx="3" fill="rgba(0,109,121,0.153)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<rect x="238" y="446" width="26" height="12" rx="3" fill="rgba(0,109,121,0.221)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<rect x="272" y="446" width="26" height="12" rx="3" fill="rgba(0,109,121,0.289)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<rect x="306" y="446" width="26" height="12" rx="3" fill="rgba(0,109,121,0.153)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<rect x="174" y="464" width="26" height="12" rx="3" fill="rgba(0,109,121,0.221)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<rect x="208" y="464" width="26" height="12" rx="3" fill="rgba(0,109,121,0.289)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<rect x="242" y="464" width="26" height="12" rx="3" fill="rgba(0,109,121,0.153)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<rect x="276" y="464" width="26" height="12" rx="3" fill="rgba(0,109,121,0.221)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<path d="M498 460 H560" fill="none" stroke="rgba(0,109,121,0.383)" stroke-width="2" stroke-dasharray="4 6"/>
+<circle cx="490" cy="460" r="5" fill="#006D79"/>
+<text x="580" y="452" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="24" font-weight="600" fill="#05215E">Base común</text>
+<text x="580" y="482" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">guías y manuales</text>
+<path d="M50 310 V326 L270 386 L490 326 V310 L270 370 Z" fill="rgba(0,109,121,0.06)" stroke="rgba(0,109,121,0.297)" stroke-width="1.5"/>
+<path d="M50 310 L270 250 L490 310 L270 370 Z" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<rect x="204" y="296" width="26" height="12" rx="3" fill="rgba(0,109,121,0.153)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<rect x="238" y="296" width="26" height="12" rx="3" fill="rgba(0,109,121,0.221)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<rect x="272" y="296" width="26" height="12" rx="3" fill="rgba(0,109,121,0.289)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<rect x="306" y="296" width="26" height="12" rx="3" fill="rgba(0,109,121,0.153)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<rect x="174" y="314" width="26" height="12" rx="3" fill="rgba(0,109,121,0.221)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<rect x="208" y="314" width="26" height="12" rx="3" fill="rgba(0,109,121,0.289)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<rect x="242" y="314" width="26" height="12" rx="3" fill="rgba(0,109,121,0.153)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<rect x="276" y="314" width="26" height="12" rx="3" fill="rgba(0,109,121,0.221)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<path d="M498 310 H560" fill="none" stroke="rgba(0,109,121,0.383)" stroke-width="2" stroke-dasharray="4 6"/>
+<circle cx="490" cy="310" r="5" fill="#006D79"/>
+<text x="580" y="302" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="24" font-weight="600" fill="#05215E">Organización</text>
+<text x="580" y="332" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">su capa propia; lo local</text>
+<text x="580" y="354" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">prevalece y se marca</text>
+<path d="M50 160 V176 L270 236 L490 176 V160 L270 220 Z" fill="rgba(0,109,121,0.06)" stroke="rgba(0,109,121,0.297)" stroke-width="1.5"/>
+<path d="M50 160 L270 100 L490 160 L270 220 Z" fill="rgba(0,109,121,0.119)" stroke="#006D79" stroke-width="2"/>
+<rect x="204" y="146" width="26" height="12" rx="3" fill="rgba(0,109,121,0.153)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<rect x="238" y="146" width="26" height="12" rx="3" fill="rgba(0,109,121,0.221)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<rect x="272" y="146" width="26" height="12" rx="3" fill="rgba(0,109,121,0.289)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<rect x="306" y="146" width="26" height="12" rx="3" fill="rgba(0,109,121,0.153)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<rect x="174" y="164" width="26" height="12" rx="3" fill="rgba(0,109,121,0.221)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<rect x="208" y="164" width="26" height="12" rx="3" fill="rgba(0,109,121,0.289)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<rect x="242" y="164" width="26" height="12" rx="3" fill="rgba(0,109,121,0.153)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<rect x="276" y="164" width="26" height="12" rx="3" fill="rgba(0,109,121,0.221)" stroke="rgba(0,109,121,0.51)" stroke-width="1"/>
+<path d="M498 160 H560" fill="none" stroke="rgba(0,109,121,0.383)" stroke-width="2" stroke-dasharray="4 6"/>
+<circle cx="490" cy="160" r="5" fill="#006D79"/>
+<text x="580" y="152" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="24" font-weight="600" fill="#006D79">Centro</text>
+<text x="580" y="182" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">añade, corrige o retira</text>
+<text x="580" y="204" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">lo que hereda</text>
+<path d="M30 440 V200" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#a)"/>
+<text x="18" y="320" transform="rotate(-90 18 320)" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="15" font-weight="700" fill="#006D79" letter-spacing="1.5">HEREDA</text>
+<rect x="900" y="230" width="260" height="160" rx="16" fill="rgba(0,109,121,0.102)" stroke="#006D79" stroke-width="2"/>
+<text x="1030" y="268" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="15" font-weight="700" fill="#006D79" letter-spacing="1.5">AL PUBLICAR</text>
+<text x="1030" y="304" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="24" font-weight="600" fill="#006D79">Versión nueva</text>
+<text x="1030" y="338" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">y los centros que</text>
+<text x="1030" y="361" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">dependen se actualizan</text>
+<path d="M840 160 V460" fill="none" stroke="rgba(0,109,121,0.383)" stroke-width="2"/>
+<path d="M828 160 H840" fill="none" stroke="rgba(0,109,121,0.383)" stroke-width="2"/>
+<path d="M828 310 H840" fill="none" stroke="rgba(0,109,121,0.383)" stroke-width="2"/>
+<path d="M828 460 H840" fill="none" stroke="rgba(0,109,121,0.383)" stroke-width="2"/>
+<path d="M840 310 H894" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+</svg>

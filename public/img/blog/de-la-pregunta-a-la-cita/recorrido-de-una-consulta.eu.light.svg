@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" width="1200" height="620" role="img" aria-labelledby="t d" font-family="Sora, ui-sans-serif, system-ui, sans-serif">
+<title id="t">Kontsulta baten ibilbidea txat klinikoan</title><desc id="d">Galdera ebidentzia-mapa batetik igarotzen da, eta mapak Endokrinologia eta Nutrizioaren, Nefrologiaren eta Farmakologiaren artean banatzen du; bakoitzak bere corpus osoa erabiltzen du. Datu bat falta bada, erantzun aurretik galdetzen da. Erantzunak baieztapen bakoitza bere unitatearekin lotzen du, eta aipu bakoitzak pasartea irekitzen du bere iturrian.</desc>
+<defs>
+<pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse"><path d="M44 0H0V44" fill="none" stroke="rgba(0,109,121,0.051)" stroke-width="1"/></pattern>
+<marker id="a" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L12 6L0 12z" fill="#006D79"/></marker>
+<marker id="al" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L12 6L0 12z" fill="#E8B400"/></marker>
+<radialGradient id="glow" cx="0.85" cy="0.1" r="0.6"><stop offset="0" stop-color="rgba(0,109,121,0.085)"/><stop offset="1" stop-color="rgba(0,109,121,0.0)"/></radialGradient>
+</defs>
+<rect width="1200" height="620" fill="#F4F9FC"/><rect width="1200" height="620" fill="url(#grid)"/><rect width="1200" height="620" fill="url(#glow)"/>
+<path d="M220 360 H286" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<path d="M470 360 C513.0 360 513.0 190 556 190" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<path d="M800 190 C833.0 190 833.0 300 866 300" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<path d="M470 360 C513.0 360 513.0 345 556 345" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<path d="M800 345 C833.0 345 833.0 300 866 300" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<path d="M470 360 C513.0 360 513.0 500 556 500" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<path d="M800 500 C833.0 500 833.0 300 866 300" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<path d="M1020 380 V446" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<path d="M680 132 V100 H476" fill="none" stroke="#E8B400" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#al)"/>
+<path d="M290 70 H130 V286" fill="none" stroke="#E8B400" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#al)"/>
+<rect x="40" y="285" width="180" height="150" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<text x="130" y="342" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="26" font-weight="600" fill="#05215E">Galdera</text>
+<text x="130" y="380" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="400" fill="#45556C">profilarekin eta</text>
+<text x="130" y="403" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="400" fill="#45556C">testuinguruarekin</text>
+<rect x="290" y="270" width="180" height="180" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<text x="380" y="320" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="24" font-weight="600" fill="#05215E">Ebidentzia-</text>
+<text x="380" y="350" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="24" font-weight="600" fill="#05215E">mapa</text>
+<text x="380" y="398" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="400" fill="#45556C">espezialitateak</text>
+<text x="380" y="421" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="400" fill="#45556C">eta atalak</text>
+<rect x="290" y="30" width="186" height="108" rx="16" fill="rgba(255,210,48,0.18)" stroke="#FFD230" stroke-width="2"/>
+<text x="383" y="60" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="15" font-weight="700" fill="#06111F" letter-spacing="1.5">DATU BAT FALTA DA</text>
+<text x="383" y="92" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="20" font-weight="600" fill="#05215E">Aurretiko galdera</text>
+<text x="383" y="120" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="400" fill="#45556C">aukera itxiekin</text>
+<text x="680" y="168" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="1" font-weight="400" fill="#45556C"></text>
+<rect x="560" y="140" width="240" height="100" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<text x="680" y="184" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#05215E">Endokrinologia</text>
+<text x="680" y="212" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#05215E">eta Nutrizioa</text>
+<rect x="560" y="295" width="240" height="100" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<text x="680" y="353" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#05215E">Nefrologia</text>
+<rect x="560" y="450" width="240" height="100" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<text x="680" y="508" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#05215E">Farmakologia</text>
+<text x="680" y="568" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="700" fill="#006D79" letter-spacing="1.5">CORPUS OSOA</text>
+<rect x="870" y="220" width="290" height="160" rx="16" fill="rgba(0,109,121,0.102)" stroke="#006D79" stroke-width="2"/>
+<text x="1015" y="270" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="26" font-weight="600" fill="#006D79">Erantzuna</text>
+<text x="1015" y="310" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="400" fill="#45556C">baieztapenak, bere unitatera</text>
+<text x="1015" y="338" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="400" fill="#45556C">aipurik gabekoak, kanpora</text>
+<rect x="870" y="450" width="290" height="120" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<text x="1015" y="500" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#05215E">Pasartea bere iturrian</text>
+<text x="1015" y="534" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">jatorrizko orrian nabarmenduta</text>
+</svg>
