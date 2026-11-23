@@ -1,0 +1,90 @@
+---
+title: "Del PDF al corpus. Res no es publica sense revisió."
+excerpt: "Quins controls necessita una guia clínica des que es puja el document fins que una resposta la pot citar."
+date: 2026-11-23
+author: equipo-consensus-salutis
+type: mecanismo
+tags: ["Govern del coneixement", "Corpus viu", "Traçabilitat"]
+image: /img/blog/del-pdf-al-corpus.webp
+imageAlt: "Pila de pàgines translúcides amb línies de text i una taula, de la qual surt una línia turquesa que es desdobla en dos fils units per punts de control i desemboca en tres plans apilats plens de blocs ordenats"
+draft: false
+translationKey: del-pdf-al-corpus
+---
+
+Que una guia estigui «pujada» no diu si es pot citar. En una bateria de proves amb guies reals de dos serveis de salut, l’extracció de text d’una guia de codi infart va acabar sense errors i va convertir «depressió del ST en 6 o més derivacions» en «8 o més». En un altre document, els terminis d’un circuit d’atenció a les caigudes només existien dins d’una infografia, i l’extracció va retornar el text del voltant sense ells.
+
+Cap dels dos errors no va interrompre la càrrega ni va generar cap avís. El document constava com a processat, i una resposta construïda a partir d’ell hauria citat una font real que diu una altra cosa. La cita seria correcta en la forma i errònia en la dada, i aquest error no es veu des de la resposta: només apareix en obrir la pàgina original. El vídeo recorre el camí que segueix una guia des que es puja fins que una resposta la pot citar.
+
+<figure>
+  <video controls preload="metadata" playsInline width="1920" height="1080" poster="/video/blog/del-pdf-al-corpus/ingesta.jpg" aria-label="Vídeo: recorregut d’una guia clínica des de la pujada del document fins a la publicació al corpus, amb revisió humana a cada pas">
+    <source src="/video/blog/del-pdf-al-corpus/ingesta.mp4" type="video/mp4" />
+    <track kind="captions" srcLang="ca" label="Català" src="/video/blog/del-pdf-al-corpus/ingesta.ca.vtt" default />
+    <track kind="captions" srcLang="es" label="Español" src="/video/blog/del-pdf-al-corpus/ingesta.vtt" />
+  </video>
+  <figcaption>Pantalles de la plataforma en producció, enregistrades l’octubre de 2026. El nom del centre i el de l’organització s’han substituït per genèrics, i la pàgina del PDF apareix desenfocada (2 min 35 s). Narració en castellà, amb subtítols en català.</figcaption>
+</figure>
+
+## Per què la càrrega falla sense avisar
+
+Un PDF és un contenidor, no un text. A dins hi pot haver una capa de text neta, un escaneig de secretaria, una taula maquetada com a imatge o un algoritme sencer aplanat en un cartell. Que l’extracció acabi només vol dir que s’ha obtingut text, no que aquest text sigui fidel a la pàgina.
+
+A més, el contingut ha d’arribar a l’especialitat que el consultarà. Una posologia que acaba al corpus de Cardiologia en lloc del de Farmacologia existeix, però no apareix quan algú pregunta per la dosi.
+
+El coneixement d’una organització també està en capes. Hi ha una base comuna de guies i manuals, una capa pròpia de cada organització i, de vegades, una adaptació de cada centre que afegeix, corregeix o retira el que hereta. Si una edició nova no declara quina edició substitueix, totes dues conviuen, i una resposta pot citar la retirada. I si l’adaptació d’un centre no queda marcada com a local, res no distingeix a la resposta la pauta del centre de la general.
+
+<figure>
+  <img src="/img/blog/del-pdf-al-corpus/capas-del-conocimiento.ca.svg" alt="Tres plans isomètrics apilats: base comuna a baix, organització al mig i centre a dalt, amb una fletxa ascendent marcada com a hereta. A la dreta, una caixa indica que en publicar es genera una versió nova i s’actualitzen els centres que en depenen." width="1200" height="600" loading="lazy" />
+  <figcaption>Cada capa hereta de la inferior. Publicar una capa genera una versió nova i actualitza els centres que en depenen.</figcaption>
+</figure>
+
+Queda l’omissió silenciosa. Un apartat difícil de convertir, una taula llarga o una excepció en lletra petita es poden quedar fora sense que ningú ho decideixi. El corpus resultant és coherent, però li falta justament el que costa més de llegir.
+
+## Què ha de cobrir la garantia
+
+Cada causa demana un control en un moment diferent del recorregut. A BinPar aquest recorregut té quatre trams, i cap no es pot saltar.
+
+<figure>
+  <img src="/img/blog/del-pdf-al-corpus/cuatro-tramos.ca.svg" alt="Quatre columnes numerades després de la pujada: dues lectures, unitats amb cita, controls i revisió clínica, aquesta última destacada en groc, cadascuna amb les seves comprovacions. Sota les tres primeres, una franja discontínua: cada secció en una unitat o descartada amb el seu motiu." width="1200" height="620" loading="lazy" />
+  <figcaption>Els quatre trams en ordre. El groc marca el pas que decideix què es publica: la revisió clínica.</figcaption>
+</figure>
+
+### Dues lectures abans de convertir res
+
+En pujar el document es tria la capa de destinació i, si és una edició nova, quina edició substitueix. Un fitxer repetit es reconeix per la seva empremta i no es processa dues vegades. Després, el document es llegeix per dues vies independents, la seva capa de text i la imatge de cada pàgina, i les dues lectures es contrasten. On coincideixen, el text queda confirmat. On discrepen en una xifra, un signe o una unitat, la discrepància no es resol per aproximació: es presenta amb les dues versions a la vista. Una persona revisa la conversió abans que el contingut continuï endavant.
+
+### Unitats amb la seva cita exacta
+
+El contingut es destil·la en unitats breus, cadascuna unida al passatge exacte de la font i a la seva pàgina. La regla és no perdre cap dada: cada recomanació conserva la seva condició i les seves excepcions, i les llistes i les taules arriben completes. No hi entra res que no sigui a la font, i cada unitat va a l’especialitat que li correspon. A la capa d’una organització, la pauta local preval sobre la base comuna i queda marcada com a local.
+
+### Controls per unitat
+
+Cap unitat no avança sense passar els seus controls:
+
+- La cita ha d’existir a la font.
+- Cada xifra ha d’aparèixer al passatge citat.
+- No hi poden entrar dades personals.
+- Cap unitat no pot contradir en silenci una capa superior.
+
+Abans de tancar, cada secció de la font ha d’haver quedat en alguna unitat o haver-se descartat amb el seu motiu per escrit. Amb aquesta condició, una omissió ja no passa desapercebuda: el que no entra queda registrat i algú ho pot revisar.
+
+### Revisió clínica i publicació
+
+Cada especialitat afectada rep una proposta de canvis. La revisió clínica compara cada canvi paraula per paraula al costat del passatge que el sustenta i decideix si l’inclou o el descarta. Fins que algú aprova i publica, res no arriba al xat.
+
+> Cap contingut no arriba a una resposta sense que una persona l’hagi comparat abans amb la pàgina d’on surt.
+
+En publicar, el corpus d’aquella capa es compila en una versió nova i els centres que en depenen s’actualitzen. Si una proposta es queda enrere perquè la seva base ha canviat mentrestant, passa a reconciliació en lloc de publicar-se sobre una versió que ja no existeix. Cada document queda a la biblioteca amb el seu tipus, un resum del que aporta i l’ús que se’n fa a les respostes. Retirar una guia segueix el mateix camí, capa per capa i amb revisió.
+
+## El que la garantia no cobreix
+
+Per comprovar la cobertura, cada document porta una sèrie de sondes que verifiquen que les seves dades clau han arribat al corpus. A més, vam passar una bateria de 246 preguntes reals d’un servei públic de salut i vam revisar un per un els 67 errors del mode de resposta estàndard. En aquesta revisió, la classificació de la qual està pendent de validació clínica, cap no es devia a una pèrdua de la ingesta: gairebé tots corresponien a continguts que no eren a les fonts.
+
+És un senyal tècnic sobre el procés, no un resultat clínic, i en marca bé el límit. La ingesta garanteix que el que entra és fidel al document. No garanteix que la biblioteca sigui completa ni que la guia continuï vigent. Cobrir millor una pregunta vol dir incorporar la font que falta, i aquesta font entra pel mateix recorregut que les altres.
+
+Hi ha també decisions que cap control automàtic no resol. Si un calendari vacunal distingeix amb color i trama dues pautes diferents, o si una fitxa de recomanacions «no fer» conserva el seu sentit, ho decideix qui compara la unitat amb la pàgina original.
+
+Aquesta revisió té un cost, i convé assumir-lo des del principi. Cada proposta la llegeix una persona amb criteri clínic, i una biblioteca gran s’incorpora per blocs, no de cop. Escurçar aquest pas és la manera més ràpida de tenir un corpus ampli i poc fiable.
+
+## Un corpus viu es governa
+
+Les guies es reediten, els protocols del centre canvien i els documents arriben escanejats amb defectes. Un **corpus viu** no es manté amb una càrrega ben feta, sinó amb un recorregut que cada document repeteix: dues lectures, unitats amb la seva cita, controls que no admeten omissions i una revisió humana abans de publicar. Aquest recorregut és el govern del coneixement clínic a la pràctica, i és el que permet que una cita d’avui continuï apuntant al que diu la guia d’avui.

@@ -1,0 +1,162 @@
+WEBVTT
+
+00:00:02.600 --> 00:00:05.622
+This is how a clinical guideline enters BinPar:
+
+00:00:06.230 --> 00:00:09.967
+from the moment the document is uploaded
+until the chat can cite it, with human
+
+00:00:10.007 --> 00:00:11.696
+review before publishing.
+
+00:00:12.931 --> 00:00:15.102
+A PDF is not usable as it is.
+
+00:00:15.580 --> 00:00:19.262
+The chat needs the content organised
+by specialty, with each figure linked
+
+00:00:19.302 --> 00:00:20.880
+to its source page.
+
+00:00:21.172 --> 00:00:25.040
+Ingestion makes that conversion, and
+publishes nothing a person
+
+00:00:25.080 --> 00:00:26.280
+has not reviewed.
+
+00:00:26.979 --> 00:00:30.576
+Knowledge is divided among the
+committee's specialties.
+
+00:00:30.850 --> 00:00:33.335
+Each has its own corpus,
+made of units:
+
+00:00:33.683 --> 00:00:35.125
+short blocks with their exact citation.
+
+00:00:35.165 --> 00:00:37.087
+And it is organised in layers:
+
+00:00:37.127 --> 00:00:41.773
+the common base, each organisation's
+and each centre's, which adds, corrects
+
+00:00:41.813 --> 00:00:43.427
+or withdraws what it inherits.
+
+00:00:44.725 --> 00:00:48.629
+In the back office, the document is uploaded,
+the target layer is chosen and, if
+
+00:00:48.669 --> 00:00:50.802
+it is a new edition, which one it replaces.
+
+00:00:51.410 --> 00:00:53.636
+A repeated file is recognised
+by its fingerprint.
+
+00:00:54.206 --> 00:00:57.925
+The document is read twice: through its text
+layer and through the image of each
+
+00:00:57.965 --> 00:01:02.370
+page. The two readings are compared, and
+a person reviews the conversion
+
+00:01:02.410 --> 00:01:03.610
+before moving on.
+
+00:01:05.264 --> 00:01:08.175
+No unit moves forward without
+passing its checks.
+
+00:01:08.541 --> 00:01:10.397
+The citation must exist in the source.
+
+00:01:10.764 --> 00:01:13.175
+Every figure must appear
+in the cited passage.
+
+00:01:13.375 --> 00:01:15.138
+No personal data may get in.
+
+00:01:15.301 --> 00:01:18.749
+And no unit may silently
+contradict a higher layer.
+
+00:01:19.338 --> 00:01:22.909
+Before closing, every section of the source
+ends up in a unit, or is discarded
+
+00:01:22.949 --> 00:01:24.193
+with its reason in writing.
+
+00:01:25.648 --> 00:01:29.930
+On closing, each affected specialty
+receives a proposal of changes.
+
+00:01:30.407 --> 00:01:34.071
+Clinical review compares each change
+word by word, next to the passage
+
+00:01:34.111 --> 00:01:36.800
+that supports it, and either
+includes it or discards it.
+
+00:01:37.333 --> 00:01:40.041
+Until someone approves and
+publishes, nothing reaches the chat.
+
+00:01:41.435 --> 00:01:45.710
+On publishing, the layer's corpus is compiled
+into a new version, and the
+
+00:01:45.750 --> 00:01:48.568
+centres that depend on it
+are updated automatically.
+
+00:01:48.898 --> 00:01:52.809
+A proposal left behind because its
+base changed goes to reconciliation.
+
+00:01:54.160 --> 00:01:58.935
+Each document stays in the library, with
+its type, what it contributes and its use
+
+00:01:58.975 --> 00:02:03.732
+in the chat. If it is no longer current,
+it is withdrawn layer by layer, also with
+
+00:02:03.772 --> 00:02:04.972
+review.
+
+00:02:05.886 --> 00:02:09.606
+To know whether everything is well covered,
+each document has probes that check
+
+00:02:09.646 --> 00:02:12.994
+that its key data reach the corpus,
+and a battery of two hundred and forty-
+
+00:02:13.034 --> 00:02:16.939
+six questions is
+run from the back office.
+
+00:02:16.979 --> 00:02:20.458
+On reviewing its failures, none
+was a loss in ingestion:
+
+00:02:20.498 --> 00:02:23.242
+almost all were due to content
+that was not in the sources.
+
+00:02:23.701 --> 00:02:27.717
+Better coverage means completing the
+library, and every new source enters
+
+00:02:27.757 --> 00:02:29.038
+by this same path.

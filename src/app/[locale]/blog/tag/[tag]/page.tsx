@@ -7,7 +7,6 @@
  */
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 
 import { BlogIndexView } from "~/app/_components/blog/blog-index-view";
@@ -31,15 +30,18 @@ type TagPageProps = {
   }>;
 };
 
-/* Las etiquetas de cada idioma: salen de sus propios posts. */
-export function generateStaticParams({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
-  if (!hasLocale(routing.locales, locale)) return [];
-
-  return getBlogTags(getBlogPosts(locale)).map((entry) => ({ tag: entry.tag }));
+/*
+  Las etiquetas de cada idioma salen de sus propios posts. Pares idioma + tag de
+  todos los idiomas por lo mismo que en `[slug]`: un idioma sin tags no puede
+  dejar sin prerenderizar a los demás.
+*/
+export function generateStaticParams() {
+  return routing.locales.flatMap((locale) =>
+    getBlogTags(getBlogPosts(locale)).map((entry) => ({
+      locale,
+      tag: entry.tag,
+    })),
+  );
 }
 
 /* Un tag que no está en el índice es 404, no una página vacía. */

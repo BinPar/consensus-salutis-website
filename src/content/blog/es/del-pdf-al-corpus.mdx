@@ -1,0 +1,88 @@
+---
+title: "Del PDF al corpus. Nada se publica sin revisión."
+excerpt: "Qué controles necesita una guía clínica entre la subida del documento y el momento en que una respuesta puede citarla."
+date: 2026-11-23
+author: equipo-consensus-salutis
+type: mecanismo
+tags: ["Gobierno del conocimiento", "Corpus vivo", "Trazabilidad"]
+image: /img/blog/del-pdf-al-corpus.webp
+imageAlt: "Pila de páginas translúcidas con líneas de texto y una tabla, de la que sale una línea turquesa que se desdobla en dos hilos unidos por puntos de control y desemboca en tres planos apilados llenos de bloques ordenados"
+draft: false
+---
+
+Que una guía esté «subida» no dice si se puede citar. En una batería de pruebas con guías reales de dos servicios de salud, la extracción de texto de una guía de código infarto terminó sin errores y convirtió «depresión del ST en 6 o más derivaciones» en «8 o más». En otro documento, los plazos de un circuito de atención a caídas solo existían dentro de una infografía, y la extracción devolvió el texto de alrededor sin ellos.
+
+Ninguno de los dos fallos interrumpió la carga ni generó un aviso. El documento constaba como procesado, y una respuesta construida sobre él habría citado una fuente real que dice otra cosa. La cita sería correcta en la forma y errónea en el dato, y ese error no se ve desde la respuesta: solo aparece al abrir la página original. El vídeo recorre el camino que sigue una guía desde que se sube hasta que una respuesta puede citarla.
+
+<figure>
+  <video controls preload="metadata" playsInline width="1920" height="1080" poster="/video/blog/del-pdf-al-corpus/ingesta.jpg" aria-label="Vídeo: recorrido de una guía clínica desde la subida del documento hasta su publicación en el corpus, con revisión humana en cada paso">
+    <source src="/video/blog/del-pdf-al-corpus/ingesta.mp4" type="video/mp4" />
+    <track kind="captions" srcLang="es" label="Español" src="/video/blog/del-pdf-al-corpus/ingesta.vtt" default />
+  </video>
+  <figcaption>Pantallas de la plataforma en producción, grabadas en octubre de 2026. El nombre del centro y el de la organización se han sustituido por genéricos, y la página del PDF aparece desenfocada (2 min 35 s).</figcaption>
+</figure>
+
+## Por qué la carga falla sin avisar
+
+Un PDF es un contenedor, no un texto. Dentro puede haber una capa de texto limpia, un escaneo de secretaría, una tabla maquetada como imagen o un algoritmo entero aplanado en un cartel. Que la extracción termine solo significa que se ha obtenido texto, no que ese texto sea fiel a la página.
+
+Además, el contenido tiene que llegar a la especialidad que lo va a consultar. Una posología que acaba en el corpus de Cardiología en lugar del de Farmacología existe, pero no aparece cuando alguien pregunta por la dosis.
+
+El conocimiento de una organización también está en capas. Hay una base común de guías y manuales, una capa propia de cada organización y, a veces, una adaptación de cada centro que añade, corrige o retira lo que hereda. Si una edición nueva no declara qué edición sustituye, las dos conviven, y una respuesta puede citar la retirada. Y si la adaptación de un centro no queda marcada como local, nada distingue en la respuesta la pauta del centro de la general.
+
+<figure>
+  <img src="/img/blog/del-pdf-al-corpus/capas-del-conocimiento.svg" alt="Tres planos isométricos apilados: base común abajo, organización en medio y centro arriba, con una flecha ascendente marcada como hereda. A la derecha, una caja indica que al publicar se genera una versión nueva y los centros que dependen de ella se actualizan." width="1200" height="600" loading="lazy" />
+  <figcaption>Cada capa hereda de la inferior. Publicar una capa genera una versión nueva y actualiza los centros que dependen de ella.</figcaption>
+</figure>
+
+Queda la omisión silenciosa. Un apartado difícil de convertir, una tabla larga o una excepción en letra pequeña pueden quedarse fuera sin que nadie lo decida. El corpus resultante es coherente, pero le falta justo lo que más cuesta leer.
+
+## Qué tiene que cubrir la garantía
+
+Cada causa pide un control en un momento distinto del recorrido. En BinPar ese recorrido tiene cuatro tramos, y ninguno se puede saltar.
+
+<figure>
+  <img src="/img/blog/del-pdf-al-corpus/cuatro-tramos.svg" alt="Cuatro columnas numeradas tras la subida: dos lecturas, unidades con cita, controles y revisión clínica, esta última destacada en amarillo, cada una con sus comprobaciones. Bajo las tres primeras, una franja discontinua: cada sección en una unidad o descartada con su motivo." width="1200" height="620" loading="lazy" />
+  <figcaption>Los cuatro tramos en orden. El amarillo marca el paso que decide qué se publica: la revisión clínica.</figcaption>
+</figure>
+
+### Dos lecturas antes de convertir nada
+
+Al subir el documento se elige la capa de destino y, si es una edición nueva, a qué edición sustituye. Un fichero repetido se reconoce por su huella y no se procesa dos veces. Después, el documento se lee por dos vías independientes, su capa de texto y la imagen de cada página, y las dos lecturas se contrastan. Donde coinciden, el texto queda confirmado. Donde discrepan en una cifra, un signo o una unidad, la discrepancia no se resuelve por aproximación: se presenta con las dos versiones a la vista. Una persona revisa la conversión antes de que el contenido siga adelante.
+
+### Unidades con su cita exacta
+
+El contenido se destila en unidades breves, cada una unida al pasaje exacto de la fuente y a su página. La regla es no perder ningún dato: cada recomendación conserva su condición y sus excepciones, y las listas y tablas llegan completas. Nada entra si no está en la fuente, y cada unidad va a la especialidad que le corresponde. En la capa de una organización, la pauta local prevalece sobre la base común y queda marcada como local.
+
+### Controles por unidad
+
+Ninguna unidad avanza sin pasar sus controles:
+
+- La cita tiene que existir en la fuente.
+- Cada cifra tiene que aparecer en el pasaje citado.
+- No pueden entrar datos personales.
+- Ninguna unidad puede contradecir en silencio a una capa superior.
+
+Antes de cerrar, cada sección de la fuente tiene que haber quedado en alguna unidad o haberse descartado con su motivo por escrito. Con esa condición, una omisión ya no pasa inadvertida: lo que no entra queda registrado y alguien puede revisarlo.
+
+### Revisión clínica y publicación
+
+Cada especialidad afectada recibe una propuesta de cambios. La revisión clínica compara cada cambio palabra por palabra junto al pasaje que lo respalda y decide si lo incluye o lo descarta. Hasta que alguien aprueba y publica, nada llega al chat.
+
+> Ningún contenido llega a una respuesta sin que una persona lo haya comparado antes con la página de la que sale.
+
+Al publicar, el corpus de esa capa se compila en una versión nueva y los centros que dependen de ella se actualizan. Si una propuesta se queda atrás porque su base cambió entretanto, pasa a reconciliación en lugar de publicarse sobre una versión que ya no existe. Cada documento queda en la biblioteca con su tipo, un resumen de lo que aporta y el uso que se hace de él en las respuestas. Retirar una guía sigue el mismo camino, capa a capa y con revisión.
+
+## Lo que la garantía no cubre
+
+Para comprobar la cobertura, cada documento lleva una serie de sondas que verifican que sus datos clave han llegado al corpus. Además, pasamos una batería de 246 preguntas reales de un servicio público de salud y revisamos uno a uno los 67 fallos del modo de respuesta estándar. En esa revisión, cuya clasificación está pendiente de validación clínica, ninguno se debía a una pérdida de la ingesta: casi todos correspondían a contenidos que no estaban en las fuentes.
+
+Es una señal técnica sobre el proceso, no un resultado clínico, y marca bien su límite. La ingesta garantiza que lo que entra es fiel al documento. No garantiza que la biblioteca esté completa ni que la guía siga vigente. Cubrir mejor una pregunta significa incorporar la fuente que falta, y esa fuente entra por el mismo recorrido que las demás.
+
+Hay también decisiones que ningún control automático resuelve. Si un calendario vacunal distingue con color y trama dos pautas distintas, o si una ficha de recomendaciones «no hacer» conserva su sentido, lo decide quien compara la unidad con la página original.
+
+Esa revisión tiene un coste, y conviene asumirlo desde el principio. Cada propuesta la lee una persona con criterio clínico, y una biblioteca grande se incorpora por bloques, no de una vez. Acortar ese paso es la forma más rápida de tener un corpus amplio y poco fiable.
+
+## Un corpus vivo se gobierna
+
+Las guías se reeditan, los protocolos del centro cambian y los documentos llegan escaneados con defectos. Un **corpus vivo** no se mantiene con una carga bien hecha, sino con un recorrido que cada documento repite: dos lecturas, unidades con su cita, controles que no admiten omisiones y una revisión humana antes de publicar. Ese recorrido es el gobierno del conocimiento clínico en la práctica, y es lo que permite que una cita de hoy siga apuntando a lo que dice la guía de hoy.
