@@ -1,0 +1,129 @@
+{
+  "meta": {
+    "index": {
+      "title": "O noso blog",
+      "description": "Lecturas recentes sobre IA médica, tendencias sanitarias e novas formas de transformar a asistencia ao paciente no sistema de saúde."
+    },
+    "tag": {
+      "title": "Artigos sobre {tag}",
+      "description": "Lecturas clínicas de BinPar etiquetadas como «{tag}».",
+      "notFound": "Etiqueta non atopada"
+    },
+    "post": {
+      "notFound": "Artigo non atopado"
+    }
+  },
+  "og": {
+    "alt": "BinPar · Lecturas clínicas",
+    "eyebrow": "Lecturas clínicas",
+    "fallbackTitle": "Lecturas clínicas"
+  },
+  "rss": {
+    "title": "BinPar · Lecturas clínicas",
+    "description": "Lecturas recentes sobre IA médica, tendencias sanitarias e novas formas de transformar a asistencia ao paciente no sistema de saúde."
+  },
+  "authors": {
+    "alberto-blanco": {
+      "role": "Dirección técnica, BinPar"
+    },
+    "equipo-consensus-salutis": {
+      "role": "Produto e evidencia clínica"
+    }
+  },
+  "post": {
+    "readTime": "{minutes} min de lectura"
+  },
+  "hero": {
+    "eyebrow": "Lecturas clínicas · Blog",
+    "title": "O coñecemento<br></br><accent>segue avanzando.</accent>",
+    "body": "Exploramos a evolución da IA médica e o seu papel na práctica clínica. Compartimos lecturas e perspectivas para comprender os avances, contrastar enfoques e achegar o coñecemento aos retos cotiáns da atención ao paciente.",
+    "cta": "Explorar artigos",
+    "latest": "Última entrada",
+    "number": "N.º {number}"
+  },
+  "featured": {
+    "prompt": "Móstrame o último artigo do blog.",
+    "placeholder": "Pregúntalle ao comité…",
+    "answering": "O comité está respondendo…",
+    "committee": "Comité clínico",
+    "articleLabel": "Último artigo do blog",
+    "readArticle": "Ler artigo: {title}"
+  },
+  "gallery": {
+    "label": "Artigos do blog",
+    "allArticles": "Todos os artigos",
+    "noResults": {
+      "title": "Non se atoparon artigos.",
+      "body": "Proba con outra busca ou cambia a etiqueta seleccionada."
+    }
+  },
+  "emptyState": {
+    "title": "Aínda non hai artigos publicados.",
+    "body": "Estamos a preparar as primeiras lecturas. Se queres que te avisemos cando publiquemos, escríbenos.",
+    "action": "Falar co equipo"
+  },
+  "tagFilter": {
+    "label": "Filtro por etiqueta",
+    "all": "Todos",
+    "entry": "{label}: {count, plural, one {# artigo} other {# artigos}}"
+  },
+  "tagSelect": {
+    "label": "Filtrar por etiqueta",
+    "noun": {
+      "one": "artigo",
+      "other": "artigos"
+    }
+  },
+  "sort": {
+    "label": "Ordenar artigos",
+    "options": {
+      "newest": "Máis recentes",
+      "oldest": "Máis antigos",
+      "title": "Título (A–Z)"
+    }
+  },
+  "viewToggle": {
+    "label": "Vista da galería",
+    "options": {
+      "grid": "Vista de fichas",
+      "list": "Vista de lista"
+    }
+  },
+  "search": {
+    "label": "Buscar artigos",
+    "placeholder": "{label}…",
+    "focus": "Enfocar busca",
+    "clear": "Pechar e limpar busca"
+  },
+  "pagination": {
+    "label": "Paxinación do blog",
+    "status": "Páxina {page} de {total}",
+    "previous": "Páxina anterior",
+    "next": "Páxina seguinte",
+    "current": "Páxina {page}, actual",
+    "goTo": "Ir á páxina {page}",
+    "pageSize": "Resultados por páxina",
+    "pageSizeValue": "Resultados por páxina: {size}",
+    "all": "Todos"
+  },
+  "list": {
+    "label": "Artigos en formato lista",
+    "number": "N.º {number}"
+  },
+  "article": {
+    "metadataLabel": "Información do artigo",
+    "byAuthor": "Por {name}",
+    "updated": "Actualizado o {date}",
+    "topics": "Temas",
+    "tagsLabel": "Etiquetas do artigo",
+    "relatedLabel": "Artigos relacionados",
+    "relatedTitle": "Quizais che interese",
+    "back": "Volver ao blog"
+  },
+  "readingLayout": {
+    "label": "Guía de lectura do artigo",
+    "contents": "Neste artigo",
+    "tocLabel": "Índice do artigo",
+    "explore": "Explorar o blog"
+  }
+}

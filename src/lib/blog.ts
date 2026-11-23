@@ -48,7 +48,14 @@ export type BlogPostType = (typeof blogPostTypes)[number];
   Ritmo de lectura de texto técnico en cada idioma (el castellano necesita más
   palabras para lo mismo). Redondea siempre a >= 1 minuto.
 */
-const WORDS_PER_MINUTE: Record<Locale, number> = { es: 210, en: 230, ca: 210 };
+const WORDS_PER_MINUTE: Record<Locale, number> = {
+  es: 210,
+  en: 230,
+  ca: 210,
+  gl: 210,
+  /* El euskera aglutina: menos palabras, más largas, para el mismo contenido. */
+  eu: 180,
+};
 
 export function blogContentDir(locale: Locale) {
   return path.join(BLOG_CONTENT_DIR, locale);
@@ -240,7 +247,7 @@ export function parseBlogPost(
     );
   }
 
-  const author = getBlogAuthor(frontmatter.author);
+  const author = getBlogAuthor(frontmatter.author, locale);
 
   /* `superRefine` ya lo ha verificado; el `if` es para el tipo, no para la lógica. */
   if (!author) {

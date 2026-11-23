@@ -1,0 +1,133 @@
+{
+  "eyebrow": "Lege-informazioa",
+  "privacy": {
+    "meta": {
+      "title": "Pribatutasun-politika",
+      "description": "BinPar-en egiten den datu pertsonalen tratamenduari buruzko informazioa."
+    },
+    "title": "Pribatutasun-politika",
+    "sections": {
+      "controller": {
+        "title": "Tratamenduaren arduraduna",
+        "body": "BinPar Team S.L. da BinPar-en kontaktu-formularioaren bidez bidalitako datuen tratamenduaren arduraduna; haren IFZ B85271930 da, eta egoitza soziala Paseo de la Castellana 43, 4 helbidean du. Harremanetan jartzeko, idatzi info@binpar.com helbidera."
+      },
+      "purpose": {
+        "title": "Helburua eta oinarri juridikoa",
+        "body": "Izena, helbide elektronikoa eta mezuaren edukia jasotako kontsulta kudeatzeko eta hari erantzuteko baino ez ditugu tratatzen. Oinarri juridikoa politika hau onartzen duzula markatzean ematen duzun adostasuna da."
+      },
+      "retention": {
+        "title": "Datuak gordetzea eta hartzaileak",
+        "body": "Datuak kontsultari erantzuteko eta aplikatu beharreko lege-betebeharrak betetzeko behar den denboran gordeko dira. Ez zaizkie hirugarrenei lagako, salbu eta legezko betebeharra dagoenean edo zerbitzua emateko beharrezkoak diren hornitzaileei lagatzen zaizkienean, betiere dagozkion bermeekin."
+      },
+      "evaluator": {
+        "title": "Egokitasun-ebaluatzailea",
+        "body": "<link>Egokitasun-ebaluatzailea (gaztelaniaz)</link> betetzen baduzu, ematen dituzun identifikazio-datuak —izena, kargua, helbide elektroniko instituzionala, erakundea eta eremu geografikoa— eta elkarrizketaren transkripzioa tratatzen ditugu. {purpose} Oinarri juridikoa hasi aurretik berariaz ematen duzun adostasuna da, eta edozein unetan ken dezakezu, info@binpar.com helbidera idatzita."
+      },
+      "evaluationRetention": {
+        "title": "Ebaluazioa gordetzea",
+        "body": "{retention} Edozein unetan ken dezakezu adostasuna edo eska dezakezu datuak ezereztea, info@binpar.com helbidera idatzita; kasu horretan, fitxa eta transkripzioa ezabatzen ditugu. Ebaluazio honetan ez da inoiz pazienteen osasun-daturik tratatzen."
+      },
+      "rights": {
+        "title": "Eskubideak",
+        "body": "Zure datuetara irispidea izatea, datuak zuzentzea edo ezereztea, tratamendua mugatzea, tratamenduari aurka egitea edo datuen eramangarritasuna eska dezakezu, info@binpar.com helbidera idatzita. Halaber, erreklamazioa aurkez dezakezu Datuak Babesteko Espainiako Agentziaren aurrean."
+      },
+      "security": {
+        "title": "Segurtasuna",
+        "body": "Datuak baimenik gabeko irispide, aldaketa edo zabalkundeetatik babestera bideratutako neurri teknikoak eta antolakuntzakoak aplikatzen ditugu. Formularioak spamaren aurkako kontrolak eta eskaera kopuruaren muga ditu."
+      }
+    },
+    "evaluatorStatements": {
+      "purpose": "Datu hauek zure egokitasun-ebaluazioa egiteko, ondoriozko txostena zuri bidaltzeko eta ebaluazio horri dagokionez zurekin harremanetan jartzeko tratatzen ditugu.",
+      "retention": "Identifikazio-fitxa eta elkarrizketaren transkripzioa adostasunari eusten diozun bitartean gordetzen ditugu, aurrez zehaztutako eperik gabe, eta eskatu bezain laster ezerezten ditugu."
+    }
+  },
+  "notice": {
+    "meta": {
+      "title": "Lege-oharra",
+      "description": "Titularraren datuak eta BinPar-en webgunearen erabilera-baldintzak."
+    },
+    "title": "Lege-oharra",
+    "sections": {
+      "owner": {
+        "title": "Webgunearen titularra",
+        "body": "Informazioaren gizarteko zerbitzuei eta merkataritza elektronikoari buruzko uztailaren 11ko 34/2002 Legea (LSSI-CE) betez, jakinarazten dizugu webgune honen titularra {name} dela (IFZ: {nif}; helbidea: {address}). Gurekin harremanetan jartzeko, idatzi {email} helbidera."
+      },
+      "use": {
+        "title": "Xedea eta erabilera-baldintzak",
+        "body": "Webgune honek BinPar, haren zerbitzuak eta taldea aurkezten ditu, eta gurekin harremanetan jartzeko bideak eskaintzen ditu. Sarbidea doakoa da, eta lege-ohar hau onartzea dakar. Konpromisoa hartzen duzu webgunea eta haren edukiak behar bezala erabiltzeko, legearen eta fede onaren arabera, eta ez erabiltzeko legez kontrako jardueretarako edo webguneari edo hirugarrenei kalte egin diezaieketen jardueretarako.",
+        "medical": "Webguneko edukiak informatiboak dira. Ez dira aholku medikoak, eta ez dute osasun-profesional baten irizpidea ordezten."
+      },
+      "ip": {
+        "title": "Jabetza intelektuala eta industriala",
+        "body": "Webgune honetako testuak, irudiak, diseinuak, logotipoak, markak, iturburu-kodea eta gainerako edukiak {name} sozietatearenak dira, edo haiek erabiltzeko baimena eman duten hirugarrenenak. Ez dago baimenduta eduki horiek erreproduzitzea, banatzea, jendaurrean komunikatzea edo eraldatzea berariazko baimenik gabe, legeak onartzen dituen kasuetan izan ezik."
+      },
+      "liability": {
+        "title": "Erantzukizuna eta estekak",
+        "body": "Webguneko informazioa zuzena eta eguneratua izan dadin lan egiten dugu, baina ezin dugu bermatu akatsik gabea denik, ezta sarbidea etenik gabea izango denik ere. Webguneak hirugarrenen orrietarako estekak izan ditzake; orri horien edukien eta politiken gainean ez dugu ez kontrolik ez erantzukizunik."
+      },
+      "data": {
+        "title": "Datu pertsonalak eta cookieak",
+        "body": "Datu pertsonalen tratamendua <privacy>pribatutasun-politikan</privacy> azaltzen da, eta cookieen eta biltegiratze lokalaren erabilera, berriz, <cookies>cookie-politikan</cookies>."
+      },
+      "law": {
+        "title": "Aplikatu beharreko legeria",
+        "body": "Lege-ohar hau Espainiako legeriak arautzen du. Gatazkarik sortuz gero, alderdiak aplikatu beharreko araudiaren arabera dagozkion epaitegi eta auzitegien mende jarriko dira."
+      }
+    }
+  },
+  "cookies": {
+    "meta": {
+      "title": "Cookie-politika",
+      "description": "BinPar-en webguneak zer cookie eta biltegiratze lokal erabiltzen dituen, eta zertarako."
+    },
+    "title": "Cookie-politika",
+    "sections": {
+      "what": {
+        "title": "Zer erabiltzen dugun",
+        "body": "Webgune honek bere cookie teknikoak eta bere biltegiratze lokala baino ez ditu erabiltzen: halakoak behar dituzten atalek funtziona dezaten edo zuk zeuk aukeratutako hobespen bat gogoratzeko beharrezkoak direnak. Ez dugu analitikako, publizitateko edo jarraipeneko cookierik erabiltzen, eta horregatik ez dizugu adostasunik eskatzen webgunean sartzean.",
+        "session": "Saio-cookieak egokitasun-ebaluatzailea edo bezero-eremua erabiltzen baduzu edo AWS Marketplace-tik iristen bazara baino ez dira sortzen. Webgunearen gainerako ataletan nabigatzeak ez du bat ere sortzen."
+      },
+      "detail": {
+        "title": "Xehetasunak",
+        "columns": {
+          "name": "Izena",
+          "kind": "Mota",
+          "purpose": "Helburua",
+          "duration": "Iraupena"
+        }
+      },
+      "thirdParty": {
+        "title": "Hirugarrenen zerbitzuak",
+        "body": "<contact>Kontaktua</contact> orriko mapa OpenFreeMap-etik kargatzen da. Mapa erakusteko, zure nabigatzaileak maparen irudiak eskatzen dizkie zerbitzu horren zerbitzariei, eta horiek zure IP helbidea jasotzen dute, beste edozein web-eskaeratan bezala."
+      },
+      "manage": {
+        "title": "Nola kudeatu",
+        "body": "Cookieak eta biltegiratze lokala zure nabigatzailearen ezarpenetan kontsultatu eta ezaba ditzakezu. Blokeatzen badituzu, webgunea bisitatzen jarraitu ahal izango duzu, baina ebaluatzaileak eta bezero-eremuak ez dute funtzionatuko, eta ez da gogoratuko itxura argia edo iluna.",
+        "contact": "Zalantzarik baduzu, idatzi {email} helbidera. Zure datuei buruzko informazio gehiago <privacy>pribatutasun-politikan</privacy> duzu."
+      }
+    },
+    "kinds": {
+      "ownCookie": "Webgunearen beraren cookie teknikoa",
+      "ownStorage": "Webgunearen beraren biltegiratze lokala"
+    },
+    "items": {
+      "session": {
+        "purpose": "Egokitasun-ebaluatzailearen saioari eusten dio elkarrizketa egiten duzun bitartean.",
+        "duration": "Gehienez 7 egun"
+      },
+      "space": {
+        "purpose": "Bezero-eremuaren saioari eusten dio, sarbide-estekarekin sartu ondoren.",
+        "duration": "Gehienez 7 egun"
+      },
+      "registration": {
+        "purpose": "AWS Marketplace-tik datorren alta gogoratzen du, erregistroa osatzeko.",
+        "duration": "Gehienez 7 egun"
+      },
+      "theme": {
+        "purpose": "Webgunea itxura argian edo ilunean ikusi nahi duzun gogoratzen du.",
+        "duration": "Nabigatzailetik ezabatzen duzun arte"
+      }
+    }
+  },
+  "translationNotice": "Orri hau itzulpen bat da. Desadostasunik badago, gaztelaniazko bertsioa nagusituko da."
+}

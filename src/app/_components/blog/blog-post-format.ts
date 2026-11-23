@@ -19,7 +19,13 @@ const BLOG_DATE_FORMAT = {
   timeZone: "UTC",
 } as const;
 
-/** «11 feb 2026»: sin los puntos de abreviatura que algunos motores añaden. */
+/**
+ * «11 feb 2026»: sin los puntos de abreviatura que algunos motores añaden ni
+ * los sufijos opcionales entre paréntesis del euskera («2026 ots 11(a)»).
+ */
 export function formatBlogDate(format: DateFormatter, isoDay: string) {
-  return format.dateTime(new Date(isoDay), BLOG_DATE_FORMAT).replace(/\./g, "");
+  return format
+    .dateTime(new Date(isoDay), BLOG_DATE_FORMAT)
+    .replace(/\./g, "")
+    .replace(/\([a-z]\)/g, "");
 }

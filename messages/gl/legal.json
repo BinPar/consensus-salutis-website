@@ -1,0 +1,133 @@
+{
+  "eyebrow": "Información legal",
+  "privacy": {
+    "meta": {
+      "title": "Política de privacidade",
+      "description": "Información sobre o tratamento de datos persoais en BinPar."
+    },
+    "title": "Política de privacidade",
+    "sections": {
+      "controller": {
+        "title": "Responsable do tratamento",
+        "body": "BinPar Team S.L., con NIF B85271930 e domicilio social no Paseo de la Castellana 43, 4, é responsable do tratamento dos datos enviados mediante o formulario de contacto de BinPar. Podes contactar a través de info@binpar.com."
+      },
+      "purpose": {
+        "title": "Finalidade e base xurídica",
+        "body": "Tratamos o nome, o correo electrónico e o contido da mensaxe exclusivamente para xestionar e responder a consulta recibida. A base xurídica é o consentimento outorgado ao marcar a aceptación desta política."
+      },
+      "retention": {
+        "title": "Conservación e destinatarios",
+        "body": "Os datos conservaranse durante o tempo necesario para atender a consulta e cumprir as obrigas legais aplicables. Non se cederán a terceiros, salvo obriga legal ou a provedores necesarios para prestar o servizo baixo as garantías correspondentes."
+      },
+      "evaluator": {
+        "title": "Avaliador de idoneidade",
+        "body": "Se completas o <link>avaliador de idoneidade (en castelán)</link>, tratamos os datos de identificación que facilitas —nome, cargo, correo electrónico institucional, institución e ámbito xeográfico— xunto coa transcrición da entrevista. {purpose} A base xurídica é o consentimento que outorgas de forma expresa antes de comezar, e podes retiralo en calquera momento escribindo a info@binpar.com."
+      },
+      "evaluationRetention": {
+        "title": "Retención da avaliación",
+        "body": "{retention} Podes retirar o consentimento ou pedir a supresión en calquera momento escribindo a info@binpar.com e, nese caso, eliminamos a ficha e a transcrición. Nesta avaliación non se tratan datos de saúde de pacientes en ningún momento."
+      },
+      "rights": {
+        "title": "Dereitos",
+        "body": "Podes solicitar o acceso, a rectificación, a supresión, a limitación do tratamento, a oposición ou a portabilidade dos teus datos escribindo a info@binpar.com. Tamén podes presentar unha reclamación ante a Agencia Española de Protección de Datos (Axencia Española de Protección de Datos)."
+      },
+      "security": {
+        "title": "Seguridade",
+        "body": "Aplicamos medidas técnicas e organizativas orientadas a protexer os datos fronte a accesos, alteracións ou divulgacións non autorizados. O formulario incorpora controis antispam e limitación de solicitudes."
+      }
+    },
+    "evaluatorStatements": {
+      "purpose": "Tratamos estes datos para elaborar a túa avaliación de idoneidade, enviarche o informe resultante e contactar contigo en relación con esa avaliación.",
+      "retention": "Conservamos a ficha de identificación e a transcrición da entrevista mentres manteñas o consentimento, sen prazo predeterminado, e suprimímolas en canto o solicites."
+    }
+  },
+  "notice": {
+    "meta": {
+      "title": "Aviso legal",
+      "description": "Datos do titular e condicións de uso do sitio web de BinPar."
+    },
+    "title": "Aviso legal",
+    "sections": {
+      "owner": {
+        "title": "Titular do sitio web",
+        "body": "En cumprimento da Ley 34/2002, de servicios de la sociedad de la información y de comercio electrónico (LSSI-CE; Lei de servizos da sociedade da información e de comercio electrónico), informámoste de que este sitio web é titularidade de {name}, con NIF {nif} e domicilio en {address}. Podes contactar connosco escribindo a {email}."
+      },
+      "use": {
+        "title": "Obxecto e condicións de uso",
+        "body": "Este sitio web presenta BinPar, os seus servizos e o seu equipo, e ofrece canles para contactar connosco. O acceso é gratuíto e implica aceptar este aviso legal. Comprométeste a facer un uso axeitado do sitio e dos seus contidos, conforme á lei e á boa fe, e a non empregalos para actividades ilícitas ou que poidan danar o sitio ou a terceiros.",
+        "medical": "Os contidos do sitio son informativos. Non constitúen consello médico nin substitúen o criterio dun profesional sanitario."
+      },
+      "ip": {
+        "title": "Propiedade intelectual e industrial",
+        "body": "Os textos, imaxes, deseños, logotipos, marcas, código fonte e demais contidos deste sitio pertencen a {name} ou a terceiros que autorizaron o seu uso. Non está permitida a súa reprodución, distribución, comunicación pública ou transformación sen autorización expresa, agás nos casos que permita a lei."
+      },
+      "liability": {
+        "title": "Responsabilidade e ligazóns",
+        "body": "Traballamos para que a información do sitio sexa correcta e estea actualizada, pero non podemos garantir que estea libre de erros nin que o acceso sexa ininterrompido. O sitio pode incluír ligazóns a páxinas de terceiros, sobre cuxos contidos e políticas non temos control nin responsabilidade."
+      },
+      "data": {
+        "title": "Datos persoais e cookies",
+        "body": "O tratamento dos datos persoais explícase na <privacy>política de privacidade</privacy>, e o uso de cookies e almacenamento local, na <cookies>política de cookies</cookies>."
+      },
+      "law": {
+        "title": "Lexislación aplicable",
+        "body": "Este aviso legal réxese pola lexislación española. Para calquera controversia, as partes sométense aos xulgados e tribunais que correspondan conforme á normativa aplicable."
+      }
+    }
+  },
+  "cookies": {
+    "meta": {
+      "title": "Política de cookies",
+      "description": "Que cookies e almacenamento local usa o sitio web de BinPar e para que."
+    },
+    "title": "Política de cookies",
+    "sections": {
+      "what": {
+        "title": "Que usamos",
+        "body": "Este sitio só usa cookies técnicas e almacenamento local propios, necesarios para que funcionen as partes que o requiren ou para lembrar unha preferencia que elixes ti. Non usamos cookies de analítica, publicidade nin seguimento e, por iso, non che pedimos consentimento ao entrar.",
+        "session": "As cookies de sesión só se crean se usas o avaliador de idoneidade, o espazo de cliente ou chegas dende AWS Marketplace. Navegar polo resto do sitio non crea ningunha."
+      },
+      "detail": {
+        "title": "Detalle",
+        "columns": {
+          "name": "Nome",
+          "kind": "Tipo",
+          "purpose": "Finalidade",
+          "duration": "Duración"
+        }
+      },
+      "thirdParty": {
+        "title": "Servizos de terceiros",
+        "body": "O mapa da páxina de <contact>contacto</contact> cárgase dende OpenFreeMap. Para amosalo, o teu navegador pídelles as imaxes do mapa aos seus servidores, que reciben o teu enderezo IP como en calquera petición web."
+      },
+      "manage": {
+        "title": "Como xestionalas",
+        "body": "Podes consultar e borrar as cookies e o almacenamento local dende a configuración do teu navegador. Se os bloqueas, o sitio pódese seguir visitando, pero o avaliador e o espazo de cliente non funcionarán e non se lembrará o modo claro ou escuro.",
+        "contact": "Para calquera dúbida, escríbenos a {email}. Máis información sobre os teus datos na <privacy>política de privacidade</privacy>."
+      }
+    },
+    "kinds": {
+      "ownCookie": "Cookie técnica propia",
+      "ownStorage": "Almacenamento local propio"
+    },
+    "items": {
+      "session": {
+        "purpose": "Mantén a sesión do avaliador de idoneidade mentres fas a entrevista.",
+        "duration": "Ata 7 días"
+      },
+      "space": {
+        "purpose": "Mantén a sesión do espazo de cliente despois de entrar coa ligazón de acceso.",
+        "duration": "Ata 7 días"
+      },
+      "registration": {
+        "purpose": "Lembra a alta que chega dende AWS Marketplace para completar o rexistro.",
+        "duration": "Ata 7 días"
+      },
+      "theme": {
+        "purpose": "Lembra se prefires ver o sitio en modo claro ou escuro.",
+        "duration": "Ata que o borres dende o navegador"
+      }
+    }
+  },
+  "translationNotice": "Esta páxina é unha tradución. En caso de discrepancia, prevalece a versión en castelán."
+}

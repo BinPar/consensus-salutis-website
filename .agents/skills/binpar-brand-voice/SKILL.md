@@ -32,8 +32,9 @@ BinPar sells **defensibility**: the reader should close the piece thinking *«es
 sostener delante de un comité»*. Anything that does not serve that is cut.
 
 **Language:** customer-facing copy is written in **Spanish (es-ES)**, the source language. The
-website also has **English (en-GB)** and **Catalan (ca-ES)** translations; translating or
-reviewing them follows `references/english.md` and `references/catalan.md` (glossary,
+website also has **English (en-GB)**, **Catalan (ca-ES)**, **Galician (gl-ES)** and
+**Basque (eu-ES)** translations; translating or reviewing them follows `references/english.md`,
+`references/catalan.md`, `references/galician.md` and `references/basque.md` (glossary,
 conventions, what is never translated). This skill is
 written in English; every quoted Spanish string, example and rewrite stays in Spanish.
 
@@ -263,6 +264,8 @@ format (`formats.md`): *tú* everywhere except legal text and *usted* email thre
 | `references/review-checklist.md` | Severity codes, review format, pre-delivery checklist, worked audit | Auditing copy |
 | `references/english.md` | en-GB conventions, glossary, what is not translated, legal and clinical demo rules | Translating or reviewing the English website |
 | `references/catalan.md` | ca-ES conventions (typographic apostrophe, ela geminada), glossary, legal terms | Translating or reviewing the Catalan website |
+| `references/galician.md` | gl-ES conventions (RAG norm, infinitive buttons), glossary, legal terms | Translating or reviewing the Galician website |
+| `references/basque.md` | eu-ES conventions (batua, word order, verified glossary), legal terms | Translating or reviewing the Basque website |
 
 ## Examples
 

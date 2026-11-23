@@ -1,0 +1,119 @@
+{
+  "meta": {
+    "title": "Contacto",
+    "description": "Solicitar unha reunión institucional sobre BinPar."
+  },
+  "page": {
+    "sections": {
+      "talk": "Falemos",
+      "location": "Onde estamos"
+    }
+  },
+  "details": {
+    "eyebrow": "Onde atoparnos",
+    "title": "Estamos en Madrid.",
+    "body": "Escríbenos ou consulta como chegar ás nosas oficinas.",
+    "address": "Paseo de la Castellana, 43, 4.ª planta · 121. Chamberí, 28046 Madrid, España.",
+    "directions": "Como chegar",
+    "directionsHint": " (Google Maps, nova lapela)"
+  },
+  "map": {
+    "zoomIn": "Achegar mapa",
+    "zoomOut": "Afastar mapa",
+    "attribution": "Información do mapa",
+    "title": "Oficinas de BinPar no Paseo de la Castellana, Madrid",
+    "mobileHelp": "Usa dous dedos para mover o mapa",
+    "windowsHelp": "Usa Ctrl e a roda para achegar o mapa",
+    "macHelp": "Usa ⌘ e a roda para achegar o mapa",
+    "markerLabel": "Oficinas de BinPar · Abrir localización en Google Maps (nova lapela)",
+    "loading": "Cargando mapa…",
+    "error": "Non foi posible cargar o mapa.",
+    "openInMaps": "Abrir localización en Google Maps"
+  },
+  "errors": {
+    "nameRequired": "Introduce o teu nome completo.",
+    "nameTooLong": "O nome non pode superar os 100 caracteres.",
+    "emailInvalid": "Introduce un enderezo de correo electrónico válido.",
+    "emailTooLong": "O enderezo de correo electrónico é demasiado longo.",
+    "messageTooShort": "A mensaxe debe ter polo menos 20 caracteres.",
+    "messageTooLong": "A mensaxe non pode superar os 3000 caracteres.",
+    "privacyRequired": "Debes aceptar a política de privacidade.",
+    "tooLarge": "A solicitude é demasiado grande.",
+    "forbidden": "Solicitude non permitida.",
+    "invalid": "Solicitude non válida.",
+    "fieldErrors": "Revisa os campos indicados.",
+    "sendFailed": "Non puidemos enviar a mensaxe. Téntao de novo máis tarde."
+  },
+  "shared": {
+    "privacyConsent": "Lin e acepto a <link>Política de privacidade</link>.",
+    "honeypotLabel": "Sitio web"
+  },
+  "form": {
+    "name": {
+      "label": "Nome completo",
+      "placeholder": "O teu nome completo"
+    },
+    "email": {
+      "label": "Correo electrónico",
+      "placeholder": "ti@email.com"
+    },
+    "message": {
+      "label": "Mensaxe",
+      "placeholder": "Cóntanos brevemente que necesitas."
+    },
+    "submit": "Enviar mensaxe",
+    "submitting": "Enviando…",
+    "networkError": "Non puidemos enviar a mensaxe. Téntao de novo.",
+    "success": {
+      "eyebrow": "Mensaxe enviada",
+      "title": "Grazas por contactar.",
+      "body": "Recibimos a túa consulta e responderémosche dende o equipo de BinPar.",
+      "again": "Enviar outra mensaxe"
+    }
+  },
+  "assistant": {
+    "eyebrow": "Contacto",
+    "title": "Falemos da túa organización.",
+    "steps": {
+      "name": {
+        "label": "O teu nome",
+        "question": "Como te chamas?",
+        "placeholder": "Escribe o teu nome completo…"
+      },
+      "email": {
+        "label": "O teu correo",
+        "question": "Onde podemos responderche?",
+        "placeholder": "O teu correo electrónico…"
+      },
+      "message": {
+        "label": "A túa consulta",
+        "question": "Que che gustaría explorar con BinPar?",
+        "placeholder": "Cóntanos o teu caso de uso ou o que necesitas…"
+      }
+    },
+    "replies": {
+      "name": "Queres explorar BinPar para a túa organización? Déixanos os teus datos e cóntanos que necesitas. O noso equipo porase en contacto contigo.",
+      "email": "{name}, déixanos o teu correo electrónico para continuar a conversa. O noso equipo escribirache para coñecer mellor o teu caso e valorar o seguinte paso.",
+      "message": "{name}, responderémosche en {email}.\nCóntanos que che gustaría explorar con BinPar e que necesita a túa organización para que poidamos preparar unha conversa centrada no teu caso."
+    },
+    "continue": "Continuar",
+    "submit": "Enviar consulta",
+    "submitPreview": "Preparar consulta",
+    "progressLabel": "Pasos do contacto",
+    "networkError": "Non puidemos enviar a mensaxe. Téntao de novo.",
+    "complete": {
+      "title": "Grazas, {name}.",
+      "sent": "Recibimos a túa consulta. O noso equipo responderache en <strong>{email}</strong>.",
+      "preview": "A túa consulta está preparada co correo <strong>{email}</strong>.",
+      "previewNote": "Vista previa do laboratorio. Non se enviaron datos.",
+      "restart": "Volver comezar"
+    }
+  },
+  "composer": {
+    "expand": "Ampliar editor",
+    "collapse": "Reducir editor",
+    "submit": "Enviar consulta",
+    "sending": "Enviando consulta",
+    "dialogLabel": "Editor da túa consulta"
+  }
+}

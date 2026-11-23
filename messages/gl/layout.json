@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "platform": "Plataforma",
+    "platformOverview": "Visión xeral",
+    "features": "Funcionalidades",
+    "team": "Equipo",
+    "blog": "Blog",
+    "contact": "Contacto"
+  },
+  "navigation": {
+    "main": "Navegación principal",
+    "mobile": "Navegación móbil",
+    "mobileEyebrow": "Navegación",
+    "open": "Abrir navegación",
+    "close": "Pechar navegación",
+    "morePages": "Máis páxinas de {label}",
+    "sections": "Seccións desta páxina"
+  },
+  "header": {
+    "home": "Inicio"
+  },
+  "footer": {
+    "brandHome": "BinPar · Inicio",
+    "productNav": "Produto · Pé de páxina",
+    "contactNav": "Contacto · Pé de páxina",
+    "legalNav": "Información legal",
+    "rights": "© BinPar · Todos os dereitos reservados",
+    "description": "IA médica institucional.",
+    "descriptionExtended": "IA médica institucional para conectar coñecemento clínico e respostas trazables.",
+    "explore": "Explorar",
+    "connect": "Conectemos"
+  },
+  "footerBand": {
+    "rights": "© BinPar · Todos os dereitos reservados",
+    "links": "Ligazóns do pé",
+    "product": "Produto",
+    "contact": "Contacto"
+  },
+  "legalLinks": {
+    "notice": "Aviso legal",
+    "privacy": "Política de privacidade",
+    "cookies": "Cookies"
+  },
+  "theme": {
+    "toLight": "Activar tema claro",
+    "toDark": "Activar tema escuro"
+  },
+  "language": {
+    "select": "Seleccionar idioma"
+  },
+  "linkedin": {
+    "follow": "Séguenos",
+    "label": "Segue a BinPar en LinkedIn (ábrese nunha lapela nova)"
+  }
+}

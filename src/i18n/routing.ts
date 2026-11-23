@@ -18,7 +18,7 @@
 import { defineRouting } from "next-intl/routing";
 
 export const routing = defineRouting({
-  locales: ["es", "en", "ca"],
+  locales: ["es", "en", "ca", "gl", "eu"],
   defaultLocale: "es",
   localePrefix: "as-needed",
   localeDetection: false,
@@ -26,19 +26,47 @@ export const routing = defineRouting({
   alternateLinks: false,
   pathnames: {
     "/": "/",
-    "/plataforma": { es: "/plataforma", en: "/platform", ca: "/plataforma" },
+    "/plataforma": {
+      es: "/plataforma",
+      en: "/platform",
+      ca: "/plataforma",
+      gl: "/plataforma",
+      eu: "/plataforma",
+    },
     "/plataforma/funcionalidades": {
       es: "/plataforma/funcionalidades",
       en: "/platform/features",
       ca: "/plataforma/funcionalitats",
+      gl: "/plataforma/funcionalidades",
+      eu: "/plataforma/funtzionalitateak",
     },
-    "/equipo": { es: "/equipo", en: "/team", ca: "/equip" },
-    "/contacto": { es: "/contacto", en: "/contact", ca: "/contacte" },
-    "/privacidad": { es: "/privacidad", en: "/privacy", ca: "/privadesa" },
+    "/equipo": {
+      es: "/equipo",
+      en: "/team",
+      ca: "/equip",
+      gl: "/equipo",
+      eu: "/taldea",
+    },
+    "/contacto": {
+      es: "/contacto",
+      en: "/contact",
+      ca: "/contacte",
+      gl: "/contacto",
+      eu: "/kontaktua",
+    },
+    "/privacidad": {
+      es: "/privacidad",
+      en: "/privacy",
+      ca: "/privadesa",
+      gl: "/privacidade",
+      eu: "/pribatutasuna",
+    },
     "/aviso-legal": {
       es: "/aviso-legal",
       en: "/legal-notice",
       ca: "/avis-legal",
+      gl: "/aviso-legal",
+      eu: "/lege-oharra",
     },
     "/cookies": "/cookies",
     "/blog": "/blog",
@@ -64,6 +92,8 @@ export const LOCALE_NAMES: Record<Locale, string> = {
   es: "Español",
   en: "English",
   ca: "Català",
+  gl: "Galego",
+  eu: "Euskara",
 };
 
 /** Etiqueta de idioma completa, para `Intl`, JSON-LD y RSS. */
@@ -71,6 +101,8 @@ export const LOCALE_TAGS: Record<Locale, string> = {
   es: "es-ES",
   en: "en-GB",
   ca: "ca-ES",
+  gl: "gl-ES",
+  eu: "eu-ES",
 };
 
 /** Formato de Open Graph (`og:locale`). */
@@ -78,4 +110,6 @@ export const OG_LOCALES: Record<Locale, string> = {
   es: "es_ES",
   en: "en_GB",
   ca: "ca_ES",
+  gl: "gl_ES",
+  eu: "eu_ES",
 };

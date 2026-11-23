@@ -1,0 +1,59 @@
+{
+  "tree": {
+    "root": "Kreatinina-argitzea < 30 mL/min?",
+    "branches": {
+      "yes": {
+        "label": "Bai",
+        "result": "AIEEak kontraindikatuta"
+      },
+      "no": {
+        "label": "Ez",
+        "result": "Saihestu AIEEak; ezinbestean soilik erabili"
+      }
+    },
+    "route": "{root} → {label}: {result}"
+  },
+  "schemeCard": {
+    "sources": "Eskemaren iturriak"
+  },
+  "schemes": {
+    "intro": "AIEEen erabilera baloratzeko irizpideak, giltzurrun-funtzioaren arabera:"
+  },
+  "figure": {
+    "afferent": "Arteriola aferentea",
+    "nsaid": "AIEE",
+    "glomerulus": "Glomerulua",
+    "efferent": "Arteriola eferentea",
+    "caption": "AIEEek arteriola aferentean duten efektua."
+  },
+  "download": {
+    "schemeTab": "1. eskema",
+    "preparing": "Irudia prestatzen…",
+    "download": "Deskargatu irudia",
+    "savedLabel": "Irudia deskargatuta · PNG",
+    "fileName": "aiee-erabilera-ggk.png"
+  },
+  "tables": {
+    "intro": "GGKan berrikustea komeni den farmakoak:",
+    "drugHeading": "Farmakoa",
+    "noteHeading": "GGKan",
+    "rows": {
+      "nsaids": {
+        "drug": "AIEE",
+        "note": "Saihestu; kontraindikatuta daude argitzea 30 mL/min baino txikiagoa bada."
+      },
+      "aceInhibitors": {
+        "drug": "AEBI eta AHA-II",
+        "note": "Giltzurrun-babesleak; fase aurreratuetan dosi txikiagoa behar izan dezakete."
+      },
+      "potassiumSparing": {
+        "drug": "Potasio-aurreztaileak",
+        "note": "Saihestu giltzurrun-gutxiegitasunean; ez konbinatu AEBI, AHA-II edo AIEEekin."
+      }
+    }
+  },
+  "textalt": {
+    "label": "Pantaila-irakurgailua",
+    "title": "Eskemaren ibilbidea testu gisa"
+  }
+}

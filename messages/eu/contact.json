@@ -1,0 +1,119 @@
+{
+  "meta": {
+    "title": "Kontaktua",
+    "description": "Eskatu BinPar-i buruzko bilera instituzional bat."
+  },
+  "page": {
+    "sections": {
+      "talk": "Hitz egin dezagun",
+      "location": "Non gaude"
+    }
+  },
+  "details": {
+    "eyebrow": "Non aurkituko gaituzun",
+    "title": "Madrilen gaude.",
+    "body": "Idatz iezaguzu, edo begiratu gure bulegoetara nola iritsi.",
+    "address": "Paseo de la Castellana, 43, 4. solairua · 121. Chamberí, 28046 Madril, Espainia.",
+    "directions": "Nola iritsi",
+    "directionsHint": " (Google Maps, fitxa berria)"
+  },
+  "map": {
+    "zoomIn": "Hurbildu mapa",
+    "zoomOut": "Urrundu mapa",
+    "attribution": "Mapari buruzko informazioa",
+    "title": "BinPar-en bulegoak, Paseo de la Castellana (Madril)",
+    "mobileHelp": "Mapa mugitzeko, erabili bi hatz",
+    "windowsHelp": "Mapa hurbiltzeko, erabili Ctrl eta gurpila",
+    "macHelp": "Mapa hurbiltzeko, erabili ⌘ eta gurpila",
+    "markerLabel": "BinPar-en bulegoak · Ireki kokapena Google Maps-en (fitxa berria)",
+    "loading": "Mapa kargatzen…",
+    "error": "Ezin izan da mapa kargatu.",
+    "openInMaps": "Ireki kokapena Google Maps-en"
+  },
+  "errors": {
+    "nameRequired": "Idatzi zure izen-abizenak.",
+    "nameTooLong": "Izenak ezin ditu 100 karaktere baino gehiago izan.",
+    "emailInvalid": "Idatzi baliozko helbide elektroniko bat.",
+    "emailTooLong": "Helbide elektronikoa luzeegia da.",
+    "messageTooShort": "Mezuak gutxienez 20 karaktere izan behar ditu.",
+    "messageTooLong": "Mezuak ezin ditu 3000 karaktere baino gehiago izan.",
+    "privacyRequired": "Pribatutasun-politika onartu behar duzu.",
+    "tooLarge": "Eskaera handiegia da.",
+    "forbidden": "Eskaera ez dago baimenduta.",
+    "invalid": "Eskaera ez da baliozkoa.",
+    "fieldErrors": "Berrikusi adierazitako eremuak.",
+    "sendFailed": "Ezin izan dugu mezua bidali. Saiatu berriro geroago."
+  },
+  "shared": {
+    "privacyConsent": "<link>Pribatutasun-politika</link> irakurri dut, eta onartzen dut.",
+    "honeypotLabel": "Webgunea"
+  },
+  "form": {
+    "name": {
+      "label": "Izen-abizenak",
+      "placeholder": "Zure izen-abizenak"
+    },
+    "email": {
+      "label": "Helbide elektronikoa",
+      "placeholder": "zu@email.com"
+    },
+    "message": {
+      "label": "Mezua",
+      "placeholder": "Azaldu labur zer behar duzun."
+    },
+    "submit": "Bidali mezua",
+    "submitting": "Bidaltzen…",
+    "networkError": "Ezin izan dugu mezua bidali. Saiatu berriro.",
+    "success": {
+      "eyebrow": "Mezua bidali da",
+      "title": "Eskerrik asko guri idazteagatik.",
+      "body": "Zure kontsulta jaso dugu, eta BinPar-eko taldeak erantzungo dizu.",
+      "again": "Bidali beste mezu bat"
+    }
+  },
+  "assistant": {
+    "eyebrow": "Kontaktua",
+    "title": "Hitz egin dezagun zure erakundeaz.",
+    "steps": {
+      "name": {
+        "label": "Zure izena",
+        "question": "Nola duzu izena?",
+        "placeholder": "Idatzi zure izen-abizenak…"
+      },
+      "email": {
+        "label": "Zure e-posta",
+        "question": "Nora erantzungo dizugu?",
+        "placeholder": "Zure helbide elektronikoa…"
+      },
+      "message": {
+        "label": "Zure kontsulta",
+        "question": "Zer aztertu nahiko zenuke BinPar-ekin?",
+        "placeholder": "Azaldu zure erabilera-kasua edo behar duzuna…"
+      }
+    },
+    "replies": {
+      "name": "BinPar zure erakunderako aztertu nahi duzu? Utzi zure datuak eta esan zer behar duzun. Gure taldea zurekin harremanetan jarriko da.",
+      "email": "{name}, elkarrizketarekin jarraitzeko, utzi zure helbide elektronikoa. Gure taldeak idatziko dizu, zure kasua hobeto ezagutzeko eta hurrengo urratsa baloratzeko.",
+      "message": "{name}, {email} helbidera erantzungo dizugu.\nEsan zer aztertu nahiko zenukeen BinPar-ekin eta zer behar duen zure erakundeak, zure kasuan ardaztutako elkarrizketa bat prestatu ahal izan dezagun."
+    },
+    "continue": "Jarraitu",
+    "submit": "Bidali kontsulta",
+    "submitPreview": "Prestatu kontsulta",
+    "progressLabel": "Kontaktuaren urratsak",
+    "networkError": "Ezin izan dugu mezua bidali. Saiatu berriro.",
+    "complete": {
+      "title": "Eskerrik asko, {name}.",
+      "sent": "Zure kontsulta jaso dugu. Gure taldeak <strong>{email}</strong> helbidera erantzungo dizu.",
+      "preview": "Zure kontsulta prest dago, helbide elektroniko honekin: <strong>{email}</strong>.",
+      "previewNote": "Laborategiko aurrebista. Ez da daturik bidali.",
+      "restart": "Hasi berriro"
+    }
+  },
+  "composer": {
+    "expand": "Handitu editorea",
+    "collapse": "Txikitu editorea",
+    "submit": "Bidali kontsulta",
+    "sending": "Kontsulta bidaltzen",
+    "dialogLabel": "Zure kontsultaren editorea"
+  }
+}

@@ -1,0 +1,243 @@
+{
+  "chat": {
+    "placeholder": "Galdera klinikoa batzordeari...",
+    "responding": "Batzordea erantzuten ari da...",
+    "thinking": "Iturriak berreskuratzen…",
+    "bibliography": "Bibliografia"
+  },
+  "chatMock": {
+    "label": "BinPar-en erakustaldia: kontsulta kliniko bat, ebidentziadun erantzun bat eta haren erreferentziak.",
+    "title": "Batzorde klinikoa",
+    "question": "Zer irizpide berrikusi behar ditut balizko hipertentsio arterial bat baieztatzeko eta haren jarraipena egiteko?",
+    "followUpQuestion": "Zer datu komeni da erregistratzea jarraipenean?",
+    "followUpAnswer": "Erregistratu zifren bilakaera, atxikidura eta tolerantzia, arrisku kardiobaskularraren aldaketak eta plana doitzea edo azterketa zabaltzea eskatzen duen edozein aurkikuntza.",
+    "processingStates": [
+      "Gidak kontsultatzen",
+      "Ezagutza balidatuarekin kontrastatzen",
+      "Erantzuna prestatzen"
+    ],
+    "followUpProcessing": "Jarraipena kontrastatzen",
+    "answer": {
+      "confirm": {
+        "before": "Baieztatu zifrak ",
+        "strong": "neurketa errepikatuekin",
+        "after": " eta, hala dagokionean, kontsultatik kanpoko monitorizazioarekin."
+      },
+      "risk": {
+        "before": "Baloratu ",
+        "strong": "arrisku kardiobaskular globala",
+        "after": "."
+      },
+      "damage": {
+        "before": "Helburuak eta jarraipena zehaztu aurretik, berrikusi balizko kausa sekundarioak eta ",
+        "strong": "organo-kaltea",
+        "after": "."
+      }
+    },
+    "references": [
+      "Tokiko protokolo klinikoa",
+      "Hipertentsioaren gida klinikoa"
+    ]
+  },
+  "player": {
+    "title": "Galderatik ebidentziara.",
+    "controls": {
+      "navigation": "Kontsultaren etapak",
+      "playbackTarget": "ibilbidea",
+      "play": "Erreproduzitu {target}",
+      "pause": "Pausatu {target}",
+      "playTitle": "Erreproduzitu",
+      "pauseTitle": "Pausatu",
+      "speed": "Abiadura ×{speed}. Aldatu ×{next} abiadurara",
+      "speedTitle": "Abiadura ×{speed} · Aldatu ×{next} abiadurara",
+      "restart": {
+        "etapa": "Berrabiarazi {number}. etaparen animazioa",
+        "capa": "Berrabiarazi {number}. geruzaren animazioa"
+      },
+      "restartTitle": "Berrabiarazi uneko eszena"
+    }
+  },
+  "steps": {
+    "question": {
+      "title": "Kontsulta planteatu",
+      "body": "Profesionalak zalantza kliniko bat hizkuntza naturalean adierazten du, eta kontsulta bideratzeko behar den testuingurua ematen du.",
+      "signal": "Hizkuntza kliniko naturala"
+    },
+    "committee": {
+      "title": "Ezagutza kontsultatu",
+      "body": "Sistemak aditu-agente egokiak hautatzen ditu, eta erakundera eta espezialitatera egokitutako haien corpus medikoak kontsultatzen ditu.",
+      "signal": "Adituen batzordea"
+    },
+    "synthesis": {
+      "title": "Ekarpenak kontrastatu",
+      "body": "Orkestratzaileak adituen ekarpenak biltzen ditu, haien ñabardurak eta mugak kontrastatzen ditu eta kontsultarako orientazio bateratua eraikitzen du.",
+      "signal": "Batzordearen sintesia"
+    },
+    "evidence": {
+      "title": "Iturri egiaztagarriak",
+      "body": "Erantzunak orientazio klinikoa biltzen du, eta haren ondorioen oinarri diren iturriak kontsultatzeko aukera ematen du.",
+      "signal": "Trazabilitatea duen ebidentzia"
+    },
+    "followup": {
+      "title": "Berrikusi eta sakondu",
+      "body": "Profesionalak kontsulta zabaldu eta testuingurua eman dezake, kasuaren balorazioan sakontzeko.",
+      "signal": "Testuingurudun elkarrizketa"
+    }
+  },
+  "visuals": {
+    "coordinator": "Orkestratzailea",
+    "realConsultation": "Benetako kontsulta",
+    "processLabel": "Prozesuaren irudikapena"
+  },
+  "questionScene": {
+    "title": "Kontsulta klinikoa",
+    "states": [
+      "Kontsulta honetarako espezialistak hautatzen.",
+      "Kardiologia, Farmakologia eta Nefrologia kontsultatzen.",
+      "Zeinu klinikoak, giltzurrun-funtzioa eta medikazioa kontrastatzen.",
+      "Ekarpenak integratzen, erantzuna prestatzeko."
+    ]
+  },
+  "committee": {
+    "query": "Kontsulta klinikoa",
+    "corpus": "Corpusa",
+    "status": {
+      "received": "3 ekarpen jaso dira",
+      "receiving": "Ekarpenak jasotzen",
+      "selected": "Batzordea hautatuta",
+      "selecting": "Adituak hautatzen",
+      "incoming": "Kontsulta jasotzen"
+    },
+    "expertStatus": {
+      "sent": "Ekarpena bidalita",
+      "prepared": "Ekarpena prestatuta",
+      "consulted": "Corpusa kontsultatuta",
+      "consulting": "Corpusa kontsultatzen",
+      "directed": "Kontsulta bideratuta"
+    },
+    "prepared": {
+      "cardiologia": "Kongestioa eta alarma-zeinuak baloratu.",
+      "farmacologia": "AIEEak eta interakzioak berrikusi, giltzurrun-arriskuagatik.",
+      "nefrologia": "Kreatinina, potasioa eta diuresia alderatu."
+    }
+  },
+  "synthesis": {
+    "status": {
+      "emitted": "Orientazioa emanda",
+      "integrating": "Orientazioa integratzen",
+      "contrasting": "Ñabardurak kontrastatzen",
+      "gathering": "Ekarpenak biltzen"
+    },
+    "output": "Orientazio bateratua",
+    "relations": {
+      "congestion": {
+        "title": "Kongestioa",
+        "compact": "Jatorri kardiakoa eta giltzurrunekoa kontrastatu.",
+        "detail": "Bihotz-kongestioa eta GGKaren ondoriozko bolumen-gainkarga kontrastatu."
+      },
+      "medication": {
+        "title": "Medikazioa",
+        "compact": "Ibuprofenoa: likido-erretentzioa.",
+        "detail": "Ibuprofenoa: balizko likido-erretentzioa eta iragazketa glomerularraren narriadura."
+      },
+      "limits": {
+        "title": "Mugak",
+        "compact": "Saihestu edema GGKari soilik egoztea.",
+        "detail": "Saihestu edema GGKari soilik egoztea edo ibuprofenoaren kausalitatea ziurtzat jotzea."
+      }
+    }
+  },
+  "evidence": {
+    "sourceLabel": "Kontsulta-iturria",
+    "fullDocument": "Ikusi dokumentu osoa",
+    "document": {
+      "intro": "Beste nefropatia tubulointerstizial kroniko (NTIK) batzuk hauek dira:",
+      "dosingTitle": "Farmakoen dosiak eta giltzurruna",
+      "dosingOptions": ["Dosia murriztuz.", "Dosien arteko tartea luzatuz."],
+      "antimicrobialsTitle": "Antimikrobianoak",
+      "imageAlt": "Kontsulta-dokumentuaren irudia, xehetasunak seinalatzen dituzten bi gezirekin.",
+      "nsaidsTitle": "Antiinflamatorio ez-esteroideak"
+    }
+  },
+  "consultation": {
+    "question": "68 urteko pazientea, 2. motako diabetesa, hipertentsioa eta giltzurruneko gaixotasun kronikoa (GGK) dituena. Neke progresiboa, esfortzua egitean arnasestua eta bi hanketako edema ditu, eta sarritan hartzen du ibuprofenoa. Nola bideratuko zenuke hasierako balorazioa, zer alarma-zeinu eta proba hartuko zenituzke kontuan, eta nola eragiten dute haren gaixotasunek eta medikazioak erabakietan?",
+    "experts": {
+      "cardiologia": {
+        "name": "Kardiologia",
+        "detail": "Bihotz-kongestioa: ortopnea, krepitatzaileak eta edema periferikoa.",
+        "compact": "Disnea eta edema: kongestioa baloratu."
+      },
+      "farmacologia": {
+        "name": "Farmakologia",
+        "detail": "AIEEak, AEBI/AHA-II eta diuretikoak berrikusi, giltzurrun-arriskua eta hiperpotasemia direla eta.",
+        "compact": "Ibuprofenoa: giltzurrun-arriskua berrikusi."
+      },
+      "nefrologia": {
+        "name": "Nefrologia",
+        "detail": "GGKaren gaineko giltzurruneko lesio akutua baloratu: kreatinina, potasioa eta diuresia.",
+        "compact": "Giltzurrun-funtzioa, potasioa eta diuresia berrikusi."
+      }
+    }
+  },
+  "answer": {
+    "assessment": "Koadroak **lehentasunezko aurrez aurreko balorazioa** behar du, honako hauetakoren bat izan baitaiteke: deskonpentsazio kongestiboa/bihotz-gutxiegitasuna, giltzurruneko gaixotasun kronikoa (GGK) okertzearen ondoriozko bolumen-gainkarga, GGKaren gaineko giltzurrun-gutxiegitasun akutua, hiperpotasemia, anemia edo prozesu horien konbinazio bat. ⟦c62888⟧ ⟦c7b5cc⟧",
+    "precipitant": "Ibuprofenoa balizko faktore abiarazlea da, likido-erretentzioa eta iragazketa glomerularraren narriadura errazten baititu. ⟦c62888⟧ ⟦c7d2a7⟧",
+    "claim": "Ibuprofenoa saihestu egin behar da GGK larrian, kreatinina-argitzea 30 ml/min baino txikiagoa denean, bai eta bihotz-gutxiegitasuna, diabetesa edo hipertentsioa dagoenean ere. ⟦c73b77⟧"
+  },
+  "followup": {
+    "question": "Zer informazio gehigarri behar duzu balorazioa zehazteko eta medikazioa berrikusteko?",
+    "paragraphs": {
+      "relevantData": "Diuresiaren murrizketa, bolumen-gainkarga, hiperpotasemia, azidosia eta sintoma uremikoak datu bereziki garrantzitsuak dira.",
+      "creatinine": "Egungo balioak aurrekoekin alderatuko nituzke. Kreatinina 48 ordutan gutxienez 0,3 mg/dL edo 7 egunetan gutxienez % 50 igotzeak giltzurrun-gutxiegitasun akutuaren irizpidea betetzen du, KDIGOren arabera. ⟦c7bf72⟧",
+      "reconciliation": "Kontziliazioak diabetesaren, hipertentsioaren, minaren eta edemaren tratamenduak hartu behar ditu barnean, bai eta “behar denean” hartzeko medikamentuak, hotzerirako prestakinak, antiazidoak, laxanteak, osagarriak, landareak eta errezetarik gabe edo internet bidez erositako produktuak ere. Giltzurruneko gaixotasun kronikoan (GGK), giltzurrunetik kanporatzen diren farmakoek dosia murriztea edo tartea luzatzea behar izan dezakete. ⟦c73d65⟧",
+      "nsaids": "Antiinflamatorio ez-esteroideek (AIEE) iragazketa glomerularra murriztu dezakete, basokonstrikzio aferentea dela eta; saihestu egin behar dira giltzurruneko gaixotasun kronikoan (GGK), eta bereziki angiotentsinaren entzima bihurtzailearen inhibitzaileekin (AEBI), angiotentsinaren hartzaileen antagonistekin (AHA-II) edo diuretikoekin konbinatzen badira. ⟦c73b77⟧ ⟦c7d2a7⟧"
+    }
+  },
+  "references": {
+    "heartFailure": "ProMIR eskuliburua · Kardiologia · Bihotz-gutxiegitasuna",
+    "acuteKidneyFailure": "ProMIR eskuliburua · Nefrologia · Giltzurrun-gutxiegitasun akutua",
+    "chronicKidneyFailure": "ProMIR eskuliburua · Nefrologia · Giltzurrun-gutxiegitasun kronikoa",
+    "cardiovascularRisk": "ProMIR eskuliburua · Nefrologia · Arrisku kardiobaskularra eta giltzurruneko gaixotasuna",
+    "bodyText": "ProMIR eskuliburua · Nefrologia · Testu-gorputza"
+  },
+  "citations": {
+    "c62888": "Bihotz-gutxiegitasun akutuak ([Kardiologia, Bihotz-gutxiegitasuna](/capitulo/570779c8f4d68bf008dbc6b4#58999992b89214740aff8b88)) bere baitan hartzen ditu bihotza une jakin batean organismoak behar duen odola ponpatzeko gai ez den egoera guztiak (bihotz-gastua behar metabolikoak baino txikiagoa).",
+    "c7b5cc": "##### Sindrome uremikoa. Organo eta sistemen araberako eragina",
+    "c7d2a7": "Glomeruluan zeharreko likidoaren mugimendua edo iragazketa glomerularra Starlingen legeek arautzen dute, eta proportzionala da mintzaren iragazkortasunarekiko eta presio hidraulikoaren gradientearen (likidoaren irteera errazten du) eta presio onkotikoaren gradientearen (likidoaren irteera eragozten du) arteko orekarekiko.",
+    "c7bb6e": "Edozein giltzurrun-gutxiegitasun akuturen tratamendua kausa abiarazlean ahalik eta goizen esku hartzean oinarritzen da.",
+    "c73b77": "**Giltzurrun-gutxiegitasunean saihestu egin behar da antiinflamatorio ez-esteroideak (AIEE) erabiltzea.",
+    "c73d65": "Giltzurrun-gutxiegitasunean dosia doitzea ezinbestekoa da giltzurrunetik kanporatzen diren farmakoen toxikotasuna saihesteko eta eraginkortasun egokia izan dezaten.",
+    "c7be7b": "Giltzurrun-gutxiegitasun akutu prerrenala oligurikoa izan ohi da, eta gernu oso kontzentratua du (gernuko sodio baxua, gernu-osmolaritate altuarekin).",
+    "c7bd7c": "Giltzurrun-gutxiegitasun akutua duen paziente orori, lehenik eta behin, giltzurruneko ekografia bat egin behar zaio, kausa buxatzailea baztertzeko.",
+    "c7c3cb": "Baldintza normaletan, gernuko proteina-iraizketa normala 80 mg/24 ordu da; horietatik gehienez 30 mg albuminari dagozkio, eta gainerakoak zelula tubularretatik datozen proteinak (Tamm-Horsfall proteinak) eta pisu molekular txikiko proteinak dira.",
+    "c7b8ef": "** 5 mL/min/urte baino gehiagoko jaitsiera iraunkor gisa definitzen da, aurrez kausa itzulgarriak baztertuta, hala nola uropatia buxatzailea, bolumen-deplezioa, giltzurruneko hipoperfusioa edo farmako nefrotoxikoen erabilera (antiinflamatorio ez-esteroideak, kontraste iododunak, etab.",
+    "c7ca72": "** 5,5 mEq/L baino gehiagoko potasio serikoaren kontzentrazio gisa definitzen da.",
+    "c6298f": "Bihotz-gutxiegitasun akutuaren **diagnostikorako** (****)azterketa erradiologikoa eskatuko duzu, eta bertan honako hauek aurki ditzakezu ( eta ):",
+    "c62a00": "</recuerda> Garrantzitsua da bihotz-gutxiegitasun akutu baten faktore abiarazleak zein diren jakitea, batzuetan horiek identifikatzeko eskatuko baitizute: Kausa kardiakoak: takiarritmiak edo bradiarritmiak, miokardioko iskemia, farmako inotropiko negatiboak (kaltzio-antagonistak, β-blokeatzaileak, etab.",
+    "c62b09": "**Tratamenduari** dagokionez (**; **), honako hauek jarri behar dituzu **helburu:**",
+    "c7da19": "Nefropatia tubulointerstizial akutuek (NTIA) espazio interstizialaren hantura-erreakzio akutua eragiten dute, eta haren ezaugarriak dira edema interstiziala, hantura-infiltratuak eta zelula tubularren nekrosi-eremuak.",
+    "c73a7e": "##### Diuretikoak Diuretiko potasio-aurreztaileak (espironolaktona, eplerenona, amilorida) saihestu egin behar dira giltzurrun-gutxiegitasuna duten pazienteetan eta, batez ere, ez dira konbinatu behar angiotentsinaren entzima bihurtzailearen inhibitzaileekin (AEBI), angiotentsinaren hartzaileen antagonistekin (AHA-II) edo antiinflamatorio ez-esteroideekin (AIEE) (hiperpotasemia-arrisku handia).",
+    "c739f1": "##### Hipotentsoreak Angiotentsinaren entzima bihurtzailearen inhibitzaileak (AEBI) eta angiotentsinaren hartzaileen antagonistak (AHA-II): giltzurrun-babesleak dira, ez daude kontraindikatuta giltzurrun-gutxiegitasunean, baina fase aurreratuetan dosia murriztea behar izan dezakete."
+  },
+  "documentContext": {
+    "nephropathies": [
+      "Azido urikoak eragindako nefropatia: hiperurizemia kronikoak azido urikoaren eta urato-gatzen metaketak eragiten ditu interstizioan eta tubuluetan. Ohikoak dira pielonefritis-pasarte errepikariak. Hipertentsio arterialarekin (HTA) eta hiperlipidemiarekin lotzen da. Tratamendua alopurinolean oinarritzen da.",
+      "Nefropatia hiperkaltzemikoa: monozito-infiltratuak, fibrosi interstizialarekin eta kaltzio-metaketarekin interstizioan (nefrokaltzinosia), glomeruluetan eta odol-hodietan. Ezaugarri ditu gernua kontzentratzeko ezintasuna eta azidosi tubular distala, potasio- eta sodio-galerarekin.",
+      "Balkanetako nefropatia: Ekialdeko Europako herrialdeetako nefropatia endemikoa. Etiologia argitu gabe dagoen arren, ingurumen-faktoreen susmoa dago (birusak, landare-toxinak, hidrokarburoak, etab.), predisposizio genetiko baten gainean. Azkenaldian uste da landare-osagai batek eragin dezakeela, azido aristolokikoak. Tumore urotelialen intzidentzia oso-oso handia du. Giltzurruneko gaixotasun kroniko (GGK) terminala dakar 30-50 urteko adinean.",
+      "Oxalatoak eragindako nefropatia: oxalatoaren iraizketa handitzea dakarten prozesuetan agertzen da, hala nola hiperoxalurietan, ileon-deribazioko kirurgian, etilenglikol-intoxikazioan, metoxifluranoarekin egindako anestesian edo azido askorbikoaren dosi handiak hartzean. Nefrolitiasia eta nefrokaltzinosia agertzen dira. Tratatzeko piridoxina erabil daiteke (glioxilatoa glizina bihurtzen du, oxalato bihurtu beharrean).",
+      "Erradiazio-nefritisa: dosiaren mendekoa da, eta 2.300 rad baino gehiagoren eraginpean egon direnei eragiten die. Basokonstrikzio handia eragiten du, eta horrek giltzurruneko iskemia dakar. Oso ohikoa da HTA larria edo gaiztoa. Hialinosi glomerularra, fibrosi interstiziala eta arteriolen erdiko geruzaren hialinizazioa sortzen ditu."
+    ],
+    "dosing": "Giltzurrun-gutxiegitasunean dosia doitzea ezinbestekoa da giltzurrunetik kanporatzen diren farmakoen toxikotasuna saihesteko eta eraginkortasun egokia izan dezaten. Giltzurrun-gutxiegitasunean bi modutara egin daiteke:",
+    "antimicrobials": [
+      "Antibiotikoak: ez dute dosia doitzerik behar azitromizinak, klindamizinak, linezolidak, doxiziklinak, moxifloxazinoak, kloranfenikolak.",
+      "Antifungikoak: ez dute dosia doitzerik behar kaspofunginak, itrakonazolak eta borikonazolak (azken biek aho-bidetik soilik; izan ere, zain barneko bidetik kontraindikatuta daude kreatinina-argitzea < 50 mL/min denean, ziklodextrina behikulua metatzen delako).",
+      "Antibiralak: ia guztiek behar dute dosia murriztea, neurotoxikotasun-arrisku handia baitute, konfusio-koadroekin, ikusmen-haluzinazioekin eta abarrekin, batez ere aziklobirrak.",
+      "Tuberkulosiaren aurkako farmakoak: ez dute dosia doitzerik behar isoniazidak, errifanpizinak, errifabutinak."
+    ],
+    "nsaids": {
+      "highlight": "Giltzurrun-gutxiegitasunean saihestu egin behar da antiinflamatorio ez-esteroideak (AIEE) erabiltzea",
+      "rest": ". Erabat beharrezkoak badira, hobe da erdibizitza laburreko AIEEak erabiltzea, eta egun gutxitan. Saihestu egingo dira bihotz-gutxiegitasun, diabetes eta hipertentsio konkomitanteak dituzten pazienteetan. Pazientea behar bezala hidratatuta egon dadin saiatu behar da."
+    },
+    "interactions": "Halaber, saihestu egin behar da AIEEak angiotentsinaren entzima bihurtzailearen inhibitzaileekin (AEBI), angiotentsinaren hartzaileen antagonistekin (AHA-II) eta diuretikoekin batera erabiltzea. GGK larria duten pazienteetan (kreatinina-argitzea < 30 mL/min) AIEEak beti daude kontraindikatuta."
+  }
+}

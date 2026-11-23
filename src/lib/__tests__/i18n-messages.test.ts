@@ -18,9 +18,13 @@ import { describe, expect, it } from "vitest";
 
 import { PURPOSE_STATEMENT, RETENTION_STATEMENT } from "~/lib/eligibility";
 
+import { SAME_AS_SOURCE } from "./i18n-same-as-source";
+
 import ca from "../../../messages/ca";
 import en from "../../../messages/en";
 import es from "../../../messages/es";
+import eu from "../../../messages/eu";
+import gl from "../../../messages/gl";
 
 type Leaf = string | string[];
 
@@ -115,145 +119,6 @@ function rawMarks(message: string) {
   };
 }
 
-/*
-  Textos que se escriben igual en los dos idiomas: marcas, nombres propios,
-  datos de ejemplo y palabras que el inglés usa tal cual. Un texto idéntico al
-  castellano que no esté aquí se considera sin traducir.
-*/
-const SAME_IN_ENGLISH = new Set<string>([
-  /* Marcas, organizaciones y nombres propios. */
-  "BinPar",
-  "AWS",
-  "Axia",
-  "SERMAS",
-  "Generalitat de Catalunya",
-  /* Los servicios de salud regionales conservan su nombre (glosario de inglés). */
-  "Servicio Madrileño de Salud",
-  "Editorial Médica Panamericana",
-  "ProMIR",
-  "ProMIR · 2025",
-  "Área Sanitaria Norte",
-  "Área Sanitaria Norte · 2026",
-  "Laura Gómez",
-  /* Palabras que el inglés usa igual. */
-  "Blog",
-  "Cookies",
-  "Corpus",
-  "Chats",
-  "Error",
-  "Error 404",
-  "Proteinuria",
-  "Diabetes mellitus",
-  /* Cargos del equipo, en inglés también en la web en castellano. */
-  "CEO",
-  "COO",
-  "CFO",
-  "CTO",
-  "Chief Architect",
-  "Full-Stack Developer",
-  "Recruiter",
-  "Design Lead",
-  "Product Lead",
-  /*
-    El panel catalán de la escena de idiomas: la escena enseña el producto
-    cambiando de idioma, y el catalán sigue siendo catalán en cualquier web.
-  */
-  "Perfil i configuració",
-  "Idioma",
-  "Clínic",
-  "Preferències de resposta",
-  "Encara no hi ha preferències desades.",
-  "Mostra i edita les preferències",
-]);
-
-/*
-  Lo mismo para el catalán, que comparte muchas palabras con el castellano.
-  Un texto idéntico que no esté aquí se considera sin traducir.
-*/
-const SAME_IN_CATALAN = new Set<string>([
-  /* Marcas, organizaciones y nombres propios. */
-  "BinPar",
-  "AWS",
-  "Axia",
-  "SERMAS",
-  "Catalunya",
-  "Generalitat de Catalunya",
-  "Servicio Madrileño de Salud",
-  "Editorial Médica Panamericana",
-  "ProMIR",
-  "ProMIR · 2025",
-  "Área Sanitaria Norte",
-  "Área Sanitaria Norte · 2026",
-  "Laura Gómez",
-  "Dra. Ana García",
-  /* Palabras y frases que se escriben igual en catalán. */
-  "AINE",
-  "Activa",
-  "Arquitectura",
-  "Biblioteca",
-  "Blog",
-  "Capa {number} / 03",
-  "Capa {number}: {role}",
-  "Cita [4]",
-  "Completada",
-  "Consulta",
-  "Consulta clínica",
-  "Consulta dirigida",
-  "Consulta real",
-  "Continuar",
-  "Cookies",
-  "Corpus",
-  "Correcta",
-  "Disponible",
-  "Error",
-  "Error 404",
-  "Esquema 1",
-  "Explorar",
-  "Explorar el blog",
-  "Idioma",
-  "Incorrecta",
-  "La base {text}",
-  "La idea",
-  "Lector de pantalla",
-  "Parcial",
-  "Pausar",
-  "Pausar: {label}",
-  "Plataforma",
-  "Política de cookies",
-  "Repetir: {label}",
-  "Una sola arquitectura.",
-  "Valora el ",
-  "Última entrada",
-  "{minutes} min de lectura",
-  "clínica.",
-  "evoluciona.",
-  "institucional.",
-  "personal.",
-  "visible.",
-  /* Cargos del equipo, en inglés en todos los idiomas. */
-  "CEO",
-  "COO",
-  "CFO",
-  "CTO",
-  "Chief Architect",
-  "Full-Stack Developer",
-  "Recruiter",
-  "Design Lead",
-  "Product Lead",
-  /*
-    El panel en inglés de la escena de idiomas: la escena enseña el producto
-    cambiando de idioma, y ese panel es inglés en cualquier web.
-  */
-  "Profile and settings",
-  "Language",
-  "Clinician",
-  "Response preferences",
-  "No preferences saved yet.",
-  "View and edit preferences",
-]);
-
-const SAME_AS_SOURCE = { en: SAME_IN_ENGLISH, ca: SAME_IN_CATALAN };
-
 function looksLanguageNeutral(value: string) {
   /* Sin palabras: cifras, símbolos, iniciales, un dominio, un correo o solo argumentos. */
   const withoutArguments = value.replace(/\{[^{}]*\}/g, "");
@@ -286,6 +151,8 @@ const source = flatten(es);
 describe.each([
   ["en", en],
   ["ca", ca],
+  ["gl", gl],
+  ["eu", eu],
 ] as const)("textos en %s", (locale, messages) => {
   const target = flatten(messages);
 

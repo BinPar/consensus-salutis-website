@@ -232,7 +232,7 @@
       "Antibiòtics: no requereixen ajust de dosi l’azitromicina, la clindamicina, el linezolid, la doxiciclina, la moxifloxacina i el cloramfenicol.",
       "Antifúngics: no necessiten ajust de dosi la caspofungina, l’itraconazol i el voriconazol (els dos últims només per via oral, ja que per via intravenosa estan contraindicats amb un aclariment de creatinina < 50 mL/min, per acumulació del vehicle ciclodextrina).",
       "Antivirals: pràcticament tots necessiten una disminució de la dosi perquè presenten un risc alt de neurotoxicitat, amb quadres confusionals, al·lucinacions visuals, etc., sobretot l’aciclovir.",
-      "Antituberculosos: no necessiten ajust de dosi la pirimetamina, la isoniazida, la rifampicina i la rifabutina."
+      "Antituberculosos: no necessiten ajust de dosi la isoniazida, la rifampicina i la rifabutina."
     ],
     "nsaids": {
       "highlight": "S’ha d’evitar l’ús d’AINE en la insuficiència renal",

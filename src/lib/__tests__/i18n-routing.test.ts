@@ -104,6 +104,26 @@ describe("routing.pathnames", () => {
     );
   });
 
+  it("el gallego va con prefijo y con las rutas traducidas", () => {
+    expect(localizedUrl("gl", "/")).toBe("https://consensussalutis.com/gl");
+    expect(localizedUrl("gl", "/privacidad")).toBe(
+      "https://consensussalutis.com/gl/privacidade",
+    );
+    expect(localizedUrl("gl", "/aviso-legal")).toBe(
+      "https://consensussalutis.com/gl/aviso-legal",
+    );
+  });
+
+  it("el euskera va con prefijo y con las rutas traducidas", () => {
+    expect(localizedUrl("eu", "/")).toBe("https://consensussalutis.com/eu");
+    expect(localizedUrl("eu", "/privacidad")).toBe(
+      "https://consensussalutis.com/eu/pribatutasuna",
+    );
+    expect(localizedUrl("eu", "/contacto")).toBe(
+      "https://consensussalutis.com/eu/kontaktua",
+    );
+  });
+
   it("cada idioma tiene su etiqueta para Intl y Open Graph", () => {
     routing.locales.forEach((locale) => {
       expect(LOCALE_TAGS[locale]).toMatch(/^[a-z]{2}-[A-Z]{2}$/);

@@ -1,0 +1,60 @@
+{
+  "source": {
+    "title": "ProMIR eskuliburua · Nefrologia",
+    "chapter": "Arrisku kardiobaskularra eta giltzurruneko gaixotasuna"
+  },
+  "chatHeader": {
+    "brand": "BinPar"
+  },
+  "composer": {
+    "placeholder": "Galdera klinikoa batzordeari...",
+    "responding": "Batzordea erantzuten ari da..."
+  },
+  "bibliography": {
+    "heading": "Bibliografia"
+  },
+  "sourcePanel": {
+    "eyebrow": "Kontsulta-iturria",
+    "fullDocument": "Ikusi dokumentu osoa"
+  },
+  "passage": {
+    "heading": "Antiinflamatorio ez-esteroideak"
+  },
+  "viewer": {
+    "heading": "Farmakoen dosiak eta giltzurruna",
+    "methods": ["Dosia murriztuz.", "Dosien arteko tartea luzatuz."]
+  },
+  "updates": {
+    "notice": "Eguneratzearen aurrekoa: geroagoko iturri batek unitate honen zati bat eguneratu du; beraz, baliteke pasarte honek jada ordeztutako datu bat jasotzea."
+  },
+  "preserved": {
+    "document": "Corpuseko dokumentua",
+    "withdrawn": "Corpusetik kendutako dokumentua",
+    "kept": "Erantzunarekin gordeta",
+    "passage": "Aipatutako pasartea"
+  },
+  "verified": {
+    "answer": {
+      "label": "Erantzunean",
+      "title": "[4] aipua"
+    },
+    "original": {
+      "label": "Jatorrizko PDFan",
+      "title": "412. or."
+    },
+    "status": {
+      "verified": "Testua egiaztatuta",
+      "verifying": "Testua egiaztatzen"
+    },
+    "detail": {
+      "verified": "Bat dator jatorrizko PDFarekin",
+      "verifying": "PDFarekin erkatzen"
+    }
+  },
+  "provenance": {
+    "document": "Dokumentua",
+    "chapter": "Kapitulua",
+    "section": "Atala",
+    "page": "Orrialdea"
+  }
+}

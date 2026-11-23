@@ -1,0 +1,83 @@
+{
+  "clarify": {
+    "userQuestion": "Pode manter o ibuprofeno a doses baixas?",
+    "eyebrow": "Pregunta do comité",
+    "question": "Cal é o filtrado glomerular estimado máis recente (mL/min/1,73 m²)?",
+    "options": {
+      "under30": "Menos de 30",
+      "from30To59": "Entre 30 e 59",
+      "from60": "60 ou máis"
+    }
+  },
+  "followup": {
+    "question": "Cambia algo se ademais toma un IECA?"
+  },
+  "committee": {
+    "title": "Comité clínico",
+    "status": {
+      "received": "3 achegas recibidas",
+      "receiving": "Recibindo achegas",
+      "selected": "Comité seleccionado",
+      "selecting": "Seleccionando expertos",
+      "incoming": "Recibindo a consulta"
+    },
+    "expertStatus": {
+      "sent": "Achega enviada",
+      "consulted": "Corpus consultado",
+      "consulting": "Consultando o corpus",
+      "directed": "Consulta dirixida"
+    },
+    "corpusLabel": "Corpus",
+    "experts": {
+      "cardiology": {
+        "name": "Cardioloxía",
+        "corpus": "Cardioloxía"
+      },
+      "pharmacology": {
+        "name": "Farmacoloxía",
+        "corpus": "Farmacoloxía"
+      },
+      "nephrology": {
+        "name": "Nefroloxía",
+        "corpus": "Nefroloxía"
+      }
+    }
+  },
+  "modes": {
+    "question": "Que axustes da medicación convén revisar neste paciente?",
+    "options": {
+      "standard": {
+        "name": "Estándar",
+        "description": "Resposta áxil para a consulta habitual."
+      },
+      "precision": {
+        "name": "Precisión",
+        "description": "Máis exhaustivo para casos complexos; tarda algo máis."
+      }
+    }
+  },
+  "progress": {
+    "received": "Resposta recibida",
+    "consulting": "Consultando…",
+    "sourcesHeading": "Fontes consultadas",
+    "sourcePages": "{source} · {count, plural, one {páx.} other {páx.}} {pages}",
+    "experts": {
+      "cardiology": {
+        "name": "Cardioloxía",
+        "source": "Manual ProMIR · Cardioloxía"
+      },
+      "pharmacology": {
+        "name": "Farmacoloxía",
+        "source": "Manual ProMIR · Nefroloxía"
+      },
+      "nephrology": {
+        "name": "Nefroloxía",
+        "source": "Manual ProMIR · Nefroloxía"
+      }
+    }
+  },
+  "images": {
+    "question": "Achego o ECG de hoxe. Hai signos de hiperpotasemia?",
+    "fileName": "ecg-12-derivacions.png"
+  }
+}

@@ -187,6 +187,12 @@ describe("contenido real del blog", () => {
     expect([...dates].sort().reverse()).toEqual(dates);
   });
 
+  it("la fecha corta en euskera no lleva los sufijos opcionales entre paréntesis", () => {
+    expect(
+      formatBlogDate(createFormatter({ locale: "eu" }), "2026-02-11"),
+    ).toBe("2026 ots 11");
+  });
+
   it("deriva href, etiqueta de fecha y tiempo de lectura", () => {
     posts.forEach((post) => {
       expect(post.href).toBe(`/blog/${post.slug}`);
@@ -369,6 +375,23 @@ describe("registro de autores", () => {
       expect(author.id).toBe(id);
       expect(author.name.trim()).not.toBe("");
       expect(blogMessages.authors[id].role.trim()).not.toBe("");
+    });
+  });
+
+  it("un equipo firma en el idioma del post; una persona, con su nombre", () => {
+    expect(getBlogAuthor("equipo-consensus-salutis", "en")!.name).toBe(
+      "BinPar team",
+    );
+    expect(getBlogAuthor("equipo-consensus-salutis", "eu")!.name).toBe(
+      "BinPar taldea",
+    );
+    expect(getBlogAuthor("equipo-consensus-salutis")!.name).toBe(
+      "Equipo BinPar",
+    );
+    routing.locales.forEach((locale) => {
+      expect(getBlogAuthor("alberto-blanco", locale)!.name).toBe(
+        "Alberto Blanco",
+      );
     });
   });
 });

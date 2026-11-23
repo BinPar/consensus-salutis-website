@@ -1,0 +1,28 @@
+{
+  "featureScene": {
+    "play": "Erreproduzitu: {label}",
+    "pause": "Pausatu: {label}",
+    "playTitle": "Erreproduzitu",
+    "pauseTitle": "Pausatu",
+    "replay": "Errepikatu: {label}",
+    "replayTitle": "Errepikatu eszena"
+  },
+  "responseActions": {
+    "save": "Gorde iturrietan",
+    "saved": "Iturrietan gordeta"
+  },
+  "zoomControls": {
+    "reset": "Berrezarri"
+  },
+  "profilePanel": {
+    "title": "Profila eta ezarpenak"
+  },
+  "localeSwitcher": {
+    "codes": ["eu", "ca", "en"]
+  },
+  "profileUser": {
+    "initials": "LG",
+    "name": "Laura Gómez",
+    "specialty": "Nefrologia"
+  }
+}

@@ -55,7 +55,7 @@ clinical demo content and legal pages apply here too.
 | institución                         | institució                                                                                  |
 | servicio de salud                   | servei de salut; regional services keep their own names (SERMAS, Servei Català de la Salut) |
 | profesional sanitario               | professional sanitari                                                                       |
-| Solicitar reunión                   | Sol·licitar una reunió                                                                      |
+| Solicitar reunión                   | Sol·licitar reunió (button; «una reunió» in running text)                                   |
 | Probar plataforma                   | Provar la plataforma                                                                        |
 | Hablar con el equipo                | Parlar amb l’equip                                                                          |
 
@@ -105,4 +105,4 @@ reclamació_.
 
 As in `english.md`: values only, same keys, same ICU arguments and tags, arrays with the same
 length and order; texts identical to the Spanish must be added to `SAME_IN_CATALAN` in
-`src/lib/__tests__/i18n-messages.test.ts`, or the test fails as untranslated.
+`src/lib/__tests__/i18n-same-as-source.ts`, or the test fails as untranslated.

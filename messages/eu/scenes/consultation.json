@@ -1,0 +1,83 @@
+{
+  "clarify": {
+    "userQuestion": "Jarrai dezake ibuprofenoa dosi txikietan hartzen?",
+    "eyebrow": "Batzordearen galdera",
+    "question": "Zein da azken iragazketa glomerular zenbatetsia (mL/min/1,73 m²)?",
+    "options": {
+      "under30": "30 baino gutxiago",
+      "from30To59": "30 eta 59 artean",
+      "from60": "60 edo gehiago"
+    }
+  },
+  "followup": {
+    "question": "Aldatzen al da ezer AEBI bat ere hartzen badu?"
+  },
+  "committee": {
+    "title": "Batzorde klinikoa",
+    "status": {
+      "received": "3 ekarpen jasota",
+      "receiving": "Ekarpenak jasotzen",
+      "selected": "Batzordea hautatuta",
+      "selecting": "Adituak hautatzen",
+      "incoming": "Kontsulta jasotzen"
+    },
+    "expertStatus": {
+      "sent": "Ekarpena bidalita",
+      "consulted": "Corpusa kontsultatuta",
+      "consulting": "Corpusa kontsultatzen",
+      "directed": "Kontsulta bideratuta"
+    },
+    "corpusLabel": "Corpusa",
+    "experts": {
+      "cardiology": {
+        "name": "Kardiologia",
+        "corpus": "Kardiologia"
+      },
+      "pharmacology": {
+        "name": "Farmakologia",
+        "corpus": "Farmakologia"
+      },
+      "nephrology": {
+        "name": "Nefrologia",
+        "corpus": "Nefrologia"
+      }
+    }
+  },
+  "modes": {
+    "question": "Paziente honen medikazioan, zer doikuntza komeni da berrikustea?",
+    "options": {
+      "standard": {
+        "name": "Estandarra",
+        "description": "Erantzun arina ohiko kontsultarako."
+      },
+      "precision": {
+        "name": "Zehaztasuna",
+        "description": "Sakonagoa kasu konplexuetarako; denbora pixka bat gehiago behar du."
+      }
+    }
+  },
+  "progress": {
+    "received": "Erantzuna jasota",
+    "consulting": "Kontsultatzen…",
+    "sourcesHeading": "Kontsultatutako iturriak",
+    "sourcePages": "{source} · {count, plural, one {{pages}. or.} other {{pages} or.}}",
+    "experts": {
+      "cardiology": {
+        "name": "Kardiologia",
+        "source": "ProMIR eskuliburua · Kardiologia"
+      },
+      "pharmacology": {
+        "name": "Farmakologia",
+        "source": "ProMIR eskuliburua · Nefrologia"
+      },
+      "nephrology": {
+        "name": "Nefrologia",
+        "source": "ProMIR eskuliburua · Nefrologia"
+      }
+    }
+  },
+  "images": {
+    "question": "Gaurko EKGa erantsi dut. Ba al dago hiperpotasemia-zeinurik?",
+    "fileName": "ekg-12-deribazio.png"
+  }
+}

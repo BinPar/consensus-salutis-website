@@ -1,0 +1,159 @@
+{
+  "meta": {
+    "title": "Plataforma",
+    "description": "Kontsulta klinikotik ebidentziara: ikusi nola biltzen dituen BinPar-ek adituak, nola erkatzen dituen haien ekarpenak eta nola ematen duen iturri egiaztagarriak dituen orientazioa."
+  },
+  "walkthrough": {
+    "sections": {
+      "platform": "Plataforma",
+      "features": "Funtzionalitateak",
+      "contact": "Kontaktua"
+    },
+    "intro": {
+      "eyebrow": "Gure plataforma",
+      "title": "Kontsulta klinikotik<br></br><accent>ebidentziara.</accent>",
+      "lead": "Arakatu interfazea, panelak eta zure erabiltzaile-eremua adibidezko kontsulta batekin. Ikusi nola aurkezten den erantzuna, eta berrikusi haren oinarri diren iturriak, testuinguru klinikoan sakontzeko."
+    },
+    "next": {
+      "eyebrow": "Hurrengo urratsa",
+      "title": "Zure erakundearen ezagutza, kontsulta bakoitzean.",
+      "lead": "Azter dezagun nola integratu zure gidak, protokoloak eta corpus medikoa gobernatutako kontsulta-ingurune batean.",
+      "cta": "Eskatu informazio gehiago"
+    }
+  },
+  "preview": {
+    "logoAlt": "BinPar",
+    "user": {
+      "initial": "A",
+      "role": "Klinikoa",
+      "name": "Ana García doktorea",
+      "email": "ana@hospital.example",
+      "organization": "Erakustaldirako ospitalea"
+    },
+    "navigation": {
+      "label": "Txataren nabigazioa",
+      "brandNewChat": "BinPar · Txat berria",
+      "newChat": "Txat berria",
+      "closeMobile": "Itxi txataren nabigazioa",
+      "closeMobileTitle": "Itxi nabigazioa",
+      "collapse": "Tolestu alboko barra",
+      "expand": "Zabaldu alboko barra",
+      "openMobile": "Ireki txataren nabigazioa",
+      "pinned": "Ainguratutakoak",
+      "recent": "Azkenak",
+      "showPinned": "Ikusi ainguratutako txatak",
+      "showRecent": "Ikusi azken elkarrizketak",
+      "emptyPinned": "Ez dago ainguratutako txatik",
+      "emptyRecent": "Ez dago azken elkarrizketarik",
+      "pin": "Ainguratu: {title}",
+      "unpin": "Desainguratu: {title}",
+      "options": "Aukerak: {title}",
+      "optionsTitle": "Aukerak",
+      "openProfile": "Ireki profila eta ezarpenak",
+      "resize": "Aldatu elkarrizketen panelaren tamaina"
+    },
+    "chat": {
+      "title": "Kontsulta klinikoa",
+      "conversation": "Adibidezko elkarrizketa",
+      "bibliography": "Bibliografia",
+      "scrollBottom": "Joan elkarrizketaren amaierara",
+      "restart": "Berrabiarazi kontsulta",
+      "attach": "Eranskinak plataforman daude erabilgarri",
+      "chooseExample": "Aukeratu adibidezko kontsulta bat",
+      "placeholder": "Galdera klinikoa batzordeari...",
+      "send": "Kargatu adibidezko kontsulta",
+      "citation": "Ikusi {order}. iturria: {title}"
+    },
+    "source": {
+      "label": "Kontsulta-iturrien panela",
+      "resize": "Aldatu kontsulta-iturrien panelaren tamaina",
+      "openDocuments": "Irekitako dokumentuak",
+      "closeTab": "Itxi: {title}",
+      "close": "Itxi kontsulta-iturrien panela",
+      "eyebrow": "Kontsulta-iturria",
+      "showChapter": "Ikusi kapitulua",
+      "showFullDocument": "Ikusi dokumentu osoa",
+      "backToCitation": "Itzuli aipura"
+    },
+    "popup": {
+      "conversationOptions": "Elkarrizketaren aukerak",
+      "examples": "Adibidezko kontsultak",
+      "pinned": "Ainguratutako txatak",
+      "recent": "Azken elkarrizketak",
+      "pin": "Ainguratu",
+      "unpin": "Desainguratu",
+      "rename": "Aldatu izena",
+      "delete": "Ezabatu"
+    },
+    "editDialog": {
+      "renameTitle": "Aldatu elkarrizketaren izena",
+      "deleteTitle": "Ezabatu elkarrizketa",
+      "nameLabel": "Elkarrizketaren izena",
+      "deleteBody": "«{title}» elkarrizketa erakustaldi honetatik ezabatuko da.",
+      "cancel": "Utzi",
+      "save": "Gorde",
+      "delete": "Ezabatu"
+    },
+    "profile": {
+      "title": "Profila eta ezarpenak",
+      "close": "Itxi profila",
+      "themeLight": "Aktibatu itxura argia",
+      "themeDark": "Aktibatu itxura iluna",
+      "activeOrganization": "Erakunde aktiboa",
+      "organizationActive": "Aktibo",
+      "account": "Kontua",
+      "status": "Egoera:",
+      "statusActive": "Aktibo",
+      "lastActivity": "Azken jarduera:",
+      "lastActivityValue": "2026ko urr. 14a, 13:36",
+      "resetTitle": "Berrabiarazi erakustaldia",
+      "signOut": "Amaitu saioa"
+    },
+    "document": {
+      "label": "Dokumentuaren edukia",
+      "renal": {
+        "etiologyHeading": "Etiologia",
+        "etiology": "Giltzurruneko gaixotasun kronikoaren (GGK) kausak desberdinak izango dira pazientearen adinaren arabera. Hala, adin pediatrikoan sortzetiko arazoak eta arazo glomerularrak dira nagusi; adin ertaineko pazienteetan, giltzurrun-polikistosia; eta paziente adinduetan, diabetes mellitusa eta kausa baskularrak.",
+        "diabetes": "Kopuru absolutuetan, nefropatia diabetikodun diabetes mellitusa da GGKaren kausa nagusia mundu osoan.",
+        "progressionHeading": "GGKaren progresioa.",
+        "progressionAfter": "Iragazketa glomerularraren (IG) gorabehera txikiek ez dute nahitaez progresioa adierazten; horregatik eskatzen da IGaren jaitsiera iraunkorra izan dadila. Hipertentsio arteriala (HTA) eta proteinuria izango dira gaixotasunaren progresio-faktore nagusiak, eta alda daitezkeen beste arrisku-faktore batzuk. Beste faktore batzuk izango dira gluzemiaren kontrola diabetesa duten pazienteetan, dislipemia, hiperurizemia eta azidosi metabolikoaren kontrola.",
+        "risksHeading": "Giltzurruneko gaixotasun kronikoaren progresio-faktoreak",
+        "risks": [
+          "Proteinuria",
+          "Hipertentsio arteriala",
+          "Diabetes mellitusa",
+          "Gaixotasun kardiobaskularra",
+          "Tabakismoa"
+        ]
+      },
+      "excerptRenal": "Balorazio klinikoa eta tratamendua",
+      "excerptHeart": "Bihotz-gutxiegitasun akutua",
+      "selectCitation": "Dagokion dokumentu-zatia aurkitzeko, hautatu hasierako kasuko aipu bat.",
+      "pharmacology": "Tratamendu farmakologikoa",
+      "clinical": "Balorazio klinikoa",
+      "dosingHeading": "Farmakoen dosiak eta giltzurruna",
+      "dosingWays": ["Dosia murriztuz.", "Dosien arteko tartea luzatuz."],
+      "nsaidsHeading": "Antiinflamatorio ez-esteroideak"
+    },
+    "conversations": {
+      "valoracion": "Disnearen eta edema periferikoaren hasierako ebaluazioa",
+      "seguimiento": "Medikazioaren eta giltzurrun-funtzioaren berrikuspena"
+    },
+    "answers": {
+      "initial": "Koadroak bihotz-gutxiegitasunaren susmoa eragiten du, baina ez du baieztatzen; giltzurrun-funtzioaren narriadura, anemia eta disnearen beste kausa batzuk ere baloratu behar dira. Hasierako balorazioak sintomak, miaketa eta probak bateratu behar ditu, kontuan hartuta giltzurruneko gaixotasunak kongestioa eragiten lagun dezakeela eta emaitza batzuen interpretazioa alda dezakeela. [1] [2] [3]\n\nAnamnesia eta miaketa: bilakaera zehaztu, eta ortopneaz, gaueko disnea paroxistikoaz, bularreko minaz eta palpitazioez galdetu. Presio arteriala, bihotz-maiztasuna, arnas maiztasuna eta oxigeno-asetasuna erregistratu; zain jugularrak, krepitatzaileak, edema eta hipoperfusio-zeinuak miatu, hala nola hoztasuna, pultsu ahula, oliguria edo konfusioa. [1]\n\nHasierako probak: elektrokardiograma (EKG), ekokardiograma transtorazikoa, bularraldeko erradiografia, analisiak eta BNP edo NT-proBNP. Kontuan hartu hemograma, giltzurrun-funtzioa, elektrolitoak, gluzemia/HbA1c eta gernua; giltzurrun-funtzioaren narriadura akutua baieztatzen bada, giltzurruneko ekografia da buxadura baztertzeko lehen irudi-proba. [1] [3]\n\nInterpretazioa: BNP edo NT-proBNP balio normal batek bihotz-gutxiegitasuna baztertzen lagun dezake; balio altu batek haren alde egiten du, baina ez du baieztatzen. Giltzurruneko gaixotasunak ere igo dezake balio hori; beraz, klinikarekin eta ekokardiogramarekin batera interpretatu behar da. Erradiografiak kongestioa edo beste kausa batzuk bilatzen lagun dezake, baina berez ez du bihotz-gutxiegitasuna baieztatzen, ezta baztertzen ere. [1]\n\nDiabetesak eta hipertentsioak bihotz-gutxiegitasunaren arriskua handitzen dute; giltzurruneko gaixotasunak, gainera, giltzurrun-funtzioaren eta potasioaren balorazioa baldintzatzen du. Ibuprofenoa maiz hartzea berrikustekoa da: antiinflamatorio ez-esteroideek (AIEE) giltzurrun-funtzioa narria dezakete, tentsioaren kontrola okertu eta bihotz-deskonpentsazioa erraztu; corpusak giltzurrun-gutxiegitasunean horiek saihestea gomendatzen du, eta zuhurtzia berezia behar dela adierazten du angiotentsinaren entzima bihurtzailearen inhibitzaileekin (AEBI), angiotentsinaren hartzaileen antagonistekin (AHA-II) edo diuretikoekin konbinatzen badira. [4] [5] [1] [6] [7]\n\nBihotz-gutxiegitasunaren (BG) definizio unibertsala: hiru irizpideak bete behar dira: 1. sintomak + zeinuak, historia klinikoaren arabera; 2. alterazio estrukturala/funtzionala, bihotzeko irudi-proben arabera; 3. bentrikulu barneko betetze-presioen igoera (peptido natriuretiko altuen, irudi-probetako biriketako kongestioaren edo kongestio sistemikoaren, edo kateterismo bidezko neurketa inbaditzailearen arabera).\n\nAlarma-zeinuak: okertze azkarrak, bereziki atsedeneko disneak edo arnas narriadurak, premiazko arreta eskatzen du. Hipotentsioa hipoperfusio-zeinuekin —hala nola larruazal hotza, oliguria edo egoera mentalaren alterazioa— batera agertzea kezkagarria da, shocka izan daitekeelako. Biriketako edema akutua, hiperpotasemia toxikoa eta muturreko azidosi metabolikoa giltzurrun-gutxiegitasun akutuan deskribatutako konplikazio larriak dira. [1] [8] [1] [3]",
+      "followup": "Koadroa zehazteko, honako hauek bilduko nituzke: sintomen bilakaera, jardueretan duten eragina, etzatean okertzen den edo arnasa falta zaiolako esnatzen den, eta bularreko minik, palpitaziorik, zorabiorik edo sinkoperik baduen. Diuresian eta pisuan aldaketarik izan den ere galdetuko nuke, pisua ohikoarekin alderatuta; 3 egunean 2 kg igotzea zaindu beharreko deskonpentsazio-zeinu gisa ageri da. [1] [1,2]\n\nMiaketan, presio arteriala, bihotz-maiztasuna, arnas maiztasuna, oxigeno-asetasuna, egungo pisua eta kongestioari edo perfusioari buruzko datuak falta dira. Giltzurrun-funtzioaren bilakaera interpretatzeko, kreatininaren eta iragazketa glomerularraren aurreko eta oraingo emaitzak bilduko nituzke, datak barne, bai eta potasioa, albuminuria/proteinuria eta gernu-jalkina ere; narriadura berria dela badirudi, diuresiaren aldaketak, hipotentsioa, bolumen-galerak, infekzioak eta tratamenduaren azken aldaketak argituko nituzke. [1] [3] [4]\n\nMedikazioa berrikusteko, agindutako farmakoen eta errezetarik gabekoen zerrenda osoa eskatuko nuke, dosia, maiztasuna, arrazoia, iraupena eta azken aldaketak adierazita; atxikidura, etenaldiak eta osagarrien erabilera ere egiaztatuko nituzke. Bereziki ibuprofenoa kuantifikatuko nuke —zenbat hartzen duen eta azken hartualdia noiz izan zen—, eta beste antiinflamatorio ez-esteroide (AIEE) batzuez, angiotentsinaren entzima bihurtzailearen inhibitzaileez (AEBI) edo angiotentsinaren hartzaileen antagonistez (AHA-II), diuretikoez eta farmako potasio-aurreztaileez galdetuko nuke. [5] [1] [6]\n\nGiltzurrun-funtzioa eta potasioa funtsezko datuak dira doikuntza edo kontrola behar dezaketen tratamenduak berrikusteko. AEBI edo AHA-II motako farmakorik hartzen badu, noiz hasi edo aldatu ziren eta zer kontrol analitiko egin ziren jasoko nuke; AIEEak AEBI/AHA-II farmakoekin edo diuretikoekin konbinatzeak arreta berezia merezi du giltzurruneko gaixotasun kronikoan (GGK). [6] [6,7]\n\nLagungarria litzateke, halaber, bihotz-gutxiegitasunaren, infartuaren edo gaixotasun koronarioaren, arritmien eta balbulopatiaren aurrekariak ezagutzea, bai eta bihotzerako, presio arterialerako eta diabeteserako dagoeneko agindutako tratamenduak ere. Eskuragarri badaude, EKG, ekokardiograma, bularraldeko erradiografia eta analitika berrikusiko nituzke —hemograma, giltzurrun-funtzioa eta elektrolitoak barne—; giltzurruneko gaixotasunak BNP edo NT-proBNP igo dezake, eta, beraz, emaitza horiek klinikarekin batera interpretatu behar dira. [8] [9] [1]"
+    },
+    "references": {
+      "heartFailure": "ProMIR eskuliburua · Kardiologia · Bihotz-gutxiegitasuna.",
+      "chronicKidneyFailure": "ProMIR eskuliburua · Nefrologia · Giltzurrun-gutxiegitasun kronikoa.",
+      "acuteKidneyFailure": "ProMIR eskuliburua · Nefrologia · Giltzurrun-gutxiegitasun akutua.",
+      "hypertension": "ProMIR eskuliburua · Kardiologia · Hipertentsio arteriala. Prebentzioa, detekzioa, diagnostikoa eta tratamendua.",
+      "cardiovascularRisk": "ProMIR eskuliburua · Kardiologia · Arrisku kardiobaskularra. Gaixotasun kardiobaskular aterosklerotikoen prebentzioa, arrisku-faktore kardiobaskularren kontrolaren bidez.",
+      "thoracicSyndromes": "ProMIR eskuliburua · Erradiologia-Larrialdiak · Sindrome torazikoak larrialdietan.",
+      "nephrologyBody": "ProMIR eskuliburua · Nefrologia · Testu-gorputza.",
+      "basicCardiology": "ProMIR eskuliburua · Kardiologia · Oinarrizko kardiologia.",
+      "heartFailureSection": "Bihotz-gutxiegitasuna.",
+      "chronicKidneyDefinition": "Giltzurruneko gaixotasun kronikoa (GGK) eta giltzurrun-gutxiegitasun kronikoa · Definizioa."
+    }
+  }
+}

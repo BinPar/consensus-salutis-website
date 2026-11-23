@@ -17,8 +17,10 @@ import { absoluteUrl } from "~/lib/site";
 import ca from "../../messages/ca";
 import en from "../../messages/en";
 import es from "../../messages/es";
+import eu from "../../messages/eu";
+import gl from "../../messages/gl";
 
-const messages = { es, en, ca } satisfies Record<Locale, unknown>;
+const messages = { es, en, ca, gl, eu } satisfies Record<Locale, unknown>;
 
 /** Escapa los cinco caracteres que no pueden ir crudos en texto XML. */
 function escapeXml(value: string) {

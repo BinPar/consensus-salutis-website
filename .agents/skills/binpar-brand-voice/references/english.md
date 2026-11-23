@@ -122,5 +122,5 @@ Española de Protección de Datos, with an English gloss where useful).
 - Keep the same ICU arguments and rich-text tags; `pnpm test` (`i18n-messages.test.ts`) fails
   otherwise.
 - Arrays keep their length and order.
-- A text identical in both languages (a brand, a code) must be added to `SAME_IN_ENGLISH` in that
-  test, so nothing is left untranslated by accident.
+- A text identical in both languages (a brand, a code) must be added to `SAME_IN_ENGLISH` in
+  `src/lib/__tests__/i18n-same-as-source.ts`, so nothing is left untranslated by accident.
