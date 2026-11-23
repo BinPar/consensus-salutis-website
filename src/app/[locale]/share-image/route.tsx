@@ -1,7 +1,7 @@
 /**
  * Imagen para compartir de todas las páginas que no tienen una propia (todas
  * menos los posts): la tarjeta de marca de `og-card.tsx` con el lema de la
- * portada en el idioma de la página.
+ * portada (`common.share.title`) en el idioma de la página.
  *
  * La anuncia `localizedMetadata` (`shareImageUrl`) en `/share-image`,
  * `/en/share-image`, etc. Es un route handler y no un `opengraph-image.tsx`
@@ -22,15 +22,12 @@ export async function GET(
   const locale = hasLocale(routing.locales, requestedLocale)
     ? requestedLocale
     : routing.defaultLocale;
-  const t = await getTranslations({ locale, namespace: "home" });
-  /* El lema es la segunda línea de la portada: «BinPar<line>…</line>». */
-  const coverTitle = t.raw("cover.title") as string;
-  const tagline =
-    /<line>(.*?)<\/line>/.exec(coverTitle)?.[1] ?? t("cover.label");
+  const t = await getTranslations({ locale });
 
   return ogCard({
-    eyebrow: t("hero.eyebrow"),
-    title: tagline,
+    eyebrow: t("home.hero.eyebrow"),
+    /* Con `<accent>`: el segundo tono cae donde lo pide cada idioma. */
+    title: t.raw("common.share.title") as string,
     footer: "binpar.com",
   });
 }

@@ -20,5 +20,8 @@
     "body": "Try again. If the problem persists, write to us and we'll look into it.",
     "retry": "Try again",
     "home": "Back to home"
+  },
+  "share": {
+    "title": "<accent>Traceable</accent> clinical answers."
   }
 }

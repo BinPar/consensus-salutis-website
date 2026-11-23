@@ -20,5 +20,8 @@
     "body": "Torna-ho a provar. Si el problema continua, escriu-nos i ho revisem.",
     "retry": "Tornar-ho a provar",
     "home": "Tornar a l’inici"
+  },
+  "share": {
+    "title": "Respostes clíniques <accent>traçables.</accent>"
   }
 }

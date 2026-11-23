@@ -20,5 +20,8 @@
     "body": "Volve intentalo. Se o problema continúa, escríbenos e revisámolo.",
     "retry": "Tentar de novo",
     "home": "Volver ao inicio"
+  },
+  "share": {
+    "title": "Respostas clínicas <accent>trazables.</accent>"
   }
 }

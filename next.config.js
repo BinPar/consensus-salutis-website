@@ -18,8 +18,14 @@ const config = {
     cualquier regeneración en runtime.
   */
   outputFileTracingIncludes: {
-    "/[locale]/blog/[slug]/opengraph-image": ["./src/app/_fonts/**"],
-    "/[locale]/share-image": ["./src/app/_fonts/**"],
+    "/[locale]/blog/[slug]/opengraph-image": [
+      "./src/app/_fonts/**",
+      "./public/logos/binpar-brand/binpar-logo-dark.svg",
+    ],
+    "/[locale]/share-image": [
+      "./src/app/_fonts/**",
+      "./public/logos/binpar-brand/binpar-logo-dark.svg",
+    ],
   },
   experimental: {
     /*

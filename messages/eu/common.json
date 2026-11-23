@@ -20,5 +20,8 @@
     "body": "Saiatu berriro. Arazoak jarraitzen badu, idatzi iezaguzu eta aztertuko dugu.",
     "retry": "Saiatu berriro",
     "home": "Itzuli hasierara"
+  },
+  "share": {
+    "title": "<accent>Trazabilitatea duten</accent> erantzun klinikoak."
   }
 }
