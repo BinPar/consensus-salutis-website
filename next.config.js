@@ -45,6 +45,10 @@ const config = {
 const withMDX = createMDX({
   options: {
     remarkPlugins: [["remark-frontmatter", ["yaml"]]],
+    /* Ruta absoluta en string por la misma razón: Turbopack no acepta funciones. */
+    rehypePlugins: [
+      new URL("./src/lib/rehype-themed-figures.mjs", import.meta.url).pathname,
+    ],
   },
 });
 

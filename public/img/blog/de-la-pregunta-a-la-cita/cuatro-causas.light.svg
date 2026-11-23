@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600" role="img" aria-labelledby="t d" font-family="Sora, ui-sans-serif, system-ui, sans-serif">
+<title id="t">Cuatro causas y cuatro condiciones</title><desc id="d">Dos columnas enfrentadas. A la izquierda, las cuatro causas por las que una cita deja de servir: orden de trabajo, contexto, dato que falta y versión. A la derecha, la condición que evita cada una.</desc>
+<defs>
+<pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse"><path d="M44 0H0V44" fill="none" stroke="rgba(0,109,121,0.051)" stroke-width="1"/></pattern>
+<marker id="a" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L12 6L0 12z" fill="#006D79"/></marker>
+<marker id="al" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L12 6L0 12z" fill="#E8B400"/></marker>
+<radialGradient id="glow" cx="0.85" cy="0.1" r="0.6"><stop offset="0" stop-color="rgba(0,109,121,0.085)"/><stop offset="1" stop-color="rgba(0,109,121,0.0)"/></radialGradient>
+</defs>
+<rect width="1200" height="600" fill="#F4F9FC"/><rect width="1200" height="600" fill="url(#grid)"/><rect width="1200" height="600" fill="url(#glow)"/>
+<text x="40" y="64" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="700" fill="#006D79" letter-spacing="1.5">POR QUÉ FALLA UNA CITA</text>
+<text x="660" y="64" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="700" fill="#006D79" letter-spacing="1.5">QUÉ LO EVITA</text>
+<rect x="40" y="92" width="500" height="104" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<text x="72" y="132" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="15" font-weight="700" fill="#006D79" letter-spacing="1.5">ORDEN</text>
+<text x="72" y="168" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#05215E">Texto primero, citas después</text>
+<path d="M548 144 H652" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="660" y="92" width="500" height="104" rx="16" fill="rgba(0,109,121,0.102)" stroke="#006D79" stroke-width="2"/>
+<text x="692" y="153" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#006D79">Lo que no tiene cita se retira</text>
+<rect x="40" y="216" width="500" height="104" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<text x="72" y="256" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="15" font-weight="700" fill="#006D79" letter-spacing="1.5">CONTEXTO</text>
+<text x="72" y="292" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#05215E">La regla, repartida en páginas</text>
+<path d="M548 268 H652" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="660" y="216" width="500" height="104" rx="16" fill="rgba(0,109,121,0.102)" stroke="#006D79" stroke-width="2"/>
+<text x="692" y="277" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#006D79">Cada especialidad, su corpus entero</text>
+<rect x="40" y="340" width="500" height="104" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<text x="72" y="380" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="15" font-weight="700" fill="#006D79" letter-spacing="1.5">DATO</text>
+<text x="72" y="416" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#05215E">Falta el dato que separa casos</text>
+<path d="M548 392 H652" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="660" y="340" width="500" height="104" rx="16" fill="rgba(0,109,121,0.102)" stroke="#006D79" stroke-width="2"/>
+<text x="692" y="401" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#006D79">Se pregunta antes de responder</text>
+<rect x="40" y="464" width="500" height="104" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<text x="72" y="504" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="15" font-weight="700" fill="#006D79" letter-spacing="1.5">VERSIÓN</text>
+<text x="72" y="540" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#05215E">Cita a la edición equivocada</text>
+<path d="M548 516 H652" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="660" y="464" width="500" height="104" rx="16" fill="rgba(0,109,121,0.102)" stroke="#006D79" stroke-width="2"/>
+<text x="692" y="525" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#006D79">La versión del centro del profesional</text>
+</svg>

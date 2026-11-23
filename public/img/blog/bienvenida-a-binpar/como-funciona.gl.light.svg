@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 640" width="1200" height="640" role="img" aria-labelledby="t d" font-family="Sora, ui-sans-serif, system-ui, sans-serif">
+<title id="t">Como funciona unha consulta</title><desc id="d">A pregunta chega ao comité de expertos, onde cada especialidade se consulta sobre o seu propio corpus. A resposta enlaza cada afirmación coa súa cita e a decisión queda en mans do clínico. Debaixo do comité, o goberno do coñecemento revisa, versiona e comproba o corpus.</desc>
+<defs>
+<pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse"><path d="M44 0H0V44" fill="none" stroke="rgba(0,109,121,0.051)" stroke-width="1"/></pattern>
+<marker id="a" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L12 6L0 12z" fill="#006D79"/></marker>
+<marker id="al" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L12 6L0 12z" fill="#E8B400"/></marker>
+<radialGradient id="glow" cx="0.85" cy="0.1" r="0.6"><stop offset="0" stop-color="rgba(0,109,121,0.085)"/><stop offset="1" stop-color="rgba(0,109,121,0.0)"/></radialGradient>
+</defs>
+<rect width="1200" height="640" fill="#F4F9FC"/><rect width="1200" height="640" fill="url(#grid)"/><rect width="1200" height="640" fill="url(#glow)"/>
+<path d="M240 280 H296" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<path d="M640 280 H686" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<path d="M920 280 H966" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<path d="M480 548 V494" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#a)"/>
+<rect x="40" y="205" width="200" height="150" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<text x="140" y="262" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="26" font-weight="600" fill="#05215E">Pregunta</text>
+<text x="140" y="300" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="400" fill="#45556C">o caso, como nunha</text>
+<text x="140" y="323" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="400" fill="#45556C">sesión clínica</text>
+<rect x="300" y="70" width="340" height="420" rx="16" fill="rgba(0,109,121,0.102)" stroke="#006D79" stroke-width="2"/>
+<text x="470" y="122" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="26" font-weight="600" fill="#006D79">Comité de expertos</text>
+<rect x="326" y="160" width="288" height="84" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<rect x="348" y="184" width="30" height="38" rx="5" fill="rgba(0,109,121,0.085)" stroke="rgba(0,109,121,0.425)" stroke-width="1.5"/>
+<rect x="353" y="179" width="30" height="38" rx="5" fill="rgba(0,109,121,0.136)" stroke="rgba(0,109,121,0.425)" stroke-width="1.5"/>
+<rect x="358" y="174" width="30" height="38" rx="5" fill="rgba(0,109,121,0.187)" stroke="rgba(0,109,121,0.425)" stroke-width="1.5"/>
+<text x="400" y="209" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="400" fill="#45556C">Especialidade · corpus</text>
+<rect x="326" y="264" width="288" height="84" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<rect x="348" y="288" width="30" height="38" rx="5" fill="rgba(0,109,121,0.085)" stroke="rgba(0,109,121,0.425)" stroke-width="1.5"/>
+<rect x="353" y="283" width="30" height="38" rx="5" fill="rgba(0,109,121,0.136)" stroke="rgba(0,109,121,0.425)" stroke-width="1.5"/>
+<rect x="358" y="278" width="30" height="38" rx="5" fill="rgba(0,109,121,0.187)" stroke="rgba(0,109,121,0.425)" stroke-width="1.5"/>
+<text x="400" y="313" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="400" fill="#45556C">Especialidade · corpus</text>
+<rect x="326" y="368" width="288" height="84" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<rect x="348" y="392" width="30" height="38" rx="5" fill="rgba(0,109,121,0.085)" stroke="rgba(0,109,121,0.425)" stroke-width="1.5"/>
+<rect x="353" y="387" width="30" height="38" rx="5" fill="rgba(0,109,121,0.136)" stroke="rgba(0,109,121,0.425)" stroke-width="1.5"/>
+<rect x="358" y="382" width="30" height="38" rx="5" fill="rgba(0,109,121,0.187)" stroke="rgba(0,109,121,0.425)" stroke-width="1.5"/>
+<text x="400" y="417" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="400" fill="#45556C">Especialidade · corpus</text>
+<rect x="690" y="205" width="230" height="150" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<text x="805" y="262" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="26" font-weight="600" fill="#05215E">Resposta</text>
+<text x="805" y="300" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="400" fill="#45556C">cada afirmación</text>
+<text x="805" y="323" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="400" fill="#45556C">coa súa cita</text>
+<rect x="970" y="190" width="190" height="180" rx="16" fill="rgba(255,210,48,0.18)" stroke="#FFD230" stroke-width="2"/>
+<text x="1065" y="232" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="700" fill="#06111F" letter-spacing="1.5">DECISIÓN</text>
+<text x="1065" y="270" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#05215E">O clínico decide</text>
+<text x="1065" y="324" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="400" fill="#45556C">coa pasaxe</text>
+<text x="1065" y="347" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="400" fill="#45556C">á vista</text>
+<rect x="300" y="552" width="340" height="64" rx="16" fill="rgba(255,255,255,0.7)" stroke="rgba(0,109,121,0.297)" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="470" y="578" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="20" font-weight="600" fill="#05215E">Goberno do coñecemento</text>
+<text x="470" y="603" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">revisión, versións e preguntas de control</text>
+</svg>

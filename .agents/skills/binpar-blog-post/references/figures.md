@@ -43,9 +43,20 @@ generada es la excepción.
 
 ## SVG: reglas de dibujo
 
-La figura se ve igual en modo claro y oscuro porque **lleva su propio fondo
-opaco**, como la portada. Nunca depende del fondo de la página ni de clases
-Tailwind: es un fichero externo y no las recibe.
+Cada figura SVG va en **dos ficheros gemelos**: `<nombre>.svg` (tema oscuro,
+la paleta de abajo) y `<nombre>.light.svg` (tema claro). En el `.mdx` se
+enlaza solo el oscuro; el plugin `src/lib/rehype-themed-figures.mjs` pinta los
+dos y el CSS muestra el del modo activo. `pnpm test` falla si falta el gemelo.
+Cada fichero lleva su propio fondo opaco y no depende de clases Tailwind: es un
+fichero externo y no las recibe.
+
+El claro es el mismo dibujo con la paleta clara de marca, sustituyendo color
+por color: fondo `#06111f` → hielo `#F4F9FC`; cajas → `#FFFFFF`; turquesa
+`#00BCBB` y `#71fffe` → teal `#006D79` (y `rgba(0,188,187,a)` →
+`rgba(0,109,121,a·0,85)`); título `#f8fafc` → navy `#05215E`; secundario
+`#90a1b9` → slate 600 `#45556C`. El elemento amarillo pasa a `#FFD230` con
+relleno `rgba(255,210,48,0.18)`, texto azul noche `#06111F` y flechas
+`#E8B400`, porque el amarillo claro no se lee como texto sobre hielo.
 
 | Elemento | Valor |
 |---|---|
