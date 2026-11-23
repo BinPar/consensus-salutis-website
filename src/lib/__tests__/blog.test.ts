@@ -27,7 +27,7 @@ import { formatBlogDate } from "~/app/_components/blog/blog-post-format";
 import { blogAuthorIds, getBlogAuthor } from "~/content/blog/authors";
 import { routing } from "~/i18n/routing";
 import { blogCoverGeometry } from "~/lib/blog-cover";
-import { lightFigureSrc } from "~/lib/rehype-themed-figures.mjs";
+import { lightFigureSrc, lightVideoSrc } from "~/lib/rehype-themed-figures.mjs";
 
 import blogMessages from "../../../messages/es/blog.json";
 
@@ -167,6 +167,18 @@ describe("contenido real del blog", () => {
     expect(lightFigureSrc("/img/logo.svg")).toBeNull();
   });
 
+  it("los vídeos del blog y sus pósteres tienen gemelo claro", () => {
+    expect(lightVideoSrc("/video/blog/a/v.mp4")).toBe(
+      "/video/blog/a/v.light.mp4",
+    );
+    expect(lightVideoSrc("/video/blog/a/v.jpg")).toBe(
+      "/video/blog/a/v.light.jpg",
+    );
+    expect(lightVideoSrc("/video/blog/a/v.light.mp4")).toBeNull();
+    expect(lightVideoSrc("/video/blog/a/v.vtt")).toBeNull();
+    expect(lightVideoSrc("/video/otro/v.mp4")).toBeNull();
+  });
+
   it("las figuras del cuerpo existen en public/ y llevan alt", () => {
     // `<img>` JSX o `![alt](src)` Markdown; solo rutas absolutas de public/
     const jsxImg = /<img\b([^>]*)>/g;
@@ -227,6 +239,12 @@ describe("contenido real del blog", () => {
           poster && exists(poster),
           `póster ${poster} en ${label}`,
         ).toBeTruthy();
+        // el tema es una clase en <html>: sin gemelo, el vídeo no cambia con el modo
+        const lightPoster = lightVideoSrc(poster);
+        expect(
+          lightPoster && exists(lightPoster),
+          `${poster}: falta el gemelo claro (<póster>.light.jpg) en ${label}`,
+        ).toBeTruthy();
         // src en <video> o en <source>; subtítulos siempre en <track>
         const sources = [
           attr(attrs, "src"),
@@ -237,11 +255,16 @@ describe("contenido real del blog", () => {
         expect(sources.length, `fuente de vídeo en ${label}`).toBeGreaterThan(
           0,
         );
-        sources.forEach((src) =>
+        sources.forEach((src) => {
           expect(exists(src), `${src} (${label}) no existe en public/`).toBe(
             true,
-          ),
-        );
+          );
+          const light = lightVideoSrc(src);
+          expect(
+            light && exists(light),
+            `${src}: falta el gemelo claro (<vídeo>.light.mp4) en ${label}`,
+          ).toBeTruthy();
+        });
         const tracks = [...inner.matchAll(/<track\b([^>]*)>/g)].map((m) =>
           attr(m[1] ?? "", "src"),
         );

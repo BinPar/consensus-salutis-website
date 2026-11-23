@@ -7,6 +7,27 @@ type Theme = "light" | "dark";
 
 const storageKey = "consensus-theme";
 
+// blog videos come in light/dark twins (siblings); keep playback on the visible one
+function handOffThemedVideos() {
+  document.querySelectorAll("video").forEach((hidden) => {
+    if (hidden.getClientRects().length > 0) return;
+    const twin = [
+      hidden.previousElementSibling,
+      hidden.nextElementSibling,
+    ].find(
+      (el): el is HTMLVideoElement =>
+        el instanceof HTMLVideoElement && el.getClientRects().length > 0,
+    );
+    if (!twin || (hidden.paused && hidden.currentTime === 0)) return;
+    const playing = !hidden.paused;
+    hidden.pause();
+    twin.muted = hidden.muted;
+    twin.volume = hidden.volume;
+    twin.currentTime = hidden.currentTime;
+    if (playing) void twin.play().catch(() => undefined);
+  });
+}
+
 function getCurrentTheme(): Theme {
   return document.documentElement.classList.contains("dark") ? "dark" : "light";
 }
@@ -26,6 +47,7 @@ export function ThemeToggle() {
     root.classList.add("theme-changing");
     root.classList.toggle("dark", nextTheme === "dark");
     root.style.colorScheme = nextTheme;
+    handOffThemedVideos();
     try {
       localStorage.setItem(storageKey, nextTheme);
     } catch {
