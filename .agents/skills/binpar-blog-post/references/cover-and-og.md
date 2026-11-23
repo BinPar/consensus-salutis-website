@@ -59,6 +59,23 @@ El modelo guarda el PNG en `~/.codex/generated_images/<sesión>/` y lo copia a
 `./cover.png` (salió 1895×830). Después, recorte a 16:7, reescalado a 1600×700 y
 codificación con `sips` + `cwebp -q 85` a `public/img/blog/<slug>.webp`.
 
+**Gemelo claro, obligatorio.** La portada generada es la del tema oscuro. La del
+claro sale editando esa misma imagen con codex, no generando otra, para que la
+composición sea idéntica; el prompt va por stdin porque `-i` acepta varios
+ficheros y se traga el texto:
+
+```bash
+print -r -- "$PROMPT" | codex exec --skip-git-repo-check -s workspace-write -C . -i <portada-1600x700>.png
+```
+
+El prompt pide el gemelo de tema claro conservando composición, objetos,
+posiciones y encuadre, y cambia solo paleta y luz: fondo hielo `#F4F9FC` a
+`#E6F1F6` con retícula teal muy tenue, vidrio blanco esmerilado con bordes teal
+`#006D79`, sombras difusas en vez de brillo, líneas teal sólidas sin neón. Mismo
+recorte y codificación a `public/img/blog/<slug>.light.webp`. El cargador lo
+detecta solo (`imageLight`) y la tarjeta, el destacado y la cabecera del post
+pintan la del modo activo; `pnpm test` falla si falta.
+
 ### 2. Preguntar al autor
 
 Si el preflight no pasa, dilo con la causa concreta —«codex sale con código 1»,

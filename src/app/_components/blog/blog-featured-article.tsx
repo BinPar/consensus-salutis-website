@@ -8,6 +8,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link } from "~/i18n/navigation";
 import type { BlogPost } from "~/lib/blog";
 import { BlogSceneCover } from "./blog-scene-cover";
+import { BlogCoverImage } from "~/app/_components/blog/blog-cover-image";
 
 const promptStartAt = 1200;
 const promptCharacterMs = 55;
@@ -225,8 +226,9 @@ export function BlogFeaturedArticle({
             className="relative h-[178px] overflow-hidden rounded-2xl bg-[#e5f1f4] dark:bg-[#102231]"
           >
             {post.image ? (
-              <Image
+              <BlogCoverImage
                 src={post.image}
+                lightSrc={post.imageLight}
                 alt={post.imageAlt ?? ""}
                 fill
                 sizes="(max-width: 639px) calc(100vw - 72px), (max-width: 1023px) 378px, 484px"

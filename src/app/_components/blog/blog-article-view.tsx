@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { ArrowLeft, ArrowUpRight, Calendar, Clock, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { ReactNode } from "react";
@@ -14,6 +13,7 @@ import { ProductSignalLeft } from "~/app/_components/product-signal-left";
 import { SideLinkedInLink } from "~/app/_components/side-linkedin-link";
 import { BlogArticleReadingLayout } from "./blog-article-reading-layout";
 import { articleLabelClassName as label } from "./blog-article-styles";
+import { BlogCoverImage } from "~/app/_components/blog/blog-cover-image";
 
 const container =
   "mx-auto w-[calc(100%-40px)] max-w-[832px] sm:w-[calc(100%-64px)] lg:w-[calc(100%-80px)] lg:max-w-[1152px]";
@@ -184,8 +184,9 @@ export function BlogArticleView({
           cover={
             <div className="shadow-big-blocks dark:border-primary-dark/20 relative overflow-hidden rounded-2xl border border-cyan-800/15 bg-white/70 dark:bg-[#152230]/80">
               {post.image ? (
-                <Image
+                <BlogCoverImage
                   src={post.image}
+                  lightSrc={post.imageLight}
                   alt={post.imageAlt ?? ""}
                   width={1600}
                   height={700}
