@@ -1,0 +1,67 @@
+/* Scene tab and highlight, copied from clinical-evidence-scene.tsx (styled-jsx)
+   with a lab prefix. Scoped to the lab. */
+:where([data-visual-lab]) .vpe-tabs {
+  --vpe-tab-border: color-mix(in oklab, var(--color-cyan-800) 10%, #fff);
+  --vpe-tab-surface: #fff;
+}
+:where([data-visual-lab]) .vpe-tab {
+  border-color: var(--vpe-tab-border);
+}
+:where([data-visual-lab]) .vpe-tab::before,
+:where([data-visual-lab]) .vpe-tab::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 8px;
+  height: 8px;
+  pointer-events: none;
+}
+:where([data-visual-lab]) .vpe-tab::before {
+  left: -8px;
+  background: radial-gradient(
+    circle at top left,
+    transparent 7px,
+    var(--vpe-tab-border) 7px,
+    var(--vpe-tab-border) 8px,
+    var(--vpe-tab-surface) 8px
+  );
+}
+:where([data-visual-lab]) .vpe-tab::after {
+  right: -8px;
+  background: radial-gradient(
+    circle at top right,
+    transparent 7px,
+    var(--vpe-tab-border) 7px,
+    var(--vpe-tab-border) 8px,
+    var(--vpe-tab-surface) 8px
+  );
+}
+:where([data-visual-lab]) :is(.dark .vpe-tabs) {
+  --vpe-tab-border: color-mix(in oklab, var(--color-cyan-300) 20%, #152230);
+  --vpe-tab-surface: #152230;
+}
+:where([data-visual-lab]) .vpe-highlight {
+  background-color: color-mix(
+    in srgb,
+    var(--color-secondary-light) calc(var(--vpe-highlight, 1) * 55%),
+    transparent
+  );
+}
+:where([data-visual-lab]) :is(.dark .vpe-highlight) {
+  background-color: color-mix(
+    in srgb,
+    var(--color-secondary-dark) calc(var(--vpe-highlight, 1) * 25%),
+    transparent
+  );
+}
+/* Opening of the Fuelle panel content. */
+@keyframes visual-lab-pc-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

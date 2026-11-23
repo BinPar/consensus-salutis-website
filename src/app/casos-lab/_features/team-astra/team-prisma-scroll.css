@@ -1,0 +1,106 @@
+:where([data-visual-lab]) :is(.p2-bridge) {
+  --p2-progress: 1;
+  position: relative;
+}
+:where([data-visual-lab]) :is(.p2-travelling-portrait) {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  transform-origin: top left;
+  pointer-events: none;
+}
+:where([data-visual-lab]) :is(.p2-bridge .tn-prisma-members > li:first-child) {
+  position: relative;
+  z-index: 3;
+}
+:where([data-visual-lab]) :is(.p2-bridge .p2-destination) {
+  overflow: visible;
+  background: transparent;
+}
+:where([data-visual-lab]) :is(.p2-motion .tn-prisma-profile) {
+  /* Same three-column gallery geometry: 320px aside, 64px gutter, 4px gaps. */
+  grid-template-columns: calc((100% - 392px) / 3) minmax(0, 1fr);
+}
+:where([data-visual-lab]) :is(.p2-motion .tn-ceo) {
+  padding-bottom: 32px;
+}
+:where([data-visual-lab]) :is(.p2-motion .tn-gallery) {
+  padding-top: 32px;
+  margin-top: calc(-1 * var(--p2-overlap, 0px));
+}
+:where([data-visual-lab])
+  :is(
+    .p2-motion .tn-prisma-profile-identity,
+    .p2-motion .tn-prisma-profile-story
+  ) {
+  opacity: clamp(0, 1 - var(--p2-progress) / 0.25, 1);
+  transform: translateY(calc(var(--p2-progress) * -40px));
+}
+:where([data-visual-lab]) :is(.p2-motion .tn-prisma-profile-photo) {
+  background: transparent;
+}
+:where([data-visual-lab]) :is(.p2-motion .tn-prisma-profile-photo img) {
+  visibility: hidden;
+}
+:where([data-visual-lab]) :is(.p2-motion .p2-travelling-portrait) {
+  will-change: transform;
+}
+:where([data-visual-lab]) :is(.p2-motion .tn-prisma-gallery-aside) {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 240ms ease-out,
+    transform 240ms ease-out;
+}
+:where([data-visual-lab])
+  :is(.p2-motion[data-intro-visible="true"] .tn-prisma-gallery-aside) {
+  opacity: 1;
+  transform: translateY(0);
+}
+:where([data-visual-lab])
+  :is(.p2-motion[data-intro-visible="false"]:not([data-phase="returning"]) .tn-prisma-gallery-aside) {
+  transition: none;
+}
+:where([data-visual-lab])
+  :is(.p2-motion .tn-prisma-members > li:not(:first-child)) {
+  opacity: 0;
+  transition: opacity 280ms ease-out;
+}
+:where([data-visual-lab])
+  :is(.p2-motion .tn-prisma-members > li:nth-child(3n)) {
+  transition-delay: 60ms;
+}
+/* Arrival is a discrete trigger. These animations finish with zero scroll. */
+:where([data-visual-lab])
+  :is(
+    .p2-motion[data-arrived="true"] .tn-prisma-members > li:not(:first-child)
+  ) {
+  opacity: 1;
+}
+:where([data-visual-lab])
+  :is(
+    .p2-motion[data-arrived="false"] .tn-prisma-members > li:not(:first-child)
+  ) {
+  transition: none;
+}
+:where([data-visual-lab])
+  :is(
+    .p2-motion[data-phase="returning"] .tn-prisma-gallery-aside,
+    .p2-motion[data-phase="returning"] .tn-prisma-members > li:not(:first-child)
+  ) {
+  transition:
+    opacity 160ms ease-out,
+    transform 160ms ease-out;
+  transition-delay: 0ms;
+}
+:where([data-visual-lab])
+  :is(
+    .p2-motion[data-arrived="false"]
+      .tn-prisma-members
+      > li:first-child
+      figcaption
+  ) {
+  visibility: hidden;
+}
+/* Without motion, retain Prisma's complete CEO and gallery compositions. */

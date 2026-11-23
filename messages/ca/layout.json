@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "home": "Inici",
+    "platform": "Plataforma",
+    "platformOverview": "Visió general",
+    "features": "Funcionalitats",
+    "team": "Equip",
+    "blog": "Blog",
+    "contact": "Contacte"
+  },
+  "navigation": {
+    "main": "Navegació principal",
+    "mobile": "Navegació mòbil",
+    "mobileEyebrow": "Navegació",
+    "open": "Obrir la navegació",
+    "close": "Tancar la navegació",
+    "morePages": "Més pàgines de {label}",
+    "sections": "Seccions d’aquesta pàgina"
+  },
+  "header": {
+    "home": "Inici"
+  },
+  "footer": {
+    "brandHome": "BinPar · Inici",
+    "productNav": "Producte · Peu de pàgina",
+    "contactNav": "Contacte · Peu de pàgina",
+    "legalNav": "Informació legal",
+    "rights": "© BinPar · Tots els drets reservats",
+    "description": "IA mèdica institucional.",
+    "descriptionExtended": "IA mèdica institucional per connectar coneixement clínic i respostes traçables.",
+    "explore": "Explorar",
+    "connect": "Connectem"
+  },
+  "footerBand": {
+    "rights": "© BinPar · Tots els drets reservats",
+    "links": "Enllaços del peu",
+    "product": "Producte",
+    "contact": "Contacte"
+  },
+  "legalLinks": {
+    "notice": "Avís legal",
+    "privacy": "Política de privadesa",
+    "cookies": "Cookies"
+  },
+  "theme": {
+    "toLight": "Activar el tema clar",
+    "toDark": "Activar el tema fosc"
+  },
+  "language": {
+    "select": "Seleccionar l’idioma"
+  },
+  "linkedin": {
+    "follow": "Segueix-nos",
+    "label": "Segueix BinPar a LinkedIn (s’obre en una pestanya nova)"
+  }
+}

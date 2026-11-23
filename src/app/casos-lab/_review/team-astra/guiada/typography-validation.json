@@ -1,0 +1,704 @@
+{
+  "date": "2026-10-19",
+  "reference": "src/app/_components/home-cover.css and home-cover.tsx",
+  "checks": [
+    {
+      "width": 320,
+      "theme": "light",
+      "styles": {
+        "title": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "36px",
+          "weight": "800",
+          "leading": "40.32px",
+          "tracking": "-0.9px",
+          "left": 20,
+          "right": 300,
+          "top": 399.53125,
+          "bottom": 520.46875
+        },
+        "description": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "18px",
+          "weight": "400",
+          "leading": "32px",
+          "tracking": "normal",
+          "left": 20,
+          "right": 300,
+          "top": 544.46875,
+          "bottom": 672.46875
+        },
+        "button": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "14px",
+          "weight": "600",
+          "leading": "20px",
+          "tracking": "normal",
+          "left": 54.75,
+          "right": 265.25,
+          "top": 699.46875,
+          "bottom": 747.46875
+        },
+        "eyebrow": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "12px",
+          "weight": "700",
+          "leading": "16px",
+          "tracking": "2.64px",
+          "left": 20,
+          "right": 300,
+          "top": 343.53125,
+          "bottom": 375.53125
+        },
+        "overflow": false
+      },
+      "home": {
+        "size": "36px",
+        "weight": "800",
+        "leading": "40.32px",
+        "tracking": "-0.9px"
+      },
+      "matched": true
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "styles": {
+        "title": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "36px",
+          "weight": "800",
+          "leading": "40.32px",
+          "tracking": "-0.9px",
+          "left": 20,
+          "right": 300,
+          "top": 399.53125,
+          "bottom": 520.46875
+        },
+        "description": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "18px",
+          "weight": "400",
+          "leading": "32px",
+          "tracking": "normal",
+          "left": 20,
+          "right": 300,
+          "top": 544.46875,
+          "bottom": 672.46875
+        },
+        "button": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "14px",
+          "weight": "600",
+          "leading": "20px",
+          "tracking": "normal",
+          "left": 54.75,
+          "right": 265.25,
+          "top": 699.46875,
+          "bottom": 747.46875
+        },
+        "eyebrow": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "12px",
+          "weight": "700",
+          "leading": "16px",
+          "tracking": "2.64px",
+          "left": 20,
+          "right": 300,
+          "top": 343.53125,
+          "bottom": 375.53125
+        },
+        "overflow": false
+      },
+      "home": {
+        "size": "36px",
+        "weight": "800",
+        "leading": "40.32px",
+        "tracking": "-0.9px"
+      },
+      "matched": true
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "styles": {
+        "title": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "36px",
+          "weight": "800",
+          "leading": "40.32px",
+          "tracking": "-0.9px",
+          "left": 41.8125,
+          "right": 348.1875,
+          "top": 392.1875,
+          "bottom": 472.8125
+        },
+        "description": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "18px",
+          "weight": "400",
+          "leading": "32px",
+          "tracking": "normal",
+          "left": 20,
+          "right": 370,
+          "top": 496.8125,
+          "bottom": 592.8125
+        },
+        "button": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "14px",
+          "weight": "600",
+          "leading": "20px",
+          "tracking": "normal",
+          "left": 89.75,
+          "right": 300.25,
+          "top": 619.8125,
+          "bottom": 667.8125
+        },
+        "eyebrow": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "12px",
+          "weight": "700",
+          "leading": "16px",
+          "tracking": "2.64px",
+          "left": 21.046875,
+          "right": 368.953125,
+          "top": 352.1875,
+          "bottom": 368.1875
+        },
+        "overflow": false
+      },
+      "home": {
+        "size": "36px",
+        "weight": "800",
+        "leading": "40.32px",
+        "tracking": "-0.9px"
+      },
+      "matched": true
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "styles": {
+        "title": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "36px",
+          "weight": "800",
+          "leading": "40.32px",
+          "tracking": "-0.9px",
+          "left": 41.8125,
+          "right": 348.1875,
+          "top": 392.1875,
+          "bottom": 472.8125
+        },
+        "description": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "18px",
+          "weight": "400",
+          "leading": "32px",
+          "tracking": "normal",
+          "left": 20,
+          "right": 370,
+          "top": 496.8125,
+          "bottom": 592.8125
+        },
+        "button": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "14px",
+          "weight": "600",
+          "leading": "20px",
+          "tracking": "normal",
+          "left": 89.75,
+          "right": 300.25,
+          "top": 619.8125,
+          "bottom": 667.8125
+        },
+        "eyebrow": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "12px",
+          "weight": "700",
+          "leading": "16px",
+          "tracking": "2.64px",
+          "left": 21.046875,
+          "right": 368.953125,
+          "top": 352.1875,
+          "bottom": 368.1875
+        },
+        "overflow": false
+      },
+      "home": {
+        "size": "36px",
+        "weight": "800",
+        "leading": "40.32px",
+        "tracking": "-0.9px"
+      },
+      "matched": true
+    },
+    {
+      "width": 768,
+      "theme": "light",
+      "styles": {
+        "title": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "48px",
+          "weight": "800",
+          "leading": "53.76px",
+          "tracking": "-1.2px",
+          "left": 179.75,
+          "right": 588.234375,
+          "top": 412.75,
+          "bottom": 520.25
+        },
+        "description": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "18px",
+          "weight": "400",
+          "leading": "32px",
+          "tracking": "normal",
+          "left": 115.203125,
+          "right": 652.796875,
+          "top": 548.25,
+          "bottom": 612.25
+        },
+        "button": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "14px",
+          "weight": "600",
+          "leading": "20px",
+          "tracking": "normal",
+          "left": 186.375,
+          "right": 396.875,
+          "top": 644.25,
+          "bottom": 692.25
+        },
+        "eyebrow": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "12px",
+          "weight": "700",
+          "leading": "16px",
+          "tracking": "2.64px",
+          "left": 210.046875,
+          "right": 557.953125,
+          "top": 372.75,
+          "bottom": 388.75
+        },
+        "overflow": false
+      },
+      "home": {
+        "size": "48px",
+        "weight": "800",
+        "leading": "53.76px",
+        "tracking": "-1.2px"
+      },
+      "matched": true
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "styles": {
+        "title": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "48px",
+          "weight": "800",
+          "leading": "53.76px",
+          "tracking": "-1.2px",
+          "left": 179.75,
+          "right": 588.234375,
+          "top": 412.75,
+          "bottom": 520.25
+        },
+        "description": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "18px",
+          "weight": "400",
+          "leading": "32px",
+          "tracking": "normal",
+          "left": 115.203125,
+          "right": 652.796875,
+          "top": 548.25,
+          "bottom": 612.25
+        },
+        "button": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "14px",
+          "weight": "600",
+          "leading": "20px",
+          "tracking": "normal",
+          "left": 186.375,
+          "right": 396.875,
+          "top": 644.25,
+          "bottom": 692.25
+        },
+        "eyebrow": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "12px",
+          "weight": "700",
+          "leading": "16px",
+          "tracking": "2.64px",
+          "left": 210.046875,
+          "right": 557.953125,
+          "top": 372.75,
+          "bottom": 388.75
+        },
+        "overflow": false
+      },
+      "home": {
+        "size": "48px",
+        "weight": "800",
+        "leading": "53.76px",
+        "tracking": "-1.2px"
+      },
+      "matched": true
+    },
+    {
+      "width": 1024,
+      "theme": "light",
+      "styles": {
+        "title": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "54px",
+          "weight": "800",
+          "leading": "60.48px",
+          "tracking": "-1.35px",
+          "left": 282.21875,
+          "right": 741.765625,
+          "top": 406.03125,
+          "bottom": 526.96875
+        },
+        "description": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "18px",
+          "weight": "400",
+          "leading": "32px",
+          "tracking": "normal",
+          "left": 232,
+          "right": 792,
+          "top": 554.96875,
+          "bottom": 618.96875
+        },
+        "button": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "14px",
+          "weight": "600",
+          "leading": "20px",
+          "tracking": "normal",
+          "left": 314.375,
+          "right": 524.875,
+          "top": 650.96875,
+          "bottom": 698.96875
+        },
+        "eyebrow": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "12px",
+          "weight": "700",
+          "leading": "16px",
+          "tracking": "2.64px",
+          "left": 338.046875,
+          "right": 685.953125,
+          "top": 366.03125,
+          "bottom": 382.03125
+        },
+        "overflow": false
+      },
+      "home": {
+        "size": "54px",
+        "weight": "800",
+        "leading": "60.48px",
+        "tracking": "-1.35px"
+      },
+      "matched": true
+    },
+    {
+      "width": 1024,
+      "theme": "dark",
+      "styles": {
+        "title": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "54px",
+          "weight": "800",
+          "leading": "60.48px",
+          "tracking": "-1.35px",
+          "left": 282.21875,
+          "right": 741.765625,
+          "top": 406.03125,
+          "bottom": 526.96875
+        },
+        "description": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "18px",
+          "weight": "400",
+          "leading": "32px",
+          "tracking": "normal",
+          "left": 232,
+          "right": 792,
+          "top": 554.96875,
+          "bottom": 618.96875
+        },
+        "button": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "14px",
+          "weight": "600",
+          "leading": "20px",
+          "tracking": "normal",
+          "left": 314.375,
+          "right": 524.875,
+          "top": 650.96875,
+          "bottom": 698.96875
+        },
+        "eyebrow": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "12px",
+          "weight": "700",
+          "leading": "16px",
+          "tracking": "2.64px",
+          "left": 338.046875,
+          "right": 685.953125,
+          "top": 366.03125,
+          "bottom": 382.03125
+        },
+        "overflow": false
+      },
+      "home": {
+        "size": "54px",
+        "weight": "800",
+        "leading": "60.48px",
+        "tracking": "-1.35px"
+      },
+      "matched": true
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "styles": {
+        "title": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "54px",
+          "weight": "800",
+          "leading": "60.48px",
+          "tracking": "-1.35px",
+          "left": 490.21875,
+          "right": 949.765625,
+          "top": 406.03125,
+          "bottom": 526.96875
+        },
+        "description": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "18px",
+          "weight": "400",
+          "leading": "32px",
+          "tracking": "normal",
+          "left": 440,
+          "right": 1000,
+          "top": 554.96875,
+          "bottom": 618.96875
+        },
+        "button": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "14px",
+          "weight": "600",
+          "leading": "20px",
+          "tracking": "normal",
+          "left": 522.375,
+          "right": 732.875,
+          "top": 650.96875,
+          "bottom": 698.96875
+        },
+        "eyebrow": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "12px",
+          "weight": "700",
+          "leading": "16px",
+          "tracking": "2.64px",
+          "left": 546.046875,
+          "right": 893.953125,
+          "top": 366.03125,
+          "bottom": 382.03125
+        },
+        "overflow": false
+      },
+      "home": {
+        "size": "54px",
+        "weight": "800",
+        "leading": "60.48px",
+        "tracking": "-1.35px"
+      },
+      "matched": true
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "styles": {
+        "title": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "54px",
+          "weight": "800",
+          "leading": "60.48px",
+          "tracking": "-1.35px",
+          "left": 490.21875,
+          "right": 949.765625,
+          "top": 406.03125,
+          "bottom": 526.96875
+        },
+        "description": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "18px",
+          "weight": "400",
+          "leading": "32px",
+          "tracking": "normal",
+          "left": 440,
+          "right": 1000,
+          "top": 554.96875,
+          "bottom": 618.96875
+        },
+        "button": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "14px",
+          "weight": "600",
+          "leading": "20px",
+          "tracking": "normal",
+          "left": 522.375,
+          "right": 732.875,
+          "top": 650.96875,
+          "bottom": 698.96875
+        },
+        "eyebrow": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "12px",
+          "weight": "700",
+          "leading": "16px",
+          "tracking": "2.64px",
+          "left": 546.046875,
+          "right": 893.953125,
+          "top": 366.03125,
+          "bottom": 382.03125
+        },
+        "overflow": false
+      },
+      "home": {
+        "size": "54px",
+        "weight": "800",
+        "leading": "60.48px",
+        "tracking": "-1.35px"
+      },
+      "matched": true
+    },
+    {
+      "width": 1920,
+      "theme": "light",
+      "styles": {
+        "title": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "54px",
+          "weight": "800",
+          "leading": "60.48px",
+          "tracking": "-1.35px",
+          "left": 730.21875,
+          "right": 1189.765625,
+          "top": 406.03125,
+          "bottom": 526.96875
+        },
+        "description": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "18px",
+          "weight": "400",
+          "leading": "32px",
+          "tracking": "normal",
+          "left": 680,
+          "right": 1240,
+          "top": 554.96875,
+          "bottom": 618.96875
+        },
+        "button": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "14px",
+          "weight": "600",
+          "leading": "20px",
+          "tracking": "normal",
+          "left": 762.375,
+          "right": 972.875,
+          "top": 650.96875,
+          "bottom": 698.96875
+        },
+        "eyebrow": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "12px",
+          "weight": "700",
+          "leading": "16px",
+          "tracking": "2.64px",
+          "left": 786.046875,
+          "right": 1133.953125,
+          "top": 366.03125,
+          "bottom": 382.03125
+        },
+        "overflow": false
+      },
+      "home": {
+        "size": "54px",
+        "weight": "800",
+        "leading": "60.48px",
+        "tracking": "-1.35px"
+      },
+      "matched": true
+    },
+    {
+      "width": 1920,
+      "theme": "dark",
+      "styles": {
+        "title": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "54px",
+          "weight": "800",
+          "leading": "60.48px",
+          "tracking": "-1.35px",
+          "left": 730.21875,
+          "right": 1189.765625,
+          "top": 406.03125,
+          "bottom": 526.96875
+        },
+        "description": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "18px",
+          "weight": "400",
+          "leading": "32px",
+          "tracking": "normal",
+          "left": 680,
+          "right": 1240,
+          "top": 554.96875,
+          "bottom": 618.96875
+        },
+        "button": {
+          "font": "\"Plus Jakarta Sans\", \"Plus Jakarta Sans Fallback\", \"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif",
+          "size": "14px",
+          "weight": "600",
+          "leading": "20px",
+          "tracking": "normal",
+          "left": 762.375,
+          "right": 972.875,
+          "top": 650.96875,
+          "bottom": 698.96875
+        },
+        "eyebrow": {
+          "font": "Sora, \"Sora Fallback\", sans-serif",
+          "size": "12px",
+          "weight": "700",
+          "leading": "16px",
+          "tracking": "2.64px",
+          "left": 786.046875,
+          "right": 1133.953125,
+          "top": 366.03125,
+          "bottom": 382.03125
+        },
+        "overflow": false
+      },
+      "home": {
+        "size": "54px",
+        "weight": "800",
+        "leading": "60.48px",
+        "tracking": "-1.35px"
+      },
+      "matched": true
+    }
+  ],
+  "summary": "12 combinaciones de ancho y tema. El título coincide con la home en tamaño, peso, interlineado y espaciado. Sin desbordamiento horizontal; párrafo 18/32 px y botones 14/20 px.",
+  "scope": "Solo tipografía del contenido central de Guiada; geometría e interacción de los anillos conservadas."
+}

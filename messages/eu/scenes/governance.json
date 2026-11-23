@@ -1,0 +1,136 @@
+{
+  "organization": "Área Sanitaria Norte",
+  "corpus": {
+    "committee": "Batzordea: {organization}",
+    "searchable": "430 dokumentu kontsultagarri",
+    "inheritedBase": "Oinarri komun heredatua",
+    "base": {
+      "label": "Oinarri komuna",
+      "title": "412 dokumentu",
+      "body": "Erakunde guztiek heredatzen dute."
+    },
+    "own": {
+      "label": "Barrutiarenak",
+      "title": "18 dokumentu",
+      "body": "Barrutiak soilik ikus ditzake."
+    },
+    "dashedNote": "Ertz etena dutenak goragoko nodo batetik heredatzen dira."
+  },
+  "library": {
+    "label": "Corpusa",
+    "title": "Liburutegia",
+    "count": "430 dokumentu",
+    "tabs": ["Guztiak", "Gida", "Protokoloa", "Liburua", "Zentrokoak"],
+    "docs": {
+      "areaProtocol": {
+        "title": "Barrutiko analgesia-protokoloa",
+        "publisher": "Área Sanitaria Norte",
+        "meta": "Área Sanitaria Norte · 2026",
+        "date": "Onartua: 2026-11-03",
+        "node": "Área Sanitaria Norte",
+        "experts": ["FA", "NE"]
+      },
+      "promir": {
+        "title": "ProMIR eskuliburua · Nefrologia",
+        "publisher": "ProMIR",
+        "meta": "ProMIR · 2025",
+        "date": "Onartua: 2026-09-12",
+        "node": "Oinarri komuna",
+        "experts": ["KA", "FA", "NE"]
+      }
+    }
+  },
+  "committees": {
+    "heading": "Agenteak",
+    "withoutModes": "Modurik gabe",
+    "withModes": "Moduekin",
+    "columns": {
+      "name": "Izena",
+      "default": "Lehenetsia",
+      "actions": "Ekintzak"
+    },
+    "defaultBadge": "Lehenetsia",
+    "modes": {
+      "standard": {
+        "name": "Estandarra",
+        "description": "Erantzun arina ohiko kontsultarako."
+      },
+      "precision": {
+        "name": "Zehaztasuna",
+        "description": "Sakonagoa kasu konplexuetarako; denbora pixka bat gehiago behar du."
+      }
+    },
+    "addMode": "Gehitu modua",
+    "createMode": "Sortu modua",
+    "hintMany": "Profesionalak 2 modu hauen artean aukeratzen du txatean; erabili zuen azkenarekin edo lehenetsiarekin hasten da.",
+    "hintOne": "Modu bakarra dagoenean, txatak ez du hautatzailerik erakusten: beti hau erabiltzen du."
+  },
+  "review": {
+    "label": "Proposamena",
+    "title": "Barrutiko analgesia-protokoloa",
+    "summary": "Proposatutako aldaketak · eragiketa 1",
+    "change": "1. aldaketa · Eguneratu",
+    "included": "Sartuta",
+    "removedLine": "Ibuprofenoa, 400 mg 8 orduz behin, lehen aukerako analgesia gisa.",
+    "addedLine": "Saihestu AIEEak GGKan; argitzea 30 mL/min baino txikiagoa bada, kontraindikatuta daude.",
+    "status": {
+      "published": "Onartuta eta 15. bertsioan argitaratuta",
+      "included": "Aldaketa 1 sartuta",
+      "pending": "1 berrikusi gabe"
+    },
+    "reject": "Baztertu proposamena",
+    "publishing": "Argitaratzen…",
+    "approve": "Onartu eta argitaratu"
+  },
+  "versions": {
+    "latest": {
+      "label": "15. bertsioa · oraintxe argitaratua",
+      "title": "GGKaren gida · 3. berrikuspena"
+    },
+    "items": {
+      "v14": {
+        "label": "14. bertsioa · 2026-11-03",
+        "title": "Analgesia-protokoloa eguneratuta"
+      },
+      "v13": {
+        "label": "13. bertsioa · 2026-10-21",
+        "title": "Hiperpotasemiaren tokiko gida gehituta"
+      },
+      "v12": {
+        "label": "12. bertsioa · 2026-10-02",
+        "title": "Dokumentua corpusetik kenduta"
+      }
+    }
+  },
+  "control": {
+    "label": "Kontrol-galderak",
+    "title": "Galdera-sorta · Nefrologia",
+    "total": "{count} galdera",
+    "corpusVersion": "Corpusaren 15. bertsioa",
+    "completed": "Osatuta",
+    "progress": "{answered} / {total}",
+    "legend": {
+      "correct": "Zuzena",
+      "partial": "Partziala",
+      "incorrect": "Okerra"
+    },
+    "alertTitle": "Galdera batek okerrera egin du 14. bertsioarekin alderatuta",
+    "alertBody": "23. galdera · lehen Zuzena, orain Okerra"
+  },
+  "rating": {
+    "notice": "Balorazioa gordeta",
+    "dialogTitle": "Erantzuna ez da erabilgarria",
+    "cancel": "Utzi",
+    "submit": "Bidali balorazioa",
+    "commentLabel": "Iruzkina (nahitaezkoa)",
+    "comment": "Gehitu nola doitu parazetamolaren dosia GGK larrian.",
+    "commentPlaceholder": "Erantzunari buruzko iruzkina…"
+  },
+  "brand": {
+    "domain": "consulta.areanorte.es",
+    "logo": "AN",
+    "platform": "BinPar",
+    "title": "Batzorde klinikoa",
+    "placeholder": "Galdera klinikoa batzordeari..."
+  }
+}

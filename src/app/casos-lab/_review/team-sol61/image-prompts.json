@@ -1,0 +1,54 @@
+{
+  "tool": "built-in image_gen",
+  "purpose": "Conceptual imagery only; fictional subjects, not actual BinPar employees.",
+  "assets": [
+    {
+      "key": "portraits-01",
+      "prompt": "Use case: photorealistic-natural. Asset type: photographic contact sheet for an institutional technology team's DESIGN PROTOTYPE. These are fictional people, not depictions of actual BinPar employees. Generate a SINGLE seamless 2 by 2 contact sheet containing exactly FOUR DIFFERENT individual editorial portrait photographs. Each quadrant is one photograph; perfect equal quadrants, NO gutters, NO frames, NO typography, no watermarks. Square overall image at highest available resolution, each portrait chest-up with ample space above head and shoulders, eyes roughly 35 percent down each quadrant. Same soft daylight, pale ice-blue plaster background, calm navy/charcoal/cool white everyday professional clothing, authentic skin texture and subtle expressions, contemporary European editorial photography, relaxed and approachable, premium art direction. No medical outfits, no suits, no astronauts, no avatars, no CGI or plastic skin. Image should read as four beautiful separate photographs placed edge-to-edge, NOT a group photo. Top left: man around 48 with short dark hair, open-collar navy shirt. Top right: man around 40 with slightly curly black hair and a charcoal crewneck. Bottom left: man around 43 with short salt-and-pepper hair, subtle beard and round glasses, navy jacket. Bottom right: woman around 45 with a chestnut bob, calm smile, ice-blue blouse.",
+      "source": "/Users/adrianrodriguezamago/.codex/generated_images/01a13f57-1663-7912-8445-e41d8f7ee648/exec-7f4c2f70-b2e8-4a7c-8cda-506ee7f2f0a5.png",
+      "file": "/lab/team-sol61/portraits-01.webp"
+    },
+    {
+      "key": "portraits-02",
+      "prompt": "Use case: photorealistic-natural. Asset type: photographic contact sheet for an institutional technology team's DESIGN PROTOTYPE. These are fictional people, not depictions of actual BinPar employees. Generate a SINGLE seamless 2 by 2 contact sheet containing exactly FOUR DIFFERENT individual editorial portrait photographs. Each quadrant is one photograph; perfect equal quadrants, NO gutters, NO frames, NO typography, no watermarks. Square overall image at highest available resolution, each portrait chest-up with ample space above head and shoulders, eyes roughly 35 percent down each quadrant. Same soft daylight, pale ice-blue plaster background, calm navy/charcoal/cool white everyday professional clothing, authentic skin texture and subtle expressions, contemporary European editorial photography, relaxed and approachable, premium art direction. No medical outfits, no suits, no astronauts, no avatars, no CGI or plastic skin. Image should read as four beautiful separate photographs placed edge-to-edge, NOT a group photo. Top left: man around 35, short dark brown hair and light beard, muted teal overshirt. Top right: man around 50, greying hair and subtle beard, navy knit. Bottom left: woman around 34, shoulder-length dark curly hair, warm candid smile, off-white top. Bottom right: woman around 36, straight dark shoulder-length hair, charcoal top, thoughtful expression.",
+      "source": "/Users/adrianrodriguezamago/.codex/generated_images/01a13f57-1663-7912-8445-e41d8f7ee648/exec-1dd2cd3d-1ac3-4599-88d7-ea825b4fdf63.png",
+      "file": "/lab/team-sol61/portraits-02.webp"
+    },
+    {
+      "key": "portraits-03",
+      "prompt": "Use case: photorealistic-natural. Asset type: photographic contact sheet for an institutional technology team's DESIGN PROTOTYPE. These are fictional people, not depictions of actual BinPar employees. Generate a SINGLE seamless 2 by 2 contact sheet containing exactly FOUR DIFFERENT individual editorial portrait photographs. Each quadrant is one photograph; perfect equal quadrants, NO gutters, NO frames, NO typography, no watermarks. Square overall image at highest available resolution, each portrait chest-up with ample space above head and shoulders, eyes roughly 35 percent down each quadrant. Same soft daylight, pale ice-blue plaster background, calm navy/charcoal/cool white everyday professional clothing, authentic skin texture and subtle expressions, contemporary European editorial photography, relaxed and approachable, premium art direction. No medical outfits, no suits, no astronauts, no avatars, no CGI or plastic skin. Image should read as four beautiful separate photographs placed edge-to-edge, NOT a group photo. Top left: man around 31 with short dark hair, blue cotton shirt. Top right: man around 35 with brown side-parted hair, short neat beard, navy crewneck. Bottom left: Latin American man around 29 with wavy black hair, charcoal overshirt and gentle smile. Bottom right: man around 30 with medium-length brown hair and subtle beard, muted teal t-shirt.",
+      "source": "/Users/adrianrodriguezamago/.codex/generated_images/01a13f57-1663-7912-8445-e41d8f7ee648/exec-fb2bc9ec-3558-4d0b-be8d-5429a349b4ee.png",
+      "file": "/lab/team-sol61/portraits-03.webp"
+    },
+    {
+      "key": "portraits-04",
+      "prompt": "Use case: photorealistic-natural. Asset type: photographic contact sheet for an institutional technology team's DESIGN PROTOTYPE. These are fictional people, not depictions of actual BinPar employees. Generate a SINGLE seamless 2 by 2 contact sheet containing exactly FOUR DIFFERENT individual editorial portrait photographs. Each quadrant is one photograph; perfect equal quadrants, NO gutters, NO frames, NO typography, no watermarks. Square overall image at highest available resolution, each portrait chest-up with ample space above head and shoulders, eyes roughly 35 percent down each quadrant. Same soft daylight, pale ice-blue plaster background, calm navy/charcoal/cool white everyday professional clothing, authentic skin texture and subtle expressions, contemporary European editorial photography, relaxed and approachable, premium art direction. No medical outfits, no suits, no astronauts, no avatars, no CGI or plastic skin. Image should read as four beautiful separate photographs placed edge-to-edge, NOT a group photo. Top left: man around 31 with short light brown hair, grey-blue shirt. Top right: Latin American man around 35 with short black hair and slight beard, dark navy top. Bottom left: woman around 30 with long wavy chestnut hair, off-white cotton top, natural candid expression. Bottom right: man around 32 with sandy brown hair and thin rectangular glasses, charcoal crewneck.",
+      "source": "/Users/adrianrodriguezamago/.codex/generated_images/01a13f57-1663-7912-8445-e41d8f7ee648/exec-88073038-12e5-4c48-a7ce-06316e837754.png",
+      "file": "/lab/team-sol61/portraits-04.webp"
+    },
+    {
+      "key": "scene-direction",
+      "prompt": "Use case: photorealistic-natural. Wide landscape editorial photograph for an institutional technology studio design concept. Close documentary crop of three colleagues reviewing printed diagrams around a pale oak meeting table in a bright contemporary studio, hands and torsos visible, faces mostly outside frame. One elegant large architectural window, soft daylight, navy clothing and ice-blue shirts, restrained teal highlights, candid and credible. Asymmetric architectural composition, beautiful real material textures, no readable text, no logos, no medical imagery, no CGI. These are fictional subjects for a design prototype. High resolution 3:2 landscape.",
+      "source": "/Users/adrianrodriguezamago/.codex/generated_images/01a13f57-1663-7912-8445-e41d8f7ee648/exec-522ddc86-162b-4ccc-8f41-26b17d9986a9.png",
+      "file": "/lab/team-sol61/scene-direction.webp"
+    },
+    {
+      "key": "scene-engineering",
+      "prompt": "Use case: photorealistic-natural. Wide landscape editorial photograph for an institutional technology studio design concept. Thoughtful over-the-shoulder view of a software engineer collaborating with a colleague at a beautifully understated desk, two monitors showing softly blurred abstract code, hands, keyboard, matte navy sweater. Side-lit modern quiet studio, pale walls, low afternoon light, subtle teal glass reflections. Editorial analogue photographic texture, natural candid composition, faces outside frame, no readable text, no logos, no medical imagery, no CGI. Fictional scene for design prototype. High resolution 3:2 landscape.",
+      "source": "/Users/adrianrodriguezamago/.codex/generated_images/01a13f57-1663-7912-8445-e41d8f7ee648/exec-e3566120-bf87-41f1-8c62-18426a0410d0.png",
+      "file": "/lab/team-sol61/scene-engineering.webp"
+    },
+    {
+      "key": "scene-analysis",
+      "prompt": "Use case: photorealistic-natural. Wide landscape editorial photograph for an institutional technology studio design concept. Overhead detail of two people collaboratively annotating an abstract structured data diagram on large sheets, hands, fine pen, notebook, laptop cropped at edge on pale oak, soft rich daylight with architectural shadows. Cool ice-blue and navy details, restrained teal paper tabs, thoughtful professional setting. Tangible materials, premium calm editorial photography, no readable text or logos, no medical symbols, no CGI. Fictional scene for design prototype. High resolution 3:2 landscape.",
+      "source": "/Users/adrianrodriguezamago/.codex/generated_images/01a13f57-1663-7912-8445-e41d8f7ee648/exec-ccf49118-748a-4252-80a4-f1faea51b26d.png",
+      "file": "/lab/team-sol61/scene-analysis.webp"
+    },
+    {
+      "key": "scene-people",
+      "prompt": "Use case: photorealistic-natural. Wide landscape editorial photograph for an institutional technology studio design concept. Candid scene of colleagues in conversation beside a large bright studio window, only shoulders, gesturing hands, partial profiles intentionally soft and unidentifiable. Navy and cream clothing, softly blurred indoor plant, pale ice-blue architectural wall, humane relaxed professional atmosphere, natural texture and photography, thoughtful asymmetrical framing. No readable text, logos, medical coats, stock-photo handshakes or CGI. Fictional scene for design prototype. High resolution 3:2 landscape.",
+      "source": "/Users/adrianrodriguezamago/.codex/generated_images/01a13f57-1663-7912-8445-e41d8f7ee648/exec-1a84660f-672e-429f-9133-a33bb33049f0.png",
+      "file": "/lab/team-sol61/scene-people.webp"
+    }
+  ]
+}

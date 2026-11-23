@@ -1,0 +1,16 @@
+{
+  "createdAt": "2026-10-15",
+  "purpose": "Team Astra — exploración de dirección de arte en el laboratorio local",
+  "creator": "OpenAI Imagegen",
+  "identity": "Los retratos generados enumerados en assets son referencias ficticias. Las variantes de Team Astra y Team Sol6.1 sustituyen once de ellos por imágenes aportadas por el usuario, documentadas en ../team-portraits/provenance.json.",
+  "assets": {
+    "portraits-1.webp": "Cuatro retratos de referencia, cuadrícula 2 × 2, índices 0–3",
+    "portraits-2.webp": "Cuatro retratos de referencia, cuadrícula 2 × 2, índices 4–7",
+    "portraits-3.webp": "Cuatro retratos de referencia, cuadrícula 2 × 2, índices 8–11",
+    "portraits-4.webp": "Cuatro retratos de referencia, cuadrícula 2 × 2, índices 12–15",
+    "portraits.webp": "Estudio inicial con los 16 retratos de referencia",
+    "studio.webp": "Escena conceptual de trabajo; no representa una oficina real de BinPar"
+  },
+  "biographySource": "https://www.binpar.com/team",
+  "biographySnapshot": "src/app/casos-lab/_features/team-astra/_data/astra-team-source.json"
+}

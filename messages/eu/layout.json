@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "home": "Hasiera",
+    "platform": "Plataforma",
+    "platformOverview": "Ikuspegi orokorra",
+    "features": "Funtzionalitateak",
+    "team": "Taldea",
+    "blog": "Bloga",
+    "contact": "Kontaktua"
+  },
+  "navigation": {
+    "main": "Nabigazio nagusia",
+    "mobile": "Mugikorreko nabigazioa",
+    "mobileEyebrow": "Nabigazioa",
+    "open": "Ireki nabigazioa",
+    "close": "Itxi nabigazioa",
+    "morePages": "{label} ataleko orri gehiago",
+    "sections": "Orri honetako atalak"
+  },
+  "header": {
+    "home": "Hasiera"
+  },
+  "footer": {
+    "brandHome": "BinPar · Hasiera",
+    "productNav": "Produktua · Orri-oina",
+    "contactNav": "Kontaktua · Orri-oina",
+    "legalNav": "Lege-informazioa",
+    "rights": "© BinPar · Eskubide guztiak erreserbatuta",
+    "description": "Adimen artifizial mediko instituzionala.",
+    "descriptionExtended": "Adimen artifizial mediko instituzionala, ezagutza klinikoa trazabilitatea duten erantzunekin lotzeko.",
+    "explore": "Arakatu",
+    "connect": "Hitz egin dezagun"
+  },
+  "footerBand": {
+    "rights": "© BinPar · Eskubide guztiak erreserbatuta",
+    "links": "Orri-oineko estekak",
+    "product": "Produktua",
+    "contact": "Kontaktua"
+  },
+  "legalLinks": {
+    "notice": "Lege-oharra",
+    "privacy": "Pribatutasun-politika",
+    "cookies": "Cookieak"
+  },
+  "theme": {
+    "toLight": "Aktibatu itxura argia",
+    "toDark": "Aktibatu itxura iluna"
+  },
+  "language": {
+    "select": "Hautatu hizkuntza"
+  },
+  "linkedin": {
+    "follow": "Jarrai iezaguzu",
+    "label": "Jarraitu BinPar-i LinkedIn-en (fitxa berri batean irekitzen da)"
+  }
+}

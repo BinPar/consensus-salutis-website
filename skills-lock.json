@@ -1,11 +1,17 @@
 {
   "version": 1,
   "skills": {
-    "consensus-salutis-brand-design-system": {
-      "source": "BinPar/consensus-salutis-skills",
+    "binpar-brand-design-system": {
+      "source": "BinPar/skills",
       "sourceType": "github",
-      "skillPath": "skills/consensus-salutis-brand-design-system/SKILL.md",
-      "computedHash": "35ee745603e4b869fb5afd4033338ec5c174c9c3f8185339249728abaceaab47"
+      "skillPath": "skills/binpar-brand-design-system/SKILL.md",
+      "computedHash": "e785618f322e9a367cf37dafdb01de8420ce319a5f922babb50e4d18c143222e"
+    },
+    "binpar-brand-voice": {
+      "source": "BinPar/skills",
+      "sourceType": "github",
+      "skillPath": "skills/binpar-brand-voice/SKILL.md",
+      "computedHash": "77b467fe02939df42ec5b5f1634058c4d6935d87a9d2bcbdb3bceb7737dcb5cd"
     }
   }
 }

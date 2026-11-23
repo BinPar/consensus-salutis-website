@@ -1,0 +1,116 @@
+{
+  "horizontal": {
+    "railLabel": "Pàgina d’inici de BinPar",
+    "scrollHint": "Desplaça’t en vertical per avançar",
+    "panels": [
+      "Inici",
+      "Casos d’èxit",
+      "Atenció Primària",
+      "Arquitectura",
+      "Mètriques",
+      "Reunió"
+    ]
+  },
+  "sections": {
+    "introduction": "Presentació",
+    "successCases": "Casos d’èxit",
+    "process": "Com funciona",
+    "architecture": "Arquitectura",
+    "blog": "Blog"
+  },
+  "cover": {
+    "label": "BinPar: respostes clíniques traçables",
+    "title": "BinPar<line>Respostes clíniques traçables.</line>",
+    "description": "BinPar, la IA mèdica institucional que connecta guies, protocols i corpus mèdic amb la pràctica clínica.",
+    "explore": "Descobrir"
+  },
+  "hero": {
+    "eyebrow": "IA mèdica institucional",
+    "title": "Coneixement clínic <accent>orquestrat per IA.</accent>",
+    "body": "BinPar converteix guies, protocols i corpus mèdic en respostes traçables per a l’Atenció Primària. Una capa d’IA seriosa, auditable i preparada per operar dins d’un sistema sanitari.",
+    "mobileBody": "BinPar converteix guies, protocols i corpus mèdic en respostes traçables per a l’Atenció Primària."
+  },
+  "metrics": {
+    "eyebrow": "Indicadors operatius",
+    "title": "Volum de dades i actualització contínua.",
+    "body": "La plataforma combina una base de coneixement mèdic estructurada amb guies clíniques i protocols propis de cada organització. Els continguts passen per processos automatitzats d’ingesta, avaluació mitjançant preguntes clau, validació clínica i publicació controlada abans d’incorporar-se a les respostes del sistema.",
+    "items": {
+      "knowledge": "Coneixement mèdic estructurat i governable.",
+      "headings": "Epígrafs clínics a punt per a la consulta traçable.",
+      "questions": "Preguntes per a l’avaluació contínua del sistema.",
+      "updates": "Actualització urgent de continguts rellevants."
+    }
+  },
+  "primaryCare": {
+    "eyebrow": "Procés de consulta",
+    "title": "De la pregunta a l’evidència.",
+    "body": "BinPar acompanya cada consulta des de la formulació del dubte clínic fins a una resposta contrastada, referenciada i preparada per ser revisada."
+  },
+  "process": {
+    "query": {
+      "title": "Plantejar la consulta",
+      "body": "El professional formula un dubte clínic en llenguatge natural i aporta el context necessari per orientar la consulta.",
+      "signal": "Llenguatge clínic natural"
+    },
+    "locate": {
+      "title": "Localitzar coneixement rellevant",
+      "body": "El sistema recupera coneixement rellevant del corpus mèdic, les guies clíniques i els protocols institucionals.",
+      "signal": "Corpus + guies + protocols"
+    },
+    "contrast": {
+      "title": "Contrastar i prioritzar",
+      "body": "El sistema contrasta les fonts recuperades i aplica les prioritats documentals definides per l’organització.",
+      "signal": "Prioritats configurables"
+    },
+    "respond": {
+      "title": "Respondre amb evidència visible",
+      "body": "El sistema sintetitza una resposta operativa i enllaça el fragment o la pàgina original que sustenta cada conclusió.",
+      "signal": "Referència al fragment original"
+    },
+    "review": {
+      "title": "Revisar i millorar",
+      "body": "La valoració professional permet revisar els continguts i reforçar les proves automàtiques per a futures consultes.",
+      "signal": "Valoració professional + proves automàtiques"
+    }
+  },
+  "blog": {
+    "eyebrow": "Lectures clíniques",
+    "title": "Últims <accent>articles</accent>",
+    "body": "Lectures recents sobre IA mèdica, tendències sanitàries i noves maneres de transformar l’assistència al pacient en el sistema de salut.",
+    "viewAll": "Veure’ls tots"
+  },
+  "contact": {
+    "eyebrow": "Pas següent",
+    "title": "Una conversa seriosa sobre la teva organització sanitària.",
+    "body": "Revisem el cas d’ús, les restriccions de seguretat, els requisits d’integració i el nivell d’evidència necessari per a un pilot institucional."
+  },
+  "volume": {
+    "eyebrow": "Volum i actualització",
+    "intro": "Una base mèdica estructurada que incorpora les guies i els protocols de cada organització, amb avaluació contínua i validació clínica.",
+    "heading": {
+      "label": "El coneixement avança. La base s’actualitza.",
+      "lead": "El coneixement avança.",
+      "placeholder": "La base s’actualitza.",
+      "typing": "La base {text}",
+      "phrases": ["s’actualitza.", "evoluciona.", "creix."]
+    },
+    "items": {
+      "knowledge": {
+        "value": "+3",
+        "label": "Coneixement mèdic estructurat"
+      },
+      "headings": {
+        "value": "+8.327",
+        "label": "Epígrafs clínics"
+      },
+      "questions": {
+        "value": "+30.000",
+        "label": "Preguntes d’avaluació"
+      },
+      "updates": {
+        "value": "<24",
+        "label": "Actualització urgent"
+      }
+    }
+  }
+}

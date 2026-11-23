@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 /**
- * El *eyebrow* del sistema: Sora extrabold, 12px, versalitas anchas, en acento.
+ * El *eyebrow* del sistema: Sora Bold, 12px, versalitas anchas, en acento.
  *
  * Vive en su propio módulo y no en `site.tsx` porque también lo usan pantallas
  * de cliente —el aviso de sesión del evaluador—, y `site.tsx` arrastra la

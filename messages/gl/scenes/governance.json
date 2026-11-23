@@ -1,0 +1,136 @@
+{
+  "organization": "Área Sanitaria Norte",
+  "corpus": {
+    "committee": "Comité de {organization}",
+    "searchable": "430 documentos consultables",
+    "inheritedBase": "Base común herdada",
+    "base": {
+      "label": "Base común",
+      "title": "412 documentos",
+      "body": "Herdada por todas as organizacións."
+    },
+    "own": {
+      "label": "Da área",
+      "title": "18 documentos",
+      "body": "Só visibles para a área."
+    },
+    "dashedNote": "Os marcados con bordo descontinuo hérdanse dun nodo superior."
+  },
+  "library": {
+    "label": "Corpus",
+    "title": "Biblioteca",
+    "count": "430 documentos",
+    "tabs": ["Todos", "Guía", "Protocolo", "Libro", "Do centro"],
+    "docs": {
+      "areaProtocol": {
+        "title": "Protocolo de analxesia da área",
+        "publisher": "Área Sanitaria Norte",
+        "meta": "Área Sanitaria Norte · 2026",
+        "date": "Aprobado o 3 nov. 2026",
+        "node": "Área Sanitaria Norte",
+        "experts": ["FA", "NE"]
+      },
+      "promir": {
+        "title": "Manual ProMIR · Nefroloxía",
+        "publisher": "ProMIR",
+        "meta": "ProMIR · 2025",
+        "date": "Aprobado o 12 set. 2026",
+        "node": "Base común",
+        "experts": ["CA", "FA", "NE"]
+      }
+    }
+  },
+  "committees": {
+    "heading": "Axentes",
+    "withoutModes": "Sen modos",
+    "withModes": "Con modos",
+    "columns": {
+      "name": "Nome",
+      "default": "Por defecto",
+      "actions": "Accións"
+    },
+    "defaultBadge": "Por defecto",
+    "modes": {
+      "standard": {
+        "name": "Estándar",
+        "description": "Resposta áxil para a consulta habitual."
+      },
+      "precision": {
+        "name": "Precisión",
+        "description": "Máis exhaustivo para casos complexos; tarda algo máis."
+      }
+    },
+    "addMode": "Engadir modo",
+    "createMode": "Crear modo",
+    "hintMany": "O profesional elixe entre estes 2 modos no chat; comeza co último que usou ou co modo por defecto.",
+    "hintOne": "Cun só modo o chat non mostra selector: sempre usa este."
+  },
+  "review": {
+    "label": "Proposta",
+    "title": "Protocolo de analxesia da área",
+    "summary": "Cambios propostos · 1 operación",
+    "change": "Cambio 1 · Actualizar",
+    "included": "Incluído",
+    "removedLine": "Ibuprofeno 400 mg cada 8 horas como analxesia de primeira elección.",
+    "addedLine": "Evitar AINE na ERC; con aclaramento inferior a 30 mL/min están contraindicados.",
+    "status": {
+      "published": "Aprobado e publicado na v15",
+      "included": "1 cambio incluído",
+      "pending": "1 sen revisar"
+    },
+    "reject": "Rexeitar proposta",
+    "publishing": "Publicando…",
+    "approve": "Aprobar e publicar"
+  },
+  "versions": {
+    "latest": {
+      "label": "Versión 15 · publicada agora",
+      "title": "Guía de ERC · revisión 3"
+    },
+    "items": {
+      "v14": {
+        "label": "Versión 14 · 3 nov. 2026",
+        "title": "Protocolo de analxesia actualizado"
+      },
+      "v13": {
+        "label": "Versión 13 · 21 out. 2026",
+        "title": "Guía local de hiperpotasemia engadida"
+      },
+      "v12": {
+        "label": "Versión 12 · 2 out. 2026",
+        "title": "Documento retirado do corpus"
+      }
+    }
+  },
+  "control": {
+    "label": "Preguntas de control",
+    "title": "Batería · Nefroloxía",
+    "total": "{count} preguntas",
+    "corpusVersion": "Versión 15 do corpus",
+    "completed": "Completada",
+    "progress": "{answered} de {total}",
+    "legend": {
+      "correct": "Correcta",
+      "partial": "Parcial",
+      "incorrect": "Incorrecta"
+    },
+    "alertTitle": "1 pregunta empeora respecto á versión 14",
+    "alertBody": "Pregunta 23 · antes Correcta, agora Incorrecta"
+  },
+  "rating": {
+    "notice": "Valoración gardada",
+    "dialogTitle": "Resposta non útil",
+    "cancel": "Cancelar",
+    "submit": "Enviar valoración",
+    "commentLabel": "Comentario (obrigatorio)",
+    "comment": "Engadir o axuste de dose do paracetamol na ERC grave.",
+    "commentPlaceholder": "Comentario sobre a resposta…"
+  },
+  "brand": {
+    "domain": "consulta.areanorte.es",
+    "logo": "AN",
+    "platform": "BinPar",
+    "title": "Comité clínico",
+    "placeholder": "Pregunta clínica ao comité..."
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "meta": {
+    "index": {
+      "title": "Nuestro blog",
+      "description": "Lecturas recientes sobre IA médica, tendencias sanitarias y nuevas formas de transformar la asistencia al paciente en el sistema de salud."
+    },
+    "tag": {
+      "title": "Artículos sobre {tag}",
+      "description": "Lecturas clínicas de BinPar etiquetadas como «{tag}».",
+      "notFound": "Etiqueta no encontrada"
+    },
+    "post": {
+      "notFound": "Artículo no encontrado"
+    }
+  },
+  "og": {
+    "alt": "BinPar · Lecturas clínicas",
+    "eyebrow": "Lecturas clínicas",
+    "fallbackTitle": "Lecturas clínicas"
+  },
+  "rss": {
+    "title": "BinPar · Lecturas clínicas",
+    "description": "Lecturas recientes sobre IA médica, tendencias sanitarias y nuevas formas de transformar la asistencia al paciente en el sistema de salud."
+  },
+  "authors": {
+    "alberto-blanco": {
+      "role": "Dirección técnica, BinPar"
+    },
+    "equipo-consensus-salutis": {
+      "role": "Producto y evidencia clínica"
+    }
+  },
+  "post": {
+    "readTime": "{minutes} min de lectura"
+  },
+  "hero": {
+    "eyebrow": "Lecturas clínicas · Blog",
+    "title": "El conocimiento<br></br><accent>sigue avanzando.</accent>",
+    "body": "Exploramos la evolución de la IA médica y su papel en la práctica clínica. Compartimos lecturas y perspectivas para comprender los avances, contrastar enfoques y acercar el conocimiento a los retos cotidianos de la atención al paciente.",
+    "cta": "Explorar artículos",
+    "latest": "Última entrada",
+    "number": "Nº {number}"
+  },
+  "featured": {
+    "prompt": "Muéstrame el último artículo del blog.",
+    "placeholder": "Pregunta al comité…",
+    "answering": "El comité está respondiendo…",
+    "committee": "Comité clínico",
+    "articleLabel": "Último artículo del blog",
+    "readArticle": "Leer artículo: {title}"
+  },
+  "gallery": {
+    "label": "Artículos del blog",
+    "allArticles": "Todos los artículos",
+    "noResults": {
+      "title": "No se han encontrado artículos.",
+      "body": "Prueba con otra búsqueda o cambia la etiqueta seleccionada."
+    }
+  },
+  "emptyState": {
+    "title": "Todavía no hay artículos publicados.",
+    "body": "Estamos preparando las primeras lecturas. Si quieres que te avisemos cuando publiquemos, escríbenos.",
+    "action": "Hablar con el equipo"
+  },
+  "tagFilter": {
+    "label": "Filtro por etiqueta",
+    "all": "Todos",
+    "entry": "{label}: {count, plural, one {# artículo} other {# artículos}}"
+  },
+  "tagSelect": {
+    "label": "Filtrar por etiqueta",
+    "noun": {
+      "one": "artículo",
+      "other": "artículos"
+    }
+  },
+  "sort": {
+    "label": "Ordenar artículos",
+    "options": {
+      "newest": "Más recientes",
+      "oldest": "Más antiguos",
+      "title": "Título (A–Z)"
+    }
+  },
+  "viewToggle": {
+    "label": "Vista de la galería",
+    "options": {
+      "grid": "Vista de fichas",
+      "list": "Vista de lista"
+    }
+  },
+  "search": {
+    "label": "Buscar artículos",
+    "placeholder": "{label}…",
+    "focus": "Enfocar búsqueda",
+    "clear": "Cerrar y limpiar búsqueda"
+  },
+  "pagination": {
+    "label": "Paginación del blog",
+    "status": "Página {page} de {total}",
+    "previous": "Página anterior",
+    "next": "Página siguiente",
+    "current": "Página {page}, actual",
+    "goTo": "Ir a la página {page}",
+    "pageSize": "Resultados por página",
+    "pageSizeValue": "Resultados por página: {size}",
+    "all": "Todos"
+  },
+  "list": {
+    "label": "Artículos en formato lista",
+    "number": "Nº {number}"
+  },
+  "article": {
+    "metadataLabel": "Información del artículo",
+    "byAuthor": "Por {name}",
+    "updated": "Actualizado el {date}",
+    "topics": "Temas",
+    "tagsLabel": "Etiquetas del artículo",
+    "relatedLabel": "Artículos relacionados",
+    "relatedTitle": "Quizá te interese",
+    "back": "Volver al blog"
+  },
+  "readingLayout": {
+    "label": "Guía de lectura del artículo",
+    "contents": "En este artículo",
+    "tocLabel": "Índice del artículo",
+    "explore": "Explorar el blog"
+  }
+}

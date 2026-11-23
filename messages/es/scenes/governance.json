@@ -1,0 +1,136 @@
+{
+  "organization": "Área Sanitaria Norte",
+  "corpus": {
+    "committee": "Comité de {organization}",
+    "searchable": "430 documentos consultables",
+    "inheritedBase": "Base común heredada",
+    "base": {
+      "label": "Base común",
+      "title": "412 documentos",
+      "body": "Heredada por todas las organizaciones."
+    },
+    "own": {
+      "label": "Del área",
+      "title": "18 documentos",
+      "body": "Solo visibles para el área."
+    },
+    "dashedNote": "Los marcados con borde discontinuo se heredan de un nodo superior."
+  },
+  "library": {
+    "label": "Corpus",
+    "title": "Biblioteca",
+    "count": "430 documentos",
+    "tabs": ["Todos", "Guía", "Protocolo", "Libro", "Del centro"],
+    "docs": {
+      "areaProtocol": {
+        "title": "Protocolo de analgesia del área",
+        "publisher": "Área Sanitaria Norte",
+        "meta": "Área Sanitaria Norte · 2026",
+        "date": "Aprobado el 3 nov. 2026",
+        "node": "Área Sanitaria Norte",
+        "experts": ["FA", "NE"]
+      },
+      "promir": {
+        "title": "Manual ProMIR · Nefrología",
+        "publisher": "ProMIR",
+        "meta": "ProMIR · 2025",
+        "date": "Aprobado el 12 sept. 2026",
+        "node": "Base común",
+        "experts": ["CA", "FA", "NE"]
+      }
+    }
+  },
+  "committees": {
+    "heading": "Agentes",
+    "withoutModes": "Sin modos",
+    "withModes": "Con modos",
+    "columns": {
+      "name": "Nombre",
+      "default": "Por defecto",
+      "actions": "Acciones"
+    },
+    "defaultBadge": "Por defecto",
+    "modes": {
+      "standard": {
+        "name": "Estándar",
+        "description": "Respuesta ágil para la consulta habitual."
+      },
+      "precision": {
+        "name": "Precisión",
+        "description": "Más exhaustivo para casos complejos; tarda algo más."
+      }
+    },
+    "addMode": "Añadir modo",
+    "createMode": "Crear modo",
+    "hintMany": "El profesional elige entre estos 2 modos en el chat; empieza con el último que usó o con el por defecto.",
+    "hintOne": "Con un solo modo el chat no muestra selector: siempre usa este."
+  },
+  "review": {
+    "label": "Propuesta",
+    "title": "Protocolo de analgesia del área",
+    "summary": "Cambios propuestos · 1 operación",
+    "change": "Cambio 1 · Actualizar",
+    "included": "Incluido",
+    "removedLine": "Ibuprofeno 400 mg cada 8 horas como analgesia de primera elección.",
+    "addedLine": "Evitar AINE en la ERC; con aclaramiento inferior a 30 mL/min están contraindicados.",
+    "status": {
+      "published": "Aprobado y publicado en v15",
+      "included": "1 cambio incluido",
+      "pending": "1 sin revisar"
+    },
+    "reject": "Rechazar propuesta",
+    "publishing": "Publicando…",
+    "approve": "Aprobar y publicar"
+  },
+  "versions": {
+    "latest": {
+      "label": "Versión 15 · publicada ahora",
+      "title": "Guía de ERC · revisión 3"
+    },
+    "items": {
+      "v14": {
+        "label": "Versión 14 · 3 nov. 2026",
+        "title": "Protocolo de analgesia actualizado"
+      },
+      "v13": {
+        "label": "Versión 13 · 21 oct. 2026",
+        "title": "Guía local de hiperpotasemia añadida"
+      },
+      "v12": {
+        "label": "Versión 12 · 2 oct. 2026",
+        "title": "Documento retirado del corpus"
+      }
+    }
+  },
+  "control": {
+    "label": "Preguntas de control",
+    "title": "Batería · Nefrología",
+    "total": "{count} preguntas",
+    "corpusVersion": "Versión 15 del corpus",
+    "completed": "Completada",
+    "progress": "{answered} de {total}",
+    "legend": {
+      "correct": "Correcta",
+      "partial": "Parcial",
+      "incorrect": "Incorrecta"
+    },
+    "alertTitle": "1 pregunta empeora respecto a la versión 14",
+    "alertBody": "Pregunta 23 · antes Correcta, ahora Incorrecta"
+  },
+  "rating": {
+    "notice": "Valoración guardada",
+    "dialogTitle": "Respuesta no útil",
+    "cancel": "Cancelar",
+    "submit": "Enviar valoración",
+    "commentLabel": "Comentario (obligatorio)",
+    "comment": "Añadir el ajuste de dosis del paracetamol en la ERC grave.",
+    "commentPlaceholder": "Comentario sobre la respuesta…"
+  },
+  "brand": {
+    "domain": "consulta.areanorte.es",
+    "logo": "AN",
+    "platform": "BinPar",
+    "title": "Comité clínico",
+    "placeholder": "Pregunta clínica al comité..."
+  }
+}

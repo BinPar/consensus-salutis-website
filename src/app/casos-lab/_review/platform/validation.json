@@ -1,0 +1,232 @@
+{
+  "checkedAt": "2026-11-05T15:13:52.510Z",
+  "parity": [
+    {
+      "width": 390,
+      "theme": "light",
+      "identical": true,
+      "metrics": {
+        "heading": {
+          "x": 20,
+          "y": 184,
+          "width": 350,
+          "height": 69.09375
+        },
+        "frame": {
+          "x": 20,
+          "y": 493.09375,
+          "width": 350,
+          "height": 640
+        },
+        "headingStyle": {
+          "fontSize": "32px",
+          "lineHeight": "34.56px",
+          "color": "rgb(5, 33, 94)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px"
+        },
+        "productStyle": {
+          "fontSize": "14px",
+          "lineHeight": "22.4px",
+          "color": "rgb(51, 65, 85)",
+          "backgroundColor": "rgb(244, 249, 252)",
+          "borderRadius": "0px"
+        },
+        "overflow": false
+      }
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "identical": true,
+      "metrics": {
+        "heading": {
+          "x": 20,
+          "y": 184,
+          "width": 350,
+          "height": 69.09375
+        },
+        "frame": {
+          "x": 20,
+          "y": 493.09375,
+          "width": 350,
+          "height": 640
+        },
+        "headingStyle": {
+          "fontSize": "32px",
+          "lineHeight": "34.56px",
+          "color": "lab(98.1434 -0.369519 -1.05966)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px"
+        },
+        "productStyle": {
+          "fontSize": "14px",
+          "lineHeight": "22.4px",
+          "color": "rgb(203, 213, 225)",
+          "backgroundColor": "rgb(6, 17, 31)",
+          "borderRadius": "0px"
+        },
+        "overflow": false
+      }
+    },
+    {
+      "width": 1280,
+      "theme": "light",
+      "identical": true,
+      "metrics": {
+        "heading": {
+          "x": 256,
+          "y": 216,
+          "width": 768,
+          "height": 116.625
+        },
+        "frame": {
+          "x": 208,
+          "y": 548.625,
+          "width": 864,
+          "height": 434.390625
+        },
+        "headingStyle": {
+          "fontSize": "54px",
+          "lineHeight": "58.32px",
+          "color": "rgb(5, 33, 94)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px"
+        },
+        "productStyle": {
+          "fontSize": "14px",
+          "lineHeight": "22.4px",
+          "color": "rgb(51, 65, 85)",
+          "backgroundColor": "rgb(244, 249, 252)",
+          "borderRadius": "0px"
+        },
+        "overflow": false
+      }
+    },
+    {
+      "width": 1280,
+      "theme": "dark",
+      "identical": true,
+      "metrics": {
+        "heading": {
+          "x": 256,
+          "y": 216,
+          "width": 768,
+          "height": 116.625
+        },
+        "frame": {
+          "x": 208,
+          "y": 548.625,
+          "width": 864,
+          "height": 434.390625
+        },
+        "headingStyle": {
+          "fontSize": "54px",
+          "lineHeight": "58.32px",
+          "color": "lab(98.1434 -0.369519 -1.05966)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px"
+        },
+        "productStyle": {
+          "fontSize": "14px",
+          "lineHeight": "22.4px",
+          "color": "rgb(203, 213, 225)",
+          "backgroundColor": "rgb(6, 17, 31)",
+          "borderRadius": "0px"
+        },
+        "overflow": false
+      }
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "identical": true,
+      "metrics": {
+        "heading": {
+          "x": 336,
+          "y": 216,
+          "width": 768,
+          "height": 116.625
+        },
+        "frame": {
+          "x": 216,
+          "y": 548.625,
+          "width": 1008,
+          "height": 506.796875
+        },
+        "headingStyle": {
+          "fontSize": "54px",
+          "lineHeight": "58.32px",
+          "color": "rgb(5, 33, 94)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px"
+        },
+        "productStyle": {
+          "fontSize": "14px",
+          "lineHeight": "22.4px",
+          "color": "rgb(51, 65, 85)",
+          "backgroundColor": "rgb(244, 249, 252)",
+          "borderRadius": "0px"
+        },
+        "overflow": false
+      }
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "identical": true,
+      "metrics": {
+        "heading": {
+          "x": 336,
+          "y": 216,
+          "width": 768,
+          "height": 116.625
+        },
+        "frame": {
+          "x": 216,
+          "y": 548.625,
+          "width": 1008,
+          "height": 506.796875
+        },
+        "headingStyle": {
+          "fontSize": "54px",
+          "lineHeight": "58.32px",
+          "color": "lab(98.1434 -0.369519 -1.05966)",
+          "backgroundColor": "rgba(0, 0, 0, 0)",
+          "borderRadius": "0px"
+        },
+        "productStyle": {
+          "fontSize": "14px",
+          "lineHeight": "22.4px",
+          "color": "rgb(203, 213, 225)",
+          "backgroundColor": "rgb(6, 17, 31)",
+          "borderRadius": "0px"
+        },
+        "overflow": false
+      }
+    }
+  ],
+  "interactions": {
+    "conversation": true,
+    "citationPanel": true,
+    "restart": true,
+    "collapseNavigation": true,
+    "history": true,
+    "mobileNavigation": true
+  },
+  "errors": [],
+  "unexpectedRequests": [],
+  "developmentToolingRequests": {
+    "count": 13,
+    "endpoint": "/__nextjs_original-stack-frames",
+    "purpose": "Development overlay resolving the shared reduced-motion hydration warning"
+  },
+  "consoleDiagnostics": {
+    "reducedMotionHydrationWarning": {
+      "occurrences": 13,
+      "reproducedOnProductionPage": true,
+      "source": "Existing shared RouteEntrance and Reveal animations: server opacity 0, browser opacity 1 when reduced motion is emulated.",
+      "productionFilesChanged": false
+    }
+  }
+}

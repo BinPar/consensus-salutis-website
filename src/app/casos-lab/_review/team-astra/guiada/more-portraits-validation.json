@@ -1,0 +1,163 @@
+{
+  "scope": "Team Astra · Guiada",
+  "simulatedSeconds": 320,
+  "automaticRotation": {
+    "portraitRatio": {
+      "before": 0.5749495087803376,
+      "after": 0.7866018553383768,
+      "samples": 6402
+    },
+    "seen": {
+      "inner": [
+        "adrian-rodriguez",
+        "alberto-blanco",
+        "beatriz-ortega",
+        "carolina-carcamo",
+        "cristian-alvarez",
+        "fabian-padilla",
+        "guillermo-hernandez",
+        "ignacio-ferro",
+        "isabel-ferro",
+        "jeronimo-ekerdt",
+        "jimmy-montano",
+        "marcos-gonzalez",
+        "nicolas-arianoutsos",
+        "pablo-emilio",
+        "tihomir-nikolaev",
+        "yaiza-vallejo"
+      ],
+      "outer": [
+        "adrian-rodriguez",
+        "alberto-blanco",
+        "beatriz-ortega",
+        "carolina-carcamo",
+        "cristian-alvarez",
+        "fabian-padilla",
+        "guillermo-hernandez",
+        "ignacio-ferro",
+        "isabel-ferro",
+        "jeronimo-ekerdt",
+        "jimmy-montano",
+        "marcos-gonzalez",
+        "nicolas-arianoutsos",
+        "pablo-emilio",
+        "tihomir-nikolaev",
+        "yaiza-vallejo"
+      ]
+    },
+    "expected": [
+      "adrian-rodriguez",
+      "alberto-blanco",
+      "beatriz-ortega",
+      "carolina-carcamo",
+      "cristian-alvarez",
+      "fabian-padilla",
+      "guillermo-hernandez",
+      "ignacio-ferro",
+      "isabel-ferro",
+      "jeronimo-ekerdt",
+      "jimmy-montano",
+      "marcos-gonzalez",
+      "nicolas-arianoutsos",
+      "pablo-emilio",
+      "tihomir-nikolaev",
+      "yaiza-vallejo"
+    ],
+    "hiddenSwaps": true,
+    "swaps": 436,
+    "dimensionsUnchanged": true,
+    "counts": {
+      "inner": 14,
+      "outer": 16
+    },
+    "randomizedOnReload": true,
+    "pause": true,
+    "reducedMotion": true,
+    "pageErrors": [],
+    "uniqueAcrossBothRings": true
+  },
+  "dragAndInertia": [
+    {
+      "touch": false,
+      "ring": "inner",
+      "direction": 1,
+      "otherDrag": -0.13845517704828608,
+      "otherInertia": -0.05122912657065626,
+      "dragAngle": 0.2787122668781449,
+      "firstInertia": 0.10289372657699519,
+      "secondInertia": 0.061962353842872964,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": false,
+      "ring": "inner",
+      "direction": -1,
+      "otherDrag": 0.1360470786909323,
+      "otherInertia": 0.058706138772836154,
+      "dragAngle": -0.27194352577140984,
+      "firstInertia": -0.10282615323423715,
+      "secondInertia": -0.08533136871360372,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": false,
+      "ring": "outer",
+      "direction": 1,
+      "otherDrag": -0.14981624892411782,
+      "otherInertia": -0.0500325022303881,
+      "dragAngle": 0.28497629261612195,
+      "firstInertia": 0.09984369376109836,
+      "secondInertia": 0.0692443214915821,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": false,
+      "ring": "outer",
+      "direction": -1,
+      "otherDrag": 0.13594403501879906,
+      "otherInertia": 0.05494070437080456,
+      "dragAngle": -0.2719934063820323,
+      "firstInertia": -0.11014951155984781,
+      "secondInertia": -0.0652183305891475,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": false,
+      "memberAudit": {
+        "duplicates": 0,
+        "visibleSwaps": 0,
+        "swaps": 12
+      }
+    },
+    {
+      "touch": true,
+      "ring": "inner",
+      "direction": 1,
+      "otherDrag": 0,
+      "otherInertia": 0,
+      "dragAngle": 0.2785776126614031,
+      "firstInertia": 0.0893691894567239,
+      "secondInertia": 0.0701047814286253,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": true,
+      "ring": "inner",
+      "direction": -1,
+      "otherDrag": 0,
+      "otherInertia": 0,
+      "dragAngle": -0.2723211875909241,
+      "firstInertia": -0.09260288037413868,
+      "secondInertia": -0.08025467252979623,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": true,
+      "memberAudit": {
+        "duplicates": 0,
+        "visibleSwaps": 0,
+        "swaps": 6
+      }
+    }
+  ]
+}

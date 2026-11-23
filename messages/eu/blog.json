@@ -1,0 +1,129 @@
+{
+  "meta": {
+    "index": {
+      "title": "Gure bloga",
+      "description": "Adimen artifizial medikoari, osasun-arloko joerei eta osasun-sisteman pazientearen arreta eraldatzeko modu berriei buruzko azken irakurgaiak."
+    },
+    "tag": {
+      "title": "{tag} gaiari buruzko artikuluak",
+      "description": "BinPar-en irakurgai klinikoak, «{tag}» etiketarekin.",
+      "notFound": "Ez da etiketa aurkitu"
+    },
+    "post": {
+      "notFound": "Ez da artikulua aurkitu"
+    }
+  },
+  "og": {
+    "alt": "BinPar · Irakurgai klinikoak",
+    "eyebrow": "Irakurgai klinikoak",
+    "fallbackTitle": "Irakurgai klinikoak"
+  },
+  "rss": {
+    "title": "BinPar · Irakurgai klinikoak",
+    "description": "Adimen artifizial medikoari, osasun-arloko joerei eta osasun-sisteman pazientearen arreta eraldatzeko modu berriei buruzko azken irakurgaiak."
+  },
+  "authors": {
+    "alberto-blanco": {
+      "role": "Zuzendaritza teknikoa, BinPar"
+    },
+    "equipo-consensus-salutis": {
+      "role": "Produktua eta ebidentzia klinikoa"
+    }
+  },
+  "post": {
+    "readTime": "{minutes} min irakurtzeko"
+  },
+  "hero": {
+    "eyebrow": "Irakurgai klinikoak · Bloga",
+    "title": "Ezagutzak<br></br><accent>aurrera jarraitzen du.</accent>",
+    "body": "Adimen artifizial medikoaren bilakaera eta praktika klinikoan duen zeregina aztertzen ditugu. Irakurgaiak eta ikuspegiak partekatzen ditugu, aurrerapenak ulertzeko, planteamenduak alderatzeko eta ezagutza pazientearen arretaren eguneroko erronketara hurbiltzeko.",
+    "cta": "Arakatu artikuluak",
+    "latest": "Azken sarrera",
+    "number": "{number}. zk."
+  },
+  "featured": {
+    "prompt": "Erakutsidazu blogeko azken artikulua.",
+    "placeholder": "Galdetu batzordeari…",
+    "answering": "Batzordea erantzuten ari da…",
+    "committee": "Batzorde klinikoa",
+    "articleLabel": "Blogeko azken artikulua",
+    "readArticle": "Irakurri artikulua: {title}"
+  },
+  "gallery": {
+    "label": "Blogeko artikuluak",
+    "allArticles": "Artikulu guztiak",
+    "noResults": {
+      "title": "Ez da artikulurik aurkitu.",
+      "body": "Egin beste bilaketa bat edo aldatu hautatutako etiketa."
+    }
+  },
+  "emptyState": {
+    "title": "Oraindik ez dago artikulurik argitaratuta.",
+    "body": "Lehen irakurgaiak prestatzen ari gara. Argitaratzen dugunean jakinaraztea nahi baduzu, idatz iezaguzu.",
+    "action": "Hitz egin taldearekin"
+  },
+  "tagFilter": {
+    "label": "Etiketaren araberako iragazkia",
+    "all": "Guztiak",
+    "entry": "{label}: {count, plural, one {# artikulu} other {# artikulu}}"
+  },
+  "tagSelect": {
+    "label": "Iragazi etiketaren arabera",
+    "noun": {
+      "one": "artikulu",
+      "other": "artikulu"
+    }
+  },
+  "sort": {
+    "label": "Ordenatu artikuluak",
+    "options": {
+      "newest": "Berrienak",
+      "oldest": "Zaharrenak",
+      "title": "Izenburua (A–Z)"
+    }
+  },
+  "viewToggle": {
+    "label": "Galeriaren ikuspegia",
+    "options": {
+      "grid": "Txartel-ikuspegia",
+      "list": "Zerrenda-ikuspegia"
+    }
+  },
+  "search": {
+    "label": "Bilatu artikuluak",
+    "placeholder": "{label}…",
+    "focus": "Jarri fokua bilaketan",
+    "clear": "Itxi eta garbitu bilaketa"
+  },
+  "pagination": {
+    "label": "Blogaren orrikatzea",
+    "status": "{page}. orria, {total} orritatik",
+    "previous": "Aurreko orria",
+    "next": "Hurrengo orria",
+    "current": "{page}. orria, unekoa",
+    "goTo": "Joan {page}. orrira",
+    "pageSize": "Emaitzak orriko",
+    "pageSizeValue": "Emaitzak orriko: {size}",
+    "all": "Guztiak"
+  },
+  "list": {
+    "label": "Artikuluak zerrenda formatuan",
+    "number": "{number}. zk."
+  },
+  "article": {
+    "metadataLabel": "Artikuluaren informazioa",
+    "byAuthor": "Egilea: {name}",
+    "updated": "Eguneratze-data: {date}",
+    "topics": "Gaiak",
+    "tagsLabel": "Artikuluaren etiketak",
+    "relatedLabel": "Lotutako artikuluak",
+    "relatedTitle": "Agian interesatuko zaizu",
+    "back": "Itzuli blogera"
+  },
+  "readingLayout": {
+    "label": "Artikulua irakurtzeko gida",
+    "contents": "Artikulu honetan",
+    "tocLabel": "Artikuluaren aurkibidea",
+    "explore": "Arakatu bloga"
+  }
+}

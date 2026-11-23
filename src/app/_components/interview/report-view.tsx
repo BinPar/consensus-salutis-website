@@ -29,7 +29,7 @@ export function ReportView({ report }: { report: InterviewReport }) {
       aria-label="Informe de idoneidad"
       className="border-primary-light/20 dark:border-primary-dark/20 mt-2 rounded-2xl border bg-white/70 p-5 sm:p-7 dark:bg-white/3"
     >
-      <p className="text-primary-light font-display dark:text-primary-dark flex items-center gap-2 text-[11px] font-bold tracking-[0.18em] uppercase">
+      <p className="text-primary-light font-display dark:text-primary-dark flex items-center gap-2 text-[11px] font-bold tracking-[0.22em] uppercase">
         <CircleCheck aria-hidden="true" strokeWidth={1.8} className="size-4" />
         Evaluación completada
       </p>
@@ -42,7 +42,7 @@ export function ReportView({ report }: { report: InterviewReport }) {
           </p>
           <a
             href={`/informe/${report.reportSlug}`}
-            className="bg-primary-light dark:bg-primary-dark shadow-big-blocks mt-5 inline-flex min-h-11 items-center gap-2.5 rounded-full px-5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-cyan-800 dark:text-[#03111d] dark:hover:bg-[#71fffe]"
+            className="bg-primary-light dark:bg-primary-dark shadow-big-blocks mt-5 inline-flex min-h-11 items-center gap-2.5 rounded-full px-5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-cyan-800 dark:text-[#03111d] dark:hover:bg-primary-dark/85"
           >
             Abrir el informe
             <ArrowRight

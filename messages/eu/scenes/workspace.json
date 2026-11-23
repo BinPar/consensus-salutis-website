@@ -1,0 +1,130 @@
+{
+  "actions": {
+    "cancel": "Utzi",
+    "save": "Gorde"
+  },
+  "projectHeader": {
+    "name": "Farmakoak GGKan",
+    "chats": "Txatak",
+    "sources": "Iturriak"
+  },
+  "projects": {
+    "moved": {
+      "title": "Analgesia GGK larrian",
+      "when": "oraintxe"
+    },
+    "chats": {
+      "nsaids": {
+        "title": "AIEEak GGK duen pazientean",
+        "when": "duela egun 1"
+      },
+      "aceInhibitors": {
+        "title": "AEBIak eta hiperpotasemia",
+        "when": "duela 3 egun"
+      },
+      "metformin": {
+        "title": "Metforminaren dosi-doikuntza",
+        "when": "duela 4 aste"
+      }
+    }
+  },
+  "instructions": {
+    "heading": "Proiektuaren jarraibideak",
+    "edit": "Editatu jarraibideak",
+    "text": "Alderatu farmakoak tauletan, eta adierazi beti iragazketa glomerularraren araberako doikuntza.",
+    "empty": "Jarraibide gehigarririk ez",
+    "counter": "{count} / 16.000 karaktere",
+    "note": "Aldaketak hurrengo txandan aplikatzen dira. Argitzeko galdera batek jatorrizko galderaren testuingurua gordetzen du."
+  },
+  "saved": {
+    "title": "Gorde iturrietan",
+    "description": "Gorde behin betiko erantzuna proiektu honen iturri pribatu gisa. Ez dira sartzen beste iturri edo elkarrizketa batzuetatik berreskuratutako zatiak.",
+    "confirm": "Gorde iturrietan",
+    "nameLabel": "Iturriaren izena",
+    "name": "AIEEak GGK duen pazientean"
+  },
+  "preferences": {
+    "section": "Erantzunen hobespenak",
+    "text": "Erantzun laburrak nahiago ditut, dosiak taula batean eta pazientearen aurrekariak errepikatu gabe.",
+    "empty": "Oraindik ez dago hobespenik gordeta.",
+    "hint": "Testu osoa edita dezakezu, edo aldaketak txatean eskatu.",
+    "edit": "Ikusi eta editatu hobespenak",
+    "note": "Zure txatei aplikatzen zaizkie. Aurkezpena baino ez dute doitzen; erantzunen helburua eta arau klinikoak ez dira aldatzen.",
+    "dialogTitle": "Erantzunen hobespenak",
+    "dialogDescription": "Idatzi nola aurkeztea nahi duzun erantzunak. Markdown erabil dezakezu. Onartutako testua idazten duzun bezalaxe gordeko da.",
+    "fieldLabel": "Hobespenen testua",
+    "counter": "{count}/1000"
+  },
+  "private": {
+    "heading": "Iturriak",
+    "add": "Gehitu",
+    "newSource": "Zerbitzuko analgesia-protokoloa.pdf",
+    "status": {
+      "ready": "Erabilgarri",
+      "processing": "Prozesatzen · {pages} / {total} orrialde",
+      "queued": "Ilaran"
+    },
+    "sources": {
+      "sessionNotes": "Saio klinikoko oharrak.md",
+      "doseAdjustment": "Dosi-doikuntza GGKan.txt"
+    }
+  },
+  "history": {
+    "newChat": "Txat berria",
+    "pinned": "Ainguratutakoak",
+    "recent": "Azkenak",
+    "pinnedChat": "Hiperpotasemia-protokoloa",
+    "chats": [
+      "AIEEak GGK duen pazientean",
+      "Disnea eta edema GGKan",
+      "Metforminaren dosi-doikuntza",
+      "Digoxinaren dosia GGKan"
+    ],
+    "rename": "AIEEak eta GGK larria",
+    "menu": {
+      "rename": "Aldatu izena",
+      "move": "Mugitu elkarrizketa",
+      "pin": "Ainguratu txata",
+      "unpin": "Desainguratu txata",
+      "delete": "Ezabatu"
+    },
+    "dialog": {
+      "title": "Aldatu izena",
+      "description": "Idatzi izen labur bat elkarrizketa hau identifikatzeko.",
+      "label": "Elkarrizketaren izena",
+      "limit": "Gehienez 72 karaktere.",
+      "counter": "{count} / 72 karaktere"
+    }
+  },
+  "profile": {
+    "initial": "L",
+    "name": "Laura Gómez",
+    "email": "lgomez@organizacion.es",
+    "locales": {
+      "es": {
+        "panel": "Profila eta ezarpenak",
+        "language": "Hizkuntza",
+        "role": "Klinikoa",
+        "preferences": "Erantzunen hobespenak",
+        "empty": "Oraindik ez dago hobespenik gordeta.",
+        "edit": "Ikusi eta editatu hobespenak"
+      },
+      "ca": {
+        "panel": "Perfil i configuració",
+        "language": "Idioma",
+        "role": "Clínic",
+        "preferences": "Preferències de resposta",
+        "empty": "Encara no hi ha preferències desades.",
+        "edit": "Mostra i edita les preferències"
+      },
+      "en": {
+        "panel": "Profile and settings",
+        "language": "Language",
+        "role": "Clinician",
+        "preferences": "Response preferences",
+        "empty": "No preferences saved yet.",
+        "edit": "View and edit preferences"
+      }
+    }
+  }
+}

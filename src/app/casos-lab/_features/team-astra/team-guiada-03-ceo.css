@@ -1,0 +1,83 @@
+/* Exclusive to Guiada 3. A sibling section keeps the orbit geometry intact. */
+:where([data-visual-lab]) :is(.ta-guided-03-ceo) {
+  padding: 30px 24px 64px;
+  background: var(--ta-paper);
+}
+
+:where([data-visual-lab]) :is(.ta-guided-03-ceo-inner) {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  align-items: center;
+  gap: 64px;
+  max-width: 1040px;
+  margin-inline: auto;
+}
+
+:where([data-visual-lab]) :is(.ta-guided-03-ceo-photo) {
+  position: relative;
+  width: 300px;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 24px;
+  background: var(--ta-panel);
+}
+
+:where([data-visual-lab]) :is(.ta-guided-03-ceo-content .ta-eyebrow) {
+  margin: 0;
+  color: var(--ta-accent);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0.22em;
+}
+
+:where([data-visual-lab]) :is(.ta-guided-03-ceo-content h2) {
+  margin: 20px 0 24px;
+  color: var(--ta-ink);
+}
+
+:where([data-visual-lab]) :is(.dark .ta-guided-03-ceo-content h2) {
+  color: var(--color-slate-50);
+}
+
+:where([data-visual-lab]) :is(.ta-guided-03-ceo-role) {
+  color: var(--ta-accent);
+  font-size: 0.7em;
+}
+
+:where([data-visual-lab]) :is(.ta-guided-03-ceo-bio) {
+  display: grid;
+  gap: 16px;
+  color: var(--color-slate-600);
+  font-size: 18px;
+  line-height: 32px;
+}
+
+:where([data-visual-lab]) :is(.dark .ta-guided-03-ceo-bio) {
+  color: var(--color-slate-400);
+}
+
+:where([data-visual-lab]) :is(.ta-guided-03-ceo-bio p) {
+  margin: 0;
+}
+
+@media (max-width: 767px) {
+  :where([data-visual-lab]) :is(.ta-guided-03-ceo) {
+    padding-block: 30px 40px;
+  }
+
+  :where([data-visual-lab]) :is(.ta-guided-03-ceo-inner) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  :where([data-visual-lab]) :is(.ta-guided-03-ceo-photo) {
+    width: min(220px, 100%);
+    border-radius: 20px;
+  }
+
+  :where([data-visual-lab]) :is(.ta-guided-03-ceo-bio) {
+    font-size: 16px;
+    line-height: 28px;
+  }
+}

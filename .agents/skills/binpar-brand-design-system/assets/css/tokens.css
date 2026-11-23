@@ -1,0 +1,142 @@
+/* BinPar design tokens — identity manual v1.0 (Oct 2026).
+   Light is the default theme. Dark applies with .dark or [data-theme="dark"] on an ancestor
+   (add .bp-auto on <html> to follow the OS instead). */
+
+:root {
+  /* Palette (manual p.17-19). Never use these directly for a theme role: use the semantic tokens below. */
+  --bp-navy: #05215e;
+  --bp-teal: #006d79;
+  --bp-turquoise: #00bcbb;
+  --bp-turquoise-bright: #71fffe;
+  --bp-yellow-light: #ffd230;
+  --bp-yellow-dark: #f6ff53;
+  --bp-ice: #f4f9fc;
+  --bp-white: #ffffff;
+  --bp-night: #06111f;
+  --bp-night-deep: #030916;
+  --bp-night-panel: #081827;
+  --bp-night-card: #152230;
+  --bp-cyan-grid: #0891b2;
+
+  --bp-slate-50: #f8fafc;
+  --bp-slate-100: #f1f5f9;
+  --bp-slate-200: #e2e8f0;
+  --bp-slate-300: #cad5e2;
+  --bp-slate-400: #90a1b9;
+  --bp-slate-500: #62748e;
+  --bp-slate-600: #45556c;
+  --bp-slate-700: #314158;
+  --bp-slate-900: #0f172b;
+
+  /* Type */
+  --bp-font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --bp-font-body: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --bp-tracking-display: -0.025em;
+  --bp-tracking-eyebrow: 0.22em;
+
+  /* Shape */
+  --bp-radius-field: 8px;
+  --bp-radius-card: 16px;
+  --bp-radius-panel: 24px;
+  --bp-radius-tile: 28px;
+  --bp-radius-pill: 999px;
+  --bp-grid-cell: 44px;
+  --bp-measure: 576px;
+
+  /* Motion (manual p.36) */
+  --bp-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --bp-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --bp-ease-emphasized: cubic-bezier(0.22, 1, 0.36, 1);
+  --bp-duration: 150ms;
+  --bp-duration-enter: 360ms;
+
+  /* Semantic — light theme */
+  color-scheme: light;
+  --bp-bg: var(--bp-ice);
+  --bp-surface: rgb(255 255 255 / 80%);
+  --bp-surface-solid: var(--bp-white);
+  --bp-field: rgb(255 255 255 / 60%);
+  --bp-heading: var(--bp-navy);
+  --bp-heading-accent: var(--bp-teal);
+  --bp-text-strong: var(--bp-slate-900);
+  --bp-text: var(--bp-slate-600);
+  --bp-text-muted: var(--bp-slate-500);
+  --bp-accent: var(--bp-teal);
+  --bp-accent-hover: #085b67;
+  --bp-on-accent: var(--bp-white);
+  --bp-accent-soft: rgb(0 109 121 / 10%);
+  --bp-attention: var(--bp-yellow-light);
+  --bp-on-attention: var(--bp-night);
+  --bp-danger: #c70036;
+  --bp-danger-soft: rgb(255 32 86 / 10%);
+  --bp-border: rgb(0 95 120 / 15%);
+  --bp-border-soft: rgb(0 95 120 / 10%);
+  --bp-border-strong: rgb(0 95 120 / 25%);
+  --bp-shadow: 0 4px 30px 0 rgb(0 109 121 / 10%), 0 2px 6px 2px rgb(0 109 121 / 2%);
+  --bp-grid-line: rgb(8 145 178 / 10%);
+  --bp-chart-grid: rgb(0 117 149 / 12%);
+  --bp-chart-support: rgb(202 213 226 / 75%);
+  --bp-flap-veil: var(--bp-cyan-grid);
+}
+
+.dark,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bp-bg: var(--bp-night);
+  --bp-surface: rgb(21 34 48 / 90%);
+  --bp-surface-solid: var(--bp-night-card);
+  --bp-field: rgb(4 17 30 / 68%);
+  --bp-heading: var(--bp-slate-50);
+  --bp-heading-accent: var(--bp-turquoise);
+  --bp-text-strong: var(--bp-slate-100);
+  --bp-text: var(--bp-slate-400);
+  --bp-text-muted: var(--bp-slate-400);
+  --bp-accent: var(--bp-turquoise);
+  --bp-accent-hover: var(--bp-turquoise-bright);
+  --bp-on-accent: #04111e;
+  --bp-accent-soft: rgb(0 188 187 / 12%);
+  --bp-attention: var(--bp-yellow-dark);
+  --bp-on-attention: var(--bp-night);
+  --bp-danger: #ffa1ad;
+  --bp-danger-soft: rgb(255 32 86 / 14%);
+  --bp-border: rgb(83 234 253 / 20%);
+  --bp-border-soft: rgb(83 234 253 / 12%);
+  --bp-border-strong: rgb(83 234 253 / 30%);
+  /* Dark elevation is a cyan halo, not a shadow (manual p.33). */
+  --bp-shadow: 0 0 18px 0 rgb(83 234 253 / 8%);
+  --bp-grid-line: rgb(0 188 187 / 4.5%);
+  --bp-chart-grid: rgb(83 234 253 / 10%);
+  --bp-chart-support: rgb(144 161 185 / 30%);
+  --bp-flap-veil: var(--bp-turquoise);
+}
+
+@media (prefers-color-scheme: dark) {
+  .bp-auto:not(.light):not([data-theme="light"]) {
+    color-scheme: dark;
+    --bp-bg: var(--bp-night);
+    --bp-surface: rgb(21 34 48 / 90%);
+    --bp-surface-solid: var(--bp-night-card);
+    --bp-field: rgb(4 17 30 / 68%);
+    --bp-heading: var(--bp-slate-50);
+    --bp-heading-accent: var(--bp-turquoise);
+    --bp-text-strong: var(--bp-slate-100);
+    --bp-text: var(--bp-slate-400);
+    --bp-text-muted: var(--bp-slate-400);
+    --bp-accent: var(--bp-turquoise);
+    --bp-accent-hover: var(--bp-turquoise-bright);
+    --bp-on-accent: #04111e;
+    --bp-accent-soft: rgb(0 188 187 / 12%);
+    --bp-attention: var(--bp-yellow-dark);
+    --bp-on-attention: var(--bp-night);
+    --bp-danger: #ffa1ad;
+    --bp-danger-soft: rgb(255 32 86 / 14%);
+    --bp-border: rgb(83 234 253 / 20%);
+    --bp-border-soft: rgb(83 234 253 / 12%);
+    --bp-border-strong: rgb(83 234 253 / 30%);
+    --bp-shadow: 0 0 18px 0 rgb(83 234 253 / 8%);
+    --bp-grid-line: rgb(0 188 187 / 4.5%);
+    --bp-chart-grid: rgb(83 234 253 / 10%);
+  --bp-chart-support: rgb(144 161 185 / 30%);
+    --bp-flap-veil: var(--bp-turquoise);
+  }
+}

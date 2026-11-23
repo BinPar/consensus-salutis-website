@@ -42,6 +42,7 @@ import {
   type FichaBlock,
   type FichaValue,
 } from "~/lib/ficha";
+import { esTodas } from "~/lib/opciones";
 
 /** Un trozo de rasgo. Sin `path` es texto de unión y no se marca nunca. */
 export type RasgoFragment = {
@@ -339,10 +340,18 @@ export type Cifra = { path: string; valor: string; etiqueta: string };
  * Nunca con decimales, nunca un porcentaje y nunca un cero: un campo con valor 0
  * cuenta como sin valor para esto. Una lista da su longitud —doce especialidades
  * son doce— y cualquier otra forma no da cifra.
+ *
+ * Una lista que dice «todas» tampoco da cifra, y es el caso que trajo esto: su
+ * longitud es 1, así que el hospital que consulta con todas las especialidades
+ * leía «1 · especialidades» en la tarjeta más visible del panel. No hay número
+ * que ponga ahí —el catálogo de la medicina no lo sabemos, y contar las que el
+ * modelo listó sería inventarlo—, así que el hueco pasa a la cifra siguiente y
+ * «todas» se dice donde se puede decir con palabras: el chip del campo.
  */
 function cifraDe(ficha: Ficha, path: string, etiqueta: string): Cifra | null {
   const found = value(ficha, path);
   if (found === undefined) return null;
+  if (Array.isArray(found) && found.some(esTodas)) return null;
 
   const n = Array.isArray(found)
     ? found.length

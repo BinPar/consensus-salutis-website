@@ -1,0 +1,23 @@
+{
+  "checks": [
+    {
+      "width": 1440,
+      "matchingLayout": true,
+      "portraits": 16,
+      "unique": true,
+      "variantNavigation": true,
+      "motion": true,
+      "pause": true
+    },
+    {
+      "width": 390,
+      "matchingLayout": true,
+      "portraits": 16,
+      "unique": true,
+      "variantNavigation": true,
+      "motion": true,
+      "pause": true
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,31 @@
+{
+  "variant": "Guiada",
+  "scope": "Primera sección de entrada de Team Astra. Sin directorio, ficha ni secciones posteriores.",
+  "reference": {
+    "url": "https://claude.com/es/product/overview",
+    "inspected": "2026-10-16",
+    "method": "Inspección del HTML, CSS y JavaScript públicos y comprobación visual en Chrome a 1440 × 1000.",
+    "observations": [
+      "Dos anillos circulares de 16 tarjetas cada uno, con sentidos de giro opuestos.",
+      "Los centros se desplazan con seno/coseno; las tarjetas permanecen verticales.",
+      "Radios de referencia en escritorio: 650/1920 y 1000/1920 del ancho, ajustados según breakpoint.",
+      "Tamaños ligeramente diferentes, retratos intercalados con patrones y captions exteriores.",
+      "Máscara vertical: opaco hasta aproximadamente 67%; transparente al 97%.",
+      "Hover frena el movimiento y amplía suavemente la tarjeta; scroll aporta aceleración transitoria.",
+      "La referencia adapta o suprime sus anillos en algunos breakpoints móviles."
+    ]
+  },
+  "adaptation": [
+    "Implementación propia con requestAnimationFrame, sin incorporar código o recursos gráficos de Claude.",
+    "30 tarjetas: los 16 retratos de referencia de Team Astra y 14 gráficos SVG originales. El anillo interior contiene 14 elementos, separados aproximadamente 25,7 grados, con un tamaño un 6 % menor para conservar la legibilidad.",
+    "Tipografía Sora y Plus Jakarta Sans; navy, teal y turquesa mediante los tokens existentes de BinPar.",
+    "Órbitas de aproximadamente 63 y 75 segundos, con texto central estable y fundido inferior.",
+    "Un anillo elíptico en móvil, con tarjetas arriba y abajo para proteger la lectura.",
+    "Botón de pausa, prefers-reduced-motion reactivo, suspensión fuera de pantalla y en pestaña oculta.",
+    "Fotografías ficticias ya presentes en el laboratorio, identificadas en la banda de contexto."
+  ],
+  "preview": "http://localhost:3000/casos-lab?lab=team&teamVariant=guiada#team-preview",
+  "validation": "validation.json",
+  "spacing": "Separación entre anillos calculada a partir de la diagonal máxima de tarjeta y caption, con 16 px de margen. Recorrido comprobado a nueve anchos: spacing-validation.json.",
+  "rosterRotation": "Cada anillo conserva ocho posiciones de retrato y recorre los 16 miembros completos. Las identidades avanzan al atravesar el tramo inferior desvanecido, sincronizadas con el movimiento; no cambian las dimensiones, los radios, el número de posiciones ni la separación. Verificación de visibilidad real de cada miembro en cada anillo: roster-validation.json."
+}

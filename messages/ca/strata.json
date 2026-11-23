@@ -1,0 +1,42 @@
+{
+  "section": {
+    "label": "Producte"
+  },
+  "heading": {
+    "eyebrow": "Producte · Tres capacitats, un sistema",
+    "titleLead": "Tres capacitats.",
+    "titleAccent": "Una sola arquitectura.",
+    "description": "Un producte sòlid es construeix en profunditat. Tres capes complementàries sostenen la mateixa experiència clínica."
+  },
+  "pillars": {
+    "binpar": {
+      "name": "BinPar",
+      "role": "Producte i enginyeria",
+      "detail": "Més de 15 anys desenvolupant programari sanitari. Una capa d’enginyeria que controla el cicle de cada resposta i connecta el coneixement amb la pràctica clínica."
+    },
+    "panamericana": {
+      "name": "Editorial Médica Panamericana",
+      "role": "Coneixement clínic",
+      "detail": "Més de 70 anys d’experiència editorial i més de 3 TB de coneixement mèdic. Continguts revisats que donen profunditat i context a la consulta."
+    },
+    "aws": {
+      "name": "AWS",
+      "role": "Infraestructura resilient",
+      "detail": "Una arquitectura cloud native preparada per operar amb continuïtat, observabilitat i compliment normatiu. La infraestructura acompanya el creixement i les necessitats de cada organització."
+    }
+  },
+  "details": {
+    "layer": "Capa {number} / 03",
+    "navigation": "Escenes de les capes del producte",
+    "playback": "escena de capes"
+  },
+  "graphic": {
+    "label": "Arquitectura del producte: gràfic que es pot girar",
+    "instructions": "Arrossega per girar i inclinar. Maj i les fletxes giren el gràfic. Esquerra i dreta seleccionen capes.",
+    "layers": "Capes de l’arquitectura del producte",
+    "layer": "Capa {number}: {role}",
+    "systemTitle": "BINPAR / SISTEMA INTEGRAT",
+    "reset": "Recuperar la vista inicial del gràfic",
+    "resetTitle": "Recuperar la vista inicial"
+  }
+}

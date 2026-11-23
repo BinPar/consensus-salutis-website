@@ -1,0 +1,262 @@
+{
+  "meta": {
+    "title": "Funtzionalitateak",
+    "description": "BinPar-en funtzionalitate guztiak, multzoka: ebidentzia ikusgai, kontsulta klinikoa, erantzun-formatuak, eremu pertsonala eta gobernantza instituzionala."
+  },
+  "groups": {
+    "evidence": {
+      "title": "Ebidentzia ikusgai",
+      "navLabel": "Ebidentzia",
+      "heading": "Ebidentzia",
+      "headingAccent": "ikusgai.",
+      "lead": "Baieztapen bakoitzak oinarri duen dokumentura eramaten du. Pasartea bere testuinguruan kontsultatzen da, jatorria eta indarraldia bistan dituela."
+    },
+    "consultation": {
+      "title": "Kontsulta klinikoa",
+      "navLabel": "Kontsulta",
+      "heading": "Kontsulta",
+      "headingAccent": "klinikoa.",
+      "lead": "Zalantza saio kliniko batean bezala azaltzen da. Espezialitate bakoitzak bere corpusa berrikusten du, aurrerapena bistan geratzen da eta elkarrizketak kasua gordetzen du."
+    },
+    "formats": {
+      "title": "Erantzun-formatuak",
+      "navLabel": "Formatuak",
+      "heading": "Erantzunen",
+      "headingAccent": "formatuak.",
+      "lead": "Erantzuna ondoen azaltzen duen formatuan aurkezten da. Eskemek, irudiek eta taulek beren aipuak gordetzen dituzte, eta alboko panelean kontsultatzen dira."
+    },
+    "workspace": {
+      "title": "Eremu pertsonala",
+      "navLabel": "Eremu pertsonala",
+      "heading": "Eremu",
+      "headingAccent": "pertsonala.",
+      "lead": "Profesional bakoitzak bere kontsultak proiektutan antolatzen ditu, jarraibide eta iturri propioekin, eta erantzunak nola irakurtzen diren doitzen du."
+    },
+    "governance": {
+      "title": "Gobernantza instituzionala",
+      "navLabel": "Gobernantza",
+      "heading": "Gobernantza",
+      "headingAccent": "instituzionala.",
+      "lead": "Erakundeak erabakitzen du batzordeak zer dokumentu kontsultatzen dituen, aldaketa bakoitza argitaratu aurretik berrikusten du eta erantzunen kalitateari eusten zaiola egiaztatzen du."
+    }
+  },
+  "items": {
+    "citations": {
+      "title": "Aipuak baieztapenez baieztapen",
+      "description": "Baieztapen bakoitza bere iturriarekin lotuta dago.",
+      "detail": "Esaldi baten ondoko zenbakia sakatzean, esaldi horrek oinarri duen dokumentua irekitzen da, erantzuna bistatik galdu gabe."
+    },
+    "bibliography": {
+      "title": "Bibliografia",
+      "description": "Erabilitako iturriak, erantzun bakoitzaren amaieran.",
+      "detail": "Zerrendak aipatutako gidak eta eskuliburuak biltzen ditu, erantzun bakoitza zer dokumentutan oinarritzen den begirada batean berrikusteko."
+    },
+    "preserved": {
+      "title": "Gordetako ebidentzia",
+      "description": "Erantzunak aipatu zuena gordetzen du, dokumentua kentzen bada ere.",
+      "detail": "Gida bat kentzen edo ordezten bada, aipatutako pasartea eskuragarri dago oraindik, erantzun hura zertan oinarritu zen berrikusteko."
+    },
+    "viewer": {
+      "title": "Dokumentu-ikustailea",
+      "description": "PDFa, aipatutako orrialdean eta pasartea nabarmenduta.",
+      "detail": "Jatorrizko dokumentua alboko panel batean irekitzen da; hala, pasartea bere testuinguruan irakurtzen da, aurretik eta ondoren duenarekin batera."
+    },
+    "verified": {
+      "title": "Testu egiaztatua",
+      "description": "Pasartea jatorrizko PDFarekin bat datorren adierazten du.",
+      "detail": "Aipatutako testua jatorrizko dokumentuarekin erkatzen da, eta adierazle batek erakusten du PDFak dioenarekin hitzez hitz bat datorren."
+    },
+    "provenance": {
+      "title": "Jatorri osoa",
+      "description": "Dokumentua, kapitulua, atala eta orrialdea.",
+      "detail": "Aipu bakoitzak dokumentuaren barruko kokapen zehatza gordetzen du, aurkitzeko edo saio kliniko batean nahiz txosten batean aipatzeko."
+    },
+    "updates": {
+      "title": "Eguneratze-oharrak",
+      "description": "Geroagoko iturri batek ordeztutako datuak adierazten ditu.",
+      "detail": "Edizio berriago batek aipatutako informazioa aldatzen duenean, ohar batek hala adierazten du pasartearen ondoan, indarrean dagoen egiaztatzeko."
+    },
+    "natural": {
+      "title": "Hizkuntza naturala",
+      "description": "Zalantza saio kliniko batean bezala planteatzen da.",
+      "detail": "Kasua bere aurrekariekin, medikazioarekin eta kezkatzen duenarekin deskribatzen da, gako-hitzik eta formulariorik gabe."
+    },
+    "clarify": {
+      "title": "Argitzeko galderak",
+      "description": "Datu erabakigarri bat falta bada, batzordeak eskatu egiten du.",
+      "detail": "Erantzuna adierazi ez den balio baten araberakoa denean (iragazketa glomerularra, adibidez), galdera erantzuna baino lehen iristen da, klik bakarrean erantzuteko aukerekin."
+    },
+    "followup": {
+      "title": "Jarraipena",
+      "description": "Hurrengo galderek testuingurua gordetzen dute.",
+      "detail": "Galdera berri bat kasutik eta lehendik kontsultatutako iturrietatik abiatzen da, pazientearen datuak errepikatu gabe."
+    },
+    "committee": {
+      "title": "Espezialitatekako batzordea",
+      "description": "Hainbat aditu, bakoitza bere corpusarekin.",
+      "detail": "Espezialitate bakoitzak bere arloko dokumentuak berrikusten ditu, eta erantzunak haien ekarpenak bildu eta erkatzen ditu."
+    },
+    "modes": {
+      "title": "Erantzun-moduak",
+      "description": "Azkartasuna edo sakontasuna, galdera bakoitzean.",
+      "detail": "Erakunde bakoitzak bere erantzun-moduak definitzen ditu; bat baino gehiago dagoenean, profesionalak kontsulta-eremuaren ondoan aukeratzen du erantzun arin baten eta berrikuspen sakonago baten artean."
+    },
+    "progress": {
+      "title": "Aurrerapena bistan",
+      "description": "Kontsultatutako adituak, iturriak eta orrialdeak, erantzun bitartean.",
+      "detail": "Itxaron bitartean ikusten da zer espezialitate ari diren lanean, zer dokumentu berrikusten dituzten eta zer orrialdetan, erantzuna irakurri aurretik."
+    },
+    "images": {
+      "title": "Erantsitako irudiak",
+      "description": "Kontsultan itsatsi, arrastatu edo erantsi egiten dira.",
+      "detail": "Elektrokardiograma bat, analitika bat edo lesio baten argazkia galderari gehitzen zaizkio, kasuarekin batera kontsultatzeko."
+    },
+    "schemes": {
+      "title": "Eskema klinikoak",
+      "description": "Erabaki-zuhaitzak eta buru-mapak, iturriekin.",
+      "detail": "Erabaki-zuhaitz batek erantzunaren irizpideak ordenatzen ditu, eta eskema bakoitzak zer iturritan oinarritzen den adierazten du."
+    },
+    "figures": {
+      "title": "Corpuseko irudiak",
+      "description": "Giden irudiak, erantzunaren barruan.",
+      "detail": "Gida batek ilustrazio egoki bat duenean, irudia hura azaltzen duen testuaren ondoan agertzen da."
+    },
+    "download": {
+      "title": "Irudi gisa deskargatzea",
+      "description": "Eskema bakoitza PNG formatuan esportatzen da.",
+      "detail": "Eskema irudi gisa gordetzen da, saio kliniko batean, protokolo batean edo irakaskuntza-material batean txertatzeko."
+    },
+    "tables": {
+      "title": "Konparazio-taulak",
+      "description": "Konparazio irakurgarriak, aipuak galdu gabe.",
+      "detail": "Farmakoak, irizpideak edo aukerak zutabetan konparatzen dira, eta errenkada bakoitzak bere dokumentuaren erreferentzia gordetzen du."
+    },
+    "textalt": {
+      "title": "Testuzko ibilbidea",
+      "description": "Eskema bakoitzaren ordezko irisgarria.",
+      "detail": "Eskema bakoitza urratsen zerrenda gisa irakur daiteke; erabilgarria da pantaila-irakurgailuekin edo txosten batean kopiatzeko."
+    },
+    "panel": {
+      "title": "Alboko panela",
+      "description": "Dokumentuak, eskemak eta irudiak fitxetan.",
+      "detail": "Iturriak, eskemak eta irudiak elkarrizketaren ondoan irekitzen dira, erantzuna bistatik galdu gabe."
+    },
+    "projects": {
+      "title": "Proiektuak",
+      "description": "Elkarrizketak, gaika bilduta.",
+      "detail": "Gai berari buruzko kontsultak, protokolo baten berrikuspenari buruzkoak adibidez, eremu batean biltzen dira, bere jarraibide eta iturriekin."
+    },
+    "instructions": {
+      "title": "Jarraibide komunak",
+      "description": "Formatua, hizkuntza edo ikuspegia, proiektu osorako.",
+      "detail": "Behin bakarrik adierazten da proiektuko erantzunak nola aurkeztu behar diren; arau klinikoek eta erakundearen iturriek lehentasuna izaten jarraitzen dute."
+    },
+    "saved": {
+      "title": "Erantzunak iturri gisa",
+      "description": "Erantzun bat gorde egiten da, proiektuaren gainerakoan erabiltzeko.",
+      "detail": "Behin betiko erantzun bat iturri pribatu gisa gordetzen da, eta proiektu bereko beste elkarrizketetatik berreskura daiteke."
+    },
+    "preferences": {
+      "title": "Erantzun-hobespenak",
+      "description": "Luzera, tonua eta formatua, txat batetik bestera gogoratuta.",
+      "detail": "Hobespenak erregistratuta geratzen dira eta txat guztietan aplikatzen dira; aurkezpena doitzen dute, ez helburua, ezta arau klinikoak ere."
+    },
+    "private": {
+      "title": "Dokumentu pribatuak",
+      "description": "PDF, TXT eta Markdown, iturri gisa aipagarriak.",
+      "detail": "Zerbitzuko protokolo bat edo norberaren oharrak proiektuari gehitzen zaizkio eta gainerako iturriak bezala aipatzen dira; jabeak bakarrik ikus ditzake."
+    },
+    "history": {
+      "title": "Historia ordenatua",
+      "description": "Ainguratu, izena aldatu, mugitu eta galderaz galdera ibili.",
+      "detail": "Elkarrizketak ainguratu, haien izena aldatu edo proiektu batera eraman daitezke, eta luzeenetan zuzenean jo daiteke galdera bakoitzera."
+    },
+    "languages": {
+      "title": "Hiru hizkuntza",
+      "description": "Gaztelania, katalana eta ingelesa.",
+      "detail": "Interfazea profesional bakoitzak aukeratzen duen hizkuntzan aurkezten da, eta aldaketa berehala aplikatzen da."
+    },
+    "theme": {
+      "title": "Itxura argia eta iluna",
+      "description": "Irakurketa erosoa, kontsultan zein guardian.",
+      "detail": "Itxura ilunak distira murrizten du gaueko guardietan, eta argiak irakurketa errazten du kontsultako argiarekin."
+    },
+    "corpus": {
+      "title": "Erakunde bakoitzaren corpusa",
+      "description": "Protokolo propioak, oinarri komun baten gainean.",
+      "detail": "Zentroaren protokoloak giden eta eskuliburuen oinarri komun baten gainean gehitzen dira, eta batzordeak biak kontsultatzen ditu trazabilitate berarekin."
+    },
+    "library": {
+      "title": "Dokumentu-liburutegia",
+      "description": "Giden inbentarioa, mota eta laburpenarekin.",
+      "detail": "Dokumentu bakoitza bere motarekin, onarpen-datarekin, elikatzen dituen adituekin eta egiten duen ekarpenaren laburpenarekin ageri da."
+    },
+    "committees": {
+      "title": "Batzorde konfiguragarriak",
+      "description": "Adituak eta moduak, erakunde bakoitzak definituta.",
+      "detail": "Erakunde bakoitzak bere batzordearen erantzun-moduak konfiguratzen ditu eta bat lehenetsitzat ezartzen du; bat baino gehiago badago, profesionalak txatean aukeratzen du haien artean."
+    },
+    "review": {
+      "title": "Argitalpen berrikusia",
+      "description": "Aldaketak corpusean sartu aurretik berrikusten dira.",
+      "detail": "Dokumentu berri bat edo eguneratze bat argitaratu aurretik berrikusi eta onartzen da; hala, ezer ez da erantzunetara kontrolik gabe iristen."
+    },
+    "versions": {
+      "title": "Corpusaren bertsioak",
+      "description": "Aldaketa bakoitza erregistratu eta bertsio gisa gordetzen da.",
+      "detail": "Corpusak bere historia gordetzen du: zer aldatu zen, noiz eta zer dokumentutan, erantzun bakoitza zertan oinarritu zen berreraikitzeko."
+    },
+    "control": {
+      "title": "Kontrol-galderak",
+      "description": "Erantzunak okertzen diren detektatzen duten galdera-sortak.",
+      "detail": "Erreferentziazko erantzuna duten galderen sorta bat aldaketa bakoitzaren ondoren errepikatzen da, eta aurreko bertsioarekin alderatuta okerrera egiten dutenak nabarmentzen dira."
+    },
+    "rating": {
+      "title": "Profesionalen balorazioa",
+      "description": "Erabilgarria edo ez erabilgarria, berrikusteko iruzkin batekin.",
+      "detail": "Profesional bakoitzak erantzun bat erabilgarri edo ez erabilgarri gisa markatzen du eta iruzkin bat gehitzen du; iruzkina talde editorialari iristen zaio, berrikus dezan."
+    },
+    "brand": {
+      "title": "Marka eta domeinu propioak",
+      "description": "Sarbidea, erakundearen diseinuarekin.",
+      "detail": "Plataforma erakundearen logotipoarekin, koloreekin eta domeinuarekin aurkezten da."
+    }
+  },
+  "group": {
+    "eyebrow": "Funtzionalitateak"
+  },
+  "highlights": {
+    "eyebrow": "Plataforma",
+    "title": "Gure funtzionalitate<br></br><accent>nagusiak.</accent>",
+    "lead": "{count} funtzionalitate jartzen ditugu zure esku, zure eguneroko lanera bideratuak: zure taldearekin kontsultatzea, iturri bakoitza egiaztatzea eta zure erakundearen ezagutza eguneratuta edukitzea. Hauek dira nagusietako batzuk.",
+    "cta": "Ikusi funtzionalitate guztiak"
+  },
+  "intro": {
+    "eyebrow": "Plataforma · Funtzionalitateak",
+    "title": "<accent>Plataformak</accent><br></br>eskaintzen duen guztia.",
+    "lead": "Zure erakundera eraman aurretik egiaztatzea komeni dena: nondik ateratzen den erantzun bakoitza, nork erabakitzen duen zer dokumentu kontsultatzen dituen eta nola zaintzen den haren kalitatea denboran zehar.",
+    "cta": "Arakatu funtzionalitateak"
+  },
+  "filterBar": {
+    "title": "Funtzionalitateak",
+    "groupSelect": "Joan multzora",
+    "noun": {
+      "one": "funtzionalitate",
+      "other": "funtzionalitate"
+    },
+    "groupsNav": "Funtzionalitate-multzoak",
+    "pillLabel": "{label}: {count, plural, one {# funtzionalitate} other {# funtzionalitate}}",
+    "search": "Bilatu funtzionalitateak"
+  },
+  "overview": {
+    "sections": {
+      "intro": "Sarrera",
+      "features": "Funtzionalitateak"
+    },
+    "featuresLabel": "Funtzionalitateak",
+    "empty": {
+      "title": "Ez da funtzionalitaterik aurkitu.",
+      "body": "Egin beste bilaketa bat edo <link>galdetu iezaguzu zuzenean</link>."
+    }
+  }
+}

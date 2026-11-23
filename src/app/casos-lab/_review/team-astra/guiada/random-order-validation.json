@@ -1,0 +1,93 @@
+{
+  "seen": {
+    "inner": [
+      "adrian-rodriguez",
+      "alberto-blanco",
+      "beatriz-ortega",
+      "carolina-carcamo",
+      "cristian-alvarez",
+      "fabian-padilla",
+      "guillermo-hernandez",
+      "ignacio-ferro",
+      "isabel-ferro",
+      "jeronimo-ekerdt",
+      "jimmy-montano",
+      "marcos-gonzalez",
+      "nicolas-arianoutsos",
+      "pablo-emilio",
+      "tihomir-nikolaev",
+      "yaiza-vallejo"
+    ],
+    "outer": [
+      "adrian-rodriguez",
+      "alberto-blanco",
+      "beatriz-ortega",
+      "carolina-carcamo",
+      "cristian-alvarez",
+      "fabian-padilla",
+      "guillermo-hernandez",
+      "ignacio-ferro",
+      "isabel-ferro",
+      "jeronimo-ekerdt",
+      "jimmy-montano",
+      "marcos-gonzalez",
+      "nicolas-arianoutsos",
+      "pablo-emilio",
+      "tihomir-nikolaev",
+      "yaiza-vallejo"
+    ]
+  },
+  "expected": [
+    "adrian-rodriguez",
+    "alberto-blanco",
+    "beatriz-ortega",
+    "carolina-carcamo",
+    "cristian-alvarez",
+    "fabian-padilla",
+    "guillermo-hernandez",
+    "ignacio-ferro",
+    "isabel-ferro",
+    "jeronimo-ekerdt",
+    "jimmy-montano",
+    "marcos-gonzalez",
+    "nicolas-arianoutsos",
+    "pablo-emilio",
+    "tihomir-nikolaev",
+    "yaiza-vallejo"
+  ],
+  "hiddenSwaps": true,
+  "swaps": 40,
+  "uniqueActive": true,
+  "initialOrders": {
+    "inner": [
+      "jeronimo-ekerdt",
+      "yaiza-vallejo",
+      "nicolas-arianoutsos",
+      "jimmy-montano",
+      "tihomir-nikolaev",
+      "carolina-carcamo",
+      "cristian-alvarez",
+      "beatriz-ortega"
+    ],
+    "outer": [
+      "cristian-alvarez",
+      "carolina-carcamo",
+      "yaiza-vallejo",
+      "alberto-blanco",
+      "adrian-rodriguez",
+      "fabian-padilla",
+      "guillermo-hernandez",
+      "marcos-gonzalez"
+    ]
+  },
+  "completeBagsUnique": true,
+  "dimensionsUnchanged": true,
+  "counts": {
+    "inner": 14,
+    "outer": 16
+  },
+  "randomizedOnReload": true,
+  "pause": true,
+  "reducedMotion": true,
+  "pageErrors": []
+}

@@ -1,0 +1,39 @@
+:where([data-visual-lab]) [data-mail-generator-lab] {
+  --mail-header-height: 0px;
+  --mail-scroll-offset: var(--lab-toolbar-height, 80px);
+}
+
+@media (max-width: 639px) {
+  :where([data-visual-lab])
+    :is([data-email-signatures-lab] [data-cases-lab-header] > div) {
+    display: grid;
+    min-width: 0;
+    grid-template-columns: 28px minmax(0, 1fr) auto;
+    gap: 8px 12px;
+    padding: 12px 20px;
+  }
+  :where([data-visual-lab])
+    :is([data-email-signatures-lab] [data-cases-lab-header] > div > label) {
+    min-width: 0;
+  }
+  :where([data-visual-lab])
+    :is([data-email-signatures-lab] [data-cases-lab-header] select) {
+    width: 100%;
+  }
+  :where([data-visual-lab])
+    :is([data-email-signatures-lab] [aria-label="Elegir propuesta"]) {
+    grid-row: 2;
+    grid-column: 1 / -1;
+  }
+  :where([data-visual-lab])
+    :is(
+      [data-email-signatures-lab] [data-cases-lab-header] > div > div:last-child
+    ) {
+    grid-row: 1;
+    grid-column: 3;
+  }
+  :where([data-visual-lab])
+    :is([data-email-signatures-lab] [aria-label="Ir a la propuesta"]) {
+    display: none;
+  }
+}

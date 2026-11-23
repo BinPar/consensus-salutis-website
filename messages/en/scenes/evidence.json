@@ -1,0 +1,60 @@
+{
+  "source": {
+    "title": "Manual ProMIR · Nephrology",
+    "chapter": "Cardiovascular risk and kidney disease"
+  },
+  "chatHeader": {
+    "brand": "BinPar"
+  },
+  "composer": {
+    "placeholder": "Clinical question for the committee...",
+    "responding": "The committee is answering..."
+  },
+  "bibliography": {
+    "heading": "References"
+  },
+  "sourcePanel": {
+    "eyebrow": "Consulted source",
+    "fullDocument": "View full document"
+  },
+  "passage": {
+    "heading": "Non-steroidal anti-inflammatory drugs"
+  },
+  "viewer": {
+    "heading": "Drug dosing and the kidney",
+    "methods": ["Reducing the dose.", "Increasing the interval between doses."]
+  },
+  "updates": {
+    "notice": "Predates the update: a later source updated part of this unit, so this passage may contain information that has since been superseded."
+  },
+  "preserved": {
+    "document": "Corpus document",
+    "withdrawn": "Document withdrawn from the corpus",
+    "kept": "Kept with the answer",
+    "passage": "Cited passage"
+  },
+  "verified": {
+    "answer": {
+      "label": "In the answer",
+      "title": "Citation [4]"
+    },
+    "original": {
+      "label": "In the original PDF",
+      "title": "p. 412"
+    },
+    "status": {
+      "verified": "Text verified",
+      "verifying": "Verifying the text"
+    },
+    "detail": {
+      "verified": "Matches the original PDF",
+      "verifying": "Checking against the PDF"
+    }
+  },
+  "provenance": {
+    "document": "Document",
+    "chapter": "Chapter",
+    "section": "Section",
+    "page": "Page"
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "seen": {
+    "inner": [
+      "adrian-rodriguez",
+      "alberto-blanco",
+      "beatriz-ortega",
+      "carolina-carcamo",
+      "cristian-alvarez",
+      "fabian-padilla",
+      "guillermo-hernandez",
+      "ignacio-ferro",
+      "isabel-ferro",
+      "jeronimo-ekerdt",
+      "jimmy-montano",
+      "marcos-gonzalez",
+      "nicolas-arianoutsos",
+      "pablo-emilio",
+      "tihomir-nikolaev",
+      "yaiza-vallejo"
+    ],
+    "outer": [
+      "adrian-rodriguez",
+      "alberto-blanco",
+      "beatriz-ortega",
+      "carolina-carcamo",
+      "cristian-alvarez",
+      "fabian-padilla",
+      "guillermo-hernandez",
+      "ignacio-ferro",
+      "isabel-ferro",
+      "jeronimo-ekerdt",
+      "jimmy-montano",
+      "marcos-gonzalez",
+      "nicolas-arianoutsos",
+      "pablo-emilio",
+      "tihomir-nikolaev",
+      "yaiza-vallejo"
+    ]
+  },
+  "expected": [
+    "adrian-rodriguez",
+    "alberto-blanco",
+    "beatriz-ortega",
+    "carolina-carcamo",
+    "cristian-alvarez",
+    "fabian-padilla",
+    "guillermo-hernandez",
+    "ignacio-ferro",
+    "isabel-ferro",
+    "jeronimo-ekerdt",
+    "jimmy-montano",
+    "marcos-gonzalez",
+    "nicolas-arianoutsos",
+    "pablo-emilio",
+    "tihomir-nikolaev",
+    "yaiza-vallejo"
+  ],
+  "hiddenSwaps": true,
+  "swaps": 75,
+  "uniqueActive": true,
+  "initialOrders": {
+    "inner": [
+      "jimmy-montano",
+      "isabel-ferro",
+      "alberto-blanco",
+      "jeronimo-ekerdt",
+      "beatriz-ortega",
+      "fabian-padilla",
+      "tihomir-nikolaev",
+      "pablo-emilio"
+    ],
+    "outer": [
+      "jeronimo-ekerdt",
+      "nicolas-arianoutsos",
+      "beatriz-ortega",
+      "alberto-blanco",
+      "pablo-emilio",
+      "carolina-carcamo",
+      "guillermo-hernandez",
+      "adrian-rodriguez"
+    ]
+  },
+  "completeBagsUnique": true,
+  "dimensionsUnchanged": true,
+  "counts": {
+    "inner": 14,
+    "outer": 16
+  },
+  "randomizedOnReload": true,
+  "pause": true,
+  "reducedMotion": true,
+  "pageErrors": []
+}

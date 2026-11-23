@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "title": "Team",
+    "description": "Meet the people behind BinPar. Different perspectives and a shared curiosity, bringing medical knowledge to those who need it."
+  },
+  "page": {
+    "sections": {
+      "idea": "The idea",
+      "gallery": "The team",
+      "contact": "Contact"
+    }
+  },
+  "hero": {
+    "eyebrow": "BinPar team",
+    "title": "It all starts<br></br><accent>with people.</accent>",
+    "body": "Different perspectives. A shared curiosity. We work to bring medical knowledge to those who need it.",
+    "cta": "Meet the team",
+    "disciplines": [
+      "Clinical knowledge",
+      "Clinical guidelines",
+      "Institutional protocols",
+      "Medical corpus",
+      "Clinical query",
+      "Document search",
+      "Contrasting sources",
+      "Visible evidence",
+      "Traceable answers",
+      "Bibliographic references",
+      "Clinical context",
+      "Query history",
+      "Institutional knowledge",
+      "Document review",
+      "Content updates",
+      "Professional judgement"
+    ],
+    "motion": {
+      "reducedLabel": "Reduced motion on",
+      "resumeLabel": "Resume card motion",
+      "pauseLabel": "Pause card motion",
+      "reducedTitle": "Reduced motion",
+      "resumeTitle": "Resume",
+      "pauseTitle": "Pause"
+    }
+  },
+  "idea": {
+    "eyebrow": "The idea that drives us",
+    "title": "Knowledge,<br></br><accent>where it is needed.</accent>",
+    "body": "More than fifteen years developing technology for the healthcare sector have taught us that knowledge is valuable when it reaches the people who need it. That idea gave rise to BinPar: a medical AI platform that connects medical knowledge with clinical practice. To help the people who look after our health resolve their questions, consult sources and keep learning in their day-to-day work."
+  },
+  "gallery": {
+    "title": "The people<br></br><accent>behind BinPar.</accent>",
+    "body": "Each person brings a way of thinking, creating and solving problems. Meet the team that shapes BinPar every day.",
+    "listLabel": "Team members"
+  },
+  "members": {
+    "ignacio-ferro": {
+      "role": "CEO"
+    },
+    "cristian-alvarez": {
+      "role": "COO"
+    },
+    "marcos-gonzalez": {
+      "role": "Chief Architect"
+    },
+    "isabel-ferro": {
+      "role": "CFO"
+    },
+    "alberto-blanco": {
+      "role": "CTO"
+    },
+    "nicolas-arianoutsos": {
+      "role": "Full-Stack Developer"
+    },
+    "beatriz-ortega": {
+      "role": "Full-Stack Developer"
+    },
+    "carolina-carcamo": {
+      "role": "Recruiter"
+    },
+    "pablo-emilio": {
+      "role": "Full-Stack Developer"
+    },
+    "adrian-rodriguez": {
+      "role": "Design Lead"
+    },
+    "fabian-padilla": {
+      "role": "Full-Stack Developer"
+    },
+    "jeronimo-ekerdt": {
+      "role": "Full-Stack Developer"
+    },
+    "jimmy-montano": {
+      "role": "Full-Stack Developer"
+    },
+    "yaiza-vallejo": {
+      "role": "Product Lead"
+    },
+    "guillermo-hernandez": {
+      "role": "Full-Stack Developer"
+    }
+  }
+}

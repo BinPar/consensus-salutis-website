@@ -1,0 +1,162 @@
+{
+  "meta": {
+    "title": "Platform",
+    "description": "From clinical query to evidence: see how BinPar brings experts together, contrasts their input and provides guidance with verifiable sources."
+  },
+  "walkthrough": {
+    "sections": {
+      "platform": "Platform",
+      "features": "Features",
+      "contact": "Contact"
+    },
+    "intro": {
+      "eyebrow": "Our platform",
+      "title": "From clinical query<br></br><accent>to evidence.</accent>",
+      "lead": "Explore the interface, the panels and your user area with a sample query. See how the answer is presented and review the sources behind it to look deeper into the clinical context."
+    },
+    "next": {
+      "eyebrow": "Next step",
+      "title": "Your organisation's knowledge, in every query.",
+      "lead": "Let's explore how to bring your guidelines, protocols and medical corpus into a governed query environment.",
+      "cta": "Request more information"
+    }
+  },
+  "preview": {
+    "logoAlt": "BinPar",
+    "user": {
+      "initial": "A",
+      "role": "Clinician",
+      "name": "Dr Ana García",
+      "email": "ana@hospital.example",
+      "organization": "Demo Hospital"
+    },
+    "navigation": {
+      "label": "Chat navigation",
+      "brandNewChat": "BinPar · New chat",
+      "newChat": "New chat",
+      "closeMobile": "Close chat navigation",
+      "closeMobileTitle": "Close navigation",
+      "collapse": "Collapse sidebar",
+      "expand": "Expand sidebar",
+      "openMobile": "Open chat navigation",
+      "pinned": "Pinned",
+      "recent": "Recent",
+      "showPinned": "Show pinned chats",
+      "showRecent": "Show recent conversations",
+      "emptyPinned": "No pinned chats",
+      "emptyRecent": "No recent conversations",
+      "pin": "Pin {title}",
+      "unpin": "Unpin {title}",
+      "options": "Options for {title}",
+      "optionsTitle": "Options",
+      "openProfile": "Open profile and settings",
+      "resize": "Resize conversations panel"
+    },
+    "chat": {
+      "title": "Clinical query",
+      "conversation": "Sample conversation",
+      "bibliography": "References",
+      "scrollBottom": "Scroll to the end of the conversation",
+      "restart": "Restart query",
+      "attach": "Attachments available in the platform",
+      "chooseExample": "Choose a sample query",
+      "placeholder": "Clinical question for the committee...",
+      "send": "Load sample query",
+      "citation": "View source {order}: {title}"
+    },
+    "source": {
+      "label": "Sources panel",
+      "resize": "Resize sources panel",
+      "openDocuments": "Open documents",
+      "closeTab": "Close {title}",
+      "close": "Close sources panel",
+      "eyebrow": "Consulted source",
+      "showChapter": "View chapter",
+      "showFullDocument": "View full document",
+      "backToCitation": "Back to citation"
+    },
+    "popup": {
+      "conversationOptions": "Conversation options",
+      "examples": "Sample queries",
+      "pinned": "Pinned chats",
+      "recent": "Recent conversations",
+      "pin": "Pin",
+      "unpin": "Unpin",
+      "rename": "Rename",
+      "delete": "Delete"
+    },
+    "editDialog": {
+      "renameTitle": "Rename conversation",
+      "deleteTitle": "Delete conversation",
+      "nameLabel": "Conversation name",
+      "deleteBody": "‘{title}’ will be deleted from this demo.",
+      "cancel": "Cancel",
+      "save": "Save",
+      "delete": "Delete"
+    },
+    "profile": {
+      "title": "Profile and settings",
+      "close": "Close profile",
+      "themeLight": "Switch to light theme",
+      "themeDark": "Switch to dark theme",
+      "activeOrganization": "Active organisation",
+      "organizationActive": "Active",
+      "account": "Account",
+      "status": "Status:",
+      "statusActive": "Active",
+      "lastActivity": "Last activity:",
+      "lastActivityValue": "14 Oct 2026, 13:36",
+      "resetTitle": "Restart the demo",
+      "signOut": "Sign out"
+    },
+    "document": {
+      "label": "Document content",
+      "renal": {
+        "etiologyHeading": "Aetiology",
+        "etiology": "The causes of chronic kidney disease differ according to the patient's age. In children, congenital and glomerular disorders predominate; in middle-aged patients, polycystic kidney disease; and in older patients, diabetes mellitus and vascular causes.",
+        "diabetes": "In absolute numbers, diabetes mellitus with diabetic nephropathy is the leading cause of CKD worldwide.",
+        "progressionHeading": "CKD progression.",
+        "progressionAfter": "Small fluctuations in GFR do not necessarily indicate progression, which is why a sustained decline in GFR is required. Arterial hypertension (HTN) and proteinuria will be the main factors in disease progression, along with other modifiable risk factors. Others will be glycaemic control in the diabetic population, dyslipidaemia, hyperuricaemia and control of metabolic acidosis.",
+        "risksHeading": "Factors in the progression of chronic kidney disease",
+        "risks": [
+          "Proteinuria",
+          "Arterial hypertension",
+          "Diabetes mellitus",
+          "Cardiovascular disease",
+          "Smoking"
+        ]
+      },
+      "excerptRenal": "Clinical assessment and treatment",
+      "excerptHeart": "Acute heart failure",
+      "selectCitation": "Select a citation from the initial case to locate its passage in the document.",
+      "pharmacology": "Drug treatment",
+      "clinical": "Clinical assessment",
+      "dosingHeading": "Drug dosing and the kidney",
+      "dosingWays": [
+        "Reducing the dose.",
+        "Increasing the interval between doses."
+      ],
+      "nsaidsHeading": "Non-steroidal anti-inflammatory drugs"
+    },
+    "conversations": {
+      "valoracion": "Initial assessment of dyspnoea and peripheral oedema",
+      "seguimiento": "Review of medication and renal function"
+    },
+    "answers": {
+      "initial": "The presentation raises suspicion of heart failure but does not confirm it; renal impairment, anaemia and other causes of dyspnoea should also be assessed. The initial assessment should integrate symptoms, examination and investigations, bearing in mind that kidney disease can contribute to congestion and alter the interpretation of some results. [1] [2] [3]\n\nHistory and examination: establish how symptoms have progressed and ask about orthopnoea, paroxysmal nocturnal dyspnoea, chest pain and palpitations. Record blood pressure, heart rate, respiratory rate and oxygen saturation; examine the jugular veins and check for crackles, oedema and signs of hypoperfusion, such as cold peripheries, weak pulse, oliguria or confusion. [1]\n\nInitial investigations: ECG, transthoracic echocardiogram, chest X-ray, blood tests and BNP or NT-proBNP. Consider full blood count, renal function, electrolytes, glucose/HbA1c and urinalysis; if acute renal impairment is confirmed, renal ultrasound is the first-line imaging test to rule out obstruction. [1] [3]\n\nInterpretation: a normal BNP or NT-proBNP can help rule out heart failure; a raised level supports it but does not confirm it. Kidney disease can also raise it, so it should be interpreted alongside the clinical picture and the echocardiogram. The chest X-ray can help look for congestion or other causes, but on its own it neither confirms nor excludes heart failure. [1]\n\nDiabetes and hypertension increase the risk of heart failure; kidney disease also affects the assessment of renal function and potassium. Frequent ibuprofen use warrants review: NSAIDs can impair renal function, worsen blood pressure control and promote cardiac decompensation; the corpus recommends avoiding them in renal failure and advises particular caution when they are combined with ACE inhibitors, ARBs or diuretics. [4] [5] [1] [6] [7]\n\nUniversal definition of HF: all three criteria must be met: (1) symptoms + signs on clinical history; (2) structural/functional abnormality on cardiac imaging; (3) raised intraventricular filling pressures (from elevated natriuretic peptides, pulmonary/systemic congestion on imaging, or invasive measurement by catheterisation).\n\nWarning signs: rapid deterioration, especially dyspnoea at rest or respiratory compromise, requires urgent attention. Hypotension with signs of hypoperfusion – such as cold skin, oliguria or altered mental status – is concerning for possible shock. Acute pulmonary oedema, toxic hyperkalaemia and extreme metabolic acidosis are serious complications described in acute kidney injury. [1] [8] [1] [3]",
+      "followup": "To clarify the picture, I would gather how the symptoms have progressed, their impact on daily activities, whether they worsen when lying down or wake the patient up breathless, and whether there is chest pain, palpitations, dizziness or syncope. I would also ask about changes in urine output and weight, compared with the patient's usual weight; a gain of 2 kg in 3 days is listed as a sign of decompensation that should be monitored. [1] [1,2]\n\nOn examination, blood pressure, heart rate, respiratory rate, oxygen saturation, current weight and findings of congestion or perfusion are missing. To interpret the renal trend, I would gather previous and current creatinine and glomerular filtration rate results with their dates, as well as potassium, albuminuria/proteinuria and urine sediment; if it looks like a recent deterioration, I would clarify changes in urine output, hypotension, volume losses, infections and recent changes in treatment. [1] [3] [4]\n\nTo review the medication, I would ask for a complete list of prescribed and over-the-counter medicines, with dose, frequency, indication, duration and recent changes; I would also check adherence, interruptions and use of supplements. In particular, I would quantify the ibuprofen use – how much the patient takes and when the last dose was – and ask about other NSAIDs, ACE inhibitors or ARBs, diuretics and potassium-sparing drugs. [5] [1] [6]\n\nRenal function and potassium are key data for reviewing treatments that may need adjustment or monitoring. If the patient takes ACE inhibitors or ARBs, I would note when they were started or changed and which monitoring blood tests were done; the combination of NSAIDs with ACE inhibitors/ARBs or diuretics deserves particular attention in CKD. [6] [6,7]\n\nIt would also help to know any history of heart failure, myocardial infarction or coronary artery disease, arrhythmias and valvular heart disease, as well as the treatments already prescribed for the heart, blood pressure and diabetes. If available, I would review the ECG, echocardiogram, chest X-ray and blood tests (including full blood count, renal function and electrolytes); kidney disease can raise BNP or NT-proBNP, so those results need to be interpreted alongside the clinical picture. [8] [9] [1]"
+    },
+    "references": {
+      "heartFailure": "Manual ProMIR · Cardiology · Heart failure.",
+      "chronicKidneyFailure": "Manual ProMIR · Nephrology · Chronic renal failure.",
+      "acuteKidneyFailure": "Manual ProMIR · Nephrology · Acute kidney injury.",
+      "hypertension": "Manual ProMIR · Cardiology · Arterial hypertension. Prevention, detection, diagnosis and treatment.",
+      "cardiovascularRisk": "Manual ProMIR · Cardiology · Cardiovascular risk. Prevention of atherosclerotic cardiovascular disease through control of cardiovascular risk factors.",
+      "thoracicSyndromes": "Manual ProMIR · Radiology–Emergency medicine · Chest syndromes in the emergency department.",
+      "nephrologyBody": "Manual ProMIR · Nephrology · Main text.",
+      "basicCardiology": "Manual ProMIR · Cardiology · Basic cardiology.",
+      "heartFailureSection": "Heart failure.",
+      "chronicKidneyDefinition": "Chronic kidney disease (CKD) and chronic renal failure (CRF) · Definition."
+    }
+  }
+}

@@ -25,10 +25,14 @@
     "@t3-oss/env-nextjs": "^0.12.0",
     "@vercel/functions": "^3.10.2",
     "framer-motion": "^12.43.0",
+    "gray-matter": "^4.0.3",
     "lucide-react": "^1.61.0",
+    "maplibre-gl": "^6.15.0",
     "next": "^15.5.28",
+    "next-intl": "4.14.9",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
+    "remark-frontmatter": "^5.0.0",
     "zod": "^3.25.76"
   },
   "devDependencies": {
@@ -40,6 +44,7 @@
     "@types/react-dom": "^19.3.0",
     "eslint": "^9.39.5",
     "eslint-config-next": "^15.5.28",
+    "eslint-plugin-i18next": "6.1.5",
     "postcss": "^8.5.31",
     "prettier": "^3.9.10",
     "prettier-plugin-tailwindcss": "^0.6.14",

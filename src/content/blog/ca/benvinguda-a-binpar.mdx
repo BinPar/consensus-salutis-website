@@ -1,0 +1,54 @@
+---
+title: "Benvinguda a BinPar. Evidència clínica, sempre ordenada."
+excerpt: "Què fa la plataforma, què no fa i de què tractarà aquest blog: criteris, mecanismes i límits de la IA clínica en una organització sanitària."
+date: 2026-11-23
+author: equipo-consensus-salutis
+type: nota-de-producto
+tags: ["Consens verificable", "Traçabilitat", "Govern del coneixement"]
+image: /img/blog/bienvenida-a-binpar.webp
+imageAlt: "Núvol de punts turquesa dispersos que s’alineen en una línia de senyal amb nodes regulars i desemboca en tres plans de vidre apilats amb fileres de blocs ordenats"
+draft: false
+translationKey: bienvenida-a-binpar
+---
+
+BinPar (abans Consensus Salutis) és una plataforma d’IA mèdica institucional que converteix guies clíniques, protocols i corpus mèdic en respostes traçables. Amb el nou web obrim també aquest blog, on explicarem com es construeix aquesta traçabilitat, com la mesurem i on s’acaba.
+
+## Què hi ha disponible
+
+Un professional d’Atenció Primària planteja el seu dubte com ho faria en una sessió clínica: el cas, els antecedents, la medicació i el que el preocupa. La plataforma recupera el coneixement rellevant de les guies i els protocols de la seva organització, contrasta les fonts i retorna una resposta en què cada afirmació enllaça el passatge que la sustenta. Aquest passatge s’obre al seu document, a la pàgina original i ressaltat.
+
+Al darrere hi ha tres capacitats: l’equip de BinPar en producte i enginyeria, Editorial Médica Panamericana en coneixement clínic i AWS en infraestructura.
+
+<figure>
+  <img src="/img/blog/bienvenida-a-binpar/tres-capacidades.ca.svg" alt="Tres franges apilades, cadascuna amb un logotip i la seva funció: BinPar, producte i enginyeria; Editorial Médica Panamericana, coneixement clínic; AWS, infraestructura. Totes tres conflueixen en una caixa de respostes traçables." width="1200" height="560" loading="lazy" />
+  <figcaption>Cada capacitat respon d’una part diferent del sistema, i totes tres sostenen la mateixa resposta.</figcaption>
+</figure>
+
+## El problema d’una resposta que només sona bé
+
+Una resposta clínica pot sonar correcta i, tot i així, ometre una contraindicació, barrejar una guia vigent amb una edició retirada o passar per alt el protocol propi del centre. Si no es pot comprovar d’on surt cada frase, a qui la llegeix li queden dos camins: creure-se-la o repetir la cerca. Cap dels dos no se sosté davant d’una comissió de qualitat.
+
+L’alternativa és el que anomenem **consens verificable**: una conclusió que qualsevol pot rastrejar fins al document i la pàgina d’on surt.
+
+## Com funciona
+
+- **La consulta.** El comitè d’experts reuneix les aportacions de cada especialitat, i cadascuna es consulta sobre el seu propi corpus, en la versió que correspon al centre del professional. Si la resposta depèn d’una dada que no s’ha indicat, com el filtrat glomerular, la pregunta arriba abans que la resposta.
+- **L’evidència visible.** El que no té cita es retira de la resposta. Quan la guia no cobreix alguna cosa, la resposta ho diu en lloc de completar-ho.
+- **El govern del coneixement clínic.** L’organització decideix quins documents consulta el seu comitè. Un document nou es revisa abans de publicar-se, cada canvi queda versionat i una bateria de preguntes de control comprova, després de cada canvi, que les respostes no empitjoren.
+
+<figure>
+  <img src="/img/blog/bienvenida-a-binpar/como-funciona.ca.svg" alt="Flux d’esquerra a dreta: pregunta, comitè d’experts amb tres especialitats i el seu corpus, resposta amb cites i decisió clínica, destacada en groc. Sota el comitè, una caixa discontínua de govern del coneixement." width="1200" height="640" loading="lazy" />
+  <figcaption>La consulta recorre el comitè i arriba a una resposta amb cites. La decisió, marcada en groc, continua sent del clínic.</figcaption>
+</figure>
+
+## El que no fa
+
+La plataforma no diagnostica, no prescriu i no substitueix el criteri professional: el sistema ordena l’evidència i el clínic decideix. Tampoc no respon per sobre de la biblioteca de la qual parteix. Si una guia no és al corpus, el seu contingut no apareix a la resposta, i per això la cobertura documental s’acorda amb cada organització abans del desplegament.
+
+## Què hi llegiràs
+
+Aquest blog no és un canal de novetats. Publicarem criteris per avaluar una IA clínica, mecanismes que expliquen què s’ha de complir perquè una cita continuï servint i mesures del que fem, amb el que falla en mesurar-ho.
+
+Comencem amb dues peces que acompanyen dos vídeos enregistrats sobre la plataforma en producció. La primera recorre [el que passa entre la pregunta i la cita](/ca/blog/de-la-pregunta-a-la-cita) en una consulta real. La segona explica [com entra una guia al corpus](/ca/blog/del-pdf-al-corpus) abans que una resposta la pugui citar.
+
+Si vols valorar com encaixaria a la teva organització, [revisem amb tu el cas d’ús, les restriccions de seguretat i el nivell d’evidència necessari](/ca/contacte).

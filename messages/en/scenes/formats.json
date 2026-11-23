@@ -1,0 +1,59 @@
+{
+  "tree": {
+    "root": "Creatinine clearance < 30 mL/min?",
+    "branches": {
+      "yes": {
+        "label": "Yes",
+        "result": "NSAIDs contraindicated"
+      },
+      "no": {
+        "label": "No",
+        "result": "Avoid NSAIDs; use only if essential"
+      }
+    },
+    "route": "{root} → {label}: {result}"
+  },
+  "schemeCard": {
+    "sources": "Diagram sources"
+  },
+  "schemes": {
+    "intro": "Criteria for assessing NSAID use according to renal function:"
+  },
+  "figure": {
+    "afferent": "Afferent arteriole",
+    "nsaid": "NSAIDs",
+    "glomerulus": "Glomerulus",
+    "efferent": "Efferent arteriole",
+    "caption": "Effect of NSAIDs on the afferent arteriole."
+  },
+  "download": {
+    "schemeTab": "Diagram 1",
+    "preparing": "Preparing image…",
+    "download": "Download image",
+    "savedLabel": "Image downloaded · PNG",
+    "fileName": "nsaid-use-in-ckd.png"
+  },
+  "tables": {
+    "intro": "Drugs to review in CKD:",
+    "drugHeading": "Drug",
+    "noteHeading": "In CKD",
+    "rows": {
+      "nsaids": {
+        "drug": "NSAIDs",
+        "note": "Avoid; contraindicated if clearance is below 30 mL/min."
+      },
+      "aceInhibitors": {
+        "drug": "ACE inhibitors and ARBs",
+        "note": "Renoprotective; may need lower doses in advanced stages."
+      },
+      "potassiumSparing": {
+        "drug": "Potassium-sparing diuretics",
+        "note": "Avoid in renal failure; do not combine with ACE inhibitors, ARBs or NSAIDs."
+      }
+    }
+  },
+  "textalt": {
+    "label": "Screen reader",
+    "title": "Text walkthrough of the diagram"
+  }
+}

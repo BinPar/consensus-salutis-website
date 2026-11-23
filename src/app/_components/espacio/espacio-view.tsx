@@ -39,13 +39,13 @@ import {
 
 /** El recipiente del sistema. Mismo que la página del informe. */
 const CARD =
-  "shadow-big-blocks rounded-2xl border border-cyan-800/15 bg-white/80 backdrop-blur-xs dark:border-cyan-300/15 dark:bg-[#152230e6]/90";
+  "shadow-big-blocks rounded-2xl border border-cyan-800/15 bg-white/80 backdrop-blur-xs dark:border-primary-dark/15 dark:bg-[#152230e6]/90";
 
 const H2 =
-  "font-display text-xl font-bold tracking-tight text-[#05215e] dark:text-slate-50";
+  "font-display text-xl font-bold tracking-tight text-navy dark:text-slate-50";
 const LEDE =
   "font-body mt-2.5 text-[15px] leading-7 text-slate-600 dark:text-slate-400";
-const ROTULO = "font-display text-[11px] font-bold tracking-[0.14em] uppercase";
+const ROTULO = "font-display text-[11px] font-bold tracking-[0.22em] uppercase";
 
 /**
  * Los cuatro tokens del semáforo, escritos como cadenas COMPLETAS.
@@ -117,7 +117,7 @@ export function EspacioView({
       }`}
     >
       <Eyebrow>Espacio de cliente</Eyebrow>
-      <h1 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-[#05215e] sm:text-4xl dark:text-slate-50">
+      <h1 className="font-display mt-4 text-3xl font-extrabold tracking-tight text-navy sm:text-4xl dark:text-slate-50">
         Tu suscripción de AWS Marketplace
       </h1>
 
@@ -154,7 +154,7 @@ export function EspacioView({
           {muestraAccesoPlataforma(estado) ? (
             <Link
               href={plataformaUrl}
-              className="dark:bg-secondary-dark focus-visible:outline-secondary-dark shadow-big-blocks font-body bg-secondary-light mt-6 inline-flex min-h-11 items-center gap-2.5 rounded-full px-5 text-sm font-bold text-[#06111f] transition hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none"
+              className="dark:bg-primary-dark dark:text-[#03111d] hover:bg-cyan-800 dark:hover:bg-primary-dark/85 focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark shadow-big-blocks font-body bg-primary-light mt-6 inline-flex min-h-11 items-center gap-2.5 rounded-full px-5 text-sm font-bold text-white transition hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transform-none"
             >
               <LogIn aria-hidden="true" strokeWidth={1.8} className="size-4" />
               Entrar en la plataforma
@@ -195,7 +195,7 @@ export function EspacioView({
             </p>
             <Link
               href={informe.url}
-              className="border-primary-light/25 font-body hover:border-primary-light/45 mt-5 inline-flex min-h-10 items-center gap-2 rounded-full border bg-white/65 px-5 text-sm font-semibold text-cyan-800 backdrop-blur-sm transition hover:bg-cyan-50 dark:border-cyan-300/30 dark:bg-white/3 dark:text-cyan-50 dark:hover:border-cyan-200/50 dark:hover:bg-cyan-300/10"
+              className="border-primary-light/25 font-body hover:border-primary-light/45 mt-5 inline-flex min-h-10 items-center gap-2 rounded-full border bg-white/65 px-5 text-sm font-semibold text-cyan-800 backdrop-blur-sm transition hover:bg-cyan-50 dark:border-primary-dark/30 dark:bg-white/3 dark:text-slate-100 dark:hover:border-primary-dark/50 dark:hover:bg-primary-dark/10"
             >
               <FileText
                 aria-hidden="true"
@@ -229,7 +229,7 @@ export function EspacioView({
         </p>
         <a
           href={`mailto:${soporte.email}?subject=${asunto}`}
-          className="text-primary-light dark:text-secondary-dark font-body mt-5 inline-flex items-center gap-2 text-sm font-semibold underline underline-offset-4 hover:text-cyan-800 dark:hover:text-cyan-200"
+          className="text-primary-light dark:text-primary-dark font-body mt-5 inline-flex items-center gap-2 text-sm font-semibold underline underline-offset-4 hover:text-cyan-800 dark:hover:text-primary-dark"
         >
           <LifeBuoy aria-hidden="true" strokeWidth={1.8} className="size-4" />
           {soporte.email}

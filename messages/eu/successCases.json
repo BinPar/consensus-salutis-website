@@ -1,0 +1,30 @@
+{
+  "section": {
+    "label": "Arrakasta-kasuak"
+  },
+  "intro": {
+    "eyebrow": "Arrakasta-kasuak",
+    "titleLead": "Osasunaren etorkizuna.",
+    "titleAccent": "Hemen da dagoeneko.",
+    "body": "Gure adimen artifiziala dagoeneko erabiltzen duten osasun-erakundeak: ezagutza kliniko fidagarria eskuragarriago egiteko, osasun-arretari laguntzeko eta etengabeko hobekuntza sendotzeko."
+  },
+  "cases": {
+    "axia": {
+      "name": "Axia",
+      "organization": "Kataluniako Generalitatea",
+      "territory": "Katalunia"
+    },
+    "sermas": {
+      "name": "SERMAS",
+      "organization": "Madrilgo Osasun Zerbitzua",
+      "territory": "Madrilgo Erkidegoa"
+    }
+  },
+  "map": {
+    "institutions": "Mapako erakundeak",
+    "select": "Hautatu erakundea",
+    "caseLabel": "{name}, {territory}, {organization}",
+    "caseDescription": "Ezagutza kliniko fidagarria, osasun-arretaren zerbitzura.",
+    "canarias": "KANARIAK"
+  }
+}

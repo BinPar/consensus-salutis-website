@@ -443,6 +443,35 @@ describe("las tres cifras salen de la lista de prioridad", () => {
   it("un campo de texto no da cifra aunque esté en la ficha", () => {
     expect(cifras(ficha({ "corpus.formato": "PDF" }))).toEqual([]);
   });
+
+  /*
+    «Todas las especialidades» es un elemento, así que la longitud decía «1» en la
+    tarjeta más visible del panel — sobre un hospital que consulta con toda la
+    casa. No hay número que poner ahí: el hueco pasa a la cifra siguiente y
+    «todas» se dice con palabras en el chip del campo.
+  */
+  it("una lista que dice «todas» no da cifra: el sitio pasa a la siguiente", () => {
+    expect(
+      cifras(
+        ficha({
+          "perfil.especialidades": ["Todas las especialidades"],
+          "corpus.volumenPaginas": 18_000,
+        }),
+      ),
+    ).toEqual([
+      { path: "corpus.volumenPaginas", valor: "18.000", etiqueta: "páginas" },
+    ]);
+  });
+
+  it("«todas» con nombres al lado tampoco da cifra", () => {
+    expect(
+      cifras(
+        ficha({
+          "perfil.especialidades": ["Cardiología", "todas las especialidades"],
+        }),
+      ),
+    ).toEqual([]);
+  });
 });
 
 describe("el avance cuenta bloques de conversación, no campos", () => {

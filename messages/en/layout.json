@@ -1,0 +1,56 @@
+{
+  "nav": {
+    "home": "Home",
+    "platform": "Platform",
+    "platformOverview": "Overview",
+    "features": "Features",
+    "team": "Team",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "navigation": {
+    "main": "Main navigation",
+    "mobile": "Mobile navigation",
+    "mobileEyebrow": "Navigation",
+    "open": "Open navigation",
+    "close": "Close navigation",
+    "morePages": "More {label} pages",
+    "sections": "Sections on this page"
+  },
+  "header": {
+    "home": "Home"
+  },
+  "footer": {
+    "brandHome": "BinPar · Home",
+    "productNav": "Product · Footer",
+    "contactNav": "Contact · Footer",
+    "legalNav": "Legal information",
+    "rights": "© BinPar · All rights reserved",
+    "description": "Institutional medical AI.",
+    "descriptionExtended": "Institutional medical AI that connects clinical knowledge with traceable answers.",
+    "explore": "Explore",
+    "connect": "Let's connect"
+  },
+  "footerBand": {
+    "rights": "© BinPar · All rights reserved",
+    "links": "Footer links",
+    "product": "Product",
+    "contact": "Contact"
+  },
+  "legalLinks": {
+    "notice": "Legal notice",
+    "privacy": "Privacy policy",
+    "cookies": "Cookies"
+  },
+  "theme": {
+    "toLight": "Switch to light theme",
+    "toDark": "Switch to dark theme"
+  },
+  "language": {
+    "select": "Select language"
+  },
+  "linkedin": {
+    "follow": "Follow us",
+    "label": "Follow BinPar on LinkedIn (opens in a new tab)"
+  }
+}

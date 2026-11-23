@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "title": "Taldea",
+    "description": "Ezagutu BinPar-en atzean dauden pertsonak. Ikuspegi desberdinak eta jakin-min bera, ezagutza medikoa behar dutenengana hurbiltzeko."
+  },
+  "page": {
+    "sections": {
+      "idea": "Ideia",
+      "gallery": "Taldea",
+      "contact": "Kontaktua"
+    }
+  },
+  "hero": {
+    "eyebrow": "BinPar-eko taldea",
+    "title": "<accent>Pertsonekin</accent><br></br>hasten da dena.",
+    "body": "Ikuspegi desberdinak. Jakin-min bera. Ezagutza medikoa behar dutenengana hurbiltzeko egiten dugu lan.",
+    "cta": "Ezagutu taldea",
+    "disciplines": [
+      "Ezagutza klinikoa",
+      "Gida klinikoak",
+      "Erakundearen protokoloak",
+      "Corpus medikoa",
+      "Kontsulta klinikoa",
+      "Dokumentu-bilaketa",
+      "Iturrien kontrastea",
+      "Ebidentzia ikusgai",
+      "Trazabilitatea duten erantzunak",
+      "Erreferentzia bibliografikoak",
+      "Testuinguru klinikoa",
+      "Kontsulten historia",
+      "Erakundearen ezagutza",
+      "Dokumentuen berrikuspena",
+      "Edukien eguneratzea",
+      "Irizpide profesionala"
+    ],
+    "motion": {
+      "reducedLabel": "Mugimendu murriztua aktibatuta",
+      "resumeLabel": "Berrekin txartelen mugimenduari",
+      "pauseLabel": "Pausatu txartelen mugimendua",
+      "reducedTitle": "Mugimendu murriztua",
+      "resumeTitle": "Berrekin",
+      "pauseTitle": "Pausatu"
+    }
+  },
+  "idea": {
+    "eyebrow": "Bultzatzen gaituen ideia",
+    "title": "Ezagutza,<br></br><accent>behar den lekuan.</accent>",
+    "body": "Hamabost urtetik gora daramatzagu osasun-sektorerako teknologia garatzen, eta horrek erakutsi digu ezagutzak behar duenarengana iristen denean duela balioa. Ideia horretatik sortu da BinPar: ezagutza medikoa praktika klinikoarekin lotzen duen adimen artifizial medikoko plataforma. Gure osasuna zaintzen dutenei zalantzak argitzen, iturriak kontsultatzen eta egunerokoan ikasten jarraitzen laguntzeko."
+  },
+  "gallery": {
+    "title": "<accent>BinPar-en atzean</accent><br></br>dauden pertsonak.",
+    "body": "Pertsona bakoitzak bere pentsatzeko, sortzeko eta ebazteko modua dakar. Ezagutu BinPar egunero gorpuzten duen taldea.",
+    "listLabel": "Taldekideak"
+  },
+  "members": {
+    "ignacio-ferro": {
+      "role": "CEO"
+    },
+    "cristian-alvarez": {
+      "role": "COO"
+    },
+    "marcos-gonzalez": {
+      "role": "Chief Architect"
+    },
+    "isabel-ferro": {
+      "role": "CFO"
+    },
+    "alberto-blanco": {
+      "role": "CTO"
+    },
+    "nicolas-arianoutsos": {
+      "role": "Full-Stack Developer"
+    },
+    "beatriz-ortega": {
+      "role": "Full-Stack Developer"
+    },
+    "carolina-carcamo": {
+      "role": "Recruiter"
+    },
+    "pablo-emilio": {
+      "role": "Full-Stack Developer"
+    },
+    "adrian-rodriguez": {
+      "role": "Design Lead"
+    },
+    "fabian-padilla": {
+      "role": "Full-Stack Developer"
+    },
+    "jeronimo-ekerdt": {
+      "role": "Full-Stack Developer"
+    },
+    "jimmy-montano": {
+      "role": "Full-Stack Developer"
+    },
+    "yaiza-vallejo": {
+      "role": "Product Lead"
+    },
+    "guillermo-hernandez": {
+      "role": "Full-Stack Developer"
+    }
+  }
+}

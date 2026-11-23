@@ -1,0 +1,28 @@
+{
+  "featureScene": {
+    "play": "Reproducir: {label}",
+    "pause": "Pausar: {label}",
+    "playTitle": "Reproducir",
+    "pauseTitle": "Pausar",
+    "replay": "Repetir: {label}",
+    "replayTitle": "Repetir escena"
+  },
+  "responseActions": {
+    "save": "Guardar en fuentes",
+    "saved": "Guardada en fuentes"
+  },
+  "zoomControls": {
+    "reset": "Restablecer"
+  },
+  "profilePanel": {
+    "title": "Perfil y configuración"
+  },
+  "localeSwitcher": {
+    "codes": ["es", "ca", "en"]
+  },
+  "profileUser": {
+    "initials": "LG",
+    "name": "Laura Gómez",
+    "specialty": "Nefrología"
+  }
+}

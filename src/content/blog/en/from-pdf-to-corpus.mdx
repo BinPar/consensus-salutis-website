@@ -1,0 +1,90 @@
+---
+title: "From PDF to corpus. Nothing is published without review."
+excerpt: "What checks a clinical guideline needs between the moment the document is uploaded and the moment an answer can cite it."
+date: 2026-11-23
+author: equipo-consensus-salutis
+type: mecanismo
+tags: ["Knowledge governance", "Living corpus", "Traceability"]
+image: /img/blog/del-pdf-al-corpus.webp
+imageAlt: "Stack of translucent pages with lines of text and a table, from which a turquoise line splits into two threads joined by checkpoints and flows into three stacked planes filled with ordered blocks"
+draft: false
+translationKey: del-pdf-al-corpus
+---
+
+That a guideline has been ‘uploaded’ does not tell you whether it can be cited. In a test battery with real guidelines from two health services, text extraction from a heart attack code guideline finished without errors and turned ‘ST depression in 6 or more leads’ into ‘8 or more’. In another document, the timeframes of a falls care pathway existed only inside an infographic, and extraction returned the surrounding text without them.
+
+Neither failure interrupted the upload or triggered a warning. The document was marked as processed, and an answer built on it would have cited a real source that says something else. The citation would be correct in form and wrong in substance, and that error cannot be seen from the answer: it only appears when the original page is opened. The video follows the path a guideline takes from the moment it is uploaded until an answer can cite it.
+
+<figure>
+  <video controls preload="metadata" playsInline width="1920" height="1080" poster="/video/blog/del-pdf-al-corpus/ingesta.jpg" aria-label="Video: a clinical guideline's path from document upload to publication in the corpus, with human review at every step">
+    <source src="/video/blog/del-pdf-al-corpus/ingesta.mp4" type="video/mp4" />
+    <track kind="captions" srcLang="en" label="English" src="/video/blog/del-pdf-al-corpus/ingesta.en.vtt" default />
+    <track kind="captions" srcLang="es" label="Español" src="/video/blog/del-pdf-al-corpus/ingesta.vtt" />
+  </video>
+  <figcaption>Screens from the platform in production, recorded in October 2026. The names of the centre and the organisation have been replaced with generic ones, and the PDF page is blurred (2 min 35 s). Narrated in Spanish, with English subtitles.</figcaption>
+</figure>
+
+## Why uploads fail without warning
+
+A PDF is a container, not a text. Inside there may be a clean text layer, an office scan, a table laid out as an image or an entire algorithm flattened into a poster. That extraction finishes only means that text has been obtained, not that the text is faithful to the page.
+
+The content also has to reach the specialty that will consult it. A dosage that ends up in the Cardiology corpus instead of the Pharmacology one exists, but does not appear when someone asks about the dose.
+
+An organisation's knowledge is also layered. There is a common base of guidelines and manuals, a layer specific to each organisation and, sometimes, an adaptation by each centre that adds to, corrects or withdraws what it inherits. If a new edition does not declare which edition it replaces, both coexist, and an answer may cite the withdrawn one. And if a centre's adaptation is not marked as local, nothing in the answer distinguishes the centre's guidance from the general one.
+
+<figure>
+  <img src="/img/blog/del-pdf-al-corpus/capas-del-conocimiento.en.svg" alt="Three stacked isometric planes: common base at the bottom, organisation in the middle and centre on top, with an upward arrow labelled inherits. On the right, a box shows that publication produces a new version and updates the centres that depend on it." width="1200" height="600" loading="lazy" />
+  <figcaption>Each layer inherits from the one below. Publishing a layer produces a new version and updates the centres that depend on it.</figcaption>
+</figure>
+
+That leaves silent omission. A section that is hard to convert, a long table or an exception in small print can be left out without anyone deciding so. The resulting corpus is coherent, but it lacks precisely what is hardest to read.
+
+## What the guarantee has to cover
+
+Each cause calls for a check at a different point along the way. At BinPar that path has four stages, and none of them can be skipped.
+
+<figure>
+  <img src="/img/blog/del-pdf-al-corpus/cuatro-tramos.en.svg" alt="Four numbered columns after upload: two readings, units with citation, checks and clinical review, the last highlighted in yellow, each with its own checks. Under the first three, a dashed band: every section in a unit, or discarded with its reason." width="1200" height="620" loading="lazy" />
+  <figcaption>The four stages in order. Yellow marks the step that decides what is published: clinical review.</figcaption>
+</figure>
+
+### Two readings before converting anything
+
+When the document is uploaded, the target layer is chosen and, if it is a new edition, which edition it replaces. A repeated file is recognised by its fingerprint and is not processed twice. The document is then read through two independent channels, its text layer and the image of each page, and the two readings are compared. Where they agree, the text is confirmed. Where they disagree on a figure, a sign or a unit, the discrepancy is not resolved by approximation: it is presented with both versions in view. A person reviews the conversion before the content moves on.
+
+### Units with their exact citation
+
+The content is distilled into short units, each linked to the exact passage of the source and to its page. The rule is to lose no data: each recommendation keeps its condition and its exceptions, and lists and tables arrive complete. Nothing goes in that is not in the source, and each unit goes to the specialty it belongs to. In an organisation's layer, local guidance prevails over the common base and is marked as local.
+
+### Checks per unit
+
+No unit moves forward without passing its checks:
+
+- The citation must exist in the source.
+- Every figure must appear in the cited passage.
+- No personal data may get in.
+- No unit may silently contradict a higher layer.
+
+Before closing, every section of the source must have ended up in some unit or been discarded with its reason in writing. With that condition, an omission no longer goes unnoticed: what does not get in is recorded and someone can review it.
+
+### Clinical review and publication
+
+Each affected specialty receives a proposal of changes. Clinical review compares each change word by word next to the passage that supports it and decides whether to include or discard it. Until someone approves and publishes, nothing reaches the chat.
+
+> No content reaches an answer unless a person has first compared it with the page it comes from.
+
+On publication, the corpus of that layer is compiled into a new version and the centres that depend on it are updated. If a proposal falls behind because its base changed in the meantime, it goes to reconciliation instead of being published on a version that no longer exists. Each document stays in the library with its type, a summary of what it contributes and how it is used in answers. Withdrawing a guideline follows the same path, layer by layer and with review.
+
+## What the guarantee does not cover
+
+To check coverage, each document carries a set of probes that verify that its key data have reached the corpus. We also ran a battery of 246 real questions from a public health service and reviewed, one by one, the 67 failures of the standard answer mode. In that review, whose classification is pending clinical validation, none was due to a loss in ingestion: almost all corresponded to content that was not in the sources.
+
+It is a technical signal about the process, not a clinical result, and it marks its limit clearly. Ingestion guarantees that what goes in is faithful to the document. It does not guarantee that the library is complete or that the guideline is still current. Covering a question better means adding the missing source, and that source goes through the same path as the others.
+
+There are also decisions that no automatic check resolves. Whether a vaccination schedule that uses colour and hatching to distinguish two regimens, or a ‘do not do’ recommendations sheet, keeps its meaning is decided by whoever compares the unit with the original page.
+
+That review has a cost, and it is best accepted from the start. Each proposal is read by a person with clinical judgement, and a large library is incorporated in batches, not all at once. Cutting that step short is the quickest way to get a broad and unreliable corpus.
+
+## A living corpus has to be governed
+
+Guidelines are reissued, centre protocols change and documents arrive scanned with defects. A **living corpus** is not maintained by one well-executed upload, but by a path that every document repeats: two readings, units with their citation, checks that admit no omissions and human review before publishing. That path is clinical knowledge governance in practice, and it is what allows today's citation to keep pointing at what today's guideline says.

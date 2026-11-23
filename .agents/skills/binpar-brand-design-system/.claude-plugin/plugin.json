@@ -1,0 +1,9 @@
+{
+  "name": "binpar-brand-design-system",
+  "description": "BinPar visual identity (manual v1.0): logo, palette and themes, typography, grid, surfaces, components, motion and charts, with CSS tokens, fonts, logos and icons for any BinPar web, artifact, document, deck or social piece.",
+  "version": "1.0.0",
+  "author": {
+    "name": "BinPar"
+  },
+  "keywords": ["binpar", "brand", "design-system", "ui", "css", "tokens"]
+}

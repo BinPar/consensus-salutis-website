@@ -1,0 +1,87 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+
+import { Link, usePathname } from "~/i18n/navigation";
+import type { StaticPathname } from "~/i18n/routing";
+
+import { NavigationDropdown, type NavigationLink } from "./navigation-dropdown";
+
+export type NavigationItem = {
+  href: StaticPathname;
+  label: string;
+  disabled?: boolean;
+  /** Subpages, listed in a dropdown next to the entry. */
+  children?: readonly NavigationLink[];
+};
+
+export function isNavigationItemActive(pathname: string | null, href: string) {
+  return (
+    pathname === href ||
+    (href !== "/" && Boolean(pathname?.startsWith(`${href}/`)))
+  );
+}
+
+export function SiteNavigation({
+  items,
+}: {
+  items: readonly NavigationItem[];
+}) {
+  const pathname = usePathname();
+  const t = useTranslations("layout.navigation");
+
+  return (
+    <nav
+      aria-label={t("main")}
+      className="hidden items-center gap-2 text-xs font-medium text-slate-600 md:flex md:justify-self-center lg:gap-7 lg:text-sm dark:text-slate-400"
+    >
+      {items.map((item) => {
+        if (item.disabled)
+          return (
+            <span
+              key={item.href}
+              role="link"
+              aria-disabled="true"
+              className="font-body cursor-not-allowed font-medium opacity-45"
+            >
+              {item.label}
+            </span>
+          );
+        const active = isNavigationItemActive(pathname, item.href);
+        const link = (
+          <Link
+            key={item.href}
+            href={item.href}
+            aria-current={
+              active
+                ? pathname === item.href
+                  ? "page"
+                  : "location"
+                : undefined
+            }
+            className={`font-body focus-visible:outline-primary-light dark:focus-visible:outline-primary-dark relative rounded-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 ${active ? "text-primary-light dark:text-primary-dark font-semibold" : "dark:hover:text-primary-dark font-medium hover:text-cyan-800"}`}
+          >
+            {item.label}
+            {active && (
+              <span
+                aria-hidden="true"
+                className="bg-primary-light dark:bg-primary-dark absolute -bottom-2 left-0 h-0.5 w-5 rounded-full"
+              />
+            )}
+          </Link>
+        );
+        return item.children ? (
+          <NavigationDropdown
+            key={item.href}
+            label={item.label}
+            links={item.children}
+          >
+            {link}
+          </NavigationDropdown>
+        ) : (
+          link
+        );
+      })}
+    </nav>
+  );
+}

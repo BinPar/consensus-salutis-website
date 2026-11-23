@@ -1,0 +1,60 @@
+{
+  "motion": true,
+  "pause": true,
+  "reducedMotion": true,
+  "navigation": true,
+  "heroOnly": true,
+  "pageErrors": [],
+  "views": [
+    {
+      "width": 320,
+      "theme": "light",
+      "violations": []
+    },
+    {
+      "width": 320,
+      "theme": "dark",
+      "violations": []
+    },
+    {
+      "width": 390,
+      "theme": "light",
+      "violations": []
+    },
+    {
+      "width": 390,
+      "theme": "dark",
+      "violations": []
+    },
+    {
+      "width": 768,
+      "theme": "light",
+      "violations": []
+    },
+    {
+      "width": 768,
+      "theme": "dark",
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "theme": "light",
+      "violations": []
+    },
+    {
+      "width": 1440,
+      "theme": "dark",
+      "violations": []
+    },
+    {
+      "width": 2048,
+      "theme": "light",
+      "violations": []
+    },
+    {
+      "width": 2048,
+      "theme": "dark",
+      "violations": []
+    }
+  ]
+}

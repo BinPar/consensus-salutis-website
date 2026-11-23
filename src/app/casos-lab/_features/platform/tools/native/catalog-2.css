@@ -1,0 +1,336 @@
+/* Catalogue 2 owns the composition; its animated scenes are the catalogue's. */
+:where([data-visual-lab]) .c2-heading {
+  margin-bottom: 50px;
+}
+:where([data-visual-lab]) .c2-heading > div {
+  display: grid;
+  align-items: end;
+  gap: 28px;
+  margin-top: 20px;
+}
+:where([data-visual-lab]) .c2-heading h2 {
+  font-family: var(--font-sora), sans-serif;
+  color: var(--vlt-heading);
+  font-size: clamp(36px, 4vw, 54px);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+:where([data-visual-lab]) .c2-heading h2 > span {
+  color: var(--vlt-accent);
+}
+:where([data-visual-lab]) .c2-heading > div > p {
+  max-width: 430px;
+  color: var(--vlt-body);
+  font-size: 16px;
+  line-height: 1.9;
+}
+:where([data-visual-lab]) .c2-index-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 20px;
+}
+:where([data-visual-lab]) .c2-index-heading h3 {
+  font-family: var(--font-sora), sans-serif;
+  color: var(--vlt-heading);
+  font-size: 15px;
+  font-weight: 600;
+}
+:where([data-visual-lab]) .c2-index-heading > span {
+  color: var(--vlt-muted);
+  font-size: 11px;
+}
+:where([data-visual-lab]) .c2-tool-index {
+  display: none;
+}
+:where([data-visual-lab]) .c2-mobile-index {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 16px 0 24px;
+  border-top: 1px solid var(--vlt-border);
+}
+:where([data-visual-lab]) .c2-mobile-index > span {
+  color: var(--vlt-muted);
+  font-size: 11px;
+}
+:where([data-visual-lab]) .c2-mobile-index select {
+  width: 100%;
+  padding: 13px 17px;
+  border: 1px solid var(--vlt-border);
+  border-radius: 999px;
+  background: var(--vlt-canvas);
+  color: var(--vlt-heading);
+  font: inherit;
+  font-size: 13px;
+}
+:where([data-visual-lab]) .c2-feature {
+  display: grid;
+  align-items: center;
+  gap: 36px;
+  padding-top: 28px;
+  outline: none;
+}
+:where([data-visual-lab]) .c2-feature:focus-visible {
+  outline: 2px solid var(--vlt-accent);
+  outline-offset: 10px;
+  border-radius: 12px;
+}
+:where([data-visual-lab]) .c2-copy {
+  min-width: 0;
+}
+:where([data-visual-lab]) .c2-copy-content {
+  animation: visual-lab-catalog-two-copy 220ms ease-out both;
+}
+:where([data-visual-lab]) .c2-feature-position {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--vlt-accent);
+  font-size: 10px;
+  line-height: 18px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+:where([data-visual-lab]) .c2-feature-position > span:first-child {
+  font-family: var(--font-sora), sans-serif;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  font-variant-numeric: tabular-nums;
+}
+:where([data-visual-lab]) .c2-position-rule {
+  width: 34px;
+  height: 1px;
+  background: var(--vlt-accent);
+  opacity: 0.35;
+}
+:where([data-visual-lab]) .c2-copy h4 {
+  margin-top: 22px;
+  max-width: 410px;
+  color: var(--vlt-heading);
+  font-family: var(--font-sora), sans-serif;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+:where([data-visual-lab]) .c2-feature-lead {
+  max-width: 390px;
+  margin-top: 24px;
+  color: var(--vlt-body);
+  font-size: 18px;
+  line-height: 1.8;
+  text-wrap: pretty;
+}
+:where([data-visual-lab]) .c2-feature-body {
+  max-width: 390px;
+  margin-top: 14px;
+  color: var(--vlt-muted);
+  font-size: 14px;
+  line-height: 1.9;
+  text-wrap: pretty;
+}
+:where([data-visual-lab]) .c2-pager {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  width: fit-content;
+  margin-top: 34px;
+  padding-top: 23px;
+  border-top: 1px solid var(--vlt-border);
+}
+:where([data-visual-lab]) .c2-pager button {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 34px;
+  padding: 0 4px;
+  color: var(--vlt-accent);
+  font-size: 11px;
+  font-weight: 500;
+}
+:where([data-visual-lab]) .c2-pager button:hover {
+  color: var(--vlt-heading);
+}
+:where([data-visual-lab]) .c2-page-count {
+  color: var(--vlt-accent);
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+:where([data-visual-lab]) .c2-page-count > span {
+  color: var(--vlt-muted);
+  font-weight: 400;
+}
+:where([data-visual-lab]) .c2-visual {
+  min-width: 0;
+  width: 100%;
+  max-width: 560px;
+  justify-self: center;
+}
+:where([data-visual-lab]) .c2-visual-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding-inline: 3px;
+  color: var(--vlt-muted);
+  font-size: 9px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+:where([data-visual-lab]) .c2-visual-heading > span:last-child {
+  color: var(--vlt-accent);
+  font-variant-numeric: tabular-nums;
+}
+:where([data-visual-lab]) .c2-visual-caption {
+  margin: 17px 3px 0;
+  color: var(--vlt-muted);
+  font-size: 12px;
+  line-height: 1.8;
+  animation: visual-lab-catalog-two-copy 220ms ease-out both;
+}
+@media (min-width: 768px) {
+  :where([data-visual-lab]) .c2-heading > div {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 60px;
+  }
+  :where([data-visual-lab]) .c2-tool-index {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--vlt-border);
+  }
+  :where([data-visual-lab]) .c2-mobile-index {
+    display: none;
+  }
+  :where([data-visual-lab]) .c2-tool-index button {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 10px;
+    min-height: 94px;
+    padding: 4px 0 20px;
+    text-align: left;
+    color: var(--vlt-muted);
+    transition: color 150ms ease-out;
+  }
+  :where([data-visual-lab]) .c2-index-number {
+    font-size: 10px;
+    line-height: 16px;
+    font-variant-numeric: tabular-nums;
+    opacity: 0.7;
+  }
+  :where([data-visual-lab]) .c2-index-title {
+    max-width: 140px;
+    font-size: 12px;
+    line-height: 1.6;
+    font-weight: 500;
+  }
+  :where([data-visual-lab]) .c2-index-line {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--vlt-border);
+  }
+  :where([data-visual-lab]) .c2-tool-index button[aria-selected="true"] {
+    color: var(--vlt-accent);
+  }
+  :where([data-visual-lab])
+    .c2-tool-index
+    button[aria-selected="true"]
+    .c2-index-number {
+    opacity: 1;
+  }
+  :where([data-visual-lab])
+    .c2-tool-index
+    button[aria-selected="true"]
+    .c2-index-title {
+    font-weight: 600;
+  }
+  :where([data-visual-lab])
+    .c2-tool-index
+    button[aria-selected="true"]
+    .c2-index-line {
+    background: var(--vlt-accent);
+  }
+  :where([data-visual-lab]) .c2-tool-index button:hover {
+    color: var(--vlt-heading);
+  }
+}
+@media (min-width: 1024px) {
+  :where([data-visual-lab]) .c2-feature {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: clamp(40px, 5vw, 72px);
+    min-height: 500px;
+    padding-top: 44px;
+  }
+  :where([data-visual-lab]) .c2-copy {
+    padding-bottom: 42px;
+  }
+  :where([data-visual-lab]) .c2-copy-content {
+    min-height: 300px;
+  }
+  :where([data-visual-lab]) .c2-copy h4 {
+    font-size: 38px;
+  }
+  :where([data-visual-lab]) .c2-visual {
+    justify-self: end;
+  }
+}
+@media (max-width: 639px) {
+  :where([data-visual-lab]) .c2-heading {
+    margin-bottom: 36px;
+  }
+  :where([data-visual-lab]) .c2-heading > div > p {
+    font-size: 14px;
+  }
+  :where([data-visual-lab]) .c2-index-heading > span {
+    font-size: 10px;
+  }
+  :where([data-visual-lab]) .c2-feature {
+    gap: 30px;
+    padding-top: 18px;
+  }
+  :where([data-visual-lab]) .c2-copy h4 {
+    margin-top: 17px;
+    font-size: 30px;
+  }
+  :where([data-visual-lab]) .c2-feature-lead {
+    margin-top: 20px;
+    font-size: 16px;
+  }
+  :where([data-visual-lab]) .c2-pager {
+    margin-top: 22px;
+    padding-top: 17px;
+  }
+}
+@keyframes visual-lab-catalog-two-copy {
+  from {
+    opacity: 0.3;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :where([data-visual-lab]) .c2-copy-content,
+  :where([data-visual-lab]) .c2-visual-caption {
+    animation: none;
+  }
+  :where([data-visual-lab]) .c2-tool-index button {
+    transition: none;
+  }
+}

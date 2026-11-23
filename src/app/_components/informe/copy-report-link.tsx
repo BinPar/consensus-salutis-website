@@ -43,7 +43,7 @@ export function CopyReportLink({ url }: { url: string }) {
     <button
       type="button"
       onClick={copy}
-      className="bg-primary-light dark:bg-primary-dark shadow-big-blocks inline-flex min-h-11 items-center gap-2.5 rounded-full px-5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-cyan-800 dark:text-[#03111d] dark:hover:bg-[#71fffe]"
+      className="bg-primary-light dark:bg-primary-dark shadow-big-blocks inline-flex min-h-11 items-center gap-2.5 rounded-full px-5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-cyan-800 dark:text-[#03111d] dark:hover:bg-primary-dark/85"
     >
       {copied ? (
         <Check aria-hidden="true" strokeWidth={1.8} className="size-4" />

@@ -1,0 +1,348 @@
+.home-entry {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  min-height: 100svh;
+  padding: 128px 32px 112px;
+}
+.home-entry-content {
+  --cover-ink: var(--color-navy);
+  --cover-accent: #006d79;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 35px 0;
+  text-align: center;
+  color: var(--cover-ink);
+}
+.dark .home-entry-content {
+  --cover-ink: #f8fafc;
+  --cover-accent: var(--color-primary-dark);
+}
+.home-entry-content .home-cover-title {
+  margin: 0;
+  font-size: 54px;
+  line-height: 1.12;
+}
+.home-entry-content .home-cover-title span {
+  display: block;
+  margin-top: 16px;
+  color: var(--cover-accent);
+  font-size: 40px;
+  line-height: 1;
+}
+.home-entry-content .home-cover-description {
+  max-width: 560px;
+  margin: 28px auto 0;
+  text-wrap: pretty;
+}
+.home-entry-content .home-cover-explore {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 32px;
+  padding: 13px 22px;
+  border: 1px solid transparent;
+  border-radius: 40px;
+  background: var(--cover-accent);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+.home-entry-content .home-cover-explore:hover {
+  background: #155e75;
+}
+.home-entry-content .home-cover-explore:focus-visible {
+  outline: 2px solid var(--cover-accent);
+  outline-offset: 5px;
+}
+.dark .home-entry-content .home-cover-explore {
+  color: #06111f;
+}
+.dark .home-entry-content .home-cover-explore:hover {
+  background: color-mix(in srgb, var(--color-primary-dark) 85%, transparent);
+}
+.home-entry-content .home-aura-app-icon {
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 30px;
+  border: 1px solid color-mix(in srgb, var(--color-navy) 8%, transparent);
+  border-radius: 28px;
+  background: linear-gradient(145deg, #fff, #f6fafc);
+  box-shadow:
+    0 2px 3px color-mix(in srgb, var(--color-navy) 8%, transparent),
+    0 12px 28px color-mix(in srgb, var(--color-navy) 7%, transparent),
+    inset 0 1px 0 #fff;
+}
+.home-entry-content .home-aura-app-icon img {
+  width: 56px;
+  height: auto;
+}
+.dark .home-entry-content .home-aura-app-icon {
+  border-color: color-mix(in srgb, var(--color-primary-dark) 16%, transparent);
+  background: linear-gradient(145deg, #172c3d, #0c1c2b);
+  box-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.2),
+    0 12px 28px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+@media (max-width: 1023px) {
+  .home-entry-content .home-cover-title {
+    font-size: 48px;
+  }
+}
+@media (max-width: 767px) {
+  .home-entry {
+    padding: 112px 24px 80px;
+  }
+  .home-entry-content .home-cover-title {
+    font-size: 36px;
+  }
+  .home-entry-content .home-cover-description {
+    margin-top: 24px;
+  }
+  .home-entry-content .home-aura-app-icon {
+    width: 76px;
+    height: 76px;
+    margin-bottom: 24px;
+    border-radius: 23px;
+  }
+  .home-entry-content .home-aura-app-icon img {
+    width: 44px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-entry-content .home-cover-explore {
+    transition: none;
+  }
+}
+
+/* Lab entrance study: trace the canonical mark, settle its fill, then reveal copy. */
+.home-entry-content[data-entry-study="true"] .home-aura-app-icon {
+  position: relative;
+  isolation: isolate;
+  background: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+.home-entry-content[data-entry-study="true"] .home-aura-app-icon::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  border: 1px solid color-mix(in srgb, var(--color-navy) 8%, transparent);
+  background: #fff;
+  box-shadow:
+    0 2px 3px color-mix(in srgb, var(--color-navy) 8%, transparent),
+    0 12px 28px color-mix(in srgb, var(--color-navy) 7%, transparent);
+  animation: aura-entry-fade 1.8s ease both;
+  animation-play-state: var(--entry-motion);
+}
+.dark .home-entry-content[data-entry-study="true"] .home-aura-app-icon::before {
+  background: #102535;
+  border-color: color-mix(in srgb, var(--color-primary-dark) 16%, transparent);
+  box-shadow:
+    0 2px 3px rgba(0, 0, 0, 0.2),
+    0 12px 28px rgba(0, 0, 0, 0.15);
+}
+.brand-isotype-reveal {
+  width: 56px;
+  height: auto;
+  overflow: visible;
+  color: var(--color-primary-light);
+}
+.dark .brand-isotype-reveal {
+  color: var(--color-primary-dark);
+}
+.brand-isotype-guide {
+  stroke: currentColor;
+  stroke-width: 1;
+  opacity: 0.1;
+}
+.brand-isotype-trace {
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: aura-isotype-trace 1.75s cubic-bezier(0.4, 0, 0.2, 1) both;
+  animation-play-state: var(--entry-motion);
+}
+.brand-isotype-trace-1 {
+  animation-delay: 0.12s;
+}
+.brand-isotype-trace-2 {
+  animation-delay: 0.24s;
+}
+.brand-isotype-fill {
+  opacity: 0;
+  animation: aura-isotype-fill 0.45s ease 1.35s both;
+  animation-play-state: var(--entry-motion);
+}
+.home-entry-content[data-entry-study="true"] .home-cover-title,
+.home-entry-content[data-entry-study="true"] .home-cover-description,
+.home-entry-content[data-entry-study="true"] .home-cover-explore {
+  animation: aura-entry-fade 0.6s ease both;
+  animation-play-state: var(--entry-motion);
+}
+.home-entry-content[data-entry-study="true"] .home-cover-title {
+  animation-delay: 1.95s;
+}
+.home-entry-content[data-entry-study="true"] .home-cover-description {
+  animation-delay: 2.15s;
+}
+.home-entry-content[data-entry-study="true"] .home-cover-explore {
+  animation-delay: 2.35s;
+}
+@keyframes aura-isotype-trace {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+  80% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+@keyframes aura-isotype-fill {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes aura-entry-fade {
+  from {
+    opacity: 0;
+    visibility: hidden;
+  }
+  to {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+@media (max-width: 767px) {
+  .brand-isotype-reveal {
+    width: 44px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .home-entry-content[data-entry-study="true"] .home-aura-app-icon,
+  .home-entry-content[data-entry-study="true"] .home-aura-app-icon::before,
+  .home-entry-content[data-entry-study="true"] .home-cover-title,
+  .home-entry-content[data-entry-study="true"] .home-cover-description,
+  .home-entry-content[data-entry-study="true"] .home-cover-explore,
+  .brand-isotype-fill {
+    animation: none;
+    opacity: 1;
+    visibility: visible;
+  }
+  .brand-isotype-trace,
+  .brand-isotype-guide {
+    display: none;
+  }
+}
+
+/* Particle study: assemble the mark, settle the pill, then bring in the copy. */
+.brand-particle-field {
+  position: absolute;
+  z-index: 1;
+  pointer-events: none;
+  max-width: none;
+}
+.brand-particle-final {
+  width: 64px;
+  height: auto;
+  color: var(--color-primary-light);
+  opacity: 0;
+  animation: aura-isotype-fill 0.25s ease 1.7s both;
+  animation-play-state: var(--entry-motion);
+}
+.dark .brand-particle-final {
+  color: var(--color-primary-dark);
+}
+.home-entry-content[data-entry-animation="particles"] .home-aura-app-icon {
+  width: 104px;
+  height: 104px;
+  border-radius: 30px;
+}
+.home-entry-content[data-entry-animation="particles"]
+  .home-aura-app-icon::before {
+  animation-duration: 0.3s;
+  animation-delay: 2s;
+}
+.home-entry-content[data-entry-animation="particles"] .home-cover-title {
+  animation-delay: 2.35s;
+}
+.home-entry-content[data-entry-animation="particles"] .home-cover-description {
+  animation-delay: 2.5s;
+}
+.home-entry-content[data-entry-animation="particles"] .home-cover-explore {
+  animation-delay: 2.65s;
+}
+@media (max-width: 767px) {
+  .brand-particle-final {
+    width: 48px;
+  }
+  .home-entry-content[data-entry-animation="particles"] .home-aura-app-icon {
+    width: 84px;
+    height: 84px;
+    border-radius: 25px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand-particle-field {
+    display: none;
+  }
+  .brand-particle-final {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* Aura · Ondas: overlap the logo and copy reveal to avoid an empty opening. */
+.home-entry-content[data-entry-animation="trace"] .home-aura-app-icon::before {
+  animation-duration: 0.85s;
+}
+.home-entry-content[data-entry-animation="trace"] .brand-isotype-trace {
+  animation-duration: 1.2s;
+  animation-timing-function: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.home-entry-content[data-entry-animation="trace"] .brand-isotype-trace-1 {
+  animation-delay: 0.08s;
+}
+.home-entry-content[data-entry-animation="trace"] .brand-isotype-trace-2 {
+  animation-delay: 0.16s;
+}
+.home-entry-content[data-entry-animation="trace"] .brand-isotype-fill {
+  animation-duration: 0.3s;
+  animation-delay: 0.85s;
+}
+.home-entry-content[data-entry-animation="trace"] .home-cover-title,
+.home-entry-content[data-entry-animation="trace"] .home-cover-description,
+.home-entry-content[data-entry-animation="trace"] .home-cover-explore {
+  animation-duration: 0.8s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+.home-entry-content[data-entry-animation="trace"] .home-cover-title,
+.home-entry-content[data-entry-animation="trace"] .home-cover-description {
+  animation-delay: 0.8s;
+}
+.home-entry-content[data-entry-animation="trace"] .home-cover-explore {
+  animation-delay: 1.3s;
+  animation-duration: 0.9s;
+}

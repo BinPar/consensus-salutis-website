@@ -1,0 +1,42 @@
+{
+  "section": {
+    "label": "Produktua"
+  },
+  "heading": {
+    "eyebrow": "Produktua · Hiru gaitasun, sistema bat",
+    "titleLead": "Hiru gaitasun.",
+    "titleAccent": "Arkitektura bakarra.",
+    "description": "Produktu sendo bat sakontasunean eraikitzen da. Hiru geruza osagarrik esperientzia kliniko berari eusten diote."
+  },
+  "pillars": {
+    "binpar": {
+      "name": "BinPar",
+      "role": "Produktua eta ingeniaritza",
+      "detail": "15 urtetik gora osasun-softwarea garatzen. Erantzun bakoitzaren zikloa kontrolatzen duen eta ezagutza praktika klinikoarekin lotzen duen ingeniaritza-geruza."
+    },
+    "panamericana": {
+      "name": "Editorial Médica Panamericana",
+      "role": "Ezagutza klinikoa",
+      "detail": "70 urtetik gorako argitalpen-esperientzia eta ezagutza medikoko 3 TB baino gehiago. Kontsultari sakontasuna eta testuingurua ematen dizkioten eduki berrikusiak."
+    },
+    "aws": {
+      "name": "AWS",
+      "role": "Azpiegitura erresilientea",
+      "detail": "Cloud native arkitektura, jarraitutasunez, behagarritasunez eta araudia betez jarduteko prestatua. Azpiegiturak erakunde bakoitzaren hazkundeari eta beharrei erantzuten die."
+    }
+  },
+  "details": {
+    "layer": "{number}. geruza / 03",
+    "navigation": "Produktuaren geruzen eszenak",
+    "playback": "geruzen eszena"
+  },
+  "graphic": {
+    "label": "Produktuaren arkitektura: grafiko biragarria",
+    "instructions": "Biratzeko eta okertzeko, arrastatu. Maius teklarekin eta geziekin grafikoa biratzen da. Ezker- eta eskuin-geziekin geruzak hautatzen dira.",
+    "layers": "Produktuaren arkitekturaren geruzak",
+    "layer": "{number}. geruza: {role}",
+    "systemTitle": "BINPAR / SISTEMA INTEGRATUA",
+    "reset": "Itzuli grafikoaren hasierako ikuspegira",
+    "resetTitle": "Itzuli hasierako ikuspegira"
+  }
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "variant": "reference",
+    "width": 390,
+    "validation": true,
+    "simulated": true,
+    "requests": 0
+  },
+  {
+    "variant": "reference",
+    "width": 1440,
+    "validation": true,
+    "simulated": true,
+    "requests": 0
+  },
+  {
+    "variant": "assistant-preview",
+    "intercepted": false,
+    "requests": 0
+  },
+  {
+    "variant": "production-assistant",
+    "intercepted": true,
+    "requests": 1
+  }
+]

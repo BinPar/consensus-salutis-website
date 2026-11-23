@@ -1,0 +1,60 @@
+{
+  "source": {
+    "title": "Manual ProMIR · Nefrologia",
+    "chapter": "Risc cardiovascular i malaltia renal"
+  },
+  "chatHeader": {
+    "brand": "BinPar"
+  },
+  "composer": {
+    "placeholder": "Pregunta clínica al comitè...",
+    "responding": "El comitè està responent..."
+  },
+  "bibliography": {
+    "heading": "Bibliografia"
+  },
+  "sourcePanel": {
+    "eyebrow": "Font de consulta",
+    "fullDocument": "Mostra el document complet"
+  },
+  "passage": {
+    "heading": "Antiinflamatoris no esteroidals"
+  },
+  "viewer": {
+    "heading": "Dosis de fàrmacs i ronyó",
+    "methods": ["Disminuint la dosi.", "Augmentant l’interval entre les dosis."]
+  },
+  "updates": {
+    "notice": "Anterior a l’actualització: una font posterior va actualitzar part d’aquesta unitat, de manera que aquest passatge pot recollir una dada ja substituïda."
+  },
+  "preserved": {
+    "document": "Document del corpus",
+    "withdrawn": "Document retirat del corpus",
+    "kept": "Conservat amb la resposta",
+    "passage": "Passatge citat"
+  },
+  "verified": {
+    "answer": {
+      "label": "A la resposta",
+      "title": "Cita [4]"
+    },
+    "original": {
+      "label": "Al PDF original",
+      "title": "Pàg. 412"
+    },
+    "status": {
+      "verified": "Text verificat",
+      "verifying": "Verificant el text"
+    },
+    "detail": {
+      "verified": "Coincideix amb el PDF original",
+      "verifying": "Contrastant amb el PDF"
+    }
+  },
+  "provenance": {
+    "document": "Document",
+    "chapter": "Capítol",
+    "section": "Apartat",
+    "page": "Pàgina"
+  }
+}

@@ -1,0 +1,47 @@
+[
+  {
+    "width": 320,
+    "innerCollisions": 0,
+    "crossCollisions": 0
+  },
+  {
+    "width": 390,
+    "innerCollisions": 0,
+    "crossCollisions": 0
+  },
+  {
+    "width": 768,
+    "innerCollisions": 0,
+    "crossCollisions": 0
+  },
+  {
+    "width": 1024,
+    "innerCollisions": 0,
+    "crossCollisions": 0
+  },
+  {
+    "width": 1280,
+    "innerCollisions": 0,
+    "crossCollisions": 0
+  },
+  {
+    "width": 1440,
+    "innerCollisions": 0,
+    "crossCollisions": 0
+  },
+  {
+    "width": 1920,
+    "innerCollisions": 0,
+    "crossCollisions": 0
+  },
+  {
+    "width": 2048,
+    "innerCollisions": 0,
+    "crossCollisions": 0
+  },
+  {
+    "width": 2560,
+    "innerCollisions": 0,
+    "crossCollisions": 0
+  }
+]

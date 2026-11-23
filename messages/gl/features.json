@@ -1,0 +1,262 @@
+{
+  "meta": {
+    "title": "Funcionalidades",
+    "description": "Todas as funcionalidades de BinPar agrupadas: evidencia visible, consulta clínica, formatos de resposta, espazo persoal e goberno institucional."
+  },
+  "groups": {
+    "evidence": {
+      "title": "Evidencia visible",
+      "navLabel": "Evidencia",
+      "heading": "Evidencia",
+      "headingAccent": "visible.",
+      "lead": "Cada afirmación remite ao documento que a respalda. A pasaxe consúltase no seu contexto, coa súa procedencia e a súa vixencia á vista."
+    },
+    "consultation": {
+      "title": "Consulta clínica",
+      "navLabel": "Consulta",
+      "heading": "Consulta",
+      "headingAccent": "clínica.",
+      "lead": "A dúbida formúlase como nunha sesión clínica. Cada especialidade revisa o seu corpus, o avance queda á vista e a conversa conserva o caso."
+    },
+    "formats": {
+      "title": "Formatos de resposta",
+      "navLabel": "Formatos",
+      "heading": "Formatos",
+      "headingAccent": "de resposta.",
+      "lead": "A resposta preséntase no formato que mellor a explica. Esquemas, figuras e táboas conservan as súas citas e consúltanse no panel lateral."
+    },
+    "workspace": {
+      "title": "Espazo persoal",
+      "navLabel": "Espazo persoal",
+      "heading": "Espazo",
+      "headingAccent": "persoal.",
+      "lead": "Cada profesional organiza as súas consultas en proxectos con instrucións e fontes propias, e axusta como se len as respostas."
+    },
+    "governance": {
+      "title": "Goberno institucional",
+      "navLabel": "Goberno",
+      "heading": "Goberno",
+      "headingAccent": "institucional.",
+      "lead": "A organización decide que documentos consulta o comité, revisa cada cambio antes de publicalo e comproba que a calidade das respostas se mantén."
+    }
+  },
+  "items": {
+    "citations": {
+      "title": "Citas por afirmación",
+      "description": "Cada afirmación enlaza coa súa fonte.",
+      "detail": "Ao premer o número xunto a unha frase, ábrese o documento que a respalda sen perder de vista a resposta."
+    },
+    "bibliography": {
+      "title": "Bibliografía",
+      "description": "As fontes utilizadas, ao final de cada resposta.",
+      "detail": "A lista reúne as guías e os manuais citados, para revisar dunha ollada en que documentos se apoia cada resposta."
+    },
+    "preserved": {
+      "title": "Evidencia conservada",
+      "description": "A resposta garda o que citou, aínda que o documento se retire.",
+      "detail": "Se unha guía se retira ou se substitúe, a pasaxe citada segue dispoñible para revisar en que se baseou aquela resposta."
+    },
+    "viewer": {
+      "title": "Visor do documento",
+      "description": "O PDF, na páxina citada e coa pasaxe resaltada.",
+      "detail": "O documento orixinal ábrese nun panel lateral, de xeito que a pasaxe se le no seu contexto, co que a precede e a segue."
+    },
+    "verified": {
+      "title": "Texto verificado",
+      "description": "Indica se a pasaxe coincide co PDF orixinal.",
+      "detail": "O texto citado contrástase co documento de orixe, e un indicador sinala se coincide literalmente co que di o PDF."
+    },
+    "provenance": {
+      "title": "Procedencia completa",
+      "description": "Documento, capítulo, apartado e páxina.",
+      "detail": "Cada cita conserva a súa localización exacta dentro do documento, para localizala ou mencionala nunha sesión clínica ou nun informe."
+    },
+    "updates": {
+      "title": "Avisos de actualización",
+      "description": "Sinala os datos substituídos por unha fonte posterior.",
+      "detail": "Cando unha edición máis recente modifica a información citada, un aviso indícao xunto á pasaxe para comprobar a súa vixencia."
+    },
+    "natural": {
+      "title": "Linguaxe natural",
+      "description": "A dúbida exponse como nunha sesión clínica.",
+      "detail": "O caso descríbese cos seus antecedentes, a súa medicación e o que preocupa, sen palabras clave nin formularios."
+    },
+    "clarify": {
+      "title": "Preguntas de aclaración",
+      "description": "Se falta un dato decisivo, o comité solicítao.",
+      "detail": "Cando a resposta depende dun valor que non se indicou, como o filtrado glomerular, a pregunta chega antes que a resposta, con opcións para contestar cun clic."
+    },
+    "followup": {
+      "title": "Seguimento",
+      "description": "As preguntas seguintes conservan o contexto.",
+      "detail": "Unha nova pregunta parte do caso e das fontes xa consultadas, sen repetir os datos do paciente."
+    },
+    "committee": {
+      "title": "Comité por especialidade",
+      "description": "Varios expertos, cada un co seu corpus.",
+      "detail": "Cada especialidade revisa os documentos do seu ámbito, e a resposta reúne e contrasta as súas achegas."
+    },
+    "modes": {
+      "title": "Modos de resposta",
+      "description": "Rapidez ou profundidade, en cada pregunta.",
+      "detail": "Cada organización define os seus modos de resposta; cando hai máis dun, o profesional escolle xunto ao campo de consulta entre unha resposta áxil e unha revisión máis exhaustiva."
+    },
+    "progress": {
+      "title": "Progreso visible",
+      "description": "Expertos, fontes e páxinas consultadas, mentres se responde.",
+      "detail": "Durante a espera vese que especialidades traballan, que documentos revisan e en que páxinas, antes de ler a resposta."
+    },
+    "images": {
+      "title": "Imaxes anexas",
+      "description": "Péganse, arrástranse ou anéxanse á consulta.",
+      "detail": "Un electrocardiograma, unha analítica ou unha lesión fotografada incorpóranse á pregunta para consultalos xunto ao caso."
+    },
+    "schemes": {
+      "title": "Esquemas clínicos",
+      "description": "Árbores de decisión e mapas mentais con fontes.",
+      "detail": "Unha árbore de decisión ordena os criterios da resposta, e cada esquema indica as fontes nas que se apoia."
+    },
+    "figures": {
+      "title": "Figuras do corpus",
+      "description": "As figuras das guías, dentro da resposta.",
+      "detail": "Cando unha guía inclúe unha ilustración pertinente, a figura aparece xunto ao texto que a explica."
+    },
+    "download": {
+      "title": "Descarga como imaxe",
+      "description": "Cada esquema expórtase en PNG.",
+      "detail": "O esquema gárdase como imaxe para incorporalo a unha sesión clínica, un protocolo ou material docente."
+    },
+    "tables": {
+      "title": "Táboas comparativas",
+      "description": "Comparacións lexibles, sen perder as citas.",
+      "detail": "Fármacos, criterios ou alternativas compáranse en columnas, e cada fila mantén a referencia ao seu documento."
+    },
+    "textalt": {
+      "title": "Percorrido en texto",
+      "description": "Alternativa accesible a cada esquema.",
+      "detail": "Cada esquema pode lerse como unha lista de pasos, útil con lectores de pantalla ou para copialo nun informe."
+    },
+    "panel": {
+      "title": "Panel lateral",
+      "description": "Documentos, esquemas e imaxes en lapelas.",
+      "detail": "As fontes, os esquemas e as figuras ábrense xunto á conversa, sen perder de vista a resposta."
+    },
+    "projects": {
+      "title": "Proxectos",
+      "description": "Conversas agrupadas por tema.",
+      "detail": "As consultas sobre un mesmo asunto, como a revisión dun protocolo, reúnense nun espazo coas súas propias instrucións e fontes."
+    },
+    "instructions": {
+      "title": "Instrucións comúns",
+      "description": "Formato, idioma ou enfoque para todo un proxecto.",
+      "detail": "Indícase unha vez como deben presentarse as respostas do proxecto; as regras clínicas e as fontes institucionais manteñen a súa prioridade."
+    },
+    "saved": {
+      "title": "Respostas como fonte",
+      "description": "Unha resposta gárdase para o resto do proxecto.",
+      "detail": "Unha resposta final gárdase como fonte privada e pode recuperarse desde outras conversas do mesmo proxecto."
+    },
+    "preferences": {
+      "title": "Preferencias de resposta",
+      "description": "Extensión, ton e formato, lembrados entre chats.",
+      "detail": "As preferencias quedan rexistradas e aplícanse a todos os chats; axustan a presentación, non a finalidade nin as regras clínicas."
+    },
+    "private": {
+      "title": "Documentos privados",
+      "description": "PDF, TXT e Markdown, citables como fonte.",
+      "detail": "Un protocolo do servizo ou unhas notas propias engádense ao proxecto e cítanse como o resto de fontes, visibles só para o seu propietario."
+    },
+    "history": {
+      "title": "Historial ordenado",
+      "description": "Fixar, renomear, mover e percorrer por pregunta.",
+      "detail": "As conversas fíxanse, renoméanse ou móvense a un proxecto, e nas máis longas sáltase directamente a cada pregunta."
+    },
+    "languages": {
+      "title": "Tres idiomas",
+      "description": "Castelán, catalán e inglés.",
+      "detail": "A interface preséntase no idioma que escolle cada profesional, e o cambio aplícase no momento."
+    },
+    "theme": {
+      "title": "Tema claro e escuro",
+      "description": "Lectura cómoda na consulta ou de garda.",
+      "detail": "O modo escuro reduce o brillo nas gardas nocturnas, e o claro facilita a lectura coa luz da consulta."
+    },
+    "corpus": {
+      "title": "Corpus por organización",
+      "description": "Protocolos propios sobre unha base común.",
+      "detail": "Os protocolos do centro engádense sobre unha base común de guías e manuais, e o comité consulta ambos coa mesma trazabilidade."
+    },
+    "library": {
+      "title": "Biblioteca de documentos",
+      "description": "Inventario das guías, con tipo e resumo.",
+      "detail": "Cada documento figura co seu tipo, a súa data de aprobación, os expertos aos que alimenta e un resumo do que achega."
+    },
+    "committees": {
+      "title": "Comités configurables",
+      "description": "Expertos e modos definidos por organización.",
+      "detail": "Cada organización configura os modos de resposta do seu comité e marca un por defecto; con máis dun, o profesional escolle entre eles no chat."
+    },
+    "review": {
+      "title": "Publicación revisada",
+      "description": "Os cambios revísanse antes de entrar no corpus.",
+      "detail": "Un documento novo ou unha actualización revísase e apróbase antes de publicarse, de xeito que nada chega ás respostas sen control."
+    },
+    "versions": {
+      "title": "Versións do corpus",
+      "description": "Cada cambio queda rexistrado e versionado.",
+      "detail": "O corpus conserva o seu historial: que cambiou, cando e en que documentos, para reconstruír en que se baseou cada resposta."
+    },
+    "control": {
+      "title": "Preguntas de control",
+      "description": "Baterías que detectan se as respostas se degradan.",
+      "detail": "Unha batería de preguntas con resposta de referencia repítese tras cada cambio e sinala as que empeoran respecto á versión anterior."
+    },
+    "rating": {
+      "title": "Valoración profesional",
+      "description": "Útil ou non útil, con comentario para revisión.",
+      "detail": "Cada profesional marca unha resposta como útil ou non útil e engade un comentario, que chega ao equipo editorial para a súa revisión."
+    },
+    "brand": {
+      "title": "Marca e dominio propios",
+      "description": "Acceso co deseño da organización.",
+      "detail": "A plataforma preséntase co logotipo, as cores e o dominio da organización."
+    }
+  },
+  "group": {
+    "eyebrow": "Funcionalidades"
+  },
+  "highlights": {
+    "eyebrow": "Plataforma",
+    "title": "As nosas principais<br></br><accent>funcionalidades.</accent>",
+    "lead": "Poñemos á túa disposición {count} funcionalidades orientadas ao teu traballo diario: consultar co teu equipo, comprobar cada fonte e manter ao día o coñecemento da túa organización. Estas son algunhas das principais.",
+    "cta": "Ver todas as funcionalidades"
+  },
+  "intro": {
+    "eyebrow": "Plataforma · Funcionalidades",
+    "title": "Todo o que ofrece<br></br><accent>a plataforma.</accent>",
+    "lead": "O que convén comprobar antes de levala á túa organización: de onde sae cada resposta, quen decide que documentos consulta e como se vixía a súa calidade co tempo.",
+    "cta": "Explorar funcionalidades"
+  },
+  "filterBar": {
+    "title": "Funcionalidades",
+    "groupSelect": "Ir ao grupo",
+    "noun": {
+      "one": "funcionalidade",
+      "other": "funcionalidades"
+    },
+    "groupsNav": "Grupos de funcionalidades",
+    "pillLabel": "{label}: {count, plural, one {# funcionalidade} other {# funcionalidades}}",
+    "search": "Buscar funcionalidades"
+  },
+  "overview": {
+    "sections": {
+      "intro": "Introdución",
+      "features": "Funcionalidades"
+    },
+    "featuresLabel": "Funcionalidades",
+    "empty": {
+      "title": "Non se atoparon funcionalidades.",
+      "body": "Proba con outra busca ou <link>pregúntanos directamente</link>."
+    }
+  }
+}

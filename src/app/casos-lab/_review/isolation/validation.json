@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-16",
+  "scope": "Aislamiento del laboratorio visual; sin modificaciones a componentes o estilos existentes de producción.",
+  "checks": {
+    "withLab": {
+      "lint": "passed",
+      "types": "passed",
+      "tests": 526,
+      "build": "passed"
+    },
+    "withoutLab": {
+      "lint": "passed",
+      "types": "passed",
+      "tests": 520,
+      "build": "passed"
+    }
+  },
+  "productionSourceIntegrity": {
+    "changedExistingFilesOutsideLab": [
+      "eslint.config.js"
+    ],
+    "newGuard": "src/lib/__tests__/lab-isolation.test.ts",
+    "sharedUIFilesChanged": []
+  },
+  "visualChecks": {
+    "devBeforeAfter": "18 combinaciones: Inicio, Plataforma y Contacto; 390/1280/1440 px; claro/oscuro. Medidas y estilos coinciden en las 18. 17 capturas idénticas; una diferencia de rasterizado de 0.0004483 % con tolerancia de 12 por canal.",
+    "removal": "18 comparaciones entre compilaciones de producción con y sin laboratorio: mismas medidas y estilos. Configuración de compilación idéntica entre ambas, sin credenciales de servicios externos.",
+    "routes": "Inicio, Plataforma y Contacto devuelven 200; /casos-lab devuelve 404 en ambas compilaciones."
+  },
+  "limits": [
+    "El laboratorio comparte las herramientas de compilación del proyecto.",
+    "Los recursos public/lab se distribuyen mientras existan.",
+    "Las comparaciones de captura excluyen canvas y video animados."
+  ],
+  "functionalChecks": {
+    "variants": 56,
+    "contexts": [
+      false,
+      true
+    ],
+    "contact": "Referencia en móvil y escritorio y asistente: cero peticiones; formulario real probado con petición interceptada.",
+    "navigation": "Seis recorridos desde el laboratorio a la web, cambio de tema y navegación por secciones.",
+    "pageErrorsNormalMotion": [],
+    "guiada": "Los 16 miembros aparecen en cada anillo. Se conservan dimensiones, pausa, movimiento reducido y orden aleatorio."
+  },
+  "reducedMotionAssistant": [
+    {
+      "url": "http://localhost:3000/contacto",
+      "visibility": "hidden",
+      "inert": true
+    },
+    {
+      "url": "http://localhost:3000/casos-lab?lab=contact&contactVariant=assistant",
+      "visibility": "hidden",
+      "inert": true
+    },
+    {
+      "url": "http://localhost:3102/contacto",
+      "visibility": "hidden",
+      "inert": true
+    }
+  ]
+}

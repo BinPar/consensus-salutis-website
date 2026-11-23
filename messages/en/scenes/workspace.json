@@ -1,0 +1,130 @@
+{
+  "actions": {
+    "cancel": "Cancel",
+    "save": "Save"
+  },
+  "projectHeader": {
+    "name": "Drugs in CKD",
+    "chats": "Chats",
+    "sources": "Sources"
+  },
+  "projects": {
+    "moved": {
+      "title": "Analgesia in severe CKD",
+      "when": "just now"
+    },
+    "chats": {
+      "nsaids": {
+        "title": "NSAIDs in a patient with CKD",
+        "when": "1 day ago"
+      },
+      "aceInhibitors": {
+        "title": "ACE inhibitors and hyperkalaemia",
+        "when": "3 days ago"
+      },
+      "metformin": {
+        "title": "Metformin dose adjustment",
+        "when": "4 weeks ago"
+      }
+    }
+  },
+  "instructions": {
+    "heading": "Project instructions",
+    "edit": "Edit instructions",
+    "text": "Compare drugs in tables and always state the adjustment by glomerular filtration rate.",
+    "empty": "No additional instructions",
+    "counter": "{count} of 16,000 characters",
+    "note": "Changes apply from the next turn. A clarification keeps the context of the original question."
+  },
+  "saved": {
+    "title": "Save to sources",
+    "description": "Save the final answer as a private source for this project. Excerpts retrieved from other sources or conversations are not included.",
+    "confirm": "Save to sources",
+    "nameLabel": "Source name",
+    "name": "NSAIDs in a patient with CKD"
+  },
+  "preferences": {
+    "section": "Response preferences",
+    "text": "I prefer short answers, with doses in a table and without repeating the patient's history.",
+    "empty": "No preferences saved yet.",
+    "hint": "You can edit the full text or ask for changes in the chat.",
+    "edit": "View and edit preferences",
+    "note": "They apply to your chats. They only adjust the presentation; the purpose and clinical rules of the answers stay the same.",
+    "dialogTitle": "Response preferences",
+    "dialogDescription": "Write how you want answers to be presented. You can use Markdown. The accepted text will be saved exactly as you write it.",
+    "fieldLabel": "Preferences text",
+    "counter": "{count}/1000"
+  },
+  "private": {
+    "heading": "Sources",
+    "add": "Add",
+    "newSource": "Department analgesia protocol.pdf",
+    "status": {
+      "ready": "Available",
+      "processing": "Processing · {pages} of {total} pages",
+      "queued": "Queued"
+    },
+    "sources": {
+      "sessionNotes": "Clinical meeting notes.md",
+      "doseAdjustment": "Dose adjustment in CKD.txt"
+    }
+  },
+  "history": {
+    "newChat": "New chat",
+    "pinned": "Pinned",
+    "recent": "Recent",
+    "pinnedChat": "Hyperkalaemia protocol",
+    "chats": [
+      "NSAIDs in a patient with CKD",
+      "Dyspnoea and oedema in CKD",
+      "Metformin dose adjustment",
+      "Digoxin dosing in CKD"
+    ],
+    "rename": "NSAIDs and severe CKD",
+    "menu": {
+      "rename": "Rename",
+      "move": "Move conversation",
+      "pin": "Pin chat",
+      "unpin": "Unpin chat",
+      "delete": "Delete"
+    },
+    "dialog": {
+      "title": "Rename",
+      "description": "Enter a short name to identify this conversation.",
+      "label": "Conversation name",
+      "limit": "72 characters maximum.",
+      "counter": "{count} of 72 characters"
+    }
+  },
+  "profile": {
+    "initial": "L",
+    "name": "Laura Gómez",
+    "email": "lgomez@organizacion.es",
+    "locales": {
+      "es": {
+        "panel": "Profile and settings",
+        "language": "Language",
+        "role": "Clinician",
+        "preferences": "Response preferences",
+        "empty": "No preferences saved yet.",
+        "edit": "View and edit preferences"
+      },
+      "ca": {
+        "panel": "Perfil i configuració",
+        "language": "Idioma",
+        "role": "Clínic",
+        "preferences": "Preferències de resposta",
+        "empty": "Encara no hi ha preferències desades.",
+        "edit": "Mostra i edita les preferències"
+      },
+      "en": {
+        "panel": "Perfil y configuración",
+        "language": "Idioma",
+        "role": "Clínico",
+        "preferences": "Preferencias de respuesta",
+        "empty": "Aún no hay preferencias guardadas.",
+        "edit": "Ver y editar preferencias"
+      }
+    }
+  }
+}

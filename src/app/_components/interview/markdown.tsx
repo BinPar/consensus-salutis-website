@@ -29,7 +29,7 @@ function renderInline(text: string, keyPrefix: string): ReactNode[] {
         return (
           <code
             key={key}
-            className="rounded-sm bg-cyan-800/8 px-1 py-0.5 text-[0.9em] dark:bg-cyan-300/10"
+            className="rounded-sm bg-cyan-800/8 px-1 py-0.5 text-[0.9em] dark:bg-primary-dark/10"
           >
             {chunk.text}
           </code>
@@ -56,9 +56,9 @@ export function MarkdownInline({ children }: { children: string }) {
 }
 
 const HEADING_CLASS: Record<1 | 2 | 3, string> = {
-  1: "font-display mt-0 text-2xl font-semibold tracking-tight text-[#05215e] sm:text-3xl dark:text-slate-50",
-  2: "font-display mt-8 text-lg font-semibold tracking-tight text-[#05215e] sm:text-xl dark:text-slate-50",
-  3: "font-display mt-6 text-base font-semibold text-[#05215e] dark:text-slate-100",
+  1: "font-display mt-0 text-2xl font-semibold tracking-tight text-navy sm:text-3xl dark:text-slate-50",
+  2: "font-display mt-8 text-lg font-semibold tracking-tight text-navy sm:text-xl dark:text-slate-50",
+  3: "font-display mt-6 text-base font-semibold text-navy dark:text-slate-100",
 };
 
 export function Markdown({ children }: { children: string }) {

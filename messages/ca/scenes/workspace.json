@@ -1,0 +1,130 @@
+{
+  "actions": {
+    "cancel": "Cancel·la",
+    "save": "Desa"
+  },
+  "projectHeader": {
+    "name": "Fàrmacs en la MRC",
+    "chats": "Xats",
+    "sources": "Fonts"
+  },
+  "projects": {
+    "moved": {
+      "title": "Analgèsia en MRC greu",
+      "when": "fa un moment"
+    },
+    "chats": {
+      "nsaids": {
+        "title": "AINE en pacient amb MRC",
+        "when": "fa 1 dia"
+      },
+      "aceInhibitors": {
+        "title": "IECA i hiperpotassèmia",
+        "when": "fa 3 dies"
+      },
+      "metformin": {
+        "title": "Ajust de dosi de metformina",
+        "when": "fa 4 setmanes"
+      }
+    }
+  },
+  "instructions": {
+    "heading": "Instruccions del projecte",
+    "edit": "Edita les instruccions",
+    "text": "Comparar els fàrmacs en taules i indicar sempre l’ajust segons el filtrat glomerular.",
+    "empty": "Sense instruccions addicionals",
+    "counter": "{count} de 16.000 caràcters",
+    "note": "Els canvis s’apliquen al torn següent. Un aclariment conserva el context de la pregunta original."
+  },
+  "saved": {
+    "title": "Desa a les fonts",
+    "description": "Desa la resposta final com a font privada d’aquest projecte. No s’hi inclouen els extractes recuperats d’altres fonts o converses.",
+    "confirm": "Desa a les fonts",
+    "nameLabel": "Nom de la font",
+    "name": "AINE en pacient amb MRC"
+  },
+  "preferences": {
+    "section": "Preferències de resposta",
+    "text": "Prefereixo respostes breus, amb les dosis en taula i sense repetir els antecedents del pacient.",
+    "empty": "Encara no hi ha preferències desades.",
+    "hint": "Pots editar el text complet o demanar canvis al xat.",
+    "edit": "Mostra i edita les preferències",
+    "note": "S’apliquen als teus xats. Només ajusten la presentació; la finalitat i les regles clíniques de les respostes no canvien.",
+    "dialogTitle": "Preferències de resposta",
+    "dialogDescription": "Escriu com vols que es presentin les respostes. Pots fer servir Markdown. El text acceptat es desarà tal com l’escriguis.",
+    "fieldLabel": "Text de preferències",
+    "counter": "{count}/1000"
+  },
+  "private": {
+    "heading": "Fonts",
+    "add": "Afegeix",
+    "newSource": "Protocol d’analgèsia del servei.pdf",
+    "status": {
+      "ready": "Disponible",
+      "processing": "Processant · {pages} de {total} pàgines",
+      "queued": "A la cua"
+    },
+    "sources": {
+      "sessionNotes": "Notes de la sessió clínica.md",
+      "doseAdjustment": "Ajust de dosi en MRC.txt"
+    }
+  },
+  "history": {
+    "newChat": "Xat nou",
+    "pinned": "Fixats",
+    "recent": "Recents",
+    "pinnedChat": "Protocol d’hiperpotassèmia",
+    "chats": [
+      "AINE en pacient amb MRC",
+      "Dispnea i edema en MRC",
+      "Ajust de dosi de metformina",
+      "Dosi de digoxina en MRC"
+    ],
+    "rename": "AINE i MRC greu",
+    "menu": {
+      "rename": "Canvia el nom",
+      "move": "Mou la conversa",
+      "pin": "Fixa el xat",
+      "unpin": "Deixa de fixar el xat",
+      "delete": "Elimina"
+    },
+    "dialog": {
+      "title": "Canvia el nom",
+      "description": "Escriu un nom breu per identificar aquesta conversa.",
+      "label": "Nom de la conversa",
+      "limit": "Màxim 72 caràcters.",
+      "counter": "{count} de 72 caràcters"
+    }
+  },
+  "profile": {
+    "initial": "L",
+    "name": "Laura Gómez",
+    "email": "lgomez@organizacion.es",
+    "locales": {
+      "es": {
+        "panel": "Perfil i configuració",
+        "language": "Idioma",
+        "role": "Clínic",
+        "preferences": "Preferències de resposta",
+        "empty": "Encara no hi ha preferències desades.",
+        "edit": "Mostra i edita les preferències"
+      },
+      "ca": {
+        "panel": "Perfil y configuración",
+        "language": "Idioma",
+        "role": "Clínico",
+        "preferences": "Preferencias de respuesta",
+        "empty": "Aún no hay preferencias guardadas.",
+        "edit": "Ver y editar preferencias"
+      },
+      "en": {
+        "panel": "Profile and settings",
+        "language": "Language",
+        "role": "Clinician",
+        "preferences": "Response preferences",
+        "empty": "No preferences saved yet.",
+        "edit": "View and edit preferences"
+      }
+    }
+  }
+}

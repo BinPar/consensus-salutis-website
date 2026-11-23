@@ -16,7 +16,7 @@ export const env = createEnv({
       .transform((value) => value === "true"),
     RESEND_API_KEY: z.string().optional(),
     CONTACT_FROM_EMAIL: z.string().optional(),
-    CONTACT_TO_EMAIL: z.string().email().default("adrian@binpar.com"),
+    CONTACT_TO_EMAIL: z.string().email().default("info@binpar.com"),
     /**
      * Firma de la cookie de sesión del evaluador de idoneidad. Requerido: sin
      * él no se puede atar un navegador a su evaluación, ni sostener la regla de
@@ -107,6 +107,16 @@ export const env = createEnv({
         "Debe ser una ruta absoluta (/sign-in) o una URL http(s).",
       )
       .default("/sign-in"),
+    /**
+     * Origen absoluto del sitio, para `sitemap.xml`, `robots.txt`, `rss.xml`,
+     * el JSON-LD y la imagen OG.
+     *
+     * Opcional: sin ella `~/lib/site.ts` resuelve el dominio de marca en
+     * producción y `VERCEL_URL` en preview, que es lo correcto en los dos casos.
+     * Está aquí para un despliegue en otro dominio (o un `next start` local
+     * contra un host real) sin tocar código.
+     */
+    NEXT_PUBLIC_SITE_URL: z.string().url().optional(),
   },
 
   /**
@@ -128,6 +138,7 @@ export const env = createEnv({
     NEXT_PUBLIC_CONVEX_SITE_URL: process.env.NEXT_PUBLIC_CONVEX_SITE_URL,
     NEXT_PUBLIC_PLATFORM_SIGN_IN_URL:
       process.env.NEXT_PUBLIC_PLATFORM_SIGN_IN_URL,
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

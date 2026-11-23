@@ -1,0 +1,8 @@
+{
+  "keyboard": true,
+  "focusRestoration": true,
+  "scrollRestoration": true,
+  "reducedMotion": true,
+  "viewport320": true,
+  "imageFallback": true
+}

@@ -1,0 +1,30 @@
+{
+  "section": {
+    "label": "Casos de éxito"
+  },
+  "intro": {
+    "eyebrow": "Casos de éxito",
+    "titleLead": "El futuro de la salud.",
+    "titleAccent": "Ya está aquí.",
+    "body": "Organizaciones sanitarias que ya incorporan nuestra inteligencia artificial para facilitar el acceso al conocimiento clínico fiable, acompañar la atención asistencial y reforzar la mejora continua."
+  },
+  "cases": {
+    "axia": {
+      "name": "Axia",
+      "organization": "Generalitat de Catalunya",
+      "territory": "Catalunya"
+    },
+    "sermas": {
+      "name": "SERMAS",
+      "organization": "Servicio Madrileño de Salud",
+      "territory": "Comunidad de Madrid"
+    }
+  },
+  "map": {
+    "institutions": "Instituciones en el mapa",
+    "select": "Seleccionar institución",
+    "caseLabel": "{name}, {territory}, {organization}",
+    "caseDescription": "Conocimiento clínico fiable al servicio de la atención asistencial.",
+    "canarias": "CANARIAS"
+  }
+}

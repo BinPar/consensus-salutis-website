@@ -1,0 +1,30 @@
+{
+  "section": {
+    "label": "Success stories"
+  },
+  "intro": {
+    "eyebrow": "Success stories",
+    "titleLead": "The future of healthcare.",
+    "titleAccent": "Already here.",
+    "body": "Healthcare organisations that already use our artificial intelligence to make reliable clinical knowledge easier to reach, support patient care and strengthen continuous improvement."
+  },
+  "cases": {
+    "axia": {
+      "name": "Axia",
+      "organization": "Generalitat de Catalunya",
+      "territory": "Catalonia"
+    },
+    "sermas": {
+      "name": "SERMAS",
+      "organization": "Servicio Madrileño de Salud",
+      "territory": "Community of Madrid"
+    }
+  },
+  "map": {
+    "institutions": "Institutions on the map",
+    "select": "Select institution",
+    "caseLabel": "{name}, {territory}, {organization}",
+    "caseDescription": "Reliable clinical knowledge in support of patient care.",
+    "canarias": "CANARY ISLANDS"
+  }
+}

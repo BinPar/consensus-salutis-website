@@ -1,0 +1,75 @@
+{
+  "date": "2026-10-19",
+  "checks": [
+    {
+      "touch": false,
+      "ring": "inner",
+      "direction": 1,
+      "otherDrag": -0.3334381176710434,
+      "otherInertia": -0.12184102514859602,
+      "dragAngle": 0.2778783349162241,
+      "firstInertia": 0.10150832377966917,
+      "secondInertia": 0.06996568444875916,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": false,
+      "ring": "inner",
+      "direction": -1,
+      "otherDrag": 0.32684490361122825,
+      "otherInertia": 0.12867168970262854,
+      "dragAngle": -0.2723675550457579,
+      "firstInertia": -0.10723025506349546,
+      "secondInertia": -0.07857873495311637,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": false,
+      "ring": "outer",
+      "direction": 1,
+      "otherDrag": -0.2424777918488958,
+      "otherInertia": -0.08532735714426849,
+      "dragAngle": 0.2909868311984104,
+      "firstInertia": 0.08997170177143445,
+      "secondInertia": 0.07429082903973327,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": false,
+      "ring": "outer",
+      "direction": -1,
+      "otherDrag": 0.22617311082319067,
+      "otherInertia": 0.08493337688735432,
+      "dragAngle": -0.27140293769206864,
+      "firstInertia": -0.10190818595996294,
+      "secondInertia": -0.07001721668114275,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": true,
+      "ring": "inner",
+      "direction": 1,
+      "otherDrag": 0,
+      "otherInertia": 0,
+      "dragAngle": 0.27862575036486836,
+      "firstInertia": 0.08676226456691753,
+      "secondInertia": 0.06707727564662412,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": true,
+      "ring": "inner",
+      "direction": -1,
+      "otherDrag": 0,
+      "otherInertia": 0,
+      "dragAngle": -0.2726812925719265,
+      "firstInertia": -0.09345680228377895,
+      "secondInertia": -0.08183457193619048,
+      "dimensionsPreserved": true
+    }
+  ],
+  "note": "En móvil el anillo exterior está oculto por el diseño existente; se valida el arrastre táctil del interior. En escritorio se comprueba el giro opuesto de ambos anillos durante el arrastre y la inercia, iniciando desde cualquiera de ellos y en ambos sentidos.",
+  "pause": true,
+  "reducedMotionControl": true,
+  "pageErrors": []
+}

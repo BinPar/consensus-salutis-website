@@ -1,0 +1,102 @@
+{
+  "date": "2026-10-21",
+  "checks": [
+    {
+      "variant": "gallery",
+      "width": 390,
+      "theme": "light",
+      "columns": 1,
+      "original": true,
+      "overflow": false
+    },
+    {
+      "variant": "topics",
+      "width": 390,
+      "theme": "light",
+      "columns": 1,
+      "original": true,
+      "overflow": false
+    },
+    {
+      "variant": "gallery",
+      "width": 390,
+      "theme": "dark",
+      "columns": 1,
+      "original": true,
+      "overflow": false
+    },
+    {
+      "variant": "topics",
+      "width": 390,
+      "theme": "dark",
+      "columns": 1,
+      "original": true,
+      "overflow": false
+    },
+    {
+      "variant": "gallery",
+      "width": 768,
+      "theme": "light",
+      "columns": 2,
+      "original": true,
+      "overflow": false
+    },
+    {
+      "variant": "topics",
+      "width": 768,
+      "theme": "light",
+      "columns": 2,
+      "original": true,
+      "overflow": false
+    },
+    {
+      "variant": "gallery",
+      "width": 768,
+      "theme": "dark",
+      "columns": 2,
+      "original": true,
+      "overflow": false
+    },
+    {
+      "variant": "topics",
+      "width": 768,
+      "theme": "dark",
+      "columns": 2,
+      "original": true,
+      "overflow": false
+    },
+    {
+      "variant": "gallery",
+      "width": 1280,
+      "theme": "light",
+      "columns": 4,
+      "original": true,
+      "overflow": false
+    },
+    {
+      "variant": "topics",
+      "width": 1280,
+      "theme": "light",
+      "columns": 4,
+      "original": true,
+      "overflow": false
+    },
+    {
+      "variant": "gallery",
+      "width": 1280,
+      "theme": "dark",
+      "columns": 4,
+      "original": true,
+      "overflow": false
+    },
+    {
+      "variant": "topics",
+      "width": 1280,
+      "theme": "dark",
+      "columns": 4,
+      "original": true,
+      "overflow": false
+    }
+  ],
+  "filters": "All categories and reset to Todos verified at each viewport."
+}

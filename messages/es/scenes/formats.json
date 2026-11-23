@@ -1,0 +1,59 @@
+{
+  "tree": {
+    "root": "¿Aclaramiento de creatinina < 30 mL/min?",
+    "branches": {
+      "yes": {
+        "label": "Sí",
+        "result": "AINE contraindicados"
+      },
+      "no": {
+        "label": "No",
+        "result": "Evitar AINE; solo si son imprescindibles"
+      }
+    },
+    "route": "{root} → {label}: {result}"
+  },
+  "schemeCard": {
+    "sources": "Fuentes del esquema"
+  },
+  "schemes": {
+    "intro": "Criterios para valorar el uso de AINE según la función renal:"
+  },
+  "figure": {
+    "afferent": "Arteriola aferente",
+    "nsaid": "AINE",
+    "glomerulus": "Glomérulo",
+    "efferent": "Arteriola eferente",
+    "caption": "Efecto de los AINE sobre la arteriola aferente."
+  },
+  "download": {
+    "schemeTab": "Esquema 1",
+    "preparing": "Preparando imagen…",
+    "download": "Descargar imagen",
+    "savedLabel": "Imagen descargada · PNG",
+    "fileName": "uso-de-aine-en-la-erc.png"
+  },
+  "tables": {
+    "intro": "Fármacos que conviene revisar en la ERC:",
+    "drugHeading": "Fármaco",
+    "noteHeading": "En la ERC",
+    "rows": {
+      "nsaids": {
+        "drug": "AINE",
+        "note": "Evitar; contraindicados si el aclaramiento es inferior a 30 mL/min."
+      },
+      "aceInhibitors": {
+        "drug": "IECA y ARA-II",
+        "note": "Renoprotectores; en fases avanzadas pueden requerir menos dosis."
+      },
+      "potassiumSparing": {
+        "drug": "Ahorradores de potasio",
+        "note": "Evitar en la insuficiencia renal; no asociar con IECA, ARA-II o AINE."
+      }
+    }
+  },
+  "textalt": {
+    "label": "Lector de pantalla",
+    "title": "Recorrido en texto del esquema"
+  }
+}

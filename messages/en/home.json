@@ -1,0 +1,116 @@
+{
+  "horizontal": {
+    "railLabel": "BinPar home page",
+    "scrollHint": "Scroll down to move forward",
+    "panels": [
+      "Home",
+      "Success stories",
+      "Primary care",
+      "Architecture",
+      "Metrics",
+      "Meeting"
+    ]
+  },
+  "sections": {
+    "introduction": "Introduction",
+    "successCases": "Success stories",
+    "process": "How it works",
+    "architecture": "Architecture",
+    "blog": "Blog"
+  },
+  "cover": {
+    "label": "BinPar: traceable clinical answers",
+    "title": "BinPar<line>Traceable clinical answers.</line>",
+    "description": "BinPar, the institutional medical AI that connects guidelines, protocols and medical corpus with clinical practice.",
+    "explore": "Explore"
+  },
+  "hero": {
+    "eyebrow": "Institutional medical AI",
+    "title": "Clinical knowledge <accent>orchestrated by AI.</accent>",
+    "body": "BinPar turns guidelines, protocols and medical corpus into traceable answers for primary care. A serious, auditable AI layer, ready to operate inside a health system.",
+    "mobileBody": "BinPar turns guidelines, protocols and medical corpus into traceable answers for primary care."
+  },
+  "metrics": {
+    "eyebrow": "Operational indicators",
+    "title": "Data volume and continuous updating.",
+    "body": "The platform combines a structured medical knowledge base with each organisation's own clinical guidelines and protocols. Content goes through automated ingestion, evaluation with key questions, clinical validation and controlled publication before it is used in the system's answers.",
+    "items": {
+      "knowledge": "Structured, governable medical knowledge.",
+      "headings": "Clinical headings ready for traceable queries.",
+      "questions": "Questions for continuous evaluation of the system.",
+      "updates": "Urgent updating of relevant content."
+    }
+  },
+  "primaryCare": {
+    "eyebrow": "Query process",
+    "title": "From question to evidence.",
+    "body": "BinPar supports each query from the framing of the clinical question to an answer that is checked against sources, referenced and ready to be reviewed."
+  },
+  "process": {
+    "query": {
+      "title": "Ask the question",
+      "body": "The professional asks a clinical question in natural language, adding the context needed to guide the query.",
+      "signal": "Natural clinical language"
+    },
+    "locate": {
+      "title": "Find relevant knowledge",
+      "body": "The system retrieves relevant knowledge from the medical corpus, clinical guidelines and institutional protocols.",
+      "signal": "Corpus + guidelines + protocols"
+    },
+    "contrast": {
+      "title": "Contrast and prioritise",
+      "body": "The system contrasts the retrieved sources and applies the source priorities set by the organisation.",
+      "signal": "Configurable priorities"
+    },
+    "respond": {
+      "title": "Answer with visible evidence",
+      "body": "The system synthesises a practical answer and links the original excerpt or page behind each conclusion.",
+      "signal": "Reference to the original excerpt"
+    },
+    "review": {
+      "title": "Review and improve",
+      "body": "Professional feedback makes it possible to review content and strengthen the automated tests for future queries.",
+      "signal": "Professional feedback + automated tests"
+    }
+  },
+  "blog": {
+    "eyebrow": "Clinical reading",
+    "title": "Latest <accent>articles</accent>",
+    "body": "Recent reading on medical AI, healthcare trends and new ways of transforming patient care in the health system.",
+    "viewAll": "View all"
+  },
+  "contact": {
+    "eyebrow": "Next step",
+    "title": "A serious conversation about your healthcare organisation.",
+    "body": "We review the use case, security constraints, integration requirements and the level of evidence an institutional pilot needs."
+  },
+  "volume": {
+    "eyebrow": "Volume and updates",
+    "intro": "A structured medical knowledge base that incorporates each organisation's guidelines and protocols, with continuous evaluation and clinical validation.",
+    "heading": {
+      "label": "Knowledge moves on. Our base keeps pace.",
+      "lead": "Knowledge moves on.",
+      "placeholder": "Our base keeps pace.",
+      "typing": "Our base {text}",
+      "phrases": ["keeps pace.", "evolves.", "grows."]
+    },
+    "items": {
+      "knowledge": {
+        "value": "+3",
+        "label": "Structured medical knowledge"
+      },
+      "headings": {
+        "value": "+8,327",
+        "label": "Clinical headings"
+      },
+      "questions": {
+        "value": "+30,000",
+        "label": "Evaluation questions"
+      },
+      "updates": {
+        "value": "<24",
+        "label": "Urgent updates"
+      }
+    }
+  }
+}

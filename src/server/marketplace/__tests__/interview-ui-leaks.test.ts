@@ -30,6 +30,7 @@ const INTERVIEW_PAGE = join(
   process.cwd(),
   "src",
   "app",
+  "(castellano)",
   "evaluador",
   "entrevista",
 );

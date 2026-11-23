@@ -1,0 +1,162 @@
+{
+  "meta": {
+    "title": "Plataforma",
+    "description": "De la consulta clínica a la evidencia: descubre cómo BinPar reúne expertos, contrasta aportaciones y ofrece una orientación con fuentes verificables."
+  },
+  "walkthrough": {
+    "sections": {
+      "platform": "Plataforma",
+      "features": "Funcionalidades",
+      "contact": "Contacto"
+    },
+    "intro": {
+      "eyebrow": "Nuestra plataforma",
+      "title": "De la consulta clínica<br></br><accent>a la evidencia.</accent>",
+      "lead": "Explora la interfaz, los paneles y tu área de usuario con una consulta de ejemplo. Descubre cómo se presenta la respuesta y revisa las fuentes que la respaldan para profundizar en el contexto clínico."
+    },
+    "next": {
+      "eyebrow": "Siguiente paso",
+      "title": "El conocimiento de tu organización, en cada consulta.",
+      "lead": "Exploremos cómo integrar tus guías, protocolos y corpus médico en un entorno de consulta gobernado.",
+      "cta": "Solicitar más información"
+    }
+  },
+  "preview": {
+    "logoAlt": "BinPar",
+    "user": {
+      "initial": "A",
+      "role": "Clínico",
+      "name": "Dra. Ana García",
+      "email": "ana@hospital.example",
+      "organization": "Hospital de demostración"
+    },
+    "navigation": {
+      "label": "Navegación del chat",
+      "brandNewChat": "BinPar · Nuevo chat",
+      "newChat": "Nuevo chat",
+      "closeMobile": "Cerrar navegación del chat",
+      "closeMobileTitle": "Cerrar navegación",
+      "collapse": "Contraer barra lateral",
+      "expand": "Expandir barra lateral",
+      "openMobile": "Abrir navegación del chat",
+      "pinned": "Anclados",
+      "recent": "Recientes",
+      "showPinned": "Ver chats anclados",
+      "showRecent": "Ver conversaciones recientes",
+      "emptyPinned": "No hay chats anclados",
+      "emptyRecent": "No hay conversaciones recientes",
+      "pin": "Anclar {title}",
+      "unpin": "Desanclar {title}",
+      "options": "Opciones de {title}",
+      "optionsTitle": "Opciones",
+      "openProfile": "Abrir perfil y configuración",
+      "resize": "Redimensionar panel de conversaciones"
+    },
+    "chat": {
+      "title": "Consulta clínica",
+      "conversation": "Conversación de ejemplo",
+      "bibliography": "Bibliografía",
+      "scrollBottom": "Ir al final de la conversación",
+      "restart": "Reiniciar consulta",
+      "attach": "Adjuntos disponibles en la plataforma",
+      "chooseExample": "Elegir una consulta de ejemplo",
+      "placeholder": "Pregunta clínica al comité...",
+      "send": "Cargar consulta de ejemplo",
+      "citation": "Ver fuente {order}: {title}"
+    },
+    "source": {
+      "label": "Panel de fuentes de consulta",
+      "resize": "Redimensionar panel de fuentes de consulta",
+      "openDocuments": "Documentos abiertos",
+      "closeTab": "Cerrar {title}",
+      "close": "Cerrar panel de fuentes de consulta",
+      "eyebrow": "Fuente de consulta",
+      "showChapter": "Ver capítulo",
+      "showFullDocument": "Ver documento completo",
+      "backToCitation": "Volver a la cita"
+    },
+    "popup": {
+      "conversationOptions": "Opciones de conversación",
+      "examples": "Consultas de ejemplo",
+      "pinned": "Chats anclados",
+      "recent": "Conversaciones recientes",
+      "pin": "Anclar",
+      "unpin": "Desanclar",
+      "rename": "Renombrar",
+      "delete": "Eliminar"
+    },
+    "editDialog": {
+      "renameTitle": "Renombrar conversación",
+      "deleteTitle": "Eliminar conversación",
+      "nameLabel": "Nombre de la conversación",
+      "deleteBody": "Se eliminará «{title}» de esta demostración.",
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "delete": "Eliminar"
+    },
+    "profile": {
+      "title": "Perfil y configuración",
+      "close": "Cerrar perfil",
+      "themeLight": "Activar tema claro",
+      "themeDark": "Activar tema oscuro",
+      "activeOrganization": "Organización activa",
+      "organizationActive": "Activa",
+      "account": "Cuenta",
+      "status": "Estado:",
+      "statusActive": "Activo",
+      "lastActivity": "Última actividad:",
+      "lastActivityValue": "14 oct 2026, 13:36",
+      "resetTitle": "Reiniciar la demostración",
+      "signOut": "Cerrar sesión"
+    },
+    "document": {
+      "label": "Contenido del documento",
+      "renal": {
+        "etiologyHeading": "Etiología",
+        "etiology": "Las causas de enfermedad renal crónica van a ser distintas en función de la edad del paciente. Así, en la edad pediátrica dominan los problemas congénitos y glomerulares, en pacientes de edad media la poliquistosis renal, y en pacientes mayores la diabetes mellitus y las causas vasculares.",
+        "diabetes": "En números absolutos la diabetes mellitus con nefropatía diabética es la principal causa de ERC a nivel mundial.",
+        "progressionHeading": "Progresión de la ERC.",
+        "progressionAfter": "Pequeñas fluctuaciones del FG no indican necesariamente progresión, por ello se exige que sea un descenso del FG sostenido. La hipertensión arterial (HTA) y la proteinuria serán los factores principales de progresión de la enfermedad y otros factores de riesgo modificables. Otros serán el control de la glucemia en la población diabética, la dislipemia, la hiperuricemia y el control de la acidosis metabólica.",
+        "risksHeading": "Factores de progresión de la enfermedad renal crónica",
+        "risks": [
+          "Proteinuria",
+          "Hipertensión arterial",
+          "Diabetes mellitus",
+          "Enfermedad cardiovascular",
+          "Tabaquismo"
+        ]
+      },
+      "excerptRenal": "Valoración clínica y tratamiento",
+      "excerptHeart": "Insuficiencia cardíaca aguda",
+      "selectCitation": "Selecciona una cita del caso inicial para localizar su fragmento documental.",
+      "pharmacology": "Tratamiento farmacológico",
+      "clinical": "Valoración clínica",
+      "dosingHeading": "Dosis de fármacos y riñón",
+      "dosingWays": [
+        "Disminuyendo la dosis.",
+        "Aumentando el intervalo entre las dosis."
+      ],
+      "nsaidsHeading": "Antiinflamatorios no esteroideos"
+    },
+    "conversations": {
+      "valoracion": "Evaluación inicial de disnea y edema periférico",
+      "seguimiento": "Revisión de la medicación y función renal"
+    },
+    "answers": {
+      "initial": "El cuadro hace sospechar insuficiencia cardiaca, pero no la confirma; también deben valorarse deterioro renal, anemia y otras causas de disnea. La valoración inicial debe integrar síntomas, exploración y pruebas, teniendo en cuenta que la enfermedad renal puede contribuir a la congestión y modificar la interpretación de algunos resultados. [1] [2] [3]\n\nAnamnesis y exploración: precisar la evolución y preguntar por ortopnea, disnea paroxística nocturna, dolor torácico y palpitaciones. Registrar presión arterial, frecuencia cardiaca y respiratoria y saturación; explorar yugulares, crepitantes, edema y signos de hipoperfusión, como frialdad, pulso débil, oliguria o confusión. [1]\n\nPruebas iniciales: ECG, ecocardiograma transtorácico, radiografía de tórax, análisis y BNP o NT-proBNP. Considerar hemograma, función renal, electrolitos, glucemia/HbA1c y orina; si se confirma deterioro renal agudo, la ecografía renal es la primera prueba de imagen para descartar obstrucción. [1] [3]\n\nInterpretación: un BNP o NT-proBNP normal puede ayudar a descartar insuficiencia cardiaca; uno elevado la apoya, pero no la confirma. La enfermedad renal también puede elevarlo, por lo que debe interpretarse junto con la clínica y el ecocardiograma. La radiografía puede ayudar a buscar congestión u otras causas, pero no confirma ni excluye por sí sola la insuficiencia cardiaca. [1]\n\nLa diabetes y la hipertensión aumentan el riesgo de insuficiencia cardiaca; la enfermedad renal también condiciona la valoración de la función renal y el potasio. El ibuprofeno frecuente merece revisión: los AINE pueden deteriorar la función renal, empeorar el control tensional y favorecer una descompensación cardiaca; el corpus recomienda evitarlos en la insuficiencia renal y señala especial cautela si se combinan con IECA, ARA-II o diuréticos. [4] [5] [1] [6] [7]\n\nDefinición universal de IC: deben cumplirse los tres criterios: 1.º síntomas + signos por historia clínica; 2.º alteración estructural/funcional por imagen cardíaca; 3.º aumento de presiones de llenado intraventricular (por péptidos natriuréticos elevados, congestión pulmonar/sistémica en imagen, o medición invasiva por cateterismo).\n\nSignos de alarma: empeoramiento rápido, especialmente disnea en reposo o deterioro respiratorio, requiere atención urgente. Hipotensión con signos de hipoperfusión —como piel fría, oliguria o alteración del estado mental— es preocupante por posible shock. El edema agudo de pulmón, la hiperpotasemia tóxica y la acidosis metabólica extrema son complicaciones graves descritas en el fracaso renal agudo. [1] [8] [1] [3]",
+      "followup": "Para precisar el cuadro, recopilaría la evolución de los síntomas, su impacto en las actividades, si empeora al acostarse o despierta por falta de aire, y si hay dolor torácico, palpitaciones, mareo o síncope. Preguntaría también por cambios en la diuresis y en el peso, comparándolo con el habitual; un aumento de 2 kg en 3 días figura como signo de descompensación que conviene vigilar. [1] [1,2]\n\nEn la exploración, faltan presión arterial, frecuencia cardiaca y respiratoria, saturación, peso actual y datos de congestión o perfusión. Para interpretar la evolución renal, reuniría los resultados previos y actuales de creatinina y filtrado glomerular con sus fechas, además de potasio, albuminuria/proteinuria y sedimento urinario; si parece un deterioro reciente, aclararía cambios de diuresis, hipotensión, pérdidas de volumen, infecciones y cambios recientes de tratamiento. [1] [3] [4]\n\nPara revisar la medicación, pediría una lista completa de fármacos prescritos y sin receta, con dosis, frecuencia, motivo, duración y cambios recientes; comprobaría también adherencia, interrupciones y uso de suplementos. Cuantificaría en particular el ibuprofeno —cuánto toma y cuándo fue la última toma— y preguntaría por otros AINE, IECA o ARA-II, diuréticos y fármacos ahorradores de potasio. [5] [1] [6]\n\nLa función renal y el potasio son datos clave para revisar tratamientos que puedan requerir ajuste o control. Si toma IECA o ARA-II, anotaría cuándo se iniciaron o modificaron y qué controles analíticos se hicieron; la combinación de AINE con IECA/ARA-II o diuréticos merece especial atención en la ERC. [6] [6,7]\n\nTambién ayudaría conocer antecedentes de insuficiencia cardiaca, infarto o enfermedad coronaria, arritmias y valvulopatía, así como los tratamientos ya indicados para el corazón, la presión arterial y la diabetes. Si están disponibles, revisaría ECG, ecocardiograma, radiografía de tórax y analítica —incluidos hemograma, función renal y electrolitos—; la enfermedad renal puede elevar BNP o NT-proBNP, por lo que esos resultados requieren interpretación junto con la clínica. [8] [9] [1]"
+    },
+    "references": {
+      "heartFailure": "Manual ProMIR · Cardiología · Insuficiencia cardíaca.",
+      "chronicKidneyFailure": "Manual ProMIR · Nefrología · Insuficiencia renal crónica.",
+      "acuteKidneyFailure": "Manual ProMIR · Nefrología · Fracaso renal agudo.",
+      "hypertension": "Manual ProMIR · Cardiología · Hipertensión arterial. Prevención, detección, diagnóstico y tratamiento.",
+      "cardiovascularRisk": "Manual ProMIR · Cardiología · Riesgo cardiovascular. Prevención de las enfermedades cardiovasculares ateroscleróticas a través del control de los factores de riesgo cardiovascular.",
+      "thoracicSyndromes": "Manual ProMIR · Radiología-Urgencias · Síndromes torácicos en urgencias.",
+      "nephrologyBody": "Manual ProMIR · Nefrología · Cuerpo de texto.",
+      "basicCardiology": "Manual ProMIR · Cardiología · Cardiología básica.",
+      "heartFailureSection": "Insuficiencia cardíaca.",
+      "chronicKidneyDefinition": "Enfermedad renal crónica (ERC) e insuficiencia renal crónica (IRC) · Definición."
+    }
+  }
+}

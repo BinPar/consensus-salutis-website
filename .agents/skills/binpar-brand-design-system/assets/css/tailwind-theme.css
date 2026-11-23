@@ -1,0 +1,68 @@
+/* BinPar Tailwind v4 theme. Superset of the website's production @theme:
+   existing class names (primary-light, secondary-dark, shadow-big-blocks…) keep working.
+   Load Sora + Plus Jakarta Sans via next/font (variables --font-sora, --font-plus-jakarta-sans)
+   or Google Fonts. */
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --breakpoint-3xl: 2000px;
+
+  /* Accents: *-light = value while the light theme is active, *-dark = in dark. */
+  --color-primary-light: #006d79;
+  --color-primary-dark: #00bcbb;
+  --color-primary-dark-lighter: #71fffe;
+  --color-secondary-light: #ffd230;
+  --color-secondary-dark: #f6ff53;
+
+  /* Brand surfaces and ink */
+  --color-navy: #05215e;
+  --color-ice: #f4f9fc;
+  --color-night: #06111f;
+  --color-night-deep: #030916;
+  --color-night-panel: #081827;
+  --color-night-card: #152230;
+
+  --font-sans:
+    var(--font-plus-jakarta-sans), "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-display: var(--font-sora), "Sora", ui-sans-serif, system-ui, sans-serif;
+  --font-system:
+    ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+
+  --shadow-big-blocks:
+    0 4px 30px 0 color-mix(in srgb, var(--color-primary-light), transparent 90%),
+    0 2px 6px 2px color-mix(in srgb, var(--color-primary-light), transparent 98%);
+  --shadow-halo: 0 0 18px 0 rgb(83 234 253 / 8%);
+
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-emphasized: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer utilities {
+  .font-body {
+    font-family: var(--font-plus-jakarta-sans), "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  }
+  .bg-grid {
+    background-image:
+      linear-gradient(rgb(8 145 178 / 10%) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(8 145 178 / 10%) 1px, transparent 1px);
+    background-size: 44px 44px;
+  }
+  .dark .bg-grid {
+    background-image:
+      linear-gradient(rgb(0 188 187 / 4.5%) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(0 188 187 / 4.5%) 1px, transparent 1px);
+  }
+}
+
+/* Typical pairs:
+   page     bg-ice text-slate-600 dark:bg-night dark:text-slate-400
+   heading  font-display font-extrabold tracking-tight text-navy dark:text-slate-50
+   accent   text-primary-light dark:text-primary-dark
+   card     rounded-2xl border border-cyan-800/15 bg-white/80 shadow-big-blocks backdrop-blur-xs
+            dark:border-cyan-300/20 dark:bg-night-card/90 dark:shadow-halo
+   primary  rounded-full bg-primary-light text-white hover:-translate-y-0.5 hover:bg-[#085b67]
+            dark:bg-primary-dark dark:text-[#04111e] dark:hover:bg-primary-dark-lighter */

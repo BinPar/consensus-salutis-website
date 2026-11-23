@@ -1,0 +1,60 @@
+{
+  "source": {
+    "title": "Manual ProMIR · Nefroloxía",
+    "chapter": "Risco cardiovascular e enfermidade renal"
+  },
+  "chatHeader": {
+    "brand": "BinPar"
+  },
+  "composer": {
+    "placeholder": "Pregunta clínica ao comité...",
+    "responding": "O comité está respondendo..."
+  },
+  "bibliography": {
+    "heading": "Bibliografía"
+  },
+  "sourcePanel": {
+    "eyebrow": "Fonte de consulta",
+    "fullDocument": "Ver documento completo"
+  },
+  "passage": {
+    "heading": "Antiinflamatorios non esteroideos"
+  },
+  "viewer": {
+    "heading": "Doses de fármacos e ril",
+    "methods": ["Diminuíndo a dose.", "Aumentando o intervalo entre as doses."]
+  },
+  "updates": {
+    "notice": "Anterior á actualización: unha fonte posterior actualizou parte desta unidade, así que esta pasaxe pode recoller un dato xa substituído."
+  },
+  "preserved": {
+    "document": "Documento do corpus",
+    "withdrawn": "Documento retirado do corpus",
+    "kept": "Conservado coa resposta",
+    "passage": "Pasaxe citada"
+  },
+  "verified": {
+    "answer": {
+      "label": "Na resposta",
+      "title": "Cita [4]"
+    },
+    "original": {
+      "label": "No PDF orixinal",
+      "title": "Páx. 412"
+    },
+    "status": {
+      "verified": "Texto verificado",
+      "verifying": "Verificando o texto"
+    },
+    "detail": {
+      "verified": "Coincide co PDF orixinal",
+      "verifying": "Contrastando co PDF"
+    }
+  },
+  "provenance": {
+    "document": "Documento",
+    "chapter": "Capítulo",
+    "section": "Apartado",
+    "page": "Páxina"
+  }
+}

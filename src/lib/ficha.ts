@@ -45,7 +45,7 @@
  * 3. Máximo 28 caracteres con un valor realista. Lo comprueba `ficha.test.ts`.
  */
 
-import { mayusculaInicial } from "~/lib/opciones";
+import { esTodas, mayusculaInicial } from "~/lib/opciones";
 
 /** Forma del valor de un campo. Decide qué control se pinta para corregirlo. */
 export type FichaKind = "texto" | "numero" | "booleano" | "lista";
@@ -208,7 +208,12 @@ const FIELD_TABLE: Record<
       "especialidades",
       "lista",
       "Especialidades",
-      (v) => plural(lista(v).length, "especialidad"),
+      // «Todas» no se cuenta: es UN elemento de la lista y el contador lo pintaba
+      // «1 especialidad» justo sobre el hospital que consulta con toda la casa.
+      (v) =>
+        lista(v).some(esTodas)
+          ? "Todas las especialidades"
+          : plural(lista(v).length, "especialidad"),
     ],
     [
       "ambitoPublico",

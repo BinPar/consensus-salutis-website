@@ -1,0 +1,180 @@
+{
+  "scope": "Team Astra · Guiada",
+  "simulatedSeconds": 320,
+  "automaticRotation": {
+    "seen": {
+      "inner": [
+        "adrian-rodriguez",
+        "alberto-blanco",
+        "beatriz-ortega",
+        "carolina-carcamo",
+        "cristian-alvarez",
+        "fabian-padilla",
+        "guillermo-hernandez",
+        "ignacio-ferro",
+        "isabel-ferro",
+        "jeronimo-ekerdt",
+        "jimmy-montano",
+        "marcos-gonzalez",
+        "nicolas-arianoutsos",
+        "pablo-emilio",
+        "tihomir-nikolaev",
+        "yaiza-vallejo"
+      ],
+      "outer": [
+        "adrian-rodriguez",
+        "alberto-blanco",
+        "beatriz-ortega",
+        "carolina-carcamo",
+        "cristian-alvarez",
+        "fabian-padilla",
+        "guillermo-hernandez",
+        "ignacio-ferro",
+        "isabel-ferro",
+        "jeronimo-ekerdt",
+        "jimmy-montano",
+        "marcos-gonzalez",
+        "nicolas-arianoutsos",
+        "pablo-emilio",
+        "tihomir-nikolaev",
+        "yaiza-vallejo"
+      ]
+    },
+    "expected": [
+      "adrian-rodriguez",
+      "alberto-blanco",
+      "beatriz-ortega",
+      "carolina-carcamo",
+      "cristian-alvarez",
+      "fabian-padilla",
+      "guillermo-hernandez",
+      "ignacio-ferro",
+      "isabel-ferro",
+      "jeronimo-ekerdt",
+      "jimmy-montano",
+      "marcos-gonzalez",
+      "nicolas-arianoutsos",
+      "pablo-emilio",
+      "tihomir-nikolaev",
+      "yaiza-vallejo"
+    ],
+    "hiddenSwaps": true,
+    "swaps": 80,
+    "initialOrders": {
+      "inner": [
+        "carolina-carcamo",
+        "tihomir-nikolaev",
+        "marcos-gonzalez",
+        "ignacio-ferro",
+        "fabian-padilla",
+        "jimmy-montano",
+        "cristian-alvarez",
+        "alberto-blanco"
+      ],
+      "outer": [
+        "jeronimo-ekerdt",
+        "beatriz-ortega",
+        "adrian-rodriguez",
+        "guillermo-hernandez",
+        "isabel-ferro",
+        "nicolas-arianoutsos",
+        "pablo-emilio",
+        "yaiza-vallejo"
+      ]
+    },
+    "dimensionsUnchanged": true,
+    "counts": {
+      "inner": 14,
+      "outer": 16
+    },
+    "randomizedOnReload": true,
+    "pause": true,
+    "reducedMotion": true,
+    "pageErrors": [],
+    "uniqueAcrossBothRings": true
+  },
+  "dragAndInertia": [
+    {
+      "touch": false,
+      "ring": "inner",
+      "direction": 1,
+      "otherDrag": -0.13677086057101953,
+      "otherInertia": -0.0573370977691239,
+      "dragAngle": 0.27870538751799667,
+      "firstInertia": 0.10344200291754796,
+      "secondInertia": 0.07062448725847181,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": false,
+      "ring": "inner",
+      "direction": -1,
+      "otherDrag": 0.13275244980069853,
+      "otherInertia": 0.04934097471274144,
+      "dragAngle": -0.26515410202886724,
+      "firstInertia": -0.0839908213526524,
+      "secondInertia": -0.06915834564146606,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": false,
+      "ring": "outer",
+      "direction": 1,
+      "otherDrag": -0.15332027983796073,
+      "otherInertia": -0.047930714186097595,
+      "dragAngle": 0.2880829492683887,
+      "firstInertia": 0.09550714664413906,
+      "secondInertia": 0.04884787661806289,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": false,
+      "ring": "outer",
+      "direction": -1,
+      "otherDrag": 0.1373880418811599,
+      "otherInertia": 0.04951805506416299,
+      "dragAngle": -0.27488774752486717,
+      "firstInertia": -0.10116712058647559,
+      "secondInertia": -0.06485218470014059,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": false,
+      "memberAudit": {
+        "duplicates": 0,
+        "visibleSwaps": 0,
+        "swaps": 4
+      }
+    },
+    {
+      "touch": true,
+      "ring": "inner",
+      "direction": 1,
+      "otherDrag": 0,
+      "otherInertia": 0,
+      "dragAngle": 0.27445950260359403,
+      "firstInertia": 0.08573318049900097,
+      "secondInertia": 0.05931040397587566,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": true,
+      "ring": "inner",
+      "direction": -1,
+      "otherDrag": 0,
+      "otherInertia": 0,
+      "dragAngle": -0.27261360229355747,
+      "firstInertia": -0.09094110686939032,
+      "secondInertia": -0.0789054145815162,
+      "dimensionsPreserved": true
+    },
+    {
+      "touch": true,
+      "memberAudit": {
+        "duplicates": 0,
+        "visibleSwaps": 0,
+        "swaps": 2
+      }
+    }
+  ]
+}

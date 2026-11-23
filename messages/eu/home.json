@@ -1,0 +1,116 @@
+{
+  "horizontal": {
+    "railLabel": "BinPar-en hasierako orria",
+    "scrollHint": "Aurrera egiteko, mugitu orria bertikalean",
+    "panels": [
+      "Hasiera",
+      "Arrakasta-kasuak",
+      "Lehen mailako arreta",
+      "Arkitektura",
+      "Metrikak",
+      "Bilera"
+    ]
+  },
+  "sections": {
+    "introduction": "Aurkezpena",
+    "successCases": "Arrakasta-kasuak",
+    "process": "Nola funtzionatzen duen",
+    "architecture": "Arkitektura",
+    "blog": "Bloga"
+  },
+  "cover": {
+    "label": "BinPar: trazabilitatea duten erantzun klinikoak",
+    "title": "BinPar<line>Trazabilitatea duten erantzun klinikoak.</line>",
+    "description": "BinPar: gidak, protokoloak eta corpus medikoa praktika klinikoarekin lotzen dituen adimen artifizial mediko instituzionala.",
+    "explore": "Ezagutu"
+  },
+  "hero": {
+    "eyebrow": "AA mediko instituzionala",
+    "title": "Ezagutza klinikoa, <accent>adimen artifizialak orkestratua.</accent>",
+    "body": "BinPar-ek gidak, protokoloak eta corpus medikoa trazabilitatea duten erantzun bihurtzen ditu lehen mailako arretarako. Adimen artifizialeko geruza serioa, auditagarria eta osasun-sistema baten barruan jarduteko prestatua.",
+    "mobileBody": "BinPar-ek gidak, protokoloak eta corpus medikoa trazabilitatea duten erantzun bihurtzen ditu lehen mailako arretarako."
+  },
+  "metrics": {
+    "eyebrow": "Adierazle operatiboak",
+    "title": "Datu-bolumena eta etengabeko eguneratzea.",
+    "body": "Plataformak ezagutza-base mediko egituratu bat konbinatzen du erakunde bakoitzaren gida kliniko eta protokolo propioekin. Edukiak, sistemaren erantzunetan sartu aurretik, prozesu automatizatuetatik igarotzen dira: karga, galdera gakoen bidezko ebaluazioa, balidazio klinikoa eta argitalpen kontrolatua.",
+    "items": {
+      "knowledge": "Ezagutza mediko egituratua eta gobernagarria.",
+      "headings": "Epigrafe klinikoak, trazabilitatea duen kontsultarako prest.",
+      "questions": "Sistema etengabe ebaluatzeko galderak.",
+      "updates": "Eduki garrantzitsuen premiazko eguneratzea."
+    }
+  },
+  "primaryCare": {
+    "eyebrow": "Kontsulta-prozesua",
+    "title": "Galderatik ebidentziara.",
+    "body": "BinPar kontsulta bakoitzaren bidelagun da: zalantza klinikoa formulatzen denetik erantzun kontrastatua, erreferentziaduna eta berrikusteko prest dagoena lortu arte."
+  },
+  "process": {
+    "query": {
+      "title": "Kontsulta egitea",
+      "body": "Profesionalak zalantza kliniko bat hizkuntza naturalean formulatzen du, eta kontsulta bideratzeko behar den testuingurua ematen du.",
+      "signal": "Hizkuntza kliniko naturala"
+    },
+    "locate": {
+      "title": "Ezagutza esanguratsua aurkitzea",
+      "body": "Sistemak ezagutza esanguratsua berreskuratzen du corpus medikotik, gida klinikoetatik eta erakundearen protokoloetatik.",
+      "signal": "Corpusa + gidak + protokoloak"
+    },
+    "contrast": {
+      "title": "Kontrastatzea eta lehenestea",
+      "body": "Sistemak berreskuratutako iturriak kontrastatzen ditu, eta erakundeak zehaztutako dokumentu-lehentasunak aplikatzen ditu.",
+      "signal": "Lehentasun konfiguragarriak"
+    },
+    "respond": {
+      "title": "Ebidentzia agerian utzita erantzutea",
+      "body": "Sistemak erantzun operatibo bat sintetizatzen du, eta ondorio bakoitzaren oinarri den jatorrizko zatia edo orria estekatzen du.",
+      "signal": "Jatorrizko zatiaren erreferentzia"
+    },
+    "review": {
+      "title": "Berrikustea eta hobetzea",
+      "body": "Profesionalen balorazioari esker, edukiak berrikusi eta proba automatikoak sendotu daitezke hurrengo kontsultetarako.",
+      "signal": "Profesionalen balorazioa + proba automatikoak"
+    }
+  },
+  "blog": {
+    "eyebrow": "Irakurgai klinikoak",
+    "title": "Azken <accent>artikuluak</accent>",
+    "body": "Adimen artifizial medikoari, osasun-arloko joerei eta osasun-sisteman pazientearen arreta eraldatzeko modu berriei buruzko azken irakurgaiak.",
+    "viewAll": "Ikusi guztiak"
+  },
+  "contact": {
+    "eyebrow": "Hurrengo urratsa",
+    "title": "Elkarrizketa serio bat zure osasun-erakundeari buruz.",
+    "body": "Erabilera-kasua, segurtasun-murrizketak, integrazio-eskakizunak eta proiektu pilotu instituzional baterako behar den ebidentzia-maila aztertzen ditugu."
+  },
+  "volume": {
+    "eyebrow": "Bolumena eta eguneratzea",
+    "intro": "Erakunde bakoitzaren gidak eta protokoloak biltzen dituen base mediko egituratua, etengabe ebaluatua eta klinikoki balidatua.",
+    "heading": {
+      "label": "Ezagutza aurrera doa. Basea eguneratzen da.",
+      "lead": "Ezagutza aurrera doa.",
+      "placeholder": "Basea eguneratzen da.",
+      "typing": "Basea {text}",
+      "phrases": ["eguneratzen da.", "garatzen da.", "hazten da."]
+    },
+    "items": {
+      "knowledge": {
+        "value": "+3",
+        "label": "Ezagutza mediko egituratua"
+      },
+      "headings": {
+        "value": "+8.327",
+        "label": "Epigrafe klinikoak"
+      },
+      "questions": {
+        "value": "+30.000",
+        "label": "Ebaluazio-galderak"
+      },
+      "updates": {
+        "value": "<24",
+        "label": "Premiazko eguneratzea"
+      }
+    }
+  }
+}

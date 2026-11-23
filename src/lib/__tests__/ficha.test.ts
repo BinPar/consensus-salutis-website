@@ -26,6 +26,7 @@ import {
   plural,
   toInputValue,
   type Ficha,
+  type FichaValue,
 } from "~/lib/ficha";
 
 /*
@@ -238,6 +239,34 @@ describe("las 28 plantillas se leen sin su etiqueta", () => {
     }).map((spec) => spec.path);
 
     expect(offenders).toEqual([]);
+  });
+});
+
+/*
+  «Todas las especialidades» es UN elemento de la lista, así que el contador la
+  pintaba «1 especialidad» — y con la lista que el modelo había ofrecido, «7».
+  Las dos cifras eran falsas sobre un hospital que consulta con toda la casa.
+*/
+describe("la plantilla de especialidades no cuenta «todas»", () => {
+  const chip = (valor: FichaValue) =>
+    fichaFieldByPath("perfil.especialidades")!.chip(valor);
+
+  it("dice «todas» con palabras en vez de contar uno", () => {
+    expect(chip(["Todas las especialidades"])).toBe("Todas las especialidades");
+    expect(chip(["todas las especialidades de la medicina"])).toBe(
+      "Todas las especialidades",
+    );
+  });
+
+  it("«todas» manda aunque venga con nombres al lado", () => {
+    expect(chip(["Cardiología", "Todas las especialidades"])).toBe(
+      "Todas las especialidades",
+    );
+  });
+
+  it("una lista de especialidades sigue contándose", () => {
+    expect(chip(["Cardiología", "Pediatría"])).toBe("2 especialidades");
+    expect(chip(["Radiología"])).toBe("1 especialidad");
   });
 });
 

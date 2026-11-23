@@ -1,0 +1,129 @@
+{
+  "meta": {
+    "index": {
+      "title": "Our blog",
+      "description": "Recent reading on medical AI, healthcare trends and new ways of transforming patient care in the health system."
+    },
+    "tag": {
+      "title": "Articles on {tag}",
+      "description": "BinPar clinical reading tagged ‘{tag}’.",
+      "notFound": "Tag not found"
+    },
+    "post": {
+      "notFound": "Article not found"
+    }
+  },
+  "og": {
+    "alt": "BinPar · Clinical reading",
+    "eyebrow": "Clinical reading",
+    "fallbackTitle": "Clinical reading"
+  },
+  "rss": {
+    "title": "BinPar · Clinical reading",
+    "description": "Recent reading on medical AI, healthcare trends and new ways of transforming patient care in the health system."
+  },
+  "authors": {
+    "alberto-blanco": {
+      "role": "Technical leadership, BinPar"
+    },
+    "equipo-consensus-salutis": {
+      "role": "Product and clinical evidence"
+    }
+  },
+  "post": {
+    "readTime": "{minutes} min read"
+  },
+  "hero": {
+    "eyebrow": "Clinical reading · Blog",
+    "title": "Knowledge<br></br><accent>keeps moving forward.</accent>",
+    "body": "We explore how medical AI is evolving and its role in clinical practice. We share reading and perspectives to understand the advances, compare approaches and bring knowledge closer to the everyday challenges of patient care.",
+    "cta": "Explore articles",
+    "latest": "Latest post",
+    "number": "No. {number}"
+  },
+  "featured": {
+    "prompt": "Show me the latest blog article.",
+    "placeholder": "Ask the committee…",
+    "answering": "The committee is answering…",
+    "committee": "Clinical committee",
+    "articleLabel": "Latest blog article",
+    "readArticle": "Read article: {title}"
+  },
+  "gallery": {
+    "label": "Blog articles",
+    "allArticles": "All articles",
+    "noResults": {
+      "title": "No articles found.",
+      "body": "Try another search or change the selected tag."
+    }
+  },
+  "emptyState": {
+    "title": "No articles published yet.",
+    "body": "We're preparing the first pieces. If you'd like us to let you know when we publish, write to us.",
+    "action": "Talk to the team"
+  },
+  "tagFilter": {
+    "label": "Tag filter",
+    "all": "All",
+    "entry": "{label}: {count, plural, one {# article} other {# articles}}"
+  },
+  "tagSelect": {
+    "label": "Filter by tag",
+    "noun": {
+      "one": "article",
+      "other": "articles"
+    }
+  },
+  "sort": {
+    "label": "Sort articles",
+    "options": {
+      "newest": "Newest",
+      "oldest": "Oldest",
+      "title": "Title (A–Z)"
+    }
+  },
+  "viewToggle": {
+    "label": "Gallery view",
+    "options": {
+      "grid": "Card view",
+      "list": "List view"
+    }
+  },
+  "search": {
+    "label": "Search articles",
+    "placeholder": "{label}…",
+    "focus": "Focus search",
+    "clear": "Close and clear search"
+  },
+  "pagination": {
+    "label": "Blog pagination",
+    "status": "Page {page} of {total}",
+    "previous": "Previous page",
+    "next": "Next page",
+    "current": "Page {page}, current",
+    "goTo": "Go to page {page}",
+    "pageSize": "Results per page",
+    "pageSizeValue": "Results per page: {size}",
+    "all": "All"
+  },
+  "list": {
+    "label": "Articles in list format",
+    "number": "No. {number}"
+  },
+  "article": {
+    "metadataLabel": "Article information",
+    "byAuthor": "By {name}",
+    "updated": "Updated on {date}",
+    "topics": "Topics",
+    "tagsLabel": "Article tags",
+    "relatedLabel": "Related articles",
+    "relatedTitle": "You might also like",
+    "back": "Back to the blog"
+  },
+  "readingLayout": {
+    "label": "Article reading guide",
+    "contents": "In this article",
+    "tocLabel": "Article contents",
+    "explore": "Explore the blog"
+  }
+}
