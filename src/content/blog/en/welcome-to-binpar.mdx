@@ -1,0 +1,54 @@
+---
+title: "Welcome to BinPar. Clinical evidence, always in order."
+excerpt: "What the platform does, what it does not do and what this blog will cover: criteria, mechanisms and limits of clinical AI in a healthcare organisation."
+date: 2026-11-23
+author: equipo-consensus-salutis
+type: nota-de-producto
+tags: ["Verifiable consensus", "Traceability", "Knowledge governance"]
+image: /img/blog/bienvenida-a-binpar.webp
+imageAlt: "Cloud of scattered turquoise dots that line up into a signal line with regular nodes and flows into three stacked glass planes with rows of ordered blocks"
+draft: false
+translationKey: bienvenida-a-binpar
+---
+
+BinPar (formerly Consensus Salutis) is an institutional medical AI platform that turns clinical guidelines, protocols and medical corpus into traceable answers. With the new website we are also opening this blog, where we will explain how that traceability is built, how we measure it and where it ends.
+
+## What is available
+
+A primary care clinician raises their question as they would in a clinical session: the case, the history, the medication and what concerns them. The platform retrieves the relevant knowledge from their organisation's guidelines and protocols, contrasts the sources and returns an answer in which every statement links to the passage that supports it. That passage opens in its document, on the original page and highlighted.
+
+Behind it are three capabilities: the BinPar team in product and engineering, Editorial Médica Panamericana in clinical knowledge and AWS in infrastructure.
+
+<figure>
+  <img src="/img/blog/bienvenida-a-binpar/tres-capacidades.en.svg" alt="Three stacked bands, each with a logo and its role: BinPar, product and engineering; Editorial Médica Panamericana, clinical knowledge; AWS, infrastructure. All three converge on a box labelled traceable answers." width="1200" height="560" loading="lazy" />
+  <figcaption>Each capability is responsible for a different part of the system, and all three support the same answer.</figcaption>
+</figure>
+
+## The problem with an answer that only sounds right
+
+A clinical answer can sound correct and still omit a contraindication, mix a current guideline with a withdrawn edition or overlook the centre's own protocol. If you cannot check where each sentence comes from, the reader is left with two options: believe it or repeat the search. Neither holds up in front of a quality committee.
+
+The alternative is what we call **verifiable consensus**: a conclusion anyone can trace back to the document and page it comes from.
+
+## How it works
+
+- **The consultation.** The expert committee brings together the input of each specialty, and each one is consulted on its own corpus, in the version that applies to the clinician's centre. If the answer depends on a value that has not been given, such as the glomerular filtration rate, the question comes before the answer.
+- **Visible evidence.** Anything without a citation is removed from the answer. When the guideline does not cover something, the answer says so instead of filling the gap.
+- **Clinical knowledge governance.** The organisation decides which documents its committee consults. A new document is reviewed before it is published, every change is versioned and a battery of control questions checks, after each change, that answers have not got worse.
+
+<figure>
+  <img src="/img/blog/bienvenida-a-binpar/como-funciona.en.svg" alt="Left-to-right flow: question, expert committee with three specialties and their corpus, answer with citations, and clinical decision highlighted in yellow. Below the committee, a dashed box for knowledge governance." width="1200" height="640" loading="lazy" />
+  <figcaption>The query goes through the committee and reaches an answer with citations. The decision, marked in yellow, stays with the clinician.</figcaption>
+</figure>
+
+## What it does not do
+
+The platform does not diagnose, does not prescribe and does not replace professional judgement: the system orders the evidence and the clinician decides. Nor does it answer beyond the library it starts from. If a guideline is not in the corpus, its content does not appear in the answer, which is why document coverage is agreed with each organisation before deployment.
+
+## What you will read here
+
+This blog is not a news feed. We will publish criteria for evaluating clinical AI, mechanisms that explain what must hold for a citation to stay useful, and measurements of what we do, including what fails when we measure it.
+
+We start with two pieces that accompany two videos recorded on the platform in production. The first walks through [what happens between the question and the citation](/en/blog/from-question-to-citation) in a real consultation. The second explains [how a guideline enters the corpus](/en/blog/from-pdf-to-corpus) before an answer can cite it.
+
+If you want to assess how it would fit your organisation, [we will review the use case, the security constraints and the level of evidence required with you](/en/contact).

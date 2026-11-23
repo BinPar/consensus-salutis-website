@@ -12,6 +12,7 @@ export const articleBodyClassName = [
   "[&>img]:my-7 [&>img]:w-full [&>img]:rounded-xl [&>img]:border [&>img]:border-cyan-800/10 [&>img]:shadow-big-blocks dark:[&>img]:border-cyan-300/15",
   "[&>p>img]:my-3 [&>p>img]:w-full [&>p>img]:rounded-xl [&>p>img]:border [&>p>img]:border-cyan-800/10 [&>p>img]:shadow-big-blocks dark:[&>p>img]:border-cyan-300/15",
   "[&>figure]:my-7 [&>figure>img]:w-full [&>figure>img]:rounded-xl [&>figure>img]:border [&>figure>img]:border-cyan-800/10 [&>figure>img]:shadow-big-blocks dark:[&>figure>img]:border-cyan-300/15",
+  "[&>figure>video]:aspect-video [&>figure>video]:w-full [&>figure>video]:rounded-xl [&>figure>video]:border [&>figure>video]:border-cyan-800/10 [&>figure>video]:bg-navy [&>figure>video]:shadow-big-blocks dark:[&>figure>video]:border-cyan-300/15",
   "[&>figure>figcaption]:mt-3 [&>figure>figcaption]:text-sm [&>figure>figcaption]:leading-6 [&>figure>figcaption]:text-slate-500 dark:[&>figure>figcaption]:text-slate-400",
   "[&>hr]:my-8 [&>hr]:border-cyan-800/15 dark:[&>hr]:border-cyan-300/15",
   "[&_a]:font-semibold [&_a]:text-primary-light [&_a]:underline-offset-4 hover:[&_a]:underline dark:[&_a]:text-primary-dark",

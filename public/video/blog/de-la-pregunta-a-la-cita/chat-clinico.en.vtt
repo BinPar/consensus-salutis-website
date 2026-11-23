@@ -1,0 +1,164 @@
+WEBVTT
+
+00:02.600 --> 00:05.159
+This is how BinPar's clinical chat answers:
+
+00:05.785 --> 00:08.801
+what happens from the moment the clinician
+types the question until they open
+
+00:08.841 --> 00:10.252
+the source that supports it.
+
+00:11.680 --> 00:15.776
+Each organisation signs in through its
+own domain, with its own design.
+
+00:16.069 --> 00:20.443
+The clinician's profile, for example
+family medicine in primary care,
+
+00:20.865 --> 00:24.850
+suggests which specialties to ask,
+without hiding any content.
+
+00:26.218 --> 00:27.900
+The clinician chooses the mode.
+
+00:27.940 --> 00:32.104
+Standard answers sooner; Precision
+spends more time on each answer.
+
+00:32.144 --> 00:36.352
+Then they type the question,
+as they would ask a colleague.
+
+00:37.757 --> 00:40.020
+On sending, the context is gathered:
+
+00:40.350 --> 00:44.865
+the organisation's committee, the profile,
+the earlier conversation and the clinician's
+
+00:44.905 --> 00:46.391
+answer preferences.
+
+00:47.016 --> 00:51.069
+An evidence map runs through every
+corpus and flags which specialties
+
+00:51.109 --> 00:53.002
+cover the topic, and in which sections.
+
+00:54.319 --> 00:58.612
+With that map, the committee coordination
+selects which specialties to ask,
+
+00:58.652 --> 01:00.908
+and with which sub-query.
+
+01:00.948 --> 01:04.186
+It can consult several at once, and return
+to one if its answer leaves something
+
+01:04.226 --> 01:05.426
+open.
+
+01:06.152 --> 01:10.668
+Each specialty works from its entire corpus,
+not loose excerpts from a search,
+
+01:10.708 --> 01:13.693
+in the version that applies
+to the clinician's centre.
+
+01:14.837 --> 01:16.193
+It answers by citing its units.
+
+01:16.578 --> 01:20.248
+If the topic is not in its corpus, it says so,
+and that answer counts too.
+
+01:21.787 --> 01:25.087
+Meanwhile, the clinician
+sees the work in progress:
+
+01:25.472 --> 01:29.895
+a short line on what is being
+consulted, and a card per specialty,
+
+01:29.935 --> 01:32.346
+with its status and the
+pages it has reviewed.
+
+01:33.065 --> 01:36.031
+When the answer starts, it all
+collapses into a single line.
+
+01:37.618 --> 01:42.023
+If the guideline distinguishes cases and
+a value is missing, such as kidney function,
+
+01:42.063 --> 01:44.678
+the chat asks before answering,
+with closed options.
+
+01:45.304 --> 01:47.567
+It never asks about drugs or doses.
+
+01:47.896 --> 01:51.004
+The clinician's reply resumes the
+query, without repeating the work
+
+01:51.044 --> 01:52.244
+already done.
+
+01:53.329 --> 01:57.185
+The answer is drafted from the
+specialties' contributions.
+
+01:57.792 --> 02:00.956
+On closing it, each statement is linked
+to the exact unit that supports it,
+
+02:00.996 --> 02:03.407
+and anything without a citation is removed.
+
+02:03.996 --> 02:06.462
+If the guideline does not cover it,
+the answer says so.
+
+02:07.070 --> 02:10.659
+General knowledge is added only when
+the organisation allows it, and always
+
+02:10.699 --> 02:11.899
+flagged.
+
+02:12.705 --> 02:16.135
+Any citation opens in its source,
+with the passage highlighted.
+
+02:16.335 --> 02:20.239
+If the source is a PDF, the viewer shows
+the original page and indicates whether
+
+02:20.279 --> 02:23.320
+the match is verbatim and whether
+the text has been verified.
+
+02:23.835 --> 02:26.913
+From there you go back to the answer,
+or open the full document.
+
+02:28.527 --> 02:32.438
+The conversation continues with the
+context of the previous answers.
+
+02:32.749 --> 02:37.012
+Every answer can be rated, and if it was
+not useful, a comment is required:
+
+02:37.138 --> 02:39.567
+that way the team knows what
+to correct in the corpus.

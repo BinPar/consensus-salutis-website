@@ -1,0 +1,53 @@
+---
+title: "Bienvenida a BinPar. Evidencia clínica, siempre ordenada."
+excerpt: "Qué hace la plataforma, qué no hace y de qué va a tratar este blog: criterios, mecanismos y límites de la IA clínica en una organización sanitaria."
+date: 2026-11-23
+author: equipo-consensus-salutis
+type: nota-de-producto
+tags: ["Consenso verificable", "Trazabilidad", "Gobierno del conocimiento"]
+image: /img/blog/bienvenida-a-binpar.webp
+imageAlt: "Nube de puntos turquesa dispersos que se alinean en una línea de señal con nodos regulares y desemboca en tres planos de vidrio apilados con filas de bloques ordenados"
+draft: false
+---
+
+BinPar (antes Consensus Salutis) es una plataforma de IA médica institucional que convierte guías clínicas, protocolos y corpus médico en respuestas trazables. Con la nueva web abrimos también este blog, donde vamos a contar cómo se construye esa trazabilidad, cómo la medimos y dónde termina.
+
+## Qué está disponible
+
+Un profesional de Atención Primaria plantea su duda como lo haría en una sesión clínica: el caso, los antecedentes, la medicación y lo que le preocupa. La plataforma recupera el conocimiento relevante de las guías y protocolos de su organización, contrasta las fuentes y devuelve una respuesta en la que cada afirmación enlaza el pasaje que la sostiene. Ese pasaje se abre en su documento, en la página original y resaltado.
+
+Detrás hay tres capacidades: el equipo de BinPar en producto e ingeniería, Editorial Médica Panamericana en conocimiento clínico y AWS en infraestructura.
+
+<figure>
+  <img src="/img/blog/bienvenida-a-binpar/tres-capacidades.svg" alt="Tres franjas apiladas, cada una con un logotipo y su función: BinPar, producto e ingeniería; Editorial Médica Panamericana, conocimiento clínico; AWS, infraestructura. Las tres convergen en una caja de respuestas trazables." width="1200" height="560" loading="lazy" />
+  <figcaption>Cada capacidad responde de una parte distinta del sistema, y las tres sostienen la misma respuesta.</figcaption>
+</figure>
+
+## El problema de una respuesta que solo suena bien
+
+Una respuesta clínica puede sonar correcta y, aun así, omitir una contraindicación, mezclar una guía vigente con una edición retirada o pasar por alto el protocolo propio del centro. Si no se puede comprobar de dónde sale cada frase, a quien la lee le quedan dos caminos: creerla o repetir la búsqueda. Ninguno de los dos se sostiene delante de una comisión de calidad.
+
+La alternativa es lo que llamamos **consenso verificable**: una conclusión que cualquiera puede rastrear hasta el documento y la página de los que sale.
+
+## Cómo funciona
+
+- **La consulta.** El comité de expertos reúne las aportaciones de cada especialidad, y cada una se consulta sobre su propio corpus, en la versión que corresponde al centro del profesional. Si la respuesta depende de un dato que no se ha indicado, como el filtrado glomerular, la pregunta llega antes que la respuesta.
+- **La evidencia visible.** Lo que no tiene cita se retira de la respuesta. Cuando la guía no cubre algo, la respuesta lo dice en lugar de completarlo.
+- **El gobierno del conocimiento clínico.** La organización decide qué documentos consulta su comité. Un documento nuevo se revisa antes de publicarse, cada cambio queda versionado y una batería de preguntas de control comprueba, tras cada cambio, que las respuestas no empeoran.
+
+<figure>
+  <img src="/img/blog/bienvenida-a-binpar/como-funciona.svg" alt="Flujo de izquierda a derecha: pregunta, comité de expertos con tres especialidades y su corpus, respuesta con citas y decisión clínica, destacada en amarillo. Debajo del comité, una caja discontinua de gobierno del conocimiento." width="1200" height="640" loading="lazy" />
+  <figcaption>La consulta recorre el comité y llega a una respuesta con citas. La decisión, marcada en amarillo, sigue siendo del clínico.</figcaption>
+</figure>
+
+## Lo que no hace
+
+La plataforma no diagnostica, no prescribe y no sustituye el criterio profesional: el sistema ordena la evidencia y el clínico decide. Tampoco responde por encima de la biblioteca de la que parte. Si una guía no está en el corpus, su contenido no aparece en la respuesta, y por eso la cobertura documental se acuerda con cada organización antes del despliegue.
+
+## Qué vas a leer aquí
+
+Este blog no es un canal de novedades. Vamos a publicar criterios para evaluar una IA clínica, mecanismos que explican qué tiene que cumplirse para que una cita siga sirviendo y mediciones de lo que hacemos, con lo que falla al medirlo.
+
+Empezamos con dos piezas que acompañan a dos vídeos grabados sobre la plataforma en producción. La primera recorre [lo que ocurre entre la pregunta y la cita](/blog/de-la-pregunta-a-la-cita) en una consulta real. La segunda explica [cómo entra una guía en el corpus](/blog/del-pdf-al-corpus) antes de que una respuesta pueda citarla.
+
+Si quieres valorar cómo encajaría en tu organización, [revisamos contigo el caso de uso, las restricciones de seguridad y el nivel de evidencia necesario](/contacto).

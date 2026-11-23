@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { LocaleAlternates } from "~/app/_components/locale-alternates";
 import { PageShell } from "~/app/_components/site";
@@ -33,15 +32,16 @@ type ArticlePageProps = {
 */
 export const dynamicParams = true;
 
-/* Los slugs de cada idioma: el layout de `[locale]` ya genera un árbol por idioma. */
-export function generateStaticParams({
-  params: { locale },
-}: {
-  params: { locale: string };
-}) {
-  if (!hasLocale(routing.locales, locale)) return [];
-
-  return getBlogPosts(locale).map((post) => ({ slug: post.slug }));
+/*
+  Pares idioma + slug de todos los idiomas, no solo los del idioma padre: si un
+  idioma devuelve `[]`, Next da la ruta entera por incompleta y no prerenderiza
+  ningún post (404 en producción). Next mezcla cada par sobre el padre y el
+  `locale` del par manda; los duplicados se funden por ruta.
+*/
+export function generateStaticParams() {
+  return routing.locales.flatMap((locale) =>
+    getBlogPosts(locale).map((post) => ({ locale, slug: post.slug })),
+  );
 }
 
 export async function generateMetadata({

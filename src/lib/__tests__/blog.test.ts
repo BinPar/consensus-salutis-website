@@ -181,6 +181,32 @@ describe("contenido real del blog", () => {
     });
   });
 
+  it("los vídeos del cuerpo existen en public/, llevan póster, subtítulos y nombre accesible", () => {
+    const jsxVideo = /<video\b([^>]*)>([\s\S]*?)<\/video>/g;
+    const attr = (attrs: string, name: string) =>
+      new RegExp(`\\b${name}="([^"]*)"`).exec(attrs)?.[1] ?? "";
+    const exists = (src: string) =>
+      fs.existsSync(path.join(process.cwd(), "public", src));
+    files.forEach((file) => {
+      const source = fs.readFileSync(file.path, "utf8");
+      for (const match of source.matchAll(jsxVideo)) {
+        const attrs = match[1] ?? "";
+        const inner = match[2] ?? "";
+        const label = `${file.fileName}`;
+        expect(attr(attrs, "aria-label").trim(), `aria-label en ${label}`).toBeTruthy();
+        const poster = attr(attrs, "poster");
+        expect(poster && exists(poster), `póster ${poster} en ${label}`).toBeTruthy();
+        // src en <video> o en <source>; subtítulos siempre en <track>
+        const sources = [attr(attrs, "src"), ...[...inner.matchAll(/<source\b([^>]*)>/g)].map((m) => attr(m[1] ?? "", "src"))].filter(Boolean);
+        expect(sources.length, `fuente de vídeo en ${label}`).toBeGreaterThan(0);
+        sources.forEach((src) => expect(exists(src), `${src} (${label}) no existe en public/`).toBe(true));
+        const tracks = [...inner.matchAll(/<track\b([^>]*)>/g)].map((m) => attr(m[1] ?? "", "src"));
+        expect(tracks.length, `subtítulos en ${label}`).toBeGreaterThan(0);
+        tracks.forEach((src) => expect(exists(src), `${src} (${label}) no existe en public/`).toBe(true));
+      }
+    });
+  });
+
   it("el orden es por fecha descendente", () => {
     const dates = posts.map((post) => post.date);
 
