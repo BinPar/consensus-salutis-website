@@ -6,6 +6,7 @@ import {
   ChevronDown,
   FileText,
   HeartPulse,
+  ImageUp,
   MessageCircleQuestionMark,
   MousePointer2,
   Paperclip,
@@ -152,7 +153,6 @@ function ExpandedComposer({
   mode,
   modeRef,
   modeOpen = false,
-  dropping = false,
   sendPulse = 0,
   className = "",
 }: {
@@ -164,15 +164,13 @@ function ExpandedComposer({
   modeRef?: (element: HTMLElement | null) => void;
   /** Mode menu open: the trigger keeps its hover state and flips the chevron. */
   modeOpen?: boolean;
-  /** Drop target highlight (chat-composer: ring while a file is over it). */
-  dropping?: boolean;
   sendPulse?: number;
   className?: string;
 }) {
   const t = useTranslations("scenes.evidence.composer");
   return (
     <div
-      className={`shadow-big-blocks dark:border-primary-dark/15 relative overflow-hidden rounded-3xl border border-cyan-800/15 bg-white/85 backdrop-blur-md dark:bg-[#152230e6]/90 ${dropping ? "ring-primary-light/60 dark:ring-primary-dark/60 ring-2" : ""} ${className}`}
+      className={`shadow-big-blocks dark:border-primary-dark/15 relative overflow-hidden rounded-3xl border border-cyan-800/15 bg-white/85 backdrop-blur-md dark:bg-[#152230e6]/90 ${className}`}
     >
       <div className="font-body relative min-h-6 px-4 pt-3 text-sm leading-6 break-words text-slate-700 dark:text-slate-200">
         {text || (
@@ -815,7 +813,11 @@ function ProgressScene({ time, reduced }: SceneProps) {
   );
 }
 
-/* 14 · Imágenes adjuntas: an ECG is dragged onto the composer. */
+/*
+  14 · Imágenes adjuntas, as the chat does it now: dragging a file marks the
+  whole chat column (dashed frame, «drop to attach» and the limits); the drop
+  leaves a square thumbnail above the composer, then the question is typed.
+*/
 const IMAGE_DRAG = 0.5;
 const IMAGE_DROP = IMAGE_DRAG + 1.4;
 const IMAGE_TYPING = IMAGE_DROP + 0.8;
@@ -850,7 +852,11 @@ function ImagesScene({ time, reduced }: SceneProps) {
   const lift = sceneReveal(time, 0.15, 0.35, reduced);
   const travel = reduced ? 1 : drawProgress(time, IMAGE_DRAG, 1.2, false);
   const dropped = reduced || time >= IMAGE_DROP;
-  const over = !reduced && time >= IMAGE_DRAG + 0.8 && time < IMAGE_DROP;
+  // The column is marked once the file is over it, and clears on the drop.
+  const marked = reduced
+    ? 0
+    : sceneReveal(time, IMAGE_DRAG + 0.35, 0.25, false) *
+      (1 - sceneReveal(time, IMAGE_DROP, 0.25, false));
   const attached = sceneReveal(time, IMAGE_DROP, 0.35, reduced);
   const written = writtenCharacters(
     time,
@@ -858,10 +864,10 @@ function ImagesScene({ time, reduced }: SceneProps) {
     imageQuestion.length,
     reduced,
   );
-  // Artboard coordinates: from the upper right onto the composer, the drop
-  // target; once dropped, the chip appears above it.
-  const start = { x: 236, y: 64 };
-  const end = { x: 150, y: 232 };
+  // Artboard coordinates (420 × 330): across the top of the chat column, the
+  // whole drop target, so the file never covers the drop message.
+  const start = { x: 250, y: 70 };
+  const end = { x: 36, y: 36 };
   const x = start.x + (end.x - start.x) * travel;
   const y = start.y + (end.y - start.y) * travel;
   return (
@@ -869,19 +875,21 @@ function ImagesScene({ time, reduced }: SceneProps) {
       <ProcessChatVeil />
       <ChatHeader />
       <div className="absolute inset-x-6 bottom-5">
-        {/* Attachments sit above the composer, as in chat-composer. */}
+        {/* Square thumbnails above the composer, as in chat-composer. */}
         <div
           className="grid"
           style={{ gridTemplateRows: `${attached}fr`, opacity: attached }}
         >
-          <ul className="min-h-0 overflow-hidden">
-            <li className="dark:border-primary-dark/15 shadow-big-blocks mb-2 flex w-fit max-w-56 items-center gap-2 rounded-2xl border border-cyan-800/15 bg-white/85 py-1 pr-1.5 pl-1 backdrop-blur-md dark:bg-[#152230]/80">
-              <EcgStrip className="text-primary-light dark:text-primary-dark size-10 shrink-0 rounded-xl bg-white dark:bg-[#06111f]" />
-              <span className="font-body min-w-0 flex-1 truncate text-xs text-slate-700 dark:text-slate-200">
-                {imageName}
+          <ul className="min-h-0 overflow-hidden pt-2 pr-2">
+            <li
+              className="relative mb-2 size-20"
+              style={{ transform: `scale(${0.92 + 0.08 * attached})` }}
+            >
+              <span className="dark:border-primary-dark/25 border-primary-light/25 shadow-big-blocks block size-full overflow-hidden rounded-sm border bg-white dark:bg-[#06111f]">
+                <EcgStrip className="text-primary-light dark:text-primary-dark h-full w-60 max-w-none" />
               </span>
-              <span className="grid size-6 shrink-0 place-items-center rounded-full text-slate-500 dark:text-slate-400">
-                <X size={14} strokeWidth={1.8} aria-hidden="true" />
+              <span className="absolute -top-2 -right-2 grid size-6 place-items-center rounded-full border border-cyan-800/15 bg-white text-slate-600 shadow-sm dark:border-cyan-300/20 dark:bg-[#152230] dark:text-slate-300">
+                <X size={14} strokeWidth={2} aria-hidden="true" />
               </span>
             </li>
           </ul>
@@ -890,9 +898,31 @@ function ImagesScene({ time, reduced }: SceneProps) {
           text={imageQuestion.slice(0, written)}
           typing={written > 0 && written < imageQuestion.length}
           ready={dropped}
-          dropping={over}
         />
       </div>
+      {marked > 0 && (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-20 grid place-items-center bg-white/65 backdrop-blur-sm dark:bg-[#06111f]/65"
+          style={{ opacity: marked }}
+        >
+          <div className="border-primary-light/45 dark:border-primary-dark/45 absolute inset-3 rounded-2xl border-2 border-dashed" />
+          <div
+            className="relative flex flex-col items-center gap-2.5 px-6 text-center"
+            style={{ transform: `scale(${0.95 + 0.05 * marked})` }}
+          >
+            <span className="bg-primary-light/10 dark:bg-primary-dark/12 text-primary-light dark:text-primary-dark grid size-12 place-items-center rounded-full">
+              <ImageUp size={22} strokeWidth={1.8} aria-hidden="true" />
+            </span>
+            <p className="font-display text-navy text-lg font-semibold dark:text-slate-50">
+              {t("dropTitle")}
+            </p>
+            <p className="font-body text-[13px] text-slate-600 dark:text-slate-400">
+              {t("dropHint")}
+            </p>
+          </div>
+        </div>
+      )}
       {!dropped && (
         <div
           className="pointer-events-none absolute top-0 left-0 z-30"

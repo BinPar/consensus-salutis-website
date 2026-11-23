@@ -78,6 +78,8 @@
   },
   "images": {
     "question": "Gaurko EKGa erantsi dut. Ba al dago hiperpotasemia-zeinurik?",
-    "fileName": "ekg-12-deribazio.png"
+    "fileName": "ekg-12-deribazio.png",
+    "dropTitle": "Askatu irudiak eransteko",
+    "dropHint": "PNG, JPEG, WEBP edo GIF · gehienez 4 irudi, 5 MB-koak"
   }
 }

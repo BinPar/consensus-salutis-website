@@ -78,6 +78,8 @@
   },
   "images": {
     "question": "I've attached today's ECG. Are there any signs of hyperkalaemia?",
-    "fileName": "12-lead-ecg.png"
+    "fileName": "12-lead-ecg.png",
+    "dropTitle": "Drop images to attach them",
+    "dropHint": "PNG, JPEG, WEBP or GIF · up to 4 images of 5 MB"
   }
 }

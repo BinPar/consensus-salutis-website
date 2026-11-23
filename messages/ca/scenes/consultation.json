@@ -78,6 +78,8 @@
   },
   "images": {
     "question": "Adjunto l’ECG d’avui. Hi ha signes d’hiperpotassèmia?",
-    "fileName": "ecg-12-derivacions.png"
+    "fileName": "ecg-12-derivacions.png",
+    "dropTitle": "Deixa anar les imatges per adjuntar-les",
+    "dropHint": "PNG, JPEG, WEBP o GIF · fins a 4 imatges de 5 MB"
   }
 }

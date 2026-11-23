@@ -78,6 +78,8 @@
   },
   "images": {
     "question": "Adjunto el ECG de hoy. ¿Hay signos de hiperpotasemia?",
-    "fileName": "ecg-12-derivaciones.png"
+    "fileName": "ecg-12-derivaciones.png",
+    "dropTitle": "Suelta las imágenes para adjuntarlas",
+    "dropHint": "PNG, JPEG, WEBP o GIF · hasta 4 imágenes de 5 MB"
   }
 }
