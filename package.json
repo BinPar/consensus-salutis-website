@@ -22,18 +22,18 @@
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/react": "^3.1.1",
     "@next/mdx": "^15.5.28",
-    "@t3-oss/env-nextjs": "^0.12.0",
-    "@vercel/functions": "^3.10.2",
+    "@t3-oss/env-nextjs": "^0.13.11",
+    "@vercel/functions": "^3.11.3",
     "framer-motion": "^12.43.0",
     "gray-matter": "^4.0.3",
     "lucide-react": "^1.61.0",
     "maplibre-gl": "^6.15.0",
-    "next": "^15.5.28",
+    "next": "^15.5.29",
     "next-intl": "4.14.9",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "remark-frontmatter": "^5.0.0",
-    "zod": "^3.25.76"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.7",
@@ -43,7 +43,7 @@
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "eslint": "^9.39.5",
-    "eslint-config-next": "^15.5.28",
+    "eslint-config-next": "^15.5.29",
     "eslint-plugin-i18next": "6.1.5",
     "postcss": "^8.5.31",
     "prettier": "^3.9.10",
@@ -60,7 +60,8 @@
   "packageManager": "pnpm@10.18.2",
   "pnpm": {
     "overrides": {
-      "postcss@<8.5.23": "^8.5.23"
+      "postcss@<8.5.23": "^8.5.23",
+      "minimatch@>=7 <11.0.1": "^11.0.1"
     }
   }
 }

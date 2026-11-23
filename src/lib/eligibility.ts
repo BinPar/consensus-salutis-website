@@ -130,7 +130,7 @@ export const eligibilitySchema = z.object({
     .min(2, "Introduce tu nombre y apellidos.")
     .max(120, "El nombre no puede superar los 120 caracteres."),
   cargo: z.enum(CARGO_VALUES as [string, ...string[]], {
-    errorMap: () => ({ message: "Selecciona tu cargo." }),
+    error: "Selecciona tu cargo.",
   }),
   institucion: z
     .string()
@@ -138,7 +138,7 @@ export const eligibilitySchema = z.object({
     .min(2, "Introduce el nombre oficial de la institución.")
     .max(200, "El nombre no puede superar los 200 caracteres."),
   ambitoPais: z.enum(AMBITO_PAIS_VALUES as [string, ...string[]], {
-    errorMap: () => ({ message: "Selecciona el ámbito geográfico." }),
+    error: "Selecciona el ámbito geográfico.",
   }),
   webInstitucion: z
     .string()
@@ -152,9 +152,7 @@ export const eligibilitySchema = z.object({
     .optional()
     .or(z.literal("")),
   consentimiento: z.literal(true, {
-    errorMap: () => ({
-      message: "Debes aceptar el tratamiento de datos para continuar.",
-    }),
+    error: "Debes aceptar el tratamiento de datos para continuar.",
   }),
   /** Trampa para bots, igual que en el formulario de contacto. */
   website: z.string().max(0),
