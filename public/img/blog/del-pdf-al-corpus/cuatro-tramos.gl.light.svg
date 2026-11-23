@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" width="1200" height="620" role="img" aria-labelledby="t d" font-family="Sora, ui-sans-serif, system-ui, sans-serif">
+<title id="t">Os catro tramos da inxesta</title><desc id="d">Catro columnas en secuencia tras a subida do documento: dúas lecturas contrastadas, unidades coa súa cita exacta, controis por unidade e revisión clínica antes de publicar, que é o tramo que esixe atención humana. Debaixo, a regra contra a omisión: cada sección acaba nunha unidade ou descartada co seu motivo.</desc>
+<defs>
+<pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse"><path d="M44 0H0V44" fill="none" stroke="rgba(0,109,121,0.051)" stroke-width="1"/></pattern>
+<marker id="a" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L12 6L0 12z" fill="#006D79"/></marker>
+<marker id="al" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L12 6L0 12z" fill="#E8B400"/></marker>
+<radialGradient id="glow" cx="0.85" cy="0.1" r="0.6"><stop offset="0" stop-color="rgba(0,109,121,0.085)"/><stop offset="1" stop-color="rgba(0,109,121,0.0)"/></radialGradient>
+</defs>
+<rect width="1200" height="620" fill="#F4F9FC"/><rect width="1200" height="620" fill="url(#grid)"/><rect width="1200" height="620" fill="url(#glow)"/>
+<rect x="21" y="36" width="340" height="64" rx="16" fill="rgba(255,255,255,0.7)" stroke="rgba(0,109,121,0.297)" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="49" y="76" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="20" font-weight="600" fill="#05215E">Subida</text>
+<text x="337" y="76" text-anchor="end" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">capa de destino</text>
+<path d="M156 100 V128" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="21" y="136" width="270" height="340" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<text x="47" y="182" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="700" fill="#006D79" letter-spacing="1.5">01</text>
+<text x="47" y="222" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="23" font-weight="600" fill="#05215E">Dúas lecturas</text>
+<path d="M47 246 H265" fill="none" stroke="rgba(0,109,121,0.212)" stroke-width="2"/>
+<circle cx="51" cy="282" r="4" fill="#006D79"/>
+<text x="65" y="288" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">capa de texto</text>
+<circle cx="51" cy="328" r="4" fill="#006D79"/>
+<text x="65" y="334" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">imaxe de cada páxina</text>
+<circle cx="51" cy="374" r="4" fill="#006D79"/>
+<text x="65" y="380" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">contrástanse</text>
+<circle cx="51" cy="420" r="4" fill="#006D79"/>
+<text x="65" y="426" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">unha persoa revisa</text>
+<path d="M295 306.0 H311" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="317" y="136" width="270" height="340" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<text x="343" y="182" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="700" fill="#006D79" letter-spacing="1.5">02</text>
+<text x="343" y="222" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="23" font-weight="600" fill="#05215E">Unidades con cita</text>
+<path d="M343 246 H561" fill="none" stroke="rgba(0,109,121,0.212)" stroke-width="2"/>
+<circle cx="347" cy="282" r="4" fill="#006D79"/>
+<text x="361" y="288" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">pasaxe exacta e páxina</text>
+<circle cx="347" cy="328" r="4" fill="#006D79"/>
+<text x="361" y="334" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">ningún dato perdido</text>
+<circle cx="347" cy="374" r="4" fill="#006D79"/>
+<text x="361" y="380" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">á súa especialidade</text>
+<circle cx="347" cy="420" r="4" fill="#006D79"/>
+<text x="361" y="426" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">o local, marcado</text>
+<path d="M591 306.0 H607" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="613" y="136" width="270" height="340" rx="16" fill="#FFFFFF" stroke="rgba(0,109,121,0.468)" stroke-width="2"/>
+<text x="639" y="182" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="700" fill="#006D79" letter-spacing="1.5">03</text>
+<text x="639" y="222" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="23" font-weight="600" fill="#05215E">Controis</text>
+<path d="M639 246 H857" fill="none" stroke="rgba(0,109,121,0.212)" stroke-width="2"/>
+<circle cx="643" cy="282" r="4" fill="#006D79"/>
+<text x="657" y="288" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">a cita existe</text>
+<circle cx="643" cy="328" r="4" fill="#006D79"/>
+<text x="657" y="334" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">cada cifra, na pasaxe</text>
+<circle cx="643" cy="374" r="4" fill="#006D79"/>
+<text x="657" y="380" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">sen datos persoais</text>
+<circle cx="643" cy="420" r="4" fill="#006D79"/>
+<text x="657" y="426" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">sen contradición oculta</text>
+<path d="M887 306.0 H903" fill="none" stroke="rgba(0,109,121,0.637)" stroke-width="2.5" marker-end="url(#a)"/>
+<rect x="909" y="136" width="270" height="340" rx="16" fill="rgba(255,210,48,0.18)" stroke="#FFD230" stroke-width="2"/>
+<text x="935" y="182" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="700" fill="#06111F" letter-spacing="1.5">04</text>
+<text x="935" y="222" text-anchor="start" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="23" font-weight="600" fill="#05215E">Revisión clínica</text>
+<path d="M935 246 H1153" fill="none" stroke="rgba(0,109,121,0.212)" stroke-width="2"/>
+<circle cx="939" cy="282" r="4" fill="#E8B400"/>
+<text x="953" y="288" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">palabra por palabra</text>
+<circle cx="939" cy="328" r="4" fill="#E8B400"/>
+<text x="953" y="334" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">incluír ou descartar</text>
+<circle cx="939" cy="374" r="4" fill="#E8B400"/>
+<text x="953" y="380" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">publicar: versión nova</text>
+<circle cx="939" cy="420" r="4" fill="#E8B400"/>
+<text x="953" y="426" text-anchor="start" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#45556C">só entón, ao chat</text>
+<path d="M156.0 476 V506" fill="none" stroke="rgba(0,109,121,0.34)" stroke-width="2" stroke-dasharray="4 6"/>
+<path d="M452.0 476 V506" fill="none" stroke="rgba(0,109,121,0.34)" stroke-width="2" stroke-dasharray="4 6"/>
+<path d="M748.0 476 V506" fill="none" stroke="rgba(0,109,121,0.34)" stroke-width="2" stroke-dasharray="4 6"/>
+<rect x="21" y="506" width="862" height="70" rx="16" fill="rgba(255,255,255,0.7)" stroke="rgba(0,109,121,0.297)" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="452.0" y="548" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="19" font-weight="600" fill="#05215E">Cada sección, nunha unidade ou descartada co seu motivo</text>
+</svg>

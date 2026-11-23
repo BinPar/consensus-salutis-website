@@ -27,6 +27,7 @@ import { formatBlogDate } from "~/app/_components/blog/blog-post-format";
 import { blogAuthorIds, getBlogAuthor } from "~/content/blog/authors";
 import { routing } from "~/i18n/routing";
 import { blogCoverGeometry } from "~/lib/blog-cover";
+import { lightFigureSrc } from "~/lib/rehype-themed-figures.mjs";
 
 import blogMessages from "../../../messages/es/blog.json";
 
@@ -149,6 +150,18 @@ describe("contenido real del blog", () => {
       });
   });
 
+  it("solo las figuras SVG del blog tienen gemelo claro", () => {
+    expect(lightFigureSrc("/img/blog/a/fig.svg")).toBe(
+      "/img/blog/a/fig.light.svg",
+    );
+    expect(lightFigureSrc("/img/blog/a/fig.en.svg")).toBe(
+      "/img/blog/a/fig.en.light.svg",
+    );
+    expect(lightFigureSrc("/img/blog/a/fig.light.svg")).toBeNull();
+    expect(lightFigureSrc("/img/blog/a.webp")).toBeNull();
+    expect(lightFigureSrc("/img/logo.svg")).toBeNull();
+  });
+
   it("las figuras del cuerpo existen en public/ y llevan alt", () => {
     // `<img>` JSX o `![alt](src)` Markdown; solo rutas absolutas de public/
     const jsxImg = /<img\b([^>]*)>/g;
@@ -177,6 +190,13 @@ describe("contenido real del blog", () => {
             fs.existsSync(path.join(process.cwd(), "public", figure.src)),
             `${figure.src} (${file.fileName}) no existe en public/`,
           ).toBe(true);
+          const light = lightFigureSrc(figure.src);
+          if (light) {
+            expect(
+              fs.existsSync(path.join(process.cwd(), "public", light)),
+              `${light}: falta el gemelo claro de ${figure.src} (${file.fileName})`,
+            ).toBe(true);
+          }
         });
     });
   });
@@ -193,16 +213,39 @@ describe("contenido real del blog", () => {
         const attrs = match[1] ?? "";
         const inner = match[2] ?? "";
         const label = `${file.fileName}`;
-        expect(attr(attrs, "aria-label").trim(), `aria-label en ${label}`).toBeTruthy();
+        expect(
+          attr(attrs, "aria-label").trim(),
+          `aria-label en ${label}`,
+        ).toBeTruthy();
         const poster = attr(attrs, "poster");
-        expect(poster && exists(poster), `póster ${poster} en ${label}`).toBeTruthy();
+        expect(
+          poster && exists(poster),
+          `póster ${poster} en ${label}`,
+        ).toBeTruthy();
         // src en <video> o en <source>; subtítulos siempre en <track>
-        const sources = [attr(attrs, "src"), ...[...inner.matchAll(/<source\b([^>]*)>/g)].map((m) => attr(m[1] ?? "", "src"))].filter(Boolean);
-        expect(sources.length, `fuente de vídeo en ${label}`).toBeGreaterThan(0);
-        sources.forEach((src) => expect(exists(src), `${src} (${label}) no existe en public/`).toBe(true));
-        const tracks = [...inner.matchAll(/<track\b([^>]*)>/g)].map((m) => attr(m[1] ?? "", "src"));
+        const sources = [
+          attr(attrs, "src"),
+          ...[...inner.matchAll(/<source\b([^>]*)>/g)].map((m) =>
+            attr(m[1] ?? "", "src"),
+          ),
+        ].filter(Boolean);
+        expect(sources.length, `fuente de vídeo en ${label}`).toBeGreaterThan(
+          0,
+        );
+        sources.forEach((src) =>
+          expect(exists(src), `${src} (${label}) no existe en public/`).toBe(
+            true,
+          ),
+        );
+        const tracks = [...inner.matchAll(/<track\b([^>]*)>/g)].map((m) =>
+          attr(m[1] ?? "", "src"),
+        );
         expect(tracks.length, `subtítulos en ${label}`).toBeGreaterThan(0);
-        tracks.forEach((src) => expect(exists(src), `${src} (${label}) no existe en public/`).toBe(true));
+        tracks.forEach((src) =>
+          expect(exists(src), `${src} (${label}) no existe en public/`).toBe(
+            true,
+          ),
+        );
       }
     });
   });
