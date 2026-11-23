@@ -50,11 +50,7 @@ export const contactSchema = z.object({
     .trim()
     .min(20, code("messageTooShort"))
     .max(3000, code("messageTooLong")),
-  privacyAccepted: z.literal(true, {
-    errorMap: () => ({
-      message: code("privacyRequired"),
-    }),
-  }),
+  privacyAccepted: z.literal(true, { error: code("privacyRequired") }),
   /** Trampa para bots: la única defensa antibot que queda. Tiene que ir vacío. */
   website: z.string().max(0),
   /* Idioma de la página desde la que se escribe, para contestar en el mismo. */
