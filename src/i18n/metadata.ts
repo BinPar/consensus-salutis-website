@@ -7,6 +7,8 @@
  */
 import type { Metadata } from "next";
 
+import { OG_IMAGE } from "~/app/_components/og-image";
+
 import { absoluteUrl, getSiteUrl } from "~/lib/site";
 
 import { getPathname } from "./navigation";
@@ -61,6 +63,19 @@ export function rssPath(locale: Locale) {
     : `/${locale}/blog/rss.xml`;
 }
 
+/**
+ * La imagen para compartir por defecto (`[locale]/share-image`): la tarjeta de
+ * marca con el lema en el idioma de la página. Los posts la sustituyen por la
+ * suya, con su título.
+ */
+export function shareImageUrl(locale: Locale) {
+  return absoluteUrl(
+    locale === routing.defaultLocale
+      ? "/share-image"
+      : `/${locale}/share-image`,
+  );
+}
+
 export function localizedMetadata(
   locale: Locale,
   href: LocalizedHref,
@@ -83,6 +98,7 @@ export function localizedMetadata(
       siteName: "BinPar",
       locale: OG_LOCALES[locale],
       url,
+      images: [{ ...OG_IMAGE, url: shareImageUrl(locale), alt: "BinPar" }],
     },
   };
 }

@@ -17,7 +17,7 @@ import {
 } from "~/lib/blog";
 import { absoluteUrl } from "~/lib/site";
 
-import { OG_IMAGE } from "./og-image";
+import { OG_IMAGE } from "~/app/_components/og-image";
 
 type ArticlePageProps = {
   params: Promise<{

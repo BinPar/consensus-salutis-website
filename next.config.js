@@ -19,6 +19,7 @@ const config = {
   */
   outputFileTracingIncludes: {
     "/[locale]/blog/[slug]/opengraph-image": ["./src/app/_fonts/**"],
+    "/[locale]/share-image": ["./src/app/_fonts/**"],
   },
   experimental: {
     /*

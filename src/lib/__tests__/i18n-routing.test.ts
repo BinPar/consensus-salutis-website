@@ -12,7 +12,10 @@ import path from "node:path";
 
 import { beforeAll, describe, expect, it, vi } from "vitest";
 
-import type { localizedUrl as LocalizedUrl } from "~/i18n/metadata";
+import type {
+  localizedMetadata as LocalizedMetadata,
+  localizedUrl as LocalizedUrl,
+} from "~/i18n/metadata";
 import type {
   LOCALE_TAGS as LocaleTags,
   OG_LOCALES as OgLocales,
@@ -30,11 +33,12 @@ let routing: typeof Routing;
 let LOCALE_TAGS: typeof LocaleTags;
 let OG_LOCALES: typeof OgLocales;
 let localizedUrl: typeof LocalizedUrl;
+let localizedMetadata: typeof LocalizedMetadata;
 let matcher: RegExp;
 
 beforeAll(async () => {
   ({ routing, LOCALE_TAGS, OG_LOCALES } = await import("~/i18n/routing"));
-  ({ localizedUrl } = await import("~/i18n/metadata"));
+  ({ localizedUrl, localizedMetadata } = await import("~/i18n/metadata"));
   const { config } = await import("~/middleware");
   const [pattern] = config.matcher;
   matcher = new RegExp(`^${pattern}$`);
@@ -122,6 +126,23 @@ describe("routing.pathnames", () => {
     expect(localizedUrl("eu", "/contacto")).toBe(
       "https://consensussalutis.com/eu/kontaktua",
     );
+  });
+
+  it("cada página anuncia la imagen para compartir de su idioma", () => {
+    const image = (locale: (typeof routing.locales)[number]) => {
+      const images = localizedMetadata(locale, "/equipo").openGraph?.images;
+
+      return Array.isArray(images) ? images[0] : images;
+    };
+
+    expect(image("es")).toMatchObject({
+      url: "https://consensussalutis.com/share-image",
+      width: 1200,
+      height: 630,
+    });
+    expect(image("eu")).toMatchObject({
+      url: "https://consensussalutis.com/eu/share-image",
+    });
   });
 
   it("cada idioma tiene su etiqueta para Intl y Open Graph", () => {
