@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" width="1200" height="620" role="img" aria-labelledby="t d" font-family="Sora, ui-sans-serif, system-ui, sans-serif">
+<title id="t">Percorrido dunha consulta no chat clínico</title><desc id="d">A pregunta pasa por un mapa de evidencia que a reparte entre Endocrinoloxía e Nutrición, Nefroloxía e Farmacoloxía, cada unha sobre o seu corpus completo. Se falta un dato, pregúntase antes de responder. A resposta une cada afirmación á súa unidade e cada cita abre a pasaxe na súa fonte.</desc>
+<defs>
+<pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse"><path d="M44 0H0V44" fill="none" stroke="rgba(0,188,187,0.06)" stroke-width="1"/></pattern>
+<marker id="a" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L12 6L0 12z" fill="#00BCBB"/></marker>
+<marker id="al" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L12 6L0 12z" fill="#f6ff53"/></marker>
+<radialGradient id="glow" cx="0.85" cy="0.1" r="0.6"><stop offset="0" stop-color="rgba(0,188,187,0.10)"/><stop offset="1" stop-color="rgba(0,188,187,0)"/></radialGradient>
+</defs>
+<rect width="1200" height="620" fill="#06111f"/><rect width="1200" height="620" fill="url(#grid)"/><rect width="1200" height="620" fill="url(#glow)"/>
+<path d="M220 360 H286" fill="none" stroke="rgba(0,188,187,0.75)" stroke-width="2.5" marker-end="url(#a)"/>
+<path d="M470 360 C513.0 360 513.0 190 556 190" fill="none" stroke="rgba(0,188,187,0.75)" stroke-width="2.5" marker-end="url(#a)"/>
+<path d="M800 190 C833.0 190 833.0 300 866 300" fill="none" stroke="rgba(0,188,187,0.75)" stroke-width="2.5" marker-end="url(#a)"/>
+<path d="M470 360 C513.0 360 513.0 345 556 345" fill="none" stroke="rgba(0,188,187,0.75)" stroke-width="2.5" marker-end="url(#a)"/>
+<path d="M800 345 C833.0 345 833.0 300 866 300" fill="none" stroke="rgba(0,188,187,0.75)" stroke-width="2.5" marker-end="url(#a)"/>
+<path d="M470 360 C513.0 360 513.0 500 556 500" fill="none" stroke="rgba(0,188,187,0.75)" stroke-width="2.5" marker-end="url(#a)"/>
+<path d="M800 500 C833.0 500 833.0 300 866 300" fill="none" stroke="rgba(0,188,187,0.75)" stroke-width="2.5" marker-end="url(#a)"/>
+<path d="M1020 380 V446" fill="none" stroke="rgba(0,188,187,0.75)" stroke-width="2.5" marker-end="url(#a)"/>
+<path d="M680 132 V100 H476" fill="none" stroke="rgba(246,255,83,0.75)" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#al)"/>
+<path d="M290 70 H130 V286" fill="none" stroke="rgba(246,255,83,0.75)" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#al)"/>
+<rect x="40" y="285" width="180" height="150" rx="16" fill="rgba(21,34,48,0.92)" stroke="rgba(0,188,187,0.55)" stroke-width="2"/>
+<text x="130" y="342" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="26" font-weight="600" fill="#f8fafc">Pregunta</text>
+<text x="130" y="380" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="400" fill="#90a1b9">con perfil</text>
+<text x="130" y="403" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="400" fill="#90a1b9">e contexto</text>
+<rect x="290" y="270" width="180" height="180" rx="16" fill="rgba(21,34,48,0.92)" stroke="rgba(0,188,187,0.55)" stroke-width="2"/>
+<text x="380" y="320" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="24" font-weight="600" fill="#f8fafc">Mapa de</text>
+<text x="380" y="350" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="24" font-weight="600" fill="#f8fafc">evidencia</text>
+<text x="380" y="398" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="400" fill="#90a1b9">especialidades</text>
+<text x="380" y="421" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="400" fill="#90a1b9">e apartados</text>
+<rect x="290" y="30" width="186" height="108" rx="16" fill="rgba(21,34,48,0.92)" stroke="rgba(246,255,83,0.85)" stroke-width="2"/>
+<text x="383" y="60" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="15" font-weight="700" fill="#f6ff53" letter-spacing="1.5">FALTA UN DATO</text>
+<text x="383" y="92" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="20" font-weight="600" fill="#f8fafc">Pregunta previa</text>
+<text x="383" y="120" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="400" fill="#90a1b9">con opcións pechadas</text>
+<text x="680" y="168" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="1" font-weight="400" fill="#90a1b9"></text>
+<rect x="560" y="140" width="240" height="100" rx="16" fill="rgba(21,34,48,0.92)" stroke="rgba(0,188,187,0.55)" stroke-width="2"/>
+<text x="680" y="184" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#f8fafc">Endocrinoloxía</text>
+<text x="680" y="212" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#f8fafc">e Nutrición</text>
+<rect x="560" y="295" width="240" height="100" rx="16" fill="rgba(21,34,48,0.92)" stroke="rgba(0,188,187,0.55)" stroke-width="2"/>
+<text x="680" y="353" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#f8fafc">Nefroloxía</text>
+<rect x="560" y="450" width="240" height="100" rx="16" fill="rgba(21,34,48,0.92)" stroke="rgba(0,188,187,0.55)" stroke-width="2"/>
+<text x="680" y="508" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#f8fafc">Farmacoloxía</text>
+<text x="680" y="568" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="700" fill="#00BCBB" letter-spacing="1.5">CORPUS COMPLETO</text>
+<rect x="870" y="220" width="290" height="160" rx="16" fill="rgba(0,188,187,0.12)" stroke="#00BCBB" stroke-width="2"/>
+<text x="1015" y="270" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="26" font-weight="600" fill="#71fffe">Resposta</text>
+<text x="1015" y="310" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="400" fill="#90a1b9">cada afirmación, a unidade</text>
+<text x="1015" y="338" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="18" font-weight="400" fill="#90a1b9">sen cita, retírase</text>
+<rect x="870" y="450" width="290" height="120" rx="16" fill="rgba(21,34,48,0.92)" stroke="rgba(0,188,187,0.55)" stroke-width="2"/>
+<text x="1015" y="500" text-anchor="middle" font-family="Sora, ui-sans-serif, system-ui, sans-serif" font-size="22" font-weight="600" fill="#f8fafc">Pasaxe na súa fonte</text>
+<text x="1015" y="534" text-anchor="middle" font-family="'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="400" fill="#90a1b9">resaltada na páxina orixinal</text>
+</svg>
