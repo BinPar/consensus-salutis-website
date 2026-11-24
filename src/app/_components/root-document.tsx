@@ -17,6 +17,7 @@ import { Plus_Jakarta_Sans, Sora } from "next/font/google";
 import type { ReactNode } from "react";
 
 import { MotionProvider } from "~/app/_components/motion-system";
+import { WebAnalytics } from "~/app/_components/web-analytics";
 import type { Locale } from "~/i18n/routing";
 import { getSiteUrl } from "~/lib/site";
 
@@ -90,6 +91,7 @@ export function RootDocument({
         className={`${plusJakartaSans.variable} ${sora.variable} min-h-screen bg-[#f4f9fc] font-sans text-slate-900 antialiased dark:bg-[#06111f] dark:text-slate-50`}
       >
         <MotionProvider>{children}</MotionProvider>
+        <WebAnalytics />
       </body>
     </html>
   );
