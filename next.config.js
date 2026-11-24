@@ -4,6 +4,9 @@
  */
 import "./src/env.js";
 
+import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+
 import createMDX from "@next/mdx";
 import createNextIntlPlugin from "next-intl/plugin";
 
@@ -42,13 +45,21 @@ const config = {
   plugins por nombre y `pnpm dev` corre con `--turbo`. Sin él, el YAML del
   frontmatter se renderiza como un párrafo al principio del cuerpo del post.
 */
+const themedFigures = new URL(
+  "./src/lib/rehype-themed-figures.mjs",
+  import.meta.url,
+).pathname;
+
+// build cache keys compiled MDX on loader options, not plugin source: hash busts it
+/** @param {string} file */
+const fileRev = (file) =>
+  createHash("sha256").update(readFileSync(file)).digest("hex").slice(0, 12);
+
 const withMDX = createMDX({
   options: {
     remarkPlugins: [["remark-frontmatter", ["yaml"]]],
     /* Ruta absoluta en string por la misma razón: Turbopack no acepta funciones. */
-    rehypePlugins: [
-      new URL("./src/lib/rehype-themed-figures.mjs", import.meta.url).pathname,
-    ],
+    rehypePlugins: [[themedFigures, { rev: fileRev(themedFigures) }]],
   },
 });
 
