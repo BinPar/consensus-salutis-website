@@ -126,6 +126,20 @@ generada se cae y el post sale sin ella.** No se pregunta por la imagen a menos
 que el autor la hubiera pedido expresamente; en ese caso se dice la causa
 concreta del fallo, como en la portada.
 
+## Vídeo: dos renders, uno por tema
+
+Un `<video>` del cuerpo va en `public/video/blog/<slug>/` con póster,
+`aria-label` y subtítulos en `<track>`. Como las figuras, lleva **gemelo
+claro**: `<nombre>.light.mp4` y `<nombre>.light.jpg` junto a `<nombre>.mp4` y
+`<nombre>.jpg` (oscuro). En el `.mdx` se escribe un solo `<video>`; el plugin
+de compilación lo duplica, cambia póster y `<source>` en la copia clara y deja
+los `<track>` como están. `pnpm test` falla si falta el gemelo.
+
+Los dos renders salen del mismo reproductor con el tema forzado en **todas**
+las escenas y pantallas, no solo en las de título: mismo corte, mismo audio,
+mismo póster (el mismo instante en los dos). Un vídeo que mezcla escenas
+oscuras y claras no es gemelo de nadie.
+
 ## Qué reportar
 
 Por figura: ruta, tipo (SVG o generada), qué muestra, y en el caso generado qué
